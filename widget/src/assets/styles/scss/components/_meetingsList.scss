@@ -1,0 +1,196 @@
+.svv-wgt-modal-container,
+#svv-wgt-app {
+  .meetings-list-container {
+    padding: 20px 20px 30px 20px;
+
+    .list-section-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: $svv_text_black;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 10px 5px 30px 5px;
+    }
+  }
+
+  .grid-list {
+    .list-result-counter-container {
+      //padding-right: 15px;
+      //padding-left: 15px;
+    }
+  }
+
+  .grid-body,
+  .list-body {
+    max-height: 70vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    padding-bottom: 30px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    @include media-breakpoint-down(sm) {
+      max-height: 70vh;
+    }
+  }
+
+  //.grid-body {
+  //  //padding-right: 15px;
+  //  //padding-left: 15px;
+  //  display: flex;
+  //  align-items: center;
+  //  flex-direction: column;
+  //  position: relative;
+  //}
+
+  .events-list-scrolling-marker {
+    //position: absolute;
+    //bottom: 0;
+    //left: 0;
+    height: 24px;
+    margin-top: -22px;
+    width: 200px;
+    position: relative;
+    z-index: 11;
+    background-color: $svv_blue_ultra_light;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: center;
+    font-weight: 500;
+    transition: $global-transition;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50px;
+    border: 1px solid $svv_cancel_gray;
+
+    //-webkit-box-shadow: 0px -2px 17px 0px rgba(0,0,0,0.3);
+    //-moz-box-shadow: 0px -2px 17px 0px rgba(0,0,0,0.3);
+    //box-shadow: 0px -2px 17px 0px rgba(0,0,0,0.3);
+
+    &:hover {
+      transition: $global-transition;
+      background-color: $svv_cancel_gray;
+    }
+
+    i {
+      transform: rotate(-90deg);
+      font-style: normal;
+      display: inline-block;
+      margin-left: 5px;
+    }
+  }
+
+  .more-details-badge {
+    font-size: 12px;
+    border: 1px solid $svv_orange_dark;
+    border-radius: 3px;
+    display: inline-block;
+    //position: absolute;
+    //bottom: -20px;
+    //left: 0;
+    max-width: fit-content;
+    padding: 2px 5px;
+    line-height: 1;
+    font-weight: 500;
+    color: $svv_orange_dark;
+    transition: $global-transition;
+    text-align: center;
+
+    i {
+      transition: $global-transition;
+      display: inline-block;
+      font-style: normal;
+      transform: rotate(-90deg);
+      margin-left: 5px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $svv_orange_dark;
+      color: #fff;
+      transition: $global-transition;
+    }
+  }
+
+  .book-event-btn {
+    .book-now-label {
+      display: block;
+    }
+    .login-customer-label {
+      display: none;
+    }
+
+    &:hover {
+      .book-now-label {
+        display: none;
+      }
+      .login-customer-label {
+        display: block;
+      }
+    }
+  }
+
+  //.list-body {
+  //  .book-event-btn {
+  //    width: 80%;
+  //    font-size: 14px;
+  //  }
+  //}
+
+  .svv-auth-valid {
+    .book-event-btn {
+      &:hover {
+        .book-now-label {
+          display: block;
+        }
+        .login-customer-label {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.svv-wgt-modal-container {
+  .grid-body,
+  .list-body {
+    height: 70vh;
+    overflow-y: scroll;
+
+    @include media-breakpoint-down(sm) {
+      height: 70vh;
+    }
+  }
+}
+
+.svv-auth-valid {
+  .book-event-btn {
+    &:hover {
+      .book-now-label {
+        display: block;
+      }
+      .login-customer-label {
+        display: none;
+      }
+    }
+  }
+}
+.svv-events-list-filters-expanded {
+  display: flex;
+  flex-direction: column;
+}

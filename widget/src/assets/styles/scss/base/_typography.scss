@@ -1,0 +1,124 @@
+.svv-wgt-modal-container,
+.svv-mobile-panel-wrapper,
+#svv-wgt-app {
+  //@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;600;700;800;900&display=swap');
+  //@import url('https://use.typekit.net/qyl7rml.css');
+
+  //font-family: 'Maven Pro', sans-serif;
+  //font-family: 'sofia-pro';
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: $svv_black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  a:visited,
+  a:hover,
+  a:active,
+  a:focus {
+    text-decoration: none;
+  }
+
+  a {
+    text-transform: none;
+    transition: $global-transition;
+    text-decoration: none;
+    color: $svv_black;
+    font-family: inherit;
+
+    &:hover {
+      text-transform: none;
+      text-decoration: none;
+      transition: $global-transition;
+      color: $svv_blue_dark;
+    }
+  }
+
+  hr {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color: $svv_text_gray;
+    font-family: inherit;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  textarea:focus,
+  input:focus {
+    outline: none;
+  }
+
+  input {
+    transition: $global-transition;
+    font-family: inherit;
+  }
+
+  button {
+    transition: $global-transition;
+    text-transform: none;
+    text-decoration: none;
+    font-family: inherit;
+
+    &:hover {
+      text-transform: none;
+      text-decoration: none;
+      transition: $global-transition;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .svv-bgr-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .lg-up-visible {
+    &.flex {
+      @include media-breakpoint-up(lg) {
+        display: flex !important;
+      }
+      @include media-breakpoint-down(md) {
+        display: none !important;
+      }
+    }
+    &.block {
+      @include media-breakpoint-up(lg) {
+        display: block !important;
+      }
+      @include media-breakpoint-down(md) {
+        display: none !important;
+      }
+    }
+  }
+
+  .md-down-visible {
+    &.flex {
+      @include media-breakpoint-up(lg) {
+        display: none !important;
+      }
+      @include media-breakpoint-down(md) {
+        display: flex !important;
+      }
+    }
+    &.block {
+      @include media-breakpoint-up(lg) {
+        display: none !important;
+      }
+      @include media-breakpoint-down(md) {
+        display: block !important;
+      }
+    }
+  }
+}
+
+#svv-wgt-app {
+  overflow: hidden;
+}

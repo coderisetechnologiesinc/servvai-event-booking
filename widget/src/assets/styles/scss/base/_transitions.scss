@@ -1,0 +1,7 @@
+
+.svv-fade-transition-enter-active, .svv-fade-transition-leave-active {
+  transition: opacity .5s;
+}
+.svv-fade-transition-enter, .svv-fade-transition-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}

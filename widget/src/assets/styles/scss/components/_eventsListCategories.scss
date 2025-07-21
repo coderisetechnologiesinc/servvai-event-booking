@@ -1,0 +1,115 @@
+.meetings-list-container-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  @include media-breakpoint-down(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .svv-event-card-item.grid-layout-item,
+  .svv-bundle-card-item.grid-layout-item {
+    max-width: unset !important;
+    width: unset !important;
+  }
+  .meetings-list-category {
+  }
+}
+
+.meetings-list-carousel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  .meetings-list-carousel-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: $svv_blue_light;
+    display: block;
+    align-items: center;
+  }
+  .meetings-list-carousel-indicator-active {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+
+    background-color: $svv_blue_ultra_dark;
+    display: block;
+    align-items: center;
+  }
+}
+
+.meetings-list-category-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 30px 20px;
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .meetings-list-header-description {
+    max-width: 65%;
+    @include media-breakpoint-down(md) {
+      max-width: unset;
+    }
+    h1 {
+      font-weight: bold;
+    }
+    p {
+      font-size: 1.25em;
+      @include media-breakpoint-down(md) {
+        font-size: 1em;
+        text-align: justify;
+      }
+    }
+  }
+  .events-list-category-control-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    gap: 1em;
+
+    .category-control-button {
+      width: 40px;
+      height: 40px;
+      border: 1px solid black;
+      padding: 0.25em;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .category-control-button:hover {
+      background-color: $svv_blue_ultra_dark;
+      path {
+        fill: #fff;
+      }
+      border: 1px solid #fff;
+    }
+
+    .category-control-button-disabled {
+      width: 40px;
+      height: 40px;
+
+      padding: 0.25em;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      border: 1px solid $svv_cancel_gray_dark;
+      path {
+        fill: $svv_cancel_gray_dark;
+
+        &:hover {
+          border: 1px solid $svv_cancel_gray_dark;
+          path {
+            fill: $svv_cancel_gray_dark;
+          }
+        }
+      }
+    }
+  }
+}

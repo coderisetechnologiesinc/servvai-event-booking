@@ -1,0 +1,265 @@
+//Gray
+$servv-gray-25: #fcfcfd;
+$servv-gray-50: #f9fafb;
+$servv-gray-100: #f2f4f7;
+$servv-gray-200: #e4e7ec;
+$servv-gray-300: #d0d5dd;
+$servv-gray-400: #98a2b3;
+$servv-gray-500: #667085;
+$servv-gray-600: #475467;
+$servv-gray-700: #344054;
+$servv-gray-800: #182230;
+$servv-gray-900: #101828;
+$servv-gray-950: #0c111d;
+
+// Brand
+$servv-primary-25: #fcfaff;
+$servv-primary-50: #f9f5ff;
+$servv-primary-100: #f4ebff;
+$servv-primary-200: #e9d7fe;
+$servv-primary-300: #d6bbfb;
+$servv-primary-400: #b692f6;
+$servv-primary-500: #9d49ec;
+$servv-primary-600: #8217e5;
+$servv-primary-700: #7319c6;
+$servv-primary-800: #6b389e;
+$servv-primary-900: #4d307d;
+$servv-primary-950: #351c5f;
+
+//Error
+$servv-error-25: #fffcf5;
+$servv-error-50: #fffaeb;
+$servv-error-100: #fef0c7;
+$servv-error-200: #fedf89;
+$servv-error-300: #fec84b;
+$servv-error-400: #fdb022;
+$servv-error-500: #f79009;
+$servv-error-600: #dc6803;
+$servv-error-700: #b54708;
+$servv-error-800: #93370d;
+$servv-error-900: #7a2e0e;
+$servv-error-950: #4e1d09;
+
+//Warning
+$servv-warning-25: #fffcf5;
+$servv-warning-50: #fffaeb;
+$servv-warning-100: #fef0c7;
+$servv-warning-200: #fedf89;
+$servv-warning-300: #fec84b;
+$servv-warning-400: #fdb022;
+$servv-warning-500: #f79009;
+$servv-warning-600: #dc6803;
+$servv-warning-700: #dc6803;
+$servv-warning-800: #93370d;
+$servv-warning-900: #7a2e0e;
+$servv-warning-950: #4e1d09;
+
+// Success
+$servv-success-25: #f6fef9;
+$servv-success-50: #ecfdf3;
+$servv-success-100: #dcfae6;
+$servv-success-200: #dcfae6;
+$servv-success-300: #dcfae6;
+$servv-success-400: #dcfae6;
+$servv-success-500: #dcfae6;
+$servv-success-600: #dcfae6;
+$servv-success-700: #dcfae6;
+$servv-success-800: #dcfae6;
+$servv-success-900: #dcfae6;
+$servv-success-950: #dcfae6;
+
+//White
+$servv-bg-primary: #ffffff;
+$servv-fg-primary: #ffffff;
+// Text color
+.text-primary {
+  color: $servv-gray-900;
+  &-on-brand {
+    color: $servv-bg-primary;
+  }
+}
+.text-secondary {
+  color: $servv-gray-700;
+  &:hover {
+    color: $servv-gray-800;
+  }
+  &-on-brand {
+    color: $servv-primary-200;
+  }
+}
+.text-tertiary {
+  color: $servv-gray-600;
+  &:hover {
+    color: $servv-gray-700;
+  }
+  &-on-brand {
+    color: $servv-primary-200;
+  }
+}
+.text-quaternary {
+  color: $servv-primary-500;
+  &-on-brand {
+    color: $servv-primary-300;
+  }
+}
+.text-white {
+  color: #ffffff;
+}
+.text-disabled {
+  color: $servv-gray-500;
+}
+.text-placeholder {
+  color: $servv-gray-400;
+  &-subtle {
+    color: $servv-gray-300;
+  }
+}
+.text-brand-primary {
+  color: $servv-primary-900;
+}
+.text-brand-secondary {
+  color: $servv-primary-700;
+}
+.text-brand-tertiary {
+  color: $servv-primary-600;
+  &-alt {
+    color: $servv-primary-600;
+  }
+}
+.text-error-primary {
+  color: $servv-error-600;
+}
+.text-warning-primary {
+  color: $servv-warning-600;
+}
+.text-error-primary {
+  color: $servv-success-600;
+}
+//Borders
+.border-primary {
+  border: 1px solid $servv-gray-300;
+  &-button {
+    border: 2px solid rgba(255, 255, 255, 0.12);
+  }
+}
+.border-secondary {
+  border: 1px solid $servv-gray-200;
+}
+.border-tertiary {
+  border: 1px solid $servv-gray-100;
+}
+.border-disabled {
+  border: 1px solid $servv-gray-300;
+  &-subtle {
+    border: 1px solid $servv-gray-200;
+  }
+}
+.border-brand {
+  border: 1px solid $servv-primary-500;
+  &-alt {
+    border: 1px solid $servv-primary-600;
+  }
+}
+.broder-error {
+  border: 1px solid $servv-error-500;
+  &-subtle {
+    border: 1px solid $servv-error-300;
+  }
+}
+//Foregrounds
+$fg-disabled: #98a2b3;
+
+//Backgrounds
+.bg-primary {
+  background-color: #ffffff;
+  &:hover {
+    background-color: $servv-gray-50;
+  }
+  &-alt {
+    background-color: #ffffff;
+  }
+}
+.bg-primary-solid {
+  background-color: $servv-gray-950;
+}
+.bg-secondary {
+  background-color: $servv-gray-50;
+  &-alt {
+    background-color: $servv-gray-50;
+  }
+  &:hover {
+    background-color: $servv-gray-100;
+  }
+  &-subtle {
+    background-color: $servv-gray-25;
+  }
+}
+.bg-secondary-solid {
+  background-color: $servv-gray-600;
+}
+.bg-tertiary {
+  background-color: $servv-gray-100;
+}
+.bg-quaternary {
+  background-color: $servv-gray-200;
+}
+.bg-active {
+  background-color: $servv-gray-50;
+}
+.bg-disabled {
+  background-color: $servv-gray-100;
+  &-subtle {
+    background-color: $servv-gray-50;
+  }
+}
+.bg-overlay {
+  background-color: $servv-gray-950;
+}
+.bg-brand-primary {
+  background-color: $servv-primary-50;
+  &-alt {
+    background-color: $servv-primary-50;
+  }
+}
+.bg-brand-secondary {
+  background-color: $servv-primary-100;
+}
+.bg-brand-solid {
+  background-color: $servv-primary-600;
+  &:hover {
+    background-color: $servv-primary-700;
+  }
+}
+.bg-brand-section {
+  background-color: $servv-primary-800;
+  &-subtle {
+    background-color: $servv-primary-700;
+  }
+}
+.bg-error-primary {
+  background-color: $servv-error-50;
+}
+.bg-error-secondary {
+  background-color: $servv-error-100;
+}
+.bg-error-solid {
+  background-color: $servv-error-600;
+}
+.bg-warning-error {
+  background-color: $servv-warning-50;
+}
+.bg-warning-secondary {
+  background-color: $servv-warning-100;
+}
+.bg-warning-solid {
+  background-color: $servv-warning-600;
+}
+.bg-success-primary {
+  background-color: $servv-success-50;
+}
+.bg-success-secondary {
+  background-color: $servv-success-100;
+}
+.bg-success-solid {
+  background-color: $servv-success-600;
+}

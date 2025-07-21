@@ -1,0 +1,213 @@
+// *** Primary Button ***
+$button-primary-color: $servv-fg-primary;
+$button-primary-bg: $servv-primary-600;
+// Hover
+$button-primary-bg-hover: $servv-primary-700;
+// Disabled
+$button-primary-color-disabled: $fg-disabled;
+$button-primary-bg-disabled: $servv-gray-100;
+
+// *** Secondary Button ***
+
+// # Seconary Gray #
+$button-secondary-gray-color: $servv-gray-700;
+$button-secondary-gray-bg: $servv-fg-primary;
+// Hover
+$button-secondary-gray-bg-hover: $servv-gray-50;
+// Disabled
+$button-secondary-gray-disabled: $fg-disabled;
+$button-secondary-gray-bg-disabled: $servv-gray-100;
+// # Secondary Color #
+$button-secondary-color-color: $servv-primary-700;
+// Hover
+$button-secondary-color-hover: $servv-primary-50;
+// Disabled
+$button-secondary-color-disabled: $fg-disabled;
+$button-secondary-color-bg-disabled: $servv-gray-100;
+
+// *** Tertiary Button ***
+
+// # Tertiary Gray #
+$button-tertiary-gray-color: $servv-gray-600;
+// Hover
+$button-tertiary-gray-bg-hover: $servv-gray-50;
+// Disabled
+$button-tertiary-gray-disabled: $fg-disabled;
+
+// # Tertiary Color #
+$button-tertiary-color-color: $servv-primary-700;
+// Hover
+$button-tertiary-color-bg-hover: $servv-primary-50;
+// Disabled
+$button-tertiary-color-disabled: $fg-disabled;
+
+// *** Link ***
+// # Link Gray #
+$button-link-gray-color: $servv-gray-600;
+// Hover
+$button-link-gray-color-hover: $servv-gray-700;
+// Disabled
+$button-link-gray-disabled: $fg-disabled;
+
+// # Link Color #
+$button-link-color-color: $servv-primary-700;
+// Hover
+$button-link-color-hover: $servv-primary-800;
+// Disabled
+$button-link-color-disabled: $fg-disabled;
+
+// Button Shadows
+$button-shadows:
+  0px 0px 0px 1px rgba(16, 24, 40, 0.18) inset,
+  0px -2px 0px 0px rgba(16, 24, 40, 0.05) inset,
+  0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+
+.servv-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin button-with-icon-size($font-size, $padding, $gap) {
+  gap: $gap;
+  font-size: $font-size;
+  padding: $padding;
+}
+@mixin button-with-icon-style(
+  $color,
+  $bg-color: "",
+  $border: "",
+  $color-hover: "",
+  $bg-hover: "",
+  $color-disabled: "",
+  $bg-disabled: ""
+) {
+  @extend .servv-button;
+  @if $border != "" {
+    @extend #{$border};
+  } @else {
+    border: none;
+  }
+  border-radius: $radius-sm;
+  box-shadow: $button-shadows;
+  background-color: #{$bg-color};
+  color: $color;
+
+  svg path {
+    stroke: $color;
+  }
+  &:hover {
+    cursor: pointer;
+    color: #{$color-hover};
+    background-color: #{$bg-hover};
+  }
+  &:focus {
+    @extend .focus-ring;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    color: #{$color-disabled};
+    background-color: #{$bg-disabled};
+    svg path {
+      stroke: #{$color-disabled};
+    }
+    &:hover {
+      cursor: not-allowed;
+      color: #{$color-disabled};
+      background-color: #{$bg-disabled};
+      svg path {
+        stroke: #{$color-disabled};
+      }
+    }
+  }
+}
+
+.button-with-icon {
+  &-primary {
+    @extend .border-primary;
+    @include button-with-icon-style(
+      $color: $button-primary-color,
+      $bg-color: $button-primary-bg,
+      $border: ".border-primary-button",
+      $color-hover: "",
+      $bg-hover: $button-primary-bg-hover,
+      $color-disabled: $button-primary-color-disabled,
+      $bg-disabled: $button-primary-bg-disabled
+    );
+  }
+  &-secondary {
+    @extend .border-secondary;
+    &-gray {
+      @include button-with-icon-style(
+        $color: $button-secondary-gray-color,
+        $bg-color: $button-secondary-gray-bg,
+        $border: ".border-secondary",
+        $color-hover: "",
+        $bg-hover: $button-secondary-gray-bg-hover,
+        $color-disabled: $button-secondary-gray-disabled,
+        $bg-disabled: ""
+      );
+    }
+    &-color {
+      @extend .border-brand;
+      @include button-with-icon-style(
+        $color: $button-secondary-color-color,
+        $bg-color: "",
+        $border: ".border-brand",
+        $color-hover: "",
+        $bg-hover: $button-secondary-color-hover,
+        $color-disabled: $button-secondary-color-disabled,
+        $bg-disabled: ""
+      );
+    }
+  }
+  &-tertiary {
+    box-shadow: none;
+    &-gray {
+      @include button-with-icon-style(
+        $color: $button-tertiary-gray-color,
+        $bg-color: "",
+        $border: "",
+        $color-hover: "",
+        $bg-hover: $button-tertiary-gray-bg-hover,
+        $color-disabled: $button-tertiary-gray-disabled,
+        $bg-disabled: ""
+      );
+    }
+    &-color {
+      @include button-with-icon-style(
+        $color: $button-tertiary-color-color,
+        $bg-color: "",
+        $border: "",
+        $color-hover: "",
+        $bg-hover: $button-tertiary-color-bg-hover,
+        $color-disabled: $button-tertiary-color-disabled,
+        $bg-disabled: ""
+      );
+    }
+  }
+  &-link {
+    box-shadow: none;
+    &-gray {
+      @include button-with-icon-style(
+        $color: $button-link-gray-color,
+        $bg-color: "",
+        $border: "",
+        $color-hover: $button-link-gray-color-hover,
+        $bg-hover: "",
+        $color-disabled: $button-link-gray-disabled,
+        $bg-disabled: ""
+      );
+    }
+    &-color {
+      @include button-with-icon-style(
+        $color: $button-link-color-color,
+        $bg-color: "",
+        $border: "",
+        $color-hover: $button-link-color-hover,
+        $bg-hover: "",
+        $color-disabled: $button-link-color-disabled,
+        $bg-disabled: ""
+      );
+    }
+  }
+}

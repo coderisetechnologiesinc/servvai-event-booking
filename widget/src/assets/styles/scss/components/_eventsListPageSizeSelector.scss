@@ -1,0 +1,43 @@
+.svv-wgt-modal-container,
+#svv-wgt-app {
+  .svv-events-list-page-size-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    margin-left: 5px;
+
+    .svv-events-list-page-size-selector-item {
+      border: 1px solid $svv_text_border_gray;
+      transition: $global-transition;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $svv-text_black;
+      font-size: 13px;
+      line-height: 1;
+
+      &:hover {
+        transition: $global-transition;
+        color: $svv-orange_dark;
+      }
+
+      &:first-of-type {
+        border-bottom-left-radius: 3px;
+        border-top-left-radius: 3px;
+        margin-right: -1px;
+      }
+      &:last-of-type {
+        border-bottom-right-radius: 3px;
+        border-top-right-radius: 3px;
+        margin-left: -1px;
+      }
+    }
+
+    .svv-active-page-size {
+      font-weight: 500;
+      color: $svv-blue_dark;
+    }
+  }
+}

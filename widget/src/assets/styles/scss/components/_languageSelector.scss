@@ -1,0 +1,31 @@
+.svv-languages-selector {
+  margin-top: 30px;
+  padding-left: 30px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+
+  @include media-breakpoint-down(md) {
+    padding-left: 0;
+    margin-top: 0;
+  }
+
+  .vs__selected-options {
+    width: 150px;
+  }
+
+  .svv-languages-selector-option-item {
+    display: flex;
+    align-items: center;
+  }
+  .svv-languages-selector-option-icon {
+    line-height: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+    svg {
+      display: inline-block;
+      width: 20px;
+      height: auto;
+    }
+  }
+}

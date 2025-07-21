@@ -1,0 +1,790 @@
+.svv-wgt-modal-container,
+.svv-mobile-panel-wrapper,
+#svv-wgt-app {
+  .svv-simple-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-family: inherit;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    background-color: $svv_blue_ultra_dark;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: $global-transition;
+
+    &:hover {
+      transition: $global-transition;
+    }
+
+    &.base-btn {
+      background-color: $svv_blue_ultra_dark;
+
+      &:hover {
+        background-color: $svv_blue_ultra_dark;
+      }
+    }
+    &.gray-btn {
+      background-color: $svv_cancel_gray;
+
+      &:hover {
+        background-color: $svv_cancel_gray_dark;
+      }
+    }
+
+    &.outlined-btn {
+      background-color: transparent;
+      color: $svv_blue_ultra_dark;
+      border: 1px solid $svv_blue_ultra_dark;
+
+      &:hover {
+        color: #fff;
+        background-color: $svv_blue_ultra_dark;
+      }
+    }
+
+    &.card-simple-btn {
+      padding: 7px 7px;
+      background-color: transparent;
+      border: 1px solid $svv_text_border_gray;
+      color: $svv_text_black;
+
+      &:hover {
+        background-color: $svv_blue_ultra_dark;
+        border: 1px solid $svv_blue_ultra_dark;
+        color: #fff;
+      }
+
+      svg {
+        margin-right: 2px;
+      }
+    }
+
+    &.inline-btn {
+      background-color: transparent;
+      border: 1px solid transparent;
+      color: $svv_blue_ultra_dark;
+      font-weight: 600;
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      &:hover {
+        border: 1px solid $svv_blue_ultra_dark;
+      }
+
+      svg {
+        margin-right: 2px;
+      }
+    }
+
+    &.disabled {
+      background-color: $svv_text_border_gray;
+      cursor: not-allowed;
+
+      &.base-btn {
+        background-color: $svv_text_border_gray;
+
+        &:hover {
+          background-color: $svv_text_border_gray;
+        }
+      }
+
+      &.gray-btn {
+        background-color: $svv_text_border_gray;
+
+        &:hover {
+          background-color: $svv_text_border_gray;
+        }
+      }
+
+      &.outlined-btn {
+        background-color: transparent;
+        color: $svv_text_border_gray;
+        border: 1px solid $svv_text_border_gray;
+
+        &:hover {
+          color: $svv_text_border_gray;
+          background-color: transparent;
+        }
+      }
+      &.card-simple-btn {
+      }
+    }
+
+    &.ml-0 {
+      margin-left: 0;
+    }
+    &.mr-0 {
+      margin-right: 0;
+    }
+  }
+
+  .svv-simple-link {
+    color: $svv_orange_light;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid $svv_orange_light;
+    margin: 5px;
+
+    &:hover {
+      color: $svv_orange_dark;
+    }
+  }
+
+  .list-loader {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .svv-loader {
+    height: 32px;
+    width: 32px;
+    -webkit-animation: svv-loader-1 4.8s linear infinite;
+    animation: svv-loader-1 4.8s linear infinite;
+
+    span {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      height: 32px;
+      width: 32px;
+      clip: rect(0, 32px, 32px, 16px);
+      -webkit-animation: svv-loader-2 1.2s linear infinite;
+      animation: svv-loader-2 1.2s linear infinite;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        height: 32px;
+        width: 32px;
+        clip: rect(0, 32px, 32px, 16px);
+        border: 3px solid $svv_blue_ultra_dark;
+        border-radius: 50%;
+        -webkit-animation: svv-loader-3 1.2s cubic-bezier(0.77, 0, 0.175, 1)
+          infinite;
+        animation: svv-loader-3 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+      }
+    }
+  }
+
+  @-webkit-keyframes svv-loader-1 {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @keyframes svv-loader-1 {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @-webkit-keyframes svv-loader-2 {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(220deg);
+    }
+  }
+  @keyframes svv-loader-2 {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(220deg);
+    }
+  }
+
+  @-webkit-keyframes svv-loader-3 {
+    0% {
+      -webkit-transform: rotate(-140deg);
+    }
+    50% {
+      -webkit-transform: rotate(-160deg);
+    }
+    100% {
+      -webkit-transform: rotate(140deg);
+    }
+  }
+  @keyframes svv-loader-3 {
+    0% {
+      transform: rotate(-140deg);
+    }
+    50% {
+      transform: rotate(-160deg);
+    }
+    100% {
+      transform: rotate(140deg);
+    }
+  }
+
+  .list-metadata-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    position: relative;
+    min-height: 20px;
+
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 10px;
+      margin-top: 0px;
+    }
+  }
+
+  .svv-list-controls-container {
+    display: flex;
+    align-items: center;
+
+    &.svv-bundles-list-controls {
+      justify-content: flex-end;
+    }
+  }
+
+  .list-result-counter-container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: flex-end;
+    color: $svv-text_gray;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px;
+    margin-bottom: -30px;
+  }
+
+  .card-type-item-badge {
+    .card-type-item-badge-inner-wrapper {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      border-radius: 4px;
+      line-height: 1;
+    }
+
+    .item-name {
+      padding: 2px 1px;
+      color: $svv_text_gray_dark;
+    }
+    .item-value {
+      padding: 2px;
+      background-color: transparent;
+      color: $svv_text_gray_dark;
+      font-weight: 500;
+      display: flex;
+    }
+
+    .item-value-unit {
+      margin-left: 5px;
+      margin-bottom: 3px;
+      position: relative;
+
+      //&:after {
+      //  content: '';
+      //  display: block;
+      //  background-color: $svv_text_gray_dark;
+      //  width: 4px;
+      //  height: 4px;
+      //  border-radius: 10px;
+      //  position: absolute;
+      //  left: -6px;
+      //  top: 6px;
+      //}
+    }
+
+    .has-tooltip {
+      cursor: pointer;
+    }
+
+    &.active-badge {
+      .card-type-item-badge-inner-wrapper {
+        border: 1px solid $svv-blue_dark;
+
+        .item-name {
+          background-color: $svv-blue_dark;
+        }
+        .item-value {
+          color: $svv-blue_dark;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .servv-logo-container {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    display: flex;
+    z-index: 15;
+
+    @include media-breakpoint-down(sm) {
+      bottom: -17px;
+      //bottom: -5px;
+    }
+    .svv-servv-logo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 12px;
+
+      &:hover {
+        color: $svv-text_black;
+      }
+
+      img {
+        width: 80px;
+      }
+    }
+  }
+
+  .cleat-all-filters {
+    font-size: 14px;
+    font-weight: 500;
+    color: $svv-orange_light;
+    display: flex;
+    align-content: center;
+
+    span {
+      line-height: 1.4;
+      display: inline-block;
+      font-weight: 600;
+    }
+    svg {
+      width: 18px;
+      margin-right: 3px;
+      position: relative;
+      //top: 3px;
+    }
+  }
+  .svv-empty-events-list {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .svv-custom-vs-select {
+    .vs__open-indicator {
+      fill: $svv-text_gray;
+      margin-left: -15px;
+      margin-top: 1px;
+    }
+    .vs__clear {
+      position: absolute;
+      right: 22px;
+    }
+
+    .vs__dropdown-toggle {
+      border: 1px solid $svv-text_gray;
+      height: 40px;
+      border-radius: 100px;
+    }
+
+    .vs__selected {
+      overflow: hidden;
+      align-items: flex-start;
+      font-size: 14px;
+      line-height: 27px;
+      padding-left: 10px;
+      padding-right: 30px;
+      max-height: 32px;
+    }
+
+    .vs__selected-options {
+      color: $svv-blue_dark;
+      font-size: 14px;
+
+      input {
+        all: unset;
+        font-family: inherit;
+        height: 36px;
+        font-weight: 500;
+        padding-left: 15px;
+        color: $svv-text_gray;
+      }
+    }
+    .vs__search {
+      color: $svv-blue_dark;
+      opacity: 1;
+    }
+
+    .vs__dropdown-menu {
+      width: auto;
+      min-width: 100%;
+      color: $svv-blue_dark;
+      border-radius: 3px;
+      margin-top: 5px;
+      border: 1px solid $svv-text_border_gray;
+    }
+
+    .style-chooser .vs__clear,
+    .style-chooser .vs__open-indicator {
+      fill: $svv-blue_dark;
+    }
+  }
+
+  .svv-mobile-wgt-controls-container {
+    display: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-direction: column;
+
+    @include media-breakpoint-down(md) {
+      display: flex;
+    }
+  }
+  .svv-mobile-lang-selector-wrapper {
+    margin-bottom: 10px;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .svv-mobile-filters-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .main-controls-items-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .cleat-all-filters {
+      width: 40px;
+      height: 40px;
+      border-radius: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid $svv-red;
+      color: $svv-red;
+      margin-left: 12px;
+
+      svg {
+        margin-right: auto;
+        margin-left: auto;
+        top: auto;
+        color: $svv-red;
+        width: 22px;
+      }
+    }
+
+    .show-filters-btn {
+      display: none;
+      background-color: transparent;
+      padding: 10px 10px;
+      min-width: 110px;
+      line-height: 1;
+      z-index: 22;
+      border: 1px solid $svv-blue_dark;
+      border-radius: 100px;
+
+      @include media-breakpoint-down(md) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .show-filters-btn-icon {
+        width: 20px;
+        height: auto;
+        color: $svv-blue_dark;
+        fill: $svv-blue_dark;
+      }
+      .show-filters-btn-label {
+        color: $svv-blue_dark;
+        font-size: 14px;
+        margin-right: 5px;
+        font-weight: 500;
+      }
+    }
+
+    .show-calendar-btn {
+      display: none;
+      background-color: $svv-blue_ultra_dark;
+      padding: 13px 10px;
+      min-width: 110px;
+      line-height: 1;
+      z-index: 22;
+      border-radius: 100px;
+      margin-right: 10px;
+
+      @include media-breakpoint-down(md) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .show-calendar-btn-icon {
+        width: 15px;
+        height: auto;
+        color: #fff;
+        fill: #fff;
+      }
+      .show-calendar-btn-label {
+        color: #fff;
+        font-size: 14px;
+        margin-right: 5px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .show-desktop-calendar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $svv-blue_ultra_dark;
+    border: 1px solid $svv-blue_ultra_dark;
+    //padding: 7px 10px;
+    padding: 6px 10px 6px 10px;
+    height: 30px;
+    min-width: 110px;
+    line-height: 1;
+    z-index: 22;
+    border-radius: 100px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: $global-transition;
+
+    .show-calendar-btn-icon {
+      width: 15px;
+      height: auto;
+      color: #fff;
+      fill: #fff;
+    }
+    .show-calendar-btn-label {
+      color: #fff;
+      font-size: 14px;
+      margin-right: 5px;
+      font-weight: 500;
+      margin-top: -4px;
+      padding-top: 6px;
+    }
+
+    &.active {
+      transition: $global-transition;
+      background-color: $svv-orange_dark;
+      border-color: $svv-orange_dark;
+    }
+  }
+}
+
+//
+//.card-type-item-badge {
+//  .card-type-item-badge-inner-wrapper {
+//    border: 1px solid $svv-text_gray;
+//    display: flex;
+//    align-items: center;
+//    font-size: 12px;
+//    border-radius: 4px;
+//    line-height: 1;
+//  }
+//
+//  .item-name {
+//    padding: 2px 5px;
+//    color: #fff;
+//    background-color: $svv-text_gray;
+//  }
+//  .item-value {
+//    padding: 2px 10px;
+//    background-color: transparent;
+//    color: $svv-text_gray;
+//    font-weight: 500;
+//    display: flex;
+//  }
+//
+//  .item-value-unit {
+//    margin-left: 13px;
+//    position: relative;
+//
+//    &:first-of-type {
+//      margin-left: 5px;
+//    }
+//
+//    &:after {
+//      content: '';
+//      display: block;
+//      background-color: $svv-text_gray;
+//      width: 4px;
+//      height: 4px;
+//      border-radius: 10px;
+//      position: absolute;
+//      left: -6px;
+//      top: 5px;
+//    }
+//  }
+//
+//  .has-tooltip {
+//    cursor: pointer;
+//  }
+//
+//  &.active-badge {
+//    .card-type-item-badge-inner-wrapper {
+//      border: 1px solid $svv-blue_dark;
+//
+//      .item-name {
+//        background-color: $svv-blue_dark;
+//      }
+//      .item-value {
+//        color: $svv-blue_dark;
+//        font-weight: 500;
+//      }
+//    }
+//  }
+//}
+
+.svv-event-dates-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 2em;
+}
+.svv-event-datetime-bundle {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  color: $svv_black !important;
+  margin-right: 3px;
+  font-weight: normal !important;
+  margin-bottom: 5px;
+  span {
+    padding-bottom: 4px;
+  }
+  svg {
+    width: 1em;
+    height: auto;
+    color: $svv-text_gray-dark;
+    margin-right: 5px;
+    padding-top: 3px;
+    line-height: 1;
+  }
+}
+
+.svv_bundle_dates_list {
+  border-top: none !important;
+}
+.servv-logo-container-bundle-page {
+  margin-left: 31px !important;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.svv-top-bottom-space-remover {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.svv-hader-remover {
+  height: 0 !important;
+  min-height: 0 !important;
+}
+.svv-min-height-remover {
+  height: unset !important;
+  min-height: unset !important;
+}
+.svv-workflow-with-calendar {
+  display: flex;
+  flex-direction: row;
+  // margin-top: 2em;
+  .svv-calendar-section {
+    margin-top: 18px;
+
+    padding-right: 10px;
+    border-image-source: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(208, 209, 214, 1) 15%,
+      rgba(208, 209, 214, 1) 85%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    border-image-slice: 1;
+    border-right: 1px solid;
+  }
+}
+
+.svv-blured-calendar {
+  filter: none;
+  .vc-grid-container .vc-weeks {
+    filter: blur(2px);
+  }
+}
+.svv-next-month-button {
+  position: absolute;
+  left: 50%;
+  top: 180px;
+  transform: translate(-50%, -35%);
+  z-index: 2;
+  color: $svv_bgr_gray !important;
+  width: 85%;
+  span {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: $svv_text_black !important;
+  }
+}
+
+.svv-next-month {
+  color: $svv_bgr_gray !important;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $svv-blue_ultra_dark;
+  border: 1px solid $svv-blue_ultra_dark;
+  padding: 5px 20px 3px 20px;
+  height: 30px;
+  //min-width: 110px;
+  line-height: 1;
+  //z-index: 22;
+  border-radius: 100px;
+  //margin-right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: $global-transition;
+  &:hover {
+    transition: $global-transition;
+    background-color: $svv-orange_dark;
+    border-color: $svv-orange_dark;
+  }
+}
+
+.svv-dynamic-list-height {
+  height: auto !important;
+}

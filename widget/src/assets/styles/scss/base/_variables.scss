@@ -1,0 +1,64 @@
+// $svv_bgr_gray: var(--svv_bgr_gray);
+// $svv_bgr_light_orange: var(--svv_bgr_light_orange);
+// $svv_black: var(--svv_black);
+// $svv_text_black: var(--svv_text_black);
+// $svv_text_gray: var(--svv_text_gray);
+// $svv_text_gray_dark: var(--svv_text_gray_dark);
+// $svv_icon_gray: var(--svv_icon_gray);
+// $svv_text_border_gray: var(--svv_text_border_gray);
+// $svv_blue_dark: var(--svv_blue_dark);
+// $svv_blue_ultra_dark: var(--svv_blue_ultra_dark);
+// $svv_blue_light: var(--svv_blue_light);
+// $svv_blue_ultra_light: var(--svv_blue_ultra_light);
+// $svv_orange_dark: var(--svv_orange_dark);
+// $svv_orange_light: var(--svv_orange_light);
+// $svv_orange_ultra_dark: var(--svv_orange_ultra_dark);
+// $svv_red: var(--svv_red);
+// $svv_yellow: var(--svv_yellow);
+// $svv_recurring_meeting: var(--svv_recurring_meeting);
+// $svv_common_meeting: var(--svv_common_meeting);
+
+// $svv_cancel_gray: var(--svv_cancel_gray);
+// $svv_cancel_gray_dark: var(--svv_cancel_gray_dark);
+
+$svv_bgr_gray: #f5f6fa;
+$svv_bgr_light_orange: var(--servv-background);
+$svv_black: var(--servv-event-title);
+$svv_text_black: var(--servv-text);
+$svv_text_gray: #a7a4b3;
+$svv_text_gray_dark: var(--servv-text);
+$svv_icon_gray: #a7a4b3;
+$svv_text_border_gray: var(--servv-border);
+$svv_blue_dark: var(--servv-icon);
+$svv_blue_ultra_dark: var(--servv-button-background);
+$svv_blue_light: #8c75ff;
+$svv_blue_ultra_light: #f5f6fa;
+$svv_orange_dark: var(--servv-button-hover);
+$svv_orange_light: #f59b67;
+$svv_orange_ultra_dark: #f52562;
+$svv_red: var(--servv-event-date);
+$svv_yellow: #ffae3c;
+$svv_recurring_meeting: #faf5eb;
+$svv_common_meeting: #f1f3fa;
+$svv_common_background: var(--servv-widget-background);
+$svv_cancel_gray: #d3d6e0;
+$svv_cancel_gray_dark: #b3aebf;
+
+$global-transition: 210ms;
+$svv-card-border-radius: 8px;
+
+$svv_font_maven: "Maven Pro", sans-serif;
+$svv_font_sofia: "sofia-pro";
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+) !default;

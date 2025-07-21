@@ -1,0 +1,163 @@
+.svv-search-container {
+  &.header-position {
+    position: absolute;
+  }
+
+  &.on-page-wgt {
+    top: 10px;
+    right: 20px;
+  }
+
+  &.dialog-wgt {
+    top: 7px;
+    right: 40px;
+  }
+
+  &.list-metadata-location {
+    position: absolute;
+    left: 0;
+    top: 2px;
+  }
+
+  .svv-search-component {
+    display: flex;
+    align-items: center;
+
+    border: 1px solid $svv_blue_ultra_dark;
+    background-color: $svv_common_background;
+    color: $svv_blue_ultra_dark;
+    //width: 32px;
+    height: 30px;
+    border-radius: 100px;
+  }
+
+  .svv-open-search-btn {
+    border: 1px solid #fff;
+    background-color: $svv_common_background;
+    color: $svv_blue_ultra_dark;
+    width: 28px;
+    height: 28px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: $global-transition;
+
+    svg {
+      width: 15px;
+      height: auto;
+      fill: $svv_blue_ultra_dark;
+      transition: $global-transition;
+    }
+
+    &:hover {
+      border-color: $svv_blue_ultra_dark;
+      background-color: $svv_blue_ultra_dark;
+      transition: $global-transition;
+      svg {
+        fill: #fff;
+        transition: $global-transition;
+      }
+    }
+  }
+
+  .svv-search-input-container {
+    height: 27px;
+    width: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: $global-transition;
+    display: flex;
+    align-items: center;
+  }
+
+  .svv-search-input {
+    display: block;
+    width: 100%;
+    margin: 0;
+    height: 30px;
+    border: none;
+    border-radius: 100px;
+    color: $svv-text_gray_dark;
+    background-color: transparent;
+
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $svv-text_gray;
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $svv-text_gray;
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: $svv-text_gray;
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+
+  .svv-action-search-btn {
+    border: 1px solid #fff;
+    background-color: $svv_common_background;
+    color: $svv_text_gray;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: $global-transition;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    svg {
+      width: 15px;
+      height: auto;
+      fill: $svv_text_gray;
+      transition: $global-transition;
+    }
+
+    &:hover {
+      border-color: $svv_text_gray;
+      transition: $global-transition;
+      svg {
+        transition: $global-transition;
+      }
+    }
+  }
+
+  &.open-search {
+    .svv-search-input-container {
+      transition: $global-transition;
+      width: 250px;
+      max-width: 250px;
+      @include media-breakpoint-down(sm) {
+        width: 250px;
+        max-width: 250px;
+      }
+    }
+    .svv-open-search-btn {
+      border-color: $svv_blue_ultra_dark;
+      background-color: $svv_blue_ultra_dark;
+      transition: $global-transition;
+      border-right: none;
+      svg {
+        fill: #fff;
+        color: #fff;
+        transition: $global-transition;
+      }
+    }
+  }
+}

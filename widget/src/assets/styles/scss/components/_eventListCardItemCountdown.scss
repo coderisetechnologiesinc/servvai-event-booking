@@ -1,0 +1,36 @@
+.svv-wgt-modal-container,
+#svv-wgt-app {
+  .svv-ls-countdown-container {
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+
+    .svv-svg-icon {
+      width: 17px;
+      height: auto;
+      margin-right: 3px;
+
+    }
+
+    .svv-ls-countdown-content {
+      font-size: 14px;
+      background-color: $svv_blue_light;
+      padding: 5px 10px 4px 10px;
+      line-height: 1;
+      border-radius: 100px;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+
+  .grid-layout-item {
+    .svv-ls-countdown-container {
+      justify-content: flex-end;
+      padding-bottom: 5px;
+    }
+    .svv-ls-countdown-content {
+      border-radius: 7px;
+    }
+
+  }
+}

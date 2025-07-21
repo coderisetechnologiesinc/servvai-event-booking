@@ -1,0 +1,23 @@
+#svv-wgt-app {
+  background-color: $svv_common_background;
+  position: relative;
+  // max-width: 1000px;
+}
+
+.events-data-container {
+  display: flex;
+  position: relative;
+  min-height: 450px;
+
+  .meetings-list-container {
+    flex: 2.3;
+  }
+  .svv-events-calendar-container {
+    flex: 1;
+  }
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+    min-height: auto;
+  }
+}

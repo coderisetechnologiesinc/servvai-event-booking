@@ -1,0 +1,33 @@
+.svv-wgt-modal-container,
+#svv-wgt-app {
+  .svv-list-pagination-container {
+    display: flex;
+    justify-content: flex-start;
+    flex: 1;
+    margin-bottom: 5px;
+
+    .pagination-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      min-height: 30px;
+      border: 1px solid transparent;
+      color: $svv_text_gray;
+      transition: $global-transition;
+      border-radius: 3px;
+
+      &.active {
+        color: $svv_blue_light;
+        font-weight: 600;
+      }
+
+      &:hover {
+        border-color: $svv_blue_light;
+        transition: $global-transition;
+      }
+    }
+  }
+}

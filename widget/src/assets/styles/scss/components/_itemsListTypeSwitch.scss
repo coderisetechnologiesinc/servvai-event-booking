@@ -1,0 +1,75 @@
+.svv-items-list-type-switch-container {
+
+  &.header-position {
+    position: absolute;
+
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  &.on-page-wgt {
+    top: 10px;
+    right: 20px;
+  }
+
+  &.dialog-wgt {
+    top: 9px;
+    right: 40px;
+  }
+
+  &.mobile-controls-position {
+    position: relative;
+    top: auto;
+    right: auto;
+
+    .svv-items-list-type-switch-inner-container {
+      max-height: 40px;
+      margin-bottom: 0;
+    }
+    .svv-switch-toggle-item {
+      min-width: auto;
+      height: 40px;
+    }
+  }
+
+  .svv-items-list-type-switch-inner-container {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $svv_text_gray;
+    border-radius: 100px;
+    max-height: 30px;
+    max-width: max-content;
+    margin-bottom: 10px;
+  }
+
+  .svv-switch-toggle-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    color: $svv_blue_ultra_dark;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 15px;
+    min-width: 100px;
+    height: 30px;
+    transition: $global-transition;
+
+    &:hover {
+      transition: $global-transition;
+    }
+
+    &:not(.active):hover {
+      color: $svv-orange_dark;
+    }
+
+    &.active {
+      color: #fff;
+      background-color: $svv_blue_ultra_dark;
+    }
+  }
+}

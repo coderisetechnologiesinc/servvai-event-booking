@@ -1,0 +1,1 @@
+export const SUBSCRIBED_MEETINGS_LIST = '_svvSubscMeetings';

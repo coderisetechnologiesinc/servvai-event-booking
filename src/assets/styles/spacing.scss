@@ -1,0 +1,55 @@
+//spacing primitives
+@mixin spacing-primitives($property, $multiplayer) {
+  $property: #{$multiplayer * 0.25}rem;
+}
+
+//spacing variables
+$spacing-none: 0rem;
+$spacing-xxs: 0.125rem;
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.375rem;
+$spacing-md: 0.5rem;
+$spacing-lg: 0.75rem;
+$spacing-xl: 1rem;
+$spacing-2xl: 1.25rem;
+$spacing-3xl: 1.5rem;
+$spacing-4xl: 2rem;
+$spacing-5xl: 2.5rem;
+$spacing-6xl: 3rem;
+$spacing-7xl: 4rem;
+$spacing-8xl: 5rem;
+$spacing-9xl: 6rem;
+$spacing-10xl: 8rem;
+$spacing-11xl: 10rem;
+
+//widths variables
+$width-xxs: 20rem;
+$width-xs: 24rem;
+$width-sm: 30rem;
+$width-md: 35rem;
+$width-lg: 40rem;
+$width-xl: 48rem;
+$width-2xl: 64rem;
+$width-3xl: 80rem;
+$width-4xl: 90rem;
+$width-5xl: 100rem;
+$width-6xl: 120rem;
+
+// containers
+$container-padding-mobile: 1rem;
+$container-padding-desktop: 2rem;
+$container-max-width-desktop: 80rem;
+
+// radius
+$radius-none: 0rem;
+$radius-xxs: 0.125rem;
+$radius-xs: 0.25rem;
+$radius-sm: 0.375rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.625rem;
+$radius-xl: 0.75rem;
+$radius-2xl: 1rem;
+$radius-3xl: 1.25rem;
+$radius-4xl: 1.5rem;
+$radius-4xl: 1.5rem;
+$radius-full: 9999px;

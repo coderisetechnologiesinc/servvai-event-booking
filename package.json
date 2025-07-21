@@ -1,0 +1,63 @@
+{
+	"name": "servv-plugin",
+	"version": "0.1.0",
+	"description": "An interactive block with the Interactivity API",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build src/index.js src/view.js src/admin.js --experimental-modules --webpack-copy-php && npm run tailwind:build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start src/index.js src/view.js src/admin.js --experimental-modules --webpack-copy-php & npm run tailwind:watch",
+		"tailwind:build": "npx tailwindcss -i ./src/input.css -o ./build-assets/index.css",
+		"tailwind:watch": "npm run tailwind:build -- --watch"
+	},
+	"files": [
+		"[^.]*"
+	],
+	"dependencies": {
+		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.0",
+		"@heroicons/react": "^2.2.0",
+		"@mui/icons-material": "^6.4.5",
+		"@mui/material": "^6.4.6",
+		"@mui/styled-engine-sc": "^6.4.3",
+		"@stripe/react-stripe-js": "^3.5.1",
+		"@stripe/stripe-js": "^6.1.0",
+		"@wordpress/api-fetch": "^7.15.1",
+		"@wordpress/components": "^28.12.0",
+		"@wordpress/compose": "^7.14.0",
+		"@wordpress/dom-ready": "^4.14.0",
+		"@wordpress/icons": "^10.12.0",
+		"@wordpress/interactivity": "^6.5.0",
+		"@wordpress/scripts": "^30.7.0",
+		"@wordpress/url": "^4.16.0",
+		"axios": "^1.7.9",
+		"dotenv": "^16.4.7",
+		"he": "^1.2.0",
+		"lodash.capitalize": "^4.2.1",
+		"lodash.foreach": "^4.5.0",
+		"lodash.startcase": "^4.4.0",
+		"moment": "^2.30.1",
+		"moment-timezone": "^0.5.47",
+		"quill": "^2.0.3",
+		"react-spinners": "^0.15.0",
+		"react-tailwindcss-datepicker": "^1.7.3",
+		"react-toastify": "^11.0.5",
+		"reaviz": "^16.0.4",
+		"stripe": "^17.7.0",
+		"styled-components": "^6.1.15",
+		"tailwind-datepicker-react": "^1.4.3",
+		"uuid": "^11.0.5"
+	},
+	"devDependencies": {
+		"@emotion/babel-plugin": "^11.13.5",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.49",
+		"tailwindcss": "^3.4.15"
+	}
+}

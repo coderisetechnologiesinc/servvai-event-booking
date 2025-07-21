@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "create-block/servv-plugin",
+	"version": "0.1.0",
+	"title": "Servv Plugin",
+	"category": "widgets",
+	"icon": "media-interactive",
+	"description": "An interactive block with the Interactivity API",
+	"example": {},
+	"supports": {
+		"interactivity": true
+	},
+	"textdomain": "servv-plugin",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": [
+		"file:../build-assets/index.css",
+		"file:./style-index.css"
+	],
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}

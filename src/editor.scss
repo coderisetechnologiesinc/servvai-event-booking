@@ -1,0 +1,16 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+.servv-app * {
+  font-family: "Inter", serif !important;
+  font-optical-sizing: auto !important;
+}
+.wp-block-create-block-servv-plugin input[type="text"] {
+  font-size: 1em;
+  color: inherit;
+  background: inherit;
+  border: 0;
+}
