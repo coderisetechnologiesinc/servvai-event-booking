@@ -1,0 +1,25 @@
+name: Sync Changelog to Docs
+
+on:
+  release:
+    types: [published]
+  # Trigger manually
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout plugin repo
+        uses: actions/checkout@v4
+
+      - name: Clone docs repo
+        run: |
+          git clone https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/coderisetechnologiesinc/servv-docs.git
+          cp CHANGELOG.md servv-docs/docs/changelogs/changelog.md
+          cd servv-docs
+          git config user.name "coderise"
+          git config user.email "varun.kumar@coderisetechnologies.com"
+          git add docs/changelogs/changelog.md
+          git commit -m "Update changelog from ${{ github.event.release.tag_name }}"
+          git push
