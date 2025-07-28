@@ -1,10 +1,14 @@
 name: Release
-# pipeline to create a release when a PR is merged into main
+
 on:
   pull_request:
     types: [closed]
     branches:
       - main
+
+permissions:
+  contents: read
+  pull-requests: read
 
 env:
   DEFAULT_TAG: v1.0.0.0
@@ -24,13 +28,13 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ github.token }}
+          token: ${{ secrets.PAT_TOKEN }}  # Use PAT_TOKEN instead of github.token
 
       # Calculate 4-digit version
       - name: Calculate 4-Digit Version
         id: version
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use PAT_TOKEN for gh CLI
         run: |
           echo "Fetching tags"
           git fetch --tags --force
@@ -48,9 +52,17 @@ jobs:
             echo "LAST_TAG $LAST_TAG exists."
             COMMIT_RANGE="${LAST_TAG}..HEAD"
           else
-            echo "LAST_TAG $LAST_TAG does not exist. Using all commits."
-            COMMIT_RANGE=""
-          fi
+            echo "First release scenario — setting version to DEFAULT_TAG: $DEFAULT_TAG"
+            echo "NEW_VERSION=$DEFAULT_TAG" >> $GITHUB_ENV
+            BARE_VERSION="${DEFAULT_TAG#v}"
+            echo "BARE_VERSION=$BARE_VERSION" >> $GITHUB_ENV
+            echo "RELEASE_TYPE=initial" >> $GITHUB_ENV
+            echo "CHANGELOG_SECTION=Initial Release" >> $GITHUB_ENV
+            echo "BREAKING_CHANGES=false" >> $GITHUB_ENV
+            echo "BREAKING_COMMITS=" >> $GITHUB_ENV
+            echo "OTHER_COMMITS=" >> $GITHUB_ENV
+            exit 0
+          fi          
           echo "Commit range: $COMMIT_RANGE"
 
           # Parse current version
@@ -71,7 +83,7 @@ jobs:
 
           # Get PR labels
           PR_NUMBER=${{ github.event.pull_request.number }}
-          LABELS=$(gh pr view $PR_NUMBER --json labels --jq '.labels[].name')
+          LABELS=$(GH_TOKEN=${{ secrets.PAT_TOKEN }} gh pr view $PR_NUMBER --json labels --jq '.labels[].name')  # Use PAT_TOKEN
           echo "PR labels: $LABELS"
 
           # Determine release type and version
@@ -215,7 +227,8 @@ jobs:
           git config user.name "${{ env.BOT_NAME }}"
           git config user.email "${{ env.BOT_EMAIL }}"
           git commit -m "update changelog for ${{ env.NEW_VERSION }}"
-          git push origin main --force
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ env.REPO }}.git  # Use PAT_TOKEN for push
+          git push origin main
 
       # Create source code zip without hidden files
       - name: Create Source Code Zip
@@ -223,7 +236,7 @@ jobs:
         run: |
           echo "Creating source code zip for ${{ env.NEW_VERSION }}"
           # Extract repository name 
-          REPO_NAME="Servv"
+          REPO_NAME="servvai-event-booking"
           ZIP_NAME="${REPO_NAME}-${{ env.NEW_VERSION }}.zip"
           # Use git archive to create a clean zip 
           git archive --format=zip --output="${ZIP_NAME}" HEAD $(git ls-files | grep -v '^\.' | grep -v '/\.')
@@ -240,7 +253,7 @@ jobs:
       - name: Create Tag and Release
         if: env.NEW_VERSION != ''
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use PAT_TOKEN for gh CLI
         run: |
           echo "Checking if tag ${{ env.NEW_VERSION }} exists..."
           if git rev-parse "${{ env.NEW_VERSION }}" >/dev/null 2>&1; then
@@ -251,6 +264,7 @@ jobs:
           git config user.name "${{ env.BOT_NAME }}"
           git config user.email "${{ env.BOT_EMAIL }}"
           git tag -a "${{ env.NEW_VERSION }}" -m "release ${{ env.NEW_VERSION }}"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ env.REPO }}.git  # Use PAT_TOKEN for push
           git push origin "${{ env.NEW_VERSION }}"
 
           echo "Creating GitHub release..."
@@ -273,7 +287,7 @@ jobs:
               echo "- No changes recorded for this release"
             fi
           } > release_notes.md
-          gh release create "${{ env.NEW_VERSION }}" \
+          GH_TOKEN=${{ secrets.PAT_TOKEN }} gh release create "${{ env.NEW_VERSION }}" \
             --title "Release: ${{ env.NEW_VERSION }}" \
             --notes-file release_notes.md \
-            "${{ env.ZIP_NAME }}# Clean Package"
+            "${{ env.ZIP_NAME }}#Clean Package"
