@@ -3,7 +3,7 @@
  * Plugin Name: ServvAI Event Booking
  * Plugin URI: https://github.com/coderisetechnologiesinc/servvai-event-booking/
  * Description: Easily manage event bookings and schedules for both online and in-person experiences, powered by smart AI features.
- * Version: 1.0.0
+ * Version: 1.0.2
  * Author: Servv Inc.
  * Author URI: https://servv.ai/
  * License: GPL2
@@ -101,7 +101,7 @@ function servv_plugin_get_config($key) {
     $config = array_merge($defaults, $dbSettings);
     return $config[$key] ?? null;
 }
-define('SERVV_PLUGIN_VERSION', '1.0.0');
+define('SERVV_PLUGIN_VERSION', '1.0.2');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Block Editor Registration + Editor Script Localization
