@@ -24,9 +24,9 @@ import { getLanguagesList } from "../../utilities/languages";
 import startCase from "lodash.startcase";
 import capitalize from "lodash.capitalize";
 import { loadStripe } from "@stripe/stripe-js";
-
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
-import apiFetch from "@wordpress/api-fetch";
+import N8NSettings from "./N8NSettings";
+
 const SettingsPage = () => {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -36,20 +36,24 @@ const SettingsPage = () => {
   const [stripeAccount, setStripeAccount] = useState(null);
   const timezoneOptions = timezones.map((timezone) => timezone.zone);
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await apiFetch({
-      path: "/servv-plugin/v1/zoom/account",
-    });
-    if (getZoomAccountResponse) {
-      setZoomAccount(getZoomAccountResponse);
+    const getZoomAccountResponse = await axios.get(
+      "/wp-json/servv-plugin/v1/zoom/account",
+      {
+        headers: { "X-WP-Nonce": servvData.nonce },
+      }
+    );
+    if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
+      setZoomAccount(getZoomAccountResponse.data);
     }
   };
 
   const getStripeAccount = async () => {
-    const getStripeAccountResponse = await apiFetch({
-      path: "/servv-plugin/v1/stripe/account",
-    });
-    if (getStripeAccountResponse) {
-      setStripeAccount(getStripeAccountResponse);
+    const getStripeAccountResponse = await axios.get(
+      "/wp-json/servv-plugin/v1/stripe/account",
+      { headers: { "X-WP-Nonce": servvData.nonce } }
+    );
+    if (getStripeAccountResponse && getStripeAccountResponse.status === 200) {
+      setStripeAccount(getStripeAccountResponse.data);
     }
   };
 
@@ -57,10 +61,9 @@ const SettingsPage = () => {
     { label: "General", value: 0 },
     { label: "Reminders", value: 1 },
     { label: "Billing", value: 2 },
-    // { label: "Fast Checkout", value: 4 },
-    // { label: "Location", value: 3 },
     { label: "Widget", value: 5 },
     { label: "Translations", value: 6 },
+    { label: "Workflow", value: 8 },
   ]);
 
   const viewModeOptions = [
@@ -70,27 +73,16 @@ const SettingsPage = () => {
     // { label: "Workflow", value: "progressive" },
   ];
   const pageSizes = [
-    {
-      label: "10 items",
-      value: 10,
-    },
-    {
-      label: "20 items",
-      value: 20,
-    },
-    {
-      label: "50 items",
-      value: 50,
-    },
+    { label: "10 items", value: 10 },
+    { label: "20 items", value: 20 },
+    { label: "50 items", value: 50 },
   ];
 
   const filters = ["Locations", "Languages", "Categories", "Members"];
   const availableViewMods = viewModeOptions.map((opt) => opt.label);
   const availablePageSizes = pageSizes.map((opt) => opt.label);
   const [selectedTab, setSelectedTab] = useState(0);
-  const handleSelectChange = (val) => {
-    setSelectedTab(val);
-  };
+  const handleSelectChange = (val) => setSelectedTab(val);
   const [defaultEndTime, setDefaultEndTime] = useState(moment());
   const timeOptions = [
     { label: "24 hours", value: 24 },
@@ -100,79 +92,62 @@ const SettingsPage = () => {
     { label: "Event", value: "offline" },
     { label: "Zoom Event", value: "online" },
   ];
-
   const currencyOptions = [
     { label: "Currency sign: $ / 元" },
     { label: "Alphabets: USD / CAD / CNY" },
   ].map((format) => format.label);
 
+  // Responsive helpers
+  const responsiveBlockStack = "w-full min-w-0";
+  const responsiveInlineStack = "flex-col md:flex-row w-full min-w-0";
+  const responsiveTabsWrapper = "w-full min-w-0 overflow-x-auto";
+  const responsiveInput = "w-full min-w-0";
+
   const validateWidgetSettings = (newSettings) => {
     let settings = { ...newSettings };
-    if (settings.ew_events_list_view === undefined) {
+    if (settings.ew_events_list_view === undefined)
       settings.ew_events_list_view = "list";
-    }
-    if (settings.ew_events_grid_fluid_mode === undefined) {
+    if (settings.ew_events_grid_fluid_mode === undefined)
       settings.ew_events_grid_fluid_mode = false;
-    }
-    if (settings.ew_card_description_display_words_limit === undefined) {
+    if (settings.ew_card_description_display_words_limit === undefined)
       settings.ew_card_description_display_words_limit = 9;
-    }
-    if (settings.ew_list_item_description_display_words_limit === undefined) {
+    if (settings.ew_list_item_description_display_words_limit === undefined)
       settings.ew_list_item_description_display_words_limit = 9;
-    }
-    if (settings.ew_events_list_page_size_default === undefined) {
+    if (settings.ew_events_list_page_size_default === undefined)
       settings.ew_events_list_page_size_default = 10;
-    }
-    if (settings.ew_widget_desplayed_filter === undefined) {
-      settings.ew_widget_desplayed_filter =
-        "Locations,Languages,Categories,Members";
-    }
-    if (settings.ew_show_language_selector === undefined) {
+    if (settings.available_filters === undefined)
+      settings.available_filters = "locations,languages,categories,members";
+    if (settings.ew_show_language_selector === undefined)
       settings.ew_show_language_selector = true;
-    }
-    if (settings.ew_show_top_filters === undefined) {
+    if (settings.ew_show_top_filters === undefined)
       settings.ew_show_top_filters = true;
-    }
-    if (settings.show_calendar === undefined) {
-      settings.show_calendar = true;
-    }
-    if (settings.permanently_open_calendar === undefined) {
+    if (settings.show_calendar === undefined) settings.show_calendar = true;
+    if (settings.permanently_open_calendar === undefined)
       settings.permanently_open_calendar = true;
-    }
-    if (settings.show_widget_title === undefined) {
+    if (settings.show_widget_title === undefined)
       settings.show_widget_title = true;
-    }
-    if (settings.ew_events_counter === undefined) {
+    if (settings.ew_events_counter === undefined)
       settings.ew_events_counter = true;
-    }
-    if (settings.ew_hide_view_mode_switch === undefined) {
-      settings.ew_hide_view_mode_switch = true;
-    }
-    if (settings.show_event_images === undefined) {
+    if (settings.ew_hide_view_mode_switch === undefined)
+      settings.ew_hide_view_mode_switch = false;
+    if (settings.show_event_images === undefined)
       settings.show_event_images = true;
-    }
-    if (settings.ew_image_aspect === undefined) {
+    if (settings.ew_image_aspect === undefined)
       settings.ew_image_aspect = false;
-    }
-    if (settings.show_events_list_separator_badge === undefined) {
+    if (settings.show_events_list_separator_badge === undefined)
       settings.show_events_list_separator_badge = true;
-    }
-    if (settings.ew_show_quantity === undefined) {
+    if (settings.ew_show_quantity === undefined)
       settings.ew_show_quantity = false;
-    }
-    if (settings.ew_show_share_button === undefined) {
+    if (settings.ew_show_share_button === undefined)
       settings.ew_show_share_button = true;
-    }
-    if (settings.ew_show_event_type_badge === undefined) {
+    if (settings.ew_show_event_type_badge === undefined)
       settings.ew_show_event_type_badge = true;
-    }
     if (settings.translations === undefined) {
       settings.translations = mergeTranslations(
         getTranslationsTpl(),
         settings?.settings?.widget_style_settings?.translations || {}
       );
     }
-
     return settings;
   };
 
@@ -186,13 +161,6 @@ const SettingsPage = () => {
       validatedSettings.settings.admin_dashboard.length > 0
         ? JSON.parse(validatedSettings.settings.admin_dashboard)
         : {};
-
-    // console.log(
-    //   !newSettings,
-    //   !newSettings.settings,
-    //   !newSettings.settings.admin_dashboard,
-    //   !newSettings.settings.admin_dashboard.default_timezone
-    // );
     if (
       !newSettings ||
       !newSettings.settings ||
@@ -229,8 +197,17 @@ const SettingsPage = () => {
     ) {
       validatedSettings.settings.admin_dashboard.default_price = 10.0;
     }
+
     if (!newSettings.stetings) {
       validatedSettings.settings.time_format_24_hours = false;
+    }
+    if (
+      !newSettings ||
+      !newSettings.settings ||
+      !newSettings.settings.admin_dashboard ||
+      !newSettings.settings.admin_dashboard.default_quantity
+    ) {
+      validatedSettings.settings.admin_dashboard.default_quantity = 25;
     }
     if (
       !newSettings ||
@@ -261,22 +238,78 @@ const SettingsPage = () => {
             { label: "General", value: 0 },
             { label: "Reminders", value: 1 },
             { label: "Billing", value: 7 },
-            // { label: "Fast Checkout", value: 4 },
             { label: "Widget", value: 5 },
             { label: "Translations", value: 6 },
-            // { label: "Location", value: 3 },
+            { label: "Workflow", value: 8 },
           ]
         : [
             { label: "General", value: 0 },
             { label: "Reminders", value: 1 },
-            // { label: "Fast Checkout", value: 4 },
             { label: "Widget", value: 5 },
             { label: "Translations", value: 6 },
             { label: "Billing", value: 7 },
+            { label: "Workflow", value: 8 },
           ]
     );
     setSettings({ ...validatedSettings }, () => {});
   };
+
+  const [n8nCurentSettings, setN8nSettings] = useState({});
+  const [isN8NSettingsUpdated, setIsN8NSettingsUpdated] = useState(false);
+  const updateN8NSettings = (newVal) => {
+    setN8nSettings({ ...newVal });
+    setIsN8NSettingsUpdated(true);
+  };
+  const getN8nSettings = async () => {
+    setLoading(true);
+    const getN8nResponse = await axios.get(
+      "/wp-json/servv-plugin/v1/n8n/settings",
+      {
+        headers: { "X-WP-Nonce": servvData.nonce },
+      }
+    );
+    if (getN8nResponse && getN8nResponse.status === 200) {
+      setN8nSettings(getN8nResponse.data);
+    }
+    setLoading(false);
+  };
+
+  const saveN8nSettings = async () => {
+    setLoading(true);
+    let settingsForSave = n8nCurentSettings;
+    if (
+      settingsForSave &&
+      settingsForSave.new_booking_url.length > 0 &&
+      settingsForSave.new_booking_method.length === 0
+    ) {
+      settingsForSave.new_booking_method = "POST";
+    }
+    if (
+      settingsForSave &&
+      settingsForSave.canceled_booking_url.length > 0 &&
+      settingsForSave.canceled_booking_method.length === 0
+    ) {
+      settingsForSave.canceled_booking_method = "POST";
+    }
+    if (
+      settingsForSave &&
+      settingsForSave.event_created_url.length > 0 &&
+      settingsForSave.event_created_method.length === 0
+    ) {
+      settingsForSave.event_created_method = "POST";
+    }
+    const saveN8nResponse = await axios({
+      method: "PUT",
+      url: "/wp-json/servv-plugin/v1/n8n/settings",
+      headers: { "X-WP-Nonce": servvData.nonce },
+      data: n8nCurentSettings,
+    });
+
+    if (saveN8nResponse && saveN8nResponse.status === 200) {
+      setLoading(false);
+    }
+  };
+
   const getSettings = async () => {
     setLoading(true);
     const getSettingsResponse = await axios(
@@ -290,6 +323,7 @@ const SettingsPage = () => {
     }
     setLoading(false);
   };
+
   const getBillingPlans = async () => {
     setLoading(true);
     const getBillingPlansResponse = await axios(
@@ -303,6 +337,7 @@ const SettingsPage = () => {
     }
     setLoading(false);
   };
+
   const defaultWidgetLanguage =
     settings?.settings?.widget_style_settings?.widgets_default_language || "en";
   const translations = mergeTranslations(
@@ -311,11 +346,9 @@ const SettingsPage = () => {
   );
   const getDefaultWidgetLanguageName = () => {
     const fullList = getLanguagesList();
-
     const langCode = fullList.filter(
       (lang) => lang.value === defaultWidgetLanguage
     )[0].label;
-
     return langCode;
   };
   // useEffect(() => {
@@ -341,7 +374,6 @@ const SettingsPage = () => {
   // }, [settings]);
   const saveSettings = async () => {
     setLoading(true);
-
     const saveSettingsResponse = await axios({
       method: "PUT",
       url: "/wp-json/servv-plugin/v1/shop/settings",
@@ -356,24 +388,41 @@ const SettingsPage = () => {
           ),
         },
       },
-    });
+    }).catch((err) => console.error(err));
     if (saveSettingsResponse && saveSettingsResponse.status === 200) {
       toast("Settings saved successfully.");
     }
+
     setLoading(false);
   };
+  const saveAllSettings = async () => {
+    if (servvData.servv_plugin_mode === "development") {
+      await saveSettings();
+      if (isN8NSettingsUpdated) {
+        await saveN8nSettings();
+      }
+    } else {
+      saveSettings();
+      if (isN8NSettingsUpdated) {
+        saveN8nSettings();
+      }
+    }
+  };
+
   const getSettingsInfo = async () => {
     if (servvData.servv_plugin_mode === "development") {
       await getSettings();
       await getBillingPlans();
-      if (settings.current_plan.id === 2) {
+      await getN8nSettings();
+      if (settings && settings.current_plan.id === 2) {
         await getZoomAccount();
         await getStripeAccount();
       }
     } else {
       getSettings();
       getBillingPlans();
-      if (settings.current_plan.id === 2) {
+      getN8nSettings();
+      if (settings && settings.current_plan.id === 2) {
         getZoomAccount();
         getStripeAccount();
       }
@@ -383,20 +432,20 @@ const SettingsPage = () => {
   useEffect(() => {
     getSettingsInfo();
   }, []);
+
   const durationOptions = () => {
     const options = [];
     for (let i = 1; i <= 12; i++) {
       if (i === 1) options.push({ label: "1 hour", value: 1 });
-      else {
-        options.push({ label: `${i} hours`, value: i });
-      }
+      else options.push({ label: `${i} hours`, value: i });
     }
-
     return options.map((option) => option.label);
   };
+
   const handleTimezoneChange = (zone) => {
     let currentSettings = { ...settings };
     currentSettings.settings.admin_dashboard.default_timezone = zone;
+    currentSettings.settings = zone;
     setSettings(currentSettings);
   };
   const handleDefaultStartTimeChange = (newVal) => {
@@ -451,6 +500,12 @@ const SettingsPage = () => {
   const handleDefaultPriceChange = (newVal) => {
     let currentSettings = { ...settings };
     currentSettings.settings.admin_dashboard.default_price = newVal;
+    setSettings(currentSettings);
+  };
+
+  const handleDefaultQuantityChange = (newVal) => {
+    let currentSettings = { ...settings };
+    currentSettings.settings.admin_dashboard.default_quantity = newVal;
     setSettings(currentSettings);
   };
 
@@ -621,15 +676,16 @@ const SettingsPage = () => {
   const handleSelectedFilterChange = (filter) => {
     let currentSettings = { ...settings };
     const filterSettings =
-      settings.settings.widget_style_settings.ew_widget_desplayed_filter || "";
-    let selectedFilters = filterSettings.split(",");
-    if (selectedFilters.includes(filter)) {
+      settings.settings.widget_style_settings.available_filters || "";
+    let selectedFilters = filterSettings.split(",").filter((f) => f.length > 0);
+    console.log(selectedFilters);
+    if (selectedFilters.indexOf(filter) >= 0) {
       selectedFilters = selectedFilters.filter((fil) => fil !== filter);
     } else {
       selectedFilters.push(filter);
     }
-
-    currentSettings.settings.widget_style_settings.ew_widget_desplayed_filter =
+    console.log(selectedFilters);
+    currentSettings.settings.widget_style_settings.available_filters =
       selectedFilters.join(",");
 
     setSettings(currentSettings);
@@ -637,22 +693,21 @@ const SettingsPage = () => {
   const [langForEdit, setLangForEdit] = useState(
     getDefaultWidgetLanguageName()
   );
+  const handleSelectLanguageforEdit = (newVal) => setLangForEdit(newVal);
 
-  const handleSelectLanguageforEdit = (newVal) => {
-    setLangForEdit(newVal);
-  };
   const renderAvailableFilters = () => {
     const filterSettings =
-      settings.settings.widget_style_settings.ew_widget_desplayed_filter || "";
-
+      settings.settings.widget_style_settings.available_filters || "";
     const selectedFilters = filterSettings.split(",");
 
     return filters.map((filter) => {
       return (
         <CheckboxControl
           label={filter}
-          checked={selectedFilters.includes(filter)}
-          onChange={() => handleSelectedFilterChange(filter)}
+          checked={selectedFilters.some(
+            (f) => f.toLowerCase() === filter.toLowerCase()
+          )}
+          onChange={() => handleSelectedFilterChange(filter.toLowerCase())}
         />
       );
     });
@@ -692,65 +747,25 @@ const SettingsPage = () => {
     const fullList = getLanguagesList();
     const langCode = fullList.filter((lang) => lang.label === langForEdit)[0]
       .value;
-
     const translationSection =
       settings.settings.widget_style_settings.translations[langCode][section];
-
-    return Object.keys(translationSection).map((translation) => {
-      return (
-        <BlockStack gap={1}>
-          <span className="font-semibold">
-            {capitalize(startCase(translation))}
-          </span>
-          <InputFieldControl
-            value={translationSection[translation]}
-            fullWidth={true}
-            type="text"
-            align="left"
-            suffix={langCode}
-            onChange={(newVal) =>
-              handleTranslationChange(section, langCode, translation, newVal)
-            }
-          />
-        </BlockStack>
-      );
-    });
-    // forEach(
-    //   translationsForEdit[this.state.currentLanguageForEdit][
-    //     fieldsGroup
-    //   ],
-    //   (fieldValue, fieldName) => {
-    //     const getFieldLabel = () => {
-    //       if (fieldsGroup === "customFilters") {
-    //         if (fieldName.indexOf("filter_label_") === 0) {
-    //           if (fieldName === "filter_label_dates") return "Dates";
-    //           else return capitalize(widget_style_settings[fieldName]);
-    //         }
-    //         const field = startCase(fieldName).replace("Filter Property", "");
-    //         return capitalize(field);
-    //         // return startCase(fieldName).replace('Filter Property', '');
-    //       }
-    //       return capitalize(startCase(fieldName));
-    //     };
-
-    //     inputsList.push(
-    //       <TextField
-    //         key={fieldName}
-    //         suffix={currentLanguageForEdit}
-    //         type="text"
-    //         label={<Text as="strong">{getFieldLabel()}</Text>}
-    //         onChange={(newVal) =>
-    //           this.handlerTranslationFieldChange(fieldsGroup, fieldName, newVal)
-    //         }
-    //         value={fieldValue}
-    //         disabled={isLoading}
-    //       />
-    //     );
-    //   }
-    // );
-
-    // return inputsList;
-    return null;
+    return Object.keys(translationSection).map((translation) => (
+      <BlockStack gap={1} className={responsiveBlockStack}>
+        <span className="font-semibold">
+          {capitalize(startCase(translation))}
+        </span>
+        <InputFieldControl
+          value={translationSection[translation]}
+          fullWidth={true}
+          type="text"
+          align="left"
+          suffix={langCode}
+          onChange={(newVal) =>
+            handleTranslationChange(section, langCode, translation, newVal)
+          }
+        />
+      </BlockStack>
+    ));
   };
 
   const activateBillingPlan = async (id) => {
@@ -763,54 +778,48 @@ const SettingsPage = () => {
     if (saveSettingsResponse && saveSettingsResponse.status === 200) {
       // toast("Unalbe to activate billing plan.");
       const { client_secret, public_key } = saveSettingsResponse.data;
-
       const stripe = await loadStripe(public_key);
       const handleComplete = async function () {
         checkout.destroy();
         toast("Your billing plan has been successfully activated.");
         await getBillingPlans();
         setShowPaymentForm(false);
-        // const details = await retrievePurchaseDetails();
-
-        // showPurchaseSummary(details);
       };
       const checkout = await stripe.initEmbeddedCheckout({
         clientSecret: client_secret,
         // redirectOnCompletion: "if_required",
         onComplete: handleComplete,
       });
-
       setShowPaymentForm(true);
       checkout.mount("#servv-payment-element");
     }
     setLoading(false);
   };
+
   const renderBillingPlans = () => {
     if (!billingPlans) return;
-    return billingPlans.map((plan) => {
-      // console.log(plan);
-      return (
-        <BlockStack gap={2} cardsLayout={true} onAction={() => {}}>
-          <div className="flex flex-col gap-2 border border-gray-200 bg-white rounded-lg flex flex-row p-lg">
-            {/* <div
-              className="card-image"
-              style={{
-                background: `url("${"https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}")`,
-              }}
-            /> */}
-            <h2 className="card-section-heading">{plan.name}</h2>
-            {plan.features.map((feature) => {
-              return (
-                <div className="flex flex-row justify-start align-center gap-2">
-                  {feature.value === "true" ? (
-                    <CheckCircleIcon className="w-6 fill-success-700" />
-                  ) : (
-                    <XCircleIcon className="w-6 fill-error-700" />
-                  )}
-                  <span>{feature.title}</span>
-                </div>
-              );
-            })}
+    return billingPlans.map((plan) => (
+      <BlockStack
+        gap={2}
+        cardsLayout={true}
+        className={`${responsiveBlockStack} h-full`}
+      >
+        <div
+          className={`flex flex-col gap-2 border border-gray-200 bg-white rounded-lg p-lg ${responsiveBlockStack} h-full`}
+        >
+          <h2 className="card-section-heading">{plan.name}</h2>
+          {plan.features.map((feature) => (
+            <div className="flex flex-row justify-start align-center gap-2">
+              {feature.value === "true" ? (
+                <CheckCircleIcon className="w-6 fill-success-700" />
+              ) : (
+                <XCircleIcon className="w-6 fill-error-700" />
+              )}
+              <span>{feature.title}</span>
+            </div>
+          ))}
+
+          {settings && plan.id >= settings.current_plan.id && (
             <button
               disabled={
                 settings &&
@@ -822,25 +831,24 @@ const SettingsPage = () => {
             >
               {settings.current_plan.id === plan.id ? "Activated" : "Activate"}
             </button>
-          </div>
-        </BlockStack>
-      );
-    });
+          )}
+        </div>
+      </BlockStack>
+    ));
   };
-  // console.log(settings);
-  // const isBillingPlanRestriction = false;
+
   const isBillingPlanRestriction =
     settings && settings.current_plan && settings.current_plan.id === 1;
   return (
     <PageWrapper loading={loading}>
       <PageHeader>
-        <BlockStack>
+        <BlockStack className={responsiveBlockStack}>
           <h1 className="text-display-sm font-semibold mt-6">Settings</h1>
           <p className="page-header-description">
-            Set default values for any new events to save time.
+            Set default values for new events to save time
           </p>
         </BlockStack>
-        <InlineStack gap={2} align="right">
+        <InlineStack gap={2} align="right" className={responsiveInlineStack}>
           <PageActionButton
             text="Cancel"
             icon={null}
@@ -851,28 +859,32 @@ const SettingsPage = () => {
             text="Save"
             icon={null}
             type="primary"
-            onAction={() => saveSettings()}
+            onAction={() => saveAllSettings()}
           />
         </InlineStack>
       </PageHeader>
       <PageContent>
-        <BlockStack gap={8} cardsLayout={true}>
-          <TabsComponent
-            tabsList={tabsList}
-            selected={selectedTab}
-            handleSelectChange={handleSelectChange}
-            fullWidth={true}
-          />
+        <BlockStack gap={8} cardsLayout={true} className={responsiveBlockStack}>
+          <div className={responsiveTabsWrapper}>
+            <TabsComponent
+              tabsList={tabsList}
+              selected={selectedTab}
+              handleSelectChange={handleSelectChange}
+              fullWidth={true}
+            />
+          </div>
           {selectedTab === 0 && (
-            <BlockStack gap={8} cardsLayout={true}>
-              {/* <h1 className="text-lg font-semibold border-b pb-4">
-                General settings
-              </h1> */}
+            <BlockStack
+              gap={8}
+              cardsLayout={true}
+              className={responsiveBlockStack}
+            >
               <AnnotatedSection
                 title="Time zone"
                 description="Set a default time zone."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={2}>
+                <BlockStack gap={2} className={responsiveBlockStack}>
                   <SelectControl
                     label=""
                     options={timezoneOptions}
@@ -881,14 +893,16 @@ const SettingsPage = () => {
                       null
                     }
                     onSelectChange={handleTimezoneChange}
+                    className={responsiveInput}
                   />
                 </BlockStack>
               </AnnotatedSection>
               <AnnotatedSection
                 title="Time format"
                 description="Set a default time format."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={4}>
+                <BlockStack gap={4} className={responsiveBlockStack}>
                   <SelectControl
                     label=""
                     options={timeOptions}
@@ -898,6 +912,7 @@ const SettingsPage = () => {
                         : "12 hours"
                     }
                     onSelectChange={handleTimeFormatChange}
+                    className={responsiveInput}
                   />
                   <CheckboxControl
                     label="Hide timezone abbreviation in email, widget and dashboard."
@@ -909,8 +924,9 @@ const SettingsPage = () => {
               <AnnotatedSection
                 title="Currency format"
                 description="Set a default currency."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={2}>
+                <BlockStack gap={2} className={responsiveBlockStack}>
                   <SelectControl
                     label=""
                     options={currencyOptions}
@@ -921,14 +937,20 @@ const SettingsPage = () => {
                         : "Alphabets: USD / CAD / CNY"
                     }
                     onSelectChange={handleCurrencyChange}
+                    className={responsiveInput}
                   />
                 </BlockStack>
               </AnnotatedSection>
               <AnnotatedSection
                 title="Duration"
                 description="Set a default event duration."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={2} cardsLayout={true}>
+                <BlockStack
+                  gap={2}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <SelectControl
                     label=""
                     options={durationOptions()}
@@ -944,15 +966,21 @@ const SettingsPage = () => {
                         : "1 hour"
                     }
                     onSelectChange={(val) => handleDefaultDurationChange(val)}
+                    className={responsiveInput}
                   />
                 </BlockStack>
               </AnnotatedSection>
               <AnnotatedSection
                 title="Start / end time"
                 description="Set a default start and end time."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={2} cardsLayout={true}>
-                  <div className="flex flex-row gap-5 justify-between">
+                <BlockStack
+                  gap={2}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
+                  <div className="flex flex-col md:flex-row gap-5 w-full min-w-0">
                     <TimeInputControl
                       label="Start time"
                       time={getDefaultStartTime()}
@@ -965,8 +993,8 @@ const SettingsPage = () => {
                           ? "HH:mm"
                           : "hh:mm a"
                       }
+                      className={responsiveInput}
                     />
-
                     <TimeInputControl
                       label="End time"
                       time={getDefaultEndTime()}
@@ -980,6 +1008,7 @@ const SettingsPage = () => {
                           ? "HH:mm"
                           : "hh:mm a"
                       }
+                      className={responsiveInput}
                     />
                   </div>
                 </BlockStack>
@@ -987,8 +1016,13 @@ const SettingsPage = () => {
               <AnnotatedSection
                 title="Ticket price"
                 description="Set a default ticket price."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={2} cardsLayout={true}>
+                <BlockStack
+                  gap={2}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <InputFieldControl
                     value={
                       settings &&
@@ -1002,15 +1036,47 @@ const SettingsPage = () => {
                     minValue={0}
                     disabled={isBillingPlanRestriction || !stripeAccount}
                     onChange={(newVal) => handleDefaultPriceChange(newVal)}
-                    width={"100%"}
+                    className={responsiveInput}
+                  />
+                </BlockStack>
+              </AnnotatedSection>
+              <AnnotatedSection
+                title="Ticket quantity"
+                description="Set a default ticket quantity."
+                className={responsiveBlockStack}
+              >
+                <BlockStack
+                  gap={2}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
+                  <InputFieldControl
+                    value={
+                      settings &&
+                      settings.settings &&
+                      settings.settings.admin_dashboard
+                        ? settings.settings.admin_dashboard.default_quantity
+                        : 0.0
+                    }
+                    type="number"
+                    align="left"
+                    minValue={0}
+                    disabled={isBillingPlanRestriction ? 25 : null}
+                    onChange={(newVal) => handleDefaultQuantityChange(newVal)}
+                    className={responsiveInput}
                   />
                 </BlockStack>
               </AnnotatedSection>
               <AnnotatedSection
                 title="Location"
                 description="Set a default event location."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={2} cardsLayout={true}>
+                <BlockStack
+                  gap={2}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <ButtonGroup
                     title=""
                     buttons={eventTypes.map((type) => type.label)}
@@ -1038,15 +1104,17 @@ const SettingsPage = () => {
           )}
 
           {selectedTab === 1 && (
-            <BlockStack gap={8}>
-              {/* <h1 className="text-lg font-semibold border-b pb-4">
-                Reminders settings
-              </h1> */}
+            <BlockStack gap={8} className={responsiveBlockStack}>
               <AnnotatedSection
                 title="Email notifications"
                 description="Enable email notifications"
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={2} cardsLayout={true}>
+                <BlockStack
+                  gap={2}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <CheckboxControl
                     label="Enable email notifications"
                     checked={settings?.settings?.disable_emails === false}
@@ -1058,8 +1126,13 @@ const SettingsPage = () => {
               <AnnotatedSection
                 title="First reminder"
                 description="Enable first reminder and specify time to first reminder"
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={4} cardsLayout={true}>
+                <BlockStack
+                  gap={4}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <CheckboxControl
                     label="First reminder"
                     checked={settings?.settings?.first_reminder}
@@ -1075,14 +1148,20 @@ const SettingsPage = () => {
                     onChange={(newVal) =>
                       handleFirstReminderHoursChange(newVal)
                     }
+                    className={responsiveInput}
                   />
                 </BlockStack>
               </AnnotatedSection>
               <AnnotatedSection
                 title="Second reminder"
                 description="Enable second reminder and specify time to second reminder"
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={4} cardsLayout={true}>
+                <BlockStack
+                  gap={4}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <CheckboxControl
                     label="Second reminder"
                     checked={settings?.settings?.second_reminder}
@@ -1098,14 +1177,20 @@ const SettingsPage = () => {
                     onChange={(newVal) =>
                       handleSecondReminderHoursChange(newVal)
                     }
+                    className={responsiveInput}
                   />
                 </BlockStack>
               </AnnotatedSection>
               <AnnotatedSection
                 title="Finished reminder"
                 description="Send notification after the event has ended"
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={4} cardsLayout={true}>
+                <BlockStack
+                  gap={4}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <CheckboxControl
                     label="Finished reminder"
                     disabled={isBillingPlanRestriction}
@@ -1117,9 +1202,14 @@ const SettingsPage = () => {
               <AnnotatedSection
                 title="Additional Email Notification Settings"
                 description="Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event"
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={8}>
-                  <BlockStack gap={2} cardsLayout={true}>
+                <BlockStack gap={8} className={responsiveBlockStack}>
+                  <BlockStack
+                    gap={2}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
                     <div className="input-container-col">
                       <div className="section-description">
                         Additional reminder emails list (comma-separated)
@@ -1135,10 +1225,15 @@ const SettingsPage = () => {
                         onChange={(newVal) =>
                           handleNewAdditionalEmailsChange(newVal)
                         }
+                        className={responsiveInput}
                       />
                     </div>
                   </BlockStack>
-                  <BlockStack gap={2} cardsLayout={true}>
+                  <BlockStack
+                    gap={2}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
                     <div className="input-container-col">
                       <div className="section-description">
                         Additional reminder hours
@@ -1152,10 +1247,15 @@ const SettingsPage = () => {
                         onChange={(newVal) =>
                           handleAdditionalRemindersHoursChange(newVal)
                         }
+                        className={responsiveInput}
                       />
                     </div>
                   </BlockStack>
-                  <BlockStack gap={2} cardsLayout={true}>
+                  <BlockStack
+                    gap={2}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
                     <CheckboxControl
                       label="Skip Staff Email Notification"
                       disabled={isBillingPlanRestriction}
@@ -1230,17 +1330,23 @@ const SettingsPage = () => {
             </BlockStack>
           )}
           {selectedTab === 5 && (
-            <BlockStack gap={8}>
+            <BlockStack gap={8} className={responsiveBlockStack}>
               <AnnotatedSection
                 title="Display mode options"
                 description="These settings let you choose how your widget appears on the page. Each mode offers a unique experience, tailored to your needs."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={8} cardsLayout={true}>
+                <BlockStack
+                  gap={8}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <SelectControl
                     label=""
                     options={availableViewMods}
                     selected={selectedView}
                     onSelectChange={handleViewModeChange}
+                    className={responsiveInput}
                   />
                   {settings?.settings?.widget_style_settings
                     ?.ew_events_list_view === "grid" && (
@@ -1258,10 +1364,24 @@ const SettingsPage = () => {
               <AnnotatedSection
                 title="Item settings"
                 description="Configure the display limits and default page sizes for various items."
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={8} cardsLayout={true}>
-                  <InlineStack gap={4} cardsLayout={true} align={"left"}>
-                    <BlockStack gap={2} cardsLayout={true}>
+                <BlockStack
+                  gap={8}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
+                  <InlineStack
+                    gap={4}
+                    cardsLayout={true}
+                    align={"left"}
+                    className={responsiveInlineStack}
+                  >
+                    <BlockStack
+                      gap={2}
+                      cardsLayout={true}
+                      className={responsiveBlockStack}
+                    >
                       <span className="font-semibold">
                         Grid item description display limit
                       </span>
@@ -1280,9 +1400,14 @@ const SettingsPage = () => {
                           )
                         }
                         suffix="words"
+                        className={responsiveInput}
                       />
                     </BlockStack>
-                    <BlockStack gap={2} cardsLayout={true}>
+                    <BlockStack
+                      gap={2}
+                      cardsLayout={true}
+                      className={responsiveBlockStack}
+                    >
                       <span className="font-semibold">
                         List item description display limit
                       </span>
@@ -1301,16 +1426,22 @@ const SettingsPage = () => {
                           )
                         }
                         suffix="words"
+                        className={responsiveInput}
                       />
                     </BlockStack>
                   </InlineStack>
-                  <BlockStack gap={1} cardsLayout={true}>
+                  <BlockStack
+                    gap={1}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
                     <span className="font-semibold">Default page size</span>
                     <SelectControl
                       label=""
                       options={availablePageSizes}
                       selected={selectedPageSize}
                       onSelectChange={handlePageSizeChange}
+                      className={responsiveInput}
                     />
                   </BlockStack>
                 </BlockStack>
@@ -1318,16 +1449,24 @@ const SettingsPage = () => {
               <AnnotatedSection
                 title="Filter settings"
                 description="Select the filters to be displayed on the event widget."
+                className={responsiveBlockStack}
               >
                 {settings?.settings?.widget_style_settings && (
-                  <BlockStack gap={8}>{renderAvailableFilters()}</BlockStack>
+                  <BlockStack gap={8} className={responsiveBlockStack}>
+                    {renderAvailableFilters()}
+                  </BlockStack>
                 )}
               </AnnotatedSection>
               <AnnotatedSection
                 title="Additional widget display settings"
                 description="Select which parts of the events widget users can see. Also, adjust the visibility of different components"
+                className={responsiveBlockStack}
               >
-                <BlockStack gap={8} cardsLayout={true}>
+                <BlockStack
+                  gap={8}
+                  cardsLayout={true}
+                  className={responsiveBlockStack}
+                >
                   <span className="font-semibold border-b pb-1">
                     Widget elements
                   </span>
@@ -1344,16 +1483,6 @@ const SettingsPage = () => {
                     }
                   />
                   {/* <CheckboxControl
-                    label="Show filters on top"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.ew_show_top_filters || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange("ew_show_top_filters")
-                    }
-                  /> */}
-                  <CheckboxControl
                     label="Show calendar"
                     checked={
                       settings?.settings?.widget_style_settings
@@ -1362,7 +1491,7 @@ const SettingsPage = () => {
                     onChange={() =>
                       handleAdditionalPropertyChange("show_calendar")
                     }
-                  />
+                  /> */}
                   <CheckboxControl
                     label="Display calendar permanently"
                     checked={
@@ -1375,7 +1504,7 @@ const SettingsPage = () => {
                       )
                     }
                   />
-                  <CheckboxControl
+                  {/* <CheckboxControl
                     label="Show widget title"
                     checked={
                       settings?.settings?.widget_style_settings
@@ -1384,8 +1513,7 @@ const SettingsPage = () => {
                     onChange={() =>
                       handleAdditionalPropertyChange("show_widget_title")
                     }
-                  />
-
+                  /> */}
                   <CheckboxControl
                     label="Show events counter"
                     checked={
@@ -1399,7 +1527,7 @@ const SettingsPage = () => {
                   <CheckboxControl
                     label="View mode switch"
                     checked={
-                      settings?.settings?.widget_style_settings
+                      !settings?.settings?.widget_style_settings
                         ?.ew_hide_view_mode_switch || false
                     }
                     onChange={() =>
@@ -1441,7 +1569,7 @@ const SettingsPage = () => {
                       )
                     }
                   />
-                  <CheckboxControl
+                  {/* <CheckboxControl
                     label="Show quantity"
                     checked={
                       settings?.settings?.widget_style_settings
@@ -1450,7 +1578,7 @@ const SettingsPage = () => {
                     onChange={() =>
                       handleAdditionalPropertyChange("ew_show_quantity")
                     }
-                  />
+                  /> */}
                   <CheckboxControl
                     label="Share button"
                     checked={
@@ -1475,11 +1603,17 @@ const SettingsPage = () => {
               </AnnotatedSection>
             </BlockStack>
           )}
+
           {selectedTab === 6 && (
-            <BlockStack gap={8} cardsLayout={true}>
+            <BlockStack
+              gap={8}
+              cardsLayout={true}
+              className={responsiveBlockStack}
+            >
               <AnnotatedSection
                 title="Default language for widgets"
                 description="Translate text in widgets to any language"
+                className={responsiveBlockStack}
               >
                 <SelectControl
                   // label="Languages"
@@ -1487,37 +1621,63 @@ const SettingsPage = () => {
                   options={getLangsSelectOptions().map((lang) => lang.label)}
                   onSelectChange={handleDefaultLanguageChange}
                   selected={getDefaultWidgetLanguageName()}
-                  // disabled={isLoading}
+                  className={responsiveInput}
                 />
               </AnnotatedSection>
               <AnnotatedSection
                 title="Language for translate"
-                description="Before choosing the default language, select one from the
-                  list. Then, edit the widget fields and save the changes"
+                description="Before choosing the default language, select one from the list. Then, edit the widget fields and save the changes"
+                className={responsiveBlockStack}
               >
                 <SelectControl
                   label="Language"
                   options={getLangsSelectOptions().map((lang) => lang.label)}
                   onSelectChange={handleSelectLanguageforEdit}
                   selected={langForEdit}
+                  className={responsiveInput}
                 />
               </AnnotatedSection>
-              <AnnotatedSection title="Global Widgets Translations">
+              <AnnotatedSection
+                title="Global Widgets Translations"
+                className={responsiveBlockStack}
+              >
                 {renderTranslations()}
               </AnnotatedSection>
-              <AnnotatedSection title="Events Widget Translations">
+              <AnnotatedSection
+                title="Events Widget Translations"
+                className={responsiveBlockStack}
+              >
                 {renderTranslations("mainWidget")}
               </AnnotatedSection>
             </BlockStack>
           )}
+
           {selectedTab === 7 && (
-            <BlockStack gap={8}>
+            <BlockStack gap={8} className={responsiveBlockStack}>
               {!showPaymentForm && (
-                <InlineStack gap={4} cardsLayout={true}>
+                <InlineStack
+                  gap={4}
+                  cardsLayout={true}
+                  className={responsiveInlineStack}
+                >
                   {renderBillingPlans()}
                 </InlineStack>
               )}
               <div id="servv-payment-element"></div>
+            </BlockStack>
+          )}
+          {selectedTab === 8 && (
+            <BlockStack gap={8} className={responsiveBlockStack}>
+              <InlineStack
+                gap={4}
+                cardsLayout={true}
+                className={responsiveInlineStack}
+              >
+                <N8NSettings
+                  n8nSettingsData={n8nCurentSettings}
+                  settingsUpdate={updateN8NSettings}
+                />
+              </InlineStack>
             </BlockStack>
           )}
         </BlockStack>

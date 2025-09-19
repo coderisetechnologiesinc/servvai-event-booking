@@ -2,7 +2,7 @@
 #svv-wgt-app {
   .svv-list-pagination-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex: 1;
     margin-bottom: 5px;
 
@@ -20,12 +20,15 @@
       border-radius: 3px;
 
       &.active {
-        color: $svv_blue_light;
+        color: $svv-brand-primary;
         font-weight: 600;
       }
 
       &:hover {
-        border-color: $svv_blue_light;
+        fill: $svv-text-hover-color;
+        background: $svv-elements-background-color;
+        border-radius: 7px;
+        color: $svv-text-hover-color;
         transition: $global-transition;
       }
     }

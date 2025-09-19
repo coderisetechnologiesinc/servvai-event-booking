@@ -1,7 +1,9 @@
 .svv-events-calendar-container {
   position: relative;
   width: 100%;
-
+  .vc-rounded-full {
+    border-radius: 10.5px;
+  }
   @include media-breakpoint-up(lg) {
     //position: absolute;
     //height: 100%;
@@ -9,7 +11,7 @@
     //top: 5px;
     top: 0;
     left: 0;
-    background-color: #fff;
+    background-color: $svv_white;
     z-index: 13;
     overflow: hidden;
     width: 0;
@@ -43,7 +45,7 @@
       .svv-events-calendar-container-inner {
         border-image-source: none;
         border-left: none;
-        border-right: 1px solid $svv-text_border_gray;
+        // border-right: 1px solid $svv-text_border_gray;
         padding-right: 10px;
       }
     }
@@ -51,7 +53,9 @@
 
   @include media-breakpoint-down(md) {
     z-index: 13;
-    display: none;
+    display: flex;
+    // padding: 5px;
+    margin: 0;
 
     .svv-languages-selector {
       display: none;
@@ -66,22 +70,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #fff;
+    background-color: $svv_white;
     //border-right: 1px solid $svv_text_border_gray;
     height: 100%;
 
-    @include media-breakpoint-up(lg) {
-      border-image-source: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(208, 209, 214, 1) 15%,
-        rgba(208, 209, 214, 1) 85%,
-        rgba(255, 255, 255, 0) 100%
-      );
-      border-image-slice: 1;
-      border-left: 1px solid;
-      border-right: 1px solid;
-    }
+    // @include media-breakpoint-up(lg) {
+    //   border-image-source: linear-gradient(
+    //     0deg,
+    //     rgba(255, 255, 255, 0) 0%,
+    //     rgba(208, 209, 214, 1) 15%,
+    //     rgba(208, 209, 214, 1) 85%,
+    //     rgba(255, 255, 255, 0) 100%
+    //   );
+    //   border-image-slice: 1;
+    //   border-left: 1px solid;
+    //   border-right: 1px solid;
+    // }
 
     @include media-breakpoint-down(md) {
       flex: 1;
@@ -95,13 +99,23 @@
     justify-content: flex-end;
     width: 100%;
     align-items: center;
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
   }
 
   .calendar-wrapper {
-    width: 320px;
-    padding: 20px 25px 40px 25px;
+    width: 281px;
+    // padding: 20px 25px 40px 25px;
+    margin-top: 25px;
     //opacity: 0.2;
     transition: $global-transition;
+    @include media-breakpoint-down(md) {
+      padding: 0;
+      margin-top: 12px;
+      width: 97%;
+      margin: 12px 0 5px 0;
+    }
 
     &.active-filter {
       //opacity: 1;
@@ -141,6 +155,7 @@
     .svv-datepicker {
       margin: 0;
       padding: 0;
+
       .svv-events-calendar-container {
         margin-left: 0;
       }
@@ -158,28 +173,36 @@
   }
 
   .svv-datepicker {
-    padding-left: 25px;
+    // padding-left: 25px;
     border: none;
     background-color: transparent;
+    border-radius: 10.5px;
+    border: 1px solid $svv-elements-border;
+    box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+      0 1px 3px 0 rgba(0, 0, 0, 0.1);
 
     .vc-header {
-      margin-bottom: 30px;
+      margin-bottom: 15px;
     }
     .vc-title {
       color: $svv_text_black;
       //font-family: 'sofia-pro';
       font-family: "Heebo", sans-serif;
+      @include media-breakpoint-down(md) {
+        color: $svv_text_black;
+      }
     }
 
-    .vc-arrows-container {
-      margin-left: -25px;
-      width: calc(100% + 25px);
-    }
+    // .vc-arrows-container {
+    //   margin-left: -25px;
+    //   width: calc(100% + 25px);
+    // }
     .vc-grid-container.vc-weeks {
+      padding: 15px;
       &:before {
         content: "";
         display: block;
-        background-color: rgba($svv_text_border_gray, 0.5);
+        // background-color: rgba($svv_text_border_gray, 0.5);
         height: 1px;
         width: 100%;
         position: absolute;
@@ -189,7 +212,7 @@
     }
 
     .vc-weekday {
-      color: $svv-text_gray-dark;
+      color: $svv-text_gray;
       //font-family: 'sofia-pro';
       font-family: "Heebo", sans-serif;
       font-weight: 500;
@@ -197,33 +220,48 @@
     .vc-day-content {
       //font-family: 'sofia-pro';
       font-family: "Heebo", sans-serif;
+      &:hover {
+        background-color: $svv-brand-secondary;
+        color: $svv-brand-primary;
+        border-radius: 10.5px;
+      }
     }
 
     .vc-highlights {
       .vc-highlight {
         border-radius: 5px;
-        background-color: $svv_blue_ultra_dark;
+        background-color: $svv-brand-primary;
+        color: $svv_text_black;
+      }
+      @include media-breakpoint-down(md) {
+        color: $svv_text_black;
       }
     }
     .vc-grid-cell {
       padding-top: 5px;
-      padding-bottom: 5px;
+      // padding-bottom: 5px;
     }
 
     .svv-v-calendar-highlighted-date-bgr {
-      background-color: rgba($svv_blue_ultra_dark, 0.1) !important;
+      background-color: rgba($svv-brand-secondary, 0.1) !important;
       border-radius: 100px !important;
     }
     .svv-v-calendar-highlighted-date-content {
-      color: $svv_blue_ultra_dark;
-      font-weight: 500 !important;
+      color: $svv_text_black;
+      background-color: $svv-brand-secondary;
+      font-weight: 600 !important;
     }
     .svv-v-calendar-highlighted-selected-date-bgr {
       border-radius: 100px !important;
     }
     .svv-v-calendar-highlighted-selected-date-content {
-      color: #fff;
-      background-color: $svv_blue_ultra_dark;
+      color: $svv_white;
+      background-color: $svv-brand-primary;
+      border-radius: 10.5px;
+      &:focus {
+        background-color: $svv-brand-primary;
+        border-radius: 10.5px;
+      }
     }
   }
 }
@@ -234,6 +272,7 @@
 
   @include media-breakpoint-down(md) {
     display: block;
+    color: black !important;
   }
 }
 
@@ -242,7 +281,7 @@
 
   @include media-breakpoint-down(md) {
     display: flex;
-    z-index: 1000;
+    z-index: 999;
     background-color: transparent;
     height: 100vh;
   }
@@ -274,5 +313,10 @@
       border-bottom-right-radius: 30px;
       overflow: auto;
     }
+  }
+}
+@include media-breakpoint-down(md) {
+  .open-desktop-calendar {
+    display: none !important;
   }
 }

@@ -211,15 +211,15 @@ export default {
         let accessToken = null;
         let response = null;
         let params = null;
-        if (root && root.dataset.nonce) {
-          accessToken = root.dataset.nonce;
-          commit("setApiAccessToken", accessToken);
-        }
+        // if (root && root.dataset.nonce) {
+        //   accessToken = root.dataset.nonce;
+        //   commit("setApiAccessToken", accessToken);
+        // }
         if (root) {
           params = new URLSearchParams();
-          params.append("security", pluginData.security);
+          params.append("security", servvAjax.nonce);
           params.append("action", "servv_get_shop_settings");
-          response = await axios.post("/wp-admin/admin-ajax.php", params);
+          response = await axios.post(servvAjax.ajax_url, params);
           if (response.status === 200) {
             response.data = {
               ...response.data,

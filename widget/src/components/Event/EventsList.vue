@@ -19,12 +19,12 @@
     <EventsFilters
       v-if="
         windowSize !== 'mobile' &&
-          ((widgetSettings.widget_style_settings.ew_events_list_view ===
-            'progressive' &&
-            !widgetSettings.widget_style_settings.show_filters_expanded) ||
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'progressive') &&
-          pageSize !== 1
+        ((widgetSettings.widget_style_settings.ew_events_list_view ===
+          'progressive' &&
+          !widgetSettings.widget_style_settings.show_filters_expanded) ||
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'progressive') &&
+        pageSize !== 1
       "
     />
 
@@ -32,8 +32,8 @@
       v-if="
         widgetSettings.widget_style_settings.ew_events_list_view !==
           'progressive' &&
-          windowSize !== 'mobile' &&
-          pageSize !== 1
+        windowSize !== 'mobile' &&
+        pageSize !== 1
       "
     />
 
@@ -42,13 +42,10 @@
         <SearchPanel class="list-metadata-location" v-if="pageSize !== 1" />
       </div>
       <div class="svv-list-controls-container">
-        <MeetingsPagination
-          v-show="isFilteredResultPaginationVisible && pageSize !== 1"
-        />
         <EventsListViewModeSelector
           v-if="
             !widgetSettings.widget_style_settings.ew_hide_view_mode_switch &&
-              pageSize !== 1
+            pageSize !== 1
           "
         />
         <EventsListPageSizeSelector
@@ -71,14 +68,16 @@
       ]"
       ref="eventsGridContainer"
       v-if="
-        widgetSettings.widget_style_settings.ew_events_list_view === 'grid' ||
-          (widgetSettings.widget_style_settings.ew_events_list_view ===
-            'progressive' &&
-            eventsPorgressiveView === 'grid') ||
-          (widgetSettings.widget_style_settings.ew_events_list_view ===
-            'category' &&
-            !isListLoading &&
-            meetingsListForRender.length > 0)
+        (widgetSettings.widget_style_settings.ew_events_list_view === 'grid' &&
+          meetingsListForRender.length > 0 &&
+          !isListLoading) ||
+        (widgetSettings.widget_style_settings.ew_events_list_view ===
+          'progressive' &&
+          eventsPorgressiveView === 'grid') ||
+        (widgetSettings.widget_style_settings.ew_events_list_view ===
+          'category' &&
+          !isListLoading &&
+          meetingsListForRender.length > 0)
       "
       v-masonry="eventsListMasonryParentContainerId"
       transition-duration="0.3s"
@@ -137,11 +136,11 @@
       ]"
       v-if="
         widgetSettings.widget_style_settings.ew_events_list_view === 'list' ||
-          (widgetSettings.widget_style_settings.ew_events_list_view ===
-            'progressive' &&
-            eventsPorgressiveView === 'list' &&
-            !isListLoading &&
-            meetingsListForRender.length > 0)
+        (widgetSettings.widget_style_settings.ew_events_list_view ===
+          'progressive' &&
+          eventsPorgressiveView === 'list' &&
+          !isListLoading &&
+          meetingsListForRender.length > 0)
       "
     >
       <EventListCardItem
@@ -176,19 +175,10 @@
         }"
       ></div>
     </div>
+    <MeetingsPagination
+      v-show="isFilteredResultPaginationVisible && pageSize !== 1"
+    />
 
-    <div class="list-result-counter-container">
-      <span
-        v-show="
-          meetingsListForRender &&
-            meetingsListForRender.length &&
-            widgetSettings.widget_style_settings.ew_events_counter &&
-            pageSize !== 1
-        "
-        >{{ meetingsListForRender.length }}
-        {{ $t("mainWidget.itemsCounterLabel") }}</span
-      >
-    </div>
     <!--    v-show="!isListInTheEnd && meetingsListForRender.length > 0"-->
     <div
       v-show="false"
@@ -201,8 +191,25 @@
     <div v-if="isListLoading && !isListEmpty" class="list-loader">
       <div class="svv-loader center"><span></span></div>
     </div>
-    <div class="svv-empty-events-list" v-if="!isListLoading && isListEmpty">
+    <div
+      class="svv-empty-events-list"
+      v-if="!isListLoading && isListEmpty && !isLoading"
+    >
       There are no items to display
+    </div>
+    <div class="list-result-counter-container">
+      <span
+        v-show="
+          meetingsListForRender &&
+          meetingsListForRender.length > 0 &&
+          widgetSettings.widget_style_settings.ew_events_counter &&
+          pageSize !== 1 &&
+          !isLoading &&
+          !isListLoading
+        "
+        >{{ meetingsListForRender.length }}
+        {{ $t("mainWidget.itemsCounterLabel") }}</span
+      >
     </div>
   </div>
 </template>
@@ -270,15 +277,23 @@ export default {
       collectionsMode: "events/collectionsMode",
       pageSize: "events/pageSize",
     }),
+    // isListLoading() {
+    //   // return this.isLoading ||;
+    //   return this.isCalendarFilterActive
+    //     ? this.$store.state.events.meetingForSelectedDate.meetingsList
+    //         .length === 0
+    //     : this.$store.state.events.meetings.meetings.length === 0;
+    // },
+
     meetingsListForRender() {
       const list =
         this.widgetSettings.widget_style_settings.show_calendar &&
-        this.isCalendarFilterActive &&
-        !this.widgetSettings.widget_style_settings.ew_show_top_filters &&
-        this.widgetSettings.widget_style_settings.ew_events_list_view !==
-          "progressive" &&
-        !this.collectionsMode
-          ? this.meetingForSelectedDate.meetingsList
+        this.isCalendarFilterActive
+          ? // !this.widgetSettings.widget_style_settings.ew_show_top_filters &&
+            // this.widgetSettings.widget_style_settings.ew_events_list_view !==
+            //   "progressive" &&
+            // !this.collectionsMode
+            this.meetingForSelectedDate.meetingsList
           : this.meetingsList.meetings;
 
       const getDate = (dateTime) => dateTime.split("T")[0];
@@ -307,9 +322,8 @@ export default {
                 "mainWidget.tomorrowSeparatorLabel"
               );
             } else {
-              list[index].separator_label = startTimeInst.format(
-                "dddd, MMMM D"
-              );
+              list[index].separator_label =
+                startTimeInst.format("dddd, MMMM D");
             }
 
             eventsListSeparators[getDate(item.start_time)] = item.id;
@@ -319,13 +333,12 @@ export default {
       return list;
     },
     isListEmpty() {
-      return this.widgetSettings.widget_style_settings.show_calendar &&
-        this.isCalendarFilterActive &&
-        !this.widgetSettings.widget_style_settings.ew_show_top_filters &&
-        this.widgetSettings.widget_style_settings.ew_events_list_view !==
-          "progressive" &&
-        !this.collectionsMode
-        ? this.meetingForSelectedDate.listIsEmpty
+      return this.isCalendarFilterActive
+        ? // !this.widgetSettings.widget_style_settings.ew_show_top_filters &&
+          // this.widgetSettings.widget_style_settings.ew_events_list_view !==
+          //   "progressive" &&
+          // !this.collectionsMode
+          this.meetingForSelectedDate.listIsEmpty
         : this.meetingsList.listIsEmpty;
     },
     isFilteredResultPaginationVisible() {
@@ -350,17 +363,36 @@ export default {
         this.redrawVueMasonry();
       }, 300);
     },
+    // isCalendarFilterActive(newVal) {
+    //   console.log(newVal);
+    // },
+    // meetingsListForRender(newVal) {
+    //   console.log(newVal);
+    //   console.log(newVal.length > 0);
+    // },
+    // isListLoading(newVal) {
+    //   console.log(this.$store.state.events);
+    //   console.log("list loading", newVal);
+    // },
+    isLoading(newVal) {
+      console.log("loading", newVal);
+    },
     eventsPorgressiveView(newVal) {
       // console.log(newVal);
     },
     // meetingsListForRender(newVal) {},
     meetingForSelectedDate(newVal) {
       if (
-        newVal.meetingsList.length > 0 ||
+        (this.isCalendarFilterActive && newVal.meetingsList.length > 0) ||
         (newVal.meetingsList.length === 0 && newVal.listIsEmpty)
       ) {
         this.isListLoading = false;
       }
+      setTimeout(() => {
+        this.resetGridCardsHeight();
+        this.setGridCardsHeight();
+        this.redrawVueMasonry();
+      }, 300);
     },
     openDesktopCalendar(newVal) {
       if (newVal && this.$refs.eventsGridContainer)
@@ -451,7 +483,7 @@ export default {
       )
         return;
 
-      const itemsList = itemsRoot.getElementsByClassName("grid-layout-item");
+      const itemsList = itemsRoot.querySelectorAll("grid-layout-item");
       let maxHeight = 0;
 
       if (!itemsList) return;
@@ -477,9 +509,9 @@ export default {
 
         if (!itemsRoot) return;
 
-        const itemsList = itemsRoot.getElementsByClassName("grid-layout-item");
-
-        Array.from(itemsList).forEach((item) => {
+        const itemsList = itemsRoot.querySelectorAll("grid-layout-item");
+        // console.log(typeof Array.from(itemsList), typeof itemsList);
+        itemsList.forEach((item) => {
           item.style.removeProperty("height");
         });
       } else {

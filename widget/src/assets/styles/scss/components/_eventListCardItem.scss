@@ -7,12 +7,12 @@
       //padding-left: 15px;
 
       .label-value {
-        color: #fff;
+        color: $svv_white;
         padding: 5px 10px 4px 10px;
         font-size: 12px;
         text-transform: capitalize;
         line-height: 1;
-        border-radius: 20px;
+        border-radius: 8.5px;
         font-weight: 600;
 
         @include media-breakpoint-down(sm) {
@@ -23,13 +23,13 @@
       &.zoom {
         .label-value {
           //border: 1px solid $svv-blue_dark;
-          background-color: $svv-yellow;
+          background-color: $svv-text_black;
         }
       }
       &.offline {
         .label-value {
-          //border: 1px solid $svv-orange_dark;
-          background-color: $svv_blue_ultra_dark;
+          border: 1px solid #46d26c;
+          background-color: #359857;
         }
       }
 
@@ -58,11 +58,14 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-
+      font-size: 12.5px;
+      // @include media-breakpoint-down(md) {
+      //   margin-left: 108px;
+      // }
       svg {
         width: 20px;
         height: auto;
-        color: $svv-text_gray-dark;
+        color: $svv-text_gray;
         margin-right: 5px;
         padding-top: 3px;
       }
@@ -71,6 +74,9 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        @include media-breakpoint-down(sm) {
+          margin-bottom: 0;
+        }
         //width: 24%;
         //min-width: 110px;
         margin-bottom: 10px;
@@ -80,13 +86,17 @@
 
         .item-icon {
           line-height: 1;
+          svg {
+            fill: $svv_text_secondary;
+          }
         }
         .item-value {
-          color: $svv-text_gray-dark;
+          color: $svv_text_secondary;
           line-height: 1;
-          font-size: 14px;
+          font-size: 12.5px;
           display: flex;
           flex-wrap: wrap;
+          margin-top: 3px;
         }
 
         @include media-breakpoint-down(md) {
@@ -99,18 +109,9 @@
     }
 
     .soc-sharing-buttons-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5;
-      background-color: rgba(255, 255, 255, 0.96);
+      display: absolute;
 
       .soc-sharing-buttons-inner-container {
-        width: 100%;
-        height: 100%;
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -133,6 +134,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
       }
     }
 
@@ -187,27 +189,32 @@
 
   .svv-event-card-item.list-layout-item,
   .svv-bundle-card-item.list-layout-item {
-    border-top: 1px solid $svv_text_border_gray;
+    border: 1px solid $svv-elements-border;
     //padding: 15px;
-    background-color: $svv_common_background;
+    background-color: $svv_white;
     transition: $global-transition;
     //max-width: 200px;
     //overflow: hidden;
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding-top: 20px;
+    // padding-top: 20px;
     //padding-bottom: 10px;
     padding-right: 20px;
+
     margin-top: 20px;
     position: relative;
     flex-shrink: 0;
     flex-basis: auto;
-
+    border-radius: 14.5px;
+    width: calc(100% - 22px);
+    box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+      0 1px 3px 0 rgba(0, 0, 0, 0.1);
     @include media-breakpoint-down(md) {
       flex-direction: column;
-      padding-right: 10px;
-      padding-left: 10px;
+      // padding-right: 10px;
+      // padding-left: 10px;
+      padding-right: 5px;
     }
 
     .svv-events-group-separator-label {
@@ -218,12 +225,10 @@
       right: 0;
       margin-left: auto;
       margin-right: auto;
-      //border: 1px solid $svv-text_gray_dark;
       border: 1px solid $svv-text_border_gray;
-      //background-color: $svv_blue_ultra_light;
       background-color: $svv_common_background;
       //color: $svv_text_gray;
-      color: $svv-text_gray_dark;
+      color: $svv-text_gray;
       font-size: 12px;
       display: flex;
       justify-content: center;
@@ -251,9 +256,13 @@
     }
     .svv-event-image {
       display: block;
-      border-radius: 8px;
-      height: 130px;
+      border-radius: 12.5px 0 0 12.5px;
+      height: 100%;
       width: 190px;
+      object-fit: cover;
+      @include media-breakpoint-down(sm) {
+        border-radius: 12.5px;
+      }
 
       @include media-breakpoint-down(md) {
         height: 80px;
@@ -295,6 +304,7 @@
       }
 
       .svv-event-main-info-container {
+        padding-top: 14px;
         display: flex;
         flex-direction: column;
 
@@ -303,8 +313,8 @@
         }
       }
       .svv-event-datetime {
-        font-size: 14px;
-        color: $svv-red;
+        font-size: 12.5px;
+        color: $svv_text_secondary;
         font-weight: 600;
         display: flex;
         align-items: center;
@@ -315,7 +325,7 @@
         }
       }
       .svv-event-topic {
-        font-size: 20px;
+        font-size: 14px;
         font-weight: 600;
         line-height: 1.2;
         margin-bottom: 10px;
@@ -325,7 +335,7 @@
         }
       }
       .svv-event-short-description {
-        color: $svv-text_gray-dark;
+        color: $svv-text_gray;
         font-size: 14px;
         line-height: 1.2;
         margin-bottom: 25px;
@@ -337,23 +347,29 @@
     }
 
     .svv-purchase-controls-container {
-      height: 100%;
+      // height: 30px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-end;
-      min-width: 80px;
+      // min-width: 96px;
       margin-left: 40px;
 
       .svv-event-controls {
+        padding: 6.5px 0 14px 0;
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-end;
         justify-content: space-between;
-
+        height: 100%;
+        @include media-breakpoint-down(sm) {
+          flex-direction: row;
+          width: 100%;
+          padding: 3px 0 5px 0;
+        }
         a {
           //display: block;
-
+          // width: 96px;
           @include media-breakpoint-down(md) {
             margin-left: 10px;
 
@@ -369,46 +385,44 @@
         }
       }
       .svv-add-to-cart-btn {
-        //color: $svv-blue_dark;
-        //
-        //&:hover {
-        //  color: $svv-orange_light;
-        //}
-        color: #fff;
+        color: $svv_white;
         display: flex;
         align-items: center;
         vertical-align: middle;
         justify-content: center;
-        background-color: $svv-blue_ultra_dark;
-        border: 1px solid $svv-blue_ultra_dark;
-        padding: 5px 20px 3px 20px;
-        height: 30px;
+        background-color: $svv-brand-primary;
+        border: 1px solid $svv-brand-primary;
+        padding: 7px 14px;
+        // height: 31.5px;
         //min-width: 110px;
         line-height: 1;
         //z-index: 22;
-        border-radius: 100px;
+        border-radius: 10.5px;
         //margin-right: 10px;
         font-size: 14px;
         cursor: pointer;
+        box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+          0 1px 3px 0 rgba(0, 0, 0, 0.1);
         transition: $global-transition;
         &:hover {
           transition: $global-transition;
-          background-color: $svv-orange_dark;
-          border-color: $svv-orange_dark;
+          background-color: $svv-brand-secondary;
+          color: $svv-brand-primary;
+          border-color: $svv-brand-secondary;
         }
         &-sold-out {
           display: flex;
           justify-content: center;
           align-items: center;
           background-color: $svv_text_gray;
-          color: #fff;
+          color: $svv_white;
           // border: 1px solid $svv-blue_ultra_dark;
           padding: 8px 20px 3px 20px;
-          height: 30px;
+          height: 31.5px;
           //min-width: 110px;
 
           //z-index: 22;
-          border-radius: 100px;
+          border-radius: 10.5px;
           //margin-right: 10px;
           font-size: 14px;
           &:hover {
@@ -420,9 +434,22 @@
         }
       }
       .svv-social-share-btn {
-        color: $svv-text_gray;
+        color: $svv-brand-primary;
+        width: 14px;
+        height: 14px;
+        border-radius: 10.5px;
+        background-color: $svv_white;
+        display: flex;
+        align-items: center;
+        padding: 8.5px;
+        // border: 1px solid #e2e8f0;
+        border: none;
         &:hover {
-          color: $svv-orange_light;
+          color: $svv-brand-primary;
+          border: none;
+          background-color: $svv-brand-secondary;
+
+          border-radius: 8.5px;
         }
       }
 
@@ -434,10 +461,15 @@
 
     .svv-social-share-btn {
       display: block;
-      color: $svv-blue_dark;
+      color: $svv-brand-primary;
       margin-left: 10px;
       position: relative;
       top: 4px;
+      width: 35px;
+      height: 33px;
+      border-radius: 10.5px;
+      background-color: $svv_white;
+      border: 1px solid $svv-elements-border;
 
       @include media-breakpoint-down(md) {
         margin-left: 10px;
@@ -451,14 +483,14 @@
         height: auto;
       }
       &:hover {
-        color: $svv-orange_light;
+        color: $svv-text_black;
       }
     }
 
     .svv-event-price {
       font-size: 20px;
       font-weight: 600;
-      color: $svv-text_gray_dark;
+      color: $svv-text_gray;
       text-align: right;
 
       span:first-of-type {
@@ -474,17 +506,24 @@
 
   .svv-event-card-item.grid-layout-item,
   .svv-bundle-card-item.grid-layout-item {
-    border: 1px solid $svv_text_border_gray;
-    background-color: #fff;
+    border: 1px solid $svv-elements-border;
+    background-color: $svv_white;
     transition: $global-transition;
     max-width: 205px;
     width: 205px;
     display: flex;
     flex-direction: column;
-    margin: 10px;
-    border-radius: 8px;
+    margin: 15px 10px;
+    margin-left: 0px;
+    border-radius: 14.5px;
     justify-content: space-between;
-
+    box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+      0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    .svv-grid-layout-separator {
+      border-top: 1px solid $svv-elements-border;
+      margin: 14px 15px;
+      padding-top: 15px;
+    }
     @include media-breakpoint-down(xs) {
       max-width: 97%;
       width: 97%;
@@ -499,7 +538,7 @@
     }
     .svv-event-image {
       display: block;
-      border-radius: 7px;
+      border-radius: 13.5px 13.5px 0 0;
       height: 180px;
       width: 100%;
 
@@ -526,7 +565,7 @@
       top: 0;
       left: 10px;
       background-color: rgba(0, 0, 0, 0.8);
-      color: $svv_orange_dark;
+      color: $svv_white;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -552,7 +591,7 @@
     }
 
     .svv-event-topic {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 600;
       line-height: 1.2;
       //margin-bottom: 10px;
@@ -563,8 +602,8 @@
     }
 
     .full-event-date-time {
-      color: $svv-text_gray-dark;
-      font-size: 14px;
+      color: $svv_text_secondary;
+      font-size: 12.5px;
       margin-bottom: 10px;
       font-weight: 500;
     }
@@ -574,10 +613,14 @@
       align-items: center;
       justify-content: space-between;
       padding-bottom: 5px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 90%;
     }
 
     .svv-event-short-description {
-      color: $svv-text_gray-dark;
+      color: $svv-text_gray;
       font-size: 14px;
       line-height: 1.2;
       margin-bottom: 5px;
@@ -588,11 +631,20 @@
     }
 
     .svv-social-share-btn {
-      display: block;
-      color: $svv-blue_dark;
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      color: $svv-brand-primary;
       margin-left: 10px;
       position: relative;
       top: 4px;
+      width: 35px;
+      height: 33px;
+      border-radius: 10.5px;
+      background-color: $svv_white;
+      border: 1px solid $svv-elements-border;
 
       @include media-breakpoint-down(md) {
         margin-left: 10px;
@@ -606,7 +658,7 @@
         height: auto;
       }
       &:hover {
-        color: $svv-orange_light;
+        color: $svv-text_black;
       }
     }
 
@@ -623,19 +675,17 @@
     }
 
     .svv-add-to-cart-btn {
-      //color: $svv-blue_dark;
-      //
-      //&:hover {
-      //  color: $svv-orange_light;
-      //}
-      color: #fff;
+      color: $svv_white;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: $svv-blue_ultra_dark;
-      border: 1px solid $svv-blue_ultra_dark;
-      padding: 5px 20px 3px 20px;
-      height: 30px;
+      background-color: $svv-brand-primary;
+      border: 1px solid $svv-brand-primary;
+      // padding: 7px 14px 7px 14px;
+      height: 31.5px;
+      width: 96px;
+      align-self: flex-end;
+      margin-left: auto;
       //min-width: 110px;
       line-height: 1;
       // width: 100%;
@@ -645,11 +695,13 @@
       font-size: 14px;
       cursor: pointer;
       transition: $global-transition;
-
+      box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+        0 1px 3px 0 rgba(0, 0, 0, 0.1);
       &:hover {
         transition: $global-transition;
-        background-color: $svv-orange_dark;
-        border-color: $svv-orange_dark;
+        background-color: $svv-brand-secondary;
+        color: $svv-brand-primary;
+        border-color: $svv-brand-secondary;
       }
       &-sold-out {
         display: flex;
@@ -657,11 +709,11 @@
         justify-content: center;
 
         background-color: $svv_text_gray;
-        color: #fff;
+        color: $svv_white;
         // display: block;
         text-align: center;
         // border: 1px solid $svv-blue_ultra_dark;
-        padding: 5px 20px 3px 20px;
+        // padding: 7px 14px 7px 14px;
         height: 30px;
         //min-width: 110px;
         line-height: 1;
@@ -681,7 +733,7 @@
     .svv-event-price {
       font-size: 20px;
       font-weight: 600;
-      color: $svv-text_gray_dark;
+      color: $svv-text_gray;
       text-align: right;
 
       span:first-of-type {
@@ -697,6 +749,8 @@
     }
 
     .soc-sharing-buttons-container {
+      display: absolute;
+
       .soc-sharing-buttons-inner-container {
         flex-direction: column;
         justify-content: center;

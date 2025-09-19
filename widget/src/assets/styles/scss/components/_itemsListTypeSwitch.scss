@@ -1,5 +1,4 @@
 .svv-items-list-type-switch-container {
-
   &.header-position {
     position: absolute;
 
@@ -34,7 +33,7 @@
   }
 
   .svv-items-list-type-switch-inner-container {
-    background-color: #fff;
+    background-color: $svv_white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,11 +63,11 @@
     }
 
     &:not(.active):hover {
-      color: $svv-orange_dark;
+      color: $svv-text_black;
     }
 
     &.active {
-      color: #fff;
+      color: $svv_white;
       background-color: $svv_blue_ultra_dark;
     }
   }

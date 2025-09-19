@@ -15,7 +15,10 @@ import {
   multipleTicketsUpdate,
 } from "../../utilities/tickets";
 
-import { AdjustmentsVerticalIcon } from "@heroicons/react/16/solid";
+import {
+  InboxArrowDownIcon,
+  ArrowUturnLeftIcon,
+} from "@heroicons/react/16/solid";
 
 const SingleEventPage = ({
   title,
@@ -35,6 +38,7 @@ const SingleEventPage = ({
     if (occurrenceId) {
       requestURL += `?occurrence_id=${occurrenceId}`;
     }
+
     let data = {
       meeting: {
         topic: attributes.meeting.title,
@@ -58,10 +62,7 @@ const SingleEventPage = ({
         slot_duration: 15,
       },
       types: {
-        location_id: null,
-        category_id: null,
-        language_id: null,
-        members: [],
+        ...attributes.types,
       },
       custom_fields: {
         custom_field_1_name: "",
@@ -83,9 +84,8 @@ const SingleEventPage = ({
 
   const updateTickets = async () => {
     if (!attributes.tickets || attributes.tickets.length === 0) return;
-    const ticketsToCreate = attributes.tickets.filter(
-      (ticket) => ticket.tempId
-    );
+    const ticketsToCreate = attributes.tickets.filter((ticket) => !ticket.id);
+    console.log(ticketsToCreate);
     const ticketsToUpdate = attributes.tickets.filter((ticket) => ticket.id);
 
     if (ticketsToCreate.length === 1) {
@@ -126,17 +126,19 @@ const SingleEventPage = ({
         {/* <div className="border-l h-full border-gray-200 pl-4 w-full grow-[2] pr-4 max-w-[720px]"> */}
         <BlockStack gap={-1}>
           <PageHeader>
-            <h1 className="text-display-sm font-semibold mt-6">Events</h1>
+            <h1 className="text-display-sm font-semibold mt-6">
+              {occurrenceId ? "Occurrence Details" : "Event Details"}
+            </h1>
             <InlineStack gap={2} align="right">
               <PageActionButton
                 text="Cancel"
-                icon={<AdjustmentsVerticalIcon className="button-icon" />}
+                // icon={<ArrowUturnLeftIcon className="button-icon" />}
                 type="secondary"
                 onAction={() => setSelectedEvent(null)}
               />
               <PageActionButton
                 text="Save"
-                icon={<AdjustmentsVerticalIcon className="button-icon" />}
+                // icon={<InboxArrowDownIcon className="primary button-icon" />}
                 type="primary"
                 onAction={() => handleEventUpdate()}
               />

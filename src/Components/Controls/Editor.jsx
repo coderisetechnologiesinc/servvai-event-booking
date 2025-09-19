@@ -29,6 +29,7 @@ const Editor = forwardRef(
     useEffect(() => {
       ref.current?.enable(!readOnly);
     }, [ref, readOnly]);
+
     const getDecoratedTplText = useCallback((text) => {
       if (!text) return "";
       const replaceRegex = new RegExp(/\n\s*|\n+/gm);
@@ -89,7 +90,7 @@ const Editor = forwardRef(
       const quill = new Quill(editorContainer, options);
 
       ref.current = quill;
-
+      quill.enable(!disabled);
       if (defaultValue) {
         quill.clipboard.dangerouslyPasteHTML(defaultValue, "api");
       }

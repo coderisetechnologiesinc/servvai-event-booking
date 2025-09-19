@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 function servv_get_calendar_connect_url($request)
 {
@@ -9,6 +12,7 @@ function servv_get_calendar_connect_url($request)
     } catch(\Exception $e) {
         return new WP_Error($e->getCode(), 'Bad api response. '.$e->getMessage(), ['status' => $e->getCode()]);
     }
+    $responseBody['nonce'] = wp_create_nonce('calendar_connect_nonce');
     return $responseBody;
 }
 

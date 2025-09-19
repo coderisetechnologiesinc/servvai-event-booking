@@ -1,6 +1,16 @@
 {
     "require": {
-        "firebase/php-jwt": "^6.10",
-        "stripe/stripe-php": "^16.5"
+        "firebase/php-jwt": "^6.11"
+    },
+    "extra": {
+        "mozart": {
+            "dep_namespace": "ServvPluginVendor\\",
+            "dep_directory": "/vendor-prefixed/",
+            "classmap_directory": "/vendor-prefixed-classes/",
+            "classmap_prefix": "ServvPluginVendor_",
+            "packages": [
+                "firebase/php-jwt"
+            ]
+        }
     }
 }

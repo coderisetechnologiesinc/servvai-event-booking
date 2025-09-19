@@ -22,7 +22,7 @@
                 isEmptyMonthCollectionView)) ||
               (openItemsList === 'bundles' &&
                 getBundlesDatesInThisMonth.length === 0)) &&
-              !isCalendarLoading
+            !isCalendarLoading
           "
           class="svv-next-month-button"
         >
@@ -410,7 +410,7 @@ export default {
       } else if (this.openItemsList === "bundles") {
         this.fetchBundlesByParams(selectedDateFormatted);
       }
-      this.setLoading(false);
+      this.setLoading(false); //Disable loading
 
       this.processSelectedDate(selectedDateFormatted);
       // this.setOpenDesktopCalendar(false);

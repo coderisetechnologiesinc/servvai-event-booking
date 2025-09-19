@@ -1,6 +1,8 @@
 <?php
 
-
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 function servv_get_zoom_connect_url($request)
 {
     $apiRoute = '/zoom/authenticate/url';
@@ -9,6 +11,7 @@ function servv_get_zoom_connect_url($request)
     } catch(\Exception $e) {
         return new WP_Error($e->getCode(), 'Bad api response. '.$e->getMessage(), ['status' => $e->getCode()]);
     }
+    $responseBody['nonce'] = wp_create_nonce('zoom_connect_nonce');
     return $responseBody;
 }
 

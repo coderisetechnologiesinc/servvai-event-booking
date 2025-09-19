@@ -60,16 +60,32 @@ const PaymentForm = () => {
             isEmailValid(registrant.email) === null ||
             registrant.firstName.length === 0 ||
             registrant.lastName.length === 0
-          )
+          ) {
             flag = false;
+          }
+          if (
+            isTicketsAvailable() &&
+            registrant.ticket.is_donation &&
+            registrant.donation === 0
+          ) {
+            flag = false;
+          }
         });
         return flag;
       } else if (
         isEmailValid(additionalRegistrants[0].email) === null ||
         additionalRegistrants[0].firstName.length === 0 ||
         additionalRegistrants[0].lastName.length === 0
-      )
+      ) {
         return false;
+      }
+      if (
+        isTicketsAvailable() &&
+        additionalRegistrants[0].ticket.is_donation &&
+        additionalRegistrants[0].donation === 0
+      ) {
+        return false;
+      }
     }
     return true;
   };
@@ -91,7 +107,7 @@ const PaymentForm = () => {
       setLoading(true);
       const params = new URLSearchParams();
       params.append("action", "servv_create_checkout_session");
-      params.append("security", pluginData.security);
+      params.append("security", servvData.security);
       params.append("post_id", document.getElementById("post-id").value);
       if (selectedOccurrence) {
         params.append("occurrence_id", selectedOccurrence.id);
@@ -137,14 +153,27 @@ const PaymentForm = () => {
                     : 0
                 }`;
             }
+
             return registrantData;
           }
         );
+
+        console.log(additionalRegistrantsData.join(";"));
 
         params.append(
           "additional_registrants",
           additionalRegistrantsData.join(";")
         );
+        // // Get the value of "additional_registrants"
+        // const additionalRegistrantsD = params.get("additional_registrants");
+
+        // // If it was URL-encoded, decode it
+        // const decodedValue = additionalRegistrantsD
+        //   ? decodeURIComponent(additionalRegistrantsD)
+        //   : null;
+
+        // // Log it
+        // console.log(decodedValue.split(";"));
       }
       // if (isDonation()) {
       //   params.append("donation_amount", donation);
@@ -162,19 +191,19 @@ const PaymentForm = () => {
         params.append("first_name", firstRegistrant.firstName);
         params.append("last_name", firstRegistrant.lastName);
         params.append("ticket_id", firstRegistrant.ticket.id);
-        if (firstRegistrant.donation) {
-          params.append("donation_amount", firstRegistrant.donation);
+        if (firstRegistrant.ticket.is_donation) {
+          params.append("donation_amount", firstRegistrant.donation || 0);
         }
       }
 
-      const response = await axios.post(pluginData.ajaxUrl, params);
+      const response = await axios.post(servvData.ajaxUrl, params);
       if (response && response.status === 200 && response.data.success) {
         if (response.data.success) {
           const clientSecret = response.data.data.client_secret;
           const stripePublicKey = response.data.data.public_key;
           setClientSecret(clientSecret);
           const stripe = await loadStripe(stripePublicKey, {
-            stripeAccount: pluginData.stripeAccountId,
+            stripeAccount: servvData.stripeAccountId,
           });
           const handleComplete = async function () {
             checkout.destroy();
@@ -235,33 +264,34 @@ const PaymentForm = () => {
 
   const handleRegistrantDonation = (index, val) => {
     let registrants = [...additionalRegistrants];
-    registrants[index].donation = val;
+
+    registrants[index].donation = Number.parseFloat(val);
     setAdditionalRegistrants(registrants);
     // if (validateRegistrants()) {
     //   setErrorMessage(false);
     // }
   };
 
-  const handleRegistrantTicketSelect = (index, newVal) => {
-    let updatedRegistrants = [...additionalRegistrants];
-    let newTickets = [...tickets];
-    let ticket =
-      newTickets[tickets.findIndex((ticket) => ticket.name === newVal)];
+  // const handleRegistrantTicketSelect = (index, newVal) => {
+  //   let updatedRegistrants = [...additionalRegistrants];
+  //   let newTickets = [...tickets];
+  //   let ticket =
+  //     newTickets[tickets.findIndex((ticket) => ticket.name === newVal)];
 
-    if (
-      ticket &&
-      (ticket.current_quantity === null || ticket.current_quantity - 2 >= 0)
-    )
-      updatedRegistrants[index].ticket = ticket;
-    else return;
-    setAdditionalRegistrants(updatedRegistrants);
-  };
+  //   if (
+  //     ticket &&
+  //     (ticket.current_quantity === null || ticket.current_quantity - 2 >= 0)
+  //   )
+  //     updatedRegistrants[index].ticket = ticket;
+  //   else return;
+  //   setAdditionalRegistrants(updatedRegistrants);
+  // };
 
   const renderAdditionalRegistrantsForm = () => {
     const price = getEventPrice();
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 max-sm:flex-col">
           <div className="flex flex-col w-full gap-4">
             {/* Render registrants start */}
             {additionalRegistrants.map((registrant, index) => {
@@ -292,22 +322,10 @@ const PaymentForm = () => {
                         </div>
                         <div className="text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8">
                           {price > 0
-                            ? price + " " + meetingData.currency
+                            ? price + " " + meetingData.currency.toUpperCase()
                             : "Free"}
                         </div>
                         <div className="flex flex-col gap-2">
-                          <div className="flex flex-col font-semibold">
-                            Email *
-                          </div>
-                          <InputFieldControl
-                            value={registrant.email}
-                            align="left"
-                            type="text"
-                            width={"100%"}
-                            onChange={(val) =>
-                              handleRegistrantEmailChange(index, val)
-                            }
-                          />
                           <div className="flex flex-row justify-evenly items-baseline w-full gap-4">
                             <div className="flex flex-col gap-2 flex-1">
                               <div className="flex flex-col font-semibold">
@@ -338,6 +356,18 @@ const PaymentForm = () => {
                               />
                             </div>
                           </div>
+                          <div className="flex flex-col font-semibold">
+                            Email *
+                          </div>
+                          <InputFieldControl
+                            value={registrant.email}
+                            align="left"
+                            type="text"
+                            width={"100%"}
+                            onChange={(val) =>
+                              handleRegistrantEmailChange(index, val)
+                            }
+                          />
                         </div>
                       </div>
                       {additionalRegistrants.length > 1 &&
@@ -361,14 +391,14 @@ const PaymentForm = () => {
             <div className="flex flex-row justify-between pt-8">
               <button
                 onClick={() => handlePrevStep()}
-                className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem]"
+                className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem] max-sm:p-1"
               >
                 <ArrowLeftIcon className="w-[1rem]" />
                 <span>Back to tickets</span>
               </button>
               <button
                 onClick={handleCheckout}
-                className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem]"
+                className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1"
               >
                 <ArrowRightIcon className="w-[1rem]" />
                 <span>Continue to checkout</span>
@@ -458,10 +488,10 @@ const PaymentForm = () => {
       setLoading(true);
       const params = new URLSearchParams();
       params.append("action", "servv_get_event_info");
-      params.append("security", pluginData.security);
+      params.append("security", servvData.security);
       params.append("post_id", document.getElementById("post-id").value);
 
-      const response = await axios.post(pluginData.ajaxUrl, params);
+      const response = await axios.post(servvData.ajaxUrl, params);
 
       if (response && response.status === 200) {
         setMeetingData(response.data);
@@ -543,7 +573,12 @@ const PaymentForm = () => {
   };
   const addRegistrant = () => {
     const registrants = [...additionalRegistrants];
-    let newRegistrant = { email: "", firstName: "", lastName: "" };
+    let newRegistrant = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      canBeAdded: true,
+    };
     if (registrants.length === 0) {
       newRegistrant.first_registrant = true;
     }
@@ -581,7 +616,12 @@ const PaymentForm = () => {
   const addRegistrantWithTicket = (id) => {
     const newRegistrants = [...additionalRegistrants];
 
-    let newRegistrant = { email: "", firstName: "", lastName: "" };
+    let newRegistrant = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      canBeAdded: true,
+    };
     if (newRegistrants.length === 0) {
       newRegistrant.first_registrant = true;
     }
@@ -737,6 +777,35 @@ const PaymentForm = () => {
     }
   }, [selectedOccurrence]);
 
+  const checkEndTime = () => {
+    if (additionalRegistrants.length === 0) {
+      return;
+    }
+    // else if (
+    //   additionalRegistrants.filter((reg) => reg.ticket.end_datetime !== null)
+    //     .length === 0
+    // ) {
+    //   return;
+    // }
+    else {
+      let currentRegistrants = [...additionalRegistrants];
+      currentRegistrants = currentRegistrants.map((reg) => {
+        if (reg.ticket && reg.ticket.end_datetime) {
+          const currentTime = moment().utc();
+          const ticketSalesStart = moment.utc(reg.ticket.end_datetime);
+
+          if (currentTime.isSameOrAfter(ticketSalesStart)) {
+            return { ...reg, canBeAdded: false };
+          } else {
+            return { ...reg, canBeAdded: true };
+          }
+        } else return { ...reg };
+      });
+
+      setAdditionalRegistrants(currentRegistrants);
+    }
+  };
+
   useEffect(() => {
     if (
       meetingData &&
@@ -752,14 +821,34 @@ const PaymentForm = () => {
     }
     if (
       meetingData &&
+      meetingData.meeting &&
       meetingData.meeting.tickets &&
       meetingData.meeting.tickets.length > 0
     ) {
       const copied = JSON.parse(JSON.stringify(meetingData.meeting.tickets));
       setInitialTickets(copied);
+      // const isEndTime =
+      //   copied.filter((ticket) => ticket.end_datetime).length > 0;
+      // if (isEndTime) {
+      //   setInterval(() => {
+      //     checkEndTime();
+      //   }, 1000);
+      // }
       setTickets([...meetingData.meeting.tickets]);
     }
   }, [meetingData]);
+
+  useEffect(() => {
+    const isEndTime =
+      initialTickets.filter((ticket) => ticket.end_datetime).length > 0;
+    if (!isEndTime || additionalRegistrants.length === 0) return;
+
+    const intervalId = setInterval(() => {
+      checkEndTime();
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [additionalRegistrants]);
 
   useEffect(() => {
     if (
@@ -811,6 +900,10 @@ const PaymentForm = () => {
       }
     }
     setAdditionalRegistrants(registrantsList);
+    // console.log(registrantsList.length);
+    if (registrantsList.length === 0 && step !== 1) {
+      handlePrevStep();
+    }
   };
   const isFreeRegistrationPossible = () => {
     if (!meetingData) return;
@@ -884,7 +977,7 @@ const PaymentForm = () => {
       setLoading(true);
       const params = new URLSearchParams();
       params.append("action", "servv_process_free_order");
-      params.append("security", pluginData.security);
+      params.append("security", servvData.security);
       params.append("post_id", document.getElementById("post-id").value);
 
       if (selectedOccurrence) {
@@ -950,9 +1043,10 @@ const PaymentForm = () => {
         }
       }
 
-      const response = await axios.post(pluginData.ajaxUrl, params);
+      const response = await axios.post(servvData.ajaxUrl, params);
       if (response && response.status === 200 && response.data.success) {
         setLoading(false);
+        setStep(step + 1);
         setConfirmMessage(true);
       } else if (
         response &&
@@ -1254,7 +1348,9 @@ const PaymentForm = () => {
     // console.log(meetingData);
     if (isTicketsAvailable()) {
       if (selectedTicket && selectedTicket.price) {
-        return selectedTicket.price + " " + selectedTicket.currency;
+        return (
+          selectedTicket.price + " " + selectedTicket.currency.toUpperCase()
+        );
       } else return false;
     } else {
       if (isRecurringEvent()) {
@@ -1263,13 +1359,19 @@ const PaymentForm = () => {
           selectedOccurrence.product &&
           selectedOccurrence.product.price
         ) {
-          return selectedOccurrence.product.price + " " + meetingData.currency;
+          return (
+            selectedOccurrence.product.price +
+            " " +
+            meetingData.currency.toUpperCase()
+          );
         } else {
           return false;
         }
       } else {
         if (meetingData && meetingData.product && meetingData.product.price) {
-          return meetingData.product.price + " " + meetingData.currency;
+          return (
+            meetingData.product.price + " " + meetingData.currency.toUpperCase()
+          );
         } else return false;
       }
     }
@@ -1280,8 +1382,11 @@ const PaymentForm = () => {
   };
 
   const renderRegistrantsFormByTicket = (id) => {
+    // console.log(additionalRegistrants);
+
     return additionalRegistrants.map((registrant, index) => {
       if (registrant.ticket && registrant.ticket.id === id) {
+        attendeeCounter.current += 1;
         return (
           <Fragment>
             {(registrant.first_registrant ||
@@ -1292,8 +1397,10 @@ const PaymentForm = () => {
                     <div className="flex flex-row gap-4 items-center">
                       <span className="font-semibold text-[1rem]">
                         {registrant.first_registrant
-                          ? "Attendee " + (index + 1) + " (Main contact)"
-                          : "Attendee " + (index + 1)}
+                          ? "Attendee " +
+                            attendeeCounter.current +
+                            " (Main contact)"
+                          : "Attendee " + attendeeCounter.current}
                       </span>
                       {
                         <div className="text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white">
@@ -1316,7 +1423,9 @@ const PaymentForm = () => {
                       {registrant.ticket.price > 0
                         ? registrant.ticket.price +
                           " " +
-                          registrant.ticket.currency
+                          registrant.ticket.currency.toUpperCase()
+                        : registrant.ticket.is_donation
+                        ? "Donation"
                         : "Free"}
                     </div>
                   }
@@ -1362,9 +1471,9 @@ const PaymentForm = () => {
                       </div>
                     </div>
                     {registrant.ticket && registrant.ticket?.is_donation && (
-                      <BlockStack cardsLayout={true}>
-                        <div className="section-description font-regular">
-                          Donation
+                      <div className="flex flex-col gap-2 flex-1">
+                        <div className="flex flex-col font-semibold">
+                          Donation *
                         </div>
                         <InputFieldControl
                           value={registrant.donation}
@@ -1375,7 +1484,7 @@ const PaymentForm = () => {
                             handleRegistrantDonation(index, val)
                           }
                         />
-                      </BlockStack>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -1450,25 +1559,28 @@ const PaymentForm = () => {
                 initialTicket.current_quantity === null
                   ? "opacity-100"
                   : "opacity-40"
-              }`}
+              } max-sm:flex-col max-sm:grow-0 max-sm:items-center`}
             >
-              <div className="flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px]">
+              <div className="flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px] max-sm:basis-auto">
                 <div className="flex flex-row gap-2">
                   <span className="font-regular text-[1rem]">
                     {ticket.name}
                   </span>
                   <div className="text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] bg-[#171717] text-white">
-                    {initialTicket.current_quantity > 0 ||
-                    initialTicket.current_quantity === null
+                    {(initialTicket.current_quantity > 0 ||
+                      initialTicket.current_quantity === null) &&
+                    isWithinSalesWindow
                       ? "Available"
+                      : !isWithinSalesWindow
+                      ? "Not available"
                       : "Sold out"}
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-start basis-[332px] grow shrink min-w-[250px]">
+              <div className="flex flex-col items-start basis-[332px] grow shrink min-w-[250px] max-sm:basis-auto max-sm:items-center">
                 <span className="font-regular text-[1.125rem]">
                   {ticket.price > 0
-                    ? ticket.price + ` ${meetingData.currency}`
+                    ? ticket.price + ` ${meetingData.currency.toUpperCase()}`
                     : "Free"}
                 </span>
                 {(initialTicket.current_quantity > 0 ||
@@ -1499,13 +1611,16 @@ const PaymentForm = () => {
                               rounded-[0.625rem] border border-[#E5E5E5] 
                               bg-white text-[0.875rem]"
                   >
-                    {ticketSalesStart
+                    {ticketSalesStart &&
+                    (!ticketSalesEnd ||
+                      (ticketSalesEnd &&
+                        currentTime.isSameOrBefore(ticketSalesEnd)))
                       ? "Available · " +
                         ticketSalesStart
                           .tz(meetingData.meeting.timezone)
                           .format("MMM DD, YYYY hh:mm a")
                       : ticketSalesEnd
-                      ? "Available · " +
+                      ? "Ticket sale ended on · " +
                         ticketSalesEnd
                           .tz(meetingData.meeting.timezone)
                           .format("MMM DD, YYYY hh:mm a")
@@ -1525,7 +1640,7 @@ const PaymentForm = () => {
   const renderSummary = () => {
     const ticketStats = tickets.map((ticket) => {
       const count = additionalRegistrants.filter(
-        (r) => r.ticket.id === ticket.id
+        (r) => r.ticket.id === ticket.id && r.canBeAdded === true
       ).length;
       let total = count * ticket.price;
 
@@ -1538,8 +1653,11 @@ const PaymentForm = () => {
 
     const { total, ticketsCount } = getTotal();
     let counter = 0;
+    const isDonation = isTicketsAvailable()
+      ? additionalRegistrants.filter((reg) => reg.ticket.is_donation).length > 0
+      : false;
     return (
-      <div className="flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-1/3 h-fit">
+      <div className="flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-1/3 h-fit max-sm:w-full">
         <div className="font-semibold">Order summary</div>
         <div className="flex flex-col gap-4 border-b w-full pb-[13px]">
           {ticketStats
@@ -1554,7 +1672,9 @@ const PaymentForm = () => {
                   <div>
                     <span className="text-[0.875rem]">
                       {ticket.total > 0
-                        ? ticket.total + " " + ticket.currency
+                        ? ticket.total + " " + ticket.currency.toUpperCase()
+                        : ticket.is_donation
+                        ? "Donation"
                         : "Free"}
                     </span>
                   </div>
@@ -1587,7 +1707,7 @@ const PaymentForm = () => {
                         ></div>
 
                         <span className="text-[#4A5565] text-[0.875rem]">
-                          {r.ticket.name}
+                          {r.canBeAdded ? r.ticket.name : "Ticket closed"}
                         </span>
                         <span className="text-[#4A5565] text-[0.875rem]">
                           -
@@ -1627,8 +1747,11 @@ const PaymentForm = () => {
           )}
         </div>
         <div class="self-stretch rounded-[0.425rem] bg-[#F9FAFB] pt-[0.75rem] pr-[0.65rem] pb-[0.75rem] pl-[0.65rem] text-[0.875rem]">
-          <span className="font-semibold">Required fields:</span> First name,
-          last name, and email address are required for all attendees.
+          <span className="font-semibold">Required fields:</span>{" "}
+          {`First name,
+          last name,${
+            isDonation ? " donation" : ""
+          } and email address are required for all attendees.`}
         </div>
       </div>
     );
@@ -1641,9 +1764,14 @@ const PaymentForm = () => {
       freeRegistration();
     } else fetchClientSecret();
   };
-
+  const attendeeCounter = useRef(0);
   const renderAttendees = () => {
     if (!tickets || tickets.length === 0) return;
+    const disabled =
+      additionalRegistrants.filter((reg) => reg.ticket.canBeAdded === false)
+        .length > 0;
+
+    attendeeCounter.current = 0;
     return (
       <div className="flex flex-col gap-4">
         <div className="flex flex-row gap-4">
@@ -1653,19 +1781,25 @@ const PaymentForm = () => {
             })}
             <div className="flex flex-row justify-between pt-8">
               <button
-                onClick={() => handlePrevStep()}
-                className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem]"
+                onClick={() => {
+                  handlePrevStep();
+                  setErrorMessage(false);
+                }}
+                className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem] max-sm:p-1"
               >
                 <ArrowLeftIcon className="w-[1rem]" />
                 <span>Back to tickets</span>
               </button>
-              <button
-                onClick={handleCheckout}
-                className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem]"
-              >
-                <ArrowRightIcon className="w-[1rem]" />
-                <span>Continue to checkout</span>
-              </button>
+              {additionalRegistrants.length > 0 && (
+                <button
+                  onClick={handleCheckout}
+                  disabled={disabled}
+                  className="flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1"
+                >
+                  <ArrowRightIcon className="w-[1rem]" />
+                  <span>Continue to checkout</span>
+                </button>
+              )}
             </div>
           </div>
           {renderSummary()}
@@ -1688,7 +1822,7 @@ const PaymentForm = () => {
     let currency =
       additionalRegistrants.length > 0
         ? additionalRegistrants[0].ticket
-          ? additionalRegistrants[0].ticket.currency
+          ? additionalRegistrants[0].ticket.currency.toUpperCase()
           : ""
         : "";
     additionalRegistrants.forEach((reg) => {
@@ -1696,15 +1830,19 @@ const PaymentForm = () => {
         ticketsCount += 1;
         total += reg.ticket.price;
         if (reg.ticket.is_donation) {
-          total += reg.donation;
+          if (!sameForAll) total += reg.donation || 0;
+          else total += additionalRegistrants[0].donation || 0;
         }
       }
     });
     if (isTicketsAvailable())
-      return { total: total + " " + currency, ticketsCount: ticketsCount };
+      return {
+        total: total + " " + currency.toUpperCase(),
+        ticketsCount: ticketsCount,
+      };
     else
       return {
-        total: total + " " + currency,
+        total: total + " " + currency.toUpperCase(),
         ticketsCount: additionalRegistrants.length,
       };
   };
@@ -1720,6 +1858,7 @@ const PaymentForm = () => {
     const mainRegistrant = sameForAll
       ? additionalRegistrants.find((reg) => reg.first_registrant)
       : null;
+
     return (
       <div className="flex flex-col gap-4">
         <div className="flex flex-col items-center gap-[24px] p-[17px] border rounded-[17px] bg-white">
@@ -1781,7 +1920,55 @@ const PaymentForm = () => {
             Attendee details
           </span>
           <div className="flex flex-col gap-[0.75rem] w-full">
-            {mainRegistrant && (
+            {mainRegistrant &&
+              additionalRegistrants.map((registrant, index) => (
+                <div
+                  key={registrant.id || index}
+                  className="flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]"
+                >
+                  {/* Left Column: Name + Email */}
+                  <div className="flex flex-col gap-[4px] items-start">
+                    <span className="font-semibold text-[0.875rem]">
+                      {`${mainRegistrant.firstName} ${mainRegistrant.lastName}`}
+                    </span>
+                    <span className="text-[#4A5565] text-[0.875rem]">
+                      {mainRegistrant.email}
+                    </span>
+                  </div>
+
+                  {/* Right Column: Ticket Info */}
+                  {isTicketsAvailable() && (
+                    <div className="flex flex-col gap-[4px] items-start">
+                      <span className="font-semibold text-[0.875rem]">
+                        {registrant.ticket.name}
+                      </span>
+                      <span className="text-[#4A5565] text-[0.875rem]">
+                        {registrant.ticket.price > 0
+                          ? `${
+                              registrant.ticket.price
+                            } ${registrant.ticket.currency.toUpperCase()}`
+                          : registrant.ticket.is_donation
+                          ? `${
+                              registrant.ticket.donation
+                            } ${registrant.ticket.currency.toUpperCase()}`
+                          : "Free"}
+                      </span>
+                    </div>
+                  )}
+                  {!isTicketsAvailable() && (
+                    <div className="flex flex-col gap-[4px] items-start">
+                      <span className="font-semibold text-[0.875rem]">
+                        {"Standard ticket"}
+                      </span>
+                      <span className="text-[#4A5565] text-[0.875rem]">
+                        {"Free"}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+            {/* {mainRegistrant && (
               <div className="flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]">
                 <div className="flex flex-col gap-[4px] items-start">
                   <span className="font-semibold text-[0.875rem]">{`${mainRegistrant.firstName} ${mainRegistrant.lastName}`}</span>
@@ -1816,7 +2003,7 @@ const PaymentForm = () => {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
             {!mainRegistrant &&
               additionalRegistrants.map((registrant, index) => (
                 <div
@@ -1883,10 +2070,10 @@ const PaymentForm = () => {
         <div
           className={`flex flex-row gap-[1rem] p-[17px] items-start border rounded-[17px] bg-white ${
             isAvailable ? "opacity-100" : "opacity-40"
-          }`}
+          } max-sm:flex-col max-sm:grow-0 max-sm:items-center`}
         >
           {/* Standard ticket start */}
-          <div className="flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px]">
+          <div className="flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px] max-sm:basis-auto">
             <div className="flex flex-row gap-2">
               <span className="font-regular text-[1rem]">Standard ticket</span>
               <div className="text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] bg-[#171717] text-white">
@@ -1895,9 +2082,9 @@ const PaymentForm = () => {
             </div>
           </div>
 
-          <div className="flex flex-col items-start basis-[332px] grow shrink min-w-[250px]">
+          <div className="flex flex-col items-start basis-[332px] grow shrink min-w-[250px] max-sm:basis-auto max-sm:items-center">
             <span className="font-regular text-[1.125rem]">
-              {price > 0 ? price + meetingData.currency : "Free"}
+              {price > 0 ? price + meetingData.currency.toUpperCase() : "Free"}
             </span>
 
             {isAvailable ? (
@@ -1937,11 +2124,18 @@ const PaymentForm = () => {
       </div>
     );
   };
+  const getStartTime = () => {
+    if (meetingData && meetingData.meeting) {
+      return moment(meetingData.meeting.start_time)
+        .tz(meetingData.meeting.timezone)
+        .format("MMM DD, YYYY hh:mm a");
+    }
+  };
 
   return (
     <Fragment>
       {/* {meetingData && meetingData.meeting && renderConfirmMessage()} */}
-      <div className="absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
         {loading && <Spinner loading={true} />}
       </div>
       {!isRecurringEvent() && (
@@ -1949,6 +2143,11 @@ const PaymentForm = () => {
           {step === 1 && (
             <div className="flex flex-row justify-between items-end">
               <h2>Select your tickets</h2>
+              <div className="flex flex-row gap-2">
+                <span className="text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]">
+                  {getStartTime()}
+                </span>
+              </div>
             </div>
           )}
           {step === 2 && (
@@ -2186,7 +2385,10 @@ const PaymentForm = () => {
               {step === 2 && (
                 <div className="flex flex-row justify-between items-end">
                   <h2>Registrant Details</h2>
-                  <div className="flex flex-row gap-2">
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]">
+                      {selectedOccurrence && selectedOccurrence?.label}
+                    </span>
                     <span className="text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]">
                       {additionalRegistrants.length > 1
                         ? additionalRegistrants.length + " attendees"
@@ -2388,7 +2590,7 @@ const PaymentForm = () => {
         </BlockStack>
       )}
       {additionalRegistrants.length > 0 && step === 1 && (
-        <div className="flex flex-row justify-between w-full">
+        <div className="flex flex-row justify-between w-full mt-4">
           <div className="flex flex-row gap-1">
             <span>
               {ticketsCount > 1
@@ -2406,6 +2608,7 @@ const PaymentForm = () => {
           </button>
         </div>
       )}
+      <br />
     </Fragment>
   );
 };

@@ -1,5 +1,4 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/Components/Containers/BlockStack.jsx":
@@ -8,20 +7,32 @@
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const BlockStack = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `block-stack gap-${props.gap ? props.gap : 1} ${props.cardsLayout ? "flex-[1_1_0]" : ""} ${props.action ? "cursor-pointer" : ""} ${props.disabled ? "filter grayscale" : ""}`,
-    onClick: props.onAction ? () => props.onAction() : null,
-    children: props.children
-  });
-};
+
+const BlockStack = ({
+  gap = 4,
+  cardsLayout,
+  action,
+  disabled,
+  onAction,
+  className = "",
+  children,
+  ...rest
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  ...rest,
+  onClick: onAction ? () => onAction() : undefined,
+  className: `${className} flex flex-col ${gap ? `space-y-${gap}` : ""} ${cardsLayout ? "flex-[1_1_0]" : ""} ${action ? "cursor-pointer" : ""} ${disabled ? "filter grayscale" : ""}`,
+  children: children
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BlockStack);
 
 /***/ }),
@@ -32,20 +43,159 @@ const BlockStack = props => {
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const InlineStack = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `inline-stack ${!props.forceAlign ? props.align && props.align !== "right" ? "w-full grow" : props.align !== "left" ? "justify-end" : "justify-start grow" : props.forceAlign} gap-${props.gap || 0} ${props.cardsLayout ? "flex-[1_1_0] items-baseline" : ""} ${props.justify === "space" ? "justify-between" : ""}`,
-    children: props.children
+
+const InlineStack = ({
+  className = "",
+  forceAlign,
+  align,
+  gap,
+  cardsLayout,
+  justify,
+  children,
+  ...rest
+}) => {
+  const alignClass = !forceAlign ? align && align !== "right" ? "w-full grow" : align === "right" ? "justify-end" : "justify-start grow" : forceAlign;
+  const gapClass = gap ? `gap-${gap}` : "";
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    ...rest,
+    className: `${className} inline-stack ${alignClass} ${gapClass} ${cardsLayout ? "flex-[1_1_0] items-baseline" : ""} ${justify === "space" ? "justify-between" : ""}`,
+    children: children
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InlineStack);
+
+/***/ }),
+
+/***/ "./src/Components/LanguageSwitcher.jsx":
+/*!*********************************************!*\
+  !*** ./src/Components/LanguageSwitcher.jsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ LanguageSwitcher)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities/textResolver.js */ "./src/utilities/textResolver.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+// src/components/LanguageSwitcher.jsx
+
+
+
+const AVAILABLE_LOCALES = [{
+  code: "en_US",
+  label: "English"
+}, {
+  code: "de",
+  label: "Deutsch"
+}, {
+  code: "fr",
+  label: "Français"
+}, {
+  code: "es",
+  label: "Español"
+}, {
+  code: "hi",
+  label: "Hindi"
+}, {
+  code: "ru",
+  label: "Russian"
+}, {
+  code: "zh",
+  label: "中文"
+} // Chinese
+// add more as you ship more translation.json folders
+];
+function LanguageSwitcher({
+  targetId = "servv-wrap"
+}) {
+  const onChange = e => {
+    const newLocale = e.target.value;
+    (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_1__.setLocale)(newLocale);
+    // re-scan and re-translate the entire plugin root:
+    (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_1__.translateAll)(document.getElementById(targetId));
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("select", {
+    onChange: onChange,
+    defaultValue: "",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
+      value: "",
+      disabled: true,
+      children: "\uD83C\uDF10 Language"
+    }), AVAILABLE_LOCALES.map(({
+      code,
+      label
+    }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
+      value: code,
+      children: label
+    }, code))]
+  });
+}
+
+/***/ }),
+
+/***/ "./src/Components/Layout/Layout.jsx":
+/*!******************************************!*\
+  !*** ./src/Components/Layout/Layout.jsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Menu_SideMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Menu/SideMenu */ "./src/Components/Menu/SideMenu.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const Layout = ({
+  children,
+  selectedPage,
+  onPageChange
+}) => {
+  const [isDesktop, setIsDesktop] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth >= 768);
+
+  // Keep track of desktop vs mobile
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // On mobile, collapsed=true → icon‑only; on desktop, always expanded
+  const collapsed = !isDesktop;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "flex",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Menu_SideMenu__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      page: selectedPage,
+      onChange: onPageChange,
+      collapsed: collapsed
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("main", {
+      className: "flex-1 w-full max-w-full p-0 min-w-0 h-full overflow-visible pl-4 md:pl-6 lg:pl-8",
+      children: children
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Layout);
 
 /***/ }),
 
@@ -55,6 +205,7 @@ const InlineStack = props => {
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -67,15 +218,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const MenuItem = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
-    className: "menu-item group",
-    onClick: () => props.onSelect(props.link),
+const MenuItem = ({
+  title,
+  link,
+  onSelect,
+  collapsed,
+  icon
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+    className: "w-full text-left flex items-center px-4 py-2 hover:bg-gray-100",
+    onClick: () => onSelect(link),
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
       gap: 2,
-      children: [props.icon, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-        className: "menu-item-title text-md group-hover:text-primary-button-bg",
-        children: !props.collapsed && props.title
+      className: "items-center",
+      children: [icon, !collapsed && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        className: "text-md",
+        children: title
       })]
     })
   });
@@ -90,19 +248,22 @@ const MenuItem = props => {
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ListBulletIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ClipboardDocumentCheckIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsHorizontalIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Square3Stack3DIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/EnvelopeIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChartBarIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Cog6ToothIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/XMarkIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ListBulletIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ClipboardDocumentCheckIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsHorizontalIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Square3Stack3DIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/EnvelopeIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChartBarIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Cog6ToothIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/QuestionMarkCircleIcon.js");
 /* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
 /* harmony import */ var _MenuItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MenuItem */ "./src/Components/Menu/MenuItem.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -112,78 +273,155 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// Make sure your translation function t() is in scope
+
 const SideBar = ({
   page,
   onChange,
-  collapsed
+  collapsed,
+  onToggle
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-    className: `sidebar ${collapsed ? "collapsed-sidebar" : ""}`,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      gap: 4,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: !collapsed ? `servv-logo` : `servv-logo-collapsed`
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        title: "Events",
-        link: "events",
-        onSelect: onChange,
-        collapsed: collapsed,
-        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          className: "menu-icon group-hover:fill-primary-button-bg"
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: `sidebar ${collapsed ? "collapsed-sidebar" : ""}`,
+      "aria-expanded": !collapsed,
+      children: [!collapsed && onToggle && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        onClick: onToggle,
+        className: "md:hidden absolute top-4 right-4 p-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 z-10",
+        "aria-label": "Close menu",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          className: "h-5 w-5"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        title: "Bookings",
-        link: "bookings",
-        onSelect: onChange,
-        collapsed: collapsed,
-        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          className: "menu-icon group-hover:fill-primary-button-bg"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        title: "Filters",
-        link: "filters",
-        onSelect: onChange,
-        collapsed: collapsed,
-        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          className: "menu-icon group-hover:fill-primary-button-bg"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        title: "Integrations",
-        link: "integrations",
-        onSelect: onChange,
-        collapsed: collapsed,
-        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_7__["default"], {
-          className: "menu-icon group-hover:fill-primary-button-bg"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        title: "Notifications",
-        link: "notifications",
-        onSelect: onChange,
-        collapsed: collapsed,
-        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_8__["default"], {
-          className: "menu-icon group-hover:fill-primary-button-bg"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        title: "Analytics",
-        link: "analytics",
-        onSelect: onChange,
-        collapsed: collapsed,
-        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__["default"], {
-          className: "menu-icon group-hover:fill-primary-button-bg"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        title: "Settings",
-        link: "settings",
-        onSelect: onChange,
-        collapsed: collapsed,
-        icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_10__["default"], {
-          className: "menu-icon group-hover:fill-primary-button-bg"
-        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        gap: 4,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: !collapsed ? `servv-logo` : `servv-logo-collapsed`
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title: typeof t === "function" ? t("Events") : "Events",
+          link: "events",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title: typeof t === "function" ? t("Bookings") : "Bookings",
+          link: "bookings",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title: typeof t === "function" ? t("Filters") : "Filters",
+          link: "filters",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title: typeof t === "function" ? t("Integrations") : "Integrations",
+          link: "integrations",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title:
+          // typeof t === "function"
+          // ? t("Email notifications")
+          // : "Notifications"
+          "Notifications",
+          link: "notifications",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title: typeof t === "function" ? t("Analytics") : "Analytics",
+          link: "analytics",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_10__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title: typeof t === "function" ? t("Settings") : "Settings",
+          link: "settings",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          title: "Support",
+          link: "support",
+          onSelect: onChange,
+          collapsed: collapsed,
+          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_12__["default"], {
+            className: "menu-icon group-hover:fill-primary-button-bg"
+          })
+        })]
       })]
     })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SideBar);
+
+/***/ }),
+
+/***/ "./src/Components/Pages/ValidationScreen.jsx":
+/*!***************************************************!*\
+  !*** ./src/Components/Pages/ValidationScreen.jsx ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+
+const ValidationScreen = ({
+  message
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+    className: "flex h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-transparent to-[#ECE4F6] border-brand-800",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+      className: "text-3xl font-regular text-gray-900",
+      children: message
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ValidationScreen);
+
+/***/ }),
+
+/***/ "./src/bootstrap-i18n.js":
+/*!*******************************!*\
+  !*** ./src/bootstrap-i18n.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
+// src/bootstrap-i18n.js
+
+
+// 1. Initialize to your default build‐time locale
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_0__.initI18n)("en_US");
+
+// 2. Detect the user’s browser language / locale (e.g. "de", "es", "fr")
+const browserLang = (navigator.language || navigator.userLanguage || "en_US").replace("-", "_");
+
+// 3. Switch to it if you have that dictionary
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_0__.setLocale)(browserLang);
 
 /***/ }),
 
@@ -193,6 +431,7 @@ const SideBar = ({
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getFilterType: () => (/* binding */ getFilterType),
@@ -256,6 +495,7 @@ const getFilters = async current_plan => {
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getSettings: () => (/* binding */ getSettings)
@@ -273,14 +513,75 @@ const getSettings = async () => {
     });
     if (getSettingsResponse && getSettingsResponse.data) {
       return getSettingsResponse.data;
+    } else if (getSettingsResponse.status === 401) {
+      return {
+        error: 401
+      };
     }
   } catch (e) {
-    if (e.code === 401) {
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_0__.toast)("We're facing an issue loading the settings. Please reactivate the plugin.");
+    console.log("error", e);
+    if (e.code === "ERR_BAD_REQUEST" || e.code === "ERR_BAD_RESPONSE") {
+      console.log("We're facing an issue loading the settings. Please reactivate the plugin.");
+      return {
+        error: 401
+      };
     }
-    return null;
   }
 };
+
+/***/ }),
+
+/***/ "./src/utilities/textResolver.js":
+/*!***************************************!*\
+  !*** ./src/utilities/textResolver.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initI18n: () => (/* binding */ initI18n),
+/* harmony export */   setLocale: () => (/* binding */ setLocale),
+/* harmony export */   t: () => (/* binding */ t),
+/* harmony export */   translateAll: () => (/* binding */ translateAll)
+/* harmony export */ });
+// File: src/utilities/textResolver.js
+/* eslint-env browser, node */
+/* global require */
+
+let _currentLocale = "en_US";
+const _dicts = {};
+
+// Webpack require.context
+const ctx = __webpack_require__("./src/locales sync recursive translation\\.json$");
+ctx.keys().forEach(filePath => {
+  const match = filePath.match(/\.\/([^/]+)\//);
+  if (!match) return;
+  const locale = match[1];
+  // Load JSON
+  const dict = ctx(filePath);
+  _dicts[locale] = dict.default || dict;
+});
+function initI18n(defaultLocale = "en_US") {
+  if (_dicts[defaultLocale]) {
+    _currentLocale = defaultLocale;
+  }
+}
+function setLocale(locale) {
+  if (_dicts[locale]) {
+    _currentLocale = locale;
+  }
+}
+function t(key) {
+  const dict = _dicts[_currentLocale] || {};
+  return key in dict ? dict[key] : key;
+}
+function translateAll(root = document.body) {
+  root.querySelectorAll("[data-i18n-key]").forEach(el => {
+    const key = el.getAttribute("data-i18n-key");
+    if (key) el.textContent = t(key);
+  });
+}
 
 /***/ }),
 
@@ -290,9 +591,63 @@ const getSettings = async () => {
   \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "./src/Components/Layout/Layout.css":
+/*!******************************************!*\
+  !*** ./src/Components/Layout/Layout.css ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/locales sync recursive translation\\.json$":
+/*!**********************************************!*\
+  !*** ./src/locales/ sync translation\.json$ ***!
+  \**********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./de/translation.json": "./src/locales/de/translation.json",
+	"./en/translation.json": "./src/locales/en/translation.json",
+	"./es/translation.json": "./src/locales/es/translation.json",
+	"./fr/translation.json": "./src/locales/fr/translation.json",
+	"./hi/translation.json": "./src/locales/hi/translation.json",
+	"./ja/translation.json": "./src/locales/ja/translation.json",
+	"./ko/translation.json": "./src/locales/ko/translation.json",
+	"./ru/translation.json": "./src/locales/ru/translation.json",
+	"./zh/translation.json": "./src/locales/zh/translation.json"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./src/locales sync recursive translation\\.json$";
 
 /***/ }),
 
@@ -302,6 +657,7 @@ __webpack_require__.r(__webpack_exports__);
   \************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["React"];
 
 /***/ }),
@@ -312,6 +668,7 @@ module.exports = window["React"];
   \***************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["ReactDOM"];
 
 /***/ }),
@@ -322,6 +679,7 @@ module.exports = window["ReactDOM"];
   \**********************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["ReactJSXRuntime"];
 
 /***/ }),
@@ -332,6 +690,7 @@ module.exports = window["ReactJSXRuntime"];
   \*************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["lodash"];
 
 /***/ }),
@@ -342,6 +701,7 @@ module.exports = window["lodash"];
   \*************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["moment"];
 
 /***/ }),
@@ -352,6 +712,7 @@ module.exports = window["moment"];
   \**********************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["wp"]["apiFetch"];
 
 /***/ }),
@@ -362,6 +723,7 @@ module.exports = window["wp"]["apiFetch"];
   \**********************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["wp"]["domReady"];
 
 /***/ }),
@@ -372,6 +734,7 @@ module.exports = window["wp"]["domReady"];
   \*********************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["wp"]["element"];
 
 /***/ }),
@@ -382,6 +745,7 @@ module.exports = window["wp"]["element"];
   \*********************************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -418,6 +782,7 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(A
   \********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -454,6 +819,7 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
   \**********************************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -496,6 +862,7 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
   \*********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -534,6 +901,7 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
   \********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -572,6 +940,7 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(E
   \**********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -602,12 +971,52 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(L
 
 /***/ }),
 
+/***/ "./node_modules/@heroicons/react/16/solid/esm/QuestionMarkCircleIcon.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/QuestionMarkCircleIcon.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function QuestionMarkCircleIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fillRule: "evenodd",
+    d: "M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z",
+    clipRule: "evenodd"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(QuestionMarkCircleIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
 /***/ "./node_modules/@heroicons/react/16/solid/esm/Square3Stack3DIcon.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/@heroicons/react/16/solid/esm/Square3Stack3DIcon.js ***!
   \**************************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -642,12 +1051,50 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(S
 
 /***/ }),
 
+/***/ "./node_modules/@heroicons/react/16/solid/esm/XMarkIcon.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/XMarkIcon.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function XMarkIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(XMarkIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
 /***/ "./node_modules/axios/lib/adapters/adapters.js":
 /*!*****************************************************!*\
   !*** ./node_modules/axios/lib/adapters/adapters.js ***!
   \*****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -746,6 +1193,7 @@ const isResolvedHandle = (adapter) => _utils_js__WEBPACK_IMPORTED_MODULE_3__["de
   \**************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -998,6 +1446,7 @@ const resolveBodyLength = async (headers, body) => {
   \************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1219,6 +1668,7 @@ const isXHRAdapterSupported = typeof XMLHttpRequest !== 'undefined';
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1339,6 +1789,7 @@ axios.default = axios;
   \******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1489,6 +1940,7 @@ class CancelToken {
   \********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1530,6 +1982,7 @@ _utils_js__WEBPACK_IMPORTED_MODULE_1__["default"].inherits(CanceledError, _core_
   \***************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isCancel)
@@ -1549,6 +2002,7 @@ function isCancel(value) {
   \**********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1804,6 +2258,7 @@ _utils_js__WEBPACK_IMPORTED_MODULE_3__["default"].forEach(['post', 'put', 'patch
   \***************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1922,6 +2377,7 @@ AxiosError.from = (error, code, config, request, response, customProps) => {
   \*****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -2240,6 +2696,7 @@ _utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].freezeMethods(AxiosHeaders);
   \***********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -2326,6 +2783,7 @@ class InterceptorManager {
   \******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ buildFullPath)
@@ -2363,6 +2821,7 @@ function buildFullPath(baseURL, requestedURL) {
   \********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ dispatchRequest)
@@ -2464,6 +2923,7 @@ function dispatchRequest(config) {
   \****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ mergeConfig)
@@ -2586,6 +3046,7 @@ function mergeConfig(config1, config2) {
   \***********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ settle)
@@ -2628,6 +3089,7 @@ function settle(resolve, reject, response) {
   \******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ transformData)
@@ -2673,6 +3135,7 @@ function transformData(fns, response) {
   \**************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -2855,6 +3318,7 @@ _utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].forEach(['delete', 'get', 'hea
   \*********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -2876,6 +3340,7 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   VERSION: () => (/* binding */ VERSION)
@@ -2890,6 +3355,7 @@ const VERSION = "1.7.9";
   \****************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -2963,6 +3429,7 @@ prototype.toString = function toString(encoder) {
   \**********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3048,6 +3515,7 @@ Object.entries(HttpStatusCode).forEach(([key, value]) => {
   \************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ bind)
@@ -3069,6 +3537,7 @@ function bind(fn, thisArg) {
   \****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ buildURL)
@@ -3154,6 +3623,7 @@ function buildURL(url, params, options) {
   \*******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ combineURLs)
@@ -3183,6 +3653,7 @@ function combineURLs(baseURL, relativeURL) {
   \**********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3248,6 +3719,7 @@ const composeSignals = (signals, timeout) => {
   \***************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3306,6 +3778,7 @@ __webpack_require__.r(__webpack_exports__);
   \**********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3416,6 +3889,7 @@ function formDataToJSON(formData) {
   \*********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isAbsoluteURL)
@@ -3445,6 +3919,7 @@ function isAbsoluteURL(url) {
   \********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ isAxiosError)
@@ -3474,6 +3949,7 @@ function isAxiosError(payload) {
   \***********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3503,6 +3979,7 @@ __webpack_require__.r(__webpack_exports__);
   \************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3519,6 +3996,7 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3589,6 +4067,7 @@ const ignoreDuplicateOf = _utils_js__WEBPACK_IMPORTED_MODULE_0__["default"].toOb
   \*********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ parseProtocol)
@@ -3609,6 +4088,7 @@ function parseProtocol(url) {
   \****************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   asyncDecorator: () => (/* binding */ asyncDecorator),
@@ -3672,6 +4152,7 @@ const asyncDecorator = (fn) => (...args) => _utils_js__WEBPACK_IMPORTED_MODULE_2
   \*********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3751,6 +4232,7 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3820,6 +4302,7 @@ function speedometer(samplesCount, min) {
   \**************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ spread)
@@ -3862,6 +4345,7 @@ function spread(callback) {
   \****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3920,6 +4404,7 @@ function throttle(fn, freq) {
   \******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4156,6 +4641,7 @@ function toFormData(obj, formData, options) {
   \************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ toURLEncodedForm)
@@ -4191,6 +4677,7 @@ function toURLEncodedForm(data, options) {
   \*******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   readBytes: () => (/* binding */ readBytes),
@@ -4294,6 +4781,7 @@ const trackStream = (stream, chunkSize, onProgress, onFinish) => {
   \*****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4409,6 +4897,7 @@ function assertOptions(options, schema, allowUnknown) {
   \*****************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4426,6 +4915,7 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4443,6 +4933,7 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4462,6 +4953,7 @@ __webpack_require__.r(__webpack_exports__);
   \**********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4492,6 +4984,7 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   hasBrowserEnv: () => (/* binding */ hasBrowserEnv),
@@ -4555,6 +5048,7 @@ const origin = hasBrowserEnv && window.location.href || 'http://localhost';
   \**************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4578,6 +5072,7 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -5353,6 +5848,7 @@ const asap = typeof queueMicrotask !== 'undefined' ?
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   clsx: () => (/* binding */ clsx),
@@ -5368,6 +5864,7 @@ function r(e){var t,f,n="";if("string"==typeof e||"number"==typeof e)n+=e;else i
   \****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Bounce: () => (/* binding */ lt),
@@ -5386,6 +5883,105 @@ __webpack_require__.r(__webpack_exports__);
 function Mt(t){if(!t||typeof document=="undefined")return;let o=document.head||document.getElementsByTagName("head")[0],e=document.createElement("style");e.type="text/css",o.firstChild?o.insertBefore(e,o.firstChild):o.appendChild(e),e.styleSheet?e.styleSheet.cssText=t:e.appendChild(document.createTextNode(t))}Mt(`:root{--toastify-color-light: #fff;--toastify-color-dark: #121212;--toastify-color-info: #3498db;--toastify-color-success: #07bc0c;--toastify-color-warning: #f1c40f;--toastify-color-error: hsl(6, 78%, 57%);--toastify-color-transparent: rgba(255, 255, 255, .7);--toastify-icon-color-info: var(--toastify-color-info);--toastify-icon-color-success: var(--toastify-color-success);--toastify-icon-color-warning: var(--toastify-color-warning);--toastify-icon-color-error: var(--toastify-color-error);--toastify-container-width: fit-content;--toastify-toast-width: 320px;--toastify-toast-offset: 16px;--toastify-toast-top: max(var(--toastify-toast-offset), env(safe-area-inset-top));--toastify-toast-right: max(var(--toastify-toast-offset), env(safe-area-inset-right));--toastify-toast-left: max(var(--toastify-toast-offset), env(safe-area-inset-left));--toastify-toast-bottom: max(var(--toastify-toast-offset), env(safe-area-inset-bottom));--toastify-toast-background: #fff;--toastify-toast-padding: 14px;--toastify-toast-min-height: 64px;--toastify-toast-max-height: 800px;--toastify-toast-bd-radius: 6px;--toastify-toast-shadow: 0px 4px 12px rgba(0, 0, 0, .1);--toastify-font-family: sans-serif;--toastify-z-index: 9999;--toastify-text-color-light: #757575;--toastify-text-color-dark: #fff;--toastify-text-color-info: #fff;--toastify-text-color-success: #fff;--toastify-text-color-warning: #fff;--toastify-text-color-error: #fff;--toastify-spinner-color: #616161;--toastify-spinner-color-empty-area: #e0e0e0;--toastify-color-progress-light: linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55);--toastify-color-progress-dark: #bb86fc;--toastify-color-progress-info: var(--toastify-color-info);--toastify-color-progress-success: var(--toastify-color-success);--toastify-color-progress-warning: var(--toastify-color-warning);--toastify-color-progress-error: var(--toastify-color-error);--toastify-color-progress-bgo: .2}.Toastify__toast-container{z-index:var(--toastify-z-index);-webkit-transform:translate3d(0,0,var(--toastify-z-index));position:fixed;width:var(--toastify-container-width);box-sizing:border-box;color:#fff;display:flex;flex-direction:column}.Toastify__toast-container--top-left{top:var(--toastify-toast-top);left:var(--toastify-toast-left)}.Toastify__toast-container--top-center{top:var(--toastify-toast-top);left:50%;transform:translate(-50%);align-items:center}.Toastify__toast-container--top-right{top:var(--toastify-toast-top);right:var(--toastify-toast-right);align-items:end}.Toastify__toast-container--bottom-left{bottom:var(--toastify-toast-bottom);left:var(--toastify-toast-left)}.Toastify__toast-container--bottom-center{bottom:var(--toastify-toast-bottom);left:50%;transform:translate(-50%);align-items:center}.Toastify__toast-container--bottom-right{bottom:var(--toastify-toast-bottom);right:var(--toastify-toast-right);align-items:end}.Toastify__toast{--y: 0;position:relative;touch-action:none;width:var(--toastify-toast-width);min-height:var(--toastify-toast-min-height);box-sizing:border-box;margin-bottom:1rem;padding:var(--toastify-toast-padding);border-radius:var(--toastify-toast-bd-radius);box-shadow:var(--toastify-toast-shadow);max-height:var(--toastify-toast-max-height);font-family:var(--toastify-font-family);z-index:0;display:flex;flex:1 auto;align-items:center;word-break:break-word}@media only screen and (max-width: 480px){.Toastify__toast-container{width:100vw;left:env(safe-area-inset-left);margin:0}.Toastify__toast-container--top-left,.Toastify__toast-container--top-center,.Toastify__toast-container--top-right{top:env(safe-area-inset-top);transform:translate(0)}.Toastify__toast-container--bottom-left,.Toastify__toast-container--bottom-center,.Toastify__toast-container--bottom-right{bottom:env(safe-area-inset-bottom);transform:translate(0)}.Toastify__toast-container--rtl{right:env(safe-area-inset-right);left:initial}.Toastify__toast{--toastify-toast-width: 100%;margin-bottom:0;border-radius:0}}.Toastify__toast-container[data-stacked=true]{width:var(--toastify-toast-width)}.Toastify__toast--stacked{position:absolute;width:100%;transform:translate3d(0,var(--y),0) scale(var(--s));transition:transform .3s}.Toastify__toast--stacked[data-collapsed] .Toastify__toast-body,.Toastify__toast--stacked[data-collapsed] .Toastify__close-button{transition:opacity .1s}.Toastify__toast--stacked[data-collapsed=false]{overflow:visible}.Toastify__toast--stacked[data-collapsed=true]:not(:last-child)>*{opacity:0}.Toastify__toast--stacked:after{content:"";position:absolute;left:0;right:0;height:calc(var(--g) * 1px);bottom:100%}.Toastify__toast--stacked[data-pos=top]{top:0}.Toastify__toast--stacked[data-pos=bot]{bottom:0}.Toastify__toast--stacked[data-pos=bot].Toastify__toast--stacked:before{transform-origin:top}.Toastify__toast--stacked[data-pos=top].Toastify__toast--stacked:before{transform-origin:bottom}.Toastify__toast--stacked:before{content:"";position:absolute;left:0;right:0;bottom:0;height:100%;transform:scaleY(3);z-index:-1}.Toastify__toast--rtl{direction:rtl}.Toastify__toast--close-on-click{cursor:pointer}.Toastify__toast-icon{margin-inline-end:10px;width:22px;flex-shrink:0;display:flex}.Toastify--animate{animation-fill-mode:both;animation-duration:.5s}.Toastify--animate-icon{animation-fill-mode:both;animation-duration:.3s}.Toastify__toast-theme--dark{background:var(--toastify-color-dark);color:var(--toastify-text-color-dark)}.Toastify__toast-theme--light,.Toastify__toast-theme--colored.Toastify__toast--default{background:var(--toastify-color-light);color:var(--toastify-text-color-light)}.Toastify__toast-theme--colored.Toastify__toast--info{color:var(--toastify-text-color-info);background:var(--toastify-color-info)}.Toastify__toast-theme--colored.Toastify__toast--success{color:var(--toastify-text-color-success);background:var(--toastify-color-success)}.Toastify__toast-theme--colored.Toastify__toast--warning{color:var(--toastify-text-color-warning);background:var(--toastify-color-warning)}.Toastify__toast-theme--colored.Toastify__toast--error{color:var(--toastify-text-color-error);background:var(--toastify-color-error)}.Toastify__progress-bar-theme--light{background:var(--toastify-color-progress-light)}.Toastify__progress-bar-theme--dark{background:var(--toastify-color-progress-dark)}.Toastify__progress-bar--info{background:var(--toastify-color-progress-info)}.Toastify__progress-bar--success{background:var(--toastify-color-progress-success)}.Toastify__progress-bar--warning{background:var(--toastify-color-progress-warning)}.Toastify__progress-bar--error{background:var(--toastify-color-progress-error)}.Toastify__progress-bar-theme--colored.Toastify__progress-bar--info,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--success,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning,.Toastify__progress-bar-theme--colored.Toastify__progress-bar--error{background:var(--toastify-color-transparent)}.Toastify__close-button{color:#fff;position:absolute;top:6px;right:6px;background:transparent;outline:none;border:none;padding:0;cursor:pointer;opacity:.7;transition:.3s ease;z-index:1}.Toastify__toast--rtl .Toastify__close-button{left:6px;right:unset}.Toastify__close-button--light{color:#000;opacity:.3}.Toastify__close-button>svg{fill:currentColor;height:16px;width:14px}.Toastify__close-button:hover,.Toastify__close-button:focus{opacity:1}@keyframes Toastify__trackProgress{0%{transform:scaleX(1)}to{transform:scaleX(0)}}.Toastify__progress-bar{position:absolute;bottom:0;left:0;width:100%;height:100%;z-index:1;opacity:.7;transform-origin:left}.Toastify__progress-bar--animated{animation:Toastify__trackProgress linear 1 forwards}.Toastify__progress-bar--controlled{transition:transform .2s}.Toastify__progress-bar--rtl{right:0;left:initial;transform-origin:right;border-bottom-left-radius:initial}.Toastify__progress-bar--wrp{position:absolute;overflow:hidden;bottom:0;left:0;width:100%;height:5px;border-bottom-left-radius:var(--toastify-toast-bd-radius);border-bottom-right-radius:var(--toastify-toast-bd-radius)}.Toastify__progress-bar--wrp[data-hidden=true]{opacity:0}.Toastify__progress-bar--bg{opacity:var(--toastify-color-progress-bgo);width:100%;height:100%}.Toastify__spinner{width:20px;height:20px;box-sizing:border-box;border:2px solid;border-radius:100%;border-color:var(--toastify-spinner-color-empty-area);border-right-color:var(--toastify-spinner-color);animation:Toastify__spin .65s linear infinite}@keyframes Toastify__bounceInRight{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(3000px,0,0)}60%{opacity:1;transform:translate3d(-25px,0,0)}75%{transform:translate3d(10px,0,0)}90%{transform:translate3d(-5px,0,0)}to{transform:none}}@keyframes Toastify__bounceOutRight{20%{opacity:1;transform:translate3d(-20px,var(--y),0)}to{opacity:0;transform:translate3d(2000px,var(--y),0)}}@keyframes Toastify__bounceInLeft{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(-3000px,0,0)}60%{opacity:1;transform:translate3d(25px,0,0)}75%{transform:translate3d(-10px,0,0)}90%{transform:translate3d(5px,0,0)}to{transform:none}}@keyframes Toastify__bounceOutLeft{20%{opacity:1;transform:translate3d(20px,var(--y),0)}to{opacity:0;transform:translate3d(-2000px,var(--y),0)}}@keyframes Toastify__bounceInUp{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,3000px,0)}60%{opacity:1;transform:translate3d(0,-20px,0)}75%{transform:translate3d(0,10px,0)}90%{transform:translate3d(0,-5px,0)}to{transform:translateZ(0)}}@keyframes Toastify__bounceOutUp{20%{transform:translate3d(0,calc(var(--y) - 10px),0)}40%,45%{opacity:1;transform:translate3d(0,calc(var(--y) + 20px),0)}to{opacity:0;transform:translate3d(0,-2000px,0)}}@keyframes Toastify__bounceInDown{0%,60%,75%,90%,to{animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;transform:translate3d(0,-3000px,0)}60%{opacity:1;transform:translate3d(0,25px,0)}75%{transform:translate3d(0,-10px,0)}90%{transform:translate3d(0,5px,0)}to{transform:none}}@keyframes Toastify__bounceOutDown{20%{transform:translate3d(0,calc(var(--y) - 10px),0)}40%,45%{opacity:1;transform:translate3d(0,calc(var(--y) + 20px),0)}to{opacity:0;transform:translate3d(0,2000px,0)}}.Toastify__bounce-enter--top-left,.Toastify__bounce-enter--bottom-left{animation-name:Toastify__bounceInLeft}.Toastify__bounce-enter--top-right,.Toastify__bounce-enter--bottom-right{animation-name:Toastify__bounceInRight}.Toastify__bounce-enter--top-center{animation-name:Toastify__bounceInDown}.Toastify__bounce-enter--bottom-center{animation-name:Toastify__bounceInUp}.Toastify__bounce-exit--top-left,.Toastify__bounce-exit--bottom-left{animation-name:Toastify__bounceOutLeft}.Toastify__bounce-exit--top-right,.Toastify__bounce-exit--bottom-right{animation-name:Toastify__bounceOutRight}.Toastify__bounce-exit--top-center{animation-name:Toastify__bounceOutUp}.Toastify__bounce-exit--bottom-center{animation-name:Toastify__bounceOutDown}@keyframes Toastify__zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}@keyframes Toastify__zoomOut{0%{opacity:1}50%{opacity:0;transform:translate3d(0,var(--y),0) scale3d(.3,.3,.3)}to{opacity:0}}.Toastify__zoom-enter{animation-name:Toastify__zoomIn}.Toastify__zoom-exit{animation-name:Toastify__zoomOut}@keyframes Toastify__flipIn{0%{transform:perspective(400px) rotateX(90deg);animation-timing-function:ease-in;opacity:0}40%{transform:perspective(400px) rotateX(-20deg);animation-timing-function:ease-in}60%{transform:perspective(400px) rotateX(10deg);opacity:1}80%{transform:perspective(400px) rotateX(-5deg)}to{transform:perspective(400px)}}@keyframes Toastify__flipOut{0%{transform:translate3d(0,var(--y),0) perspective(400px)}30%{transform:translate3d(0,var(--y),0) perspective(400px) rotateX(-20deg);opacity:1}to{transform:translate3d(0,var(--y),0) perspective(400px) rotateX(90deg);opacity:0}}.Toastify__flip-enter{animation-name:Toastify__flipIn}.Toastify__flip-exit{animation-name:Toastify__flipOut}@keyframes Toastify__slideInRight{0%{transform:translate3d(110%,0,0);visibility:visible}to{transform:translate3d(0,var(--y),0)}}@keyframes Toastify__slideInLeft{0%{transform:translate3d(-110%,0,0);visibility:visible}to{transform:translate3d(0,var(--y),0)}}@keyframes Toastify__slideInUp{0%{transform:translate3d(0,110%,0);visibility:visible}to{transform:translate3d(0,var(--y),0)}}@keyframes Toastify__slideInDown{0%{transform:translate3d(0,-110%,0);visibility:visible}to{transform:translate3d(0,var(--y),0)}}@keyframes Toastify__slideOutRight{0%{transform:translate3d(0,var(--y),0)}to{visibility:hidden;transform:translate3d(110%,var(--y),0)}}@keyframes Toastify__slideOutLeft{0%{transform:translate3d(0,var(--y),0)}to{visibility:hidden;transform:translate3d(-110%,var(--y),0)}}@keyframes Toastify__slideOutDown{0%{transform:translate3d(0,var(--y),0)}to{visibility:hidden;transform:translate3d(0,500px,0)}}@keyframes Toastify__slideOutUp{0%{transform:translate3d(0,var(--y),0)}to{visibility:hidden;transform:translate3d(0,-500px,0)}}.Toastify__slide-enter--top-left,.Toastify__slide-enter--bottom-left{animation-name:Toastify__slideInLeft}.Toastify__slide-enter--top-right,.Toastify__slide-enter--bottom-right{animation-name:Toastify__slideInRight}.Toastify__slide-enter--top-center{animation-name:Toastify__slideInDown}.Toastify__slide-enter--bottom-center{animation-name:Toastify__slideInUp}.Toastify__slide-exit--top-left,.Toastify__slide-exit--bottom-left{animation-name:Toastify__slideOutLeft;animation-timing-function:ease-in;animation-duration:.3s}.Toastify__slide-exit--top-right,.Toastify__slide-exit--bottom-right{animation-name:Toastify__slideOutRight;animation-timing-function:ease-in;animation-duration:.3s}.Toastify__slide-exit--top-center{animation-name:Toastify__slideOutUp;animation-timing-function:ease-in;animation-duration:.3s}.Toastify__slide-exit--bottom-center{animation-name:Toastify__slideOutDown;animation-timing-function:ease-in;animation-duration:.3s}@keyframes Toastify__spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
 `);var L=t=>typeof t=="number"&&!isNaN(t),N=t=>typeof t=="string",P=t=>typeof t=="function",mt=t=>N(t)||L(t),B=t=>N(t)||P(t)?t:null,pt=(t,o)=>t===!1||L(t)&&t>0?t:o,z=t=>(0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(t)||N(t)||P(t)||L(t);function Z(t,o,e=300){let{scrollHeight:r,style:s}=t;requestAnimationFrame(()=>{s.minHeight="initial",s.height=r+"px",s.transition=`all ${e}ms`,requestAnimationFrame(()=>{s.height="0",s.padding="0",s.margin="0",setTimeout(o,e)})})}function $({enter:t,exit:o,appendPosition:e=!1,collapse:r=!0,collapseDuration:s=300}){return function({children:a,position:d,preventExitTransition:c,done:T,nodeRef:g,isIn:v,playToast:x}){let C=e?`${t}--${d}`:t,S=e?`${o}--${d}`:o,E=(0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(0);return (0,react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect)(()=>{let f=g.current,p=C.split(" "),b=n=>{n.target===g.current&&(x(),f.removeEventListener("animationend",b),f.removeEventListener("animationcancel",b),E.current===0&&n.type!=="animationcancel"&&f.classList.remove(...p))};(()=>{f.classList.add(...p),f.addEventListener("animationend",b),f.addEventListener("animationcancel",b)})()},[]),(0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(()=>{let f=g.current,p=()=>{f.removeEventListener("animationend",p),r?Z(f,T,s):T()};v||(c?p():(()=>{E.current=1,f.className+=` ${S}`,f.addEventListener("animationend",p)})())},[v]),react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment,null,a)}}function J(t,o){return{content:tt(t.content,t.props),containerId:t.props.containerId,id:t.props.toastId,theme:t.props.theme,type:t.props.type,data:t.props.data||{},isLoading:t.props.isLoading,icon:t.props.icon,reason:t.removalReason,status:o}}function tt(t,o,e=!1){return (0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(t)&&!N(t.type)?(0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(t,{closeToast:o.closeToast,toastProps:o,data:o.data,isPaused:e}):P(t)?t({closeToast:o.closeToast,toastProps:o,data:o.data,isPaused:e}):t}function yt({closeToast:t,theme:o,ariaLabel:e="close"}){return react__WEBPACK_IMPORTED_MODULE_0__.createElement("button",{className:`Toastify__close-button Toastify__close-button--${o}`,type:"button",onClick:r=>{r.stopPropagation(),t(!0)},"aria-label":e},react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg",{"aria-hidden":"true",viewBox:"0 0 14 16"},react__WEBPACK_IMPORTED_MODULE_0__.createElement("path",{fillRule:"evenodd",d:"M7.71 8.23l3.75 3.75-1.48 1.48-3.75-3.75-3.75 3.75L1 11.98l3.75-3.75L1 4.48 2.48 3l3.75 3.75L9.98 3l1.48 1.48-3.75 3.75z"})))}function gt({delay:t,isRunning:o,closeToast:e,type:r="default",hide:s,className:l,controlledProgress:a,progress:d,rtl:c,isIn:T,theme:g}){let v=s||a&&d===0,x={animationDuration:`${t}ms`,animationPlayState:o?"running":"paused"};a&&(x.transform=`scaleX(${d})`);let C=(0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])("Toastify__progress-bar",a?"Toastify__progress-bar--controlled":"Toastify__progress-bar--animated",`Toastify__progress-bar-theme--${g}`,`Toastify__progress-bar--${r}`,{["Toastify__progress-bar--rtl"]:c}),S=P(l)?l({rtl:c,type:r,defaultClassName:C}):(0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])(C,l),E={[a&&d>=1?"onTransitionEnd":"onAnimationEnd"]:a&&d<1?null:()=>{T&&e()}};return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",{className:"Toastify__progress-bar--wrp","data-hidden":v},react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",{className:`Toastify__progress-bar--bg Toastify__progress-bar-theme--${g} Toastify__progress-bar--${r}`}),react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",{role:"progressbar","aria-hidden":v?"true":"false","aria-label":"notification timer",className:S,style:x,...E}))}var Xt=1,at=()=>`${Xt++}`;function _t(t,o,e){let r=1,s=0,l=[],a=[],d=o,c=new Map,T=new Set,g=i=>(T.add(i),()=>T.delete(i)),v=()=>{a=Array.from(c.values()),T.forEach(i=>i())},x=({containerId:i,toastId:n,updateId:u})=>{let h=i?i!==t:t!==1,m=c.has(n)&&u==null;return h||m},C=(i,n)=>{c.forEach(u=>{var h;(n==null||n===u.props.toastId)&&((h=u.toggle)==null||h.call(u,i))})},S=i=>{var n,u;(u=(n=i.props)==null?void 0:n.onClose)==null||u.call(n,i.removalReason),i.isActive=!1},E=i=>{if(i==null)c.forEach(S);else{let n=c.get(i);n&&S(n)}v()},f=()=>{s-=l.length,l=[]},p=i=>{var m,_;let{toastId:n,updateId:u}=i.props,h=u==null;i.staleId&&c.delete(i.staleId),i.isActive=!0,c.set(n,i),v(),e(J(i,h?"added":"updated")),h&&((_=(m=i.props).onOpen)==null||_.call(m))};return{id:t,props:d,observe:g,toggle:C,removeToast:E,toasts:c,clearQueue:f,buildToast:(i,n)=>{if(x(n))return;let{toastId:u,updateId:h,data:m,staleId:_,delay:k}=n,M=h==null;M&&s++;let A={...d,style:d.toastStyle,key:r++,...Object.fromEntries(Object.entries(n).filter(([D,Y])=>Y!=null)),toastId:u,updateId:h,data:m,isIn:!1,className:B(n.className||d.toastClassName),progressClassName:B(n.progressClassName||d.progressClassName),autoClose:n.isLoading?!1:pt(n.autoClose,d.autoClose),closeToast(D){c.get(u).removalReason=D,E(u)},deleteToast(){let D=c.get(u);if(D!=null){if(e(J(D,"removed")),c.delete(u),s--,s<0&&(s=0),l.length>0){p(l.shift());return}v()}}};A.closeButton=d.closeButton,n.closeButton===!1||z(n.closeButton)?A.closeButton=n.closeButton:n.closeButton===!0&&(A.closeButton=z(d.closeButton)?d.closeButton:!0);let R={content:i,props:A,staleId:_};d.limit&&d.limit>0&&s>d.limit&&M?l.push(R):L(k)?setTimeout(()=>{p(R)},k):p(R)},setProps(i){d=i},setToggle:(i,n)=>{let u=c.get(i);u&&(u.toggle=n)},isToastActive:i=>{var n;return(n=c.get(i))==null?void 0:n.isActive},getSnapshot:()=>a}}var I=new Map,F=[],st=new Set,Vt=t=>st.forEach(o=>o(t)),bt=()=>I.size>0;function Qt(){F.forEach(t=>nt(t.content,t.options)),F=[]}var vt=(t,{containerId:o})=>{var e;return(e=I.get(o||1))==null?void 0:e.toasts.get(t)};function X(t,o){var r;if(o)return!!((r=I.get(o))!=null&&r.isToastActive(t));let e=!1;return I.forEach(s=>{s.isToastActive(t)&&(e=!0)}),e}function ht(t){if(!bt()){F=F.filter(o=>t!=null&&o.options.toastId!==t);return}if(t==null||mt(t))I.forEach(o=>{o.removeToast(t)});else if(t&&("containerId"in t||"id"in t)){let o=I.get(t.containerId);o?o.removeToast(t.id):I.forEach(e=>{e.removeToast(t.id)})}}var Ct=(t={})=>{I.forEach(o=>{o.props.limit&&(!t.containerId||o.id===t.containerId)&&o.clearQueue()})};function nt(t,o){z(t)&&(bt()||F.push({content:t,options:o}),I.forEach(e=>{e.buildToast(t,o)}))}function xt(t){var o;(o=I.get(t.containerId||1))==null||o.setToggle(t.id,t.fn)}function rt(t,o){I.forEach(e=>{(o==null||!(o!=null&&o.containerId)||(o==null?void 0:o.containerId)===e.id)&&e.toggle(t,o==null?void 0:o.id)})}function Et(t){let o=t.containerId||1;return{subscribe(e){let r=_t(o,t,Vt);I.set(o,r);let s=r.observe(e);return Qt(),()=>{s(),I.delete(o)}},setProps(e){var r;(r=I.get(o))==null||r.setProps(e)},getSnapshot(){var e;return(e=I.get(o))==null?void 0:e.getSnapshot()}}}function Pt(t){return st.add(t),()=>{st.delete(t)}}function Wt(t){return t&&(N(t.toastId)||L(t.toastId))?t.toastId:at()}function U(t,o){return nt(t,o),o.toastId}function V(t,o){return{...o,type:o&&o.type||t,toastId:Wt(o)}}function Q(t){return(o,e)=>U(o,V(t,e))}function y(t,o){return U(t,V("default",o))}y.loading=(t,o)=>U(t,V("default",{isLoading:!0,autoClose:!1,closeOnClick:!1,closeButton:!1,draggable:!1,...o}));function Gt(t,{pending:o,error:e,success:r},s){let l;o&&(l=N(o)?y.loading(o,s):y.loading(o.render,{...s,...o}));let a={isLoading:null,autoClose:null,closeOnClick:null,closeButton:null,draggable:null},d=(T,g,v)=>{if(g==null){y.dismiss(l);return}let x={type:T,...a,...s,data:v},C=N(g)?{render:g}:g;return l?y.update(l,{...x,...C}):y(C.render,{...x,...C}),v},c=P(t)?t():t;return c.then(T=>d("success",r,T)).catch(T=>d("error",e,T)),c}y.promise=Gt;y.success=Q("success");y.info=Q("info");y.error=Q("error");y.warning=Q("warning");y.warn=y.warning;y.dark=(t,o)=>U(t,V("default",{theme:"dark",...o}));function qt(t){ht(t)}y.dismiss=qt;y.clearWaitingQueue=Ct;y.isActive=X;y.update=(t,o={})=>{let e=vt(t,o);if(e){let{props:r,content:s}=e,l={delay:100,...r,...o,toastId:o.toastId||t,updateId:at()};l.toastId!==t&&(l.staleId=t);let a=l.render||s;delete l.render,U(a,l)}};y.done=t=>{y.update(t,{progress:1})};y.onChange=Pt;y.play=t=>rt(!0,t);y.pause=t=>rt(!1,t);function It(t){var a;let{subscribe:o,getSnapshot:e,setProps:r}=(0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(Et(t)).current;r(t);let s=(a=(0,react__WEBPACK_IMPORTED_MODULE_0__.useSyncExternalStore)(o,e,e))==null?void 0:a.slice();function l(d){if(!s)return[];let c=new Map;return t.newestOnTop&&s.reverse(),s.forEach(T=>{let{position:g}=T.props;c.has(g)||c.set(g,[]),c.get(g).push(T)}),Array.from(c,T=>d(T[0],T[1]))}return{getToastToRender:l,isToastActive:X,count:s==null?void 0:s.length}}function At(t){let[o,e]=(0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(!1),[r,s]=(0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(!1),l=(0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null),a=(0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({start:0,delta:0,removalDistance:0,canCloseOnClick:!0,canDrag:!1,didMove:!1}).current,{autoClose:d,pauseOnHover:c,closeToast:T,onClick:g,closeOnClick:v}=t;xt({id:t.toastId,containerId:t.containerId,fn:e}),(0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(()=>{if(t.pauseOnFocusLoss)return x(),()=>{C()}},[t.pauseOnFocusLoss]);function x(){document.hasFocus()||p(),window.addEventListener("focus",f),window.addEventListener("blur",p)}function C(){window.removeEventListener("focus",f),window.removeEventListener("blur",p)}function S(m){if(t.draggable===!0||t.draggable===m.pointerType){b();let _=l.current;a.canCloseOnClick=!0,a.canDrag=!0,_.style.transition="none",t.draggableDirection==="x"?(a.start=m.clientX,a.removalDistance=_.offsetWidth*(t.draggablePercent/100)):(a.start=m.clientY,a.removalDistance=_.offsetHeight*(t.draggablePercent===80?t.draggablePercent*1.5:t.draggablePercent)/100)}}function E(m){let{top:_,bottom:k,left:M,right:A}=l.current.getBoundingClientRect();m.nativeEvent.type!=="touchend"&&t.pauseOnHover&&m.clientX>=M&&m.clientX<=A&&m.clientY>=_&&m.clientY<=k?p():f()}function f(){e(!0)}function p(){e(!1)}function b(){a.didMove=!1,document.addEventListener("pointermove",n),document.addEventListener("pointerup",u)}function i(){document.removeEventListener("pointermove",n),document.removeEventListener("pointerup",u)}function n(m){let _=l.current;if(a.canDrag&&_){a.didMove=!0,o&&p(),t.draggableDirection==="x"?a.delta=m.clientX-a.start:a.delta=m.clientY-a.start,a.start!==m.clientX&&(a.canCloseOnClick=!1);let k=t.draggableDirection==="x"?`${a.delta}px, var(--y)`:`0, calc(${a.delta}px + var(--y))`;_.style.transform=`translate3d(${k},0)`,_.style.opacity=`${1-Math.abs(a.delta/a.removalDistance)}`}}function u(){i();let m=l.current;if(a.canDrag&&a.didMove&&m){if(a.canDrag=!1,Math.abs(a.delta)>a.removalDistance){s(!0),t.closeToast(!0),t.collapseAll();return}m.style.transition="transform 0.2s, opacity 0.2s",m.style.removeProperty("transform"),m.style.removeProperty("opacity")}}let h={onPointerDown:S,onPointerUp:E};return d&&c&&(h.onMouseEnter=p,t.stacked||(h.onMouseLeave=f)),v&&(h.onClick=m=>{g&&g(m),a.canCloseOnClick&&T(!0)}),{playToast:f,pauseToast:p,isRunning:o,preventExitTransition:r,toastRef:l,eventHandlers:h}}var Ot=typeof window!="undefined"?react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect:react__WEBPACK_IMPORTED_MODULE_0__.useEffect;var G=({theme:t,type:o,isLoading:e,...r})=>react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg",{viewBox:"0 0 24 24",width:"100%",height:"100%",fill:t==="colored"?"currentColor":`var(--toastify-icon-color-${o})`,...r});function ao(t){return react__WEBPACK_IMPORTED_MODULE_0__.createElement(G,{...t},react__WEBPACK_IMPORTED_MODULE_0__.createElement("path",{d:"M23.32 17.191L15.438 2.184C14.728.833 13.416 0 11.996 0c-1.42 0-2.733.833-3.443 2.184L.533 17.448a4.744 4.744 0 000 4.368C1.243 23.167 2.555 24 3.975 24h16.05C22.22 24 24 22.044 24 19.632c0-.904-.251-1.746-.68-2.44zm-9.622 1.46c0 1.033-.724 1.823-1.698 1.823s-1.698-.79-1.698-1.822v-.043c0-1.028.724-1.822 1.698-1.822s1.698.79 1.698 1.822v.043zm.039-12.285l-.84 8.06c-.057.581-.408.943-.897.943-.49 0-.84-.367-.896-.942l-.84-8.065c-.057-.624.25-1.095.779-1.095h1.91c.528.005.84.476.784 1.1z"}))}function so(t){return react__WEBPACK_IMPORTED_MODULE_0__.createElement(G,{...t},react__WEBPACK_IMPORTED_MODULE_0__.createElement("path",{d:"M12 0a12 12 0 1012 12A12.013 12.013 0 0012 0zm.25 5a1.5 1.5 0 11-1.5 1.5 1.5 1.5 0 011.5-1.5zm2.25 13.5h-4a1 1 0 010-2h.75a.25.25 0 00.25-.25v-4.5a.25.25 0 00-.25-.25h-.75a1 1 0 010-2h1a2 2 0 012 2v4.75a.25.25 0 00.25.25h.75a1 1 0 110 2z"}))}function no(t){return react__WEBPACK_IMPORTED_MODULE_0__.createElement(G,{...t},react__WEBPACK_IMPORTED_MODULE_0__.createElement("path",{d:"M12 0a12 12 0 1012 12A12.014 12.014 0 0012 0zm6.927 8.2l-6.845 9.289a1.011 1.011 0 01-1.43.188l-4.888-3.908a1 1 0 111.25-1.562l4.076 3.261 6.227-8.451a1 1 0 111.61 1.183z"}))}function ro(t){return react__WEBPACK_IMPORTED_MODULE_0__.createElement(G,{...t},react__WEBPACK_IMPORTED_MODULE_0__.createElement("path",{d:"M11.983 0a12.206 12.206 0 00-8.51 3.653A11.8 11.8 0 000 12.207 11.779 11.779 0 0011.8 24h.214A12.111 12.111 0 0024 11.791 11.766 11.766 0 0011.983 0zM10.5 16.542a1.476 1.476 0 011.449-1.53h.027a1.527 1.527 0 011.523 1.47 1.475 1.475 0 01-1.449 1.53h-.027a1.529 1.529 0 01-1.523-1.47zM11 12.5v-6a1 1 0 012 0v6a1 1 0 11-2 0z"}))}function io(){return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",{className:"Toastify__spinner"})}var W={info:so,warning:ao,success:no,error:ro,spinner:io},lo=t=>t in W;function Nt({theme:t,type:o,isLoading:e,icon:r}){let s=null,l={theme:t,type:o};return r===!1||(P(r)?s=r({...l,isLoading:e}):(0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(r)?s=(0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(r,l):e?s=W.spinner():lo(o)&&(s=W[o](l))),s}var wt=t=>{let{isRunning:o,preventExitTransition:e,toastRef:r,eventHandlers:s,playToast:l}=At(t),{closeButton:a,children:d,autoClose:c,onClick:T,type:g,hideProgressBar:v,closeToast:x,transition:C,position:S,className:E,style:f,progressClassName:p,updateId:b,role:i,progress:n,rtl:u,toastId:h,deleteToast:m,isIn:_,isLoading:k,closeOnClick:M,theme:A,ariaLabel:R}=t,D=(0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])("Toastify__toast",`Toastify__toast-theme--${A}`,`Toastify__toast--${g}`,{["Toastify__toast--rtl"]:u},{["Toastify__toast--close-on-click"]:M}),Y=P(E)?E({rtl:u,position:S,type:g,defaultClassName:D}):(0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])(D,E),ft=Nt(t),dt=!!n||!c,j={closeToast:x,type:g,theme:A},H=null;return a===!1||(P(a)?H=a(j):(0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(a)?H=(0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(a,j):H=yt(j)),react__WEBPACK_IMPORTED_MODULE_0__.createElement(C,{isIn:_,done:m,position:S,preventExitTransition:e,nodeRef:r,playToast:l},react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",{id:h,tabIndex:0,onClick:T,"data-in":_,className:Y,...s,style:f,ref:r,..._&&{role:i,"aria-label":R}},ft!=null&&react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",{className:(0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])("Toastify__toast-icon",{["Toastify--animate-icon Toastify__zoom-enter"]:!k})},ft),tt(d,t,!o),H,!t.customProgressBar&&react__WEBPACK_IMPORTED_MODULE_0__.createElement(gt,{...b&&!dt?{key:`p-${b}`}:{},rtl:u,theme:A,delay:c,isRunning:o,isIn:_,closeToast:x,hide:v,type:g,className:p,controlledProgress:dt,progress:n||0})))};var K=(t,o=!1)=>({enter:`Toastify--animate Toastify__${t}-enter`,exit:`Toastify--animate Toastify__${t}-exit`,appendPosition:o}),lt=$(K("bounce",!0)),mo=$(K("slide",!0)),po=$(K("zoom")),uo=$(K("flip"));var _o={position:"top-right",transition:lt,autoClose:5e3,closeButton:!0,pauseOnHover:!0,pauseOnFocusLoss:!0,draggable:"touch",draggablePercent:80,draggableDirection:"x",role:"alert",theme:"light","aria-label":"Notifications Alt+T",hotKeys:t=>t.altKey&&t.code==="KeyT"};function Lt(t){let o={..._o,...t},e=t.stacked,[r,s]=(0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(!0),l=(0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null),{getToastToRender:a,isToastActive:d,count:c}=It(o),{className:T,style:g,rtl:v,containerId:x,hotKeys:C}=o;function S(f){let p=(0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])("Toastify__toast-container",`Toastify__toast-container--${f}`,{["Toastify__toast-container--rtl"]:v});return P(T)?T({position:f,rtl:v,defaultClassName:p}):(0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])(p,B(T))}function E(){e&&(s(!0),y.play())}return Ot(()=>{var f;if(e){let p=l.current.querySelectorAll('[data-in="true"]'),b=12,i=(f=o.position)==null?void 0:f.includes("top"),n=0,u=0;Array.from(p).reverse().forEach((h,m)=>{let _=h;_.classList.add("Toastify__toast--stacked"),m>0&&(_.dataset.collapsed=`${r}`),_.dataset.pos||(_.dataset.pos=i?"top":"bot");let k=n*(r?.2:1)+(r?0:b*m);_.style.setProperty("--y",`${i?k:k*-1}px`),_.style.setProperty("--g",`${b}`),_.style.setProperty("--s",`${1-(r?u:0)}`),n+=_.offsetHeight,u+=.025})}},[r,c,e]),(0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(()=>{function f(p){var i;let b=l.current;C(p)&&((i=b.querySelector('[tabIndex="0"]'))==null||i.focus(),s(!1),y.pause()),p.key==="Escape"&&(document.activeElement===b||b!=null&&b.contains(document.activeElement))&&(s(!0),y.play())}return document.addEventListener("keydown",f),()=>{document.removeEventListener("keydown",f)}},[C]),react__WEBPACK_IMPORTED_MODULE_0__.createElement("section",{ref:l,className:"Toastify",id:x,onMouseEnter:()=>{e&&(s(!1),y.pause())},onMouseLeave:E,"aria-live":"polite","aria-atomic":"false","aria-relevant":"additions text","aria-label":o["aria-label"]},a((f,p)=>{let b=p.length?{...g}:{...g,pointerEvents:"none"};return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div",{tabIndex:-1,className:S(f),"data-stacked":e,style:b,key:`c-${f}`},p.map(({content:i,props:n})=>react__WEBPACK_IMPORTED_MODULE_0__.createElement(wt,{...n,stacked:e,collapseAll:E,isIn:d(n.toastId,n.containerId),key:`t-${n.key}`},i)))}))}
 //# sourceMappingURL=index.mjs.map
+
+/***/ }),
+
+/***/ "./src/locales/de/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/de/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0)","Events":"Veranstaltungen","Create event":"Event erstellen","Customize":"Anpassen","Upcoming":"Aufkommen","Past":"Vergangenheit","Zoom Events":"Veranstaltungen","Your Events":"Ihre Veranstaltungen","0 Event":"0 Veranstaltung","Enter search string":"Eingabe der Suchfolge","Select dates":"Termine auswählen","Filters":"Filter","Title":"Titel","Date":"Datum","Time":"Zeit","Location":"Standort","Type":"Typ","Recurrence":"Wiederauftreten","Status":"Status","Bookings":"Buchungen","Set default values for any new events to save time.":"Legen Sie Standardwerte für neue Ereignisse fest, um Zeit zu sparen.","Export":"Ausfuhr","All time":"Zeit","12 month":"12 Monate","30 days":"30 Tage","7 days":"7 Tage","0 item":"0 Artikel","Review and manage all your event bookings here.":"Überprüfen und verwalten Sie alle Ihre Eventbuchungen hier.","Order ID":"Bestellschein","Order Date/Time":"Bestelldatum/Zeit","Registrant":"Kanzler","Event Title/Location":"Veranstaltungstitel/Standort","Occurrence":"Korrektheit","Paid":"Bezahlt","Event":"Veranstaltung","Zoom meeting":"Treffen im Großraum","Apply":"Anwendung","Integrations":"Integration","Connect and manage your integrations to enhance your event management.":"Verbinden und verwalten Sie Ihre Integrationen, um Ihr Eventmanagement zu verbessern.","Connected":"verbunden","Calendars Integration":"Integration von Kalendern","Event Integrations":"Veranstaltungsintegration","Calendars":"Kalender","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Synchronisieren Sie Ihre Veranstaltungspläne mühelos mit Google Kalender oder Outlook, um alle informiert zu halten.","Manage":"Verwalten","Learn More →":"Mehr erfahren →","Emails Integration":"E-Mails Integration","Emails":"E-Mails","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automatische Kommunikation mit Google Mail und Microsoft Outlook, um rechtzeitige Updates für Ihre Veranstaltungen zu gewährleisten.","Connect":"Verbindung","OAuth Setup Required Before Connecting.":"OAuth Setup erforderlich vor dem Verbinden.","Gmail":"Gmail","Zoom Integration":"Zoom Integration","Video Conferencing":"Videokonferenz","Available on paid plans.":"Verfügbar auf bezahlten Plänen.","Zoom":"Zoom","Stripe Integration":"Integration von Streifen","Stripe":"Streifen","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Synchronisieren Sie Ihre Zahlungen und Tickets direkt über Stripe. (Erfordert einen aktiven Abonnementplan.)","Email Templates":"E-Mail Vorlagen","Easily View, Create, and Modify Email Templates":"Einfache Ansicht, Erstellen und Ändern von Email-Vorlagen","Save":"Speichern","Cancel":"Abbrechen","Template Name":"Vorname","In-person Event - Booking":"In-Person Event - Buchung","Email Subject":"E-Mail-Adresse","{{event_name}} - {{store_name}}":"{{event_name} - {\\\\store_name}","Template Parameters":"Vorlagenparameter","Parameter":"Parameter","Description":"Warenbezeichnung","{{category_details}}":"{{category_details}}","Category details":"Details der Kategorie","{{category}}":"{Kategorie}","Category of event":"Veranstaltungskategorie","{{custom_field_1_name}}":"{custom_field_1_name}","Custom field 1 name":"Zollfeld 1 Name","{{custom_field_1_value}}":"{custom_field_1_value}","Custom field 1 value":"Zollfeld 1 Wert","{{custom_field_2_name}}":"{custom_field_2_name}","Custom field 2 name":"Zollfeld 2 Name","{{custom_field_2_value}}":"{custom_field_2_value}","Custom field 2 value":"Zollfeld 2 Wert","{{customer_name}}":"{{Kundenname}","Customer name":"Kundenname","{{date}}":"{\\\\date}","Date of event":"Datum der Veranstaltung","{{event_name}}":"{{event_name}","Event name":"Vorname","{{location_details}}":"{{Location_details}}","Location details":"Details zum Standort","{{location_hours}}":"{Location_hours}","Location operational hours":"Standort Betriebsstunden","{{location}}":"{\\\\location}","Location of event":"Veranstaltungsort","{{members_list}}":"{{members_list}}","Event members info list":"Infoliste der Teilnehmer","{{store_email}}":"{store_email}","Store contact email":"Kontakt E-Mail speichern","{{store_name}}":"{\\\\store_name}","Store name":"Bestellname","{{time}}":"{time}","Time of event":"Zeit der Veranstaltung","Edit Mode":"Bearbeitungsmodus","Rich Text":"Text","HTML":"HTML","Email Content":"E-Mail senden","Hi {{customer_name}}, Thank you for registering!":"Hallo {{customer_name}, Danke für die Anmeldung!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Sie wurden erfolgreich in das Ereignis {{event_name} eingetragen. Bitte speichern Sie diese E-Mail für die unten angegebenen Veranstaltungsdetails","{{date}} {{time}}":"{\\\\date} {time}","For any queries or to cancel booking please contact the store at {{store_email}}":"Für Anfragen oder zur Stornierung der Buchung kontaktieren Sie bitte den Laden unter {{store_email}}}","We look forward to seeing you.":"Wir freuen uns auf Sie.","Preview":"Voransicht","Subject: {{event_name}} - {{store_name}}":"Betrifft: {{event_name}} - {\\\\store_name}","Analytics":"Analyse","View your Revenue, Registrants, Events, and Filter analytics.":"Sehen Sie sich Ihre Revenue, Registranten, Events und Filter-Analysen an.","Total Revenue":"Einnahmen insgesamt","Total Registrants":"Kanzler insgesamt","Events Analytics":"Veranstaltungen und Veranstaltungen","Filters Analytics":"Filter Analytics","Select Dates":"Wählen Sie Termine","You haven’t made any Sales yet.":"Sie haben noch keine Verkäufe gemacht.","Reset":"Zurück zur Übersicht","0 Registrants":"0 Registranten","You don’t have any Registrants yet.":"Sie haben noch keine Registranten.","Active Events":"Veranstaltungen","Events Happened":"Veranstaltungen","Events Cancelled":"Veranstaltungen gekündigt","You don’t have Filter Statistics yet.":"Sie haben noch keine Filterstatistiken.","Settings":"Einstellungen","General":"Allgemeines","Reminders":"Erinnerungen","Billing plans":"Abrechnungspläne","Fast Checkout":"Schnelle Überprüfung","Widget Settings":"Widget Einstellungen","Widget Translations":"Übersetzungen von Widget","Time zone":"Zeitzone","Set a default time zone.":"Legen Sie eine Standardzeitzone fest.","US/Pacific":"USA/Pazifik","Time format":"Zeitformat","Set a default time format.":"Legen Sie ein Standard-Zeitformat ein.","12 hours":"12 Stunden","Hide timezone abbreviation in email, widget and dashboard.":"Verstecken Sie Zeitzone Abkürzung in E-Mail, Widget und Dashboard.","Currency format":"Währung","Set a default currency.":"Setzen Sie eine Standardwährung.","Alphabets: USD / CAD / CNY":"Alphabete: USD / CAD / CNY","Duration":"Dauer","Set a default event duration.":"Legen Sie eine Standardereignisdauer fest.","1 hour":"1 Stunde","Start / end time":"Start / Endzeit","Set a default start and end time.":"Setzen Sie einen Standardstart- und Endzeitpunkt ein.","Start time":"Startzeit","End time":"Endzeit","Ticket price":"Ticketpreis","Set a default ticket price.":"Setzen Sie einen Standard-Ticketpreis.","Set a default event location.":"Setzen Sie einen Standard-Event-Standort.","Zoom Event":"Event vergrößern","Email notifications":"E-Mail-Benachrichtigungen","Enable email notifications":"E-Mail-Benachrichtigungen aktivieren","First reminder":"Erste Erinnerung","Enable first reminder and specify time to first reminder":"Aktivieren Sie erste Erinnerung und geben Sie die Zeit an erste Erinnerung","Second reminder":"Zweite Erinnerung","Enable second reminder and specify time to second reminder":"Ermöglichen Sie zweite Erinnerung und geben Sie die Zeit zur zweiten Erinnerung an","Finished reminder":"Fertige Erinnerung","Send notification after the event has ended":"Mitteilung senden, nachdem die Veranstaltung beendet ist","Additional Email Notification Settings":"Weitere E-Mail-Benachrichtigungseinstellungen","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Richten Sie zusätzliche E-Mail-Benachrichtigungen und Erinnerungen für Ihre Veranstaltungen ein. Sie können wählen, um Mitarbeiter-Benachrichtigungen überspringen oder Erinnerungs-E-Mails zu bestimmten Zeiten vor der Veranstaltung hinzufügen","Additional reminder emails list (comma-separated)":"Zusätzliche Erinnerungs-E-Mails-Liste (komma-separiert)","Additional reminder hours":"Zusätzliche Mahnstunden","Skip Staff Email Notification":"E-Mail-Benachrichtigung über das Personal","Free":"Kostenlos","Unlimited Bookings":"Unbegrenzte Buchungen","Widgets":"Widgets","Notifications":"Mitteilungen","Multi Booking":"Multi Buchung","Custom Store Email":"In den Warenkorb","Recurring":"Recuring","Multi Tickets":"Mehr Tickets","Premium Support":"Premium Support","Email Customization":"Email Anpassung","User Management":"Benutzermanagement","Activated":"Aktiviert","Premium":"Prämie","Activate":"Aktivieren","Enable Fast Checkout for Free Events":"Aktivieren Sie schnelle Checkout für kostenlose Veranstaltungen","Activate fast checkout to speed up the booking process for free services":"Aktivieren Sie einen schnellen Check-out, um den Buchungsprozess für kostenlose Dienste zu beschleunigen","Enable Fast Checkout":"Schnelle Checkout aktivieren","Skip Captcha on Fast Checkout":"Skip Captcha auf Fast Checkout","Activate to bypass captcha verification during fast checkout for free services.":"Aktivieren Sie die Captcha-Überprüfung während des schnellen Checkouts für kostenlose Dienste zu umgehen.","Skip Captcha":"Über uns","Marketing Consent Checkbox":"Marketing Consent Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Schalten Sie diese Option ein, um eine Checkbox bei kostenlosem Checkout anzuzeigen, so dass sich Kunden für Marketing-E-Mails und Newsletter anmelden können","Marketing Consent":"Marketing Consent"}');
+
+/***/ }),
+
+/***/ "./src/locales/en/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/en/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"Events","Create event":"Create event","Customize":"Customize","Upcoming":"Upcoming","Past":"Past","Zoom Events":"Zoom Events","Your Events":"Your Events","0 Event":"0 Event","Enter search string":"Enter search string","Select dates":"Select dates","Filters":"Filters","Title":"Title","Date":"Date","Time":"Time","Location":"Location","Type":"Type","Recurrence":"Recurrence","Status":"Status","Bookings":"Bookings","Set default values for any new events to save time.":"Set default values for any new events to save time.","Export":"Export","All time":"All time","12 month":"12 month","30 days":"30 days","7 days":"7 days","0 item":"0 item","Review and manage all your event bookings here.":"View and manage all event bookings in one place","Order ID":"Order ID","Order Date/Time":"Order Date/Time","Registrant":"Registrant","Event Title/Location":"Event Title/Location","Occurrence":"Occurrence","Paid":"Paid","Event":"Event","Zoom meeting":"Zoom meeting","Apply":"Apply","Integrations":"Integrations","Connect and manage your integrations to enhance your event management.":"Connect and manage your integrations to enhance your event management.","Connected":"Connected","Calendars Integration":"Calendars Integration","Event Integrations":"Event Integrations","Calendars":"Calendars","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.","Manage":"Manage","Learn More →":"Learn More →","Emails Integration":"Emails Integration","Emails":"Emails","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.","Connect":"Connect","OAuth Setup Required Before Connecting.":"OAuth Setup Required Before Connecting.","Gmail":"Gmail","Zoom Integration":"Zoom Integration","Video Conferencing":"Video Conferencing","Available on paid plans.":"Available on paid plans.","Zoom":"Zoom","Stripe Integration":"Stripe Integration","Stripe":"Stripe","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)","Email Templates":"Email Templates","Easily View, Create, and Modify Email Templates":"Easily view, create, and modify email templates.","Save":"Save","Cancel":"Cancel","Template Name":"Template Name","In-person Event - Booking":"In-person Event - Booking","Email Subject":"Email Subject","{{event_name}} - {{store_name}}":"{{event_name}} - {{store_name}}","Template Parameters":"Template Parameters","Parameter":"Parameter","Description":"Description","{{category_details}}":"{{category_details}}","Category details":"Category details","{{category}}":"{{category}}","Category of event":"Category of event","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"Custom field 1 name","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"Custom field 1 value","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"Custom field 2 name","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"Custom field 2 value","{{customer_name}}":"{{customer_name}}","Customer name":"Customer name","{{date}}":"{{date}}","Date of event":"Date of event","{{event_name}}":"{{event_name}}","Event name":"Event name","{{location_details}}":"{{location_details}}","Location details":"Location details","{{location_hours}}":"{{location_hours}}","Location operational hours":"Location operational hours","{{location}}":"{{location}}","Location of event":"Location of event","{{members_list}}":"{{members_list}}","Event members info list":"Event members info list","{{store_email}}":"{{store_email}}","Store contact email":"Store contact email","{{store_name}}":"{{store_name}}","Store name":"Store name","{{time}}":"{{time}}","Time of event":"Time of event","Edit Mode":"Edit Mode","Rich Text":"Rich Text","HTML":"HTML","Email Content":"Email Content","Hi {{customer_name}}, Thank you for registering!":"Hi {{customer_name}}, Thank you for registering!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below","{{date}} {{time}}":"{{date}} {{time}}","For any queries or to cancel booking please contact the store at {{store_email}}":"For any queries or to cancel booking please contact the store at {{store_email}}","We look forward to seeing you.":"We look forward to seeing you.","Preview":"Preview","Subject: {{event_name}} - {{store_name}}":"Subject: {{event_name}} - {{store_name}}","Analytics":"Analytics","View your Revenue, Registrants, Events, and Filter analytics.":"Access analytics for your revenue, registrants, events, and filters.","Total Revenue":"Total Revenue","Total Registrants":"Total Registrants","Events Analytics":"Events Analytics","Filters Analytics":"Filters Analytics","Select Dates":"Select Dates","You haven’t made any Sales yet.":"You haven’t made any Sales yet.","Reset":"Reset","0 Registrants":"0 Registrants","You don’t have any Registrants yet.":"You don’t have any Registrants yet.","Active Events":"Active Events","Events Happened":"Events Happened","Events Cancelled":"Events Cancelled","You don’t have Filter Statistics yet.":"You don’t have Filter Statistics yet.","Settings":"Settings","General":"General","Reminders":"Reminders","Billing plans":"Billing plans","Fast Checkout":"Fast Checkout","Widget Settings":"Widget Settings","Widget Translations":"Widget Translations","Time zone":"Time zone","Set a default time zone.":"Set a default time zone.","US/Pacific":"US/Pacific","Time format":"Time format","Set a default time format.":"Set a default time format.","12 hours":"12 hours","Hide timezone abbreviation in email, widget and dashboard.":"Hide timezone abbreviation in email, widget and dashboard.","Currency format":"Currency format","Set a default currency.":"Set a default currency.","Alphabets: USD / CAD / CNY":"Alphabets: USD / CAD / CNY","Duration":"Duration","Set a default event duration.":"Set a default event duration.","1 hour":"1 hour","Start / end time":"Start / end time","Set a default start and end time.":"Set a default start and end time.","Start time":"Start time","End time":"End time","Ticket price":"Ticket price","Set a default ticket price.":"Set a default ticket price.","Set a default event location.":"Set a default event location.","Zoom Event":"Zoom Event","Email notifications":"Notifications","Enable email notifications":"Enable email notifications","First reminder":"First reminder","Enable first reminder and specify time to first reminder":"Enable first reminder and specify time to first reminder","Second reminder":"Second reminder","Enable second reminder and specify time to second reminder":"Enable second reminder and specify time to second reminder","Finished reminder":"Finished reminder","Send notification after the event has ended":"Send notification after the event has ended","Additional Email Notification Settings":"Additional Email Notification Settings","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event","Additional reminder emails list (comma-separated)":"Additional reminder emails list (comma-separated)","Additional reminder hours":"Additional reminder hours","Skip Staff Email Notification":"Skip Staff Email Notification","Free":"Free","Unlimited Bookings":"Unlimited Bookings","Widgets":"Widgets","Notifications":"Notifications","Multi Booking":"Multi Booking","Custom Store Email":"Custom Store Email","Recurring":"Recurring","Multi Tickets":"Multi Tickets","Premium Support":"Premium Support","Email Customization":"Email Customization","User Management":"User Management","Activated":"Activated","Premium":"Premium","Activate":"Activate","Enable Fast Checkout for Free Events":"Enable Fast Checkout for Free Events","Activate fast checkout to speed up the booking process for free services":"Activate fast checkout to speed up the booking process for free services","Enable Fast Checkout":"Enable Fast Checkout","Skip Captcha on Fast Checkout":"Skip Captcha on Fast Checkout","Activate to bypass captcha verification during fast checkout for free services.":"Activate to bypass captcha verification during fast checkout for free services.","Skip Captcha":"Skip Captcha","Marketing Consent Checkbox":"Marketing Consent Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters","Marketing Consent":"Marketing Consent"}');
+
+/***/ }),
+
+/***/ "./src/locales/es/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/es/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"Eventos","Create event":"Crear evento","Customize":"Personalizar","Upcoming":"Subiendo","Past":"Pasado","Zoom Events":"Eventos Zoom","Your Events":"Sus eventos","0 Event":"0 Evento","Enter search string":"Introduzca cadena de búsqueda","Select dates":"Seleccionar fechas","Filters":"Filtros","Title":"Título","Date":"Fecha","Time":"Hora","Location":"Ubicación","Type":"Tipo","Recurrence":"Recurrencia","Status":"Situación","Bookings":"Reservas","Set default values for any new events to save time.":"Establecer valores predeterminados para cualquier nuevo evento para ahorrar tiempo.","Export":"Exportación","All time":"Todo el tiempo","12 month":"12 meses","30 days":"30 días","7 days":"7 días","0 item":"0 artículo","Review and manage all your event bookings here.":"Revise y gestione todas sus reservas de eventos aquí.","Order ID":"ID de orden","Order Date/Time":"Fecha del pedido/hora","Registrant":"Registrante","Event Title/Location":"Título del evento/Ubicación","Occurrence":"Occurrence","Paid":"Pagado","Event":"Evento","Zoom meeting":"Zoom meeting","Apply":"Aplicar","Integrations":"Integración","Connect and manage your integrations to enhance your event management.":"Conecta y gestiona tus integraciones para mejorar tu gestión de eventos.","Connected":"Conectado","Calendars Integration":"Calendarios Integración","Event Integrations":"Integración de eventos","Calendars":"Calendarios","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Sincroniza tus calendarios de eventos sin esfuerzo con Google Calendar o Outlook para mantener a todos informados.","Manage":"Manage","Learn More →":"Más información →","Emails Integration":"Emails Integration","Emails":"Emails","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automatizar las comunicaciones usando Google Mail y Microsoft Outlook, garantizando actualizaciones oportunas para sus eventos.","Connect":"Conectar","OAuth Setup Required Before Connecting.":"OAuth Setup Se requiere antes de conectarse.","Gmail":"Gmail","Zoom Integration":"Integración del Zoom","Video Conferencing":"Videoconferencia","Available on paid plans.":"Disponible en planes pagados.","Zoom":"Zoom","Stripe Integration":"Integración de Stripe","Stripe":"Stripe","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Sincronice sus pagos y venta de entradas directamente a través de Stripe. (Requiere un plan de suscripción activo.)","Email Templates":"Plantillas de correo electrónico","Easily View, Create, and Modify Email Templates":"Ver, crear y modificar fácilmente las plantillas de correo electrónico","Save":"Guardar","Cancel":"Cancelar","Template Name":"Nombre de la plantilla","In-person Event - Booking":"Evento en persona - Reserva","Email Subject":"Asunto","{{event_name}} - {{store_name}}":"{{event_name} - {{store_name}","Template Parameters":"Parámetros de plantilla","Parameter":"Parámetro","Description":"Descripción","{{category_details}}":"{{category_details}}","Category details":"Categoría detalles","{{category}}":"{{category}","Category of event":"Categoría del evento","{{custom_field_1_name}}":"{custom_field_1_name}","Custom field 1 name":"Campo personalizado 1 nombre","{{custom_field_1_value}}":"{custom_field_1_value}","Custom field 1 value":"Valor de campo personalizado 1","{{custom_field_2_name}}":"{custom_field_2_name}","Custom field 2 name":"Campo personalizado 2 nombre","{{custom_field_2_value}}":"{custom_field_2_value}","Custom field 2 value":"Valor de campo personalizado 2","{{customer_name}}":"{{customer_name}","Customer name":"Nombre del cliente","{{date}}":"{{date}}","Date of event":"Fecha del evento","{{event_name}}":"{{event_name}","Event name":"Nombre del evento","{{location_details}}":"{{location_details}}","Location details":"Detalles de la ubicación","{{location_hours}}":"{{location_hours}","Location operational hours":"Horas de funcionamiento","{{location}}":"{{location}}","Location of event":"Ubicación del evento","{{members_list}}":"{{members_list}","Event members info list":"Lista de información de los miembros del evento","{{store_email}}":"{{store_email}","Store contact email":"Tienda de correo electrónico de contacto","{{store_name}}":"{{store_name}","Store name":"Nombre de la tienda","{{time}}":"{{time}","Time of event":"Hora del evento","Edit Mode":"Modo de edición","Rich Text":"Texto rico","HTML":"HTML","Email Content":"Email Content","Hi {{customer_name}}, Thank you for registering!":"Hola. ¡Gracias por registrarse!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Usted ha sido registrado con éxito al evento {{event_name}. Por favor guarde este correo electrónico para los detalles del evento que se dan a continuación","{{date}} {{time}}":"{{date} {{time}","For any queries or to cancel booking please contact the store at {{store_email}}":"Para cualquier consulta o para cancelar la reserva, póngase en contacto con la tienda en {{store_email}}","We look forward to seeing you.":"Esperamos verte.","Preview":"Vista previa","Subject: {{event_name}} - {{store_name}}":"Asunto: {{event_name}} - {{store_name}","Analytics":"Análisis","View your Revenue, Registrants, Events, and Filter analytics.":"Vea su Ingreso, Registrantes, Eventos y Filtrar análisis.","Total Revenue":"Total de ingresos","Total Registrants":"Total Registrantes","Events Analytics":"Eventos Análisis","Filters Analytics":"Filtros Analytics","Select Dates":"Seleccionar fechas","You haven’t made any Sales yet.":"Aún no has hecho ninguna venta.","Reset":"Reset","0 Registrants":"0 Registrantes","You don’t have any Registrants yet.":"Aún no tienes ningún Registrante.","Active Events":"Eventos activos","Events Happened":"Eventos ocurridos","Events Cancelled":"Eventos cancelados","You don’t have Filter Statistics yet.":"Aún no tienes Filtro Estadísticas.","Settings":"Ajustes","General":"General","Reminders":"Recordadores","Billing plans":"Planes de facturación","Fast Checkout":"Checkout rápido","Widget Settings":"Ajustes del Widget","Widget Translations":"Widget Translations","Time zone":"Zona horaria","Set a default time zone.":"Establecer una zona horaria predeterminada.","US/Pacific":"Estados Unidos/Pacífico","Time format":"Formato de tiempo","Set a default time format.":"Establecer un formato de tiempo predeterminado.","12 hours":"12 horas","Hide timezone abbreviation in email, widget and dashboard.":"Ocultar la abreviatura de la zona temporal en correo electrónico, widget y dashboard.","Currency format":"Formato de moneda","Set a default currency.":"Establezca una moneda predeterminada.","Alphabets: USD / CAD / CNY":"Alfabetos: USD / CAD / CNY","Duration":"Duración","Set a default event duration.":"Establecer una duración predeterminada del evento.","1 hour":"1 hora","Start / end time":"Inicio / hora final","Set a default start and end time.":"Establezca un inicio predeterminado y el tiempo final.","Start time":"Hora de inicio","End time":"Tiempo final","Ticket price":"Precio del billete","Set a default ticket price.":"Establece un precio de entrada predeterminado.","Set a default event location.":"Establecer una ubicación predeterminada del evento.","Zoom Event":"Evento Zoom","Email notifications":"Notificaciones por correo electrónico","Enable email notifications":"Permitir notificaciones de correo electrónico","First reminder":"Primer recordatorio","Enable first reminder and specify time to first reminder":"Permitir el primer recordatorio y especificar el tiempo para el primer recordatorio","Second reminder":"Segundo recordatorio","Enable second reminder and specify time to second reminder":"Permitir un segundo recordatorio y especificar tiempo para un segundo recordatorio","Finished reminder":"Recordatorio terminado","Send notification after the event has ended":"Enviar notificación después de que el evento haya terminado","Additional Email Notification Settings":"Ajustes adicionales de notificación por correo electrónico","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Establecer alertas y recordatorios adicionales de correo electrónico para sus eventos. Puede optar por saltar las notificaciones del personal o agregar correos electrónicos recordatorios en momentos específicos antes del evento","Additional reminder emails list (comma-separated)":"Lista adicional de correos electrónicos recordatorio (separados por el mapa)","Additional reminder hours":"Horas adicionales de recordatorio","Skip Staff Email Notification":"Skip Staff Email Notification","Free":"Gratis","Unlimited Bookings":"Reservas ilimitadas","Widgets":"Widgets","Notifications":"Notificaciones","Multi Booking":"Multi Booking","Custom Store Email":"Custom Store Email","Recurring":"Recurriendo","Multi Tickets":"Entradas múltiples","Premium Support":"Soporte Premium","Email Customization":"Personalización por correo electrónico","User Management":"Gestión de usuarios","Activated":"Activado","Premium":"Premium","Activate":"Activar","Enable Fast Checkout for Free Events":"Activar el registro rápido para eventos gratis","Activate fast checkout to speed up the booking process for free services":"Activar el checkout rápido para acelerar el proceso de reserva para servicios gratuitos","Enable Fast Checkout":"Activar el checkout rápido","Skip Captcha on Fast Checkout":"Skip Captcha en el checkout rápido","Activate to bypass captcha verification during fast checkout for free services.":"Activar para evitar la verificación captcha durante el checkout rápido para servicios gratuitos.","Skip Captcha":"Skip Captcha","Marketing Consent Checkbox":"Caja de control de consentimiento de marketing","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Enciende esta opción para mostrar una casilla de verificación en el checkout gratuito, por lo que los clientes pueden registrarse para emails de marketing y boletines de noticias","Marketing Consent":"Consentimiento de Marketing"}');
+
+/***/ }),
+
+/***/ "./src/locales/fr/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/fr/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"Événements","Create event":"Créer un événement","Customize":"Personnaliser","Upcoming":"À venir","Past":"Passé","Zoom Events":"Zoomer les événements","Your Events":"Vos événements","0 Event":"0 Événement","Enter search string":"Saisissez la chaîne de recherche","Select dates":"Sélectionner les dates","Filters":"Filtres","Title":"Titre","Date":"Date","Time":"Heure","Location":"Lieu","Type":"Type","Recurrence":"Récurrence","Status":"État","Bookings":"Réservations","Set default values for any new events to save time.":"Définir des valeurs par défaut pour tout nouvel événement afin d\'économiser du temps.","Export":"Exportations","All time":"Tous les temps","12 month":"12 mois","30 days":"30 jours","7 days":"7 jours","0 item":"0 élément","Review and manage all your event bookings here.":"Revoir et gérer toutes vos réservations d\'événements ici.","Order ID":"Numéro d\'ordre","Order Date/Time":"Date/heure de commande","Registrant":"Titulaire","Event Title/Location":"Titre/Lieu de l\'événement","Occurrence":"Répartition","Paid":"Paiement","Event":"Événement","Zoom meeting":"Zoom de la réunion","Apply":"Appliquer","Integrations":"Intégrations","Connect and manage your integrations to enhance your event management.":"Connectez et gérez vos intégrations pour améliorer la gestion de vos événements.","Connected":"Connecté","Calendars Integration":"Intégration des calendriers","Event Integrations":"Intégrations d\'événements","Calendars":"Calendriers","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Synchronisez vos horaires d\'événements sans effort avec Google Calendar ou Outlook pour tenir tout le monde informé.","Manage":"Gérer","Learn More →":"En savoir plus →","Emails Integration":"Intégration des courriels","Emails":"Courriels","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automatiser les communications en utilisant Google Mail et Microsoft Outlook, en assurant des mises à jour opportunes pour vos événements.","Connect":"Connexion","OAuth Setup Required Before Connecting.":"Configuration OAuth requise avant la connexion.","Gmail":"Gmail","Zoom Integration":"Zoom Intégration","Video Conferencing":"Conférence vidéo","Available on paid plans.":"Disponible sur les régimes payés.","Zoom":"Zoom","Stripe Integration":"Intégration des rayures","Stripe":"Bande","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Synchronisez vos paiements et vos ventes de billets directement via Stripe. ( Nécessite un abonnement actif.)","Email Templates":"Modèles de courriel","Easily View, Create, and Modify Email Templates":"Afficher, créer et modifier facilement les modèles de courriel","Save":"Enregistrer","Cancel":"Annuler","Template Name":"Nom du modèle","In-person Event - Booking":"Événement en personne - Réservation","Email Subject":"Sujet du courriel","{{event_name}} - {{store_name}}":"{{event_name}} - {{store_name}}","Template Parameters":"Paramètres du modèle","Parameter":"Paramètre","Description":"Désignation des marchandises","{{category_details}}":"{{details_catégorie}}","Category details":"Catégorie","{{category}}":"{ {catégorie}}","Category of event":"Catégorie de manifestation","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"Nom du champ personnalisé 1","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"Valeur du champ personnalisé 1","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"Nom du champ personnalisé 2","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"Valeur du champ personnalisé 2","{{customer_name}}":"{{nom_client}}","Customer name":"Nom du client","{{date}}":"{{date}}","Date of event":"Date de la manifestation","{{event_name}}":"{{nom_événement}}","Event name":"Nom de l\'événement","{{location_details}}":"{{location_details}}","Location details":"Détails de l\'emplacement","{{location_hours}}":"{{localisation_heures}}","Location operational hours":"Nombre d \' heures de fonctionnement","{{location}}":"{{localisation}}","Location of event":"Lieu de l\'événement","{{members_list}}":"{{member_list}}","Event members info list":"Liste des membres de l\'événement","{{store_email}}":"{{store_email}}","Store contact email":"Stocker les courriels de contact","{{store_name}}":"{{store_name}}","Store name":"Nom du magasin","{{time}}":"{{temps}}","Time of event":"Heure de l\'événement","Edit Mode":"Modifier le mode","Rich Text":"Texte riche","HTML":"HTML","Email Content":"Contenu du courriel","Hi {{customer_name}}, Thank you for registering!":"Bonjour {{nom_client}}, Merci de vous être inscrit!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Vous avez été enregistré avec succès à l\'événement {{event_name}}. S\'il vous plaît enregistrer ce courriel pour les détails de l\'événement qui sont donnés ci-dessous","{{date}} {{time}}":"{{date} {{heure}}","For any queries or to cancel booking please contact the store at {{store_email}}":"Pour toute question ou pour annuler la réservation, veuillez contacter le magasin à {{store_email}}","We look forward to seeing you.":"Nous avons hâte de vous voir.","Preview":"Aperçu","Subject: {{event_name}} - {{store_name}}":"Sujet : {{event_name}} - {{store_name}}","Analytics":"Analyse","View your Revenue, Registrants, Events, and Filter analytics.":"Consultez votre analyse des revenus, des inscrits, des événements et des filtres.","Total Revenue":"Total des recettes","Total Registrants":"Total des inscrits","Events Analytics":"Analyse des événements","Filters Analytics":"Analyse des filtres","Select Dates":"Sélectionner des dates","You haven’t made any Sales yet.":"Tu n\'as pas encore vendu.","Reset":"Réinitialiser","0 Registrants":"0 Inscrits","You don’t have any Registrants yet.":"Vous n\'avez pas encore d\'inscrits.","Active Events":"Événements actifs","Events Happened":"Événements survenus","Events Cancelled":"Événements annulés","You don’t have Filter Statistics yet.":"Vous n\'avez pas encore Filter Statistics.","Settings":"Paramètres","General":"Généralités","Reminders":"Rappels","Billing plans":"Plans de facturation","Fast Checkout":"Départ rapide","Widget Settings":"Paramètres du widget","Widget Translations":"Traductions Widget","Time zone":"Fuseau horaire","Set a default time zone.":"Définir un fuseau horaire par défaut.","US/Pacific":"États-Unis/Pacifique","Time format":"Format de temps","Set a default time format.":"Définir un format de temps par défaut.","12 hours":"12 heures","Hide timezone abbreviation in email, widget and dashboard.":"Masquer l\'abréviation timezone dans le courriel, le widget et le tableau de bord.","Currency format":"Format de devise","Set a default currency.":"Définir une devise par défaut.","Alphabets: USD / CAD / CNY":"Alphabets: USD / CAD / CNY","Duration":"Durée","Set a default event duration.":"Définir une durée d\'événement par défaut.","1 hour":"1 heure","Start / end time":"Heure de début/fin","Set a default start and end time.":"Définir une heure de début et de fin par défaut.","Start time":"Heure de début","End time":"Heure de fin","Ticket price":"Prix du billet","Set a default ticket price.":"Définir un prix par défaut du billet.","Set a default event location.":"Définir un emplacement d\'événement par défaut.","Zoom Event":"Événement de zoom","Email notifications":"Notifications par courriel","Enable email notifications":"Activer les notifications par courriel","First reminder":"Premier rappel","Enable first reminder and specify time to first reminder":"Activer le premier rappel et spécifier l\'heure du premier rappel","Second reminder":"Deuxième rappel","Enable second reminder and specify time to second reminder":"Activer le deuxième rappel et spécifier l\'heure du deuxième rappel","Finished reminder":"Rappel terminé","Send notification after the event has ended":"Envoyer une notification après la fin de l\'événement","Additional Email Notification Settings":"Paramètres supplémentaires de notification par courriel","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Configurez des alertes et des rappels supplémentaires pour vos événements. Vous pouvez choisir de sauter les notifications du personnel ou d\'ajouter des courriels de rappel à des moments précis avant l\'événement","Additional reminder emails list (comma-separated)":"Liste d\'e-mails de rappel supplémentaires (séparés par le coma)","Additional reminder hours":"Heures de rappel supplémentaires","Skip Staff Email Notification":"Passer la notification par courriel du personnel","Free":"Gratuit","Unlimited Bookings":"Réservations illimitées","Widgets":"Widgets","Notifications":"Notifications","Multi Booking":"Multiréservation","Custom Store Email":"Custom Store Email","Recurring":"Récurrent","Multi Tickets":"Billets multiples","Premium Support":"Soutien Premium","Email Customization":"Personnalisation des courriels","User Management":"Gestion des utilisateurs","Activated":"Activé","Premium":"Prime","Activate":"Activer","Enable Fast Checkout for Free Events":"Activer le checkout rapide pour les événements gratuits","Activate fast checkout to speed up the booking process for free services":"Activer la caisse rapide pour accélérer le processus de réservation des services gratuits","Enable Fast Checkout":"Activer la vérification rapide","Skip Captcha on Fast Checkout":"Sautez Captcha lors d\'un départ rapide","Activate to bypass captcha verification during fast checkout for free services.":"Activer pour contourner la vérification de captcha lors de la caisse rapide pour les services gratuits.","Skip Captcha":"Sautez Captcha","Marketing Consent Checkbox":"Boîte à cocher Consentement à la commercialisation","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Activez cette option pour afficher une case à cocher à la caisse gratuite, afin que les clients puissent s\'inscrire pour les emails marketing et les newsletters","Marketing Consent":"Consentement à la commercialisation"}');
+
+/***/ }),
+
+/***/ "./src/locales/hi/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/hi/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"आयोजन","Create event":"घटना बनाएँ","Customize":"अनुकूलित","Upcoming":"आगामी","Past":"पिछला","Zoom Events":"ज़ूम इवेंट","Your Events":"आपकी घटना","0 Event":"कार्यक्रम","Enter search string":"खोज स्ट्रिंग दर्ज करें","Select dates":"तारीख चुनें","Filters":"फ़िल्टर","Title":"शीर्षक","Date":"तारीख","Time":"समय","Location":"स्थान","Type":"प्रकार","Recurrence":"पुनरावृत्ति","Status":"स्थिति","Bookings":"बुकिंग","Set default values for any new events to save time.":"समय बचाने के लिए किसी भी नए कार्यक्रम के लिए डिफ़ॉल्ट मान निर्धारित करें।","Export":"निर्यात","All time":"समय","12 month":"12 महीनो","30 days":"30 दिन","7 days":"7 दिन","0 item":"0 आइटम","Review and manage all your event bookings here.":"यहां अपनी सभी इवेंट बुकिंग की समीक्षा और प्रबंधन करें।","Order ID":"आदेश ID","Order Date/Time":"आदेश दिनांक / समय","Registrant":"रजिस्ट्रार","Event Title/Location":"कार्यक्रम शीर्षक/स्थान","Occurrence":"असुरक्षा","Paid":"भुगतान","Event":"घटना","Zoom meeting":"ज़ूम बैठक","Apply":"आवेदन","Integrations":"एकीकरण","Connect and manage your integrations to enhance your event management.":"अपने कार्यक्रम प्रबंधन को बढ़ाने के लिए अपने एकीकरण को कनेक्ट और प्रबंधित करें।","Connected":"कनेक्ट","Calendars Integration":"कैलेंडर एकीकरण","Event Integrations":"घटना एकीकरण","Calendars":"कैलेंडर","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"हर किसी को सूचित रखने के लिए Google कैलेंडर या आउटलुक के साथ आसानी से अपने कार्यक्रम शेड्यूल को सिंक्रनाइज़ करें।","Manage":"प्रबंधन","Learn More →":"Learn More →","Emails Integration":"ईमेल एकीकरण","Emails":"ईमेल","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Google Mail और Microsoft Outlook का उपयोग करके संचार को स्वचालित करें, अपनी घटनाओं के लिए समय पर अपडेट सुनिश्चित करें।","Connect":"कनेक्ट","OAuth Setup Required Before Connecting.":"कनेक्ट करने से पहले OAuth सेटअप आवश्यक है।","Gmail":"जीमेल","Zoom Integration":"ज़ूम एकीकरण","Video Conferencing":"वीडियो कॉन्फ्रेंसिंग","Available on paid plans.":"भुगतान योजनाओं पर उपलब्ध है।","Zoom":"ज़ूम","Stripe Integration":"स्ट्रिप एकीकरण","Stripe":"स्ट्रिप","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"अपने भुगतान और टिकट की बिक्री सीधे स्ट्राइप के माध्यम से सिंक करें। (एक सक्रिय सदस्यता योजना की आवश्यकता)","Email Templates":"ईमेल टेम्पलेट","Easily View, Create, and Modify Email Templates":"आसानी से ईमेल टेम्पलेट्स को देखें, बनाएं और संशोधित करें","Save":"सहेजें","Cancel":"रद्द करना","Template Name":"टेम्पलेट नाम","In-person Event - Booking":"व्यक्तिगत घटना - बुकिंग","Email Subject":"ईमेल विषय","{{event_name}} - {{store_name}}":"{{event_name}} {{store_name}}","Template Parameters":"टेम्पलेट पैरामीटर","Parameter":"पैरामीटर","Description":"विवरण","{{category_details}}":"{{category_details}}","Category details":"श्रेणी विवरण","{{category}}":"{{category}}","Category of event":"घटना की श्रेणी","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"कस्टम फील्ड 1 नाम","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"कस्टम फील्ड 1 मान","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"कस्टम फील्ड 2 नाम","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"कस्टम फील्ड 2 मान","{{customer_name}}":"{{customer_name}}","Customer name":"ग्राहक का नाम","{{date}}":"{{date}}","Date of event":"कार्यक्रम की तारीख","{{event_name}}":"{{event_name}}","Event name":"घटना का नाम","{{location_details}}":"{{location_details}}","Location details":"स्थान विवरण","{{location_hours}}":"{{location_hours}}","Location operational hours":"स्थान परिचालन घंटे","{{location}}":"सम्पर्क","Location of event":"घटना का स्थान","{{members_list}}":"{{members_list}}","Event members info list":"घटना सदस्यों की जानकारी सूची","{{store_email}}":"{{store_email}}","Store contact email":"स्टोर संपर्क ईमेल","{{store_name}}":"{{store_name}}","Store name":"स्टोर का नाम","{{time}}":"{{time}}","Time of event":"घटना का समय","Edit Mode":"संपादन मोड","Rich Text":"रिच टेक्स्ट","HTML":"एचटीएमएल","Email Content":"ईमेल सामग्री","Hi {{customer_name}}, Thank you for registering!":"हाय {{customer_name}}, धन्यवाद!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"आप सफलतापूर्वक \\"{event_name}} इवेंट\\" में पंजीकृत हुए हैं। कृपया इस ईमेल को उस घटना के विवरण के लिए बचाएं जो नीचे दिए गए हैं","{{date}} {{time}}":"{{date}}","For any queries or to cancel booking please contact the store at {{store_email}}":"किसी भी पूछताछ के लिए या बुकिंग रद्द करने के लिए कृपया स्टोर से संपर्क करें {{store_email}}","We look forward to seeing you.":"हम आपको देखने के लिए तत्पर हैं।","Preview":"पूर्वावलोकन","Subject: {{event_name}} - {{store_name}}":"विषय: {{event_name}} {{store_name}}","Analytics":"विश्लेषण","View your Revenue, Registrants, Events, and Filter analytics.":"अपने राजस्व, रेजिस्ट्रेंट्स, इवेंट्स और फ़िल्टर एनालिटिक्स देखें।","Total Revenue":"कुल राजस्व","Total Registrants":"कुलसचिव","Events Analytics":"इवेंट एनालिटिक्स","Filters Analytics":"फ़िल्टर एनालिटिक्स","Select Dates":"चयन तिथि","You haven’t made any Sales yet.":"आपने अभी तक कोई बिक्री नहीं की है।","Reset":"रीसेट करें","0 Registrants":"0 रजिस्ट्रार","You don’t have any Registrants yet.":"आपके पास अभी तक कोई रजिस्ट्रार नहीं है।","Active Events":"सक्रिय आयोजन","Events Happened":"घटनाओं Happened","Events Cancelled":"आयोजन रद्द","You don’t have Filter Statistics yet.":"अभी तक फ़िल्टर सांख्यिकी नहीं है।","Settings":"सेटिंग","General":"जनरल","Reminders":"अनुस्मारक","Billing plans":"बिलिंग प्लान","Fast Checkout":"फास्ट चेकआउट","Widget Settings":"विजेट सेटिंग्स","Widget Translations":"विजेट अनुवाद","Time zone":"समय क्षेत्र","Set a default time zone.":"डिफ़ॉल्ट समय क्षेत्र सेट करें।","US/Pacific":"यूएस / प्रशांत","Time format":"समय स्वरूप","Set a default time format.":"एक डिफ़ॉल्ट समय स्वरूप सेट करें।","12 hours":"12 घंटे","Hide timezone abbreviation in email, widget and dashboard.":"ईमेल, विजेट और डैशबोर्ड में टाइमज़ोन संक्षिप्तीकरण छिपाएं।","Currency format":"मुद्रा प्रारूप","Set a default currency.":"डिफ़ॉल्ट मुद्रा सेट करें।","Alphabets: USD / CAD / CNY":"वर्णमाला: USD / CAD / CNY","Duration":"अवधि","Set a default event duration.":"एक डिफ़ॉल्ट घटना अवधि निर्धारित करें।","1 hour":"1 घंटे","Start / end time":"प्रारंभ / समाप्ति समय","Set a default start and end time.":"एक डिफ़ॉल्ट प्रारंभ और अंत समय निर्धारित करें।","Start time":"प्रारंभ समय","End time":"अंत समय","Ticket price":"टिकट की कीमत","Set a default ticket price.":"डिफ़ॉल्ट टिकट की कीमत निर्धारित करें।","Set a default event location.":"एक डिफ़ॉल्ट घटना स्थान सेट करें।","Zoom Event":"ज़ूम इवेंट","Email notifications":"ईमेल सूचनाएं","Enable email notifications":"ईमेल सूचनाएं सक्षम करें","First reminder":"प्रथम अनुस्मारक","Enable first reminder and specify time to first reminder":"पहली अनुस्मारक सक्षम करें और पहली अनुस्मारक के लिए समय निर्दिष्ट करें","Second reminder":"दूसरा अनुस्मारक","Enable second reminder and specify time to second reminder":"दूसरे अनुस्मारक को सक्षम करें और दूसरे अनुस्मारक को समय निर्दिष्ट करें","Finished reminder":"समाप्त अनुस्मारक","Send notification after the event has ended":"घटना समाप्त होने के बाद अधिसूचना भेजें","Additional Email Notification Settings":"अतिरिक्त ईमेल अधिसूचना सेटिंग्स","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"अपनी घटनाओं के लिए अतिरिक्त ईमेल अलर्ट और अनुस्मारक सेट करें। आप घटना से पहले विशिष्ट समय पर स्टाफ सूचनाएं छोड़ सकते हैं या अनुस्मारक ईमेल जोड़ सकते हैं","Additional reminder emails list (comma-separated)":"अतिरिक्त अनुस्मारक ईमेल सूची (comma-separated)","Additional reminder hours":"अतिरिक्त अनुस्मारक घंटे","Skip Staff Email Notification":"कर्मचारी ईमेल अधिसूचना","Free":"फ्री","Unlimited Bookings":"असीमित बुकिंग","Widgets":"विजेट","Notifications":"अधिसूचनाएं","Multi Booking":"मल्टी बुकिंग","Custom Store Email":"कस्टम स्टोर ईमेल","Recurring":"आवर्ती","Multi Tickets":"मल्टी टिकट","Premium Support":"प्रीमियम समर्थन","Email Customization":"ईमेल अनुकूलन","User Management":"उपयोगकर्ता प्रबंधन","Activated":"सक्रिय","Premium":"प्रीमियम","Activate":"सक्रिय","Enable Fast Checkout for Free Events":"मुफ्त घटनाओं के लिए फास्ट चेकआउट सक्षम करें","Activate fast checkout to speed up the booking process for free services":"मुफ्त सेवाओं के लिए बुकिंग प्रक्रिया को तेज करने के लिए फास्ट चेकआउट को सक्रिय करें","Enable Fast Checkout":"फास्ट चेकआउट सक्षम करें","Skip Captcha on Fast Checkout":"फास्ट चेकआउट पर कैप्चा छोड़ें","Activate to bypass captcha verification during fast checkout for free services.":"मुफ्त सेवाओं के लिए फास्ट चेकआउट के दौरान कैप्चा सत्यापन को रोकने के लिए सक्रिय करें।","Skip Captcha":"कैप्चा","Marketing Consent Checkbox":"विपणन Consent Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"इस विकल्प को नि: शुल्क चेकआउट पर एक चेकबॉक्स दिखाने के लिए चालू करें, इसलिए ग्राहक विपणन ईमेल और न्यूज़लेटर के लिए साइन अप कर सकते हैं।","Marketing Consent":"विपणन सहमति"}');
+
+/***/ }),
+
+/***/ "./src/locales/ja/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/ja/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0 の 0","Events":"イベント","Create event":"イベントの作成","Customize":"カスタマイズ","Upcoming":"アップカム","Past":"新着情報","Zoom Events":"ズームイベント","Your Events":"あなたのイベント","0 Event":"0 イベント","Enter search string":"検索文字列を入力する","Select dates":"日付を選択","Filters":"フィルター","Title":"タイトル","Date":"日程表","Time":"タイムタイム","Location":"アクセス","Type":"タイプ:","Recurrence":"再発","Status":"ステータス","Bookings":"予約する","Set default values for any new events to save time.":"任意の新しいイベントのデフォルト値を設定して、時間を節約できます。","Export":"エクスポート","All time":"すべての時間","12 month":"12 ヶ月","30 days":"30日","7 days":"7 日","0 item":"0 アイテム","Review and manage all your event bookings here.":"各イベントの予約の確認と管理","Order ID":"注文ID","Order Date/Time":"注文日付/時刻","Registrant":"参加登録者","Event Title/Location":"イベント名/開催場所","Occurrence":"職業紹介","Paid":"ペイド","Event":"イベント","Zoom meeting":"ズーム会議","Apply":"お問い合わせ","Integrations":"ソリューション","Connect and manage your integrations to enhance your event management.":"統合を接続して管理し、イベント管理を強化します。","Connected":"コネクテッド","Calendars Integration":"カレンダーの統合","Event Integrations":"イベントの統合","Calendars":"カレンダー","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"誰もが情報を保持するために、あなたのイベントスケジュールをGoogleカレンダーやOutlookと楽に同期.","Manage":"マネージング","Learn More →":"もっと知る →","Emails Integration":"電子メールの統合","Emails":"メール","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Google MailとMicrosoft Outlookを使用して通信を自動化し、イベントのタイムリーな更新を保証します。","Connect":"ログイン","OAuth Setup Required Before Connecting.":"接続前に OAuth の設定が必要です。","Gmail":"ログイン","Zoom Integration":"Zoomの統合","Video Conferencing":"ビデオ会議","Available on paid plans.":"有料プランでご利用いただけます。","Zoom":"ズーム","Stripe Integration":"Stripeの統合","Stripe":"ストライプ","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"支払いとチケット販売をStripe経由で直接同期します。 (有効なサブスクリプションプランが必要です。)","Email Templates":"メールテンプレート","Easily View, Create, and Modify Email Templates":"メールテンプレートを簡単に表示、作成、変更","Save":"保存する","Cancel":"キャンセル","Template Name":"テンプレート名","In-person Event - Booking":"スタッフイベント - 予約","Email Subject":"メールの件名","{{event_name}} - {{store_name}}":"お問い合わせ お問い合わせ","Template Parameters":"テンプレートパラメータ","Parameter":"パラメータ","Description":"コンテンツ","{{category_details}}":"お問い合わせ","Category details":"カテゴリー詳細","{{category}}":"お問い合わせ","Category of event":"イベントカテゴリー","{{custom_field_1_name}}":"お問い合わせ","Custom field 1 name":"カスタムフィールド1名","{{custom_field_1_value}}":"お問い合わせ","Custom field 1 value":"カスタムフィールド 1 値","{{custom_field_2_name}}":"お問い合わせ","Custom field 2 name":"カスタムフィールド2名","{{custom_field_2_value}}":"お問い合わせ","Custom field 2 value":"カスタムフィールド2値","{{customer_name}}":"お問い合わせ","Customer name":"顧客名","{{date}}":"お問い合わせ","Date of event":"イベント開催日","{{event_name}}":"お問い合わせ","Event name":"イベント名","{{location_details}}":"お問い合わせ","Location details":"位置情報","{{location_hours}}":"お問い合わせ","Location operational hours":"勤務時間","{{location}}":"お問い合わせ","Location of event":"イベントの場所","{{members_list}}":"お問い合わせ","Event members info list":"イベント情報","{{store_email}}":"お問い合わせ","Store contact email":"コンタクトメールの保存","{{store_name}}":"お問い合わせ","Store name":"店舗名","{{time}}":"お問い合わせ","Time of event":"イベント時間","Edit Mode":"編集モード","Rich Text":"豊富なテキスト","HTML":"アーカイブ","Email Content":"メールコンテンツ","Hi {{customer_name}}, Thank you for registering!":"お問い合わせ ご登録ありがとうございました!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"{{event_name}} イベントに正常に登録されています。 下記のイベントの詳細につきましては、このメールを保存してください。","{{date}} {{time}}":"お問い合わせ","For any queries or to cancel booking please contact the store at {{store_email}}":"ご質問やご予約のキャンセルは、 {{store_email}} の店舗にお問い合わせください。","We look forward to seeing you.":"皆様のお越しをお待ちしております。","Preview":"プレビュー","Subject: {{event_name}} - {{store_name}}":"件名: {{event_name}} お問い合わせ","Analytics":"アナリティクス","View your Revenue, Registrants, Events, and Filter analytics.":"Revenue、Registrants、イベント、およびフィルタ分析をご覧いただけます。","Total Revenue":"総収入","Total Registrants":"参加登録者数","Events Analytics":"イベント アナリティクス","Filters Analytics":"フィルター分析","Select Dates":"日付を選択","You haven’t made any Sales yet.":"まだ販売を行わない","Reset":"リセット","0 Registrants":"0 登録者","You don’t have any Registrants yet.":"まだ登録者はありません。","Active Events":"アクティブイベント","Events Happened":"イベント 催し物","Events Cancelled":"イベント中止","You don’t have Filter Statistics yet.":"フィルター統計はまだありません。","Settings":"コンテンツ","General":"インフォメーション","Reminders":"リマインダー","Billing plans":"請求プラン","Fast Checkout":"速いチェックアウト","Widget Settings":"ウィジェットの設定","Widget Translations":"ウィジェットの翻訳","Time zone":"タイムゾーン","Set a default time zone.":"デフォルトのタイムゾーンを設定します。","US/Pacific":"米国/太平洋","Time format":"時間フォーマット","Set a default time format.":"デフォルトの時刻形式を設定します。","12 hours":"12時間","Hide timezone abbreviation in email, widget and dashboard.":"電子メール、ウィジェット、ダッシュボードでタイムゾーンの省略を非表示にします。","Currency format":"通貨形式","Set a default currency.":"デフォルト通貨を設定します。","Alphabets: USD / CAD / CNY":"アルファベット:USD / CAD / CNY","Duration":"期間","Set a default event duration.":"デフォルトのイベント期間を設定します。","1 hour":"1時間","Start / end time":"開始/終了時刻","Set a default start and end time.":"デフォルト起動と終了時刻を設定します。","Start time":"開始時間","End time":"終了時間","Ticket price":"チケット料金","Set a default ticket price.":"デフォルトのチケット価格を設定します。","Set a default event location.":"デフォルトのイベントの場所を設定します。","Zoom Event":"ズームイベント","Email notifications":"メール通知","Enable email notifications":"メール通知を有効にする","First reminder":"ファーストリマインダー","Enable first reminder and specify time to first reminder":"最初のリマインダーを有効にし、最初のリマインダーに時間を指定","Second reminder":"第二のリマインダー","Enable second reminder and specify time to second reminder":"2番目のリマインダーを有効にし、2番目のリマインダーに時間を指定","Finished reminder":"仕上げリマインダー","Send notification after the event has ended":"イベント終了後に通知を送信","Additional Email Notification Settings":"追加メール通知設定","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"イベントのメールアラートやリマインダーを設定できます。 スタッフの通知をスキップしたり、イベントの前に特定の時間にリマインダーメールを追加したりすることができます。","Additional reminder emails list (comma-separated)":"追加リマインダーメールリスト(コンマ区切り)","Additional reminder hours":"追加のリマインダー時間","Skip Staff Email Notification":"スタッフのメール通知をスキップ","Free":"無料","Unlimited Bookings":"無制限の予約","Widgets":"ウィジェット","Notifications":"お知らせ","Multi Booking":"複数予約","Custom Store Email":"カスタムストアメール","Recurring":"リサイクル","Multi Tickets":"マルチチケット","Premium Support":"プレミアムサポート","Email Customization":"電子メールのカスタマイズ","User Management":"ユーザー管理","Activated":"アクティブ化","Premium":"プレミアム","Activate":"アクティブ化","Enable Fast Checkout for Free Events":"無料イベントの高速チェックアウトを有効にする","Activate fast checkout to speed up the booking process for free services":"無料のサービスのための予約プロセスをスピードアップするための高速チェックアウトを有効にします","Enable Fast Checkout":"高速チェックアウトを有効にする","Skip Captcha on Fast Checkout":"Captchaを高速チェックアウトにスキップ","Activate to bypass captcha verification during fast checkout for free services.":"無料のサービスのための高速チェックアウト中にカプチャの検証をバイパスする活性化。","Skip Captcha":"スキップキャプチャ","Marketing Consent Checkbox":"マーケティングの一貫したチェックボックス","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"無料のチェックアウト時にチェックボックスを表示するために、このオプションを有効にすると、お客様はマーケティングメールやニュースレターにサインアップすることができます","Marketing Consent":"マーケティングの一貫性"}');
+
+/***/ }),
+
+/***/ "./src/locales/ko/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/ko/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0 댓글","Events":"- 연혁","Create event":"공지사항","Customize":"사용자 정의","Upcoming":"지원하다","Past":"이름 *","Zoom Events":"Zoom 이벤트","Your Events":"당신의 사건","0 Event":"0 이벤트","Enter search string":"검색 문자열","Select dates":"자주 묻는 질문","Filters":"필터링","Title":"이름 *","Date":"(주)","Time":"(주)","Location":"- 연혁","Type":"제품정보","Recurrence":"계정 관리","Status":"주요연혁","Bookings":"【특전】","Set default values for any new events to save time.":"시간을 절약 할 수있는 새로운 이벤트에 대한 기본 값을 설정합니다.","Export":"수출입","All time":"모든 시간","12 month":"12 개월","30 days":"30 일","7 days":"7 일","0 item":"0 항목","Review and manage all your event bookings here.":"모든 이벤트 예약을 검토하고 관리합니다.","Order ID":"주문 ID","Order Date/Time":"주문 날짜/시간","Registrant":"회사연혁","Event Title/Location":"이벤트 제목/위치","Occurrence":"계정 관리","Paid":"뚱 베어","Event":"(주)","Zoom meeting":"Zoom 회의","Apply":"지원하다","Integrations":"통합","Connect and manage your integrations to enhance your event management.":"통합을 연결하고 관리하여 이벤트 관리를 향상시킬 수 있습니다.","Connected":"연결하기","Calendars Integration":"달력 통합","Event Integrations":"이벤트 통합","Calendars":"한국어","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Google 캘린더 또는 Outlook으로 이벤트 일정을 동기화하여 모든 것을 알 수 있습니다.","Manage":"계정 관리","Learn More →":"더 알아보기 →","Emails Integration":"이메일 통합","Emails":"이름 *","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Google Mail 및 Microsoft Outlook을 사용하여 자동 통신, 이벤트에 적시 업데이트를 보장합니다.","Connect":"연결하기","OAuth Setup Required Before Connecting.":"연결하기 전에 OAuth 설정.","Gmail":"사이트맵","Zoom Integration":"Zoom 통합","Video Conferencing":"영상 Conferencing","Available on paid plans.":"유료 계획에서 사용할 수 있습니다.","Zoom":"주 메뉴","Stripe Integration":"Stripe 통합","Stripe":"뚱 베어","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Stripe를 통해 결제 및 티켓 판매를 직접 동기화하십시오. (활동적인 가입 계획이 필요합니다.)","Email Templates":"이메일 템플릿","Easily View, Create, and Modify Email Templates":"쉽게 보기, 만들기, 및 이메일 템플릿 수정","Save":"제품 정보","Cancel":"이름 *","Template Name":"템플릿 이름","In-person Event - Booking":"In-person 이벤트 - 예약","Email Subject":"이메일 제목","{{event_name}} - {{store_name}}":"제품 정보 - 이름","Template Parameters":"템플릿 매개 변수","Parameter":"제품 설명","Description":"이름 *","{{category_details}}":"제품 정보","Category details":"범주 세부 사항","{{category}}":"제품 정보","Category of event":"행사일정","{{custom_field_1_name}}":"{{custom_field_1_이름}}","Custom field 1 name":"주문 분야 1 이름","{{custom_field_1_value}}":"{{custom_field_1_value}}을 선택하십시오.","Custom field 1 value":"주문 분야 1 가치","{{custom_field_2_name}}":"{{custom_field_2_이름}}","Custom field 2 name":"주문 분야 2 이름","{{custom_field_2_value}}":"{{custom_field_2_value}}을 선택하십시오.","Custom field 2 value":"주문 분야 2 가치","{{customer_name}}":"제품 정보","Customer name":"고객 이름","{{date}}":"이름 *","Date of event":"행사 일정","{{event_name}}":"제품 정보","Event name":"이벤트 이름","{{location_details}}":"제품 정보","Location details":"오시는 길","{{location_hours}}":"제품 정보","Location operational hours":"위치 운영 시간","{{location}}":"제품 정보","Location of event":"행사일정","{{members_list}}":"회원정보","Event members info list":"이벤트 회원 정보 목록","{{store_email}}":"제품 정보","Store contact email":"회사소개","{{store_name}}":"제품 정보","Store name":"상점 이름","{{time}}":"제품 정보","Time of event":"행사시간","Edit Mode":"편집 모드","Rich Text":"풍부한 텍스트","HTML":"HTML 지원","Email Content":"이메일 내용","Hi {{customer_name}}, Thank you for registering!":"안녕하세요. 감사합니다!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"{{event_name}} 이벤트에 성공적으로 등록되었습니다. 이 이메일은 아래의 이벤트 세부 정보를 저장해 주십시오.","{{date}} {{time}}":"제품 정보","For any queries or to cancel booking please contact the store at {{store_email}}":"예약을 취소하거나 취소하려면 {{store_email}}에서 상점에 문의하십시오.","We look forward to seeing you.":"우리는 당신을 보고 기대합니다.","Preview":"다운로드","Subject: {{event_name}} - {{store_name}}":"제목: {{event_name}} - 이름","Analytics":"웹 사이트","View your Revenue, Registrants, Events, and Filter analytics.":"Revenue, Registrants, 이벤트 및 필터 분석 보기","Total Revenue":"총 매출","Total Registrants":"전체 등록","Events Analytics":"이벤트 Analytics","Filters Analytics":"필터 분석","Select Dates":"날짜 선택","You haven’t made any Sales yet.":"아직 판매하지 않았습니다.","Reset":"지원하다","0 Registrants":"0 등록","You don’t have any Registrants yet.":"아직 등록이 없습니다.","Active Events":"Active 이벤트","Events Happened":"이벤트 Happened","Events Cancelled":"행사 취소","You don’t have Filter Statistics yet.":"아직 필터 통계가 없습니다.","Settings":"지원하다","General":"주요사업","Reminders":"회사연혁","Billing plans":"빌링 계획","Fast Checkout":"빠른 체크 아웃","Widget Settings":"Widget 설정","Widget Translations":"Widget 번역","Time zone":"시간 영역","Set a default time zone.":"기본 시간대를 설정합니다.","US/Pacific":"미국/태평양","Time format":"시간 형식","Set a default time format.":"기본 시간 형식을 설정합니다.","12 hours":"12시간","Hide timezone abbreviation in email, widget and dashboard.":"이메일, 위젯 및 대시보드에서 timezone 약어를 숨기기.","Currency format":"통화 형식","Set a default currency.":"기본 통화를 설정합니다.","Alphabets: USD / CAD / CNY":"알파벳: USD / CAD / CNY","Duration":"이름 *","Set a default event duration.":"기본 이벤트 기간을 설정합니다.","1 hour":"1시간","Start / end time":"시작 / 종료 시간","Set a default start and end time.":"기본 시작 및 종료 시간을 설정합니다.","Start time":"시작 시간","End time":"종료 시간","Ticket price":"티켓 가격","Set a default ticket price.":"기본 티켓 가격을 설정합니다.","Set a default event location.":"기본 이벤트 위치를 설정합니다.","Zoom Event":"Zoom 이벤트","Email notifications":"이메일 알림","Enable email notifications":"이메일 알림","First reminder":"첫 번째 알림","Enable first reminder and specify time to first reminder":"첫 번째 알림을 활성화하고 첫 알림에 시간을 지정","Second reminder":"두 번째 알림","Enable second reminder and specify time to second reminder":"두 번째 알림을 활성화하고 두 번째 알림에 시간을 지정","Finished reminder":"끝마친","Send notification after the event has ended":"이벤트가 종료된 후 알림 보내기","Additional Email Notification Settings":"추가 이메일 알림 설정","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"이벤트에 대한 추가 이메일 알림 및 알림 설정. 직원 알림을 건너 뛰거나 이벤트 전 특정 시간에 알림 이메일을 추가 할 수 있습니다.","Additional reminder emails list (comma-separated)":"추가 알림 이메일 목록 (comma-separated)","Additional reminder hours":"추가 알림 시간","Skip Staff Email Notification":"자주 묻는 질문","Free":"무료 다운로드","Unlimited Bookings":"무제한 예약","Widgets":"다운로드","Notifications":"공지사항","Multi Booking":"멀티 예약","Custom Store Email":"회사 소개","Recurring":"회사연혁","Multi Tickets":"멀티 티켓","Premium Support":"Premium 지원","Email Customization":"이메일 Customization","User Management":"사용자 관리","Activated":"이름 *","Premium":"제품정보","Activate":"이름 *","Enable Fast Checkout for Free Events":"무료 이벤트에 대한 빠른 체크 아웃","Activate fast checkout to speed up the booking process for free services":"무료 서비스에 대한 예약 프로세스를 가속화 빠른 체크 아웃 활성화","Enable Fast Checkout":"빠른 체크 아웃","Skip Captcha on Fast Checkout":"빠른 체크 아웃에서 Captcha를 건너","Activate to bypass captcha verification during fast checkout for free services.":"무료 서비스에 대한 빠른 체크 아웃 중 captcha 검증을 우회합니다.","Skip Captcha":"카카오톡","Marketing Consent Checkbox":"마케팅 일관성 Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"무료 체크 아웃에서 체크 박스를 보여주기 위해이 옵션을 켜십시오. 그래서 고객은 마케팅 이메일 및 뉴스 레터에 가입 할 수 있습니다.","Marketing Consent":"마케팅 Consent"}');
+
+/***/ }),
+
+/***/ "./src/locales/ru/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/ru/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"События","Create event":"Создать событие","Customize":"настраивать","Upcoming":"приближающийся","Past":"Прошлое","Zoom Events":"События Zoom","Your Events":"Ваши события","0 Event":"0 События","Enter search string":"Введите строку поиска","Select dates":"Выберите даты","Filters":"Фильтры","Title":"Название","Date":"Дата","Time":"Время","Location":"Расположение","Type":"Тип","Recurrence":"рецидив","Status":"статус","Bookings":"Бронирование","Set default values for any new events to save time.":"Установите значения по умолчанию для любых новых событий, чтобы сэкономить время.","Export":"экспорт","All time":"Все время","12 month":"12 месяцев","30 days":"30 дней","7 days":"7 дней","0 item":"0 пункт","Review and manage all your event bookings here.":"Просмотрите и управляйте всеми бронированиями мероприятий здесь.","Order ID":"Идентификатор заказа","Order Date/Time":"Дата/время заказа","Registrant":"регистрант","Event Title/Location":"Название / Место проведения","Occurrence":"возникновение","Paid":"Оплаченный","Event":"Событие","Zoom meeting":"Встреча Зум","Apply":"Применять","Integrations":"Интеграция","Connect and manage your integrations to enhance your event management.":"Подключайте и управляйте интеграциями, чтобы улучшить управление событиями.","Connected":"подключенный","Calendars Integration":"Интеграция календарей","Event Integrations":"Интеграция событий","Calendars":"Расписание","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Легко синхронизируйте расписание мероприятий с Google Calendar или Outlook, чтобы держать всех в курсе.","Manage":"Управление","Learn More →":"Узнать больше →","Emails Integration":"Интеграция электронной почты","Emails":"Электронные письма","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Автоматизация коммуникаций с помощью Google Mail и Microsoft Outlook, обеспечение своевременного обновления событий.","Connect":"Соединить","OAuth Setup Required Before Connecting.":"Требуется настройка OAuth перед подключением.","Gmail":"Gmail","Zoom Integration":"Интеграция Zoom","Video Conferencing":"Видеоконференции","Available on paid plans.":"Доступен по платным планам.","Zoom":"Зум","Stripe Integration":"Стрип-интеграция","Stripe":"полосатый","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Синхронизируйте платежи и продажи билетов напрямую через Stripe. (Требуется активный план подписки.)","Email Templates":"Шаблоны электронной почты","Easily View, Create, and Modify Email Templates":"Легко просматривать, создавать и изменять шаблоны электронной почты","Save":"Спасти","Cancel":"отменить","Template Name":"Шаблонное имя","In-person Event - Booking":"Личное мероприятие - Бронирование","Email Subject":"Тема электронной почты","{{event_name}} - {{store_name}}":"{{событие_имя}} -{{store_name}}","Template Parameters":"Параметры шаблонов","Parameter":"Параметр","Description":"Описание","{{category_details}}":"{{Категория_детали}}","Category details":"Категория детали","{{category}}":"{{Категория}}","Category of event":"Категория события","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"Пользовательское поле 1 имя","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"Пользовательское поле 1 значение","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"Пользовательское поле 2 имя","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"Пользовательское поле 2 значение","{{customer_name}}":"{{customer_name}}","Customer name":"Имя клиента","{{date}}":"{{Дата}}","Date of event":"Дата события","{{event_name}}":"{{событие_имя}}","Event name":"Название мероприятия","{{location_details}}":"{{location_details}}","Location details":"Подробнее о местоположении","{{location_hours}}":"{{location_hours}}","Location operational hours":"Рабочие часы на месте","{{location}}":"{{местонахождение}}","Location of event":"Место проведения мероприятия","{{members_list}}":"{{members_list}}","Event members info list":"Список участников мероприятия Info List","{{store_email}}":"{{store_email}}","Store contact email":"Магазин контактной почты","{{store_name}}":"{{store_name}}","Store name":"Название магазина","{{time}}":"{{Время}}","Time of event":"Время события","Edit Mode":"Режим редактирования","Rich Text":"Богатый текст","HTML":"HTML","Email Content":"Контент электронной почты","Hi {{customer_name}}, Thank you for registering!":"Привет {{customer_name}} Спасибо за регистрацию!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Вы успешно зарегистрировались на мероприятие {{событие_имя}} Пожалуйста, сохраните это электронное письмо для деталей мероприятия, которые приведены ниже.","{{date}} {{time}}":"{{date}} {{time}}","For any queries or to cancel booking please contact the store at {{store_email}}":"Для любых запросов или отмены бронирования, пожалуйста, свяжитесь с магазином по адресу {{store_email}}","We look forward to seeing you.":"Мы с нетерпением ждем встречи с вами.","Preview":"Предварительный просмотр","Subject: {{event_name}} - {{store_name}}":"Subject: {{событие_имя}} -{{store_name}}","Analytics":"Аналитика","View your Revenue, Registrants, Events, and Filter analytics.":"Просмотр ваших доходов, регистрантов, событий и аналитики фильтров.","Total Revenue":"Общий доход","Total Registrants":"Всего регистрантов","Events Analytics":"Аналитика событий","Filters Analytics":"Фильтры Analytics","Select Dates":"Выберите даты","You haven’t made any Sales yet.":"Вы еще не сделали никаких продаж.","Reset":"сброс","0 Registrants":"0 Регистранты","You don’t have any Registrants yet.":"У вас пока нет регистраторов.","Active Events":"Активные события","Events Happened":"Произошли события","Events Cancelled":"События отменены","You don’t have Filter Statistics yet.":"У вас пока нет статистики фильтров.","Settings":"Настройки","General":"Генерал","Reminders":"Напоминания","Billing plans":"Биллинговые планы","Fast Checkout":"Быстрая проверка","Widget Settings":"Настройки виджетов","Widget Translations":"Переводы виджетов","Time zone":"Часовой пояс","Set a default time zone.":"Установите часовой пояс по умолчанию.","US/Pacific":"США/Тихоокеанский регион","Time format":"Формат времени","Set a default time format.":"Установите формат времени по умолчанию.","12 hours":"12 часов","Hide timezone abbreviation in email, widget and dashboard.":"Скрыть аббревиатуру Timezone в электронной почте, виджете и панели инструментов.","Currency format":"Валютный формат","Set a default currency.":"Установите валюту по умолчанию.","Alphabets: USD / CAD / CNY":"Алфавиты: USD / CAD / CNY","Duration":"Продолжительность","Set a default event duration.":"Установите продолжительность события по умолчанию.","1 hour":"1 час","Start / end time":"Время начала/конца","Set a default start and end time.":"Установите время начала и окончания по умолчанию.","Start time":"Время начала","End time":"Время окончания","Ticket price":"Стоимость билета","Set a default ticket price.":"Установите цену билета по умолчанию.","Set a default event location.":"Установите место события по умолчанию.","Zoom Event":"Событие Zoom","Email notifications":"Уведомления электронной почты","Enable email notifications":"Включить уведомления по электронной почте","First reminder":"Первое напоминание","Enable first reminder and specify time to first reminder":"Включите первое напоминание и укажите время для первого напоминания.","Second reminder":"Второе напоминание","Enable second reminder and specify time to second reminder":"Включите второе напоминание и укажите время второго напоминания","Finished reminder":"Завершенное напоминание","Send notification after the event has ended":"Отправить уведомление после окончания мероприятия","Additional Email Notification Settings":"Дополнительные настройки уведомлений по электронной почте","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Настройте дополнительные оповещения по электронной почте и напоминания о ваших событиях. Вы можете пропустить уведомления персонала или добавить электронные письма с напоминаниями в определенное время перед мероприятием.","Additional reminder emails list (comma-separated)":"Дополнительный список напоминаний по электронной почте (с раздельной запятой)","Additional reminder hours":"Дополнительные часы напоминания","Skip Staff Email Notification":"Уведомление Skip Staff Email","Free":"бесплатно","Unlimited Bookings":"Неограниченные бронирования","Widgets":"виджеты","Notifications":"Уведомления","Multi Booking":"Многократное бронирование","Custom Store Email":"Custom Store электронная почта","Recurring":"повторяющийся","Multi Tickets":"Много билетов","Premium Support":"Премиальная поддержка","Email Customization":"Настройка электронной почты","User Management":"Управление пользователями","Activated":"Активированный","Premium":"Премиум","Activate":"активировать","Enable Fast Checkout for Free Events":"Возможность быстрого оформления заказа на бесплатные мероприятия","Activate fast checkout to speed up the booking process for free services":"Активировать быстрый контроль, чтобы ускорить процесс бронирования бесплатных услуг","Enable Fast Checkout":"Включить Fast Checkout","Skip Captcha on Fast Checkout":"Skip Captcha в Fast Checkout","Activate to bypass captcha verification during fast checkout for free services.":"Активируйте для обхода проверки captcha во время быстрого оформления бесплатных услуг.","Skip Captcha":"Скип Капча","Marketing Consent Checkbox":"Маркетинговое согласие Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Включите эту опцию, чтобы показать флажок при бесплатном оформлении заказа, чтобы клиенты могли подписаться на маркетинговые электронные письма и информационные бюллетени","Marketing Consent":"Маркетинговое согласие"}');
+
+/***/ }),
+
+/***/ "./src/locales/zh/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/zh/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create event":"创建事件","Customize":"自定义","Upcoming":"即将","Past":"过去","Zoom Events":"缩放事件","Your Events":"您的事件","0 Event":"0 事件","Enter search string":"输入搜索字符串","Select dates":"选择日期","Filters":"过滤器","Title":"标题","Date":"日期","Time":"时间","Location":"地点","Type":"类型","Recurrence":"重现","Status":"状态","Bookings":"预订","Set default values for any new events to save time.":"为任何新事件设置默认值以节省时间 。","Export":"导出","All time":"永远","12 month":"12个月","30 days":"30天时间","7 days":"7天时间","0 item":"0项","Review and manage all your event bookings here.":"检查和管理您所有的活动预定。","Order ID":"顺序编号","Order Date/Time":"日期/时间","Registrant":"书记官长","Event Title/Location":"活动名称/地点","Occurrence":"发生","Paid":"已支付","Event":"活动","Zoom meeting":"缩小会议","Apply":"应用","Integrations":"整合","Connect and manage your integrations to enhance your event management.":"连接并管理您的集成,以加强事件管理.","Connected":"已连接","Calendars Integration":"日历集成","Event Integrations":"事件整合","Calendars":"日历","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"与 Google 日历或 Outlook 同步您的活动日程, 以便让每个人都了解情况 。","Manage":"管理","Learn More →":"学习更多","Emails Integration":"电子邮件集成","Emails":"电子邮件","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"使用 Google Mail 和 Microsoft Outlook 实现通信自动化,确保您事件的及时更新.","Connect":"连接","OAuth Setup Required Before Connecting.":"连接前需要 OAuth 设置 。","Gmail":"邮件","Zoom Integration":"缩放整合","Video Conferencing":"视频配置","Available on paid plans.":"带薪计划可用。","Zoom":"缩放","Stripe Integration":"条纹融合","Stripe":"条纹","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"直接通过Frede同步支付和售票. (需要主动订阅计划.","Email Templates":"电子邮件模板","Easily View, Create, and Modify Email Templates":"轻松查看、创建和修改电子邮件模板","Save":"保存","Cancel":"取消","Template Name":"模板名称","In-person Event - Booking":"亲自活动- 预订","Email Subject":"电子邮件主题","{{event_name}} - {{store_name}}":"活动(_V) - [ 店 名 ]","Template Parameters":"模板参数","Parameter":"参数","Description":"说明","{{category_details}}":"分类_详细_____________________","Category details":"类别详情","{{category}}":"{{类 }}类","Category of event":"事件类别","{{custom_field_1_name}}":"习惯_ 字段_ 1_ 名称_ {}","Custom field 1 name":"自定义字段 1 名称","{{custom_field_1_value}}":"==============================================================================================================================================================================","Custom field 1 value":"自定义字段 1 值","{{custom_field_2_name}}":"用户名(_C)","Custom field 2 name":"自定义字段 2 名称","{{custom_field_2_value}}":"常规(_F):","Custom field 2 value":"自定义字段 2 值","{{customer_name}}":"用户名","Customer name":"客户名","{{date}}":"约会","Date of event":"活动日期","{{event_name}}":"活动(_V)","Event name":"事件名称","{{location_details}}":"位置 _ 细节 _","Location details":"地点详情","{{location_hours}}":"地点_小时_","Location operational hours":"地点运行时数","{{location}}":"地点","Location of event":"活动地点","{{members_list}}":"成员列表(_L)","Event members info list":"活动成员信息清单","{{store_email}}":"QQstore_电子邮件QQ","Store contact email":"存储联系人电子邮件","{{store_name}}":"\\\\\\\\\\\\ 商店_名称\\\\ \\\\ \\\\","Store name":"存储名称","{{time}}":"时间","Time of event":"活动时间","Edit Mode":"编辑模式","Rich Text":"丰富文本","HTML":"HTML 语句","Email Content":"电子邮件内容","Hi {{customer_name}}, Thank you for registering!":"嗨,顾客。 谢谢你的注册!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"您已成功注册到 QQevent_ name_ 活动 。 请保存此邮件, 以获取以下事件的细节","{{date}} {{time}}":"时间","For any queries or to cancel booking please contact the store at {{store_email}}":"任何查询或取消预订,请联系QQstore_email_QX商店","We look forward to seeing you.":"我们期待着见到你。","Preview":"预览","Subject: {{event_name}} - {{store_name}}":"主题: 活动_名称__ - [ 店 名 ]","Analytics":"分析","View your Revenue, Registrants, Events, and Filter analytics.":"查看您的收入、登记人、事件和过滤分析。","Total Revenue":"收入共计","Total Registrants":"书记官长共计","Events Analytics":"事件分析","Filters Analytics":"过滤分析","Select Dates":"选择日期","You haven’t made any Sales yet.":"你还没有做任何销售。","Reset":"重设","0 Registrants":"0名书记官长","You don’t have any Registrants yet.":"你们还没有登记员。","Active Events":"活动活动","Events Happened":"发生的事件","Events Cancelled":"已取消的事件","You don’t have Filter Statistics yet.":"您还没有过滤统计 。","Settings":"设置","General":"常规","Reminders":"提醒","Billing plans":"计费计划","Fast Checkout":"快速检出","Widget Settings":"部件设置","Widget Translations":"部件翻译","Time zone":"时区","Set a default time zone.":"设定默认时区 。","US/Pacific":"美国/ 太平洋","Time format":"时间格式","Set a default time format.":"设置默认的时间格式 。","12 hours":"12小时","Hide timezone abbreviation in email, widget and dashboard.":"在电子邮件、部件和仪表板中隐藏时区缩写 。","Currency format":"货币格式","Set a default currency.":"设定默认货币 。","Alphabets: USD / CAD / CNY":"字母顺序:美元/CAD/纽约市","Duration":"会期","Set a default event duration.":"设定默认事件持续时间 。","1 hour":"1小时","Start / end time":"开始/ 结束时间","Set a default start and end time.":"设定默认的开始和结束时间 。","Start time":"开始时间","End time":"结束时间","Ticket price":"车票价格","Set a default ticket price.":"设定违约票价.","Set a default event location.":"设置默认事件位置 。","Zoom Event":"缩放事件","Email notifications":"电子邮件通知","Enable email notifications":"启用电子邮件通知","First reminder":"第一次提醒","Enable first reminder and specify time to first reminder":"启用第一次提醒并指定第一次提醒的时间","Second reminder":"第二次提醒","Enable second reminder and specify time to second reminder":"启用第二次提醒并指定第二次提醒的时间","Finished reminder":"已完成提醒","Send notification after the event has ended":"事件结束后发送通知","Additional Email Notification Settings":"其它电子邮件通知设置","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"为您的事件设置额外的电子邮件提醒和提醒 。 您可以选择跳过员工通知或在事件前的特定时间添加提醒邮件","Additional reminder emails list (comma-separated)":"额外的提醒邮件列表( comma- 分隔)","Additional reminder hours":"其他提醒时间","Skip Staff Email Notification":"跳过工作人员电子邮件通知","Free":"免费","Unlimited Bookings":"无限制的预订","Widgets":"部件","Notifications":"通知","Multi Booking":"多种预订","Custom Store Email":"自定义存储电子邮件","Recurring":"经常性","Multi Tickets":"多张票","Premium Support":"ium支持","Email Customization":"电子邮件自定义","User Management":"用户管理","Activated":"已激活","Premium":"ium","Activate":"启动","Enable Fast Checkout for Free Events":"启用自由事件快速检出","Activate fast checkout to speed up the booking process for free services":"启动快速报到以加快免费服务的预订进程","Enable Fast Checkout":"启用快速检出","Skip Captcha on Fast Checkout":"快速检出时跳过Captcha","Activate to bypass captcha verification during fast checkout for free services.":"激活在快速检查免费服务时绕过Captcha验证.","Skip Captcha":"跳过队长","Marketing Consent Checkbox":"营销同意复选框","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"打开此选项在免费退票时显示一个复选框, 这样客户可以报名销售电子邮件和通讯","Marketing Consent":"营销同意"}');
 
 /***/ })
 
@@ -5494,7 +6090,7 @@ function Mt(t){if(!t||typeof document=="undefined")return;let o=document.head||d
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_moment-timezone_index_js-node_modules_heroicons_react_16_solid_esm_Adjus-83b592":"cefc46dc295c56108e96","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-26888c":"2d6adb06b228c01a121b","src_Components_Pages_EventsPage_jsx":"9a879284b36d0e429b11","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"acd63c1af55578cb13d8","src_Components_PostEditor_EventDetails_jsx":"3e20c85558130bc9de7d","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"eccdff1853abc3c2a5e4","src_Components_Pages_FiltersPage_jsx":"e7ae7f329f4c66ae7be4","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--00aaa8":"89be692218f08cf4ba53","src_Components_Pages_EmailTemplates_jsx":"1f7b77d21defbbe20f7b","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"85cd036702156b1bf12a","src_Components_Pages_BookingsPage_jsx":"8a64c713ecab0e899b02"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"cf73c2372b59ba223d38","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"a9b926045bd448c1bec2","src_Components_PostEditor_EventDetails_jsx":"4f9d3cb9fa33ad3d0d95","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"b49c4a6faec57d770a89","src_Components_Pages_FiltersPage_jsx":"7da0ea33ae2dd7b3e6ba","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"8a75896413353bfbbfd0","src_Components_Pages_EmailTemplates_jsx":"d1428982c28247b38e30","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"11ae205916778467fe00","src_Components_Pages_BookingsPage_jsx":"d72c67bb0e5b8a7d1804","src_Components_Pages_SupportPage_jsx":"a7b00bb5ef2bf4e54ffc"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -5680,7 +6276,7 @@ function Mt(t){if(!t||typeof document=="undefined")return;let o=document.head||d
 /******/ 		};
 /******/ 		
 /******/ 		__webpack_require__.f.miniCss = (chunkId, promises) => {
-/******/ 			var cssChunks = {"vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--00aaa8":1};
+/******/ 			var cssChunks = {"vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":1};
 /******/ 			if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 			else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 				promises.push(installedCssChunks[chunkId] = loadStylesheet(chunkId).then(() => {
@@ -5793,47 +6389,75 @@ function Mt(t){if(!t||typeof document=="undefined")return;let o=document.head||d
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
+"use strict";
 /*!**********************!*\
   !*** ./src/admin.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
-/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Components_Menu_SideMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Components/Menu/SideMenu */ "./src/Components/Menu/SideMenu.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var quill_dist_quill_core_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! quill/dist/quill.core.css */ "./node_modules/quill/dist/quill.core.css");
-/* harmony import */ var _utilities_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utilities/settings */ "./src/utilities/settings.js");
-/* harmony import */ var _utilities_filters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utilities/filters */ "./src/utilities/filters.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _bootstrap_i18n_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap-i18n.js */ "./src/bootstrap-i18n.js");
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Components_Menu_SideMenu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Components/Menu/SideMenu */ "./src/Components/Menu/SideMenu.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Components_LanguageSwitcher_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Components/LanguageSwitcher.jsx */ "./src/Components/LanguageSwitcher.jsx");
+/* harmony import */ var _Components_Layout_Layout_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Components/Layout/Layout.jsx */ "./src/Components/Layout/Layout.jsx");
+/* harmony import */ var _Components_Layout_Layout_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Components/Layout/Layout.css */ "./src/Components/Layout/Layout.css");
+/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
+/* harmony import */ var quill_dist_quill_core_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! quill/dist/quill.core.css */ "./node_modules/quill/dist/quill.core.css");
+/* harmony import */ var _utilities_settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utilities/settings */ "./src/utilities/settings.js");
+/* harmony import */ var _utilities_filters__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utilities/filters */ "./src/utilities/filters.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var _Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Components/Pages/ValidationScreen.jsx */ "./src/Components/Pages/ValidationScreen.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
 
-const EventsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js-node_modules_heroicons_react_16_solid_esm_Adjus-83b592"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-26888c"), __webpack_require__.e("src_Components_Pages_EventsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EventsPage */ "./src/Components/Pages/EventsPage.jsx")));
+
+
+
+
+const EventsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448"), __webpack_require__.e("src_Components_Pages_EventsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EventsPage */ "./src/Components/Pages/EventsPage.jsx")));
 const IntegrationsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("src_Components_Pages_IntegrationsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/IntegrationsPage */ "./src/Components/Pages/IntegrationsPage.jsx")));
-const EventDetails = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-26888c"), __webpack_require__.e("src_Components_PostEditor_EventDetails_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/PostEditor/EventDetails */ "./src/Components/PostEditor/EventDetails.jsx")));
+const EventDetails = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448"), __webpack_require__.e("src_Components_PostEditor_EventDetails_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/PostEditor/EventDetails */ "./src/Components/PostEditor/EventDetails.jsx")));
 const SettingsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014"), __webpack_require__.e("src_Components_Pages_SettingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/SettingsPage */ "./src/Components/Pages/SettingsPage.jsx")));
 const FiltersPage = React.lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Pages_FiltersPage_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/FiltersPage */ "./src/Components/Pages/FiltersPage.jsx")));
-const EmailTemplates = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--00aaa8"), __webpack_require__.e("src_Components_Pages_EmailTemplates_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EmailTemplates */ "./src/Components/Pages/EmailTemplates.jsx")));
-const AnalyticsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("vendors-node_modules_reaviz_dist_index_js"), __webpack_require__.e("src_Components_Pages_AnalyticsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/AnalyticsPage */ "./src/Components/Pages/AnalyticsPage.jsx")));
-const BookingsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js-node_modules_heroicons_react_16_solid_esm_Adjus-83b592"), __webpack_require__.e("src_Components_Pages_BookingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/BookingsPage */ "./src/Components/Pages/BookingsPage.jsx")));
+const EmailTemplates = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569"), __webpack_require__.e("src_Components_Pages_EmailTemplates_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EmailTemplates */ "./src/Components/Pages/EmailTemplates.jsx")));
+const AnalyticsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("vendors-node_modules_reaviz_dist_index_js"), __webpack_require__.e("src_Components_Pages_AnalyticsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/AnalyticsPage */ "./src/Components/Pages/AnalyticsPage.jsx")));
+const BookingsPage = React.lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("src_Components_Pages_BookingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/BookingsPage */ "./src/Components/Pages/BookingsPage.jsx")));
+const SupportPage = React.lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Pages_SupportPage_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/SupportPage */ "./src/Components/Pages/SupportPage.jsx")));
+
+// ————————————— i18n SETUP ——————————————
+// Immediately after you import your resolver…
+
+
+// Expose `t` into the global/window scope:
+window.t = _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_8__.t;
+
+// Then your existing init call...
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_8__.initI18n)("en_US");
 
 
 
 
-const AdminSettingsPage = () => {
-  const [selectedPage, setSelectedPage] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)("events");
-  const [resetSelectedSubpage, setResetSelectedSubPage] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
-  const [settings, setSettings] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(null);
-  const [filtersList, setFiltersList] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)({});
-  const [collapsedMenu, setCollapsedMenu] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
+
+
+const AdminSettingsPage = ({
+  settingsData
+}) => {
+  const [selectedPage, setSelectedPage] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)("events");
+  const [resetSelectedSubpage, setResetSelectedSubPage] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
+  const [settings, setSettings] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(null);
+  const [filtersList, setFiltersList] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)({});
+  const [collapsedMenu, setCollapsedMenu] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
+  const [errorMessage, setErrorMessage] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(null);
   const onPageChange = page => {
     if (selectedPage !== page) setSelectedPage(page);else {
       setSelectedPage(page);
@@ -5847,18 +6471,28 @@ const AdminSettingsPage = () => {
     setCollapsedMenu(!collapsedMenu);
   };
   const fetchSettings = async () => {
-    const settingsData = await (0,_utilities_settings__WEBPACK_IMPORTED_MODULE_5__.getSettings)();
-    if (settingsData) {
+    setLoading(true);
+    const settingsData = await (0,_utilities_settings__WEBPACK_IMPORTED_MODULE_10__.getSettings)();
+    if (settingsData && !settingsData.errorCode) {
       setSettings(settingsData);
+    } else if (settingsData.error) {
+      setErrorMessage("We're facing an issue loading the settings. Please reactivate the plugin.");
+      setLoading(false);
     }
+    // setLoading(false);
   };
   const fetchFilters = async () => {
+    setLoading(true);
     if (servvData.servv_plugin_mode === "development") {
-      const filters = await (0,_utilities_filters__WEBPACK_IMPORTED_MODULE_6__.getFilters)(settings && settings.current_plan.id ? settings.current_plan.id : 1);
+      const filters = await (0,_utilities_filters__WEBPACK_IMPORTED_MODULE_11__.getFilters)(settings && settings.current_plan && settings.current_plan.id ? settings.current_plan.id : 1);
       setFiltersList(filters);
+      setLoading(false);
     } else {
-      const filters = (0,_utilities_filters__WEBPACK_IMPORTED_MODULE_6__.getFilters)(settings && settings.current_plan.id ? settings.current_plan.id : 1);
-      setFiltersList(filters);
+      const filters = await (0,_utilities_filters__WEBPACK_IMPORTED_MODULE_11__.getFilters)(settings && settings.current_plan && settings.current_plan.id ? settings.current_plan.id : 1);
+      if (filters) {
+        setFiltersList(filters);
+      }
+      setLoading(false);
     }
   };
   const getPluginData = async () => {
@@ -5869,12 +6503,12 @@ const AdminSettingsPage = () => {
       fetchSettings();
     }
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
     if (settings) {
       fetchFilters();
     }
   }, [settings]);
-  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
     const parsedUrl = new URL(window.location);
     const params = new URLSearchParams(parsedUrl.search);
     const section = params.get("section");
@@ -5884,80 +6518,124 @@ const AdminSettingsPage = () => {
       getPluginData();
     }
   }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: "page",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Components_Menu_SideMenu__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      page: selectedPage,
-      onChange: onPageChange,
-      collapsed: collapsedMenu
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-      className: "collapse-activator",
-      onClick: () => handleCollapseMenu()
-    }), selectedPage === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(EventsPage, {
-        resetSelectedSubpage: resetSelectedSubpage,
-        handleResetSubpage: handleResetSelectedSubpage,
-        settings: settings,
-        filtersList: filtersList,
-        isLoading: loading,
-        setIsLoading: setLoading
-      })
-    }), selectedPage === "bookings" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(BookingsPage, {
-        resetSelectedSubpage: resetSelectedSubpage,
-        handleResetSubpage: handleResetSelectedSubpage
-      })
-    }), selectedPage === "integrations" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(IntegrationsPage, {
-        settings: settings,
-        resetSelectedSubpage: resetSelectedSubpage,
-        handleResetSubpage: handleResetSelectedSubpage
-      })
-    }), selectedPage === "event" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(EventDetails, {})
-    }), selectedPage === "filters" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(FiltersPage, {
-        settings: settings,
-        filtersList: filtersList,
-        getFilters: fetchFilters,
-        resetSelectedSubpage: resetSelectedSubpage,
-        handleResetSubpage: handleResetSelectedSubpage
-      })
-    }), selectedPage === "settings" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(SettingsPage, {})
-    }), selectedPage === "notifications" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(EmailTemplates, {
-        settings: settings
-      })
-    }), selectedPage === "analytics" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(React.Suspense, {
-      fallback: null,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(AnalyticsPage, {
-        settings: settings
-      })
-    })]
-  });
+  const handlePageChange = page => {
+    setSelectedPage(page);
+    setResetSelectedSubPage(true);
+  };
+  return (
+    /*#__PURE__*/
+    // <div className="min-width">
+    (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_Components_Layout_Layout_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      selectedPage: selectedPage,
+      onPageChange: handlePageChange,
+      children: [selectedPage === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(EventsPage, {
+          resetSelectedSubpage: resetSelectedSubpage,
+          handleResetSubpage: handleResetSelectedSubpage,
+          settings: settings,
+          filtersList: filtersList,
+          isLoading: loading,
+          setIsLoading: setLoading,
+          globalError: errorMessage
+        })
+      }), selectedPage === "bookings" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(BookingsPage, {
+          resetSelectedSubpage: resetSelectedSubpage,
+          handleResetSubpage: handleResetSelectedSubpage,
+          settings: settings
+        })
+      }), selectedPage === "integrations" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(IntegrationsPage, {
+          settings: settings,
+          resetSelectedSubpage: resetSelectedSubpage,
+          handleResetSubpage: handleResetSelectedSubpage
+        })
+      }), selectedPage === "event" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(EventDetails, {})
+      }), selectedPage === "filters" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(FiltersPage, {
+          settings: settings,
+          filtersList: filtersList,
+          getFilters: fetchFilters,
+          resetSelectedSubpage: resetSelectedSubpage,
+          handleResetSubpage: handleResetSelectedSubpage
+        })
+      }), selectedPage === "settings" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(SettingsPage, {})
+      }), selectedPage === "notifications" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(EmailTemplates, {
+          settings: settings
+        })
+      }), selectedPage === "analytics" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(AnalyticsPage, {
+          settings: settings
+        })
+      }), selectedPage === "support" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+        fallback: null,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(SupportPage, {
+          settings: settings
+        })
+      })]
+    })
+  );
 };
 const EventPage = () => {
-  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
     const urlParams = new URLSearchParams(window.location.search);
     let eventId = urlParams.get("event");
     let occurrenceId = urlParams.get("occurrence");
   }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+    className: "servv-page",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
+      fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+        children: "Loading event..."
+      }),
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(EventDetails, {})
+    })
+  });
 };
-_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(() => {
-  const root = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot)(document.getElementById("servv-wrap"));
-  if (servvData.page === "servvai-event-booking") {
-    root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(AdminSettingsPage, {}));
-  } else if (servvData.page === "events") {
-    root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(EventPage, {}));
+_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(() => {
+  const rootEl = document.getElementById("servv-wrap");
+  const root = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createRoot)(rootEl);
+  function renderComponent() {
+    let component;
+    if (servvData.page === "servvai-event-booking") {
+      if (servvData.install_status === "failed") {
+        component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
+          message: "Activation failed. Please contact the Servv support team."
+        });
+      } else if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
+        component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
+          message: "Please wait. The installation is in progress"
+        });
+        setTimeout(() => {
+          if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
+            window.location.reload();
+          }
+        }, 5000);
+      } else {
+        component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(AdminSettingsPage, {});
+      }
+    } else if (servvData.page === "events") {
+      component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(EventPage, {});
+    }
+    root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+      children: component
+    }));
   }
+  renderComponent();
+  setTimeout(() => {
+    (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_8__.translateAll)();
+  }, 0);
 });
 })();
 

@@ -30,6 +30,7 @@ const TicketsSection = ({
   id,
   handleDetailsChange = () => {},
   occurrenceId,
+  status = null,
 }) => {
   const ticketTypes = ["Paid", "Free", "Donation"];
   const ticketsAvailability = ["Open", "Sales start & end"];
@@ -42,6 +43,30 @@ const TicketsSection = ({
   const [ticketPriceInput, setTicketPriceInput] = useState("");
   const [ticketAvailability, setTicketAvailability] = useState(0);
   const [timeFormat, setTimeFormat] = useState("hh:mm a");
+
+  useEffect(() => {
+    if (status === "publish" || status === "admin") return;
+
+    if (
+      settings &&
+      settings.settings &&
+      settings.current_plan &&
+      settings.current_plan.id === 1
+    ) {
+      if (
+        settings.settings.admin_dashboard &&
+        settings.settings.admin_dashboard.default_quantity
+      ) {
+        if (productDetails.quantity !== 1) {
+          handleDetailsChange("quantity", 1);
+        }
+      } else {
+        console.log("quantity change");
+        handleDetailsChange("quantity", 1);
+      }
+    }
+  }, [status, settings]);
+
   const handleTicketDelete = async (index) => {
     let currentTickets = [...tickets];
     if (currentTickets[index].id) {
@@ -107,10 +132,13 @@ const TicketsSection = ({
             <div className="flex flex-col gap-1">
               <div className="flex flex-row gap-1 justify-start items-center">
                 <span className="text-sm font-semibold text-gray-700">
-                  {ticket?.name || "Unknown"}
+                  {ticket?.name || ""}
                 </span>
                 <span className="text-sm font-regular text-gray-600">
-                  {ticket?.price || "Free"}
+                  {ticket?.price
+                    ? ticket.price +
+                      ` ${settings.currency ? settings.currency : "CAD"}`
+                    : "Free"}
                 </span>
               </div>
               <div className="flex flex-row gap-2">
@@ -138,16 +166,18 @@ const TicketsSection = ({
                 </span>
               </div>
             </div>
-            <button
-              className="justify-self-end ml-auto"
-              onClick={
-                showTicketDropdown === index
-                  ? () => setShowTicketDropdown(null)
-                  : () => setShowTicketDropdown(index)
-              }
-            >
-              <EllipsisVerticalIcon className="w-6 fill-gray-700" />
-            </button>
+            {(adminSection || !ticket.id) && (
+              <button
+                className="justify-self-end ml-auto"
+                onClick={
+                  showTicketDropdown === index
+                    ? () => setShowTicketDropdown(null)
+                    : () => setShowTicketDropdown(index)
+                }
+              >
+                <EllipsisVerticalIcon className="w-6 fill-gray-700" />
+              </button>
+            )}
             {showTicketDropdown === index && (
               <div
                 className="absolute top-full right-0 mt-2
@@ -160,13 +190,18 @@ const TicketsSection = ({
                 {ticket?.name && (
                   <div className="text-sm font-semibold text-gray-700">
                     <span>{ticket?.name}</span>
+                    <span> </span>
+                    {ticket?.price && (
+                      <span className="font-regular">
+                        {ticket?.price +
+                          ` ${settings.currency ? settings.currency : "CAD"}`}
+                      </span>
+                    )}
                   </div>
                 )}
-                {ticket?.price && (
-                  <div className="text-sm font-regular text-gray-600">
-                    <span>{ticket?.price}</span>
-                  </div>
-                )}
+                {/* {ticket?.price && (
+                  <div className="text-sm font-regular text-gray-600"></div>
+                )} */}
                 {/* {ticket?.name ||
                   (ticket?.price && (
                     <div className="w-full border-b border-gray-200 flex-nowrap"></div>
@@ -179,7 +214,7 @@ const TicketsSection = ({
                 >
                   <PencilSquareIcon className="w-6 stroke-white fill-black" />
                   <span className="text-sm font-medium text-gray-700">
-                    Edit ticket
+                    {t("Edit ticket")}
                   </span>
                 </button>
                 <button
@@ -188,7 +223,7 @@ const TicketsSection = ({
                 >
                   <DocumentDuplicateIcon className="w-6 stroke-white fill-black" />
                   <span className="text-sm font-medium text-gray-700">
-                    Duplicate ticket
+                    {t("Duplicate ticket")}
                   </span>
                 </button>
                 <div className="w-full border-b border-gray-200"></div>
@@ -198,7 +233,7 @@ const TicketsSection = ({
                 >
                   <XCircleIcon className="w-6 stroke-white fill-black" />
                   <span className="text-sm font-medium text-gray-700">
-                    Delete ticket
+                    {t("Delete ticket")}
                   </span>
                 </button>
               </div>
@@ -215,6 +250,16 @@ const TicketsSection = ({
 
     if (type === 0) {
       currentTickets[selectedTicket].price = 0;
+      if (
+        settings &&
+        settings.settings &&
+        settings.settings.admin_dashboard &&
+        settings.settings.admin_dashboard.default_price
+      ) {
+        currentTickets[selectedTicket].price =
+          settings.settings.admin_dashboard.default_price;
+        setTicketPriceInput(settings.settings.admin_dashboard.default_price);
+      }
       currentTickets[selectedTicket].is_donation = false;
     }
     if (type === 1) {
@@ -248,7 +293,13 @@ const TicketsSection = ({
   };
 
   const handleTicketsQuantityChange = (val) => {
-    handleTicketChange("quantity", Number.parseInt(val));
+    if (isNaN(Number.parseInt(val)) && Number.parseInt(val) < 0)
+      handleTicketChange("quantity", 0);
+    else
+      handleTicketChange(
+        "quantity",
+        Number.parseInt(val) <= 1000 ? Number.parseInt(val) : 1000
+      );
   };
 
   const handleTicketAvailabilityChange = (val) => {
@@ -281,7 +332,7 @@ const TicketsSection = ({
   const handleTicketAdd = ({ ticket = null }) => {
     let currentTickets = [...tickets];
     if (ticket) {
-      currentTickets.push({ ...ticket });
+      currentTickets.push({ ...ticket, id: null });
     } else {
       let newTicket = { quantity: null };
 
@@ -293,7 +344,19 @@ const TicketsSection = ({
         !disabled &&
         selectedTicketType === 0
       ) {
-        newTicket.price = settings.settings.admin_dashboard.default_price;
+        newTicket.price = Number.parseFloat(
+          settings.settings.admin_dashboard.default_price
+        );
+      }
+      if (
+        settings &&
+        settings.settings &&
+        settings.settings.admin_dashboard &&
+        settings.settings.admin_dashboard.default_quantity
+      ) {
+        newTicket.quantity = Number.parseInt(
+          settings.settings.admin_dashboard.default_quantity
+        );
       }
       currentTickets.push({ ...newTicket });
     }
@@ -323,7 +386,7 @@ const TicketsSection = ({
     if (
       !tickets ||
       tickets.length === 0 ||
-      !selectedTicket ||
+      selectedTicket === null ||
       tickets.length - 1 < selectedTicket
     )
       return;
@@ -347,9 +410,13 @@ const TicketsSection = ({
     } else {
       setSelectedTicketType(1);
     }
+    // console.log(
+    //   tickets[selectedTicket].start_datetime,
+    //   tickets[selectedTicket].end_datetime
+    // );
     if (
-      tickets[selectedTicket].start_datetime ||
-      tickets[selectedTicket].end_datetime
+      tickets[selectedTicket].start_datetime !== undefined ||
+      tickets[selectedTicket].end_datetime !== undefined
     ) {
       setTicketAvailability(1);
     } else {
@@ -358,103 +425,153 @@ const TicketsSection = ({
   }, [selectedTicket]);
 
   const handleSaleStartDateChange = (date) => {
-    let currentTickets = [...tickets];
+    const currentTickets = [...tickets];
+    // console.log("newDate", date);
+    // console.log("time", currentTickets[selectedTicket].start_datetime);
     const currentTime = currentTickets[selectedTicket].start_datetime
-      ? moment(currentTickets[selectedTicket].start_datetime)
-      : moment(eventDetails.startTime);
+      ? moment(currentTickets[selectedTicket].start_datetime).tz(
+          eventDetails.timezone || "US/Pacific"
+        )
+      : moment(eventDetails.startTime).tz(
+          eventDetails.timezone || "US/Pacific"
+        );
+    // console.log("currentTime", currentTime);
+    const selectedDate = moment(date).startOf("day");
+    // console.log("selectedDate", selectedDate);
+    currentTime.set(
+      {
+        year: selectedDate.year(),
+        month: selectedDate.month(),
+        date: selectedDate.date(),
+      },
+      true
+    );
+    // console.log("selectedDate+time", currentTime);
 
-    const selectedDate = moment(date);
-
-    selectedDate.set("hour", currentTime.get("hour"));
-    selectedDate.set("minute", currentTime.get("minute"));
-    selectedDate.set("second", currentTime.get("second"));
-
-    currentTickets[selectedTicket].start_datetime = selectedDate
-      .tz(eventDetails.timezone || "US/Pacific")
-      .format("YYYY-MM-DDTHH:mm:ss");
+    currentTickets[selectedTicket].start_datetime = currentTime.toISOString();
 
     onTicketsChange(currentTickets);
   };
+
   const handleSaleEndDateChange = (date) => {
-    let currentTickets = [...tickets];
+    const currentTickets = [...tickets];
+
     const currentTime = currentTickets[selectedTicket].end_datetime
-      ? moment(currentTickets[selectedTicket].end_datetime)
-      : moment(eventDetails.startTime).add(1, "d");
-    const selectedDate = moment(date);
+      ? moment(currentTickets[selectedTicket].end_datetime).tz(
+          eventDetails.timezone || "US/Pacific"
+        )
+      : moment(eventDetails.startTime)
+          .add(1, "d")
+          .tz(eventDetails.timezone || "US/Pacific");
 
-    selectedDate.set("hour", currentTime.get("hour"));
-    selectedDate.set("minute", currentTime.get("minute"));
-    selectedDate.set("second", currentTime.get("second"));
+    const selectedDate = moment(date).tz(eventDetails.timezone || "US/Pacific");
 
-    currentTickets[selectedTicket].end_datetime = selectedDate
-      .tz(eventDetails.timezone || "US/Pacific")
-      .format("YYYY-MM-DDTHH:mm:ss");
+    selectedDate.set({
+      hour: currentTime.get("hour"),
+      minute: currentTime.get("minute"),
+      second: currentTime.get("second"),
+    });
+
+    currentTickets[selectedTicket].end_datetime = selectedDate.toISOString();
 
     onTicketsChange(currentTickets);
   };
-  const getStartDate = () => {
-    let startDate = null;
-    if (tickets[selectedTicket].start_datetime) {
-      startDate = moment(tickets[selectedTicket].start_datetime).tz(
-        eventDetails.timezone || "US/Pacific"
-      );
 
-      return { startDate: startDate, label: startDate.format("DDD MM, YYYY") };
+  const getStartDate = () => {
+    if (tickets[selectedTicket].start_datetime) {
+      // console.log(tickets[selectedTicket].start_datetime);
+      // const startMoment = moment(tickets[selectedTicket].start_datetime);
+
+      // console.log(startMoment.format("YYYY-MM-DD").split("T")[0]);
+
+      return {
+        startDate: tickets[selectedTicket].start_datetime.split("T")[0],
+        label: tickets[selectedTicket].start_datetime.split("T")[0],
+      };
     }
     return { startDate: null, label: "Select a date" };
   };
+
   const getEndDate = () => {
-    let endDate = null;
     if (tickets[selectedTicket].end_datetime) {
-      endDate = moment(tickets[selectedTicket].end_datetime).tz(
-        eventDetails.timezone || "US/Pacific"
-      );
-      return { endDate: endDate, label: endDate.format("DDD MM, YYYY") };
+      // const endMoment = moment(tickets[selectedTicket].end_datetime).tz(
+      //   eventDetails.timezone || "US/Pacific"
+      // );
+
+      return {
+        endDate: tickets[selectedTicket].end_datetime.split("T")[0],
+        label: tickets[selectedTicket].end_datetime.split("T")[0],
+      };
     }
     return { endDate: null, label: "Select a date" };
   };
+
   const getStartTime = () => {
     if (tickets[selectedTicket].start_datetime) {
-      return tickets[selectedTicket].start_datetime;
-    } else {
-      return moment();
+      return moment(tickets[selectedTicket].start_datetime).tz(
+        eventDetails.timezone || "US/Pacific"
+      );
     }
+    return moment().tz(eventDetails.timezone || "US/Pacific");
   };
+
   const getEndTime = () => {
     if (tickets[selectedTicket].end_datetime) {
-      return tickets[selectedTicket].end_datetime;
-    } else {
-      return moment();
+      return moment(tickets[selectedTicket].end_datetime).tz(
+        eventDetails.timezone || "US/Pacific"
+      );
     }
+    return moment().tz(eventDetails.timezone || "US/Pacific");
   };
 
   const handleSaleStartTimeChange = (newVal) => {
-    let currentDateTime = tickets[selectedTicket].start_datetime
-      ? moment(tickets[selectedTicket].start_datetime)
-      : moment(eventDetails.startTime);
-    let selectedTime = moment(newVal);
+    const currentDateTime = tickets[selectedTicket].start_datetime
+      ? moment(tickets[selectedTicket].start_datetime).tz(
+          eventDetails.timezone || "US/Pacific"
+        )
+      : moment(eventDetails.startTime).tz(
+          eventDetails.timezone || "US/Pacific"
+        );
+
+    const selectedTime = moment(newVal).tz(
+      eventDetails.timezone || "US/Pacific"
+    );
+
     currentDateTime.set({
       hour: selectedTime.get("hour"),
-      minutes: selectedTime.get("minute"),
+      minute: selectedTime.get("minute"),
       second: 0,
     });
-    let currentTickets = [...tickets];
-    currentTickets[selectedTicket].start_datetime = currentDateTime;
+
+    const currentTickets = [...tickets];
+    currentTickets[selectedTicket].start_datetime =
+      currentDateTime.toISOString();
+
     onTicketsChange(currentTickets);
   };
 
   const handleSaleEndTimeChange = (newVal) => {
-    let currentDateTime = tickets[selectedTicket].end_datetime
-      ? moment(tickets[selectedTicket].end_datetime)
-      : moment(eventDetails.startTime);
-    let selectedTime = moment(newVal);
+    const currentDateTime = tickets[selectedTicket].end_datetime
+      ? moment(tickets[selectedTicket].end_datetime).tz(
+          eventDetails.timezone || "US/Pacific"
+        )
+      : moment(eventDetails.startTime).tz(
+          eventDetails.timezone || "US/Pacific"
+        );
+
+    const selectedTime = moment(newVal).tz(
+      eventDetails.timezone || "US/Pacific"
+    );
+
     currentDateTime.set({
       hour: selectedTime.get("hour"),
-      minutes: selectedTime.get("minute"),
+      minute: selectedTime.get("minute"),
       second: 0,
     });
-    let currentTickets = [...tickets];
-    currentTickets[selectedTicket].end_datetime = currentDateTime;
+
+    const currentTickets = [...tickets];
+    currentTickets[selectedTicket].end_datetime = currentDateTime.toISOString();
+
     onTicketsChange(currentTickets);
   };
 
@@ -464,9 +581,10 @@ const TicketsSection = ({
     if (startDate && endDate) {
       let start = moment(startDate);
       let end = moment(endDate);
-      return end.diff(start) <= 0;
+      return start.isAfter(end);
     } else return false;
   };
+
   const ticketsMods = ["Single", "Multiple"];
   const [selectedTicketsMode, setSelectedTicketMode] = useState(ticketsMods[0]);
   const handleTicketModeChange = (val) => {
@@ -477,11 +595,15 @@ const TicketsSection = ({
       setSelectedTicketMode(ticketsMods[1]);
     }
   }, [tickets]);
-
+  // useEffect(() => {
+  //   if (ticketAvailability === 1) {
+  //     console.log(moment.utc(getEndDate().endDate).toISOString());
+  //   }
+  // }, [ticketAvailability]);
   return (
     <Fragment>
       <div className={`section-container`}>
-        <div className="section-heading">Tickets</div>
+        <div className="section-heading">{t("Tickets")}</div>
         {/* <ButtonGroup
           buttons={ticketsMods}
           active={selectedTicketsMode}
@@ -500,13 +622,14 @@ const TicketsSection = ({
           <Fragment>
             {tickets?.length === 0 && (
               <p className="text-gray-600 font-regular text-sm">
-                Click the button below to create a new ticket
+                {t("Click the button below to create a new ticket")}
               </p>
             )}
             {adminSection && eventDetails.recurrence && !occurrenceId && (
               <p className="text-gray-600 font-regular text-sm">
-                This is a recurring event. To see tickets for a specific date,
-                please view that occurrence.
+                {t(
+                  "This is a recurring event. To see tickets for a specific date,\r\n                please view that occurrence."
+                )}
               </p>
             )}
             {tickets?.length > 0 && renderTickets()}
@@ -519,7 +642,7 @@ const TicketsSection = ({
                 disabled={disabled}
               >
                 <PlusCircleIcon className="w-4" />
-                <span>Create new ticket</span>
+                <span>{t("Create new ticket")}</span>
               </button>
             )}
             {tickets?.length > 0 && selectedTicket !== null && (
@@ -535,8 +658,14 @@ const TicketsSection = ({
                     onChange={handleTicketTypeChange}
                     disabled={!stripeAccount || !stripeAccount.id || disabled}
                   />
+                  {settings && (!stripeAccount || !stripeAccount.id) && (
+                    <div className="section-description">
+                      Please note: To create paid and donation tickets, you need
+                      to connect your Stripe account.
+                    </div>
+                  )}
                   <div className="input-container-col">
-                    <label className="section-description">Name</label>
+                    <label className="section-description">{t("Name")}</label>
                     <InputFieldControl
                       value={tickets[selectedTicket]?.name || ""}
                       onChange={handleTicketNameChange}
@@ -549,7 +678,7 @@ const TicketsSection = ({
                   {selectedTicketType === 0 && (
                     <div className="input-container-col">
                       <label className="section-description">
-                        Ticket price
+                        {t("Ticket price")}
                       </label>
                       <InputFieldControl
                         value={ticketPriceInput}
@@ -565,12 +694,16 @@ const TicketsSection = ({
                     </div>
                   )}
                   <div className="input-container-col">
-                    <label className="section-description">Quantity</label>
+                    <label className="section-description">
+                      {t("Quantity")}
+                    </label>
                     <InputFieldControl
                       value={tickets[selectedTicket]?.quantity || ""}
                       onChange={handleTicketsQuantityChange}
                       type="number"
                       width={"100%"}
+                      minValue="0"
+                      // maxValue="1000"
                       disabled={disabled}
                       align="left"
                       placeholder="0"
@@ -593,20 +726,20 @@ const TicketsSection = ({
                       </p>
                       {checkTimeDiff() && (
                         <p className="text-sm text-regular text-error-500">
-                          Sales start must be erlier then sales end.
+                          {t("Sales start must be erlier then sales end.")}
                         </p>
                       )}
                       <div className="flex flex-row justify-between gap-8">
                         <div className="input-container-col w-full">
                           <label className="section-description text-gray-700">
-                            Sales start
+                            {t("Sales start")}
                           </label>
                           <div className="pt-">
                             <DatePickerControl
                               label={getStartDate().label}
                               date={getStartDate().startDate}
                               onChange={handleSaleStartDateChange}
-                              variant="button"
+                              variant="fields"
                               disabled={disabled}
                             />
                           </div>
@@ -625,15 +758,15 @@ const TicketsSection = ({
                       <div className="flex flex-row justify-between gap-8">
                         <div className="input-container-col w-full">
                           <label className="section-description text-gray-700">
-                            Sales end
+                            {t("Sales end")}
                           </label>
-                          <div className="pt-">
+                          <div className="">
                             <DatePickerControl
                               label={getEndDate().label}
                               date={getEndDate().endDate}
                               onChange={handleSaleEndDateChange}
                               disabled={disabled}
-                              variant="button"
+                              variant="fields"
                             />
                           </div>
                         </div>
@@ -656,7 +789,7 @@ const TicketsSection = ({
                       onClick={handleTicketCancel}
                       disabled={disabled}
                     >
-                      Cancel
+                      {t("Cancel")}
                     </button>
                     <button
                       className="rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand"
@@ -665,7 +798,7 @@ const TicketsSection = ({
                       }}
                       disabled={disabled}
                     >
-                      Save
+                      {t("Save")}
                     </button>
                   </div>
                 </BlockStack>

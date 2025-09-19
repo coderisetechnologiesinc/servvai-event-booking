@@ -41,9 +41,9 @@
       transition: $global-transition;
 
       &:hover {
-        border-color: $svv_blue_light;
-        background-color: $svv_blue_light;
-        color: #fff !important;
+        border-color: $svv_text_black;
+        background-color: $svv_text_black;
+        color: $svv_white !important;
         transition: $global-transition;
       }
     }
@@ -60,7 +60,7 @@
 
       .svv-custom-vs-select {
         .vs__dropdown-toggle {
-          height: 30px;
+          height: 31.5px;
         }
 
         .vs__selected {
@@ -93,11 +93,11 @@
   font-family: $svv_font_sofia;
 
   font-size: 16px;
-  color: #fff;
+  color: $svv_white;
   padding: 5px 10px;
   line-height: 1;
   cursor: pointer;
-  background-color: $svv_blue_light;
+  background-color: $svv_text_gray;
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   transition: $global-transition;
@@ -115,7 +115,7 @@
   }
 
   &.open-wgt {
-    background-color: $svv_orange_light;
+    background-color: $svv_text_black;
 
     .wgt-toggle-btn-icon {
       transform: rotate(180deg);
@@ -123,7 +123,7 @@
   }
 
   &:hover {
-    background-color: $svv_orange_light;
+    background-color: $svv_text_black;
     transition: $global-transition;
   }
 }

@@ -1046,10 +1046,16 @@ export default {
           "";
 
         let params = new URLSearchParams();
-        params.append("security", pluginData.security);
+        params.append("security", servvAjax.nonce);
         params.append("action", "servv_get_events_filtered_list");
-        const response = await axios.post("/wp-admin/admin-ajax.php", params);
-
+        const response = await axios.post(servvAjax.ajax_url, params);
+        // console.log(filteringParamsString);
+        if (filteringParamsString.length > 0) {
+          let filteringParamsQuery = new URLSearchParams(filteringParamsString);
+          for (const [key, value] of filteringParamsQuery) {
+            params.append(`${key}[]`, value);
+          }
+        }
         // const response = await API({
         //   // url: `${window.SVV_API_URL}/widget/meetings?page=${page}&page_size=30`,
         //   url: `${
@@ -1301,10 +1307,11 @@ export default {
           if (state.meetingsListFetched && !state.selectedDate) {
             const requestedMonth = date ? date : moment().format("YYYY-MM");
             let params = new URLSearchParams();
-            params.append("security", pluginData.security);
+            params.append("security", servvAjax.nonce);
             params.append("action", "servv_get_events_filtered_list_dates");
+
             // params.append("start_datetime", requestedMonth);
-            response = await axios.post("/wp-admin/admin-ajax.php", params);
+            response = await axios.post(servvAjax.ajax_url, params);
           }
           // const response = await API({
           //   url: `${window.SVV_API_URL}/widget/filter/meetings/dates?date=${requestedMonth}`,
@@ -1327,7 +1334,7 @@ export default {
       { commit, dispatch, rootState },
       { date = false, emptyList = false } = {}
     ) {
-      console.log("first occurred");
+      // console.log("first occurred");
       try {
         if (emptyList) {
           commit("setFilteredEventsDatesList", []);
@@ -1367,32 +1374,45 @@ export default {
     },
 
     async fetchEventsList(
-      { commit, dispatch, state, rootGetters },
+      { commit, dispatch, state, rootGetters, rootState },
       { date = null, page = 1, filteringParams = "" } = {}
     ) {
       commit("setLoading", true);
       let response = null;
       try {
+        // const allRequestParams = rootGetters["search/searchParamsString"];
+        const filteringParamsString =
+          state.reqParams ||
+          filteringParams ||
+          rootState.search.searchParamsString ||
+          "";
+        const searchDate = date || state.selectedDate;
+        // console.log(filteringParamsString);
         let params = new URLSearchParams();
-        params.append("security", pluginData.security);
+        params.append("security", servvAjax.nonce);
         params.append("action", "servv_get_events_filtered_list");
         params.append("page", page);
         params.append("page_size", state.pageSize);
-        if (date) {
-          params.append("date", date);
+        if (searchDate) {
+          params.append("date", searchDate);
         }
 
-        if (filteringParams.length > 0) {
-          let filteringParamsString = new URLSearchParams(filteringParams);
-          for (const [key, value] of filteringParamsString) {
-            params.set(key, value); // use `append` to allow duplicates
+        if (filteringParamsString.length > 0) {
+          let filteringParamsQuery = new URLSearchParams(filteringParamsString);
+          for (const [key, value] of filteringParamsQuery) {
+            if (key !== "search") params.append(`${key}[]`, value);
+            else params.append(`${key}`, value);
           }
         }
-        const allRequestParams = rootGetters["search/searchParamsString"];
-        console.log(allRequestParams);
-        response = await axios.post("/wp-admin/admin-ajax.php", params);
 
-        if (response && response.status === 200 && response.data) {
+        response = await axios.post(servvAjax.ajax_url, params);
+
+        if (
+          response &&
+          response.status === 200 &&
+          response.data &&
+          response.data.meetings
+        ) {
           // TODO it should be removed after stop maintains of zoom events as price and id are existing in items from Servv dB
           const itemsWithPrice = response.data.meetings.map((event) => {
             const updatedItem = event;
@@ -1409,7 +1429,7 @@ export default {
             ),
             listIsEmpty: response.data.meetings.length === 0,
           };
-          if (!date) {
+          if (!searchDate) {
             commit("setMeetingsList", meetingsListForState);
             commit("setMeetingsListFetched", true);
           } else {
@@ -1418,10 +1438,14 @@ export default {
               meetingsList: meetingsListForState.meetings,
             });
           }
+          // console.log("disable  loading");
           commit("common/setLoading", false, { root: true });
-          if (!date) {
+          if (!searchDate) {
             dispatch("fetchFilteredEventsDates");
           }
+        } else if (response.status !== 200) {
+          commit("common/setLoading", false, { root: true });
+          commit("setMeetingsList", []);
         }
       } catch (e) {
         console.log(e);
@@ -1560,7 +1584,7 @@ export default {
       if (show_calendar && state.selectedDate.length > 0) {
         dispatch("fetchEventsList", {
           date: state.selectedDate,
-          // filteringParams: params,
+          filteringParams: params,
           // force: true,
         });
       } else if (

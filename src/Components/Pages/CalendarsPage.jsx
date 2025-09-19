@@ -49,14 +49,16 @@ const CalendarsPage = ({ onPageSelect }) => {
         redirect: "manual",
       }
     );
+
     if (getAuthURLResponse && getAuthURLResponse.status === 200) {
-      // console.log(window.location.origin)
       open(
         `${
           servvData.shopify_app
         }/calendar/connect?wordpress_url=${encodeURIComponent(
           getAuthURLResponse.data.auth_url
-        )}&wordpress_return_url=${encodeURIComponent(window.location.origin)}`,
+        )}&wordpress_return_url=${encodeURIComponent(
+          window.location.origin
+        )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
         "_top"
       );
       // open(getAuthURLResponse.data.auth_url)
@@ -87,7 +89,9 @@ const CalendarsPage = ({ onPageSelect }) => {
     <Fragment>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">Calendars</h1>
+          <h1 className="text-display-sm font-semibold mt-6">
+            {t("Calendars")}
+          </h1>
           <BreadCrumbs
             breadcrumbs={[
               { label: "Integrations", action: () => onPageSelect("main") },
@@ -95,10 +99,11 @@ const CalendarsPage = ({ onPageSelect }) => {
             ]}
             onBreadCrumbClick={handleBreadCrumbsClick}
           />
-          <p className="page-header-description">
-            Sync your event schedules effortlessly with Google Calendar or
-            Outlook to keep everyone informed.
-          </p>
+          {/* <p className="page-header-description">
+            {t(
+              "Sync your event schedules effortlessly with Google Calendar or\r\n            Outlook to keep everyone informed."
+            )}
+          </p> */}
         </BlockStack>
       </PageHeader>
       <PageContent>
@@ -107,20 +112,24 @@ const CalendarsPage = ({ onPageSelect }) => {
             <div
               className="service-image"
               style={{
-                background: `url("https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
+                background: `linear-gradient(135deg, #0F9D58, #34A853)`,
               }}
             >
               {account && (
                 <div className="connected-account bg-gradient-to-b from-transparent to-black/40">
-                  <span>Account</span>
+                  <span>{t("Account")}</span>
                   <Badge text={badge()} justify={"start"} color="gray" />
                 </div>
               )}
             </div>
             <div className="card-content">
-              <h2 className="card-section-heading">Google Calendar</h2>
+              <h2 className="card-section-heading">{t("Google Calendar")}</h2>
               <p className="section-description">
-                Sync and manage your Google Calendar account and settings.
+                {/* {t(
+                  "Sync and manage your Google Calendar account and settings."
+                )} */}
+                Keep your team and attendees aligned by syncing events directly
+                with Google Calendar
               </p>
               {isAccountFetched && !account && (
                 <a
@@ -131,7 +140,7 @@ const CalendarsPage = ({ onPageSelect }) => {
                     handleGetConnectURL();
                   }}
                 >
-                  Connect
+                  {t("Connect")}
                 </a>
               )}
               {isAccountFetched && account && (
@@ -143,7 +152,7 @@ const CalendarsPage = ({ onPageSelect }) => {
                     handleRemoveAccount();
                   }}
                 >
-                  Disconnect
+                  {t("Disconnect")}
                 </a>
               )}
             </div>

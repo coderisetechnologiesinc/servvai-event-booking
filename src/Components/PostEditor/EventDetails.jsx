@@ -3,7 +3,7 @@ import React, { Fragment, useState } from "react";
 import DateTimeSection from "./DateTimeSection";
 import LocationSection from "./LocationSection";
 import TabsComponent from "../Containers/TabsComponent";
-import ProductDetails from "./ProductDetails";
+// import ProductDetails from "./ProductDetails";
 import EventVisibility from "./EventVisibility";
 import RegistrantsSection from "./RegistrantsSection";
 import NotificationsSection from "./NotificationsSection";
@@ -14,8 +14,10 @@ import apiFetch from "@wordpress/api-fetch";
 import CustomFieldsSection from "./CustomFieldsSection";
 import { toast, ToastContainer } from "react-toastify";
 import Spinner from "../Menu/Spinner";
+import axios from "axios";
 const EventDetails = ({
   title,
+  agenda,
   attributes,
   setAttributes,
   postID = null,
@@ -26,10 +28,14 @@ const EventDetails = ({
   returnWithError = () => {},
   filters = null,
   settingsData = null,
+  requiredFieldsNotification = false,
+  hideReqieredFieldsNotification = () => {},
 }) => {
+  // console.log(attributes);
   let eventDetails = { ...attributes.meeting };
   const [postId, setPostId] = useState(null);
   let [settings, setSettings] = useState(null);
+  const [status, setStatus] = useState(null);
   const [registrants, setRegistrants] = useState([]);
   const [googleCalendar, setGoogleCalendar] = useState(null);
   const [calendarAccountFetched, setCalendarAccountFetched] = useState(false);
@@ -38,12 +44,17 @@ const EventDetails = ({
   const [zoomAccount, setZoomAccount] = useState(null);
   const [stripeAccount, setStripeAccount] = useState(null);
   const [filtersList, setFiltersList] = useState({});
+  const [activationError, setActivationError] = useState(false);
   const getCalendarAccount = async () => {
-    const getCalendarAccountResponse = await apiFetch({
-      path: "/servv-plugin/v1/calendar/account",
-    });
-    if (getCalendarAccountResponse) {
-      setGoogleCalendar(getCalendarAccountResponse);
+    const getCalendarAccountResponse = await axios.get(
+      "/wp-json/servv-plugin/v1/calendar/account",
+      { headers: { "X-WP-Nonce": servvData.nonce } }
+    );
+    if (
+      getCalendarAccountResponse &&
+      getCalendarAccountResponse.status === 200
+    ) {
+      setGoogleCalendar(getCalendarAccountResponse.data);
     }
     setCalendarAccountFetched(true);
   };
@@ -52,34 +63,42 @@ const EventDetails = ({
       autoClose: 5000,
     });
   };
-  const servvData = { servv_plugin_mode: "production" };
+  // const servvData = { servv_plugin_mode: "production" };
   // const servvData = { servv_plugin_mode: "development" };
 
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await apiFetch({
-      path: "/servv-plugin/v1/zoom/account",
-    });
-    if (getZoomAccountResponse) {
-      setZoomAccount(getZoomAccountResponse);
+    const getZoomAccountResponse = await axios.get(
+      "/wp-json/servv-plugin/v1/zoom/account",
+      { headers: { "X-WP-Nonce": servvData.nonce } }
+    );
+    if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
+      setZoomAccount(getZoomAccountResponse.data);
     }
     // setCalendarAccountFetched(true);
   };
-
+  // useEffect(() => {
+  //   if (requiredFieldsNotification) {
+  //     setToastMessage("Please fill in the required fields");
+  //     hideReqieredFieldsNotification();
+  //   }
+  // }, [requiredFieldsNotification]);
   const getStripeAccount = async () => {
-    const getStripeAccountResponse = await apiFetch({
-      path: "/servv-plugin/v1/stripe/account",
-    });
-    if (getStripeAccountResponse) {
-      setStripeAccount(getStripeAccountResponse);
+    const getStripeAccountResponse = await axios.get(
+      "/wp-json/servv-plugin/v1/stripe/account",
+      { headers: { "X-WP-Nonce": servvData.nonce } }
+    );
+    if (getStripeAccountResponse && getStripeAccountResponse.status === 200) {
+      setStripeAccount(getStripeAccountResponse.data);
     }
   };
 
   const getGmailAccount = async () => {
-    const getGmailAccountResponse = await apiFetch({
-      path: "/servv-plugin/v1/gmail/account",
-    });
-    if (getGmailAccountResponse) {
-      setConnectedMailAccount(getGmailAccountResponse);
+    const getGmailAccountResponse = await axios.get(
+      "/wp-json/servv-plugin/v1/gmail/account",
+      { headers: { "X-WP-Nonce": servvData.nonce } }
+    );
+    if (getGmailAccountResponse && getGmailAccountResponse.status === 200) {
+      setConnectedMailAccount(getGmailAccountResponse.data);
     }
     setMailAccountFetched(true);
   };
@@ -114,37 +133,44 @@ const EventDetails = ({
     let getSettingsResponse;
     if (!adminSection) {
       try {
-        getSettingsResponse = await apiFetch({
-          path: "/servv-plugin/v1/shop/info",
-        });
+        getSettingsResponse = await axios.get(
+          "/wp-json/servv-plugin/v1/shop/info",
+          { headers: { "X-WP-Nonce": servvData.nonce } }
+        );
       } catch (e) {
         console.log(e);
+        setLoading(false);
+        if (e.status === 401) setActivationError(true);
       }
     } else {
-      console.log(settingsData);
-      getSettingsResponse = settingsData;
+      // console.log(settingsData);
+      getSettingsResponse = { status: 200, data: settingsData };
     }
-    if (getSettingsResponse) {
+    if (getSettingsResponse && getSettingsResponse.status === 200) {
       setSettings({
-        ...getSettingsResponse,
+        ...getSettingsResponse.data,
+        // current_plan: { ...getSettingsResponse.data.current_plan, id: 1 },
         settings: {
-          ...getSettingsResponse.settings,
-          admin_dashboard: getSettingsResponse?.settings?.admin_dashboard
-            ? JSON.parse(getSettingsResponse.settings.admin_dashboard)
+          ...getSettingsResponse.data.settings,
+          admin_dashboard: getSettingsResponse.data?.settings?.admin_dashboard
+            ? JSON.parse(getSettingsResponse.data.settings.admin_dashboard)
             : {},
         },
       });
     }
   };
+  // console.log(attributes);
 
   const getFilterType = async (type) => {
     try {
-      let reqURL = `/servv-plugin/v1/filters/${type}`;
-      let getFiltersListResponse = await apiFetch({ path: reqURL });
-      if (getFiltersListResponse) {
+      let reqURL = `/wp-json/servv-plugin/v1/filters/${type}`;
+      let getFiltersListResponse = await axios.get(reqURL, {
+        headers: { "X-WP-Nonce": servvData.nonce },
+      });
+      if (getFiltersListResponse && getFiltersListResponse.status === 200) {
         setFiltersList((prevFilters) => ({
           ...prevFilters,
-          [type]: getFiltersListResponse,
+          [type]: getFiltersListResponse.data,
         }));
       }
     } catch (error) {
@@ -155,19 +181,31 @@ const EventDetails = ({
     try {
       const urlParams = new URLSearchParams(window.location.search);
       let postId = postID ? postID : urlParams.get("post");
-      let reqURL = `/servv-plugin/v1/event/${postId}/tickets`;
+      let reqURL = `/wp-json/servv-plugin/v1/event/${postId}/tickets`;
       if (occurrenceId) {
         reqURL += `?occurrence_id=${occurrenceId}`;
       }
-      let getTicketsResponse = await apiFetch({ path: reqURL });
+      let getTicketsResponse = await axios.get(reqURL, {
+        headers: { "X-WP-Nonce": servvData.nonce },
+      });
 
-      if (getTicketsResponse) {
-        setAttributes({ tickets: getTicketsResponse });
+      if (getTicketsResponse && getTicketsResponse.status === 200) {
+        setAttributes({ tickets: getTicketsResponse.data });
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
     }
   };
+  useEffect(() => {
+    if (!adminSection) {
+      setTabsList([
+        { label: "Details", value: 0 },
+        { label: "Settings", value: 1 },
+      ]);
+    }
+  }, []);
+  useEffect(() => {}, []);
+
   const getFilters = async () => {
     setLoading(true);
     if (!filters) {
@@ -193,7 +231,7 @@ const EventDetails = ({
         default_start_time,
         default_duration,
         default_event_type,
-        default_price,
+        default_quantity,
       } = settings.settings.admin_dashboard;
       let newStartTime = null;
       if (default_start_time) {
@@ -209,15 +247,26 @@ const EventDetails = ({
       if (default_event_type) {
         handleEventChange("location", default_event_type);
       }
-      // if (default_price && settings.current_plan === 2) {
-      //   handleProductChange("price", default_price);
-      // }
+      if (settings.current_plan.id === 1) {
+        if (default_quantity) {
+          handleProductChange("quantity", Number.parseInt(default_quantity));
+        } else {
+          handleProductChange("quantity", 1);
+        }
+      }
     }
   }, [settings]);
+
   const getEventData = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     let postId = postID ? postID : urlParams.get("post");
+    let postStatus = "admin";
+    if (!adminSection) {
+      const { getEditedPostAttribute } = wp.data.select("core/editor");
 
+      postStatus = getEditedPostAttribute("status");
+      setStatus(postStatus);
+    }
     setPostId(postId);
     if (postId) {
       let url = `/servv-plugin/v1/event/${postId}`;
@@ -226,14 +275,8 @@ const EventDetails = ({
       }
 
       let res = null;
-      let postStatus = "admin";
-      if (!adminSection) {
-        const { getEditedPostAttribute } = wp.data.select("core/editor");
-        postStatus = getEditedPostAttribute("status");
-      }
 
       if (postStatus === "publish" || postStatus === "admin") {
-        // console.log("Error fetching post");
         try {
           res = await apiFetch({
             path: url,
@@ -244,7 +287,7 @@ const EventDetails = ({
           if (adminSection && e.message === "Post doesn't exist") {
             returnWithError(e.message);
           }
-          if (!adminSection) removeBlock();
+
           return;
         }
       }
@@ -284,6 +327,13 @@ const EventDetails = ({
           }
         }
 
+        if (res.meeting.recurrence && !occurrenceId) {
+          setTabsList([
+            { label: "Details", value: 0 },
+            { label: "Settings", value: 1 },
+          ]);
+        }
+
         let eventRecurrence = null;
         if (res.meeting.recurrence && res.meeting.recurrence.type) {
           eventRecurrence = res.meeting.recurrence;
@@ -300,7 +350,7 @@ const EventDetails = ({
           },
           product: {
             price: res.product.price,
-            quantity: res.product.current_quantity || 0,
+            quantity: res.product.current_quantity,
             current_quantity: res.product.current_quantity,
           },
           notifications: {
@@ -338,8 +388,6 @@ const EventDetails = ({
   const [registrantsPagination, setRegistrantsPagination] = useState({});
 
   const getEventRegistrants = async (page = 1, id = null) => {
-    // const urlParams = new URLSearchParams(window.location.search);
-    // let postId = urlParams.get("post");
     setLoading(true);
     let post = postID;
     let res = null;
@@ -378,6 +426,7 @@ const EventDetails = ({
     }
     setLoading(false);
   };
+
   const handleDeleteMultipleRegistrants = async (selectedRegistrants) => {
     const results = [];
 
@@ -423,7 +472,6 @@ const EventDetails = ({
   };
   const [loading, setLoading] = useState(false);
   const getEventFullInfo = async () => {
-    // setLoading(true);
     setLoading(true);
     if (servvData && servvData.servv_plugin_mode === "development") {
       const id = await getEventData();
@@ -436,7 +484,7 @@ const EventDetails = ({
       await getFilters();
       await getAccountsInfo();
     } else {
-      const id = getEventData();
+      const id = await getEventData();
       if (id && adminSection) {
         getEventRegistrants(1, id);
         if (adminSection && settings && settings.current_plan.id === 2) {
@@ -450,6 +498,7 @@ const EventDetails = ({
     setLoading(false);
   };
   useEffect(() => {
+    setLoading(true);
     setAttributes({ registrants: [] });
     getSettings();
   }, []);
@@ -463,7 +512,7 @@ const EventDetails = ({
   const customFields = { ...attributes.custom_fields };
   const types = { ...attributes.types };
   const tickets = [...attributes.tickets];
-
+  // console.log(productDetails);
   const handleRegistrantsChange = (registrant) => {
     let currentRegistrants = registrants;
     // console.log(registrant, registrant?.status);
@@ -471,7 +520,6 @@ const EventDetails = ({
       if (registrant.status === "create") {
         currentRegistrants.push(registrant);
       } else {
-        console.log("delete");
         currentRegistrants = currentRegistrants.filter(
           (reg) => reg.tempId !== registrant.tempId
         );
@@ -520,14 +568,14 @@ const EventDetails = ({
         if (meeting.recurrence) {
           meeting.eventType = 8;
         } else meeting.eventType = 2;
-        customFields.custom_field_1_name = "";
-        customFields.custom_field_1_value = "";
+        // customFields.custom_field_1_name = "";
+        // customFields.custom_field_1_value = "";
       } else {
         if (meeting.recurrence) {
           meeting.eventType = 2;
         } else meeting.eventType = 1;
-        customFields.custom_field_1_name = "Meeting URL";
-        customFields.custom_field_1_value = "";
+        // customFields.custom_field_1_name = "Meeting URL";
+        // customFields.custom_field_1_value = "";
       }
     }
     // console.log(meeting.location);
@@ -539,15 +587,8 @@ const EventDetails = ({
 
   const handleTypesChange = (field, value) => {
     let types = attributes.types;
-
-    if (field === "members") {
-      let members = types.members || [];
-      if (members.indexOf(value) >= 0) {
-        members = members.filter((id) => id !== value);
-      } else {
-        members.push(value);
-      }
-      types["members"] = members;
+    if (field === "members" && value.length > 0) {
+      types["members"] = value;
     } else {
       if (types[field] === value) {
         delete types[field];
@@ -555,7 +596,6 @@ const EventDetails = ({
         types[field] = value;
       }
     }
-
     setAttributes({ types: { ...types } });
   };
   const handleNotificationsChange = (field, value) => {
@@ -566,11 +606,14 @@ const EventDetails = ({
   useEffect(() => {
     handleEventChange("title", title);
   }, [title]);
-  const tabsList = [
-    { label: "Event details", value: 0 },
-    { label: "Event settings", value: 1 },
+  useEffect(() => {
+    handleEventChange("agenda", agenda);
+  }, [agenda]);
+  const [tabsList, setTabsList] = useState([
+    { label: "Details", value: 0 },
+    { label: "Settings", value: 1 },
     { label: "Registrants", value: 2 },
-  ];
+  ]);
   const [selectedTab, setSelectedTab] = useState(0);
   const handleSelectChange = (val) => {
     setSelectedTab(val);
@@ -623,14 +666,20 @@ const EventDetails = ({
   };
 
   const handleResendNotificationsToAll = async () => {
-    let url = `/servv-plugin/v1/event/${postID}/registrants/resend`;
+    let url = `/wp-json/servv-plugin/v1/event/${postID}/registrants/resend`;
     if (occurrenceId) {
       url += `?occurrence_id=${occurrenceId}`;
     }
-    let res = await apiFetch({
-      path: url,
+    let res = await axios({
+      url: url,
       method: "POST",
+      headers: { "X-WP-Nonce": servvData.nonce },
+    }).catch((e) => {
+      toast("Servv was unable to resend notifications. Please try again.");
     });
+    if (res && res.status === 200) {
+      toast("Email notifications have been resent.");
+    }
   };
 
   const handleTicketsChange = (tickets) => {
@@ -639,7 +688,7 @@ const EventDetails = ({
       (totalQuantity, ticket) => totalQuantity + ticket.quantity,
       0
     );
-    console.log(quantity);
+
     if (quantity > 0) {
       handleProductChange("quantity", quantity);
     }
@@ -655,16 +704,29 @@ const EventDetails = ({
   //     : "offline"
   // );
   // console.log(postId);
-  const isFiltersEmpty = Object.values(filtersList).reduce(
-    (allEmptySoFar, value) => {
-      return allEmptySoFar && Array.isArray(value) && value.length === 0;
-    },
-    true
-  );
+
+  const [emptyFilters, setEmptyFilters] = useState(false);
+  useEffect(() => {
+    const isFiltersEmpty =
+      !filtersList ||
+      (filtersList &&
+        filtersList.categories &&
+        filtersList.categories.length === 0 &&
+        filtersList &&
+        filtersList.members &&
+        filtersList.members.length === 0 &&
+        filtersList &&
+        filtersList.languages &&
+        filtersList.languages.length === 0);
+    // console.log(isFiltersEmpty);
+    if (isFiltersEmpty) {
+      setEmptyFilters(true);
+    }
+  }, [filtersList]);
   const isBillingPlanRestriction =
     occurrenceId || settings?.current_plan.id !== 2;
   // const isBillingPlanRestriction = false;
-
+  // console.log(status === "publish");
   return (
     <div className="relative">
       <div className="absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -677,7 +739,7 @@ const EventDetails = ({
           selected={selectedTab}
           handleSelectChange={handleSelectChange}
         />
-        {selectedTab === 0 && (
+        {selectedTab === 0 && !activationError && (
           <Fragment>
             <DateTimeSection
               eventDetails={eventDetails}
@@ -695,7 +757,8 @@ const EventDetails = ({
                 disabled={
                   !zoomAccount ||
                   (zoomAccount && zoomAccount.length === 0) ||
-                  adminSection
+                  adminSection ||
+                  status === "publish"
                 }
                 meetingType={
                   eventDetails && eventDetails.location
@@ -708,6 +771,9 @@ const EventDetails = ({
                 customFields={customFields}
                 handleCustomFieldChange={handleCustomFieldsChange}
                 zoomAccount={zoomAccount}
+                types={types}
+                onFilterChange={handleTypesChange}
+                filtersList={filtersList}
               />
             }
             {/* {tickets.length === 0 && (
@@ -733,9 +799,10 @@ const EventDetails = ({
               handleSetLoading={handleSetLoading}
               stripeAccount={stripeAccount}
               occurrenceId={occurrenceId}
+              status={status}
             />
 
-            {!isFiltersEmpty && (
+            {emptyFilters !== undefined && emptyFilters === false && (
               <FiltersSection
                 types={types}
                 onChange={handleTypesChange}
@@ -757,7 +824,7 @@ const EventDetails = ({
             />
           </Fragment>
         )}
-        {selectedTab === 1 && (
+        {selectedTab === 1 && !activationError && (
           <Fragment>
             <EventVisibility
               productDetails={productDetails}
@@ -789,7 +856,22 @@ const EventDetails = ({
             disabled={settings?.current_plan.id !== 2}
           />
         )}
+        {selectedTab === 0 && !activationError && (
+          <div className="section-container border-b-2 border-gray-200">
+            <div className="section-description">
+              * Indicates a required field
+            </div>
+          </div>
+        )}
       </div>
+
+      {activationError && (
+        <div className="section-container border-b-2 border-gray-200">
+          <div className="section-description">
+            Activation failed. Please contact the Servv support team.
+          </div>
+        </div>
+      )}
     </div>
   );
 };

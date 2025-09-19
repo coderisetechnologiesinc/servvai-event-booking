@@ -1,16 +1,18 @@
 import React from "react";
 import InlineStack from "../Containers/InlineStack";
 
-const MenuItem = (props) => {
+const MenuItem = ({ title, link, onSelect, collapsed, icon }) => {
   return (
-    <a className="menu-item group" onClick={() => props.onSelect(props.link)}>
-      <InlineStack gap={2}>
-        {props.icon}
-        <span className="menu-item-title text-md group-hover:text-primary-button-bg">
-          {!props.collapsed && props.title}
-        </span>
+    <button
+      className="w-full text-left flex items-center px-4 py-2 hover:bg-gray-100"
+      onClick={() => onSelect(link)}
+    >
+      <InlineStack gap={2} className="items-center">
+        {icon}
+        {!collapsed && <span className="text-md">{title}</span>}
       </InlineStack>
-    </a>
+    </button>
   );
 };
+
 export default MenuItem;

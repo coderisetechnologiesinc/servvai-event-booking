@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 require_once __DIR__ . '/ajax/events/routes.php';
 require_once __DIR__ . '/ajax/zoom/routes.php';
 require_once __DIR__ . '/ajax/calendar/routes.php';
@@ -10,7 +13,7 @@ require_once __DIR__ . '/ajax/filters/routes.php';
 require_once __DIR__ . '/ajax/analytics/routes.php';
 
 
-function validate_ajax_permissions($request) {
+function servv_validate_ajax_permissions($request) {
     if (!is_user_logged_in()) {
         return new WP_Error('rest_forbidden', 'You are not allowed to access this resource.', array('status' => 403));
     }
@@ -22,7 +25,7 @@ function validate_ajax_permissions($request) {
     return true;
 }
 
-function validate_ajax_post_update_permissions($request) {
+function servv_validate_ajax_post_update_permissions($request) {
     $post_id = $request['post_id'];
     $post = get_post($post_id);
     if (!$post) {

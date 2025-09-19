@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 require_once __DIR__ . '/ajax_routes.php';
 require_once __DIR__ . '/ajax/events/events.php';
 require_once __DIR__ . '/ajax/zoom/zoom.php';

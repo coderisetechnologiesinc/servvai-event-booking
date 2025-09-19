@@ -17,13 +17,9 @@ const FiltersList = ({
   onDelete,
   onSelectAll,
   handleSingleDelete,
+  setLoading,
 }) => {
-  // const headings = [
-  //   { label: "Name", value: "name" },
-  //   { label: "Details", value: "details" },
-  //   { label: "Operational hours", value: "operational_hours" },
-  //   { label: "Priority", value: "priority" },
-  // ];
+  // Improved headings logic for all filter types
   const headings = () => {
     if (title === "Languages") {
       return [
@@ -65,85 +61,88 @@ const FiltersList = ({
       { label: "", value: "action" },
     ];
   };
-  const renderHeadings = () => {
-    return (
-      <Fragment>
-        <th>
-          <CheckboxControl
-            checked={selected.length === filters.length}
-            onChange={() => onSelectAll()}
-          />
-          {/* <input type="checkbox" onClick={() => onSelectAll()} /> */}
-        </th>
-        {headings().map((heading) => {
-          return <th>{heading.label}</th>;
-        })}
-        <th></th>
-      </Fragment>
-    );
-  };
+  const renderHeadings = () => (
+    <Fragment>
+      <th>
+        <CheckboxControl
+          checked={selected.length === filters.length}
+          onChange={() => onSelectAll()}
+        />
+      </th>
+      {headings().map((heading) => <th>{heading.label}</th>)}
+      <th></th>
+    </Fragment>
+  );
 
-  const renderRows = (filters) => {
-    return filters.map((row) => {
-      return (
-        <tr className="table-row">
-          <td>
-            <CheckboxControl
-              checked={selected.includes(row.id)}
-              onChange={() => onSelect(row.id)}
-            />
-            {/* <input
-              type="checkbox"
-              checked={selected.includes(row.id)}
-              onChange={() => onSelect(row.id)}
-            /> */}
-          </td>
-          {headings().map((heading) => {
-            return (
-              <td>
-                {heading.value === "name" ? (
-                  <a
-                    href="#"
-                    className="filter-table-link"
-                    onClick={(e) => onEdit(e, row)}
-                  >
-                    {row[heading.value]}
-                  </a>
-                ) : (
-                  <span>{row[heading.value]}</span>
-                )}
-              </td>
-            );
-          })}
-          <td>
-            <div className="flex flex-row gap-4">
-              <TrashIcon
-                className="button-icon"
-                onClick={() => onDelete(title, [row.id])}
-              />
-              <PencilIcon
-                className="button-icon"
+  const renderRows = (filters) =>
+    filters.map((row) => (
+      <tr className="table-row" key={row.id}>
+        <td>
+          <CheckboxControl
+            checked={selected.includes(row.id)}
+            onChange={() => onSelect(row.id)}
+          />
+        </td>
+        {headings().map((heading) => (
+          <td key={heading.value}>
+            {heading.value === "name" ? (
+              <a
+                href="#"
+                className="filter-table-link"
                 onClick={(e) => onEdit(e, row)}
-              />
-            </div>
+              >
+                {row[heading.value]}
+              </a>
+            ) : (
+              <span>{row[heading.value]}</span>
+            )}
           </td>
-        </tr>
-      );
-    });
-  };
+        ))}
+        <td>
+          <div className="flex flex-row gap-4">
+            {/* Single row delete with confirm */}
+            <TrashIcon
+              className="button-icon"
+              onClick={() => {
+                if (
+                  window.confirm(
+                    `Are you sure you want to delete this ${title.slice(0, -1).toLowerCase()}?`
+                  )
+                ) {
+                  onDelete(title, [row.id]);
+                }
+              }}
+            />
+            <PencilIcon
+              className="button-icon"
+              onClick={(e) => onEdit(e, row)}
+            />
+          </div>
+        </td>
+      </tr>
+    ));
   return (
     <Fragment>
       <BlockStack gap={4}>
         <InlineStack>
+          {/* Bulk delete with confirm */}
           <PageActionButton
             text="Delete"
             icon={null}
             type="secondary"
-            onAction={() => onDelete(title, selected)}
+            onAction={() => {
+              if (
+                selected.length > 0 &&
+                window.confirm(
+                  `Are you sure you want to delete the selected ${title.toLowerCase()}?`
+                )
+              ) {
+                onDelete(title, selected);
+              }
+            }}
             hidden={selected.length === 0}
           />
         </InlineStack>
-
         {filters && filters.length > 0 && (
           <Card>
             <FilterTable
@@ -152,7 +151,8 @@ const FiltersList = ({
             />
           </Card>
         )}
-        {/* {(filters.length === 0 || !filters) && (
+        {/* Uncomment for placeholder if needed:
+        {(filters.length === 0 || !filters) && (
           <PageContentPlaceholder
             icon={<MagnifyingGlassIcon className="placeholder-icon" />}
             title="No filters found"

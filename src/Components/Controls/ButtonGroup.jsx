@@ -3,8 +3,8 @@ const ButtonGroup = ({
   title = "",
   buttons = [],
   active = null,
-  onChange = () => { },
-  disabled = false
+  onChange = () => {},
+  disabled = false,
 }) => {
   return (
     <div className="input-container-row justify-between">
@@ -13,8 +13,11 @@ const ButtonGroup = ({
         <div className="button-group-container">
           {buttons.map((button) => (
             <button
-              className={`button-group-button${active == button ? "-active" : ""
-                } section-description`}
+              className={`${
+                active == button
+                  ? "button-group-button-active"
+                  : "button-group-button"
+              } section-description`}
               data-value={button}
               disabled={disabled}
               onClick={(e) => {

@@ -11,7 +11,7 @@
     border-radius: 4px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    color: #fff;
+    color: $svv_white;
     z-index: 1000;
     width: 98%;
     transition: $global-transition;
@@ -34,11 +34,11 @@
     }
 
     &.success {
-      background-color: $svv_blue_light;
+      background-color: $svv_text_black;
     }
 
     &.error {
-      background-color: $svv_orange_light;
+      background-color: $svv-brand-secondary;
     }
   }
 }

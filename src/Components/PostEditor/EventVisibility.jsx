@@ -4,7 +4,7 @@ const EventVisibility = ({ productDetails, onChange }) => {
 
   return (
     <div className="section-container">
-      <div className="section-heading">Visibility</div>
+      <div className="section-heading">{t("Visibility")}</div>
       <ButtonGroup
         title="Set event visibility"
         buttons={eventVisibilityOptions}

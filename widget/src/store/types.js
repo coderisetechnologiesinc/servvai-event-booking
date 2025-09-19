@@ -26,12 +26,12 @@ export default {
         //   headers: { ...rootState.common.apiHeaders },
         // });
         let params = new URLSearchParams();
-        params.append("security", pluginData.security);
+        params.append("security", servvAjax.nonce);
         params.append("action", "servv_get_types_list");
 
-        const response = await axios.post("/wp-admin/admin-ajax.php", params);
-
+        const response = await axios.post(servvAjax.ajax_url, params);
         if (response.status === 200) {
+          console.log(response.data);
           commit("setEventTypes", response.data);
         }
       } catch (e) {

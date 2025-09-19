@@ -1,4 +1,11 @@
+import React from "react";
+
 const PageContent = (props) => {
-  return <div className="page-content">{props.children}</div>;
+  const { className = "", children, ...rest } = props;
+  return (
+    <div {...rest} className={`page-content ${className}`}>
+      {children}
+    </div>
+  );
 };
 export default PageContent;

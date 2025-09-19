@@ -9,16 +9,15 @@
       width: 17px;
       height: auto;
       margin-right: 3px;
-
     }
 
     .svv-ls-countdown-content {
       font-size: 14px;
-      background-color: $svv_blue_light;
+      background-color: $svv_text_black;
       padding: 5px 10px 4px 10px;
       line-height: 1;
       border-radius: 100px;
-      color: #fff;
+      color: $svv_white;
       font-weight: 600;
     }
   }
@@ -31,6 +30,5 @@
     .svv-ls-countdown-content {
       border-radius: 7px;
     }
-
   }
 }

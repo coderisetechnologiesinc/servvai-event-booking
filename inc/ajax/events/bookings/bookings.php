@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 function servv_get_bookings($request)
 {
     $apiRoute = '/wordpress/bookings';
@@ -81,6 +84,9 @@ function servv_cancel_booking($request)
         !empty($occurrenceId) ? $quantities[$occurrenceId] = $newQuantity : $quantities[0] = $newQuantity;
         update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
     }
-
+    $n8nData = $bookingResponseBody;
+    $n8nData['wp_post_id'] = $postId;
+    $n8nData['wp_post_url'] = get_permalink($postId);
+    servv_n8n_cancelled_booking_trigger($n8nData);
     return $responseBody;
 }

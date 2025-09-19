@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import moment from "moment-timezone";
 import PageWrapper from "./PageWrapper";
 import PageHeader from "../Containers/PageHeader";
-import PageContent from "../Containers/PageContent";
+// import PageContent from "../Containers/PageContent";
 import BlockStack from "../Containers/BlockStack";
 import FilterTable from "../Containers/FilterTable";
 import Card from "../Containers/Card";
@@ -18,7 +18,7 @@ import ListPagination from "../Controls/ListPagination";
 import Dropdown from "../Containers/Dropdown";
 import PageActionButton from "../Controls/PageActionButton";
 import CheckboxControl from "../Controls/CheckboxControl";
-
+import timezones from "../../utilities/timezones";
 import {
   Bars4Icon,
   PencilSquareIcon,
@@ -29,7 +29,7 @@ import {
   AdjustmentsVerticalIcon,
   ArrowDownOnSquareStackIcon,
 } from "@heroicons/react/16/solid";
-const BookingsPage = () => {
+const BookingsPage = ({ settings }) => {
   const [loading, setLoading] = useState(false);
   const [headings, setHeadings] = useState([
     { label: "Order ID", value: "order", visible: true },
@@ -37,7 +37,7 @@ const BookingsPage = () => {
     { label: "Registrant", value: "registrant", visible: true },
     { label: "Event Title/Location", value: "title", visible: true },
     { label: "Occurrence", value: "occurrence", visible: true },
-    { label: "Paid", value: "paid", visible: true },
+    { label: "Mode", value: "paid", visible: true },
     { label: "Status", value: "status", visible: true },
   ]);
   const providers = ["offline", "zoom"];
@@ -51,6 +51,8 @@ const BookingsPage = () => {
     startDate: null,
     endDate: null,
   });
+  const [timezone, setTimezone] = useState("US/Pacific");
+  const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const [price, setPrice] = useState({ from: null, to: null });
   const [provider, setProvider] = useState("");
   const [filterDropdown, setFilterDropdown] = useState(false);
@@ -60,11 +62,48 @@ const BookingsPage = () => {
   });
   const [showBulkAction, setShowBulkActions] = useState(false);
   const firstFetch = useRef(false);
+
+  // --- Dropdown refs and click outside handlers ---
+  const customizeDropdownRef = useRef(null);
+  const filterDropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (!customizeDropdown) return;
+    const handleClickOutside = (event) => {
+      if (
+        customizeDropdownRef.current &&
+        !customizeDropdownRef.current.contains(event.target)
+      ) {
+        setCustomizeDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [customizeDropdown]);
+
+  useEffect(() => {
+    if (!filterDropdown) return;
+    const handleClickOutside = (event) => {
+      if (
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(event.target)
+      ) {
+        setFilterDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [filterDropdown]);
+
   const getPostId = (variant) => {
-    if (variant.length > 4) {
-      return { id: variant.slice(0, 3), occurrence: variant.slice(3) };
+    // console.log(variant.indexOf("0"), variant.length - 1);
+    if (variant.indexOf("0") < variant.length - 1) {
+      return {
+        id: variant.slice(0, variant.indexOf("0")),
+        occurrence: variant.slice(variant.indexOf("0")),
+      };
     } else {
-      return { id: variant.slice(0, 3), occurrence: null };
+      return { id: variant.slice(0, variant.indexOf("0")) };
     }
   };
 
@@ -94,7 +133,7 @@ const BookingsPage = () => {
 
   const resendConfirmations = async ({ id, occurrence }) => {
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/resend`;
+    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${registrant}/resend`;
     if (occurrence) {
       url += `?occurrence_id=${occurrence}`;
     }
@@ -113,9 +152,9 @@ const BookingsPage = () => {
     setLoading(false);
   };
 
-  const refundBooking = async (id) => {
+  const refundBooking = async ({ id, occurrence }) => {
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/booking/${id}/refund`;
+    let url = `/wp-json/servv-plugin/v1/bookings/${id}/refund`;
     const refundBookingResponse = await axios(url, {
       method: "POST",
       headers: { "X-WP-Nonce": servvData.nonce },
@@ -133,7 +172,7 @@ const BookingsPage = () => {
 
   const cancelBookings = async (id) => {
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/booking/${id}/cancel`;
+    let url = `/wp-json/servv-plugin/v1/bookings/${id}/cancel`;
     const refundBookingResponse = await axios(url, {
       method: "POST",
       headers: { "X-WP-Nonce": servvData.nonce },
@@ -153,6 +192,115 @@ const BookingsPage = () => {
     if (activeDropdown === id) {
       setActiveDropdown(null);
     } else setActiveDropdown(id);
+  };
+  const updateTimeFormat = (settings) => {
+    if (!settings) return;
+    else if (
+      settings &&
+      settings.settings &&
+      settings.settings.time_format_24_hours
+    ) {
+      setTimeFormat("HH:mm");
+    }
+  };
+  const updateTimezone = (settings) => {
+    let defaultTimezone = null;
+
+    if (!settings) return;
+
+    if (settings.settings?.admin_dashboard) {
+      const adminSettings = JSON.parse(settings.settings.admin_dashboard);
+      defaultTimezone = adminSettings.default_timezone || moment.tz.guess();
+    } else {
+      defaultTimezone = moment.tz.guess();
+    }
+
+    let findTimezone = timezones.filter((t) => t.zone === defaultTimezone);
+
+    if (findTimezone.length > 0) {
+      setTimezone(findTimezone[0]);
+    } else {
+      let timezoneOffset = moment.tz(defaultTimezone).format("Z");
+      let formattedOffset = `(GMT${timezoneOffset})`;
+
+      let availableTimezone = timezones.filter(
+        (t) => t.gmt === formattedOffset
+      );
+
+      if (availableTimezone.length > 0) {
+        setTimezone(availableTimezone[0]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    updateTimeFormat(settings);
+    updateTimezone(settings);
+  }, [settings]);
+
+  const getDates = (tz = timezone.zone) => {
+    let datesValue = { startDate: null, endDate: null };
+
+    if (dates.startDate) {
+      const d = dates.startDate; // Moment object
+      datesValue.startDate = new Date(
+        d.year(),
+        d.month(),
+        d.date(),
+        d.hour(),
+        d.minute(),
+        d.second()
+      );
+    }
+
+    if (dates.endDate) {
+      const d = dates.endDate;
+      datesValue.endDate = new Date(
+        d.year(),
+        d.month(),
+        d.date(),
+        d.hour(),
+        d.minute(),
+        d.second()
+      );
+    }
+
+    return datesValue;
+  };
+
+  const handleSetDates = (dates) => {
+    let startDate = null;
+
+    if (dates.startDate)
+      startDate = moment.tz(
+        {
+          year: dates.startDate.getFullYear(),
+          month: dates.startDate.getMonth(),
+          day: dates.startDate.getDate(),
+          hour: 0,
+          minute: 0,
+          second: 0,
+        },
+        timezone.zone
+      );
+    let endDate = null;
+    if (dates.endDate)
+      endDate = moment.tz(
+        {
+          year: dates.endDate.getFullYear(),
+          month: dates.endDate.getMonth(),
+          day: dates.endDate.getDate(),
+          hour: 23,
+          minute: 59,
+          second: 0,
+        },
+        timezone.zone
+      );
+
+    setDates({
+      startDate: startDate ? startDate : null,
+      endDate: endDate ? endDate : null,
+    });
   };
   const fetchBookings = async ({ page = 1 } = {}) => {
     setLoading(true);
@@ -240,10 +388,6 @@ const BookingsPage = () => {
     // await fetchBookings(newVal);
   };
 
-  // useEffect(() => {
-  //   fetchBookings();
-  // }, []);
-
   const renderHeadings = () => {
     return (
       <Fragment>
@@ -291,7 +435,10 @@ const BookingsPage = () => {
               if (heading.value === "order") {
                 return (
                   <td>
-                    <span className="font-semibold text-sm">#{row.id}</span>
+                    <span className="font-semibold text-sm max-sm: text-sm">
+                      {t("#")}
+                      {row.id}
+                    </span>
                   </td>
                 );
               }
@@ -303,7 +450,7 @@ const BookingsPage = () => {
                         {order_date.format("MMM DD YYYY")}
                       </span>
                       <span className="text-xs font-regular">
-                        {order_date.format("HH:mm a")}
+                        {order_date.format(timeFormat)}
                       </span>
                     </div>
                   </td>
@@ -331,7 +478,7 @@ const BookingsPage = () => {
                         {start_date.format("MMM DD YYYY")}
                       </span>
                       <span className="text-xs font-regular">
-                        {start_date.format("HH:mm a")}
+                        {start_date.format(timeFormat)}
                       </span>
                     </div>
                   </td>
@@ -355,7 +502,7 @@ const BookingsPage = () => {
                           ? "Canceled"
                           : row.reunded_quantity >= row.quantity
                           ? "Refunded"
-                          : "Paid"
+                          : "Active"
                       }
                       color={
                         row.active_registrants === 0
@@ -381,34 +528,20 @@ const BookingsPage = () => {
               <div className="filter-table-dropdown">
                 <span className="dropdown-header">
                   {`#${row.id}`}{" "}
-                  <span className="dropdown-description">{row.email}</span>
+                  <p className="dropdown-description wrap-break-word">
+                    {row.email}
+                  </p>
                 </span>
                 <div className="dropdown-actions">
                   <BlockStack gap={4}>
-                    {/* <button
-                      className="dropdown-action"
-                      disabled={true}
-                      onClick={() => {}}
-                    >
-                      <EyeIcon className="dropdown-icon" />
-                      View booking
-                    </button>
-                    <button
-                      className="dropdown-action"
-                      disabled={true}
-                      onClick={() => {}}
-                    >
-                      <PencilSquareIcon className="dropdown-icon" />
-                      Edit booking
-                    </button> */}
                     <button
                       className="dropdown-action"
                       onClick={() =>
-                        resendConfirmations(getPostId(row.variant_id))
+                        resendConfirmations({ ...getPostId(row.variant_id) })
                       }
                     >
                       <PaperAirplaneIcon className="dropdown-icon" />
-                      Resend confirmation
+                      {t("Resend confirmation")}
                     </button>
                   </BlockStack>
                 </div>
@@ -420,7 +553,7 @@ const BookingsPage = () => {
                         onClick={() => refundBooking(row.id)}
                       >
                         <WalletIcon className="dropdown-icon" />
-                        Issue refund
+                        {t("Issue refund")}
                       </button>
                     )}
                     <button
@@ -428,7 +561,7 @@ const BookingsPage = () => {
                       onClick={() => cancelBookings(row.id)}
                     >
                       <XCircleIcon className="dropdown-icon" />
-                      Cancel booking
+                      {t("Cancel booking")}
                     </button>
                   </BlockStack>
                 </div>
@@ -475,8 +608,6 @@ const BookingsPage = () => {
   const handlePriceChange = (newVal, attribute) => {
     const newPrice = { ...price };
     let newPriceValue = newVal.replace(".", ",");
-    // let newPriceValue = newVal;
-    // console.log(Number.parseFloat(newVal), newVal);
     if (attribute === "from") {
       newPrice.from = Number.parseFloat(newPriceValue);
     } else {
@@ -520,7 +651,7 @@ const BookingsPage = () => {
             type="number"
             step="any"
           />
-          <CheckboxControl
+          {/* <CheckboxControl
             label="Event"
             name="offline"
             checked={selectedProvider.offline}
@@ -531,7 +662,7 @@ const BookingsPage = () => {
             name="zoom"
             checked={selectedProvider.zoom}
             onChange={() => handleSelectProvider("zoom")}
-          />
+          /> */}
         </BlockStack>
       </Fragment>
     );
@@ -549,7 +680,6 @@ const BookingsPage = () => {
     setSearchString("");
     setSelectedProvider({ offline: true, zoom: true });
     setPrice({ from: null, to: null });
-    // setSelectedTimeInterval("12");
     firstFetch.current = true;
   };
 
@@ -737,7 +867,7 @@ const BookingsPage = () => {
                 onClick={() => performBulkAction("refund")}
               >
                 <WalletIcon className="dropdown-icon" />
-                Refund bookings
+                {t("Refund bookings")}
               </button>
             )}
             <button
@@ -745,7 +875,7 @@ const BookingsPage = () => {
               onClick={() => performBulkAction("cancel")}
             >
               <XCircleIcon className="dropdown-icon" />
-              Cancel bookings
+              {t("Cancel bookings")}
             </button>
           </BlockStack>
         </div>
@@ -756,7 +886,7 @@ const BookingsPage = () => {
     return (
       <div className="card-header">
         <div className="card-heading">
-          <span>Your bookings</span>
+          <span>{t("Bookings")}</span>
           <Badge
             text={`${bookings?.bookings?.length || 0} item${
               bookings && bookings.bookings.length > 1 ? "s" : ""
@@ -767,21 +897,6 @@ const BookingsPage = () => {
           />
         </div>
         <div className="card-description">
-          {/* {dates.startDate && dates.endDate && (
-            <span>
-              You are viewing bookings between{" "}
-              {moment(dates.startDate).format("MMM DD, YYYY")} -{" "}
-              {moment(dates.endDate).format("MMM DD, YYYY")}
-            </span>
-          )}
-          {isFiltersApplyed && (
-            <a
-              className="card-header-description-link"
-              onClick={() => resetFilters()}
-            >
-              Clear filters
-            </a>
-          )} */}
           {(searchString.length > 0 ||
             dates.startDate ||
             dates.endDate ||
@@ -793,15 +908,16 @@ const BookingsPage = () => {
               className="card-header-description-link"
               onClick={() => resetFilters()}
             >
-              Clear filters
+              {t("Clear filters")}
             </a>
           )}
+          {/* <span>{t("Review and manage all your event bookings here.")}</span> */}
         </div>
 
         <InlineStack align={"left"} gap={4} cardsLayout={false}>
           <InputFieldControl
             value={searchString}
-            placeholder="Enter search string"
+            placeholder="Search by event title"
             onChange={onChange}
             handleKeyPress={handleEnterButton}
             fullWidth={true}
@@ -809,74 +925,83 @@ const BookingsPage = () => {
           />
           <Datepicker
             displayFormat={"MMM DD, YYYY"}
-            value={dates}
+            value={getDates()}
             placeholder="Select dates"
             inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
-            onChange={(newValue) => setDates(newValue)}
+            onChange={(newValue) => handleSetDates(newValue)}
           />
-          <Dropdown
-            activator={
-              <PageActionButton
-                text="Filters"
-                icon={<AdjustmentsVerticalIcon className="button-icon" />}
-                type="secondary"
-                onAction={() => changeFilterDropdown()}
-              />
-            }
-            status={filterDropdown}
-          >
-            <BlockStack gap={4}>
-              {renderFilteringWithFilters()}
-              <PageActionButton
-                text={<span className="text-center">Apply</span>}
-                type="primary"
-                icon={null}
-                onAction={() => {
-                  onFiltering();
-                  setFilterDropdown(false);
-                }}
-                justify={"justify-center"}
-              />
-            </BlockStack>
-          </Dropdown>
+          <div ref={filterDropdownRef}>
+            <Dropdown
+              activator={
+                <PageActionButton
+                  text="Filters"
+                  icon={<AdjustmentsVerticalIcon className="button-icon" />}
+                  type="secondary"
+                  onAction={() => changeFilterDropdown()}
+                />
+              }
+              status={filterDropdown}
+              onClose={() => setFilterDropdown(false)}
+            >
+              <BlockStack gap={4}>
+                {renderFilteringWithFilters()}
+                <PageActionButton
+                  text={<span className="text-center">{t("Apply")}</span>}
+                  type="primary"
+                  icon={null}
+                  onAction={() => {
+                    onFiltering();
+                    setFilterDropdown(false);
+                  }}
+                  justify={"justify-center"}
+                />
+              </BlockStack>
+            </Dropdown>
+          </div>
         </InlineStack>
       </div>
     );
   };
+
   return (
     <PageWrapper loading={loading}>
       <BlockStack gap={4}>
         <PageHeader>
-          <BlockStack>
-            <h1 className="text-display-sm font-semibold mt-6">Bookings</h1>
+          <BlockStack gap={4}>
+            <h1 className="text-display-sm font-semibold mt-6">
+              {t("Bookings")}
+            </h1>
             <p className="page-header-description">
-              View and manage all your event bookings in one place for seamless
-              scheduling and attendee tracking
+              {/* {t("Review and manage all your event bookings here.")} */}
+              View and manage all event bookings in one place
             </p>
           </BlockStack>
           <InlineStack gap={2} align="right">
-            <Dropdown
-              activator={
-                <PageActionButton
-                  text="Customize"
-                  icon={<AdjustmentsVerticalIcon className="button-icon" />}
-                  type="secondary"
-                  onAction={() => {
-                    setCustomizeDropdown(!customizeDropdown);
-                  }}
-                />
-              }
-              status={customizeDropdown}
-            >
-              <ul>{renderHeadingsCustomization()}</ul>
-            </Dropdown>
+            <div ref={customizeDropdownRef}>
+              <Dropdown
+                activator={
+                  <PageActionButton
+                    text="Customize"
+                    icon={<AdjustmentsVerticalIcon className="button-icon" />}
+                    type="secondary"
+                    onAction={() => {
+                      setCustomizeDropdown(!customizeDropdown);
+                    }}
+                  />
+                }
+                status={customizeDropdown}
+                onClose={() => setCustomizeDropdown(false)}
+              >
+                <ul>{renderHeadingsCustomization()}</ul>
+              </Dropdown>
+            </div>
             <PageActionButton
               text="Export"
               icon={<ArrowDownOnSquareStackIcon className="button-icon" />}
               type="secondary"
               disabled={!bookings || bookings.bookings.length === 0}
               onAction={() => {
-                handleExport();
+                exportToCSV(bookings.bookings);
               }}
             />
           </InlineStack>

@@ -1,7 +1,11 @@
+import "./bootstrap-i18n.js";
 import domReady from "@wordpress/dom-ready";
 import { createRoot } from "@wordpress/element";
 import SideBar from "./Components/Menu/SideMenu";
 import { useEffect, useState } from "react";
+import LanguageSwitcher from "./Components/LanguageSwitcher.jsx";
+import Layout from "./Components/Layout/Layout.jsx";
+import "./Components/Layout/Layout.css";
 const EventsPage = React.lazy(() => import("./Components/Pages/EventsPage"));
 const IntegrationsPage = React.lazy(() =>
   import("./Components/Pages/IntegrationsPage")
@@ -22,17 +26,31 @@ const AnalyticsPage = React.lazy(() =>
 const BookingsPage = React.lazy(() =>
   import("./Components/Pages/BookingsPage")
 );
+const SupportPage = React.lazy(() => import("./Components/Pages/SupportPage"));
+
+// ————————————— i18n SETUP ——————————————
+// Immediately after you import your resolver…
+import { initI18n, translateAll, t } from "./utilities/textResolver.js";
+
+// Expose `t` into the global/window scope:
+window.t = t;
+
+// Then your existing init call...
+initI18n("en_US");
 
 import "quill/dist/quill.core.css";
 import { getSettings } from "./utilities/settings";
 import { getFilters } from "./utilities/filters";
-const AdminSettingsPage = () => {
+import { toast } from "react-toastify";
+import ValidationScreen from "./Components/Pages/ValidationScreen.jsx";
+const AdminSettingsPage = ({ settingsData }) => {
   const [selectedPage, setSelectedPage] = useState("events");
   const [resetSelectedSubpage, setResetSelectedSubPage] = useState(false);
   const [settings, setSettings] = useState(null);
   const [filtersList, setFiltersList] = useState({});
   const [collapsedMenu, setCollapsedMenu] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const onPageChange = (page) => {
     if (selectedPage !== page) setSelectedPage(page);
     else {
@@ -40,6 +58,7 @@ const AdminSettingsPage = () => {
       setResetSelectedSubPage(true);
     }
   };
+
   const handleResetSelectedSubpage = () => {
     setResetSelectedSubPage(false);
   };
@@ -49,23 +68,43 @@ const AdminSettingsPage = () => {
   };
 
   const fetchSettings = async () => {
+    setLoading(true);
     const settingsData = await getSettings();
-    if (settingsData) {
+
+    if (settingsData && !settingsData.errorCode) {
       setSettings(settingsData);
+    } else if (settingsData.error) {
+      setErrorMessage(
+        "We're facing an issue loading the settings. Please reactivate the plugin."
+      );
+
+      setLoading(false);
     }
+    // setLoading(false);
   };
 
   const fetchFilters = async () => {
+    setLoading(true);
     if (servvData.servv_plugin_mode === "development") {
       const filters = await getFilters(
-        settings && settings.current_plan.id ? settings.current_plan.id : 1
+        settings && settings.current_plan && settings.current_plan.id
+          ? settings.current_plan.id
+          : 1
       );
       setFiltersList(filters);
+
+      setLoading(false);
     } else {
-      const filters = getFilters(
-        settings && settings.current_plan.id ? settings.current_plan.id : 1
+      const filters = await getFilters(
+        settings && settings.current_plan && settings.current_plan.id
+          ? settings.current_plan.id
+          : 1
       );
-      setFiltersList(filters);
+      if (filters) {
+        setFiltersList(filters);
+      }
+
+      setLoading(false);
     }
   };
 
@@ -94,18 +133,14 @@ const AdminSettingsPage = () => {
     }
   }, []);
 
+  const handlePageChange = (page) => {
+    setSelectedPage(page);
+    setResetSelectedSubPage(true);
+  };
+
   return (
-    <div className="page">
-      {/* <ThemeProvider theme={theme}> */}
-      <SideBar
-        page={selectedPage}
-        onChange={onPageChange}
-        collapsed={collapsedMenu}
-      />
-      <div
-        className="collapse-activator"
-        onClick={() => handleCollapseMenu()}
-      ></div>
+    // <div className="min-width">
+    <Layout selectedPage={selectedPage} onPageChange={handlePageChange}>
       {selectedPage === "events" && (
         <React.Suspense fallback={null}>
           <EventsPage
@@ -115,6 +150,7 @@ const AdminSettingsPage = () => {
             filtersList={filtersList}
             isLoading={loading}
             setIsLoading={setLoading}
+            globalError={errorMessage}
           />
         </React.Suspense>
       )}
@@ -123,6 +159,7 @@ const AdminSettingsPage = () => {
           <BookingsPage
             resetSelectedSubpage={resetSelectedSubpage}
             handleResetSubpage={handleResetSelectedSubpage}
+            settings={settings}
           />
         </React.Suspense>
       )}
@@ -166,8 +203,12 @@ const AdminSettingsPage = () => {
           <AnalyticsPage settings={settings} />
         </React.Suspense>
       )}
-      {/* </ThemeProvider> */}
-    </div>
+      {selectedPage === "support" && (
+        <React.Suspense fallback={null}>
+          <SupportPage settings={settings} />
+        </React.Suspense>
+      )}
+    </Layout>
   );
 };
 const EventPage = () => {
@@ -176,13 +217,56 @@ const EventPage = () => {
     let eventId = urlParams.get("event");
     let occurrenceId = urlParams.get("occurrence");
   }, []);
+  return (
+    <div className="servv-page">
+      <React.Suspense fallback={<div>Loading event...</div>}>
+        <EventDetails />
+      </React.Suspense>
+    </div>
+  );
 };
 
 domReady(() => {
-  const root = createRoot(document.getElementById("servv-wrap"));
-  if (servvData.page === "servvai-event-booking") {
-    root.render(<AdminSettingsPage />);
-  } else if (servvData.page === "events") {
-    root.render(<EventPage />);
+  const rootEl = document.getElementById("servv-wrap");
+  const root = createRoot(rootEl);
+
+  function renderComponent() {
+    let component;
+
+    if (servvData.page === "servvai-event-booking") {
+      if (servvData.install_status === "failed") {
+        component = (
+          <ValidationScreen message="Activation failed. Please contact the Servv support team." />
+        );
+      } else if (
+        servvData.install_status !== "ok" &&
+        servvData.install_status !== "failed"
+      ) {
+        component = (
+          <ValidationScreen message="Please wait. The installation is in progress" />
+        );
+
+        setTimeout(() => {
+          if (
+            servvData.install_status !== "ok" &&
+            servvData.install_status !== "failed"
+          ) {
+            window.location.reload();
+          }
+        }, 5000);
+      } else {
+        component = <AdminSettingsPage />;
+      }
+    } else if (servvData.page === "events") {
+      component = <EventPage />;
+    }
+
+    root.render(<div>{component}</div>);
   }
+
+  renderComponent();
+
+  setTimeout(() => {
+    translateAll();
+  }, 0);
 });

@@ -28,24 +28,14 @@ export const translationsKeysTpl = {
   mainWidget: {
     openDialogButton: "Book event",
     eventsListTitle: "Events list",
-    bundlesListTitle: "Bundles list",
     widgetEventsListSwitchLabel: "Events",
-    widgetBundlesListSwitchLabel: "Bundles",
-    bundleAddToCartButtonLabel: "Add to Cart",
     eventAddToCartButtonLabel: "Add to Cart",
     liveShoppingJoinButtonLabel: "Join",
     liveShoppingStartCountdown: "in",
-    bundleEventsListTitle: "Included events",
-    shareEventPanelTitle: "Share this event",
     searchEventPlaceholder: "Search",
     itemsCounterLabel: "items",
     clearFiltersLabel: "clear",
     bookButtonLabel: "Book now",
-    virtualAppointmentLabel: "Appointment",
-    virtualEventLabel: "Virtual",
-    inPersonEventLabel: "In-Person",
-    webinarLabel: "Webinar",
-    liveShoppingLabel: "Live Shopping",
     eventDetailsButtonLabel: "Details",
     eventDescriptionFieldLabel: "Description",
     todaySeparatorLabel: "Today",
@@ -55,7 +45,6 @@ export const translationsKeysTpl = {
     goToFiltersResultButton: "Next: Result",
     labelForMonthWithoutEvents: "There are no events scheduled for this month",
     nextMonthButton: "Next",
-    availableQuantitySuffix: "left",
   },
   onProductWidget: {
     selectTimeButton: "Select the Date and Time",
@@ -92,32 +81,6 @@ export const translationsKeysTpl = {
     registrationCompletedMessageTitle: "Registration completed!",
     registrationCompletedMessageDescription:
       "You have successfully registered. A confirmation email has been sent to the provided email address. Please check your inbox.",
-  },
-  liveShoppingWidget: {
-    joinToCallButton: "Join",
-    enterAdmittedUser: "Enter",
-    joinUserWithEmailButton: "Join",
-    usernameInputLabel: "Username",
-    emailInputLabel: "Email",
-    usernameInputPlaceholder: "john.doe",
-    emailInputPlaceholder: "john.doe@acme.com",
-    loginFormTitle: "Please enter your username and email to join the call",
-    waitForConnectionMessage: "Please wait until the owner allows you in",
-    reconnectionMessage:
-      "Something has gone wrong, we are trying to reconnect you",
-    waitForAdmitMessage: "Please wait, we are trying to connect you",
-    connectionErrorMessage: "Please reload the page",
-    productAddedToCartMessage: "The product has been added to the cart",
-    emptyUsernameWarning: "Please enter your username",
-    emptyEmailWarning: "Please enter your email",
-    wrongEmailFormatWarning: "Please enter the correct email",
-    audioRequirmentsIssue:
-      "The system does not support VOIP, but you can join the audio by phone",
-    screenRequirmentsIssue:
-      "The screen is not compatible with the current web browser.",
-    videoRequirmentsIssue:
-      "The video is not compatible with the current web browser.",
-    browserRequirmentsIssue: "Please update your browser",
   },
 };
 

@@ -5,17 +5,14 @@
   >
     <a class="svv-servv-logo" href="https://servv.ai" target="_blank">
       Powered by
-      <img
-        src="https://servv-email.s3.us-east-2.amazonaws.com/email-template-designs/servv-logo-black.png"
-        alt="Servv.ai"
-      />
+      <img :src="getPlaceholder()" alt="Servv.ai" />
     </a>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-
+import servvLogo from "@/assets/images/servv-logo-black.png";
 export default {
   name: "WidgetPromoLogo",
   computed: {
@@ -23,6 +20,11 @@ export default {
       widgetSettings: "common/widgetSettings",
       isBundlePage: "events/isBundlePage",
     }),
+  },
+  methods: {
+    getPlaceholder() {
+      return window.servvAjax.assets_url + "img/servv-logo-black.png";
+    },
   },
 };
 </script>

@@ -24,7 +24,7 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: $svv_blue_light;
+    background-color: $svv_text_black;
     display: block;
     align-items: center;
   }
@@ -85,9 +85,9 @@
     .category-control-button:hover {
       background-color: $svv_blue_ultra_dark;
       path {
-        fill: #fff;
+        fill: $svv_white;
       }
-      border: 1px solid #fff;
+      border: 1px solid $svv_white;
     }
 
     .category-control-button-disabled {
@@ -99,14 +99,14 @@
       display: flex;
       justify-content: center;
       align-content: center;
-      border: 1px solid $svv_cancel_gray_dark;
+      border: 1px solid $svv_text_gray;
       path {
-        fill: $svv_cancel_gray_dark;
+        fill: $svv_text_gray;
 
         &:hover {
-          border: 1px solid $svv_cancel_gray_dark;
+          border: 1px solid $svv_text_gray;
           path {
-            fill: $svv_cancel_gray_dark;
+            fill: $svv_text_gray;
           }
         }
       }

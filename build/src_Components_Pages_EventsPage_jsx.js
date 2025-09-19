@@ -122,16 +122,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const Card = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `servv-card ${props.padding ? props.padding : "p-0"} ${props.align === "center" ? "mx-auto" : ""} ${props.background ? props.background : "bg-white"}`,
-    style: {
-      maxWidth: props.maxWidth
-    },
-    children: props.children
+  const {
+    className = "",
+    padding,
+    align,
+    background,
+    maxWidth,
+    children,
+    ...rest
+  } = props;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    ...rest,
+    className: `servv-card ${padding || "p-0"} ${align === "center" ? "mx-auto" : ""} ${background || "bg-white"} max-md:max-w-full w-full ${maxWidth ? `md:max-w-[${maxWidth}]` : ""} ${className}`,
+    children: children
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Card);
@@ -192,15 +202,74 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const Dropdown = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    className: "dropdown",
-    children: [props.activator && props.activator, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-      className: `dropdown-content ${!props.status ? "hidden" : "inline-flex"}`,
-      children: props.children
+
+const Dropdown = ({
+  activator,
+  status,
+  children,
+  onClose,
+  className = "",
+  dropdownClassName = "",
+  ...rest
+}) => {
+  const dropdownRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const [dropdownStyle, setDropdownStyle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    minWidth: 240
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!status) return;
+    const handleClickOutside = event => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (onClose) onClose();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [status, onClose]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (status && dropdownRef.current) {
+      const dropdown = dropdownRef.current.querySelector(".dropdown-content-fix");
+      if (dropdown) {
+        const rect = dropdown.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        let newStyle = {
+          minWidth: 240
+        };
+        if (rect.right > viewportWidth) {
+          newStyle.right = 0;
+          newStyle.left = "auto";
+        }
+        if (rect.left < 0) {
+          newStyle.left = 0;
+          newStyle.right = "auto";
+        }
+        setDropdownStyle({
+          ...newStyle
+        });
+      }
+    }
+  }, [status, children]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    ref: dropdownRef,
+    className: `relative ${className}`,
+    ...rest,
+    children: [activator, status && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: `absolute z-50 mt-2 ${dropdownClassName}`,
+      style: {
+        minWidth: 240,
+        right: 0,
+        left: "auto"
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "bg-white border border-gray-200 rounded-xl shadow-lg p-4 dropdown-content-fix",
+        style: dropdownStyle,
+        children: children
+      })
     })]
   });
 };
@@ -218,19 +287,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const FilterTable = ({
   headings,
-  rows
+  rows,
+  className = "",
+  tableClassName = "",
+  ...rest
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
-    className: "filter-table",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
-      className: "filter-table-headings",
-      children: headings
-    }), rows]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: `table-container w-full ${className}`,
+    ...rest,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("table", {
+      className: `filter-table w-full ${tableClassName}`,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("tr", {
+          className: "filter-table-headings",
+          children: headings
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("tbody", {
+        children: rows
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FilterTable);
@@ -247,13 +330,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const PageHeader = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `page-header ${props.bottomLine ? 'border-b pb-4' : ''}`,
-    children: props.children
+  const {
+    className = "",
+    bottomLine,
+    children,
+    ...rest
+  } = props;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    ...rest,
+    className: `page-header ${bottomLine ? "border-b pb-4" : ""} ${className}`,
+    children: children
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageHeader);
@@ -280,21 +373,41 @@ const TabsComponent = ({
   fullWidth
 }) => {
   const renderTabs = () => {
-    return tabsList.map(tab => {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
-        className: "me-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-          onClick: () => handleSelectChange(tab.value),
-          className: `tab-element ${selected === tab.value ? "tab-active" : ""}`,
-          children: tab.label
-        })
-      });
-    });
+    return tabsList.map(tab => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+      style: {
+        flex: "0 0 auto",
+        minWidth: 120
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+        onClick: () => handleSelectChange(tab.value),
+        className: `tab-element ${selected === tab.value ? "tab-active" : ""}`,
+        style: {
+          minWidth: 120,
+          whiteSpace: "nowrap",
+          flex: "0 0 auto"
+        },
+        children: tab.label
+      })
+    }, tab.value));
   };
+
+  // Responsive scroll for mobile
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `tabs-group-container ${fullWidth ? "w-full justify-between" : ""}`,
+    className: "tabs-group-container",
+    style: {
+      overflowX: "auto",
+      WebkitOverflowScrolling: "touch",
+      width: "100%",
+      marginBottom: 16
+    },
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
-      className: "flex flex-row",
+      className: "flex flex-row servv-tabs",
+      style: {
+        flexWrap: "nowrap",
+        minWidth: "100%",
+        width: "max-content",
+        marginBottom: 0
+      },
       children: renderTabs()
     })
   });
@@ -336,7 +449,7 @@ const ButtonGroup = ({
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "button-group-container",
         children: buttons.map(button => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: `button-group-button${active == button ? "-active" : ""} section-description`,
+          className: `${active == button ? "button-group-button-active" : "button-group-button"} section-description`,
           "data-value": button,
           disabled: disabled,
           onClick: e => {
@@ -419,6 +532,65 @@ const CheckboxControl = ({
 
 /***/ }),
 
+/***/ "./src/Components/Controls/ConfirmationModal.jsx":
+/*!*******************************************************!*\
+  !*** ./src/Components/Controls/ConfirmationModal.jsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+
+const ConfirmationModal = ({
+  data
+}) => {
+  const {
+    open = false,
+    title = "Please confirm your action",
+    text = "Delete selected element",
+    item = null,
+    onAccept = () => {},
+    onCancel = () => {}
+  } = data;
+  if (!open) return null;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+    className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50",
+    role: "dialog",
+    "aria-modal": "true",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      className: "bg-white rounded-2xl shadow-xl w-full max-w-md p-6 flex flex-col gap-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+        className: "text-lg font-semibold text-gray-800",
+        children: title
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+        className: "text-gray-600",
+        children: text
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+        className: "text-gray-600 font-semibold",
+        children: item && item
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "flex flex-row justify-end gap-3",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+          onClick: onCancel,
+          className: "px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200",
+          children: "Cancel"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+          onClick: onAccept,
+          className: "px-4 py-2 rounded-lg bg-brand-500 text-white hover:bg-brand-700",
+          children: "Confirm"
+        })]
+      })]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ConfirmationModal);
+
+/***/ }),
+
 /***/ "./src/Components/Controls/ConnectedButton.jsx":
 /*!*****************************************************!*\
   !*** ./src/Components/Controls/ConnectedButton.jsx ***!
@@ -448,6 +620,27 @@ const ConnectedButton = ({
 
 /***/ }),
 
+/***/ "./src/Components/Controls/CustomDropdown.jsx":
+/*!****************************************************!*\
+  !*** ./src/Components/Controls/CustomDropdown.jsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const CustomDropdown = ({
+  options,
+  selected,
+  onSelectChange,
+  icon,
+  image
+}) => {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomDropdown);
+
+/***/ }),
+
 /***/ "./src/Components/Controls/EndDateControl.jsx":
 /*!****************************************************!*\
   !*** ./src/Components/Controls/EndDateControl.jsx ***!
@@ -471,14 +664,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import DatePicker from "../PostEditor/DatePicker";
 
 
 
 
 const EndDateControl = ({
   recurrence,
-  onChange
+  onChange,
+  meetingType = "offline"
 }) => {
   const {
     end_times,
@@ -489,28 +682,44 @@ const EndDateControl = ({
     setSelected(val);
   };
   const endDate = end_date_time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(end_date_time).format("YYYY-MM-DDTHH:mm:ss") : moment__WEBPACK_IMPORTED_MODULE_3___default()().format("YYYY-MM-DDTHH:mm:ss");
-  const handleEndTimesChange = val => {
-    const newRecurrenceSettings = {
-      ...recurrence
-    };
-    delete newRecurrenceSettings.end_date_time;
-    newRecurrenceSettings.end_times = val;
-    onChange(newRecurrenceSettings);
-  };
-  const handleEndDateTimeChange = val => {
-    const newRecurrenceSettings = {
-      ...recurrence
-    };
-    delete newRecurrenceSettings.end_times;
-    newRecurrenceSettings.end_date_time = val;
-    onChange(newRecurrenceSettings);
-  };
+
+  // --- ENFORCE LIMITS ---
+  // For Zoom: max 60 occurrences, for in-person: up to 12 months
+  const isZoom = meetingType === "zoom";
+  const maxOccurrences = isZoom ? 60 : 365; // 365 is a safe upper bound for in-person
+  const maxMonths = 12;
+
+  // Generate options for occurrences
   const numbersOptions = () => {
     let numberOpt = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 1; i <= maxOccurrences; i++) {
       numberOpt.push(i);
     }
     return numberOpt;
+  };
+
+  // Clamp end date for in-person to 12 months from now
+  const minDate = moment__WEBPACK_IMPORTED_MODULE_3___default()().toDate();
+  const maxDate = isZoom ? null : moment__WEBPACK_IMPORTED_MODULE_3___default()().add(maxMonths, "months").toDate();
+  const handleEndTimesChange = val => {
+    let newVal = parseInt(val, 10);
+    if (isZoom && newVal > 60) newVal = 60;
+    onChange({
+      ...recurrence,
+      end_times: newVal,
+      end_date_time: undefined
+    });
+  };
+  const handleEndDateTimeChange = val => {
+    let dateVal = val;
+    if (!isZoom && maxDate && moment__WEBPACK_IMPORTED_MODULE_3___default()(val).isAfter(maxDate)) {
+      dateVal = moment__WEBPACK_IMPORTED_MODULE_3___default()(maxDate).format("YYYY-MM-DDTHH:mm:ss");
+    }
+    onChange({
+      ...recurrence,
+      end_date_time: dateVal,
+      end_times: undefined
+    });
   };
   const iconRight = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "input-control-icon-right"
@@ -528,34 +737,34 @@ const EndDateControl = ({
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               onClick: () => handleSelectChange("date"),
               className: `tab-element ${selected === "date" ? "tab-active" : ""}`,
-              children: "End date by"
+              children: t("End date by")
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
             className: "me-2",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               onClick: () => handleSelectChange("number"),
               className: `tab-element ${selected === "number" ? "tab-active" : ""}`,
-              children: "End date after"
+              children: t("End date after")
             })
           })]
         })
-      }), selected === "date" &&
-      /*#__PURE__*/
-      // <DatePicker
-      //   date={endDate}
-      //   onChange={handleEndDateTimeChange}
-      //   label={!endDate ? "Select a Date" : endDate}
-      //   variant="field"
-      //   instance="endDate"
-      // />
-      (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PostEditor_DatePickerControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }), selected === "date" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PostEditor_DatePickerControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
         date: endDate,
         onChange: handleEndDateTimeChange,
-        variant: "field"
+        variant: "field",
+        minDate: minDate,
+        maxDate: maxDate
       }), selected === "number" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
         options: numbersOptions(),
         selected: end_times,
-        onSelectChange: handleEndTimesChange
+        onSelectChange: handleEndTimesChange,
+        helpText: isZoom ? "Max 60 occurrences for Zoom meetings" : "Up to 12 months for in-person events",
+        style: {
+          padding: "10px"
+        }
+      }), isZoom && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: "text-xs text-gray-600 mt-2",
+        children: t("Recurring meetings expire 365 days after the last occurrence of the series. You can schedule up to 60 occurrences into the future.")
       })]
     })
   });
@@ -597,32 +806,99 @@ const InputFieldControl = ({
   width = null,
   prefix = "",
   prefixWidth = "w-12",
-  step = null
+  step = null,
+  className = "",
+  style = {}
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [!image && prefix === "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  // Alignment helper
+  const getAlignmentClass = () => {
+    switch (align) {
+      case "center":
+        return "text-center";
+      case "right":
+        return "text-right";
+      default:
+        return "text-left";
+    }
+  };
+  const handleChange = e => {
+    const value = e.target.value;
+    if (type === "number" && maxValue && value > maxValue) {
+      onChange(maxValue);
+    } else if (type === "number" && minValue && value < minValue) {
+      onChange(minValue);
+    } else {
+      onChange(value);
+    }
+  };
+
+  // Responsive style for mobile
+  const responsiveStyle = {
+    // maxWidth: "100%",
+    // width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
+
+  // Input classes
+  const inputClasses = `
+    w-full min-w-[4rem]
+    input-control
+    px-3 py-2
+    pl-6
+    border border-gray-300 rounded-lg
+    text-sm font-medium
+    focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500
+    disabled:bg-gray-100 disabled:cursor-not-allowed
+    transition-colors duration-200
+    section-description
+    ${getAlignmentClass()}
+    ${fullWidth ? "w-full" : ""}
+    ${width ? "w-full" : ""}
+    ${align === "right" ? "pr-1" : ""}
+    ${className}
+  `.trim();
+  const inputStyle = {
+    width: fullWidth ? "100%" : width || undefined,
+    fontFamily: "'Inter', sans-serif",
+    ...responsiveStyle
+  };
+
+  // Main input (no image, no prefix)
+  if (!image && prefix === "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex relative group justify-center items-center w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: type,
-        className: `input-control section-description text-${align} ${align === "right" ? "pr-1" : ""} ${fullWidth || width ? "w-full" : ""}`,
+        className: inputClasses,
+        style: inputStyle,
         placeholder: placeholder,
         value: value,
         disabled: disabled,
         maxLength: maxLength,
-        onChange: e => onChange(e.target.value),
         min: minValue,
         max: maxValue,
+        onChange: e => handleChange(e),
         onKeyDown: handleKeyPress,
-        step: step
+        step: step,
+        autoComplete: "off"
       }), suffix && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "absolute text-gray-500 right-0 pr-8",
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
         children: suffix
       })]
-    }), !image && prefix !== "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    });
+  }
+
+  // Input with prefix (e.g. currency)
+  if (!image && prefix !== "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex w-full rounded-lg border border-gray-300 overflow-hidden text-md shadow-sm h-9",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "flex items-center justify-center bg-gray-50 text-gray-600 text-md w-12 border-r border-gray-300",
-        children: "$"
+        className: `flex items-center justify-center bg-gray-50 text-gray-600 text-md ${prefixWidth} border-r border-gray-300`,
+        children: prefix
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: "text",
         inputMode: "decimal",
@@ -638,34 +914,46 @@ const InputFieldControl = ({
           }
           if (val.startsWith("00")) val = "0";else if (val.startsWith("0") && val[1] !== ".") val = val.slice(1);
           onChange(val);
+        },
+        style: responsiveStyle
+      })]
+    });
+  }
+
+  // Input with image
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex relative group justify-center items-center w-full",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "size-6",
+        style: {
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          width: "1.7rem",
+          height: "1.7rem"
         }
-      })]
-    }), image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "flex relative group justify-center items-center w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-        className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "size-6",
-          style: {
-            backgroundImage: `url(${image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            width: "24px",
-            height: "24px"
-          }
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: type,
-        className: `input-control section-description description-image text-${align} ${align === "right" ? "pr-1 pl-8" : ""} ${fullWidth ? "w-full" : ""}`,
-        placeholder: placeholder,
-        value: value,
-        disabled: disabled,
-        size: maxLength,
-        onChange: e => onChange(e.target.value),
-        min: minValue,
-        max: maxValue
-      })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: type,
+      className: `
+          input-control section-description description-image
+          ${getAlignmentClass()}
+          ${align === "right" ? "pr-1 pl-8" : ""}
+          ${fullWidth ? "w-full" : ""}
+          ${className}
+        `,
+      style: inputStyle,
+      placeholder: placeholder,
+      value: value,
+      disabled: disabled,
+      maxLength: maxLength,
+      min: minValue,
+      max: maxValue,
+      onChange: e => onChange(e.target.value),
+      autoComplete: "off"
     })]
   });
 };
@@ -709,7 +997,7 @@ const ListPagination = ({
         className: "pagination-control-icon"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
         className: "pagination-control-text",
-        children: "Previous"
+        children: t("Previous")
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
       className: "pagination-control",
@@ -719,7 +1007,7 @@ const ListPagination = ({
         className: "pagination-control-icon"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
         className: "pagination-control-text",
-        children: "Next"
+        children: t("Next")
       })]
     })]
   });
@@ -748,18 +1036,29 @@ const PageActionButton = ({
   text,
   icon,
   type,
-  customStyle,
-  hidden = false,
-  onAction = () => {},
-  slim = false,
-  justify = null,
-  disabled
+  onAction,
+  disabled = false,
+  className = "",
+  style = {}
 }) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
-    className: `page-action-button ${type === "primary" ? "primary" : ""}${hidden ? "opacity-0" : ""} ${slim ? "px-1 py-0.5" : "p-2"} ${customStyle ? customStyle : ""} ${justify ? justify : ""}`,
     onClick: onAction,
     disabled: disabled,
-    children: [icon && icon, text]
+    className: `
+        flex items-center justify-center px-4 py-2 rounded-lg
+        font-medium text-sm transition-colors duration-200
+        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
+        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${className}
+      `,
+    style: {
+      fontFamily: "'Inter', sans-serif",
+      ...style
+    },
+    children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "mr-2",
+      children: icon
+    }), text]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageActionButton);
@@ -954,9 +1253,9 @@ const RecurringControl = ({
         gap: 4,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("legend", {
           className: "section-description",
-          children: "Select type of recurrence"
+          children: t("Select type of recurrence")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-          className: "input-container-row justify-start gap-40",
+          className: "input-container-row items-start justify-between w-full",
           children: renderOptions()
         })]
       })
@@ -967,7 +1266,10 @@ const RecurringControl = ({
         label: "Repeat every",
         options: dailyRepeatOptions(),
         selected: repeat_interval === 1 ? "1 day" : `${repeat_interval} days`,
-        onSelectChange: handleRepeatIntervalChange
+        onSelectChange: handleRepeatIntervalChange,
+        style: {
+          padding: "10px"
+        }
       }), type === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
         gap: 4,
         cardsLayout: true,
@@ -975,9 +1277,12 @@ const RecurringControl = ({
           label: "Repeat every",
           options: weeklyRepeatOptions(),
           selected: repeat_interval === 1 ? "1 week" : `${repeat_interval} weeks`,
-          onSelectChange: handleRepeatIntervalChange
+          onSelectChange: handleRepeatIntervalChange,
+          style: {
+            padding: "10px"
+          }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-          children: "Occurs on"
+          children: t("Occurs on")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "grid grid-cols-2",
           children: renderWeeklyOptions()
@@ -989,7 +1294,10 @@ const RecurringControl = ({
           label: "Repeat every",
           options: monthlyRepeatOptions(),
           selected: repeat_interval === 1 || repeat_interval > 3 ? "1 month" : `${repeat_interval} months`,
-          onSelectChange: handleRepeatIntervalChange
+          onSelectChange: handleRepeatIntervalChange,
+          style: {
+            padding: "10px"
+          }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_2__["default"], {
           title: "Event recurrence",
           buttons: monthlyTypes,
@@ -1001,7 +1309,10 @@ const RecurringControl = ({
             label: "",
             options: monthlyDayRepeatOptions(),
             selected: monthly_day,
-            onSelectChange: handleMonthlyDayChange
+            onSelectChange: handleMonthlyDayChange,
+            style: {
+              padding: "10px"
+            }
           })
         }), !monthlyType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
           gap: 4,
@@ -1012,12 +1323,18 @@ const RecurringControl = ({
               label: "",
               options: monthlyWeekRepeatOptions,
               selected: monthly_week ? monthlyWeekRepeatOptions[monthly_week - 1] : monthlyWeekRepeatOptions[0],
-              onSelectChange: handleMonthlyWeekChange
+              onSelectChange: handleMonthlyWeekChange,
+              style: {
+                padding: "10px"
+              }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
               label: "",
               options: days,
               selected: monthly_week_day ? days[monthly_week_day - 1] : days[0],
-              onSelectChange: handleMonthlyWeekDayChange
+              onSelectChange: handleMonthlyWeekDayChange,
+              style: {
+                padding: "10px"
+              }
             })]
           })
         })]
@@ -1054,23 +1371,16 @@ __webpack_require__.r(__webpack_exports__);
 const RecurringSection = ({
   recurrence,
   onChange = () => {},
-  disabled = false
+  disabled = false,
+  meetingType = "offline" // <-- Accept meetingType
 }) => {
-  // Button group control
   const eventTypes = ["One-time", "Recurring"];
   const handleTypeChange = val => {
     if (val === "Recurring") {
       onChange({
         type: 1,
-        // Daily
         repeat_interval: 1,
-        // 1 day, 1 week, 1 month
-        // weekly_days: [], // "2,3"
-        // monthly_day: 1, // 1 - 30,
-        // monthly_week: 1, // 1 - 4, -1
-        // monthly_week_day: 2, // 1 - 7
         end_times: 1
-        // end_date_time: new Date(),
       });
     } else onChange(null);
   };
@@ -1083,10 +1393,12 @@ const RecurringSection = ({
       disabled: disabled
     }), recurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_RecurringControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
       recurrence: recurrence,
-      onChange: onChange
+      onChange: onChange,
+      meetingType: meetingType // <-- Pass down
     }), recurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_EndDateControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
       recurrence: recurrence,
-      onChange: onChange
+      onChange: onChange,
+      meetingType: meetingType // <-- Pass down
     })]
   });
 };
@@ -1118,7 +1430,8 @@ const SelectControl = ({
   disabled = false,
   onSelectChange = () => {},
   iconRight = null,
-  iconLeft = null
+  iconLeft = null,
+  style = {} // <-- Add style prop
 }) => {
   const renderOptions = () => {
     if (options.length > 0) {
@@ -1132,25 +1445,39 @@ const SelectControl = ({
           value: option,
           selected: selected === option,
           children: option
-        }, "value"))]
+        }, option))]
       });
     }
   };
+  // Responsive style for mobile
+  const responsiveStyle = {
+    maxWidth: "100%",
+    width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "input-container-col",
+    style: {
+      width: "100%"
+    },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-      for: "timezone",
+      htmlFor: "timezone",
       className: "section-description",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "select-control-with-icon-container",
+      style: {
+        width: "100%"
+      },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
         name: "timezone",
-        id: "timezone",
-        className: "select-control select-control-with-icon text-sm",
+        id: "timezone-select",
+        className: "select-control select-control-with-icon text-sm p-4",
         value: selected,
         onChange: e => onSelectChange(e.target.value),
         disabled: disabled,
+        style: responsiveStyle,
         children: renderOptions()
       }), iconRight !== null && iconRight]
     })]
@@ -1199,25 +1526,34 @@ const TimeInputControl = ({
   }, []);
   const getHours = () => {
     const selectedTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
-    const hh = selectedTime.get("hour");
-    if (hh > 12 && timeFormat === "hh:mm a") return hh % 12;else return hh;
+    const hh = selectedTime.hour();
+    if (timeFormat === "hh:mm a") {
+      return selectedTime.format("hh");
+    } else {
+      return hh;
+    }
   };
   const getMinutes = () => {
     const selectedTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
     return selectedTime.get("minute");
   };
   const onHoursChange = val => {
-    let currentVal = val;
-    if (currentVal.length > 2) {
-      if (currentVal[0] !== "0") currentVal = currentVal.slice(0, 2);else currentVal = currentVal.slice(1, 3);
-    }
-    if (Number.parseInt(currentVal) > 12 && timeFormat === "hh:mm a") {
-      currentVal = 12;
-    } else if (Number.parseInt(currentVal) > 24 && timeFormat === "hh:mm a") {
-      currentVal = 24;
-    }
     const newTime = moment__WEBPACK_IMPORTED_MODULE_3___default()(time);
-    newTime.set("hour", Number.parseInt(val ? currentVal : 0));
+    let currentVal = Number.parseInt(val);
+    if (timeFormat === "hh:mm a") {
+      if (currentVal < 1) currentVal = 1;
+      if (currentVal > 12) currentVal = 12;
+      const isPM = newTime.format("A") === "PM";
+      if (isPM && currentVal !== 12) {
+        currentVal += 12;
+      } else if (!isPM && currentVal === 12) {
+        currentVal = 0;
+      }
+    } else {
+      if (currentVal < 0) currentVal = 0;
+      if (currentVal > 23) currentVal = 23;
+    }
+    newTime.set("hour", currentVal);
     onChange(newTime);
   };
   const onMinutesChange = val => {
@@ -1234,18 +1570,26 @@ const TimeInputControl = ({
   };
   const onPeriodChange = val => {
     const newTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
-    // console.log(newTime);
-
-    const hh = time.get("hour");
-    if (val === "am") {
-      newTime.set("hour", hh + 12);
+    const currentDate = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time).date() : moment__WEBPACK_IMPORTED_MODULE_3___default()().date();
+    const hh = newTime.hour();
+    let newTimeValue = val;
+    if (val === "am" && hh < 12) {
+      newTimeValue = hh - 12;
+    } else if (val === "pm" && hh >= 12) {
+      newTimeValue = hh + 12;
+    }
+    if (newTimeValue > -24 || newTimeValue < 0) {
+      newTime.hour(newTimeValue);
+      newTime.set({
+        date: currentDate
+      });
     } else {
-      newTime.set("hour", hh - 12);
+      newTime.hour(newTimeValue);
     }
     onChange(newTime);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between`,
+    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between md:grow-0`,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-description",
       children: label
@@ -1253,11 +1597,11 @@ const TimeInputControl = ({
       className: "input-container-row items-center",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_InputFieldControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
         value: String(getHours()).padStart(2, "0"),
-        onChange: val => onHoursChange(val),
+        onChange: onHoursChange,
         maxLength: 2,
         type: "number",
-        minValue: 0,
-        maxValue: timeFormat === "hh:mm a" ? 12 : 24,
+        minValue: timeFormat === "hh:mm a" ? 1 : 0,
+        maxValue: timeFormat === "hh:mm a" ? 12 : 23,
         disabled: disabled
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         className: "section-description",
@@ -1308,11 +1652,12 @@ const TimePeriodControl = ({
 }) => {
   // useEffect(() => {
   // }, [time]);
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-    onClick: () => onChange(moment__WEBPACK_IMPORTED_MODULE_1___default()(time).get("hour") > 12 ? "pm" : "am"),
+    onClick: () => onChange(time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).format("a") : "am"),
     className: "period-control section-description font-regular leading-none",
     disabled: disabled,
-    children: time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).get("hour") > 12 ? "pm" : "am" : "am"
+    children: time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).format("a") : "am"
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TimePeriodControl);
@@ -1373,15 +1718,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/PageHeader */ "./src/Components/Containers/PageHeader.jsx");
 /* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ArrowLeftIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsVerticalIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CalendarIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ClockIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Bars4Icon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PencilSquareIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/TrashIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PlusIcon.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var _Layout_Layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Layout/Layout */ "./src/Components/Layout/Layout.jsx");
 /* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
 /* harmony import */ var _Controls_ButtonGroupConnected__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Controls/ButtonGroupConnected */ "./src/Components/Controls/ButtonGroupConnected.jsx");
 /* harmony import */ var _Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Controls/ConnectedButton */ "./src/Components/Controls/ConnectedButton.jsx");
@@ -1389,8 +1726,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
 /* harmony import */ var _Containers_Card__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Containers/Card */ "./src/Components/Containers/Card.jsx");
 /* harmony import */ var _Containers_FilterTable__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Containers/FilterTable */ "./src/Components/Containers/FilterTable.jsx");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_12__);
 /* harmony import */ var _SingleEventPage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./SingleEventPage */ "./src/Components/Pages/SingleEventPage.jsx");
@@ -1400,9 +1736,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
 /* harmony import */ var _Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../Containers/CollapsibleSection */ "./src/Components/Containers/CollapsibleSection.jsx");
 /* harmony import */ var react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-tailwindcss-datepicker */ "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js");
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var _Controls_ConfirmationModal__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../Controls/ConfirmationModal */ "./src/Components/Controls/ConfirmationModal.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../utilities/timezones */ "./src/utilities/timezones.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ArrowLeftIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsVerticalIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Bars4Icon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PencilSquareIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/TrashIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PlusIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__);
+
+
 
 
 
@@ -1441,12 +1788,24 @@ const EventsCardHeader = ({
   setDates,
   isFiltersApplyed,
   resetFilters,
-  isPast
+  isPast,
+  timezone
 }) => {
+  const [filterDropdown, setFilterDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const filterDropdownRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!filterDropdown) return;
+    const handleClickOutside = event => {
+      if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
+        setFilterDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [filterDropdown]);
   const isFiltersEmpty = Object.values(filtersList).reduce((allEmptySoFar, value) => {
     return allEmptySoFar && Array.isArray(value) && value.length === 0;
   }, true);
-  const [filterDropdown, setFilterDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const handleEnterButton = event => {
     if (event.key === "Enter") {
       onFiltering();
@@ -1458,13 +1817,13 @@ const EventsCardHeader = ({
   const renderFilteringWithFilters = () => {
     if (Object.keys(filtersList).length > 0) {
       return Object.keys(filtersList).map(filter => {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-          children: filtersList[filter].length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_18__["default"], {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+          children: filtersList[filter].length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_18__["default"], {
             sectionHeading: filter.charAt(0).toUpperCase() + filter.substring(1),
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
               gap: 2,
               children: filtersList[filter].map(filterToSelect => {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
                   label: filterToSelect.name,
                   checked: selectedFilters[filter] && selectedFilters[filter].includes(filterToSelect.id),
                   onChange: () => {
@@ -1472,88 +1831,108 @@ const EventsCardHeader = ({
                   },
                   font: "text-sm",
                   color: "text-gray-500"
-                });
+                }, filterToSelect.id);
               })
             })
           })
-        });
+        }, filter);
       });
     } else return null;
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("div", {
+  const getDates = (tz = timezone.zone) => {
+    let datesValue = {
+      startDate: null,
+      endDate: null
+    };
+    if (dates.startDate) {
+      const d = dates.startDate; // Moment object
+      datesValue.startDate = new Date(d.year(), d.month(), d.date(), d.hour(), d.minute(), d.second());
+    }
+    if (dates.endDate) {
+      const d = dates.endDate;
+      datesValue.endDate = new Date(d.year(), d.month(), d.date(), d.hour(), d.minute(), d.second());
+    }
+    return datesValue;
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
     className: "card-header",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
       className: "card-heading",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("span", {
-        children: view === "events" ? "Your Events" : "Event Occurrences"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        text: `${eventsCount} item${eventsCount > 1 ? "s" : ""}`,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+        children: view === "events" ? t("Your Events") : t("Event Occurrences")
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        text: `${eventsCount} ${t("Event")}${eventsCount > 1 ? "s" : ""}`,
         color: "secondary",
         size: "small",
         align: "center"
-      }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("button", {
+      }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("button", {
         className: "pagination-control ml-auto",
         onClick: () => backToEventsList(),
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
           className: "pagination-control-icon"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
           className: "pagination-control-text",
-          children: "Back to events view"
+          children: t("Back to events view")
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
       className: "card-description",
-      children: [dates.startDate && dates.endDate && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("span", {
-        children: ["You are viewing events between", " ", moment_timezone__WEBPACK_IMPORTED_MODULE_12___default()(dates.startDate).format("MMM DD, YYYY"), " -", " ", moment_timezone__WEBPACK_IMPORTED_MODULE_12___default()(dates.endDate).format("MMM DD, YYYY")]
-      }), isFiltersApplyed && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("a", {
+      children: [dates.startDate && dates.endDate && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("span", {
+        children: [t("You are viewing events between"), " ", moment_timezone__WEBPACK_IMPORTED_MODULE_12___default()(dates.startDate).format("MMM DD, YYYY"), " -", " ", moment_timezone__WEBPACK_IMPORTED_MODULE_12___default()(dates.endDate).format("MMM DD, YYYY")]
+      }), isFiltersApplyed && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("a", {
         className: "card-header-description-link",
         onClick: () => resetFilters(),
-        children: "Clear filters"
+        children: t("Clear filters")
       })]
-    }), !isPast && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      align: "left",
-      gap: 4,
-      cardsLayout: false,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_17__["default"], {
-        value: search,
-        placeholder: "Enter search string",
-        onChange: onChange,
-        handleKeyPress: handleEnterButton,
-        fullWidth: true,
-        align: "left"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_19__["default"], {
-        displayFormat: "MMM DD, YYYY",
-        value: dates,
-        placeholder: "Select dates",
-        inputClassName: "input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white",
-        onChange: newValue => setDates(newValue)
-      }), !isFiltersEmpty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Dropdown__WEBPACK_IMPORTED_MODULE_16__["default"], {
-        activator: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          text: "Filters",
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
-            className: "button-icon"
-          }),
-          type: "secondary",
-          onAction: () => changeFilterDropdown()
-        }),
-        status: filterDropdown,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
-          gap: 4,
-          children: [renderFilteringWithFilters(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            text: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("span", {
-              className: "text-center",
-              children: "Apply"
+    }), !isPast && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+      className: "hidden md:flex",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        align: "left",
+        gap: 4,
+        cardsLayout: false,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_17__["default"], {
+          value: search,
+          placeholder: t("Enter search string"),
+          onChange: onChange,
+          handleKeyPress: handleEnterButton,
+          fullWidth: true,
+          align: "left"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_19__["default"], {
+          displayFormat: "MMM DD, YYYY",
+          value: getDates(),
+          placeholder: t("Select dates"),
+          inputClassName: "input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white",
+          onChange: newValue => setDates(newValue)
+        }), !isFiltersEmpty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Dropdown__WEBPACK_IMPORTED_MODULE_16__["default"], {
+          activator: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            text: t("Filters"),
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__["default"], {
+              className: "button-icon"
             }),
-            type: "primary",
-            icon: null,
-            onAction: () => {
-              onFiltering();
-              setFilterDropdown(false);
-            },
-            justify: "justify-center"
-          })]
-        })
-      })]
+            type: "secondary",
+            onAction: () => changeFilterDropdown()
+          }),
+          status: filterDropdown,
+          onClose: () => setFilterDropdown(false) // <-- ADD THIS LINE
+          ,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            gap: 4,
+            children: [renderFilteringWithFilters(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              text: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+                className: "text-center",
+                children: t("Apply")
+              }),
+              type: "primary",
+              icon: null,
+              onAction: () => {
+                onFiltering();
+                setFilterDropdown(false);
+              },
+              justify: "justify-center"
+            })]
+          })
+        })]
+      })
     })]
   });
 };
@@ -1563,105 +1942,54 @@ const EventsPage = ({
   settings,
   filtersList = {},
   isLoading,
+  globalError,
   setIsLoading = () => {}
 }) => {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (globalError) {
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_21__.toast)(globalError);
+    }
+  }, [globalError]);
   const [customizeDropdown, setCustomizeDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [headings, setHeadings] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
-    label: "Title",
+    label: t("Title"),
     value: "title",
     visible: true
   }, {
-    label: "Date",
+    label: t("Date"),
     value: "date",
     visible: true
   }, {
-    label: "Time",
+    label: t("Time"),
     value: "time",
     visible: true
   }, {
-    label: "Location",
+    label: t("Location"),
     value: "location",
     visible: true
   }, {
-    label: "Type",
+    label: t("Type"),
     value: "type",
     visible: true
   }, {
-    label: "Recurrence",
+    label: t("Recurrence"),
     value: "recurrence",
     visible: true
-  },
-  // { label: "Tickets Sold", value: "tickets", visible: true },
-  {
-    label: "Status",
+  }, {
+    label: t("Status"),
     value: "status",
     visible: true
   }]);
   const [firstFetchDone, setFirstFetchDone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [isPast, setIsPast] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  // const [filtersList, setFiltersList] = useState({});
   const [selectedFilters, setSelectedFilters] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [eventType, setEventType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("offline");
   const [zoomAccount, setZoomAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const handleFilterSelect = (filter, id) => {
-    const newSelectedFilters = {
-      ...selectedFilters
-    };
-    if (!newSelectedFilters[filter]) {
-      newSelectedFilters[filter] = [id];
-    } else if (newSelectedFilters[filter] && newSelectedFilters[filter].includes(id)) {
-      newSelectedFilters[filter] = newSelectedFilters[filter].filter(filterId => filterId !== id);
-    } else if (newSelectedFilters[filter] && !newSelectedFilters[filter].includes(id)) {
-      newSelectedFilters[filter].push(id);
-    }
-    setSelectedFilters(newSelectedFilters);
-  };
   const [dates, setDates] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     startDate: null,
     endDate: null
   });
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (resetSelectedSubpage) {
-      setSelectedEvent(null);
-      setSelectedEventForOccurrences(null);
-      setSelectedOccurrence(null);
-      handleResetSubpage(false);
-    }
-  }, [resetSelectedSubpage]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {}, [selectedFilters]);
-  const customizeHeading = heading => {
-    let newHeadings = [...headings];
-    let selectedHeading = headings.map(heading => heading.value).indexOf(heading);
-    newHeadings[selectedHeading].visible = !headings[selectedHeading].visible;
-    setHeadings(newHeadings);
-  };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    (0,react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast)("Loading settings");
-    if (settings) getEventsList({
-      is_Past: isPast
-    });
-  }, [isPast]);
-  const handleIsPastChange = () => {
-    setIsPast(prev => !prev);
-  };
-  const handleTypeChange = type => {
-    setEventType(type);
-    if (type !== eventType) getEventsList({
-      page: 1,
-      type: type
-    });
-  };
-  const renderHeadingsCustomization = () => {
-    return headings.map(heading => {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
-        label: heading.label,
-        name: heading.label,
-        checked: heading.visible,
-        onChange: () => customizeHeading(heading.value)
-      });
-    });
-  };
   const [meetingsList, setMeetingsList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [selectedAll, setSelectedAll] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [selectedEvents, setSelectedEvents] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
@@ -1676,19 +2004,156 @@ const EventsPage = ({
   });
   const [pagination, setPagination] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [selectedEventForOccurrences, setSelectedEventForOccurrences] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const selectAll = () => {
-    setSelectedAll(!selectedAll);
-  };
   const [view, setView] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("events");
   const [eventOccurrencess, setEventOccurrencess] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [occurrencesPagination, setOccurrencesPagination] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [searchString, setSearchString] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [showCustomizeModal, setShowCustomizeModal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [showFiltersModal, setShowFiltersModal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [showDateModal, setShowDateModal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [showSearchModal, setShowSearchModal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [showMobileSearch, setShowMobileSearch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  // --- Click outside logic for modals ---
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    function handleClickOutside(event) {
+      // Customize Modal
+      if (showCustomizeModal) {
+        const modal = document.querySelector(".customize-modal");
+        if (modal && !modal.contains(event.target)) {
+          setShowCustomizeModal(false);
+        }
+      }
+      // Filters Modal
+      if (showFiltersModal) {
+        const modal = document.querySelector(".filters-modal");
+        if (modal && !modal.contains(event.target)) {
+          setShowFiltersModal(false);
+        }
+      }
+      // Date Modal
+      if (showDateModal) {
+        const modal = document.querySelector(".date-modal");
+        if (modal && !modal.contains(event.target)) {
+          setShowDateModal(false);
+        }
+      }
+      // Search Modal
+      if (showSearchModal) {
+        const modal = document.querySelector(".search-modal");
+        if (modal && !modal.contains(event.target)) {
+          setShowSearchModal(false);
+        }
+      }
+    }
+    if (showCustomizeModal || showFiltersModal || showDateModal || showSearchModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showCustomizeModal, showFiltersModal, showDateModal, showSearchModal]);
+
+  // --- Hamburger dropdown click outside ---
+  const dropdownRefs = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({});
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (active === null) return;
+    const handleClickOutside = event => {
+      // console.log(dropdownRefs.current.contains(event.target));
+      try {
+        const ref = dropdownRefs.current;
+        if (active && ref && !ref.contains(event.target)) {
+          setActiveDropdown(null);
+        }
+      } catch (e) {
+        console.log("Dropdown is not active");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [active]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (resetSelectedSubpage) {
+      setSelectedEvent(null);
+      setSelectedEventForOccurrences(null);
+      setSelectedOccurrence(null);
+      handleResetSubpage(false);
+    }
+  }, [resetSelectedSubpage]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {}, [selectedFilters]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    // toast("Loading settings");
+    if (settings) {
+      getEventsList({
+        is_Past: isPast
+      });
+    }
+  }, [isPast]);
+  const handleFilterSelect = (filter, id) => {
+    const newSelectedFilters = {
+      ...selectedFilters
+    };
+    if (!newSelectedFilters[filter]) {
+      newSelectedFilters[filter] = [id];
+    } else if (newSelectedFilters[filter] && newSelectedFilters[filter].includes(id)) {
+      newSelectedFilters[filter] = newSelectedFilters[filter].filter(filterId => filterId !== id);
+    } else if (newSelectedFilters[filter] && !newSelectedFilters[filter].includes(id)) {
+      newSelectedFilters[filter].push(id);
+    }
+    setSelectedFilters(newSelectedFilters);
+  };
+  const getDates = (tz = timezone.zone) => {
+    let datesValue = {
+      startDate: null,
+      endDate: null
+    };
+    if (dates.startDate) {
+      const d = dates.startDate; // Moment object
+      datesValue.startDate = new Date(d.year(), d.month(), d.date(), d.hour(), d.minute(), d.second());
+    }
+    if (dates.endDate) {
+      const d = dates.endDate;
+      datesValue.endDate = new Date(d.year(), d.month(), d.date(), d.hour(), d.minute(), d.second());
+    }
+    return datesValue;
+  };
+  const customizeHeading = heading => {
+    let newHeadings = [...headings];
+    let selectedHeading = headings.map(heading => heading.value).indexOf(heading);
+    newHeadings[selectedHeading].visible = !headings[selectedHeading].visible;
+    setHeadings(newHeadings);
+  };
+  const handleIsPastChange = () => {
+    setIsPast(prev => !prev);
+  };
+  const handleTypeChange = type => {
+    setEventType(type);
+    if (type !== eventType) getEventsList({
+      page: 1,
+      type: type
+    });
+  };
+  const renderHeadingsCustomization = () => {
+    return headings.map(heading => {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
+        label: heading.label,
+        name: heading.label,
+        checked: heading.visible,
+        onChange: () => customizeHeading(heading.value)
+      }, heading.value);
+    });
+  };
+  const selectAll = () => {
+    setSelectedAll(!selectedAll);
+  };
   const getEventOccurrencess = async (event, page = 1, eventType) => {
     setLoading(true);
-    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_11___default()({
-      path: `/servv-plugin/v1/event/${event}/occurrences?page_size=10&page=${page}`
+    let res = await axios__WEBPACK_IMPORTED_MODULE_26__["default"].get(`/wp-json/servv-plugin/v1/event/${event}/occurrences?page_size=10&page=${page}`, {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (res) {
-      const rowsForTable = res.meetings ? res.meetings.map(meeting => {
+    if (res && res.status === 200) {
+      const rowsForTable = res.data.meetings ? res.data.meetings.map(meeting => {
         const datetime = moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz(meeting.start_time, meeting.timezone);
         return {
           id: meeting.id,
@@ -1698,7 +2163,7 @@ const EventsPage = ({
           timezone: meeting.timezone,
           date: datetime.format("MMM DD, YYYY"),
           time: datetime.format("hh:mm a"),
-          location: meeting.location ? meeting.location : "Unknown",
+          location: meeting.location ? meeting.location : "",
           type: eventType === "offline" ? "Event" : "Zoom event",
           recurrence: meeting.type === 2 && eventType && eventType === "offline" || meeting.type === 8 && eventType && eventType === "zoom" ? "One-time" : "Recurring",
           tickets: "0/0",
@@ -1710,77 +2175,23 @@ const EventsPage = ({
       setView("occurrences");
       setActiveDropdown(false);
       setOccurrencesPagination({
-        pageNumber: res.page_number,
-        pageCount: res.page_count
+        pageNumber: res.data.page_number,
+        pageCount: res.data.page_count
       });
     }
     setLoading(false);
   };
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_11___default()({
-      path: "/servv-plugin/v1/zoom/account"
+    const getZoomAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_26__["default"].get("/wp-json/servv-plugin/v1/zoom/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getZoomAccountResponse) {
-      setZoomAccount(getZoomAccountResponse);
+    if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
+      setZoomAccount(getZoomAccountResponse.data);
     }
     setIsLoading(false);
   };
-  // const getSettings = async () => {
-  //   try {
-  //     const getSettingsResponse = await axios.get(
-  //       "/wp-json/servv-plugin/v1/shop/info",
-  //       {
-  //         headers: { "X-WP-Nonce": servvData.nonce },
-  //       }
-  //     );
-  //     if (getSettingsResponse && getSettingsResponse.data) {
-  //       setSettings(getSettingsResponse.data);
-  //       updateTimeFormat(getSettingsResponse.data);
-  //     }
-  //   } catch (e) {
-  //     if (e.code === 401) {
-  //       setLoading(false);
-  //       toast(
-  //         "We're facing an issue loading the settings. Please reactivate the plugin."
-  //       );
-  //     }
-  //   }
-  // };
-
-  // const getFilterType = async (type) => {
-  //   try {
-  //     let reqURL = `/wp-json/servv-plugin/v1/filters/${type}`;
-  //     let getFiltersListResponse = await axios.get(reqURL, {
-  //       headers: { "X-WP-Nonce": servvData.nonce },
-  //     });
-
-  //     if (getFiltersListResponse.status === 200) {
-  //       setFiltersList((prevFilters) => ({
-  //         ...prevFilters,
-  //         [type]: getFiltersListResponse.data, // Preserve existing filters
-  //       }));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching filters:", error);
-  //   }
-  // };
-  // const getFilters = async () => {
-  //   if (servvData.servv_plugin_mode === "development") {
-  //     await getFilterType("locations");
-  //     await getFilterType("languages");
-  //     await getFilterType("categories");
-  //     if (settings.current_plan.id === 2) {
-  //       await getFilterType("members");
-  //     }
-  //   } else {
-  //     getFilterType("locations");
-  //     getFilterType("languages");
-  //     getFilterType("categories");
-  //     if (settings.current_plan.id === 2) {
-  //       getFilterType("members");
-  //     }
-  //   }
-  // };
   const getFilteringParameterName = type => {
     switch (type) {
       case "locations":
@@ -1793,7 +2204,6 @@ const EventsPage = ({
         return "member_id";
     }
   };
-  const [searchString, setSearchString] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const processFilters = () => {
     let filteringQuery = "";
     if (selectedFilters) Object.keys(selectedFilters).forEach(filterType => {
@@ -1812,7 +2222,7 @@ const EventsPage = ({
     return null;
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (firstFetchDone) getEventsList();
+    if (settings) getEventsList();
   }, [dates]);
   const isFiltersApplyed = () => {
     let filterApplied = false;
@@ -1824,7 +2234,6 @@ const EventsPage = ({
       });
     }
     if (dates.startDate || filterApplied || searchString.length > 0) {
-      console.log(dates.startDate, filterApplied, searchString.length > 0);
       return true;
     }
     return false;
@@ -1845,7 +2254,7 @@ const EventsPage = ({
     setLoading(true);
     try {
       const selectedEventType = type ? type : eventType;
-      let reqUrl = `/servv-plugin/v1/events/${selectedEventType}?page_size=10&page=${page}&without_occurrences=true`;
+      let reqUrl = `/wp-json/servv-plugin/v1/events/${selectedEventType}?page_size=10&page=${page}&without_occurrences=true`;
       if (searchString.length > 0 && !isPast) {
         reqUrl += `&search=${searchString}`;
       }
@@ -1858,11 +2267,13 @@ const EventsPage = ({
         reqUrl += filters;
       }
       if (isPast) reqUrl += `&is_past=1`;
-      let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_11___default()({
-        path: reqUrl
+      let res = await axios__WEBPACK_IMPORTED_MODULE_26__["default"].get(reqUrl, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
       });
-      if (res) {
-        const rowsForTable = res.meetings ? res.meetings.map(meeting => {
+      if (res && res.status === 200) {
+        const rowsForTable = res.data.meetings ? res.data.meetings.map(meeting => {
           const datetime = meeting.start_time ? moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz(meeting.start_time, meeting.timezone) : null;
           return {
             id: meeting.id,
@@ -1872,7 +2283,7 @@ const EventsPage = ({
             date: datetime ? datetime.format("MMM DD, YYYY") : null,
             time: datetime ? datetime.format("hh:mm a") : null,
             timezone: meeting.timezone,
-            location: meeting.location ? meeting.location : "Unknown",
+            location: meeting.location ? meeting.location : "",
             type: type === "offline" ? "Event" : "Zoom Event",
             recurrence: meeting.type === 2 && type === "offline" || meeting.type === 8 && type === "zoom" ? "Recurring" : "One-time",
             tickets: "0/0",
@@ -1882,15 +2293,25 @@ const EventsPage = ({
         setMeetingsList(rowsForTable);
         setActiveDropdown(false);
         setPagination({
-          pageNumber: res.page_number,
-          pageCount: res.page_count
+          pageNumber: res.data.page_number,
+          pageCount: res.data.page_count
         });
         setLoading(false);
+        if (settings.current_plan.id === 1) {
+          setIsLoading(false);
+        }
       }
     } catch (e) {
       console.log(e);
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast)("Servv unable to fetch zoom events.");
+      if (e.status === 401) {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_21__.toast)("Activation failed. Please contact the Servv support team.");
+      } else {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_21__.toast)("Servv unable to fetch events.");
+      }
       setLoading(false);
+    }
+    if (settings.current_plan.id === 1) {
+      setIsLoading(false);
     }
   };
   const handleGetPrevPage = () => {
@@ -1910,36 +2331,56 @@ const EventsPage = ({
     getEventOccurrencess(selectedEventForOccurrences, occurrencesPagination.pageNumber + 1);
   };
   const getData = async () => {
+    if (firstFetchDone) return;
     setLoading(true);
     if (servvData.servv_plugin_mode === "development") {
       if (settings && Object.keys(filtersList).length > 0) {
-        await getEventsList();
-        if (settings.current_plan.id === 2) {
-          await getZoomAccount();
+        if (!firstFetchDone) {
+          await getEventsList();
+          if (settings.current_plan.id === 2) {
+            await getZoomAccount();
+          }
+          setFirstFetchDone(true);
         }
       }
     } else {
-      getEventsList();
-      if (settings.current_plan.id === 2) {
-        getZoomAccount();
+      if (!firstFetchDone) {
+        await getEventsList();
+        if (settings.current_plan.id === 2) {
+          getZoomAccount();
+        }
+        setFirstFetchDone(true);
       }
     }
-    setFirstFetchDone(true);
     setIsPast(false);
-    setLoading(false);
+
     // setIsLoading(false);
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (settings) {
-      getData();
-    }
-  }, [settings, filtersList]);
+    setLoading(true);
+    if (!settings) return;
+    if (firstFetchDone) return;
+    const fetchOnce = async () => {
+      setLoading(true);
+      try {
+        await getData();
+        setFirstFetchDone(true);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOnce();
+  }, [filtersList]);
+
   // useEffect(() => {
   //   setLoading(true);
   // }, []);
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     updateTimeFormat(settings);
+    updateTimezone(settings);
   }, [settings]);
   const setActive = id => {
     if (active === id) setActiveDropdown(null);else setActiveDropdown(id);
@@ -1964,14 +2405,18 @@ const EventsPage = ({
       console.error("Error deleting events or updating the events list:", error);
     }
   };
+  const [confirmationModalData, setConfirmationModalData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const handleEventDelete = async (postID, occurrenceID) => {
-    let url = `/servv-plugin/v1/event/${postID}`;
+    let url = `/wp-json/servv-plugin/v1/event/${postID}`;
     if (occurrenceID) {
       url += `?occurrence_id=${occurrenceID}`;
     }
-    const res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_11___default()({
-      path: url,
-      method: "DELETE"
+    const res = await (0,axios__WEBPACK_IMPORTED_MODULE_26__["default"])({
+      url: url,
+      method: "DELETE",
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
     getEventsList();
   };
@@ -1994,9 +2439,10 @@ const EventsPage = ({
     setSelectedEvents(newSelection);
   };
   const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("hh:mm a");
+  const [timezone, setTimezone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("US/Pacific");
   const [showError, setShowError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    (0,react_toastify__WEBPACK_IMPORTED_MODULE_3__.toast)(showError);
+    (0,react_toastify__WEBPACK_IMPORTED_MODULE_21__.toast)(showError);
   }, [showError]);
   const handleReturnWithError = error => {
     if (error) {
@@ -2010,17 +2456,38 @@ const EventsPage = ({
       setTimeFormat("HH:mm");
     }
   };
+  const updateTimezone = settings => {
+    let defaultTimezone = null;
+    if (!settings) return;
+    if (settings.settings?.admin_dashboard) {
+      const adminSettings = JSON.parse(settings.settings.admin_dashboard);
+      defaultTimezone = adminSettings.default_timezone || moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz.guess();
+    } else {
+      defaultTimezone = moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz.guess();
+    }
+    let findTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_22__["default"].filter(t => t.zone === defaultTimezone);
+    if (findTimezone.length > 0) {
+      setTimezone(findTimezone[0]);
+    } else {
+      let timezoneOffset = moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz(defaultTimezone).format("Z");
+      let formattedOffset = `(GMT${timezoneOffset})`;
+      let availableTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_22__["default"].filter(t => t.gmt === formattedOffset);
+      if (availableTimezone.length > 0) {
+        setTimezone(availableTimezone[0]);
+      }
+    }
+  };
   const renderHeadings = () => {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("th", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("th", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
           onClick: () => selectAll()
         })
       }), headings.map(heading => {
-        if (heading.visible) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("th", {
+        if (heading.visible) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("th", {
           children: heading.label
         });
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("th", {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("th", {})]
     });
   };
   const handleEventChange = newAttr => {
@@ -2038,10 +2505,10 @@ const EventsPage = ({
   };
   const renderRows = events => {
     return events.map(row => {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("tr", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("tr", {
         className: "table-row",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
             checked: selectedEvents.filter(event => {
               if (event.id === row.id && event.occurrence_id === row.occurrence_id) return true;else return false;
             }).length > 0 || selectedAll,
@@ -2053,8 +2520,8 @@ const EventsPage = ({
           })
         }), headings.map(heading => {
           if (heading.visible) {
-            if (heading.label === "Type") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            if (heading.label === "Type") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 text: row[heading.value],
                 type: "badge",
                 color: "gray",
@@ -2062,8 +2529,8 @@ const EventsPage = ({
                 align: "center"
               })
             });
-            if (heading.label === "Recurrence") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            if (heading.label === "Recurrence") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 text: row[heading.value],
                 type: "badge",
                 color: row[heading.value] === "Recurring" ? "brand" : "gray",
@@ -2071,8 +2538,8 @@ const EventsPage = ({
                 align: "center"
               })
             });
-            if (heading.label === "Status") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            if (heading.label === "Status") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 text: row[heading.value],
                 type: "pill-colour",
                 color: row[heading.value] === "Past" ? "blue" : row[heading.value] === "Unlisted" ? "warning" : "success",
@@ -2081,11 +2548,11 @@ const EventsPage = ({
               })
             });
             if (heading.label === "Date" && !row[heading.value]) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
-                    className: "dropdown-icon"
-                  }),
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"]
+                // icon={<CalendarIcon className="dropdown-icon" />}
+                , {
+                  text: "Schedule",
                   onAction: () => {
                     setView("occurrences");
                     getEventOccurrencess(row.post_id);
@@ -2096,15 +2563,15 @@ const EventsPage = ({
               });
             }
             if (heading.label === "Date" && row[heading.value]) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
                   text: row[heading.value]
                 })
               });
             }
             if (heading.label === "Time" && row[heading.value]) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
                   text: `${moment_timezone__WEBPACK_IMPORTED_MODULE_12___default()(row[heading.value], "hh:mm a").format(timeFormat)}${!settings?.settings?.hide_time_zone ? " " + moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz(row.timezone).format("z").toString() : ""}`,
                   size: "small",
                   align: "center",
@@ -2113,11 +2580,11 @@ const EventsPage = ({
               });
             }
             if (heading.label === "Time" && !row[heading.value]) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__["default"], {
-                    className: "dropdown-icon"
-                  }),
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"]
+                // icon={<ClockIcon className="dropdown-icon" />}
+                , {
+                  text: "View times",
                   onAction: () => {
                     setView("occurrences");
                     getEventOccurrencess(row.post_id);
@@ -2129,76 +2596,124 @@ const EventsPage = ({
               });
             }
             if (heading.label === "Title") {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("a", {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("a", {
                   className: "filter-table-link",
-                  href: `/wp-admin/post.php?post=${row.post_id}&action=edit`,
+                  href: `${servvData.postUrl}?post=${row.post_id}&action=edit`,
                   children: row[heading.value]
                 })
               });
-            } else return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("td", {
+            } else return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("td", {
               children: row[heading.value]
             });
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("td", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("td", {
           className: "filter-table-dropdown-container",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("button", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
             onClick: () => setActive(!row.occurrence_id ? row.id : row.occurrence_id),
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_27__["default"], {
               className: "dropdown-icon"
             })
-          }), (!row.occurrence_id && active === row.id || row.occurrence_id && row.occurrence_id === active) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("div", {
-            className: "filter-table-dropdown",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("span", {
+          }), (!row.occurrence_id && active === row.id || row.occurrence_id && row.occurrence_id === active) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+            className: "filter-table-dropdown absolute right-0 z-50 bg-white border border-gray-200 rounded-xl shadow-lg p-4 mt-2 min-w-[220px]",
+            ref: dropdownRefs,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("span", {
               className: "dropdown-header",
-              children: [row.title, " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("span", {
-                className: "dropdown-description",
-                children: [row.date, row.occurrence_id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("span", {
-                  children: " *"
-                })]
+              children: [`${row.title}`, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+                className: "dropdown-description flex flex-row",
+                children: row.date
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
               className: "dropdown-actions",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 gap: 4,
-                children: [row.occurrence_id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("span", {
-                  className: "dropdown-description pb-2",
-                  children: "* This is recurring event"
-                }), row.occurrence_id && row.time && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("button", {
+                children: [row.occurrence_id && row.time && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("button", {
                   className: "dropdown-action",
                   onClick: () => {
                     setSelectedOccurrence(row.occurrence_id), setSelectedEvent(row.post_id);
+                    setActive(false);
                   },
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_27__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_28__["default"], {
                     className: "dropdown-icon"
-                  }), "Edit occurrence"]
-                }), row.recurrence === "Recurring" && view !== "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("button", {
+                  }), "Occurrence details"]
+                }), row.recurrence === "Recurring" && view !== "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("button", {
                   className: "dropdown-action",
                   onClick: () => {
                     setView("occurrences");
                     getEventOccurrencess(row.post_id);
                   },
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_27__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_28__["default"], {
                     className: "dropdown-icon"
-                  }), "Edit occurrences"]
-                }), view === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("button", {
+                  }), "View occurrences"]
+                }), view === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("button", {
                   className: "dropdown-action",
-                  onClick: () => setSelectedEvent(row.post_id),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_27__["default"], {
+                  onClick: () => {
+                    setSelectedEvent(row.post_id);
+                    setActive(false);
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_28__["default"], {
                     className: "dropdown-icon"
-                  }), "Edit event"]
-                }), view === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("button", {
+                  }), "Event details"]
+                }), view === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("button", {
                   className: "dropdown-action",
-                  onClick: () => handleEventDelete(row.post_id),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_28__["default"], {
+                  onClick: () => {
+                    setConfirmationModalData({
+                      open: true,
+                      text: "Delete selected event",
+                      onAccept: () => {
+                        handleEventDelete(row.post_id);
+                        setConfirmationModalData({
+                          open: false,
+                          onAccept: () => {},
+                          item: null,
+                          text: ""
+                        });
+                      },
+                      item: row.title,
+                      onCancel: () => setConfirmationModalData({
+                        open: false,
+                        onAccept: () => {},
+                        item: null,
+                        text: ""
+                      })
+                    });
+                    setActive(false);
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_29__["default"], {
                     className: "dropdown-icon-critical"
-                  }), "Delete event"]
-                }), row.occurrence_id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)("button", {
-                  className: "dropdown-action",
-                  onClick: () => handleEventDelete(row.post_id, row.occurrence_id),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_28__["default"], {
+                  }), t("Delete event")]
+                }), row.occurrence_id && view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("button", {
+                  className: "dropdown-action"
+                  // onClick={() =>
+                  //   handleEventDelete(row.post_id, row.occurrence_id)
+                  // }
+                  ,
+                  onClick: () => {
+                    setConfirmationModalData({
+                      open: true,
+                      text: "Delete selected occurrence of this event",
+                      onAccept: () => {
+                        handleEventDelete(row.post_id, row.occurrence_id);
+                        setConfirmationModalData({
+                          open: false,
+                          onAccept: () => {},
+                          item: null,
+                          text: ""
+                        });
+                      },
+                      item: row.title,
+                      onCancel: () => setConfirmationModalData({
+                        open: false,
+                        onAccept: () => {},
+                        item: null,
+                        text: ""
+                      })
+                    });
+                    setActive(false);
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_29__["default"], {
                     className: "dropdown-icon-critical"
-                  }), "Delete occurrence"]
+                  }), t("Delete occurrence")]
                 })]
               })
             })]
@@ -2207,73 +2722,243 @@ const EventsPage = ({
       });
     });
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [!selectedEvent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_20__["default"], {
-      loading: loading || isLoading,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        gap: 4,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("h1", {
-              className: "text-display-sm font-semibold mt-6",
-              children: "Event Booking"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("p", {
-              className: "page-header-description",
-              children: "Create, manage, and showcase your events easily to boost attendance"
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            gap: 2,
-            align: "right",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_Dropdown__WEBPACK_IMPORTED_MODULE_16__["default"], {
-              activator: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
-                text: "Customize",
-                icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
-                  className: "button-icon"
-                }),
-                type: "secondary",
-                onAction: () => {
-                  setCustomizeDropdown(!customizeDropdown);
-                }
-              }),
-              status: customizeDropdown,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("ul", {
-                children: renderHeadingsCustomization()
+  const handleSetDates = dates => {
+    let startDate = null;
+    if (dates.startDate) startDate = moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz({
+      year: dates.startDate.getFullYear(),
+      month: dates.startDate.getMonth(),
+      day: dates.startDate.getDate(),
+      hour: 0,
+      minute: 0,
+      second: 0
+    }, timezone.zone);
+    let endDate = null;
+    if (dates.endDate) endDate = moment_timezone__WEBPACK_IMPORTED_MODULE_12___default().tz({
+      year: dates.endDate.getFullYear(),
+      month: dates.endDate.getMonth(),
+      day: dates.endDate.getDate(),
+      hour: 23,
+      minute: 59,
+      second: 0
+    }, timezone.zone);
+    setDates({
+      startDate: startDate ? startDate : null,
+      endDate: endDate ? endDate : null
+    });
+  };
+  // Mobile event card renderer (for <768px)
+  const renderMobileCards = events => events.map(row => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+    className: "mobile-event-row flex items-center justify-between px-4 py-3 mb-3 bg-white rounded-xl shadow-sm",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+        className: "mobile-event-title font-semibold text-base text-gray-900",
+        children: row.title
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+        className: "mobile-event-date text-sm text-purple-700",
+        children: row.date
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+      className: "mobile-event-actions ml-2 p-2 rounded-full hover:bg-gray-100",
+      "aria-label": "Show event details",
+      title: "Show details",
+      onClick: () => setActiveDropdown(row.occurrence_id || row.id),
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("svg", {
+        width: "24",
+        height: "24",
+        fill: "none",
+        viewBox: "0 0 24 24",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("circle", {
+          cx: "5",
+          cy: "12",
+          r: "2",
+          fill: "#7c3aed"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("circle", {
+          cx: "12",
+          cy: "12",
+          r: "2",
+          fill: "#7c3aed"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("circle", {
+          cx: "19",
+          cy: "12",
+          r: "2",
+          fill: "#7c3aed"
+        })]
+      })
+    })]
+  }, row.id + (row.occurrence_id || "")));
+  const handleCreateNewEvent = () => {
+    if (servvData.gutenberg_active) open("post-new.php?servv_plugin=true", "_top");else react_toastify__WEBPACK_IMPORTED_MODULE_21__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: [!selectedEvent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      loading: loading,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+        className: "w-full max-w-full px-0",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "hidden md:flex items-center justify-between mt-6 mb-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h1", {
+            className: "text-display-sm font-semibold",
+            children: t("Events")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+            className: "flex gap-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+              className: "flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition",
+              onClick: () => setShowCustomizeModal(true),
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__["default"], {
+                className: "w-5 h-5"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              text: "New event",
-              onAction: () => open("post-new.php?servv_plugin=true", "_top"),
-              icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_29__["default"], {
-                className: "button-icon"
-              }),
-              type: "primary"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("button", {
+              className: "flex items-center px-5 py-2 rounded-lg bg-purple-600 text-white font-medium text-base hover:bg-purple-700 transition",
+              onClick: () => handleCreateNewEvent(),
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_30__["default"], {
+                className: "w-5 h-5 mr-2"
+              }), t("Create event")]
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+          className: "md:hidden px-4 pt-4 pb-2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+            className: "flex items-center justify-between",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h1", {
+              className: "text-2xl font-bold text-gray-900",
+              children: t("Events")
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+              className: "flex gap-2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+                "aria-label": t("Customize"),
+                title: t("Customize"),
+                className: "p-2 rounded-full bg-white shadow",
+                onClick: () => setShowCustomizeModal(true),
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__["default"], {
+                  className: "w-5 h-5"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+                "aria-label": t("Create Event"),
+                title: t("Create Event"),
+                className: "p-2 rounded-full bg-purple-600 text-white shadow",
+                onClick: () => open("post-new.php?servv_plugin=true", "_top"),
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_30__["default"], {
+                  className: "w-5 h-5"
+                })
+              })]
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
           gap: 4,
           align: "left",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Controls_ButtonGroupConnected__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              text: "Upcoming",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Controls_ButtonGroupConnected__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              text: t("Upcoming"),
               selected: !isPast,
               onAction: handleIsPastChange
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              text: "Past",
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              text: t("Past"),
               selected: isPast,
               onAction: handleIsPastChange
             })]
-          }), zoomAccount && zoomAccount.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Controls_ButtonGroupConnected__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              text: "Events",
+          }), settings && settings.current_plan && settings.current_plan.id === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Controls_ButtonGroupConnected__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              text: t("Events"),
               selected: eventType === "offline",
               onAction: () => handleTypeChange("offline")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              text: "Zoom meetings",
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ConnectedButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              text: "Zoom"
+              // text={t("Zoom Events")}
+              ,
               selected: eventType === "zoom",
               onAction: () => handleTypeChange("zoom")
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_9__["default"], {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(EventsCardHeader, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_9__["default"], {
+          className: "w-full max-w-none px-0 mt-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+            className: "md:hidden flex items-center px-4 pt-4 pb-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+              "aria-label": t("Search"),
+              title: t("Search"),
+              className: `p-2 rounded-full bg-white shadow ${showMobileSearch ? "ring-2 ring-purple-400" : ""}`,
+              onClick: () => setShowMobileSearch(prev => !prev),
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("svg", {
+                width: "22",
+                height: "22",
+                fill: "none",
+                viewBox: "0 0 22 22",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("circle", {
+                  cx: "10",
+                  cy: "10",
+                  r: "7",
+                  stroke: "#7c3aed",
+                  strokeWidth: "2"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("path", {
+                  d: "M16 16l4 4",
+                  stroke: "#7c3aed",
+                  strokeWidth: "2",
+                  strokeLinecap: "round"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+              className: "flex-1"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+              className: "flex gap-2 pr-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+                "aria-label": t("Date"),
+                title: t("Pick date"),
+                className: "p-2 rounded-full bg-white shadow",
+                onClick: () => setShowDateModal(true),
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("svg", {
+                  width: "22",
+                  height: "22",
+                  fill: "none",
+                  viewBox: "0 0 22 22",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("rect", {
+                    x: "3",
+                    y: "5",
+                    width: "16",
+                    height: "14",
+                    rx: "2",
+                    stroke: "#7c3aed",
+                    strokeWidth: "2"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("path", {
+                    d: "M7 3v4M15 3v4",
+                    stroke: "#7c3aed",
+                    strokeWidth: "2"
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+                "aria-label": t("Filters"),
+                title: t("Filters"),
+                className: "p-2 rounded-full bg-white shadow",
+                onClick: () => setShowFiltersModal(true),
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("svg", {
+                  width: "22",
+                  height: "22",
+                  fill: "none",
+                  viewBox: "0 0 22 22",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("path", {
+                    d: "M3 5h16M6 10h10M9 15h4",
+                    stroke: "#7c3aed",
+                    strokeWidth: "2",
+                    strokeLinecap: "round"
+                  })
+                })
+              })]
+            })]
+          }), showMobileSearch && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+            className: "md:hidden px-4 pb-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("input", {
+              type: "text",
+              className: "w-full border border-gray-300 rounded px-3 py-2 mb-2",
+              placeholder: t("Enter search"),
+              value: searchString,
+              autoFocus: true,
+              onChange: e => setSearchString(e.target.value),
+              onKeyDown: e => e.key === "Enter" && getEventsList()
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+              className: "w-full bg-purple-600 text-white rounded py-2",
+              onClick: () => getEventsList(),
+              children: t("Search")
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(EventsCardHeader, {
             eventsCount: view === "events" ? meetingsList.length : eventOccurrencess.length,
             view: view,
             backToEventsList: () => setView("events"),
@@ -2284,22 +2969,29 @@ const EventsPage = ({
             selectedFilters: selectedFilters,
             handleFilterSelect: handleFilterSelect,
             dates: dates,
-            setDates: setDates,
+            setDates: handleSetDates,
             isFiltersApplyed: isFiltersApplyed(),
             resetFilters: resetFilters,
-            isPast: isPast
-          }), view === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_FilterTable__WEBPACK_IMPORTED_MODULE_10__["default"], {
-            headings: renderHeadings(),
-            rows: renderRows(meetingsList)
-          }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Containers_FilterTable__WEBPACK_IMPORTED_MODULE_10__["default"], {
-            headings: renderHeadings(),
-            rows: renderRows(eventOccurrencess)
-          }), view === "events" && pagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_ListPagination__WEBPACK_IMPORTED_MODULE_14__["default"], {
+            isPast: isPast,
+            timezone: timezone
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+            className: "hidden md:block w-full",
+            children: [view === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_FilterTable__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              headings: renderHeadings(),
+              rows: renderRows(meetingsList)
+            }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_FilterTable__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              headings: renderHeadings(),
+              rows: renderRows(eventOccurrencess)
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+            className: "block md:hidden",
+            children: renderMobileCards(view === "events" ? meetingsList : eventOccurrencess)
+          }), view === "events" && pagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ListPagination__WEBPACK_IMPORTED_MODULE_14__["default"], {
             hasPrev: pagination.pageNumber > 1,
             hasNext: pagination.pageNumber < pagination.pageCount,
             onPrev: () => handleGetPrevPage(),
             onNext: () => handleGetNextPage()
-          }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_Controls_ListPagination__WEBPACK_IMPORTED_MODULE_14__["default"], {
+          }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ListPagination__WEBPACK_IMPORTED_MODULE_14__["default"], {
             hasPrev: occurrencesPagination.pageNumber > 1,
             hasNext: occurrencesPagination.pageNumber < occurrencesPagination.pageCount,
             onPrev: () => handleGetPrevOccurrencessPage(),
@@ -2307,7 +2999,7 @@ const EventsPage = ({
           })]
         })]
       })
-    }), selectedEvent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_SingleEventPage__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    }), selectedEvent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_SingleEventPage__WEBPACK_IMPORTED_MODULE_13__["default"], {
       attributes: attributes,
       setAttributes: handleEventChange,
       postID: selectedEvent,
@@ -2317,6 +3009,130 @@ const EventsPage = ({
       setSelectedEvent: setSelectedEvent,
       filters: filtersList,
       settings: settings
+    }), showSearchModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+      className: "fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+        className: "bg-white rounded-lg p-4 w-11/12 max-w-sm search-modal",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "flex justify-between items-center mb-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+            className: "font-semibold text-lg",
+            children: t("Search Events")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+            onClick: () => setShowSearchModal(false),
+            "aria-label": "Close",
+            children: t("×")
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("input", {
+          type: "text",
+          className: "w-full border border-gray-300 rounded px-3 py-2",
+          placeholder: t("Enter search"),
+          value: searchString,
+          onChange: e => setSearchString(e.target.value),
+          onKeyDown: e => e.key === "Enter" && getEventsList()
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+          className: "mt-3 w-full bg-purple-600 text-white rounded py-2",
+          onClick: () => {
+            getEventsList();
+            setShowSearchModal(false);
+          },
+          children: t("Search")
+        })]
+      })
+    }), showCustomizeModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+      className: "fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+        className: "bg-white rounded-lg p-4 w-11/12 max-w-sm max-h-[90vh] overflow-y-auto customize-modal",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "flex justify-between items-center mb-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+            className: "font-semibold text-lg",
+            children: t("Customize Columns")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+            onClick: () => setShowCustomizeModal(false),
+            "aria-label": "Close",
+            children: t("×")
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("ul", {
+          children: renderHeadingsCustomization()
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+          className: "mt-3 w-full bg-purple-600 text-white rounded py-2",
+          onClick: () => setShowCustomizeModal(false),
+          children: t("Done")
+        })]
+      })
+    }), showFiltersModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+      className: "fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+        className: "bg-white rounded-lg p-4 w-11/12 max-w-sm max-h-[90vh] overflow-y-auto filters-modal",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "flex justify-between items-center mb-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+            className: "font-semibold text-lg",
+            children: t("Filters")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+            onClick: () => setShowFiltersModal(false),
+            "aria-label": "Close",
+            children: t("×")
+          })]
+        }), Object.keys(filtersList).map(filter => filtersList[filter].length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "mb-3",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+            className: "font-semibold mb-1",
+            children: filter.charAt(0).toUpperCase() + filter.slice(1)
+          }), filtersList[filter].map(filterToSelect => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
+            label: filterToSelect.name,
+            checked: selectedFilters[filter] && selectedFilters[filter].includes(filterToSelect.id),
+            onChange: () => handleFilterSelect(filter, filterToSelect.id),
+            font: "text-sm",
+            color: "text-gray-700"
+          }, filterToSelect.id))]
+        }, filter) : null), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "flex gap-2 mt-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+            className: "flex-1 py-2 px-4 bg-gray-100 rounded-lg text-gray-700",
+            onClick: resetFilters,
+            children: t("Reset")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+            className: "flex-1 py-2 px-4 bg-purple-600 text-white rounded-lg",
+            onClick: () => {
+              getEventsList();
+              setShowFiltersModal(false);
+            },
+            children: t("Apply")
+          })]
+        })]
+      })
+    }), showDateModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+      className: "fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+        className: "bg-white rounded-lg p-4 w-11/12 max-w-sm date-modal",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "flex justify-between items-center mb-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+            className: "font-semibold text-lg",
+            children: t("Select Dates")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+            onClick: () => setShowDateModal(false),
+            "aria-label": "Close",
+            children: t("×")
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_19__["default"], {
+          displayFormat: "MMM DD, YYYY",
+          value: getDates(),
+          inputClassName: "w-full border border-gray-300 rounded px-3 py-2",
+          onChange: handleSetDates
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+          className: "mt-3 w-full bg-purple-600 text-white rounded py-2",
+          onClick: () => {
+            getEventsList();
+            setShowDateModal(false);
+          },
+          children: t("Apply")
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ConfirmationModal__WEBPACK_IMPORTED_MODULE_20__["default"], {
+      data: confirmationModalData
     })]
   });
 };
@@ -2343,14 +3159,14 @@ __webpack_require__.r(__webpack_exports__);
 
 const PageWrapper = props => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "w-full border-l border-gray-200 relative",
+    className: "w-full relative",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
       children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__["default"], {
         loading: true
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: `pl-4 pr-4 flex flex-col flex-1 max-w-[1080px] mx-auto h-full ${props.loading ? "loading" : ""}`,
+      className: `flex flex-col flex-1 h-full w-full pl-4 md:pl-6 lg:pl-8 pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
         position: "bottom-right"
       }), props.children]
@@ -2382,7 +3198,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _utilities_tickets__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utilities/tickets */ "./src/utilities/tickets.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsVerticalIcon.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__);
 
@@ -2438,10 +3253,7 @@ const SingleEventPage = ({
         slot_duration: 15
       },
       types: {
-        location_id: null,
-        category_id: null,
-        language_id: null,
-        members: []
+        ...attributes.types
       },
       custom_fields: {
         custom_field_1_name: "",
@@ -2464,7 +3276,8 @@ const SingleEventPage = ({
   };
   const updateTickets = async () => {
     if (!attributes.tickets || attributes.tickets.length === 0) return;
-    const ticketsToCreate = attributes.tickets.filter(ticket => ticket.tempId);
+    const ticketsToCreate = attributes.tickets.filter(ticket => !ticket.id);
+    console.log(ticketsToCreate);
     const ticketsToUpdate = attributes.tickets.filter(ticket => ticket.id);
     if (ticketsToCreate.length === 1) {
       await (0,_utilities_tickets__WEBPACK_IMPORTED_MODULE_8__.createTicket)({
@@ -2506,22 +3319,20 @@ const SingleEventPage = ({
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h1", {
             className: "text-display-sm font-semibold mt-6",
-            children: "Events"
+            children: occurrenceId ? "Occurrence Details" : "Event Details"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
             gap: 2,
             align: "right",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              text: "Cancel",
-              icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
-                className: "button-icon"
-              }),
+              text: "Cancel"
+              // icon={<ArrowUturnLeftIcon className="button-icon" />}
+              ,
               type: "secondary",
               onAction: () => setSelectedEvent(null)
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              text: "Save",
-              icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
-                className: "button-icon"
-              }),
+              text: "Save"
+              // icon={<InboxArrowDownIcon className="primary button-icon" />}
+              ,
               type: "primary",
               onAction: () => handleEventUpdate()
             })]
@@ -2560,14 +3371,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
 
 
-
 const AIButton = ({
   onClick,
-  children = "Use AI"
+  children = "Use AI",
+  loading = false
 }) => {
+  const pulseClasses = loading ? "animate-pulse scale-105" : "";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
     onClick: onClick,
-    className: " inline-flex items-center px-6 py-2 rounded-lg  text-md              text-brand-700 bg-transparent            relative                  font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 overflow-hidden           ",
+    disabled: loading,
+    className: `
+        inline-flex items-center
+        px-6 py-2
+        rounded-lg 
+        text-md             
+        text-brand-700
+        bg-transparent           
+        relative                 
+        font-semibold
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+        overflow-hidden
+        transition-transform duration-300
+        ${loading ? "opacity-70 cursor-wait" : "hover:bg-gray-100"}
+      `,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
       className: " absolute inset-0      rounded-lg            -z-10                 ",
       style: {
@@ -2576,9 +3402,12 @@ const AIButton = ({
         WebkitMaskComposite: "xor"
       }
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      className: "w-4 h-4 mr-3",
+      className: `w-4 h-4 mr-3 transition-transform duration-300 ${pulseClasses}`,
       "aria-hidden": "true"
-    }), children]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+      className: `transition-transform duration-300 ${pulseClasses}`,
+      children: children
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AIButton);
@@ -2616,47 +3445,20 @@ const CustomFieldsSection = ({
   };
   // console.log(meetingType);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "section-container border-b-2 border-gray-200",
+    className: "section-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "section-heading",
-      children: "Additional notes"
+      children: t("Additional notes")
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
       className: "text-gray-600 font-regular text-sm",
-      children: "Add items to bring or other info for attendees. Included in email notifications."
-    }), meetingType === "online" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "input-container-row items-center",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "input-container-col w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "section-description",
-          children: "Title"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          value: custom_field_1_name,
-          onChange: val => handleCustomFieldsChange("custom_field_1_name", val),
-          fullWidth: true,
-          type: "text",
-          align: "left"
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "input-container-col w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "section-description",
-          children: "Description"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          value: custom_field_1_value,
-          onChange: val => handleCustomFieldsChange("custom_field_1_value", val),
-          fullWidth: true,
-          type: "text",
-          align: "left"
-        })]
-      })]
+      children: t("Add items to bring or other info for attendees. Included in email\r\n        notifications.")
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "input-container-row items-center",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "input-container-col w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "section-description",
-          children: "Title"
+          children: t("Title")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
           value: custom_field_2_name,
           onChange: val => handleCustomFieldsChange("custom_field_2_name", val),
@@ -2668,7 +3470,7 @@ const CustomFieldsSection = ({
         className: "input-container-col w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "section-description",
-          children: "Description"
+          children: t("Description")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
           value: custom_field_2_value,
           onChange: val => handleCustomFieldsChange("custom_field_2_value", val),
@@ -2709,16 +3511,17 @@ const DatePickerControl = ({
   date = null,
   onChange = () => {},
   label = "Select a Date",
-  variant = "button"
+  variant = "button",
+  adminSection = false
 }) => {
   const [value, setValue] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).toDate() : null,
+    startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).startOf("day").toDate() : null,
     endDate: null
   });
-  const minDate = moment__WEBPACK_IMPORTED_MODULE_1___default()().toDate();
+  const minDate = moment__WEBPACK_IMPORTED_MODULE_1___default()().startOf("day").toDate();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setValue({
-      startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).toDate() : null,
+      startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).startOf("day").toDate() : null,
       endDate: null
     });
   }, [date]);
@@ -2739,7 +3542,7 @@ const DatePickerControl = ({
     selected: value,
     value: value,
     placeholder: value?.startDate && moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate, (moment__WEBPACK_IMPORTED_MODULE_1___default().ISO_8601), true).isValid() ? moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate).format("MMM DD, YYYY") : "Select dates",
-    inputClassName: "input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700",
+    inputClassName: `input-control section-description text-left w-full ${variant === "button" ? adminSection ? "" : "max-w-[10rem]" : "w-full"} ${adminSection ? "min-w-[8rem]" : "min-w-[10rem]"} shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`,
     onChange: handleDateChange
   });
 };
@@ -2762,15 +3565,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
 /* harmony import */ var _Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/TimeInputControl */ "./src/Components/Controls/TimeInputControl.jsx");
 /* harmony import */ var _Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/RecurringSection */ "./src/Components/Controls/RecurringSection.jsx");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js");
 /* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utilities/timezones */ "./src/utilities/timezones.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "moment");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _DatePickerControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DatePickerControl */ "./src/Components/PostEditor/DatePickerControl.jsx");
 /* harmony import */ var _AIButton__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AIButton */ "./src/Components/PostEditor/AIButton.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
 
 // Components
 // import DatePicker from "./DatePicker";
@@ -2787,6 +3593,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 const DateTimeSection = ({
   eventDetails,
   onChange,
@@ -2795,18 +3603,43 @@ const DateTimeSection = ({
   adminSection,
   setToast
 }) => {
+  const [isAiLoading, setIsAILoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const {
     startTime,
     duration,
     timezone,
     recurrence
   } = eventDetails;
-  const time = startTime !== null ? moment__WEBPACK_IMPORTED_MODULE_5___default()(startTime) : moment__WEBPACK_IMPORTED_MODULE_5___default()();
+  const time = startTime !== null ? typeof startTime === "string" ? moment__WEBPACK_IMPORTED_MODULE_5___default()(startTime) : startTime : moment__WEBPACK_IMPORTED_MODULE_5___default()();
   const [isDateChanged, setDateChanged] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(!!startTime);
   const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("hh:mm a");
   const endTime = time ? moment__WEBPACK_IMPORTED_MODULE_5___default()(time).add(duration, "minutes") : moment__WEBPACK_IMPORTED_MODULE_5___default()().add(duration, "minutes");
   const timezoneOptions = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].map(timezone => timezone.zone);
-  const userTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(timezone => timezone.zone === Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const [userTimezone, setUserTimezone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("US/Pacific");
+  const updateTimezone = settings => {
+    let defaultTimezone = null;
+    if (!settings) return;
+    if (settings.settings?.admin_dashboard) {
+      const adminSettings = settings.settings.admin_dashboard;
+      defaultTimezone = adminSettings.default_timezone || moment__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
+    } else {
+      defaultTimezone = moment__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
+    }
+    let findTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(t => t.zone === defaultTimezone);
+    if (findTimezone.length > 0) {
+      setUserTimezone(findTimezone[0]);
+    } else {
+      let timezoneOffset = moment__WEBPACK_IMPORTED_MODULE_5___default().tz(defaultTimezone).format("Z");
+      let formattedOffset = `(GMT${timezoneOffset})`;
+      let availableTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(t => t.gmt === formattedOffset);
+      if (availableTimezone.length > 0) {
+        setUserTimezone(availableTimezone[0]);
+      }
+    }
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    updateTimezone(settings);
+  }, [settings]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (settings && !settings.timezone && userTimezone.length > 0 && eventDetails && eventDetails.timezone && timezone.length === 0) {
       onChange("timezone", userTimezone[0].zone);
@@ -2855,7 +3688,7 @@ const DateTimeSection = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     handleTimeFormatChange();
   }, [settings]);
-  const iconRight = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  const iconRight = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
     className: "input-control-icon-right"
   });
   const fetchDescription = async () => {
@@ -2864,68 +3697,159 @@ const DateTimeSection = ({
       setToast("Please enter a title to use this feature.");
       return;
     }
+    setIsAILoading(true);
     const {
       createBlock
     } = wp.blocks;
     const {
-      dispatch
+      dispatch,
+      select
     } = wp.data;
-    let url = "https://ai-api.servv.ai/generate-description";
+    const url = "/wp-json/servv-plugin/v1/event/data/generate";
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(url, {
+        title: eventDetails.title
+      }, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
+      }).catch(error => {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_9__.toast)(error.message ? error.message : "AI generation could not be completed. Please try again.");
+      });
+      const {
+        description,
+        image,
+        tags
+      } = response.data;
 
-    // let prompt = `Write a compelling event description for this information specific to the store provided.
-    //               Title: ${eventDetails.title}
-    //               Date time: ${eventDetails.startTime} timezone: ${eventDetails.timezone}
-    //               Put location and date time in separate lines at the end.`;
-    await axios__WEBPACK_IMPORTED_MODULE_10__["default"].post(url, {
-      title: eventDetails.title
-      // model: "gpt-4o-mini",
-      // messages: [
-      //   {
-      //     role: "user",
-      //     content: prompt,
-      //   },
-      // ],
-    }, {
-      headers: {
-        "Content-Type": "application/json"
+      // 1. Insert Description Block
+      if (description && description.length > 0) {
+        const descriptionBlock = createBlock("core/paragraph", {
+          content: description
+        });
+        dispatch("core/block-editor").insertBlocks(descriptionBlock);
       }
-    }).then(response => {
-      const descriptionContent = response?.data?.description.length > 0 ? response?.data?.description : "";
-      const descriptionBlock = createBlock("core/paragraph", {
-        content: descriptionContent
-      });
-
-      // Insert block into current post
-      dispatch("core/block-editor").insertBlocks(descriptionBlock);
-      return response;
-    }).catch(error => {
+      setIsAILoading(false);
+      if (image) {
+        const blob = b64toBlob(image, "image/png");
+        const file = new File([blob], "featured-image.png", {
+          type: "image/png"
+        });
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("title", "Featured Image");
+        if (eventDetails?.title) {
+          formData.append("alt_text", eventDetails.title);
+        }
+        try {
+          // Upload to WP Media Library
+          const uploadResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default()({
+            path: "/wp/v2/media",
+            method: "POST",
+            body: formData,
+            headers: {
+              "X-WP-Nonce": servvData.nonce // provided by wp_localize_script
+            }
+          });
+          if (uploadResponse?.id) {
+            // Assign uploaded image as Featured Image
+            dispatch("core/editor").editPost({
+              featured_media: uploadResponse.id
+            });
+          }
+        } catch (imgErr) {
+          console.error("Failed to upload featured image:", imgErr);
+        }
+      }
+      // 3. Create and Assign Tags
+      if (Array.isArray(tags)) {
+        const tagIds = [];
+        for (const tagRaw of tags) {
+          const tagName = tagRaw.replace(/^#/, "").trim();
+          if (!tagName) continue;
+          let tag = select("core").getEntityRecords("taxonomy", "post_tag", {
+            search: tagName,
+            per_page: 1
+          });
+          if (!tag) {
+            const results = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default()({
+              path: `/wp/v2/tags?search=${encodeURIComponent(tagName)}`
+            });
+            tag = results.length ? results[0] : null;
+          }
+          if (!tag) {
+            tag = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default()({
+              path: "/wp/v2/tags",
+              method: "POST",
+              data: {
+                name: tagName
+              }
+            });
+          }
+          if (tag && tag.id) {
+            tagIds.push(tag.id);
+          }
+        }
+        if (tagIds.length > 0) {
+          dispatch("core/editor").editPost({
+            tags: tagIds
+          });
+        }
+      }
+    } catch (error) {
+      setIsAILoading(false);
       console.error("Error:", error.response ? error.response.data : error.message);
-      const descriptionContent = error.response ? error.response.data : error.message;
-      const descriptionBlock = createBlock("core/paragraph", {
-        content: descriptionContent
+      const fallbackContent = error.response ? error.response.data : error.message;
+      const fallbackBlock = wp.blocks.createBlock("core/paragraph", {
+        content: fallbackContent
       });
-      dispatch("core/block-editor").insertBlocks(descriptionBlock);
-    });
+      wp.data.dispatch("core/block-editor").insertBlocks(fallbackBlock);
+    }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+
+  // Helper: base64 → Blob
+  function b64toBlob(b64Data, contentType = "", sliceSize = 512) {
+    // Remove "data:image/...;base64," if present
+    const cleaned = b64Data.includes(",") ? b64Data.split(",")[1] : b64Data;
+
+    // Remove any whitespace or line breaks
+    const safeBase64 = cleaned.replace(/\s/g, "");
+    const byteCharacters = atob(safeBase64);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    return new Blob(byteArrays, {
+      type: contentType
+    });
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
     className: "section-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
       className: "flex flex-row justify-between",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
         className: "section-heading",
-        children: "Date and time"
-      }), !adminSection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_AIButton__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        onClick: fetchDescription
+        children: "Date and time *"
+      }), !adminSection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_AIButton__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        onClick: fetchDescription,
+        loading: isAiLoading
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-      className: "flex flex-row gap-5 justify-between items-end",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+      className: "flex flex-row gap-5 justify-between items-end max-sm:flex-col",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
         date: time,
         onChange: handleDateChange,
-        variant: "button"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-        className: "flex flex-row gap-5 justify-between align-center",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
+        variant: "button",
+        adminSection: adminSection
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+        className: "flex flex-row gap-3 justify-between align-center max-sm:justify-start md:justify-between max-sm:w-full",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
         // label="Start time"
         , {
           time: time,
@@ -2934,10 +3858,10 @@ const DateTimeSection = ({
           maxValue: timeFormat === "hh:mm a" ? 12 : 24,
           timeFormat: timeFormat,
           align: "start"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           className: "self-center",
           children: "to"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
         // label="End time"
         , {
           time: endTime,
@@ -2948,14 +3872,17 @@ const DateTimeSection = ({
           align: "end"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      label: "Time zone",
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      label: "Timezone *",
       options: timezoneOptions,
       helpText: "Select a timezone",
       selected: timezone ? timezone : null,
       disabled: false,
-      onSelectChange: handleTimezoneChange
-    }), !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      onSelectChange: handleTimezoneChange,
+      style: {
+        padding: "10px"
+      }
+    }), !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
       recurrence: recurrence,
       onChange: handleRecurrenceChange,
       disabled: settings && settings.current_plan.id !== 2
@@ -2981,24 +3908,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DateTimeSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DateTimeSection */ "./src/Components/PostEditor/DateTimeSection.jsx");
 /* harmony import */ var _LocationSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LocationSection */ "./src/Components/PostEditor/LocationSection.jsx");
 /* harmony import */ var _Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Containers/TabsComponent */ "./src/Components/Containers/TabsComponent.jsx");
-/* harmony import */ var _ProductDetails__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ProductDetails */ "./src/Components/PostEditor/ProductDetails.jsx");
-/* harmony import */ var _EventVisibility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./EventVisibility */ "./src/Components/PostEditor/EventVisibility.jsx");
-/* harmony import */ var _RegistrantsSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./RegistrantsSection */ "./src/Components/PostEditor/RegistrantsSection.jsx");
-/* harmony import */ var _NotificationsSection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./NotificationsSection */ "./src/Components/PostEditor/NotificationsSection.jsx");
-/* harmony import */ var _FiltersSection__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./FiltersSection */ "./src/Components/PostEditor/FiltersSection.jsx");
-/* harmony import */ var _TicketsSection__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TicketsSection */ "./src/Components/PostEditor/TicketsSection.jsx");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _CustomFieldsSection__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CustomFieldsSection */ "./src/Components/PostEditor/CustomFieldsSection.jsx");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _EventVisibility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventVisibility */ "./src/Components/PostEditor/EventVisibility.jsx");
+/* harmony import */ var _RegistrantsSection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RegistrantsSection */ "./src/Components/PostEditor/RegistrantsSection.jsx");
+/* harmony import */ var _NotificationsSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NotificationsSection */ "./src/Components/PostEditor/NotificationsSection.jsx");
+/* harmony import */ var _FiltersSection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./FiltersSection */ "./src/Components/PostEditor/FiltersSection.jsx");
+/* harmony import */ var _TicketsSection__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TicketsSection */ "./src/Components/PostEditor/TicketsSection.jsx");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _CustomFieldsSection__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./CustomFieldsSection */ "./src/Components/PostEditor/CustomFieldsSection.jsx");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
 
 // Components
 
 
 
+// import ProductDetails from "./ProductDetails";
 
 
 
@@ -3013,6 +3941,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const EventDetails = ({
   title,
+  agenda,
   attributes,
   setAttributes,
   postID = null,
@@ -3022,13 +3951,17 @@ const EventDetails = ({
   removeBlock = () => {},
   returnWithError = () => {},
   filters = null,
-  settingsData = null
+  settingsData = null,
+  requiredFieldsNotification = false,
+  hideReqieredFieldsNotification = () => {}
 }) => {
+  // console.log(attributes);
   let eventDetails = {
     ...attributes.meeting
   };
   const [postId, setPostId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   let [settings, setSettings] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [status, setStatus] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [registrants, setRegistrants] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [googleCalendar, setGoogleCalendar] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [calendarAccountFetched, setCalendarAccountFetched] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -3037,48 +3970,61 @@ const EventDetails = ({
   const [zoomAccount, setZoomAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [stripeAccount, setStripeAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [filtersList, setFiltersList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [activationError, setActivationError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const getCalendarAccount = async () => {
-    const getCalendarAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/calendar/account"
+    const getCalendarAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/calendar/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getCalendarAccountResponse) {
-      setGoogleCalendar(getCalendarAccountResponse);
+    if (getCalendarAccountResponse && getCalendarAccountResponse.status === 200) {
+      setGoogleCalendar(getCalendarAccountResponse.data);
     }
     setCalendarAccountFetched(true);
   };
   const setToastMessage = val => {
-    (0,react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast)(val, {
+    (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)(val, {
       autoClose: 5000
     });
   };
-  const servvData = {
-    servv_plugin_mode: "production"
-  };
+  // const servvData = { servv_plugin_mode: "production" };
   // const servvData = { servv_plugin_mode: "development" };
 
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/zoom/account"
+    const getZoomAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/zoom/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getZoomAccountResponse) {
-      setZoomAccount(getZoomAccountResponse);
+    if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
+      setZoomAccount(getZoomAccountResponse.data);
     }
     // setCalendarAccountFetched(true);
   };
+  // useEffect(() => {
+  //   if (requiredFieldsNotification) {
+  //     setToastMessage("Please fill in the required fields");
+  //     hideReqieredFieldsNotification();
+  //   }
+  // }, [requiredFieldsNotification]);
   const getStripeAccount = async () => {
-    const getStripeAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/stripe/account"
+    const getStripeAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/stripe/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getStripeAccountResponse) {
-      setStripeAccount(getStripeAccountResponse);
+    if (getStripeAccountResponse && getStripeAccountResponse.status === 200) {
+      setStripeAccount(getStripeAccountResponse.data);
     }
   };
   const getGmailAccount = async () => {
-    const getGmailAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/gmail/account"
+    const getGmailAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/gmail/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getGmailAccountResponse) {
-      setConnectedMailAccount(getGmailAccountResponse);
+    if (getGmailAccountResponse && getGmailAccountResponse.status === 200) {
+      setConnectedMailAccount(getGmailAccountResponse.data);
     }
     setMailAccountFetched(true);
   };
@@ -3113,36 +4059,48 @@ const EventDetails = ({
     let getSettingsResponse;
     if (!adminSection) {
       try {
-        getSettingsResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-          path: "/servv-plugin/v1/shop/info"
+        getSettingsResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/shop/info", {
+          headers: {
+            "X-WP-Nonce": servvData.nonce
+          }
         });
       } catch (e) {
         console.log(e);
+        setLoading(false);
+        if (e.status === 401) setActivationError(true);
       }
     } else {
-      console.log(settingsData);
-      getSettingsResponse = settingsData;
+      // console.log(settingsData);
+      getSettingsResponse = {
+        status: 200,
+        data: settingsData
+      };
     }
-    if (getSettingsResponse) {
+    if (getSettingsResponse && getSettingsResponse.status === 200) {
       setSettings({
-        ...getSettingsResponse,
+        ...getSettingsResponse.data,
+        // current_plan: { ...getSettingsResponse.data.current_plan, id: 1 },
         settings: {
-          ...getSettingsResponse.settings,
-          admin_dashboard: getSettingsResponse?.settings?.admin_dashboard ? JSON.parse(getSettingsResponse.settings.admin_dashboard) : {}
+          ...getSettingsResponse.data.settings,
+          admin_dashboard: getSettingsResponse.data?.settings?.admin_dashboard ? JSON.parse(getSettingsResponse.data.settings.admin_dashboard) : {}
         }
       });
     }
   };
+  // console.log(attributes);
+
   const getFilterType = async type => {
     try {
-      let reqURL = `/servv-plugin/v1/filters/${type}`;
-      let getFiltersListResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-        path: reqURL
+      let reqURL = `/wp-json/servv-plugin/v1/filters/${type}`;
+      let getFiltersListResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get(reqURL, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
       });
-      if (getFiltersListResponse) {
+      if (getFiltersListResponse && getFiltersListResponse.status === 200) {
         setFiltersList(prevFilters => ({
           ...prevFilters,
-          [type]: getFiltersListResponse
+          [type]: getFiltersListResponse.data
         }));
       }
     } catch (error) {
@@ -3153,22 +4111,36 @@ const EventDetails = ({
     try {
       const urlParams = new URLSearchParams(window.location.search);
       let postId = postID ? postID : urlParams.get("post");
-      let reqURL = `/servv-plugin/v1/event/${postId}/tickets`;
+      let reqURL = `/wp-json/servv-plugin/v1/event/${postId}/tickets`;
       if (occurrenceId) {
         reqURL += `?occurrence_id=${occurrenceId}`;
       }
-      let getTicketsResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-        path: reqURL
+      let getTicketsResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get(reqURL, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
       });
-      if (getTicketsResponse) {
+      if (getTicketsResponse && getTicketsResponse.status === 200) {
         setAttributes({
-          tickets: getTicketsResponse
+          tickets: getTicketsResponse.data
         });
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
     }
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!adminSection) {
+      setTabsList([{
+        label: "Details",
+        value: 0
+      }, {
+        label: "Settings",
+        value: 1
+      }]);
+    }
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {}, []);
   const getFilters = async () => {
     setLoading(true);
     if (!filters) {
@@ -3189,7 +4161,7 @@ const EventDetails = ({
         default_start_time,
         default_duration,
         default_event_type,
-        default_price
+        default_quantity
       } = settings.settings.admin_dashboard;
       let newStartTime = null;
       if (default_start_time) {
@@ -3202,14 +4174,26 @@ const EventDetails = ({
       if (default_event_type) {
         handleEventChange("location", default_event_type);
       }
-      // if (default_price && settings.current_plan === 2) {
-      //   handleProductChange("price", default_price);
-      // }
+      if (settings.current_plan.id === 1) {
+        if (default_quantity) {
+          handleProductChange("quantity", Number.parseInt(default_quantity));
+        } else {
+          handleProductChange("quantity", 1);
+        }
+      }
     }
   }, [settings]);
   const getEventData = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     let postId = postID ? postID : urlParams.get("post");
+    let postStatus = "admin";
+    if (!adminSection) {
+      const {
+        getEditedPostAttribute
+      } = wp.data.select("core/editor");
+      postStatus = getEditedPostAttribute("status");
+      setStatus(postStatus);
+    }
     setPostId(postId);
     if (postId) {
       let url = `/servv-plugin/v1/event/${postId}`;
@@ -3217,17 +4201,9 @@ const EventDetails = ({
         url += `?occurrence_id=${occurrenceId}`;
       }
       let res = null;
-      let postStatus = "admin";
-      if (!adminSection) {
-        const {
-          getEditedPostAttribute
-        } = wp.data.select("core/editor");
-        postStatus = getEditedPostAttribute("status");
-      }
       if (postStatus === "publish" || postStatus === "admin") {
-        // console.log("Error fetching post");
         try {
-          res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+          res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
             path: url
           });
         } catch (e) {
@@ -3236,7 +4212,6 @@ const EventDetails = ({
           if (adminSection && e.message === "Post doesn't exist") {
             returnWithError(e.message);
           }
-          if (!adminSection) removeBlock();
           return;
         }
       }
@@ -3256,6 +4231,15 @@ const EventDetails = ({
             startTime = moment(res.meeting.occurrences[0].start_time).tz(res.meeting.timezone).format("YYYY-MM-DDTHH:mm:ss:SSS").replace(/:\d\d\d$/, "");
           }
         }
+        if (res.meeting.recurrence && !occurrenceId) {
+          setTabsList([{
+            label: "Details",
+            value: 0
+          }, {
+            label: "Settings",
+            value: 1
+          }]);
+        }
         let eventRecurrence = null;
         if (res.meeting.recurrence && res.meeting.recurrence.type) {
           eventRecurrence = res.meeting.recurrence;
@@ -3272,7 +4256,7 @@ const EventDetails = ({
           },
           product: {
             price: res.product.price,
-            quantity: res.product.current_quantity || 0,
+            quantity: res.product.current_quantity,
             current_quantity: res.product.current_quantity
           },
           notifications: {
@@ -3309,8 +4293,6 @@ const EventDetails = ({
   };
   const [registrantsPagination, setRegistrantsPagination] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const getEventRegistrants = async (page = 1, id = null) => {
-    // const urlParams = new URLSearchParams(window.location.search);
-    // let postId = urlParams.get("post");
     setLoading(true);
     let post = postID;
     let res = null;
@@ -3322,7 +4304,7 @@ const EventDetails = ({
       url += `&occurrence_id=${occurrenceId}`;
     }
     try {
-      res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+      res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
         path: url
       });
     } catch (e) {
@@ -3367,7 +4349,7 @@ const EventDetails = ({
     return results;
   };
   const removeSingleRegistrant = async registrantID => {
-    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
       path: `/servv-plugin/v1/event/${postID}/registrants/${registrantID}`,
       method: "DELETE"
     });
@@ -3375,7 +4357,7 @@ const EventDetails = ({
   };
   const removeRegistrant = async registrantID => {
     setLoading(true);
-    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
       path: `/servv-plugin/v1/event/${postID}/registrants/${registrantID}`,
       method: "DELETE"
     });
@@ -3391,7 +4373,6 @@ const EventDetails = ({
   };
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const getEventFullInfo = async () => {
-    // setLoading(true);
     setLoading(true);
     if (servvData && servvData.servv_plugin_mode === "development") {
       const id = await getEventData();
@@ -3404,7 +4385,7 @@ const EventDetails = ({
       await getFilters();
       await getAccountsInfo();
     } else {
-      const id = getEventData();
+      const id = await getEventData();
       if (id && adminSection) {
         getEventRegistrants(1, id);
         if (adminSection && settings && settings.current_plan.id === 2) {
@@ -3417,6 +4398,7 @@ const EventDetails = ({
     setLoading(false);
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setLoading(true);
     setAttributes({
       registrants: []
     });
@@ -3438,6 +4420,7 @@ const EventDetails = ({
     ...attributes.types
   };
   const tickets = [...attributes.tickets];
+  // console.log(productDetails);
   const handleRegistrantsChange = registrant => {
     let currentRegistrants = registrants;
     // console.log(registrant, registrant?.status);
@@ -3445,7 +4428,6 @@ const EventDetails = ({
       if (registrant.status === "create") {
         currentRegistrants.push(registrant);
       } else {
-        console.log("delete");
         currentRegistrants = currentRegistrants.filter(reg => reg.tempId !== registrant.tempId);
       }
       setRegistrants(currentRegistrants);
@@ -3488,14 +4470,14 @@ const EventDetails = ({
         if (meeting.recurrence) {
           meeting.eventType = 8;
         } else meeting.eventType = 2;
-        customFields.custom_field_1_name = "";
-        customFields.custom_field_1_value = "";
+        // customFields.custom_field_1_name = "";
+        // customFields.custom_field_1_value = "";
       } else {
         if (meeting.recurrence) {
           meeting.eventType = 2;
         } else meeting.eventType = 1;
-        customFields.custom_field_1_name = "Meeting URL";
-        customFields.custom_field_1_value = "";
+        // customFields.custom_field_1_name = "Meeting URL";
+        // customFields.custom_field_1_value = "";
       }
     }
     // console.log(meeting.location);
@@ -3510,14 +4492,8 @@ const EventDetails = ({
   };
   const handleTypesChange = (field, value) => {
     let types = attributes.types;
-    if (field === "members") {
-      let members = types.members || [];
-      if (members.indexOf(value) >= 0) {
-        members = members.filter(id => id !== value);
-      } else {
-        members.push(value);
-      }
-      types["members"] = members;
+    if (field === "members" && value.length > 0) {
+      types["members"] = value;
     } else {
       if (types[field] === value) {
         delete types[field];
@@ -3543,16 +4519,19 @@ const EventDetails = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     handleEventChange("title", title);
   }, [title]);
-  const tabsList = [{
-    label: "Event details",
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    handleEventChange("agenda", agenda);
+  }, [agenda]);
+  const [tabsList, setTabsList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    label: "Details",
     value: 0
   }, {
-    label: "Event settings",
+    label: "Settings",
     value: 1
   }, {
     label: "Registrants",
     value: 2
-  }];
+  }]);
   const [selectedTab, setSelectedTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const handleSelectChange = val => {
     setSelectedTab(val);
@@ -3579,12 +4558,12 @@ const EventDetails = ({
     for (const id of registrants) {
       try {
         await handleResendNotificationToSingleRegistrant(id);
-        (0,react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast)("Email notifications are successfully resend", {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)("Email notifications are successfully resend", {
           autoClose: 5000
         });
       } catch (error) {
         console.error(`Failed to resend notification to registrant ${id}:`, error);
-        (0,react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast)(`Failed to resend notification to registrant ${registrants.filter(reg => reg.id === id)[0].email}:`, {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)(`Failed to resend notification to registrant ${registrants.filter(reg => reg.id === id)[0].email}:`, {
           autoClose: 5000
         });
       }
@@ -3595,27 +4574,34 @@ const EventDetails = ({
     if (occurrenceId) {
       url += `?occurrence_id=${occurrenceId}`;
     }
-    return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+    return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
       path: url,
       method: "POST"
     });
   };
   const handleResendNotificationsToAll = async () => {
-    let url = `/servv-plugin/v1/event/${postID}/registrants/resend`;
+    let url = `/wp-json/servv-plugin/v1/event/${postID}/registrants/resend`;
     if (occurrenceId) {
       url += `?occurrence_id=${occurrenceId}`;
     }
-    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: url,
-      method: "POST"
+    let res = await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+      url: url,
+      method: "POST",
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
+    }).catch(e => {
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)("Servv was unable to resend notifications. Please try again.");
     });
+    if (res && res.status === 200) {
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)("Email notifications have been resent.");
+    }
   };
   const handleTicketsChange = tickets => {
     setAttributes({
       tickets: tickets
     });
     const quantity = tickets.reduce((totalQuantity, ticket) => totalQuantity + ticket.quantity, 0);
-    console.log(quantity);
     if (quantity > 0) {
       handleProductChange("quantity", quantity);
     }
@@ -3631,45 +4617,54 @@ const EventDetails = ({
   //     : "offline"
   // );
   // console.log(postId);
-  const isFiltersEmpty = Object.values(filtersList).reduce((allEmptySoFar, value) => {
-    return allEmptySoFar && Array.isArray(value) && value.length === 0;
-  }, true);
+
+  const [emptyFilters, setEmptyFilters] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const isFiltersEmpty = !filtersList || filtersList && filtersList.categories && filtersList.categories.length === 0 && filtersList && filtersList.members && filtersList.members.length === 0 && filtersList && filtersList.languages && filtersList.languages.length === 0;
+    // console.log(isFiltersEmpty);
+    if (isFiltersEmpty) {
+      setEmptyFilters(true);
+    }
+  }, [filtersList]);
   const isBillingPlanRestriction = occurrenceId || settings?.current_plan.id !== 2;
   // const isBillingPlanRestriction = false;
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+  // console.log(status === "publish");
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
     className: "relative",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
       className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-      children: loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      children: loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_12__["default"], {
         loading: true
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
       className: `${loading ? "loading" : ""}`,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_12__.ToastContainer, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_11__.ToastContainer, {
         position: "bottom-right"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_3__["default"], {
         tabsList: tabsList,
         selected: selectedTab,
         handleSelectChange: handleSelectChange
-      }), selectedTab === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_DateTimeSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }), selectedTab === 0 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_DateTimeSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
           eventDetails: eventDetails,
           occurrenceId: occurrenceId,
           onChange: handleEventChange,
           settings: settings,
           adminSection: adminSection,
           setToast: setToastMessage
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_LocationSection__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_LocationSection__WEBPACK_IMPORTED_MODULE_2__["default"], {
           eventDetails: eventDetails,
           onChange: handleEventChange,
           settings: settings,
-          disabled: !zoomAccount || zoomAccount && zoomAccount.length === 0 || adminSection,
+          disabled: !zoomAccount || zoomAccount && zoomAccount.length === 0 || adminSection || status === "publish",
           meetingType: eventDetails && eventDetails.location ? eventDetails.location : settings && settings.settings.admin_dashboard.default_event_type ? settings.settings.admin_dashboard.default_event_type : "offline",
           customFields: customFields,
           handleCustomFieldChange: handleCustomFieldsChange,
-          zoomAccount: zoomAccount
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_TicketsSection__WEBPACK_IMPORTED_MODULE_9__["default"], {
+          zoomAccount: zoomAccount,
+          types: types,
+          onFilterChange: handleTypesChange,
+          filtersList: filtersList
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_TicketsSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
           adminSection: adminSection,
           tickets: tickets,
           eventDetails: eventDetails,
@@ -3682,21 +4677,22 @@ const EventDetails = ({
           disabled: settings?.current_plan.id !== 2,
           handleSetLoading: handleSetLoading,
           stripeAccount: stripeAccount,
-          occurrenceId: occurrenceId
-        }), !isFiltersEmpty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_FiltersSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          occurrenceId: occurrenceId,
+          status: status
+        }), emptyFilters !== undefined && emptyFilters === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_FiltersSection__WEBPACK_IMPORTED_MODULE_7__["default"], {
           types: types,
           onChange: handleTypesChange,
           filtersList: filtersList
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_CustomFieldsSection__WEBPACK_IMPORTED_MODULE_11__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_CustomFieldsSection__WEBPACK_IMPORTED_MODULE_10__["default"], {
           customFields: customFields,
           onChange: handleCustomFieldsChange,
           meetingType: eventDetails && eventDetails.location ? eventDetails.location : settings && settings.settings.admin_dashboard.default_event_type ? settings.settings.admin_dashboard.default_event_type : "offline"
         })]
-      }), selectedTab === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_EventVisibility__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), selectedTab === 1 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_EventVisibility__WEBPACK_IMPORTED_MODULE_4__["default"], {
           productDetails: productDetails,
           onChange: handleProductChange
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_NotificationsSection__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_NotificationsSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
           notifications: notifications,
           onChange: handleNotificationsChange,
           googleCalendar: googleCalendar,
@@ -3704,7 +4700,7 @@ const EventDetails = ({
           calendarAccountFetched: calendarAccountFetched,
           mailAccountFetched: mailAccountFetched
         })]
-      }), selectedTab === 2 && adminSection && postId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_RegistrantsSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }), selectedTab === 2 && adminSection && postId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_RegistrantsSection__WEBPACK_IMPORTED_MODULE_5__["default"], {
         registrants: registrants,
         onChange: handleRegistrantsChange,
         onDelete: removeRegistrant,
@@ -3717,7 +4713,19 @@ const EventDetails = ({
         handleResendNotifications: handleResendNotifications,
         handleResendNotificationsToAll: handleResendNotificationsToAll,
         disabled: settings?.current_plan.id !== 2
+      }), selectedTab === 0 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "section-container border-b-2 border-gray-200",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "section-description",
+          children: "* Indicates a required field"
+        })
       })]
+    }), activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+      className: "section-container border-b-2 border-gray-200",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "section-description",
+        children: "Activation failed. Please contact the Servv support team."
+      })
     })]
   });
 };
@@ -3749,7 +4757,7 @@ const EventVisibility = ({
     className: "section-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "section-heading",
-      children: "Visibility"
+      children: t("Visibility")
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_0__["default"], {
       title: "Set event visibility",
       buttons: eventVisibilityOptions,
@@ -3776,12 +4784,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
-/* harmony import */ var _SelectDropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SelectDropdown */ "./src/Components/PostEditor/SelectDropdown.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
+/* harmony import */ var _SelectDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SelectDropdown */ "./src/Components/PostEditor/SelectDropdown.jsx");
+/* harmony import */ var _Controls_CustomDropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/CustomDropdown */ "./src/Components/Controls/CustomDropdown.jsx");
+/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -3793,31 +4802,6 @@ const FiltersSection = ({
   onChange = () => {}
 }) => {
   const filtersTabs = ["Your filters", "Create new"];
-  //   const [filtersList, setFiltersList] = useState({});
-  //   const getFilterType = async (type) => {
-  //     try {
-  //       let reqURL = `/servv-plugin/v1/filters/${type}`;
-  //       let getFiltersListResponse = await apiFetch({ path: reqURL });
-  //       if (getFiltersListResponse) {
-  //         setFiltersList((prevFilters) => ({
-  //           ...prevFilters,
-  //           [type]: getFiltersListResponse,
-  //         }));
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching filters:", error);
-  //     }
-  //   };
-  //   const getFilters = async () => {
-  //     await getFilterType("locations");
-  //     // await getFilterType("languages");
-  //     // await getFilterType("categories");
-  //     // await getFilterType("members");
-  //   };
-  //   useEffect(() => {
-  //     getFilters();
-  //   }, []);
-
   const handleSelectLocation = location => {
     onChange("location_id", location);
   };
@@ -3828,35 +4812,30 @@ const FiltersSection = ({
     onChange("language_id", language);
   };
   const handleSelectMember = member => {
-    console.log(member);
     onChange("members", member);
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "section-container border-b",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "section-container",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "section-heading",
-        children: "Filters"
-      }), filtersList.locations && filtersList.locations.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        title: "Location",
-        options: filtersList.locations,
-        selected: types.location_id || null,
-        onSelect: handleSelectLocation
-      }), filtersList.categorie && filtersList.categories.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        children: t("Filters")
+      }), filtersList.categories && filtersList.categories.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         title: "Category",
         options: filtersList.categories,
         selected: types.category_id || null,
         onSelect: handleSelectCategory
-      }), filtersList.languages && filtersList.languages.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), filtersList.languages && filtersList.languages.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         title: "Language",
         options: filtersList.languages,
         selected: types.language_id || null,
         onSelect: handleSelectLanguage
-      }), filtersList.members && filtersList.members.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), filtersList.members && filtersList.members.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         title: "Members",
         options: filtersList.members,
         selected: types.members || [],
-        onSelect: handleSelectMember
+        onSelect: handleSelectMember,
+        multi: true
       })]
     })
   });
@@ -3879,8 +4858,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
 /* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _SelectDropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SelectDropdown */ "./src/Components/PostEditor/SelectDropdown.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -3893,47 +4874,75 @@ const LocationSection = ({
   handleCustomFieldChange,
   settings = {},
   disabled = false,
-  zoomAcctount
+  zoomAccount,
+  types = {},
+  filtersList = [],
+  onFilterChange = () => {}
 }) => {
   const {
     custom_field_1_name,
     custom_field_1_value
   } = customFields;
+  const [onlineType, setOnlineType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const {
     location
   } = eventDetails;
-  const eventTypes = ["Standard", "Zoom meeting"];
+  const eventTypes = ["In-person", "Online"];
   const handleLocationChange = newVal => {
-    if (newVal === eventTypes[0] && location !== "offline") {
+    if (newVal === eventTypes[0]) {
       onChange("location", "offline");
-    } else if (newVal === eventTypes[1] && location !== "zoom") {
+      handleCustomFieldChange("custom_field_1_name", "Address");
+      handleCustomFieldChange("custom_field_1_value", "");
+    } else if (newVal === eventTypes[1]) {
       onChange("location", "zoom");
+      handleCustomFieldChange("custom_field_1_name", "Link");
+      handleCustomFieldChange("custom_field_1_value", "");
     }
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (disabled) {
-      handleLocationChange("Standard");
+  const handleSelectLocation = location => {
+    onFilterChange("location_id", location);
+  };
+  const handleSelectOnlineType = type => {
+    setOnlineType(type);
+    if (!type) {
+      onChange("location", "offline");
+    } else {
+      onChange("location", "zoom");
     }
-  }, [disabled, location]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    handleCustomFieldChange("custom_field_1_name", "Link");
+    handleCustomFieldChange("custom_field_1_value", "");
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    // if (disabled) {
+    //   handleLocationChange("offline");
+    // }
+
+    if ((location === "zoom" || location === "online") && !custom_field_1_name) {
+      handleCustomFieldChange("custom_field_1_name", "Link");
+    }
+  }, [disabled, location, customFields]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "section-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-heading",
-      children: zoomAcctount ? "Type" : "Add location"
-    }), settings && zoomAcctount && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      children: "Venue & access"
+    }), settings && zoomAccount && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "",
       buttons: eventTypes,
-      active: location === "offline" ? eventTypes[0] : eventTypes[1],
-      onChange: handleLocationChange,
-      disabled: disabled
-    }), meetingType === "offline" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      active: location === "offline" && custom_field_1_name !== "Link" ? eventTypes[0] : eventTypes[1],
+      onChange: handleLocationChange
+      // disabled={disabled}
+    }), settings && (!zoomAccount || !zoomAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "section-description",
+      children: "Please note: To use the Integrations feature, you need to connect your Zoom account."
+    }), meetingType === "offline" && custom_field_1_name !== "Link" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "input-container-row items-center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "input-container-col w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "section-description",
-          children: "Location (In-person) or meeting link (e.g., Google Meet, Microsoft Teams)"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          children: t("Location (In-person) or meeting link (e.g., Google Meet, Microsoft\r\n              Teams)")
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           value: custom_field_1_value,
           onChange: val => handleCustomFieldChange("custom_field_1_value", val),
           fullWidth: true,
@@ -3941,6 +4950,64 @@ const LocationSection = ({
           align: "left"
         })]
       })
+    }), (meetingType !== "offline" || custom_field_1_name === "Link") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "section-description",
+        children: "Choose a join method:"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "tabs-group-container",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
+          className: "flex flex-row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+            className: "me-2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              onClick: () => handleSelectOnlineType(false),
+              className: `tab-element ${!onlineType ? "tab-active" : ""}`,
+              children: "Join link URL"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+            className: "me-2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              onClick: () => handleSelectOnlineType(true),
+              className: `tab-element ${onlineType ? "tab-active" : ""}`,
+              disabled: !zoomAccount || zoomAccount && !zoomAccount.email,
+              children: "Integration"
+            })
+          })]
+        })
+      }), !onlineType && custom_field_1_name === "Link" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "input-container-col w-full",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "section-description",
+          children: "Join link URL"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          value: custom_field_1_value,
+          onChange: val => handleCustomFieldChange("custom_field_1_value", val),
+          fullWidth: true,
+          type: "text",
+          align: "left"
+        })]
+      }), onlineType && zoomAccount && zoomAccount.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "input-container-col w-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          title: "Select an integration",
+          options: [{
+            ...zoomAccount
+          }].map(acc => {
+            return {
+              name: acc.email,
+              id: acc.id
+            };
+          }),
+          selected: zoomAccount.id || null,
+          onSelect: () => {}
+        })
+      })]
+    }), filtersList.locations && filtersList.locations.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Location",
+      options: filtersList.locations,
+      selected: types.location_id || null,
+      onSelect: handleSelectLocation
     })]
   });
 };
@@ -3958,14 +5025,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
-
+/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -3982,25 +5046,18 @@ const NotificationsSection = ({
   // useEffect(() => {
   //     getAccountsInfo()
   // }, [])
+  // console.log(notifications);
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "section-container border-b",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "section-heading",
-        children: "Notifications"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        title: "Calendar notifications",
-        buttons: notificationsOptions,
-        disabled: !calendarAccountFetched || calendarAccountFetched && !googleCalendar,
-        active: notifications.google_calendar && googleCalendar ? notificationsOptions[0] : notificationsOptions[1],
-        onChange: () => {
-          onChange("google_calendar", !notifications.google_calendar);
-        }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        children: t("Notifications")
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_0__["default"], {
         title: "Email notifications",
         buttons: notificationsOptions,
-        active: notifications.disable_emails && connectedMailAccount ? notificationsOptions[0] : notificationsOptions[1],
+        active: !notifications.disable_emails && connectedMailAccount ? notificationsOptions[0] : notificationsOptions[1],
         disabled: !mailAccountFetched || mailAccountFetched && !connectedMailAccount,
         onChange: () => {
           onChange("disable_emails", !notifications.disable_emails);
@@ -4029,7 +5086,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
 /* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PlusCircleIcon.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 
@@ -4037,7 +5093,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+// import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const ProductDetails = ({
   productDetails,
@@ -4057,6 +5113,11 @@ const ProductDetails = ({
   const handleTicketTypeChange = newValue => {
     setSelectedTicketType(newValue);
   };
+  const changeQuantity = val => {
+    // console.log(val);
+    if (isNaN(Number.parseInt(val))) handleDetailsChange("quantity", 0);else handleDetailsChange("quantity", Number.parseInt(val) <= 100 ? Number.parseInt(val) : 100);
+    // handleDetailsChange("quantity", Number.parseInt(val));
+  };
   const renderStandartTicket = () => {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "w-full border border-gray-200 bg-white rounded-lg flex flex-row p-lg relative",
@@ -4071,8 +5132,8 @@ const ProductDetails = ({
             className: "text-sm font-regular text-gray-600",
             children: productDetails?.price || "Free"
           })]
-        }), productDetails.quantity ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          text: `${productDetails.quantity > 1 ? productDetails.quantity + " " + "tickets" : productDetails.quantity + " " + "ticket"}`,
+        }), productDetails.quantity !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          text: `${productDetails.quantity > 1 || productDetails.quantity < 1 ? productDetails.quantity + " " + "tickets" : productDetails.quantity + " " + "ticket"}`,
           color: "success",
           type: "pill-colour"
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -4092,17 +5153,8 @@ const ProductDetails = ({
   }, []);
   const handleTicketAdd = () => {};
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [renderStandartTicket(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
-        className: `flex flex-row gap-2 text-brand-700 fill-brand-700 items-center ${ true ? "filter grayscale" : 0}`,
-        onClick: handleTicketAdd,
-        disabled: true,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          className: "w-4"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-          children: "Create new ticket"
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("fieldset", {
+    children: [renderStandartTicket(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("fieldset", {
         className: "input-container-col",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
           gap: 4,
@@ -4133,14 +5185,17 @@ const ProductDetails = ({
               className: "input-container-col w-full",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
                 value: quantity,
-                onChange: val => handleDetailsChange("quantity", Number.parseInt(val)),
+                onChange: val => changeQuantity(val),
                 fullWidth: true,
                 maxLength: 20,
                 type: "number",
                 minValue: 0,
-                maxValue: 10000000,
-                align: "right"
+                maxValue: 100,
+                align: "left"
               })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              className: "text-sm text-gray-300",
+              children: "Maximum quantity for free plan is 25"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_3__["default"], {
             title: "Availability",
@@ -4150,7 +5205,7 @@ const ProductDetails = ({
             disabled: true
           })]
         })
-      })]
+      })
     })]
   })
   // <div className="input-container-row items-center">
@@ -4368,7 +5423,8 @@ const RegistrantsSection = ({
               value: firstNameValue,
               onChange: val => setFirstName(val),
               type: "text",
-              width: "100%"
+              width: "100%",
+              align: "left"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "input-container-col",
@@ -4379,7 +5435,8 @@ const RegistrantsSection = ({
               value: lastNameValue,
               onChange: val => setLastName(val),
               type: "text",
-              width: "100%"
+              width: "100%",
+              align: "left"
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -4391,7 +5448,8 @@ const RegistrantsSection = ({
             value: email,
             onChange: val => setEmail(val),
             type: "text",
-            width: "100%"
+            width: "100%",
+            align: "left"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
           align: "right",
@@ -4408,6 +5466,7 @@ const RegistrantsSection = ({
       children: renderRegistrants()
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
       align: "right",
+      gap: 2,
       children: [selectedRegistrants.length > 0 && isResendAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
           className: "flex-row items-center px-2 rounded-lg border-solid border border-error-700 bg-error-600 text-gray-50 text-sm ml-auto group-hover:flex disabled:text-gray-300 disabled:border-gray-200 disabled:bg-gray-50",
@@ -4460,53 +5519,103 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @param {string} title
+ * @param {Array} options [{id, name}]
+ * @param {number|Array} selected
+ * @param {function} onSelect
+ * @param {boolean} multi
+ */
+
 const SelectDropdown = ({
   title,
   options,
   selected,
-  onSelect
+  onSelect,
+  multi = false
 }) => {
   const [isOpen, setIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const handleSelect = option => {
-    onSelect(option);
+  const dropdownRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  // console.log(options, selected);
+  // Robust outside click handler using pointerdown and composedPath
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!isOpen) return;
+    const handleClickOutside = event => {
+      const path = event.composedPath ? event.composedPath() : [];
+      if (dropdownRef.current && !path.includes(dropdownRef.current) && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => document.removeEventListener("pointerdown", handleClickOutside);
+  }, [isOpen]);
+
+  // Multi-select logic
+  const handleMultiSelect = optionId => {
+    let newSelected = Array.isArray(selected) ? [...selected] : [];
+    if (newSelected.includes(optionId)) {
+      newSelected = newSelected.filter(id => id !== optionId);
+    } else {
+      newSelected.push(optionId);
+    }
+    onSelect(newSelected);
     setIsOpen(false);
+  };
+
+  // Single-select logic
+  const handleSingleSelect = optionId => {
+    onSelect(optionId);
+    setIsOpen(false);
+  };
+
+  // Remove badge for multi-select
+  const handleRemoveBadge = (optionId, e) => {
+    e.stopPropagation();
+    let newSelected = Array.isArray(selected) ? [...selected] : [];
+    newSelected = newSelected.filter(id => id !== optionId);
+    onSelect(newSelected);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "relative w-full",
+    ref: dropdownRef,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
       htmlFor: `${title}-select`,
       className: "block text-sm font-medium text-gray-700 mb-1",
       children: title
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "border border-gray-300 rounded-lg p-2 flex justify-between items-center cursor-pointer",
-      onClick: () => setIsOpen(!isOpen),
+      className: "border border-gray-300 rounded-lg p-2 flex justify-between items-center cursor-pointer bg-white",
+      onClick: () => setIsOpen(open => !open),
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-        className: "flex flex-row text-sm",
-        children: selected && typeof selected !== "number" && selected.length > 0 ? selected.map(selected => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          text: options.filter(option => option.id === selected)[0].name,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            style: {
-              width: "10px",
-              fill: "#17B26A"
-            }
-          }),
-          iconAfter: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            onClick: e => {
-              e.stopPropagation();
-              onSelect(selected);
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "flex flex-row text-sm flex-wrap gap-1",
+        children: multi && Array.isArray(selected) && selected.length > 0 ? selected.map(selectedId => {
+          const option = options.find(opt => opt.id === selectedId);
+          // console.log("option", option);
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            text: option?.name,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
               style: {
-                width: "10px"
+                width: "10px",
+                fill: "#17B26A"
               }
-            })
-          }),
-          color: "gray",
-          type: "badge-pill-outline",
-          size: "small",
-          align: "center"
-        })) : selected && typeof selected === "number" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          text: options.filter(option => option.id === selected)[0].name,
+            }),
+            iconAfter: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              onClick: e => handleRemoveBadge(selectedId, e),
+              style: {
+                cursor: "pointer"
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                style: {
+                  width: "10px"
+                }
+              })
+            }),
+            color: "gray",
+            type: "badge-pill-outline",
+            size: "small",
+            align: "center"
+          }, selectedId);
+        }) : !multi && options.find(option => option.id === selected) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          text: options.find(option => option.id === selected)?.name,
           icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
             style: {
               width: "10px",
@@ -4516,7 +5625,10 @@ const SelectDropdown = ({
           iconAfter: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             onClick: e => {
               e.stopPropagation();
-              onSelect(selected);
+              onSelect(null);
+            },
+            style: {
+              cursor: "pointer"
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_4__["default"], {
               style: {
@@ -4545,11 +5657,11 @@ const SelectDropdown = ({
     }), isOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
       className: "absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto",
       children: options.map((option, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
-        className: "w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center",
-        onClick: () => handleSelect(option.id),
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "w-full",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        className: `w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center ${multi && selected && selected.includes(option.id) ? "font-semibold text-purple-700" : ""}`,
+        onClick: () => multi ? handleMultiSelect(option.id) : handleSingleSelect(option.id),
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "w-full flex items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
             text: option.name,
             icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
               style: {
@@ -4562,7 +5674,10 @@ const SelectDropdown = ({
             size: "small",
             fullWidth: true,
             align: "center"
-          })
+          }), multi && selected && selected.includes(option.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: "ml-auto text-xs text-purple-600",
+            children: t("✓")
+          })]
         })
       }, index))
     })]
@@ -4626,7 +5741,8 @@ const TicketsSection = ({
   productDetails,
   id,
   handleDetailsChange = () => {},
-  occurrenceId
+  occurrenceId,
+  status = null
 }) => {
   const ticketTypes = ["Paid", "Free", "Donation"];
   const ticketsAvailability = ["Open", "Sales start & end"];
@@ -4639,6 +5755,19 @@ const TicketsSection = ({
   const [ticketPriceInput, setTicketPriceInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [ticketAvailability, setTicketAvailability] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("hh:mm a");
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (status === "publish" || status === "admin") return;
+    if (settings && settings.settings && settings.current_plan && settings.current_plan.id === 1) {
+      if (settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_quantity) {
+        if (productDetails.quantity !== 1) {
+          handleDetailsChange("quantity", 1);
+        }
+      } else {
+        console.log("quantity change");
+        handleDetailsChange("quantity", 1);
+      }
+    }
+  }, [status, settings]);
   const handleTicketDelete = async index => {
     let currentTickets = [...tickets];
     if (currentTickets[index].id) {
@@ -4698,10 +5827,10 @@ const TicketsSection = ({
               className: "flex flex-row gap-1 justify-start items-center",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-semibold text-gray-700",
-                children: ticket?.name || "Unknown"
+                children: ticket?.name || ""
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-regular text-gray-600",
-                children: ticket?.price || "Free"
+                children: ticket?.price ? ticket.price + ` ${settings.currency ? settings.currency : "CAD"}` : "Free"
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "flex flex-row gap-2",
@@ -4722,7 +5851,7 @@ const TicketsSection = ({
                 })
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
+          }), (adminSection || !ticket.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
             className: "justify-self-end ml-auto",
             onClick: showTicketDropdown === index ? () => setShowTicketDropdown(null) : () => setShowTicketDropdown(index),
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
@@ -4730,16 +5859,16 @@ const TicketsSection = ({
             })
           }), showTicketDropdown === index && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             className: "absolute top-full right-0 mt-2 transform translate-x-full bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 flex flex-col gap-4 transition-all duration-200 ease-out opacity-100 scale-100",
-            children: [ticket?.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+            children: [ticket?.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "text-sm font-semibold text-gray-700",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 children: ticket?.name
-              })
-            }), ticket?.price && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-              className: "text-sm font-regular text-gray-600",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
-                children: ticket?.price
-              })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+                children: " "
+              }), ticket?.price && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+                className: "font-regular",
+                children: ticket?.price + ` ${settings.currency ? settings.currency : "CAD"}`
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
               className: "flex flex-row justify-start gap-2 w-full flex-nowrap",
               onClick: () => {
@@ -4749,7 +5878,7 @@ const TicketsSection = ({
                 className: "w-6 stroke-white fill-black"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-medium text-gray-700",
-                children: "Edit ticket"
+                children: t("Edit ticket")
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
               className: "flex flex-row justify-start gap-2 w-full flex-nowrap",
@@ -4760,7 +5889,7 @@ const TicketsSection = ({
                 className: "w-6 stroke-white fill-black"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-medium text-gray-700",
-                children: "Duplicate ticket"
+                children: t("Duplicate ticket")
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
               className: "w-full border-b border-gray-200"
@@ -4771,7 +5900,7 @@ const TicketsSection = ({
                 className: "w-6 stroke-white fill-black"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-medium text-gray-700",
-                children: "Delete ticket"
+                children: t("Delete ticket")
               })]
             })]
           })]
@@ -4784,6 +5913,10 @@ const TicketsSection = ({
     let currentTickets = [...tickets];
     if (type === 0) {
       currentTickets[selectedTicket].price = 0;
+      if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_price) {
+        currentTickets[selectedTicket].price = settings.settings.admin_dashboard.default_price;
+        setTicketPriceInput(settings.settings.admin_dashboard.default_price);
+      }
       currentTickets[selectedTicket].is_donation = false;
     }
     if (type === 1) {
@@ -4810,7 +5943,7 @@ const TicketsSection = ({
     setTicketPriceInput(val);
   };
   const handleTicketsQuantityChange = val => {
-    handleTicketChange("quantity", Number.parseInt(val));
+    if (isNaN(Number.parseInt(val)) && Number.parseInt(val) < 0) handleTicketChange("quantity", 0);else handleTicketChange("quantity", Number.parseInt(val) <= 1000 ? Number.parseInt(val) : 1000);
   };
   const handleTicketAvailabilityChange = val => {
     const type = ticketsAvailability.indexOf(val);
@@ -4843,14 +5976,18 @@ const TicketsSection = ({
     let currentTickets = [...tickets];
     if (ticket) {
       currentTickets.push({
-        ...ticket
+        ...ticket,
+        id: null
       });
     } else {
       let newTicket = {
         quantity: null
       };
       if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_price && !disabled && selectedTicketType === 0) {
-        newTicket.price = settings.settings.admin_dashboard.default_price;
+        newTicket.price = Number.parseFloat(settings.settings.admin_dashboard.default_price);
+      }
+      if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_quantity) {
+        newTicket.quantity = Number.parseInt(settings.settings.admin_dashboard.default_quantity);
       }
       currentTickets.push({
         ...newTicket
@@ -4872,7 +6009,7 @@ const TicketsSection = ({
     setSelectedTicket(null);
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (!tickets || tickets.length === 0 || !selectedTicket || tickets.length - 1 < selectedTicket) return;
+    if (!tickets || tickets.length === 0 || selectedTicket === null || tickets.length - 1 < selectedTicket) return;
     if (tickets[selectedTicket].name) {
       setTicketName(tickets[selectedTicket].name);
     }
@@ -4890,39 +6027,56 @@ const TicketsSection = ({
     } else {
       setSelectedTicketType(1);
     }
-    if (tickets[selectedTicket].start_datetime || tickets[selectedTicket].end_datetime) {
+    // console.log(
+    //   tickets[selectedTicket].start_datetime,
+    //   tickets[selectedTicket].end_datetime
+    // );
+    if (tickets[selectedTicket].start_datetime !== undefined || tickets[selectedTicket].end_datetime !== undefined) {
       setTicketAvailability(1);
     } else {
       setTicketAvailability(0);
     }
   }, [selectedTicket]);
   const handleSaleStartDateChange = date => {
-    let currentTickets = [...tickets];
-    const currentTime = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime);
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date);
-    selectedDate.set("hour", currentTime.get("hour"));
-    selectedDate.set("minute", currentTime.get("minute"));
-    selectedDate.set("second", currentTime.get("second"));
-    currentTickets[selectedTicket].start_datetime = selectedDate.tz(eventDetails.timezone || "US/Pacific").format("YYYY-MM-DDTHH:mm:ss");
+    const currentTickets = [...tickets];
+    // console.log("newDate", date);
+    // console.log("time", currentTickets[selectedTicket].start_datetime);
+    const currentTime = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
+    // console.log("currentTime", currentTime);
+    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).startOf("day");
+    // console.log("selectedDate", selectedDate);
+    currentTime.set({
+      year: selectedDate.year(),
+      month: selectedDate.month(),
+      date: selectedDate.date()
+    }, true);
+    // console.log("selectedDate+time", currentTime);
+
+    currentTickets[selectedTicket].start_datetime = currentTime.toISOString();
     onTicketsChange(currentTickets);
   };
   const handleSaleEndDateChange = date => {
-    let currentTickets = [...tickets];
-    const currentTime = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).add(1, "d");
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date);
-    selectedDate.set("hour", currentTime.get("hour"));
-    selectedDate.set("minute", currentTime.get("minute"));
-    selectedDate.set("second", currentTime.get("second"));
-    currentTickets[selectedTicket].end_datetime = selectedDate.tz(eventDetails.timezone || "US/Pacific").format("YYYY-MM-DDTHH:mm:ss");
+    const currentTickets = [...tickets];
+    const currentTime = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).add(1, "d").tz(eventDetails.timezone || "US/Pacific");
+    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone || "US/Pacific");
+    selectedDate.set({
+      hour: currentTime.get("hour"),
+      minute: currentTime.get("minute"),
+      second: currentTime.get("second")
+    });
+    currentTickets[selectedTicket].end_datetime = selectedDate.toISOString();
     onTicketsChange(currentTickets);
   };
   const getStartDate = () => {
-    let startDate = null;
     if (tickets[selectedTicket].start_datetime) {
-      startDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific");
+      // console.log(tickets[selectedTicket].start_datetime);
+      // const startMoment = moment(tickets[selectedTicket].start_datetime);
+
+      // console.log(startMoment.format("YYYY-MM-DD").split("T")[0]);
+
       return {
-        startDate: startDate,
-        label: startDate.format("DDD MM, YYYY")
+        startDate: tickets[selectedTicket].start_datetime.split("T")[0],
+        label: tickets[selectedTicket].start_datetime.split("T")[0]
       };
     }
     return {
@@ -4931,12 +6085,14 @@ const TicketsSection = ({
     };
   };
   const getEndDate = () => {
-    let endDate = null;
     if (tickets[selectedTicket].end_datetime) {
-      endDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific");
+      // const endMoment = moment(tickets[selectedTicket].end_datetime).tz(
+      //   eventDetails.timezone || "US/Pacific"
+      // );
+
       return {
-        endDate: endDate,
-        label: endDate.format("DDD MM, YYYY")
+        endDate: tickets[selectedTicket].end_datetime.split("T")[0],
+        label: tickets[selectedTicket].end_datetime.split("T")[0]
       };
     }
     return {
@@ -4946,40 +6102,38 @@ const TicketsSection = ({
   };
   const getStartTime = () => {
     if (tickets[selectedTicket].start_datetime) {
-      return tickets[selectedTicket].start_datetime;
-    } else {
-      return moment__WEBPACK_IMPORTED_MODULE_9___default()();
+      return moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific");
     }
+    return moment__WEBPACK_IMPORTED_MODULE_9___default()().tz(eventDetails.timezone || "US/Pacific");
   };
   const getEndTime = () => {
     if (tickets[selectedTicket].end_datetime) {
-      return tickets[selectedTicket].end_datetime;
-    } else {
-      return moment__WEBPACK_IMPORTED_MODULE_9___default()();
+      return moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific");
     }
+    return moment__WEBPACK_IMPORTED_MODULE_9___default()().tz(eventDetails.timezone || "US/Pacific");
   };
   const handleSaleStartTimeChange = newVal => {
-    let currentDateTime = tickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime);
-    let selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal);
+    const currentDateTime = tickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
+    const selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal).tz(eventDetails.timezone || "US/Pacific");
     currentDateTime.set({
       hour: selectedTime.get("hour"),
-      minutes: selectedTime.get("minute"),
+      minute: selectedTime.get("minute"),
       second: 0
     });
-    let currentTickets = [...tickets];
-    currentTickets[selectedTicket].start_datetime = currentDateTime;
+    const currentTickets = [...tickets];
+    currentTickets[selectedTicket].start_datetime = currentDateTime.toISOString();
     onTicketsChange(currentTickets);
   };
   const handleSaleEndTimeChange = newVal => {
-    let currentDateTime = tickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime);
-    let selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal);
+    const currentDateTime = tickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
+    const selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal).tz(eventDetails.timezone || "US/Pacific");
     currentDateTime.set({
       hour: selectedTime.get("hour"),
-      minutes: selectedTime.get("minute"),
+      minute: selectedTime.get("minute"),
       second: 0
     });
-    let currentTickets = [...tickets];
-    currentTickets[selectedTicket].end_datetime = currentDateTime;
+    const currentTickets = [...tickets];
+    currentTickets[selectedTicket].end_datetime = currentDateTime.toISOString();
     onTicketsChange(currentTickets);
   };
   const checkTimeDiff = () => {
@@ -4988,7 +6142,7 @@ const TicketsSection = ({
     if (startDate && endDate) {
       let start = moment__WEBPACK_IMPORTED_MODULE_9___default()(startDate);
       let end = moment__WEBPACK_IMPORTED_MODULE_9___default()(endDate);
-      return end.diff(start) <= 0;
+      return start.isAfter(end);
     } else return false;
   };
   const ticketsMods = ["Single", "Multiple"];
@@ -5001,12 +6155,17 @@ const TicketsSection = ({
       setSelectedTicketMode(ticketsMods[1]);
     }
   }, [tickets]);
+  // useEffect(() => {
+  //   if (ticketAvailability === 1) {
+  //     console.log(moment.utc(getEndDate().endDate).toISOString());
+  //   }
+  // }, [ticketAvailability]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
       className: `section-container`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
         className: "section-heading",
-        children: "Tickets"
+        children: t("Tickets")
       }), disabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_ProductDetails__WEBPACK_IMPORTED_MODULE_7__["default"], {
         productDetails: productDetails,
         id: postId,
@@ -5015,10 +6174,10 @@ const TicketsSection = ({
       }), !disabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [tickets?.length === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
           className: "text-gray-600 font-regular text-sm",
-          children: "Click the button below to create a new ticket"
+          children: t("Click the button below to create a new ticket")
         }), adminSection && eventDetails.recurrence && !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
           className: "text-gray-600 font-regular text-sm",
-          children: "This is a recurring event. To see tickets for a specific date, please view that occurrence."
+          children: t("This is a recurring event. To see tickets for a specific date,\r\n                please view that occurrence.")
         }), tickets?.length > 0 && renderTickets(), (tickets?.length === 0 || tickets?.length > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
           className: `flex flex-row gap-2 text-brand-700 fill-brand-700 items-center ${disabled ? "filter grayscale" : ""}`,
           onClick: handleTicketAdd,
@@ -5026,7 +6185,7 @@ const TicketsSection = ({
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
             className: "w-4"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
-            children: "Create new ticket"
+            children: t("Create new ticket")
           })]
         }), tickets?.length > 0 && selectedTicket !== null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("fieldset", {
           className: "input-container-col",
@@ -5038,11 +6197,14 @@ const TicketsSection = ({
               active: ticketTypes[selectedTicketType],
               onChange: handleTicketTypeChange,
               disabled: !stripeAccount || !stripeAccount.id || disabled
+            }), settings && (!stripeAccount || !stripeAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              className: "section-description",
+              children: "Please note: To create paid and donation tickets, you need to connect your Stripe account."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "input-container-col",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                 className: "section-description",
-                children: "Name"
+                children: t("Name")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 value: tickets[selectedTicket]?.name || "",
                 onChange: handleTicketNameChange,
@@ -5055,7 +6217,7 @@ const TicketsSection = ({
               className: "input-container-col",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                 className: "section-description",
-                children: "Ticket price"
+                children: t("Ticket price")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 value: ticketPriceInput
                 // value={ticketPrice}
@@ -5072,12 +6234,15 @@ const TicketsSection = ({
               className: "input-container-col",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                 className: "section-description",
-                children: "Quantity"
+                children: t("Quantity")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 value: tickets[selectedTicket]?.quantity || "",
                 onChange: handleTicketsQuantityChange,
                 type: "number",
                 width: "100%",
+                minValue: "0"
+                // maxValue="1000"
+                ,
                 disabled: disabled,
                 align: "left",
                 placeholder: "0"
@@ -5093,21 +6258,21 @@ const TicketsSection = ({
                 children: `Timezone: ${eventDetails.timezone ? eventDetails.timezone : "Not selected"}`
               }), checkTimeDiff() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
                 className: "text-sm text-regular text-error-500",
-                children: "Sales start must be erlier then sales end."
+                children: t("Sales start must be erlier then sales end.")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                 className: "flex flex-row justify-between gap-8",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                   className: "input-container-col w-full",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     className: "section-description text-gray-700",
-                    children: "Sales start"
+                    children: t("Sales start")
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                     className: "pt-",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                       label: getStartDate().label,
                       date: getStartDate().startDate,
                       onChange: handleSaleStartDateChange,
-                      variant: "button",
+                      variant: "fields",
                       disabled: disabled
                     })
                   })]
@@ -5127,15 +6292,15 @@ const TicketsSection = ({
                   className: "input-container-col w-full",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     className: "section-description text-gray-700",
-                    children: "Sales end"
+                    children: t("Sales end")
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-                    className: "pt-",
+                    className: "",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                       label: getEndDate().label,
                       date: getEndDate().endDate,
                       onChange: handleSaleEndDateChange,
                       disabled: disabled,
-                      variant: "button"
+                      variant: "fields"
                     })
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
@@ -5155,14 +6320,14 @@ const TicketsSection = ({
                 className: "rounded-lg border border-gray-300 text-sm text-gray-500 font-semibold px-lg py-md bg-white shadow-combined-gray disabled:border-gray-100 text-gray-200",
                 onClick: handleTicketCancel,
                 disabled: disabled,
-                children: "Cancel"
+                children: t("Cancel")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
                 className: "rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand",
                 onClick: () => {
                   setSelectedTicket(null);
                 },
                 disabled: disabled,
-                children: "Save"
+                children: t("Save")
               })]
             })]
           })
@@ -5800,10 +6965,10 @@ const timezones = [{
 
 /***/ }),
 
-/***/ "./node_modules/@heroicons/react/16/solid/esm/CalendarIcon.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@heroicons/react/16/solid/esm/CalendarIcon.js ***!
-  \********************************************************************/
+/***/ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsVerticalIcon.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/AdjustmentsVerticalIcon.js ***!
+  \*******************************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -5812,7 +6977,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 
-function CalendarIcon({
+function AdjustmentsVerticalIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M7.25 13.25V7.5h1.5v5.75a.75.75 0 0 1-1.5 0ZM8.75 2.75V5h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V2.75a.75.75 0 0 1 1.5 0ZM2.25 9.5a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5H4.5V2.75a.75.75 0 0 0-1.5 0V9.5h-.75ZM10 10.25a.75.75 0 0 1 .75-.75h.75V2.75a.75.75 0 0 1 1.5 0V9.5h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75ZM3 12v1.25a.75.75 0 0 0 1.5 0V12H3ZM11.5 13.25V12H13v1.25a.75.75 0 0 1-1.5 0Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(AdjustmentsVerticalIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/16/solid/esm/Bars4Icon.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/Bars4Icon.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function Bars4Icon({
   title,
   titleId,
   ...props
@@ -5829,11 +7030,11 @@ function CalendarIcon({
     id: titleId
   }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
     fillRule: "evenodd",
-    d: "M4 1.75a.75.75 0 0 1 1.5 0V3h5V1.75a.75.75 0 0 1 1.5 0V3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2V1.75ZM4.5 6a1 1 0 0 0-1 1v4.5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-7Z",
+    d: "M2 2.75A.75.75 0 0 1 2.75 2h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 2.75Zm0 10.5a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75ZM2 6.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 6.25Zm0 3.5A.75.75 0 0 1 2.75 9h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 9.75Z",
     clipRule: "evenodd"
   }));
 }
-const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(CalendarIcon);
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(Bars4Icon);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
 /***/ }),
@@ -5872,44 +7073,6 @@ function ChevronUpIcon({
   }));
 }
 const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ChevronUpIcon);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
-
-/***/ }),
-
-/***/ "./node_modules/@heroicons/react/16/solid/esm/ClockIcon.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@heroicons/react/16/solid/esm/ClockIcon.js ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-
-function ClockIcon({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 16 16",
-    fill: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    fillRule: "evenodd",
-    d: "M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z",
-    clipRule: "evenodd"
-  }));
-}
-const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ClockIcon);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
 /***/ }),
@@ -5989,4 +7152,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=9a879284b36d0e429b11
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=cf73c2372b59ba223d38

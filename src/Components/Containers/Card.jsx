@@ -1,12 +1,14 @@
+import React from "react";
+
 const Card = (props) => {
+  const { className = "", padding, align, background, maxWidth, children, ...rest } = props;
+
   return (
     <div
-      className={`servv-card ${props.padding ? props.padding : "p-0"} ${
-        props.align === "center" ? "mx-auto" : ""
-      } ${props.background ? props.background : "bg-white"}`}
-      style={{ maxWidth: props.maxWidth }}
+      {...rest}
+      className={`servv-card ${padding || "p-0"} ${align === "center" ? "mx-auto" : ""} ${background || "bg-white"} max-md:max-w-full w-full ${maxWidth ? `md:max-w-[${maxWidth}]` : ""} ${className}`}
     >
-      {props.children}
+      {children}
     </div>
   );
 };

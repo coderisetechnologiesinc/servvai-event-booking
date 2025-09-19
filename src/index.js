@@ -1,164 +1,178 @@
 /**
- * Registers a new block provided a unique name and an object defining its behavior.
+ * File: src/index.js
  *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
+ * Entry point for your block plugin.
+ * - Bootstraps i18n
+ * - Registers the block
+ * - Translates any existing DOM (data‑i18n‑key markers)
  */
-import {
-  registerBlockType,
-  createBlock,
-  useBlockProps,
-} from "@wordpress/blocks";
-import { dispatch, select } from "@wordpress/data";
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor. All other files
- * get applied to the editor only.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import "./style.scss";
-import "./editor.scss";
-import "react-toastify/dist/ReactToastify.css";
-/**
- * Internal dependencies
- */
-import Edit from "./edit";
-import metadata from "./block.json";
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
-const BLOCK_NAME = metadata.name;
 
-registerBlockType(BLOCK_NAME, {
-  edit: Edit,
-  blockHooks: {
-    "core/post-content": "after",
-  },
-  attributes: {
-    meeting: {
-      type: "object",
-      default: {
-        eventType: 1,
-        title: "",
-        startTime: null,
-        duration: 60,
-        timezone: "",
-        recurrence: null,
-        location: "offline",
-      },
-      eventType: {
-        type: "number",
-        default: "1",
-      },
-      title: {
-        type: "string",
-        default: "",
-      },
-      startTime: {
-        type: "string",
-        default: null,
-      },
-      duration: {
-        type: "number",
-        default: 60,
-      },
-      timezone: {
-        type: "string",
-        default: "",
-      },
-      recurrence: {
+import "./bootstrap-i18n.js"; // if you have code to load WP translations
+import "./input.css"; // block’s editor styles
+import "./style.scss"; // both frontend & editor styles
+import "./editor.scss"; // editor‑only styles
+
+import { registerBlockType, createBlock } from "@wordpress/blocks";
+import { select, dispatch } from "@wordpress/data";
+import { domReady } from "@wordpress/dom-ready";
+import Edit from "./edit.jsx";
+import metadata from "./block.json";
+
+// --- i18n Bootstrap ---------------------------------
+
+import { initI18n, translateAll, t } from "./utilities/textResolver.js";
+
+// 1. Expose helper to `window` so any `{t("…")}` calls injected by transforms or manual calls work:
+window.t = t;
+
+// 2. Initialize default locale. Pass “de” for German as requested:
+initI18n("en_US");
+
+// ---------------------------------------------------
+
+const BLOCK_NAME = metadata.name;
+if (typeof wp === "undefined" || !wp.blocks) {
+  const el = document.getElementById("servv-wrap");
+  if (el) {
+    el.innerHTML =
+      "<div style='padding:1rem; background:#fff3cd; color:#856404; border:1px solid #ffeeba;'>⚠️ Gutenberg (block editor) is not supported on this site. Please activate Gutenberg to use the Servv Plugin block.</div>";
+  }
+} else {
+  // Register your block exactly as you had it before:
+  registerBlockType(BLOCK_NAME, {
+    edit: Edit,
+    blockHooks: {
+      "core/post-content": "after",
+    },
+    attributes: {
+      meeting: {
         type: "object",
-        default: null,
+        default: {
+          eventType: 1,
+          title: "",
+          agenda: "",
+          startTime: null,
+          duration: 60,
+          timezone: "",
+          recurrence: null,
+          location: "offline",
+        },
+        eventType: {
+          type: "number",
+          default: "1",
+        },
+        title: {
+          type: "string",
+          default: "",
+        },
+        agenda: {
+          type: "string",
+          default: "",
+        },
+        startTime: {
+          type: "string",
+          default: null,
+        },
+        duration: {
+          type: "number",
+          default: 60,
+        },
+        timezone: {
+          type: "string",
+          default: "",
+        },
+        recurrence: {
+          type: "object",
+          default: null,
+        },
+        location: {
+          type: "string",
+          default: "offline",
+        },
       },
-      location: {
-        type: "string",
-        default: "offline",
+      product: {
+        type: "object",
+        default: {
+          price: 0,
+          quantity: null,
+        },
+        price: {
+          type: "number",
+          default: 0,
+        },
+        quantity: {
+          type: "number",
+          default: 1,
+        },
       },
-    },
-    product: {
-      type: "object",
-      default: {
-        price: 0,
-        quantity: 0,
+      notifications: {
+        type: "object",
+        default: {
+          google_calendar: true,
+          disable_emails: false,
+        },
+        google_calendar: {
+          type: "boolean",
+          default: true,
+        },
+        disable_emails: {
+          type: "boolean",
+          default: false,
+        },
       },
-      price: {
-        type: "number",
-        default: 0,
+      registrants: {
+        type: "array",
+        default: [],
       },
-      quantity: {
-        type: "number",
-        default: 0,
+      types: {
+        type: "object",
+        default: {},
+        location_id: {
+          type: "number",
+        },
+        category_id: {
+          type: "number",
+        },
+        language_id: {
+          type: "number",
+        },
+        members: {
+          type: "array",
+          default: [],
+        },
       },
-    },
-    notifications: {
-      type: "object",
-      default: {
-        google_calendar: false,
-        disable_emails: false,
+      custom_fields: {
+        type: "object",
+        default: {},
+        custom_field_1_name: {
+          type: "string",
+          default: "",
+        },
+        custom_field_1_value: {
+          type: "string",
+          default: "",
+        },
+        custom_field_2_name: {
+          type: "string",
+          default: "",
+        },
+        custom_field_2_value: {
+          type: "string",
+          default: "",
+        },
       },
-      google_calendar: {
-        type: "boolean",
-        default: false,
-      },
-      disable_emails: {
-        type: "boolean",
-        default: false,
-      },
-    },
-    registrants: {
-      type: "array",
-      default: [],
-    },
-    types: {
-      type: "object",
-      default: {},
-      location_id: {
-        type: "number",
-      },
-      category_id: {
-        type: "number",
-      },
-      language_id: {
-        type: "number",
-      },
-      members: {
+      tickets: {
         type: "array",
         default: [],
       },
     },
-    custom_fields: {
-      type: "object",
-      default: {},
-      custom_field_1_name: {
-        type: "string",
-        default: "",
-      },
-      custom_field_1_value: {
-        type: "string",
-        default: "",
-      },
-      custom_field_2_name: {
-        type: "string",
-        default: "",
-      },
-      custom_field_2_value: {
-        type: "string",
-        default: "",
-      },
-    },
-    tickets: {
-      type: "array",
-      default: [],
-    },
-  },
-  // onSave: ({ attributes }) => {
-  //   const blockProps = useBlockProps.save();
-  //   console.log(attributes);
-  // },
-});
+
+    // onSave: ({ attributes }) => {
+    //   const blockProps = useBlockProps.save();
+    //   console.log(attributes);
+    // },
+  });
+}
 
 const isBlockInserted = () => {
   const blocks = select("core/block-editor").getBlocks();
@@ -179,4 +193,13 @@ wp.domReady(() => {
       }
     }
   }, 500);
+  // **Finally**—once the editor has mounted (or after a tick), translate everything
+  // in the current DOM under the block’s root.
+  // We `setTimeout(..., 0)` just to let React/WordPress finish mounting first.
+  setTimeout(() => {
+    // If you know your block’s wrapper element, you can pass it in:
+    // e.g. translateAll(document.querySelector('.wp-block-servv-your-block'));
+    // Here we simply translate the entire document so any data‑i18n‑key tags also update:
+    translateAll();
+  }, 0);
 });

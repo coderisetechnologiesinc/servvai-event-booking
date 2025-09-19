@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 add_action('wp_ajax_servv_create_payment_intent', 'servv_create_payment_intent'); // For logged-in users
 add_action('wp_ajax_nopriv_servv_create_payment_intent', 'servv_create_payment_intent'); // For guests
 add_action('wp_ajax_servv_create_checkout_session', 'servv_create_checkout_session');
@@ -29,12 +33,12 @@ function servv_plugin_register_orders_api_endpoint() {
     register_rest_route(servv_plugin_get_config('plugin_api_namespace'), 'payment-success', [
         'methods' => 'POST',
         'callback' => 'servv_order_payment_success',
-        'permission_callback' => 'validate_request_from_servv_api'
+        'permission_callback' => 'servv_validate_request_from_servv_api'
     ]);
     register_rest_route(servv_plugin_get_config('plugin_api_namespace'), 'payment-refund', [
         'methods' => 'POST',
         'callback' => 'servv_order_payment_refund',
-        'permission_callback' => 'validate_request_from_servv_api'
+        'permission_callback' => 'servv_validate_request_from_servv_api'
     ]);
 }
 
@@ -192,7 +196,7 @@ function servv_create_checkout_session()
     $ticketId = absint($_POST['ticket_id'] ?? 0);
     $donationAmount = isset($_POST['donation_amount']) ? abs(floatval($_POST['donation_amount'])) : 0;
     $additionalRegistrants = sanitize_text_field(wp_unslash($_POST['additional_registrants'] ?? ''));
-    $sameForAll = absint($_POST['same_for_all'] ?? 0);
+    $sameForAll = isset($_POST['same_for_all']) && filter_var(wp_unslash($_POST['same_for_all']), FILTER_VALIDATE_BOOLEAN);
     $additionalRegistrantsArr = [];
     $quantity = 1;
     if(!empty($additionalRegistrants)) {
@@ -272,7 +276,7 @@ function servv_create_checkout_session()
         'ticket_id' => $ticketId,
         'donation_amount' => $donationAmount,
         'additional_registrants' => $additionalRegistrants,
-        'same_for_all' => (bool)$sameForAll,
+        'same_for_all' => $sameForAll,
         'return_url'    => get_permalink($postId)
     ];
     $apiRoute = '/payments/stripe/session/create';
@@ -386,7 +390,7 @@ function servv_process_free_order() {
     $ticketId = absint($_POST['ticket_id'] ?? 0);
     $donationAmount = isset($_POST['donation_amount']) ? abs(floatval($_POST['donation_amount'])) : 0;
     $additionalRegistrants = sanitize_text_field(wp_unslash($_POST['additional_registrants'] ?? ''));
-    $sameForAll = absint($_POST['same_for_all'] ?? 0);
+    $sameForAll = isset($_POST['same_for_all']) && filter_var(wp_unslash($_POST['same_for_all']), FILTER_VALIDATE_BOOLEAN);
     $quantity = 1;
     if(!empty($additionalRegistrants)) {
         $additionalRegistrantsArr = explode(';', $additionalRegistrants);
@@ -421,6 +425,7 @@ function servv_process_free_order() {
     if(!empty($occurrenceId)) {
         $apiRoute .= '?occurrence_id='.$occurrenceId;
     }
+    $servvEventType = get_post_meta($postId, 'servv_event_type', true) ?: 'meeting';
     try {
         $responseBody = servvSendApiRequest($apiRoute);
     } catch(\Exception $e) {
@@ -446,8 +451,8 @@ function servv_process_free_order() {
         exit();
     }
 
-    $newQuantity = $currentQuantity - $quantity;
-    if(!is_null($quantity)) {
+    if(!is_null($currentQuantity)) {
+        $newQuantity = $currentQuantity - $quantity;
         !empty($occurrenceId) ? $quantities[$occurrenceId] = $newQuantity : $quantities[0] = $newQuantity;
         update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
     }
@@ -478,7 +483,10 @@ function servv_process_free_order() {
         'donation_amount' => $donationAmount,
         'additional_registrants' => $additionalRegistrants,
         'is_free'   => true,
-        'same_for_all'   => (bool)$sameForAll,
+        'same_for_all'   => $sameForAll,
+        'event_provider' => $servvLocationType == 'offline' ? 'offline' : 'zoom',
+        'event_type' => $servvEventType,
+
     ];
     try {
         $responseBody = servvSendApiRequest($apiRoute, $data, 'POST');
@@ -486,27 +494,20 @@ function servv_process_free_order() {
         wp_send_json_error(['message' => 'Bad api response. '.$e->getMessage(), 'status' => $e->getCode()]);
         exit();
     }
-
+    $n8nData = $data;
+    $n8nData['wp_post_id'] = $postId;
+    $n8nData['wp_post_url'] = get_permalink($postId);
+    servv_n8n_new_booking_trigger($n8nData);
     wp_send_json_success(['message' => 'Free event successful!']);
     exit();
 
 }
 
-
-
-add_action('rest_api_init', function () {
-    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/stripe/webhooks', [
-        'methods'  => 'POST',
-        'callback' => 'servv_process_stripe_webhook',
-        'permission_callback' => '__return_true',
-    ]);
-});
-
-
 function servv_order_payment_success(WP_REST_Request $request)
 {
     $requestData = json_decode($request->get_body(), true);
     $chargeId = $requestData['charge_id'] ?? null;
+    $invoiceUrl = $requestData['invoice_url'] ?? null;
     $amount = $requestData['amount'] ?? null;
     $currency = $requestData['currency'] ?? '';
     $currency = strtoupper($currency);
@@ -539,6 +540,9 @@ function servv_order_payment_success(WP_REST_Request $request)
         update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
     }
 
+    $servvLocationType = get_post_meta($postId, 'servv_event_location_type', true) ?: 'offline';
+    $servvEventType = get_post_meta($postId, 'servv_event_type', true) ?: 'meeting';
+
     $apiRoute = '/wordpress/neworder';
     $variantId = $postId.'0';
     if(!empty($occurrenceId)) {
@@ -555,6 +559,7 @@ function servv_order_payment_success(WP_REST_Request $request)
     $amount = servv_format_amount_from_stripe($amount, $currency);
     $data = [
         'order_id'  => $chargeId,
+        'invoice_url'  => $invoiceUrl,
         'event_id'  => (int)$event_id,
         'product_id' => $variantId,
         'price' => (float)$amount,
@@ -565,7 +570,10 @@ function servv_order_payment_success(WP_REST_Request $request)
         'ticket_id' => $ticketId,
         'donation_amount' => $donationAmount,
         'additional_registrants' => $additionalRegistrants,
-        'same_for_all' => (bool)$sameForAll
+        'same_for_all' => (bool)$sameForAll,
+        'event_provider' => $servvLocationType == 'offline' ? 'offline' : 'zoom',
+        'event_type' => $servvEventType,
+
     ];
     try {
         $responseBody = servvSendApiRequest($apiRoute, $data, 'POST');
@@ -573,6 +581,10 @@ function servv_order_payment_success(WP_REST_Request $request)
         wp_send_json_error(['message' => 'Bad api response. '.$e->getMessage(), 'status' => $e->getCode()]);
         exit();
     }
+    $n8nData = $data;
+    $n8nData['wp_post_id'] = $postId;
+    $n8nData['wp_post_url'] = get_permalink($postId);
+    servv_n8n_new_booking_trigger($n8nData);
 }
 
 
@@ -765,11 +777,34 @@ function servv_get_events_filtered_list_dates()
 {
     check_ajax_referer('payment_nonce', 'security');
     $apiRoute = '/wordpress/filter/meetings/dates';
-    $params = array_filter($_POST, function ($value) {
-        return !empty($value);
-    });
-    unset($params['action']);
-    unset($params['security']);
+    $params = [];
+    if(!empty($_POST['date'])) {
+        $params['date'] = sanitize_text_field(wp_unslash($_POST['date']));
+    }
+    if(!empty($_POST['start_datetime'])) {
+        $params['start_datetime'] = sanitize_text_field(wp_unslash($_POST['start_datetime']));
+    }
+    if(!empty($_POST['end_datetime'])) {
+        $params['end_datetime'] = sanitize_text_field(wp_unslash($_POST['end_datetime']));
+    }
+    if(!empty($_POST['search'])) {
+        $params['search'] = sanitize_text_field(wp_unslash($_POST['search']));
+    }
+    if(!empty($_POST['location_id'])) {
+        $params['location_id'] = array_map( 'absint', (array)$_POST['location_id']);
+    }
+    if(!empty($_POST['language_id'])) {
+        $params['language_id'] = array_map( 'absint', (array)$_POST['language_id']);
+    }
+    if(!empty($_POST['category_id'])) {
+        $params['category_id'] = array_map( 'absint', (array)$_POST['category_id']);
+    }
+    if(!empty($_POST['member_id'])) {
+        $params['member_id'] = array_map( 'absint', (array)$_POST['member_id']);
+    }
+    if(!empty($_POST['team_id'])) {
+        $params['team_id'] = array_map( 'absint', (array)$_POST['team_id']);
+    }
     $queryString = servv_build_api_query($params);
     if (!empty($queryString)) {
         $apiRoute .= '?' . $queryString;
@@ -790,11 +825,40 @@ function servv_get_events_filtered_list()
 {
     check_ajax_referer('payment_nonce', 'security');
     $apiRoute = '/wordpress/filter/meetings';
-    $params = array_filter($_POST, function ($value) {
-        return !empty($value);
-    });
-    unset($params['action']);
-    unset($params['security']);
+    $params = [];
+    if(!empty($_POST['page'])) {
+        $params['page'] = absint($_POST['page']);
+    }
+    if(!empty($_POST['page_size'])) {
+        $params['page_size'] = absint($_POST['page_size']);
+    }
+    if(!empty($_POST['date'])) {
+        $params['date'] = sanitize_text_field(wp_unslash($_POST['date']));
+    }
+    if(!empty($_POST['start_datetime'])) {
+        $params['start_datetime'] = sanitize_text_field(wp_unslash($_POST['start_datetime']));
+    }
+    if(!empty($_POST['end_datetime'])) {
+        $params['end_datetime'] = sanitize_text_field(wp_unslash($_POST['end_datetime']));
+    }
+    if(!empty($_POST['search'])) {
+        $params['search'] = sanitize_text_field(wp_unslash($_POST['search']));
+    }
+    if(!empty($_POST['location_id'])) {
+        $params['location_id'] = array_map( 'absint', (array)$_POST['location_id']);
+    }
+    if(!empty($_POST['language_id'])) {
+        $params['language_id'] = array_map( 'absint', (array)$_POST['language_id']);
+    }
+    if(!empty($_POST['category_id'])) {
+        $params['category_id'] = array_map( 'absint', (array)$_POST['category_id']);
+    }
+    if(!empty($_POST['member_id'])) {
+        $params['member_id'] = array_map( 'absint', (array)$_POST['member_id']);
+    }
+    if(!empty($_POST['team_id'])) {
+        $params['team_id'] = array_map( 'absint', (array)$_POST['team_id']);
+    }
     $queryString = servv_build_api_query($params);
     if (!empty($queryString)) {
         $apiRoute .= '?' . $queryString;
@@ -817,7 +881,7 @@ function servv_get_events_filtered_list()
         $postId = $post->ID;
         $product['post_id'] = $postId;
         $product['post_url'] = get_permalink($postId);
-        $product['image_url'] = get_post_image_url($postId);
+        $product['image_url'] = servv_get_post_image_url($postId);
         $product['currency'] = $currency;
 
         $quantities = get_post_meta($postId, 'servv_event_quantities', true);
@@ -830,39 +894,4 @@ function servv_get_events_filtered_list()
     $responseBody['meetings'] = $result;
     wp_send_json($responseBody);
     exit();
-}
-
-
-add_filter('the_content', 'add_event_purchase_form');
-add_shortcode('event_purchase_form', 'render_event_purchase_form');
-add_action('wp_enqueue_scripts', 'enqueue_stripe_scripts');
-
-function add_event_purchase_form($content) {
-    $servvEventId = get_post_meta(get_the_ID(), 'servv_event_id', true);
-    if (!empty($servvEventId)) { // Apply only to single event posts
-        $content .= do_shortcode('[event_purchase_form id="' . get_the_ID() . '"]');
-    }
-    return $content;
-}
-
-function render_event_purchase_form($atts) {
-    $atts = shortcode_atts(['id' => 0], $atts);
-    $postId = $atts['id'];
-
-    ob_start();
-    ?>
-    <div id="checkout-element"></div>
-    <input type="hidden" id="post-id" value="<?php echo esc_attr($postId); ?>">
-    <?php
-    return ob_get_clean();
-}
-
-function enqueue_stripe_scripts() {
-    wp_enqueue_script('stripe-js', 'https://js.stripe.com/v3/');
-    wp_enqueue_script('my-plugin-frontend', plugin_dir_url(__FILE__) . '../p.js', array('stripe-js', 'jquery'), '1.0', true);
-
-    wp_localize_script('my-plugin-frontend', 'pluginData', array(
-        'ajaxUrl' => admin_url('admin-ajax.php'),
-        'security' => wp_create_nonce('payment_nonce'),
-    ));
 }

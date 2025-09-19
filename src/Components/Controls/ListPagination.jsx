@@ -17,7 +17,7 @@ const ListPagination = ({
         onClick={() => onPrev()}
       >
         <ArrowLeftIcon className="pagination-control-icon" />
-        <span className="pagination-control-text">Previous</span>
+        <span className="pagination-control-text">{t("Previous")}</span>
       </button>
       {/* {renderPaginationPages()} */}
       <button
@@ -26,7 +26,7 @@ const ListPagination = ({
         onClick={() => onNext()}
       >
         <ArrowRightIcon className="pagination-control-icon" />
-        <span className="pagination-control-text">Next</span>
+        <span className="pagination-control-text">{t("Next")}</span>
       </button>
     </div>
   );

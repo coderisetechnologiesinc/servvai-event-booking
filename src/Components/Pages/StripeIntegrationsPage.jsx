@@ -68,17 +68,34 @@ const StripeIntegrationsPage = (props) => {
 
   const renderExistingAccounts = () => {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-1">
         {connectedAccounts.map((account) => {
+          const accountText = (
+            <div className="flex flex-row justify-start items-center gap-2">
+              {account.account_id && (
+                <Badge
+                  text={account.account_id}
+                  align={"start"}
+                  color="success"
+                />
+              )}
+              {account.email && account.email.trim().length > 0 && (
+                <Badge text={account.email} align={"start"} color="success" />
+              )}
+              {account.name && account.name.trim.length > 0 && (
+                <Badge text={account.name} align={"start"} color="brand" />
+              )}
+            </div>
+          );
           return (
-            <Badge
-              text={account.id}
-              align={"start"}
-              color="gray"
-              onAction={() => {
+            <div
+              className="w-full flex flex-row gap-2 border border-gray-25 shadow-sm rounded-lg p-2"
+              onClick={() => {
                 handleConnectExistingAccount(account.account_id);
               }}
-            />
+            >
+              {accountText}
+            </div>
           );
         })}
       </div>
@@ -178,16 +195,17 @@ const StripeIntegrationsPage = (props) => {
     <Fragment>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">Stripe</h1>
-          <p className="page-header-description">
-            Sync your event schedules effortlessly with Google Calendar or
-            Outlook to keep everyone informed.
-          </p>
+          <h1 className="text-display-sm font-semibold mt-6">{t("Stripe")}</h1>
+          {/* <p className="page-header-description">
+            {t(
+              "Sync your event schedules effortlessly with Google Calendar or\r\n            Outlook to keep everyone informed."
+            )}
+          </p> */}
         </BlockStack>
         <InlineStack gap={2} align="right">
           <PageActionButton
             text="Save"
-            icon={<InboxArrowDownIcon className="button-icon" />}
+            // icon={<InboxArrowDownIcon className="button-icon" />}
             type="primary"
             onAction={() => handleCurrencySave()}
           />
@@ -199,12 +217,12 @@ const StripeIntegrationsPage = (props) => {
             <div
               className="service-image"
               style={{
-                background: `url("https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dhttps://www.onecalendar.nl/images/onecalendar.jpg")`,
+                background: `linear-gradient(135deg, #008CDD, #00C6FF)`,
               }}
             >
               {account && (
                 <div className="connected-account bg-gradient-to-b from-transparent to-black/40">
-                  <span>Account</span>
+                  <span>{t("Account")}</span>
                   <Badge text={badge()} color="gray" justify={"start"} />
                 </div>
               )}
@@ -214,15 +232,19 @@ const StripeIntegrationsPage = (props) => {
               </div>} */}
             </div>
             <div className="card-content">
-              <h2 className="card-section-heading">Stripe</h2>
+              <h2 className="card-section-heading">{t("Stripe")}</h2>
               <p className="section-description">
-                Sync and manage your Google Calendar account and settings.
+                {/* {t(
+                  "Sync and manage your Google Calendar account and settings."
+                )} */}
+                Accept secure payments for your events with Stripe, ensuring a
+                seamless checkout experience for attendees
               </p>
               {account && account.charges_enabled && currencySelect()}
               {connectedAccountsFetched && connectedAccounts.length > 0 && (
                 <Fragment>
                   <p className="servv-button-link text-gray-700">
-                    Connect existing account
+                    {t("Connect existing account")}
                   </p>
                   {renderExistingAccounts()}
                 </Fragment>
@@ -257,7 +279,7 @@ const StripeIntegrationsPage = (props) => {
                     handleConnectExistingAccount(account.account_id);
                   }}
                 >
-                  Resume integration
+                  {t("Resume integration")}
                 </a>
               )}
               {isAccountFetched && account && (
@@ -269,7 +291,7 @@ const StripeIntegrationsPage = (props) => {
                     handleRemoveAccount();
                   }}
                 >
-                  Disconnect
+                  {t("Disconnect")}
                 </a>
               )}
               {/* {isAccountFetched && account && (

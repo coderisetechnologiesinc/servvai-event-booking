@@ -1,27 +1,18 @@
 <?php
 
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+use ServvPluginVendor\Firebase\JWT\JWT;
+use ServvPluginVendor\Firebase\JWT\Key;
+
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 require_once __DIR__ . '/ajax.php';
 require_once __DIR__ . '/orders.php';
 
-add_action('rest_api_init', 'servv_plugin_register_api_endpoint', 1);
 add_action('save_post', 'servv_process_custom_block_on_save', 10, 3);
 add_action('before_delete_post', 'servv_handle_before_delete_post');
-
-function servv_plugin_register_api_endpoint() {
-    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/check-signature', [
-        'methods' => 'GET',
-        'callback' => 'servv_plugin_check_signature',
-        'permission_callback' => '__return_true' // Allows public access (customize for more security)
-    ]);
-    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/variant-info/(?P<event_id>\d+)/(?P<variant_id>\d+)', [
-        'methods' => 'GET',
-        'callback' => 'servv_get_product_info',
-        'permission_callback' => 'validate_request_from_servv_api'
-    ]);
-}
 
 function servvGetApiBaseUrl() {
     $apiUrl = servv_plugin_get_config('api_base_url');
@@ -55,54 +46,16 @@ function servvSendApiRequest($route, $data = [], $method = 'GET')
     $response = wp_remote_request($apiUrl, $requestData);
     $responseCode = wp_remote_retrieve_response_code($response);
     if ($responseCode !== 200) {
+        error_log('Request: '.$route.' Error: Bad api response code '.esc_html($responseCode));
         throw new Exception('Error: Bad api response code '.esc_html($responseCode), (int)$responseCode);
     }
     $responseBody = json_decode(wp_remote_retrieve_body($response), true);
     if (!empty($responseBody['error'])) {
+        error_log('Request: '.$route.' Error: Bad api response body '.esc_html($responseBody['error']));
         throw new Exception('Error: Bad api response body '.esc_html($responseBody['error']), 500);
     }
     return $responseBody;
 }
-
-
-
-function servv_plugin_activate() {
-    if (!wp_next_scheduled('servv_plugin_delayed_install')) {
-        wp_schedule_single_event(time() + 5, 'servv_plugin_delayed_install');
-    }
-}
-
-function servv_plugin_deactivate() {
-    wp_clear_scheduled_hook('servv_plugin_delayed_install');
-    try {
-        servvSendApiRequest('/wordpress/uninstall', [], 'POST');
-    } catch (Exception $e) {
-    }
-}
-
-function servv_plugin_make_delayed_install() {
-    $siteDomain = wp_parse_url( servv_plugin_get_config('site_url'), PHP_URL_HOST );
-    $siteName = get_bloginfo('name');
-    $adminEmail = get_bloginfo('admin_email');
-    $wpVersion = get_bloginfo('version');
-    $pluginVersion = servv_plugin_get_config('plugin_version');
-    $uuid = servv_plugin_get_uuid();
-    $requestBody = [
-        'site_domain' => $siteDomain,
-        'site_name' => $siteName,
-        'admin_email' => $adminEmail,
-        'wp_version' => $wpVersion,
-        'plugin_version' => $pluginVersion,
-        'uuid' => $uuid
-    ];
-    try {
-        $response = servvSendApiRequest('/wordpress/authenticate/install', $requestBody, 'POST');
-    } catch (Exception $e) {
-        deactivate_plugins(plugin_basename(__FILE__));  // Deactivate the plugin
-        return;
-    }
-}
-
 
 
 function servv_plugin_generate_secret_key() {
@@ -132,7 +85,7 @@ function servv_plugin_get_uuid() {
     return $uuid;
 }
 
-function validate_request_from_servv_api($request) {
+function servv_validate_request_from_servv_api($request) {
 
     $auth_header = $request->get_header('Authorization');
     $apiUrl = servvGetApiBaseUrl().'/authenticate';
@@ -284,9 +237,9 @@ function servv_process_custom_block_on_save($post_id, $post, $update) {
                     $requestBody['notifications'] = $notifications;
                 }
                 $requestProduct = [];
-                $quantity = $product['quantity'] !== null ? (int)$product['quantity'] : null;
+                $quantity = isset($product['quantity']) ? (int)$product['quantity'] : null;
                 $requestProduct['quantity'] = $quantity;
-                $requestProduct['price'] = (float)$product['price'];
+                $requestProduct['price'] =  isset($product['price']) ? (float)$product['price'] : 0.00;
 
                 if(!empty($requestProduct)){
                     $requestBody['product'] = $requestProduct;
@@ -308,7 +261,6 @@ function servv_process_custom_block_on_save($post_id, $post, $update) {
                 } catch(\Exception $e) {
                     wp_die( 'Error: Invalid save response. '.esc_html($e->getMessage()));
                 }
-
                 if(empty($servvEventId)){
                     $servvEventId = $responseBody['id'] ?? 0;
                     if(empty($servvEventId)) {
@@ -326,12 +278,17 @@ function servv_process_custom_block_on_save($post_id, $post, $update) {
                         try {
                             $ticket['currency'] = $currency;
                             $ticket['price'] =  (float)($ticket['price'] ?? 0);
+                            $ticket['quantity'] =  !is_null($ticket['quantity']) ? (int)$ticket['quantity'] : null;
                             $ticket['price_units'] = servv_format_amount_for_stripe($ticket['price'], $currency);
-                            $responseBody = servvSendApiRequest($ticketsAPIRoute, $ticket, 'POST');
+                            $ticketResponseBody = servvSendApiRequest($ticketsAPIRoute, $ticket, 'POST');
                         } catch(\Exception $e) {
                             wp_die( 'Error: Invalid save ticket response. '.esc_html($e->getMessage()));
                         }
                     }
+                    $n8nData = $responseBody;
+                    $n8nData['wp_post_id'] = $post_id;
+                    $n8nData['wp_post_url'] = get_permalink($post_id);
+                    servv_n8n_event_created_trigger($n8nData);
 
                 }
 
@@ -387,65 +344,61 @@ function servv_handle_before_delete_post($post_id) {
 }
 
 
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- unique one-time zoom code is checked through api
 function servv_plugin_zoom_confirm() {
+    $nonce = isset($_GET['nonce']) ? sanitize_text_field(wp_unslash($_GET['nonce'])) : '';
+    if (!wp_verify_nonce($nonce, 'zoom_connect_nonce')) {
+        wp_die('Invalid');
+    }
     $code = isset($_GET['code']) ? sanitize_text_field(wp_unslash($_GET['code'])) : '';
     $redirectUrl = admin_url('admin.php?page='.SERVV_PLUGIN_SLUG);
     if(empty($code)) {
-        echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-        exit();
+        wp_die('Invalid');
     }
     $apiRoute = '/zoom/authenticate/confirm?code='.$code;
     try {
         $responseBody = servvSendApiRequest($apiRoute);
     } catch(\Exception $e) {
-        echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-        exit();
     }
 
-    echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-    exit();
+    servv_js_redirect($redirectUrl);
 }
 
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- unique one-time google calendar code is checked through api
-
 function servv_plugin_calendar_confirm() {
+    $nonce = isset($_GET['nonce']) ? sanitize_text_field(wp_unslash($_GET['nonce'])) : '';
+    if (!wp_verify_nonce($nonce, 'calendar_connect_nonce')) {
+        wp_die('Invalid');
+    }
     $code = isset($_GET['code']) ? sanitize_text_field(wp_unslash($_GET['code'])) : '';
     $redirectUrl = admin_url('admin.php?page='.SERVV_PLUGIN_SLUG);
     if(empty($code)) {
-        echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-        exit();
+        wp_die('Invalid');
     }
     $apiRoute = '/calendar/authenticate/confirm?code='.$code;
     try {
         $responseBody = servvSendApiRequest($apiRoute);
     } catch(\Exception $e) {
-        echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-        exit();
     }
 
-    echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-    exit();
+    servv_js_redirect($redirectUrl);
 }
 
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- unique one-time gmail code is checked through api
 function servv_plugin_gmail_confirm() {
+    $nonce = isset($_GET['nonce']) ? sanitize_text_field(wp_unslash($_GET['nonce'])) : '';
+    if (!wp_verify_nonce($nonce, 'gmail_connect_nonce')) {
+        wp_die('Invalid');
+    }
     $code = isset($_GET['code']) ? sanitize_text_field(wp_unslash($_GET['code'])) : '';
     $redirectUrl = admin_url('admin.php?page='.SERVV_PLUGIN_SLUG);
     if(empty($code)) {
-        echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-        exit();
+        wp_die('Invalid');
     }
     $apiRoute = '/mail/gmail/authenticate/confirm?code='.$code;
     try {
         $responseBody = servvSendApiRequest($apiRoute);
     } catch(\Exception $e) {
-        echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-        exit();
     }
 
-    echo "<script>location.href = '" . esc_js( esc_url_raw( $redirectUrl ) ) . "'</script>";
-    exit();
+    servv_js_redirect($redirectUrl);
 }
 
 

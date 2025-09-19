@@ -1,17 +1,18 @@
+import React from "react";
+
 const PageContentPlaceholder = (props) => {
-    return (
-        <div className="page-content-placeholder">
-            {props.icon && props.icon}
-            {props.title && (
-                <h4 className="page-conetent-placeholder-title">{props.title}</h4>
-            )}
-            {props.description && (
-                <p className="page-conetent-placeholder-description">
-                    {props.description}
-                </p>
-            )}
-            <div className="page-conetent-placeholder-actions">{props.children}</div>
-        </div>
-    );
+  const { className = "", icon, title, description, children, ...rest } = props;
+  return (
+    <div {...rest} className={`page-content-placeholder ${className}`}>
+      {icon && icon}
+      {title && <h4 className="page-conetent-placeholder-title">{title}</h4>}
+      {description && (
+        <p className="page-conetent-placeholder-description">
+          {description}
+        </p>
+      )}
+      <div className="page-conetent-placeholder-actions">{children}</div>
+    </div>
+  );
 };
 export default PageContentPlaceholder;

@@ -25,26 +25,26 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
-import SearchIcon from '@/assets/icons/loupe.svg';
-import CloseIcon from '@/assets/images/icons/close.svg';
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import SearchIcon from "@/assets/icons/loupe.svg";
+import CloseIcon from "@/assets/images/icons/close.svg";
 
 export default {
-  name: 'SearchPanel',
+  name: "SearchPanel",
   components: {
     SearchIcon,
     CloseIcon,
   },
   data() {
     return {
-      currentSearchString: '',
+      currentSearchString: "",
     };
   },
   computed: {
     ...mapGetters({
-      searchPanelOpen: 'search/searchPanelOpen',
-      textSearchString: 'search/textSearchString',
-      clearSearchInputMarker: 'search/clearSearchInputMarker',
+      searchPanelOpen: "search/searchPanelOpen",
+      textSearchString: "search/textSearchString",
+      clearSearchInputMarker: "search/clearSearchInputMarker",
     }),
   },
   watch: {
@@ -55,17 +55,17 @@ export default {
     },
     clearSearchInputMarker(newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.currentSearchString = '';
+        this.currentSearchString = "";
       }
     },
   },
   methods: {
     ...mapActions({
-      parseSearchRequest: 'search/parseSearchRequest',
+      parseSearchRequest: "search/parseSearchRequest",
     }),
     ...mapMutations({
-      setSearchPanelOpen: 'search/setSearchPanelOpen',
-      setLoading: 'common/setLoading',
+      setSearchPanelOpen: "search/setSearchPanelOpen",
+      setLoading: "common/setLoading",
     }),
     onOpenCloseSearchPanelClick() {
       this.setSearchPanelOpen(!this.searchPanelOpen);

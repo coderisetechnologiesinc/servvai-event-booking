@@ -212,7 +212,7 @@ const FiltersPage = ({
     { label: "Member", value: "Members" },
   ]);
   useEffect(() => {
-    if (settings.current_plan.id !== 2) {
+    if (settings && settings.current_plan && settings.current_plan.id !== 2) {
       setFiltersAvailableCategories([
         { label: "Location", value: "Locations" },
         { label: "Language", value: "Languages" },
@@ -313,9 +313,9 @@ const FiltersPage = ({
   //   }
   //   setLoading(false);
   // };
-  useEffect(() => {
-    // console.log(filtersList);
-  }, [filtersList]);
+  // useEffect(() => {
+  //   console.log(filtersList);
+  // }, [filtersList]);
   const [selectedList, setSelectedList] = useState(null);
   const getData = async () => {
     // if (servvData.servv_plugin_mode === "development") {
@@ -369,7 +369,7 @@ const FiltersPage = ({
               {breadcrumbs.length > 1 && renderBreadCrumbs()}
               <p className="page-header-description">
                 Easily view, create, and modify filters to streamline your event
-                management process.
+                management process
               </p>
             </BlockStack>
             <InlineStack gap={2} align="right">
@@ -377,7 +377,7 @@ const FiltersPage = ({
                 activator={
                   <PageActionButton
                     text="New filter"
-                    icon={<PlusIcon className="button-icon" />}
+                    icon={<PlusIcon className="primary button-icon" />}
                     type="primary"
                     onAction={() => {
                       !selectedList
@@ -389,6 +389,7 @@ const FiltersPage = ({
                   />
                 }
                 status={createFirstFilterDropdown}
+                onClose={() => setCreateFirstFilterDropdown(false)} // <-- ADD THIS LINE
               >
                 <ul className="filters-dropdown">{renderCreateFilterMenu()}</ul>
               </Dropdown>
@@ -447,7 +448,7 @@ const FiltersPage = ({
             activator={
               <PageActionButton
                 text="Create"
-                icon={<PlusIcon className="button-icon" />}
+                icon={<PlusIcon className="primary button-icon" />}
                 type="primary"
                 onAction={() => {
                   setCreateFilterDropdown(!createFilterDropdown);

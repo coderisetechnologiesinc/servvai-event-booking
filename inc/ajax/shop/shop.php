@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 function servv_get_shop_info($request)
 {
     try {
@@ -126,4 +129,42 @@ function servv_seen_notification_item($request)
         return new WP_Error($e->getCode(), 'Bad api response. '.$e->getMessage(), ['status' => $e->getCode()]);
     }
     return $responseBody;
+}
+
+
+function servv_get_n8n_settings()
+{
+    return [
+        'event_created_active' => get_option('servv_n8n_event_created_active', false),
+        'event_created_url' => get_option('servv_n8n_event_created_url', ''),
+        'event_created_method' => get_option('servv_n8n_event_created_method', ''),
+        'event_created_secret' => get_option('servv_n8n_event_created_secret', ''),
+
+        'new_booking_active' => get_option('servv_n8n_new_booking_active', false),
+        'new_booking_url' => get_option('servv_n8n_new_booking_url', ''),
+        'new_booking_method' => get_option('servv_n8n_new_booking_method', ''),
+        'new_booking_secret' => get_option('servv_n8n_new_booking_secret', ''),
+
+        'canceled_booking_active' => get_option('servv_n8n_canceled_booking_active', false),
+        'canceled_booking_url' => get_option('servv_n8n_canceled_booking_url', ''),
+        'canceled_booking_method' => get_option('servv_n8n_canceled_booking_method', ''),
+        'canceled_booking_secret' => get_option('servv_n8n_canceled_booking_secret', ''),
+    ];
+}
+function servv_update_n8n_settings($request)
+{
+    update_option('servv_n8n_event_created_active', $request->get_param('event_created_active', false));
+    update_option('servv_n8n_event_created_url', $request->get_param('event_created_url', ''));
+    update_option('servv_n8n_event_created_method', $request->get_param('event_created_method', ''));
+    update_option('servv_n8n_event_created_secret', $request->get_param('event_created_secret', ''));
+
+    update_option('servv_n8n_new_booking_active', $request->get_param('new_booking_active', false));
+    update_option('servv_n8n_new_booking_method', $request->get_param('new_booking_method', ''));
+    update_option('servv_n8n_new_booking_url', $request->get_param('new_booking_url', ''));
+    update_option('servv_n8n_new_booking_secret', $request->get_param('new_booking_secret', ''));
+
+    update_option('servv_n8n_canceled_booking_active', $request->get_param('canceled_booking_active', false));
+    update_option('servv_n8n_canceled_booking_method', $request->get_param('canceled_booking_method', ''));
+    update_option('servv_n8n_canceled_booking_url', $request->get_param('canceled_booking_url', ''));
+    update_option('servv_n8n_canceled_booking_secret', $request->get_param('canceled_booking_secret', ''));
 }

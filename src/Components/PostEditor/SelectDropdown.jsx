@@ -1,18 +1,71 @@
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Badge from "../Containers/Badge";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import CloseIcon from "@mui/icons-material/Close";
 
-const SelectDropdown = ({ title, options, selected, onSelect }) => {
+/**
+ * @param {string} title
+ * @param {Array} options [{id, name}]
+ * @param {number|Array} selected
+ * @param {function} onSelect
+ * @param {boolean} multi
+ */
+const SelectDropdown = ({
+  title,
+  options,
+  selected,
+  onSelect,
+  multi = false,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  // console.log(options, selected);
+  // Robust outside click handler using pointerdown and composedPath
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (event) => {
+      const path = event.composedPath ? event.composedPath() : [];
+      if (
+        dropdownRef.current &&
+        !path.includes(dropdownRef.current) &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () =>
+      document.removeEventListener("pointerdown", handleClickOutside);
+  }, [isOpen]);
 
-  const handleSelect = (option) => {
-    onSelect(option);
+  // Multi-select logic
+  const handleMultiSelect = (optionId) => {
+    let newSelected = Array.isArray(selected) ? [...selected] : [];
+    if (newSelected.includes(optionId)) {
+      newSelected = newSelected.filter((id) => id !== optionId);
+    } else {
+      newSelected.push(optionId);
+    }
+    onSelect(newSelected);
     setIsOpen(false);
   };
 
+  // Single-select logic
+  const handleSingleSelect = (optionId) => {
+    onSelect(optionId);
+    setIsOpen(false);
+  };
+
+  // Remove badge for multi-select
+  const handleRemoveBadge = (optionId, e) => {
+    e.stopPropagation();
+    let newSelected = Array.isArray(selected) ? [...selected] : [];
+    newSelected = newSelected.filter((id) => id !== optionId);
+    onSelect(newSelected);
+  };
+
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" ref={dropdownRef}>
       <label
         htmlFor={`${title}-select`}
         className="block text-sm font-medium text-gray-700 mb-1"
@@ -20,40 +73,41 @@ const SelectDropdown = ({ title, options, selected, onSelect }) => {
         {title}
       </label>
       <div
-        className="border border-gray-300 rounded-lg p-2 flex justify-between items-center cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+        className="border border-gray-300 rounded-lg p-2 flex justify-between items-center cursor-pointer bg-white"
+        onClick={() => setIsOpen((open) => !open)}
       >
-        <span className="flex flex-row text-sm">
-          {selected && typeof selected !== "number" && selected.length > 0 ? (
-            selected.map((selected) => (
-              <Badge
-                text={
-                  options.filter((option) => option.id === selected)[0].name
-                }
-                icon={
-                  <FiberManualRecordIcon
-                    style={{ width: "10px", fill: "#17B26A" }}
-                  />
-                }
-                iconAfter={
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelect(selected);
-                    }}
-                  >
-                    <CloseIcon style={{ width: "10px" }} />
-                  </div>
-                }
-                color="gray"
-                type="badge-pill-outline"
-                size="small"
-                align="center"
-              />
-            ))
-          ) : selected && typeof selected === "number" ? (
+        <span className="flex flex-row text-sm flex-wrap gap-1">
+          {multi && Array.isArray(selected) && selected.length > 0 ? (
+            selected.map((selectedId) => {
+              const option = options.find((opt) => opt.id === selectedId);
+              // console.log("option", option);
+              return (
+                <Badge
+                  key={selectedId}
+                  text={option?.name}
+                  icon={
+                    <FiberManualRecordIcon
+                      style={{ width: "10px", fill: "#17B26A" }}
+                    />
+                  }
+                  iconAfter={
+                    <div
+                      onClick={(e) => handleRemoveBadge(selectedId, e)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <CloseIcon style={{ width: "10px" }} />
+                    </div>
+                  }
+                  color="gray"
+                  type="badge-pill-outline"
+                  size="small"
+                  align="center"
+                />
+              );
+            })
+          ) : !multi && options.find((option) => option.id === selected) ? (
             <Badge
-              text={options.filter((option) => option.id === selected)[0].name}
+              text={options.find((option) => option.id === selected)?.name}
               icon={
                 <FiberManualRecordIcon
                   style={{ width: "10px", fill: "#17B26A" }}
@@ -63,8 +117,9 @@ const SelectDropdown = ({ title, options, selected, onSelect }) => {
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
-                    onSelect(selected);
+                    onSelect(null);
                   }}
+                  style={{ cursor: "pointer" }}
                 >
                   <CloseIcon style={{ width: "10px" }} />
                 </div>
@@ -100,10 +155,18 @@ const SelectDropdown = ({ title, options, selected, onSelect }) => {
           {options.map((option, index) => (
             <li
               key={index}
-              className="w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center"
-              onClick={() => handleSelect(option.id)}
+              className={`w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center ${
+                multi && selected && selected.includes(option.id)
+                  ? "font-semibold text-purple-700"
+                  : ""
+              }`}
+              onClick={() =>
+                multi
+                  ? handleMultiSelect(option.id)
+                  : handleSingleSelect(option.id)
+              }
             >
-              <div className="w-full">
+              <div className="w-full flex items-center">
                 <Badge
                   text={option.name}
                   icon={
@@ -117,6 +180,11 @@ const SelectDropdown = ({ title, options, selected, onSelect }) => {
                   fullWidth={true}
                   align="center"
                 />
+                {multi && selected && selected.includes(option.id) && (
+                  <span className="ml-auto text-xs text-purple-600">
+                    {t("✓")}
+                  </span>
+                )}
               </div>
             </li>
           ))}

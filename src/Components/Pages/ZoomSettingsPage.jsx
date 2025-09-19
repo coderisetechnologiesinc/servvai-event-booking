@@ -3,7 +3,6 @@ import PageHeader from "../Containers/PageHeader";
 import BlockStack from "../Containers/BlockStack";
 import PageContent from "../Containers/PageContent";
 import AnnotatedSection from "../Containers/AnnotatedSection";
-import apiFetch from "@wordpress/api-fetch";
 import RadioControl from "../Controls/RadioControl";
 import InputFieldControl from "../Controls/InputFieldControl";
 import CheckboxControl from "../Controls/CheckboxControl";
@@ -60,11 +59,15 @@ const ZoomSettingsPage = () => {
     }
   };
   const getZoomSettings = async () => {
-    const shopInfo = await apiFetch({ path: "/servv-plugin/v1/shop/info" });
-    if (shopInfo && shopInfo.settings) {
-      setSettings(shopInfo);
-      if (shopInfo.settings.admin_dashboard.length > 0) {
-        const adminSettings = JSON.parse(shopInfo.settings.admin_dashboard);
+    const shopInfo = await axios.get("/wp-json/servv-plugin/v1/shop/info", {
+      headers: { "X-WP-Nonce": servvData.nonce },
+    });
+    if (shopInfo && shopInfo.status === 200 && shopInfo.data.settings) {
+      setSettings(shopInfo.data);
+      if (shopInfo.data.settings.admin_dashboard.length > 0) {
+        const adminSettings = JSON.parse(
+          shopInfo.data.settings.admin_dashboard
+        );
         if (adminSettings.zoom_meeting_default_settings)
           setZoomSettings(adminSettings.zoom_meeting_default_settings);
       }
@@ -81,9 +84,11 @@ const ZoomSettingsPage = () => {
     <Fragment>
       <PageHeader bottomLine={true}>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">Zoom Settings</h1>
+          <h1 className="text-display-sm font-semibold mt-6">
+            {t("Zoom Settings")}
+          </h1>
           <p className="page-header-description">
-            Connect and manage your Zoom account and settings.
+            {t("Connect and manage your Zoom account and settings.")}
           </p>
         </BlockStack>
         <InlineStack gap={2} align="right">
@@ -97,7 +102,9 @@ const ZoomSettingsPage = () => {
       </PageHeader>
       <PageContent>
         <BlockStack gap={8} cardsLayout={true}>
-          <h1 className="text-lg font-semibold border-b pb-4">Account</h1>
+          <h1 className="text-lg font-semibold border-b pb-4">
+            {t("Account")}
+          </h1>
           <AnnotatedSection
             title="Account details"
             description="Account email & name."
@@ -129,7 +136,9 @@ const ZoomSettingsPage = () => {
               />
             </BlockStack>
           </AnnotatedSection>
-          <h1 className="text-lg font-semibold border-b pb-4">Zoom settings</h1>
+          <h1 className="text-lg font-semibold border-b pb-4">
+            {t("Zoom settings")}
+          </h1>
           <AnnotatedSection title="Meeting ID" description="Set a meeting ID">
             <BlockStack gap={2}>
               <RadioControl

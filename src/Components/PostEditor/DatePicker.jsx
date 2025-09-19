@@ -10,7 +10,7 @@ import moment from "moment";
 
 const DatePicker = ({
   date = null,
-  onChange = () => { },
+  onChange = () => {},
   label = "Select a Date",
   variant = "button",
   instance = "main",
@@ -84,13 +84,12 @@ const DatePicker = ({
                 setShow(true);
               }}
             >
-              <CalendarIcon className="size-6" />{" "}
-              {label}
+              <CalendarIcon className="size-6" /> {label}
             </button>
           </div>
           {variant !== "button" && (
             <div className="input-container-col">
-              <label className="section-description">End date by</label>
+              <label className="section-description">{t("End date by")}</label>
               <div className="input-control-with-icon-container">
                 <input
                   type="text"

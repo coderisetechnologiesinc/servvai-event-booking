@@ -5,15 +5,33 @@
   @include media-breakpoint-down(md) {
     display: none;
   }
-
+  @include media-breakpoint-down(sm) {
+    height: 100%;
+  }
+  .filters-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 17.5px;
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 0;
+      padding: 20px;
+      display: none;
+    }
+  }
   .events-filters-inner-container {
     top: 0;
     display: flex;
     flex-direction: column;
-    //background-color: $svv_bgr_light_orange;
     background-color: $svv_common_background;
     z-index: 10;
-
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     @include media-breakpoint-down(md) {
       flex: 1;
       width: 100%;
@@ -40,75 +58,38 @@
 
     @include media-breakpoint-down(md) {
       display: flex;
+      flex-direction: row;
       justify-content: flex-end;
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 15px;
     }
+    // @include media-breakpoint-down(sm) {
+    //   display: none;
+    // }
   }
 
   .vs__selected-options {
-    color: $svv-text_gray-dark !important;
+    color: $svv_text_secondary !important;
 
     input {
       &::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: $svv-text_gray-dark !important;
+        color: $svv-text_gray !important;
         opacity: 1; /* Firefox */
       }
 
       &:-ms-input-placeholder {
         /* Internet Explorer 10-11 */
-        color: $svv-text_gray-dark !important;
+        color: $svv-text_gray !important;
       }
 
       &::-ms-input-placeholder {
         /* Microsoft Edge */
-        color: $svv-text_gray-dark !important;
+        color: $svv-text_gray !important;
       }
     }
   }
-
-  //.show-filters-btn {
-  //  display: none;
-  //  position: absolute;
-  //  left: 110px;
-  //  top: 0;
-  //  background-color: $svv-blue_ultra_dark;
-  //  padding: 5px 10px;
-  //  width: fit-content;
-  //  line-height: 1;
-  //  z-index: 22;
-  //  border-bottom-right-radius: 5px;
-  //  border-bottom-left-radius: 5px;
-  //
-  //  @include media-breakpoint-down(md) {
-  //    display: flex;
-  //    align-items: center;
-  //  }
-  //
-  //  .show-filters-btn-icon {
-  //    width: 20px;
-  //    height: auto;
-  //    color: #fff;
-  //    fill: #fff;
-  //  }
-  //  .show-filters-btn-label {
-  //    color: #fff;
-  //    font-size: 13px;
-  //    margin-left: 5px;
-  //    font-weight: 500;
-  //  }
-  //}
-
-  //&.open-filters {
-  //  @include media-breakpoint-down(md) {
-  //    .show-filters-btn {
-  //      background-color: $svv_orange_dark;
-  //    }
-  //    .events-filters-inner-container {
-  //      right: 0;
-  //      transition: $global-transition;
-  //    }
-  //  }
-  //}
 
   .events-filters-controls {
     display: flex;
@@ -118,9 +99,9 @@
     color: $svv-blue_dark;
     font-size: 12px;
     font-weight: 500;
-    padding: 5px;
+    // padding: 5px;
     height: 28px;
-    margin-top: 7px;
+    // margin-bottom: 5px;
   }
 
   .events-filters-controls-wrapper {
@@ -130,16 +111,21 @@
 
     @include media-breakpoint-down(sm) {
       flex-direction: column;
+      width: 100%;
     }
   }
 
   .events-filters-selects-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -5px;
-    margin-right: -5px;
+    display: grid;
+    gap: 1rem;
+    // flex-wrap: wrap;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    // margin-left: -5px;
+    // margin-right: -5px;
 
     @include media-breakpoint-down(sm) {
+      display: flex;
       flex-direction: column;
       width: 100%;
     }
@@ -194,16 +180,21 @@
   .event-filter-container {
     margin-left: 0px;
     margin-right: 5px;
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
     //width: 100%;
     flex: 1;
-    max-width: 250px;
+    // max-width: 250px;
 
     transition: all $global-transition;
 
     @include media-breakpoint-down(md) {
       margin-bottom: 10px;
+      margin-left: 25px;
       max-width: 100%;
+    }
+    @include media-breakpoint-down(sm) {
+      margin: 0;
+      padding: 0 5px;
     }
 
     .vs__selected-options {
@@ -219,6 +210,7 @@
       margin: 0;
       margin-top: 15px;
       margin-bottom: 15px;
+      color: $svv_white;
     }
     .svv-small-filter {
       margin-top: 5px;
@@ -250,12 +242,12 @@
   }
 
   .multi-filter-section {
-    border-bottom: 1px solid $svv_cancel_gray_dark;
+    border-bottom: 1px solid $svv_text_gray;
   }
 
   .svv-steps-container-block {
     font-family: "Heebo", sans-serif;
-    background: #fff;
+    background: $svv_white;
     border-bottom: none;
     height: 96%;
     padding: 4px 14px;
@@ -276,7 +268,7 @@
     }
     &:hover {
       font-size: 14px;
-      background-color: $svv_blue_dark;
+      background-color: $svv_text_black;
       label {
         color: $svv_text_gray;
       }
@@ -288,7 +280,7 @@
         padding: 5px;
         color: $svv_text_gray;
       }
-      background-color: $svv_blue_dark;
+      background-color: $svv_text_black;
     }
     &disabled {
       font-size: 14px;
@@ -359,54 +351,65 @@
 }
 .svv-close-mobile-filters-btn {
   display: none;
-  margin-top: 15px;
+  // margin-top: 15px;
   margin-right: 15px;
-  margin-bottom: 15px;
-  color: $svv_text_gray_dark;
+  // margin-bottom: 15px;
+  color: #000;
+  stroke: #000;
 
   @include media-breakpoint-down(md) {
     display: block;
+    color: #000;
   }
 }
 
 .svv-mobile-filters-panel {
   display: none;
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
+    position: fixed;
     display: flex;
-    z-index: 1000;
-    background-color: transparent;
     height: 100vh;
-  }
+    border-radius: 20px;
+    top: -1000px;
+    left: 0;
+    width: 100%;
 
-  position: fixed;
-  top: -1000px;
-  left: 0;
-  width: 100%;
+    z-index: 1000;
+    // background-color: rgba(0, 0, 0, 0.6);
+  }
 
   .events-filters-container {
     display: flex;
+    flex-direction: column;
     height: 0;
     overflow: hidden;
     transition: $global-transition;
     width: 100%;
+    @include media-breakpoint-down(md) {
+      height: 100%;
+    }
   }
 
   .events-filters-inner-container {
     padding-bottom: 30px;
+    @include media-breakpoint-down(md) {
+      padding: 0;
+    }
   }
 
   &.open-mobile-filters {
-    top: 0;
+    top: 25vh;
     //transition: $global-transition height;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: $svv_common_background;
 
     .events-filters-container {
       height: fit-content;
       transition: $global-transition;
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
       overflow: auto;
+      height: 100%;
     }
   }
 }
@@ -516,15 +519,15 @@
   svg {
     width: 1em !important;
     margin-left: 0.5em !important;
-    fill: $svv_bgr_gray !important;
+    fill: $svv_common_background !important;
   }
 }
 .filter-icon {
   width: 1.2em;
-  fill: $svv_black;
+  fill: $svv_text_black;
   transform: rotate(-90deg);
   &-collapsed {
-    fill: $svv_black;
+    fill: $svv_text_black;
     width: 1.2em;
     transform: rotate(90deg);
   }
@@ -547,7 +550,7 @@
     svg.svv-filter-badge-close-icon {
       margin-left: 1em;
       margin-bottom: 2px;
-      stroke: $svv_black;
+      stroke: $svv_text_black;
     }
   }
 }
@@ -591,7 +594,7 @@
   margin-bottom: 1em;
   transition: all $global-transition;
   &:hover {
-    border: 2px solid $svv_black;
+    border: 2px solid $svv_text_black;
     transition: all $global-transition;
   }
 }

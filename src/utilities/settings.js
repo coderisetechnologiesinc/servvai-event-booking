@@ -9,15 +9,19 @@ export const getSettings = async () => {
         headers: { "X-WP-Nonce": servvData.nonce },
       }
     );
+
     if (getSettingsResponse && getSettingsResponse.data) {
       return getSettingsResponse.data;
+    } else if (getSettingsResponse.status === 401) {
+      return { error: 401 };
     }
   } catch (e) {
-    if (e.code === 401) {
-      toast(
+    console.log("error", e);
+    if (e.code === "ERR_BAD_REQUEST" || e.code === "ERR_BAD_RESPONSE") {
+      console.log(
         "We're facing an issue loading the settings. Please reactivate the plugin."
       );
+      return { error: 401 };
     }
-    return null;
   }
 };

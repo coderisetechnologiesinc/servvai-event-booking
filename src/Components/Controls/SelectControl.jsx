@@ -8,6 +8,7 @@ const SelectControl = ({
   onSelectChange = () => {},
   iconRight = null,
   iconLeft = null,
+  style = {}, // <-- Add style prop
 }) => {
   const renderOptions = () => {
     if (options.length > 0) {
@@ -19,7 +20,7 @@ const SelectControl = ({
             </option>
           )}
           {options.map((option) => (
-            <option value={option} key="value" selected={selected === option}>
+            <option value={option} key={option} selected={selected === option}>
               {option}
             </option>
           ))}
@@ -27,19 +28,30 @@ const SelectControl = ({
       );
     }
   };
+  // Responsive style for mobile
+  const responsiveStyle = {
+    maxWidth: "100%",
+    width: "100%",
+    boxSizing: "border-box",
+    ...style,
+  };
   return (
-    <div className="input-container-col">
-      <label for="timezone" className="section-description">
+    <div className="input-container-col" style={{ width: "100%" }}>
+      <label htmlFor="timezone" className="section-description">
         {label}
       </label>
-      <div className="select-control-with-icon-container">
+      <div
+        className="select-control-with-icon-container"
+        style={{ width: "100%" }}
+      >
         <select
           name="timezone"
-          id="timezone"
-          className="select-control select-control-with-icon text-sm"
+          id="timezone-select"
+          className="select-control select-control-with-icon text-sm p-4"
           value={selected}
           onChange={(e) => onSelectChange(e.target.value)}
           disabled={disabled}
+          style={responsiveStyle}
         >
           {renderOptions()}
         </select>

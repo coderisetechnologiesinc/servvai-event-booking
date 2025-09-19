@@ -3,13 +3,14 @@ import moment from "moment";
 const TimePeriodControl = ({ time, disabled = false, onChange = () => {} }) => {
   // useEffect(() => {
   // }, [time]);
+
   return (
     <button
-      onClick={() => onChange(moment(time).get("hour") > 12 ? "pm" : "am")}
+      onClick={() => onChange(time ? moment(time).format("a") : "am")}
       className="period-control section-description font-regular leading-none"
       disabled={disabled}
     >
-      {time ? (moment(time).get("hour") > 12 ? "pm" : "am") : "am"}
+      {time ? moment(time).format("a") : "am"}
     </button>
   );
 };

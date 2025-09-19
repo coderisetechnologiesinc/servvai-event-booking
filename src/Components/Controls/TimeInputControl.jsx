@@ -18,9 +18,13 @@ const TimeInputControl = ({
   }, []);
   const getHours = () => {
     const selectedTime = time ? moment(time) : moment();
-    const hh = selectedTime.get("hour");
-    if (hh > 12 && timeFormat === "hh:mm a") return hh % 12;
-    else return hh;
+    const hh = selectedTime.hour();
+
+    if (timeFormat === "hh:mm a") {
+      return selectedTime.format("hh");
+    } else {
+      return hh;
+    }
   };
   const getMinutes = () => {
     const selectedTime = time ? moment(time) : moment();
@@ -28,19 +32,26 @@ const TimeInputControl = ({
   };
 
   const onHoursChange = (val) => {
-    let currentVal = val;
-    if (currentVal.length > 2) {
-      if (currentVal[0] !== "0") currentVal = currentVal.slice(0, 2);
-      else currentVal = currentVal.slice(1, 3);
-    }
-    if (Number.parseInt(currentVal) > 12 && timeFormat === "hh:mm a") {
-      currentVal = 12;
-    } else if (Number.parseInt(currentVal) > 24 && timeFormat === "hh:mm a") {
-      currentVal = 24;
+    const newTime = moment(time);
+    let currentVal = Number.parseInt(val);
+
+    if (timeFormat === "hh:mm a") {
+      if (currentVal < 1) currentVal = 1;
+      if (currentVal > 12) currentVal = 12;
+
+      const isPM = newTime.format("A") === "PM";
+
+      if (isPM && currentVal !== 12) {
+        currentVal += 12;
+      } else if (!isPM && currentVal === 12) {
+        currentVal = 0;
+      }
+    } else {
+      if (currentVal < 0) currentVal = 0;
+      if (currentVal > 23) currentVal = 23;
     }
 
-    const newTime = moment(time);
-    newTime.set("hour", Number.parseInt(val ? currentVal : 0));
+    newTime.set("hour", currentVal);
     onChange(newTime);
   };
   const onMinutesChange = (val) => {
@@ -60,13 +71,21 @@ const TimeInputControl = ({
   };
   const onPeriodChange = (val) => {
     const newTime = time ? moment(time) : moment();
-    // console.log(newTime);
+    const currentDate = time ? moment(time).date() : moment().date();
 
-    const hh = time.get("hour");
-    if (val === "am") {
-      newTime.set("hour", hh + 12);
+    const hh = newTime.hour();
+    let newTimeValue = val;
+    if (val === "am" && hh < 12) {
+      newTimeValue = hh - 12;
+    } else if (val === "pm" && hh >= 12) {
+      newTimeValue = hh + 12;
+    }
+
+    if (newTimeValue > -24 || newTimeValue < 0) {
+      newTime.hour(newTimeValue);
+      newTime.set({ date: currentDate });
     } else {
-      newTime.set("hour", hh - 12);
+      newTime.hour(newTimeValue);
     }
     onChange(newTime);
   };
@@ -74,17 +93,17 @@ const TimeInputControl = ({
     <div
       className={`input-container-col items-start ${
         align === "start" ? "grow" : "grow-0"
-      } justify-between`}
+      } justify-between md:grow-0`}
     >
       <div className="section-description">{label}</div>
       <div className="input-container-row items-center">
         <InputFieldControl
           value={String(getHours()).padStart(2, "0")}
-          onChange={(val) => onHoursChange(val)}
+          onChange={onHoursChange}
           maxLength={2}
           type="number"
-          minValue={0}
-          maxValue={timeFormat === "hh:mm a" ? 12 : 24}
+          minValue={timeFormat === "hh:mm a" ? 1 : 0}
+          maxValue={timeFormat === "hh:mm a" ? 12 : 23}
           disabled={disabled}
         />
         <span className="section-description">:</span>

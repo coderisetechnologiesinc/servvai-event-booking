@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 function servv_get_event_tickets($request)
 {
@@ -48,6 +51,8 @@ function servv_create_event_ticket($request)
         $requestBody['price_units'] = null;
         $requestBody['price'] = null;
     }
+    $requestBody['quantity'] =  !is_null($requestBody['quantity']) ? (int)$requestBody['quantity'] : null;
+
     try {
         $responseBody = servvSendApiRequest($apiRoute, $requestBody, 'POST');
     } catch(\Exception $e) {
@@ -99,6 +104,7 @@ function servv_update_event_ticket($request)
         $requestBody['price_units'] = null;
         $requestBody['price'] = null;
     }
+    $requestBody['quantity'] =  !is_null($requestBody['quantity']) ? (int)$requestBody['quantity'] : null;
     try {
         $responseBody = servvSendApiRequest($apiRoute, $requestBody, 'PATCH');
     } catch(\Exception $e) {

@@ -263,7 +263,7 @@ import LocationIcon from "@/assets/images/icons/location.svg";
 import MembersIcon from "@/assets/images/icons/members.svg";
 import CloseIcon from "@/assets/images/icons/close.svg";
 import ArrowDown from "@/assets/icons/down-svgrepo-com.svg";
-
+import placeholderImage from "@/assets/images/placeholder.png";
 import BundleCardListLayout from "@/components/Bundle/BundleCard/BundleCardListLayout";
 import BundleCardGridLayout from "@/components/Bundle/BundleCard/BundleCardGridLayout";
 import BundleCardProductLayout from "@/components/Bundle/BundleCard/BundleCardProductLayout";
@@ -397,7 +397,7 @@ export default {
     getBundleImage(currentBundle) {
       return currentBundle && currentBundle.image_src
         ? currentBundle.image_src
-        : "https://servv-images.s3.us-east-2.amazonaws.com/placeholder.png";
+        : `${servvAjax.assets_url}img/placeholder.png`;
     },
     getCurrencySymbolText(rawCurrency) {
       if (this.widgetSettings.widget_style_settings.currency_format === "sign")

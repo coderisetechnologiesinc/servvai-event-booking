@@ -20,8 +20,8 @@ const options = {
     selected: "",
   },
   icons: {
-    prev: () => <span>Previous</span>,
-    next: () => <span>Next</span>,
+    prev: () => <span>{t("Previous")}</span>,
+    next: () => <span>{t("Next")}</span>,
   },
   datepickerClassNames: "top-12",
   defaultDate: new Date("2022-01-01"),

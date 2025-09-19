@@ -11,24 +11,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const AnnotatedSection = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    className: "annotated-layout",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-      className: "section-annotation",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-        className: "annotated-section-title",
-        children: props.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-        className: "annotated-section-description",
-        children: props.description
+
+const AnnotatedSection = ({
+  title,
+  description,
+  children,
+  className = "",
+  titleClassName = "",
+  contentClassName = ""
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: `annotated-section flex flex-col md:flex-row gap-4 md:gap-8 items-start ${className}`,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "annotated-section-header flex-shrink-0 w-full md:w-32 lg:w-64",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+        className: `text-sm font-semibold text-gray-900 mb-1 ${titleClassName}`,
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
+        children: title
+      }), description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+        className: "text-sm text-gray-600 hidden md:block leading-relaxed",
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
+        children: description
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-      className: "section-content",
-      children: props.children
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: `annotated-section-content flex-1 w-full ${contentClassName}`,
+      children: children
     })]
   });
 };
@@ -46,13 +62,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const PageContent = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: "page-content",
-    children: props.children
+  const {
+    className = "",
+    children,
+    ...rest
+  } = props;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    ...rest,
+    className: `page-content ${className}`,
+    children: children
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageContent);
@@ -69,13 +94,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const PageHeader = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `page-header ${props.bottomLine ? 'border-b pb-4' : ''}`,
-    children: props.children
+  const {
+    className = "",
+    bottomLine,
+    children,
+    ...rest
+  } = props;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    ...rest,
+    className: `page-header ${bottomLine ? "border-b pb-4" : ""} ${className}`,
+    children: children
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageHeader);
@@ -102,21 +137,41 @@ const TabsComponent = ({
   fullWidth
 }) => {
   const renderTabs = () => {
-    return tabsList.map(tab => {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
-        className: "me-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-          onClick: () => handleSelectChange(tab.value),
-          className: `tab-element ${selected === tab.value ? "tab-active" : ""}`,
-          children: tab.label
-        })
-      });
-    });
+    return tabsList.map(tab => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+      style: {
+        flex: "0 0 auto",
+        minWidth: 120
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+        onClick: () => handleSelectChange(tab.value),
+        className: `tab-element ${selected === tab.value ? "tab-active" : ""}`,
+        style: {
+          minWidth: 120,
+          whiteSpace: "nowrap",
+          flex: "0 0 auto"
+        },
+        children: tab.label
+      })
+    }, tab.value));
   };
+
+  // Responsive scroll for mobile
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `tabs-group-container ${fullWidth ? "w-full justify-between" : ""}`,
+    className: "tabs-group-container",
+    style: {
+      overflowX: "auto",
+      WebkitOverflowScrolling: "touch",
+      width: "100%",
+      marginBottom: 16
+    },
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
-      className: "flex flex-row",
+      className: "flex flex-row servv-tabs",
+      style: {
+        flexWrap: "nowrap",
+        minWidth: "100%",
+        width: "max-content",
+        marginBottom: 0
+      },
       children: renderTabs()
     })
   });
@@ -158,7 +213,7 @@ const ButtonGroup = ({
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "button-group-container",
         children: buttons.map(button => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: `button-group-button${active == button ? "-active" : ""} section-description`,
+          className: `${active == button ? "button-group-button-active" : "button-group-button"} section-description`,
           "data-value": button,
           disabled: disabled,
           onClick: e => {
@@ -251,32 +306,99 @@ const InputFieldControl = ({
   width = null,
   prefix = "",
   prefixWidth = "w-12",
-  step = null
+  step = null,
+  className = "",
+  style = {}
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [!image && prefix === "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  // Alignment helper
+  const getAlignmentClass = () => {
+    switch (align) {
+      case "center":
+        return "text-center";
+      case "right":
+        return "text-right";
+      default:
+        return "text-left";
+    }
+  };
+  const handleChange = e => {
+    const value = e.target.value;
+    if (type === "number" && maxValue && value > maxValue) {
+      onChange(maxValue);
+    } else if (type === "number" && minValue && value < minValue) {
+      onChange(minValue);
+    } else {
+      onChange(value);
+    }
+  };
+
+  // Responsive style for mobile
+  const responsiveStyle = {
+    // maxWidth: "100%",
+    // width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
+
+  // Input classes
+  const inputClasses = `
+    w-full min-w-[4rem]
+    input-control
+    px-3 py-2
+    pl-6
+    border border-gray-300 rounded-lg
+    text-sm font-medium
+    focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500
+    disabled:bg-gray-100 disabled:cursor-not-allowed
+    transition-colors duration-200
+    section-description
+    ${getAlignmentClass()}
+    ${fullWidth ? "w-full" : ""}
+    ${width ? "w-full" : ""}
+    ${align === "right" ? "pr-1" : ""}
+    ${className}
+  `.trim();
+  const inputStyle = {
+    width: fullWidth ? "100%" : width || undefined,
+    fontFamily: "'Inter', sans-serif",
+    ...responsiveStyle
+  };
+
+  // Main input (no image, no prefix)
+  if (!image && prefix === "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex relative group justify-center items-center w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: type,
-        className: `input-control section-description text-${align} ${align === "right" ? "pr-1" : ""} ${fullWidth || width ? "w-full" : ""}`,
+        className: inputClasses,
+        style: inputStyle,
         placeholder: placeholder,
         value: value,
         disabled: disabled,
         maxLength: maxLength,
-        onChange: e => onChange(e.target.value),
         min: minValue,
         max: maxValue,
+        onChange: e => handleChange(e),
         onKeyDown: handleKeyPress,
-        step: step
+        step: step,
+        autoComplete: "off"
       }), suffix && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "absolute text-gray-500 right-0 pr-8",
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
         children: suffix
       })]
-    }), !image && prefix !== "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    });
+  }
+
+  // Input with prefix (e.g. currency)
+  if (!image && prefix !== "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex w-full rounded-lg border border-gray-300 overflow-hidden text-md shadow-sm h-9",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "flex items-center justify-center bg-gray-50 text-gray-600 text-md w-12 border-r border-gray-300",
-        children: "$"
+        className: `flex items-center justify-center bg-gray-50 text-gray-600 text-md ${prefixWidth} border-r border-gray-300`,
+        children: prefix
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: "text",
         inputMode: "decimal",
@@ -292,34 +414,46 @@ const InputFieldControl = ({
           }
           if (val.startsWith("00")) val = "0";else if (val.startsWith("0") && val[1] !== ".") val = val.slice(1);
           onChange(val);
+        },
+        style: responsiveStyle
+      })]
+    });
+  }
+
+  // Input with image
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex relative group justify-center items-center w-full",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "size-6",
+        style: {
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          width: "1.7rem",
+          height: "1.7rem"
         }
-      })]
-    }), image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "flex relative group justify-center items-center w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-        className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "size-6",
-          style: {
-            backgroundImage: `url(${image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            width: "24px",
-            height: "24px"
-          }
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: type,
-        className: `input-control section-description description-image text-${align} ${align === "right" ? "pr-1 pl-8" : ""} ${fullWidth ? "w-full" : ""}`,
-        placeholder: placeholder,
-        value: value,
-        disabled: disabled,
-        size: maxLength,
-        onChange: e => onChange(e.target.value),
-        min: minValue,
-        max: maxValue
-      })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: type,
+      className: `
+          input-control section-description description-image
+          ${getAlignmentClass()}
+          ${align === "right" ? "pr-1 pl-8" : ""}
+          ${fullWidth ? "w-full" : ""}
+          ${className}
+        `,
+      style: inputStyle,
+      placeholder: placeholder,
+      value: value,
+      disabled: disabled,
+      maxLength: maxLength,
+      min: minValue,
+      max: maxValue,
+      onChange: e => onChange(e.target.value),
+      autoComplete: "off"
     })]
   });
 };
@@ -347,18 +481,29 @@ const PageActionButton = ({
   text,
   icon,
   type,
-  customStyle,
-  hidden = false,
-  onAction = () => {},
-  slim = false,
-  justify = null,
-  disabled
+  onAction,
+  disabled = false,
+  className = "",
+  style = {}
 }) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
-    className: `page-action-button ${type === "primary" ? "primary" : ""}${hidden ? "opacity-0" : ""} ${slim ? "px-1 py-0.5" : "p-2"} ${customStyle ? customStyle : ""} ${justify ? justify : ""}`,
     onClick: onAction,
     disabled: disabled,
-    children: [icon && icon, text]
+    className: `
+        flex items-center justify-center px-4 py-2 rounded-lg
+        font-medium text-sm transition-colors duration-200
+        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
+        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${className}
+      `,
+    style: {
+      fontFamily: "'Inter', sans-serif",
+      ...style
+    },
+    children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "mr-2",
+      children: icon
+    }), text]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageActionButton);
@@ -389,7 +534,8 @@ const SelectControl = ({
   disabled = false,
   onSelectChange = () => {},
   iconRight = null,
-  iconLeft = null
+  iconLeft = null,
+  style = {} // <-- Add style prop
 }) => {
   const renderOptions = () => {
     if (options.length > 0) {
@@ -403,25 +549,39 @@ const SelectControl = ({
           value: option,
           selected: selected === option,
           children: option
-        }, "value"))]
+        }, option))]
       });
     }
   };
+  // Responsive style for mobile
+  const responsiveStyle = {
+    maxWidth: "100%",
+    width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "input-container-col",
+    style: {
+      width: "100%"
+    },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-      for: "timezone",
+      htmlFor: "timezone",
       className: "section-description",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "select-control-with-icon-container",
+      style: {
+        width: "100%"
+      },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
         name: "timezone",
-        id: "timezone",
-        className: "select-control select-control-with-icon text-sm",
+        id: "timezone-select",
+        className: "select-control select-control-with-icon text-sm p-4",
         value: selected,
         onChange: e => onSelectChange(e.target.value),
         disabled: disabled,
+        style: responsiveStyle,
         children: renderOptions()
       }), iconRight !== null && iconRight]
     })]
@@ -470,25 +630,34 @@ const TimeInputControl = ({
   }, []);
   const getHours = () => {
     const selectedTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
-    const hh = selectedTime.get("hour");
-    if (hh > 12 && timeFormat === "hh:mm a") return hh % 12;else return hh;
+    const hh = selectedTime.hour();
+    if (timeFormat === "hh:mm a") {
+      return selectedTime.format("hh");
+    } else {
+      return hh;
+    }
   };
   const getMinutes = () => {
     const selectedTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
     return selectedTime.get("minute");
   };
   const onHoursChange = val => {
-    let currentVal = val;
-    if (currentVal.length > 2) {
-      if (currentVal[0] !== "0") currentVal = currentVal.slice(0, 2);else currentVal = currentVal.slice(1, 3);
-    }
-    if (Number.parseInt(currentVal) > 12 && timeFormat === "hh:mm a") {
-      currentVal = 12;
-    } else if (Number.parseInt(currentVal) > 24 && timeFormat === "hh:mm a") {
-      currentVal = 24;
-    }
     const newTime = moment__WEBPACK_IMPORTED_MODULE_3___default()(time);
-    newTime.set("hour", Number.parseInt(val ? currentVal : 0));
+    let currentVal = Number.parseInt(val);
+    if (timeFormat === "hh:mm a") {
+      if (currentVal < 1) currentVal = 1;
+      if (currentVal > 12) currentVal = 12;
+      const isPM = newTime.format("A") === "PM";
+      if (isPM && currentVal !== 12) {
+        currentVal += 12;
+      } else if (!isPM && currentVal === 12) {
+        currentVal = 0;
+      }
+    } else {
+      if (currentVal < 0) currentVal = 0;
+      if (currentVal > 23) currentVal = 23;
+    }
+    newTime.set("hour", currentVal);
     onChange(newTime);
   };
   const onMinutesChange = val => {
@@ -505,18 +674,26 @@ const TimeInputControl = ({
   };
   const onPeriodChange = val => {
     const newTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
-    // console.log(newTime);
-
-    const hh = time.get("hour");
-    if (val === "am") {
-      newTime.set("hour", hh + 12);
+    const currentDate = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time).date() : moment__WEBPACK_IMPORTED_MODULE_3___default()().date();
+    const hh = newTime.hour();
+    let newTimeValue = val;
+    if (val === "am" && hh < 12) {
+      newTimeValue = hh - 12;
+    } else if (val === "pm" && hh >= 12) {
+      newTimeValue = hh + 12;
+    }
+    if (newTimeValue > -24 || newTimeValue < 0) {
+      newTime.hour(newTimeValue);
+      newTime.set({
+        date: currentDate
+      });
     } else {
-      newTime.set("hour", hh - 12);
+      newTime.hour(newTimeValue);
     }
     onChange(newTime);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between`,
+    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between md:grow-0`,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-description",
       children: label
@@ -524,11 +701,11 @@ const TimeInputControl = ({
       className: "input-container-row items-center",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_InputFieldControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
         value: String(getHours()).padStart(2, "0"),
-        onChange: val => onHoursChange(val),
+        onChange: onHoursChange,
         maxLength: 2,
         type: "number",
-        minValue: 0,
-        maxValue: timeFormat === "hh:mm a" ? 12 : 24,
+        minValue: timeFormat === "hh:mm a" ? 1 : 0,
+        maxValue: timeFormat === "hh:mm a" ? 12 : 23,
         disabled: disabled
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         className: "section-description",
@@ -579,11 +756,12 @@ const TimePeriodControl = ({
 }) => {
   // useEffect(() => {
   // }, [time]);
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-    onClick: () => onChange(moment__WEBPACK_IMPORTED_MODULE_1___default()(time).get("hour") > 12 ? "pm" : "am"),
+    onClick: () => onChange(time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).format("a") : "am"),
     className: "period-control section-description font-regular leading-none",
     disabled: disabled,
-    children: time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).get("hour") > 12 ? "pm" : "am" : "am"
+    children: time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).format("a") : "am"
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TimePeriodControl);
@@ -630,6 +808,263 @@ const Spinner = ({
 
 /***/ }),
 
+/***/ "./src/Components/Pages/N8NSettings.jsx":
+/*!**********************************************!*\
+  !*** ./src/Components/Pages/N8NSettings.jsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
+/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+
+
+
+
+
+
+
+
+
+const N8NSettings = ({
+  n8nSettingsData = {},
+  settingsUpdate = () => {}
+}) => {
+  const selectOptions = ["POST", "GET", "PUT", "PATCH", "DELETE"];
+  const responsiveBlockStack = "w-full min-w-0 items-center";
+  const responsiveInput = "w-full min-w-0";
+
+  // const convertTitle = (title) => {
+  //   return title.charAt(0).toUpperCase() + title.split("_").join(" ").slice(1);
+  // };
+  const handleValueChange = (key, val) => {
+    let currValues = n8nSettingsData;
+    if (!isNaN(Number.parseInt(val))) {
+      currValues[key] = Number.parseInt(val) === 1 ? false : true;
+    } else if (typeof val === "boolean") {
+      currValues[key] = !currValues[key];
+    } else {
+      currValues[key] = val;
+    }
+    settingsUpdate(currValues);
+  };
+  const renderN8NSettings = () => {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: "flex flex-col w-full gap-16",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "flex flex-col gap-4",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          className: `${responsiveInput} items-center`,
+          title: "Event Created Trigger",
+          description: "Enable this to trigger the workflow whenever a new event is created.",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            checked: typeof n8nSettingsData.event_created_active === "boolean" ? n8nSettingsData.event_created_active : Number.parseInt(n8nSettingsData.event_created_active) === 1,
+            onChange: () => handleValueChange("event_created_active", n8nSettingsData.event_created_active)
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          className: `${responsiveInput} items-center`,
+          title: "New Booking Trigger",
+          description: "Enable this to trigger the workflow whenever a new booking is made.",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            checked: typeof n8nSettingsData.new_booking_active === "boolean" ? n8nSettingsData.new_booking_active : Number.parseInt(n8nSettingsData.new_booking_active) === 1,
+            onChange: () => handleValueChange("new_booking_active", n8nSettingsData.new_booking_active)
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          className: `${responsiveInput} items-center`,
+          title: "Canceled Booking Trigger",
+          description: "Enable this to trigger the workflow whenever a booking is canceled.",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            checked: typeof n8nSettingsData.canceled_booking_active === "boolean" ? n8nSettingsData.canceled_booking_active : Number.parseInt(n8nSettingsData.canceled_booking_active) === 1,
+            onChange: () => handleValueChange("canceled_booking_active", n8nSettingsData.canceled_booking_active)
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        gap: 4,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "font-semibold border-b pb-1 w-full self-end",
+          children: "Triggers settings"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          className: responsiveInput,
+          title: "Event Created Wrokflow Settings",
+          description: "Configure how n8n should handle new event creation. Define the HTTP method, the endpoint URL and the secret used to verify requests.",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            gap: 2,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              className: "flex flex-row w-full items-end gap-2 mb-2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                className: "flex-none",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                  options: selectOptions,
+                  selected: n8nSettingsData.event_created_method || null,
+                  onSelectChange: newVal => handleValueChange("event_created_method", newVal),
+                  style: {
+                    padding: "10px"
+                  }
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                className: "flex-1",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                  className: responsiveBlockStack,
+                  align: "left",
+                  value: n8nSettingsData.event_created_url,
+                  onChange: newVal => handleValueChange("event_created_url", newVal),
+                  placeholder: "Endpoint URL"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: "flex-1",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                className: responsiveBlockStack,
+                align: "left",
+                value: n8nSettingsData.event_created_secret,
+                onChange: newVal => handleValueChange("event_created_secret", newVal),
+                placeholder: "Secret"
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          className: responsiveInput,
+          title: "New Booking Workflow Settings",
+          description: "Configure how n8n should handle new bookings. Define the HTTP method, the endpoint URL and the secret used to verify requests.",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            gap: 2,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              className: "flex flex-row w-full items-end gap-2 mb-2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                className: "flex-none",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                  options: selectOptions,
+                  selected: n8nSettingsData.new_booking_method || null,
+                  onSelectChange: newVal => handleValueChange("new_booking_method", newVal),
+                  style: {
+                    padding: "10px"
+                  }
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                className: "flex-1",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                  className: responsiveBlockStack,
+                  align: "left",
+                  value: n8nSettingsData.new_booking_url,
+                  onChange: newVal => handleValueChange("new_booking_url", newVal),
+                  placeholder: "Endpoint URL"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: "flex-1",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                className: responsiveBlockStack,
+                align: "left",
+                value: n8nSettingsData.canceled_booking_secret,
+                onChange: newVal => handleValueChange("canceled_booking_secret", newVal),
+                placeholder: "Secret"
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          className: responsiveInput,
+          title: "Canceled Booking Workflow Settings",
+          description: "Configure how n8n should handle canceled bookings. Define the HTTP method, the endpoint URL and the secret used to verify requests.",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            gap: 2,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              className: "flex flex-row w-full items-end gap-2 mb-2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                className: "flex-none",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                  options: selectOptions,
+                  selected: n8nSettingsData.canceled_booking_method || null,
+                  onSelectChange: newVal => handleValueChange("canceled_booking_method", newVal),
+                  style: {
+                    padding: "10px"
+                  }
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                className: "flex-1",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                  className: responsiveBlockStack,
+                  align: "left",
+                  value: n8nSettingsData.canceled_booking_url,
+                  onChange: newVal => handleValueChange("canceled_booking_url", newVal),
+                  placeholder: "Endpoint URL"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: "flex-1",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                className: responsiveBlockStack,
+                align: "left",
+                value: n8nSettingsData.new_booking_secret,
+                onChange: newVal => handleValueChange("new_booking_secretn", newVal),
+                placeholder: "Secret"
+              })
+            })]
+          })
+        })]
+      })]
+    });
+    // return Object.keys(n8nSettingsData).map((setting) => {
+    //   if (
+    //     setting === "canceled_booking_active" ||
+    //     setting === "event_created_active" ||
+    //     setting === "new_booking_active"
+    //   ) {
+    //     return (
+    //       <AnnotatedSection
+    //         className={responsiveInput}
+    //         title={convertTitle(setting)}
+    //       >
+    //         <CheckboxControl
+    //           checked={
+    //             typeof n8nSettingsData[setting] === "boolean"
+    //               ? n8nSettingsData[setting]
+    //               : Number.parseInt(n8nSettingsData[setting]) === 1
+    //           }
+    //           onChange={() =>
+    //             handleValueChange(setting, n8nSettingsData[setting])
+    //           }
+    //         />
+    //       </AnnotatedSection>
+    //     );
+    //   } else {
+    //     return (
+    //       <AnnotatedSection
+    //         title={convertTitle(setting)}
+    //         className={responsiveBlockStack}
+    //       >
+    //         <InputFieldControl
+    //           className={responsiveBlockStack}
+    //           align="left"
+    //           value={n8nSettingsData[setting]}
+    //           onChange={(newVal) => handleValueChange(setting, newVal)}
+    //         />
+    //       </AnnotatedSection>
+    //     );
+    //   }
+    // });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      className: "flex flex-col w-full",
+      children: renderN8NSettings()
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (N8NSettings);
+
+/***/ }),
+
 /***/ "./src/Components/Pages/PageWrapper.jsx":
 /*!**********************************************!*\
   !*** ./src/Components/Pages/PageWrapper.jsx ***!
@@ -649,14 +1084,14 @@ __webpack_require__.r(__webpack_exports__);
 
 const PageWrapper = props => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "w-full border-l border-gray-200 relative",
+    className: "w-full relative",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
       children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__["default"], {
         loading: true
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: `pl-4 pr-4 flex flex-col flex-1 max-w-[1080px] mx-auto h-full ${props.loading ? "loading" : ""}`,
+      className: `flex flex-col flex-1 h-full w-full pl-4 md:pl-6 lg:pl-8 pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
         position: "bottom-right"
       }), props.children]
@@ -706,8 +1141,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _stripe_stripe_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @stripe/stripe-js */ "./node_modules/@stripe/stripe-js/lib/index.mjs");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CheckCircleIcon.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/XCircleIcon.js");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _N8NSettings__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./N8NSettings */ "./src/Components/Pages/N8NSettings.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__);
 
@@ -746,19 +1180,23 @@ const SettingsPage = () => {
   const [stripeAccount, setStripeAccount] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)(null);
   const timezoneOptions = _utilities_timezones__WEBPACK_IMPORTED_MODULE_8__["default"].map(timezone => timezone.zone);
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_22___default()({
-      path: "/servv-plugin/v1/zoom/account"
+    const getZoomAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_24__["default"].get("/wp-json/servv-plugin/v1/zoom/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getZoomAccountResponse) {
-      setZoomAccount(getZoomAccountResponse);
+    if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
+      setZoomAccount(getZoomAccountResponse.data);
     }
   };
   const getStripeAccount = async () => {
-    const getStripeAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_22___default()({
-      path: "/servv-plugin/v1/stripe/account"
+    const getStripeAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_24__["default"].get("/wp-json/servv-plugin/v1/stripe/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getStripeAccountResponse) {
-      setStripeAccount(getStripeAccountResponse);
+    if (getStripeAccountResponse && getStripeAccountResponse.status === 200) {
+      setStripeAccount(getStripeAccountResponse.data);
     }
   };
   const [tabsList, setTabsList] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)([{
@@ -770,15 +1208,15 @@ const SettingsPage = () => {
   }, {
     label: "Billing",
     value: 2
-  },
-  // { label: "Fast Checkout", value: 4 },
-  // { label: "Location", value: 3 },
-  {
+  }, {
     label: "Widget",
     value: 5
   }, {
     label: "Translations",
     value: 6
+  }, {
+    label: "Workflow",
+    value: 8
   }]);
   const viewModeOptions = [{
     label: "List",
@@ -804,9 +1242,7 @@ const SettingsPage = () => {
   const availableViewMods = viewModeOptions.map(opt => opt.label);
   const availablePageSizes = pageSizes.map(opt => opt.label);
   const [selectedTab, setSelectedTab] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)(0);
-  const handleSelectChange = val => {
-    setSelectedTab(val);
-  };
+  const handleSelectChange = val => setSelectedTab(val);
   const [defaultEndTime, setDefaultEndTime] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)(moment__WEBPACK_IMPORTED_MODULE_13___default()());
   const timeOptions = [{
     label: "24 hours",
@@ -827,67 +1263,35 @@ const SettingsPage = () => {
   }, {
     label: "Alphabets: USD / CAD / CNY"
   }].map(format => format.label);
+
+  // Responsive helpers
+  const responsiveBlockStack = "w-full min-w-0";
+  const responsiveInlineStack = "flex-col md:flex-row w-full min-w-0";
+  const responsiveTabsWrapper = "w-full min-w-0 overflow-x-auto";
+  const responsiveInput = "w-full min-w-0";
   const validateWidgetSettings = newSettings => {
     let settings = {
       ...newSettings
     };
-    if (settings.ew_events_list_view === undefined) {
-      settings.ew_events_list_view = "list";
-    }
-    if (settings.ew_events_grid_fluid_mode === undefined) {
-      settings.ew_events_grid_fluid_mode = false;
-    }
-    if (settings.ew_card_description_display_words_limit === undefined) {
-      settings.ew_card_description_display_words_limit = 9;
-    }
-    if (settings.ew_list_item_description_display_words_limit === undefined) {
-      settings.ew_list_item_description_display_words_limit = 9;
-    }
-    if (settings.ew_events_list_page_size_default === undefined) {
-      settings.ew_events_list_page_size_default = 10;
-    }
-    if (settings.ew_widget_desplayed_filter === undefined) {
-      settings.ew_widget_desplayed_filter = "Locations,Languages,Categories,Members";
-    }
-    if (settings.ew_show_language_selector === undefined) {
-      settings.ew_show_language_selector = true;
-    }
-    if (settings.ew_show_top_filters === undefined) {
-      settings.ew_show_top_filters = true;
-    }
-    if (settings.show_calendar === undefined) {
-      settings.show_calendar = true;
-    }
-    if (settings.permanently_open_calendar === undefined) {
-      settings.permanently_open_calendar = true;
-    }
-    if (settings.show_widget_title === undefined) {
-      settings.show_widget_title = true;
-    }
-    if (settings.ew_events_counter === undefined) {
-      settings.ew_events_counter = true;
-    }
-    if (settings.ew_hide_view_mode_switch === undefined) {
-      settings.ew_hide_view_mode_switch = true;
-    }
-    if (settings.show_event_images === undefined) {
-      settings.show_event_images = true;
-    }
-    if (settings.ew_image_aspect === undefined) {
-      settings.ew_image_aspect = false;
-    }
-    if (settings.show_events_list_separator_badge === undefined) {
-      settings.show_events_list_separator_badge = true;
-    }
-    if (settings.ew_show_quantity === undefined) {
-      settings.ew_show_quantity = false;
-    }
-    if (settings.ew_show_share_button === undefined) {
-      settings.ew_show_share_button = true;
-    }
-    if (settings.ew_show_event_type_badge === undefined) {
-      settings.ew_show_event_type_badge = true;
-    }
+    if (settings.ew_events_list_view === undefined) settings.ew_events_list_view = "list";
+    if (settings.ew_events_grid_fluid_mode === undefined) settings.ew_events_grid_fluid_mode = false;
+    if (settings.ew_card_description_display_words_limit === undefined) settings.ew_card_description_display_words_limit = 9;
+    if (settings.ew_list_item_description_display_words_limit === undefined) settings.ew_list_item_description_display_words_limit = 9;
+    if (settings.ew_events_list_page_size_default === undefined) settings.ew_events_list_page_size_default = 10;
+    if (settings.available_filters === undefined) settings.available_filters = "locations,languages,categories,members";
+    if (settings.ew_show_language_selector === undefined) settings.ew_show_language_selector = true;
+    if (settings.ew_show_top_filters === undefined) settings.ew_show_top_filters = true;
+    if (settings.show_calendar === undefined) settings.show_calendar = true;
+    if (settings.permanently_open_calendar === undefined) settings.permanently_open_calendar = true;
+    if (settings.show_widget_title === undefined) settings.show_widget_title = true;
+    if (settings.ew_events_counter === undefined) settings.ew_events_counter = true;
+    if (settings.ew_hide_view_mode_switch === undefined) settings.ew_hide_view_mode_switch = false;
+    if (settings.show_event_images === undefined) settings.show_event_images = true;
+    if (settings.ew_image_aspect === undefined) settings.ew_image_aspect = false;
+    if (settings.show_events_list_separator_badge === undefined) settings.show_events_list_separator_badge = true;
+    if (settings.ew_show_quantity === undefined) settings.ew_show_quantity = false;
+    if (settings.ew_show_share_button === undefined) settings.ew_show_share_button = true;
+    if (settings.ew_show_event_type_badge === undefined) settings.ew_show_event_type_badge = true;
     if (settings.translations === undefined) {
       settings.translations = (0,_utilities_translations__WEBPACK_IMPORTED_MODULE_17__.mergeTranslations)((0,_utilities_translations__WEBPACK_IMPORTED_MODULE_17__.getTranslationsTpl)(), settings?.settings?.widget_style_settings?.translations || {});
     }
@@ -899,13 +1303,6 @@ const SettingsPage = () => {
     };
     validatedSettings.settings.widget_style_settings = validatedSettings.settings.widget_style_settings.length > 0 ? JSON.parse(validatedSettings.settings.widget_style_settings) : {};
     validatedSettings.settings.admin_dashboard = validatedSettings.settings.admin_dashboard.length > 0 ? JSON.parse(validatedSettings.settings.admin_dashboard) : {};
-
-    // console.log(
-    //   !newSettings,
-    //   !newSettings.settings,
-    //   !newSettings.settings.admin_dashboard,
-    //   !newSettings.settings.admin_dashboard.default_timezone
-    // );
     if (!newSettings || !newSettings.settings || !newSettings.settings.admin_dashboard || !newSettings.settings.admin_dashboard.default_timezone) {
       validatedSettings.settings.admin_dashboard.default_timezone = "US/Pacific";
     }
@@ -920,6 +1317,9 @@ const SettingsPage = () => {
     }
     if (!newSettings.stetings) {
       validatedSettings.settings.time_format_24_hours = false;
+    }
+    if (!newSettings || !newSettings.settings || !newSettings.settings.admin_dashboard || !newSettings.settings.admin_dashboard.default_quantity) {
+      validatedSettings.settings.admin_dashboard.default_quantity = 25;
     }
     if (!newSettings || !newSettings.settings || !newSettings.settings.admin_dashboard || !newSettings.settings.admin_dashboard.default_event_type) {
       validatedSettings.settings.admin_dashboard.default_event_type = "offline";
@@ -946,25 +1346,22 @@ const SettingsPage = () => {
     }, {
       label: "Billing",
       value: 7
-    },
-    // { label: "Fast Checkout", value: 4 },
-    {
+    }, {
       label: "Widget",
       value: 5
     }, {
       label: "Translations",
       value: 6
-    }
-    // { label: "Location", value: 3 },
-    ] : [{
+    }, {
+      label: "Workflow",
+      value: 8
+    }] : [{
       label: "General",
       value: 0
     }, {
       label: "Reminders",
       value: 1
-    },
-    // { label: "Fast Checkout", value: 4 },
-    {
+    }, {
       label: "Widget",
       value: 5
     }, {
@@ -973,10 +1370,57 @@ const SettingsPage = () => {
     }, {
       label: "Billing",
       value: 7
+    }, {
+      label: "Workflow",
+      value: 8
     }]);
     setSettings({
       ...validatedSettings
     }, () => {});
+  };
+  const [n8nCurentSettings, setN8nSettings] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)({});
+  const [isN8NSettingsUpdated, setIsN8NSettingsUpdated] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)(false);
+  const updateN8NSettings = newVal => {
+    setN8nSettings({
+      ...newVal
+    });
+    setIsN8NSettingsUpdated(true);
+  };
+  const getN8nSettings = async () => {
+    setLoading(true);
+    const getN8nResponse = await axios__WEBPACK_IMPORTED_MODULE_24__["default"].get("/wp-json/servv-plugin/v1/n8n/settings", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
+    });
+    if (getN8nResponse && getN8nResponse.status === 200) {
+      setN8nSettings(getN8nResponse.data);
+    }
+    setLoading(false);
+  };
+  const saveN8nSettings = async () => {
+    setLoading(true);
+    let settingsForSave = n8nCurentSettings;
+    if (settingsForSave && settingsForSave.new_booking_url.length > 0 && settingsForSave.new_booking_method.length === 0) {
+      settingsForSave.new_booking_method = "POST";
+    }
+    if (settingsForSave && settingsForSave.canceled_booking_url.length > 0 && settingsForSave.canceled_booking_method.length === 0) {
+      settingsForSave.canceled_booking_method = "POST";
+    }
+    if (settingsForSave && settingsForSave.event_created_url.length > 0 && settingsForSave.event_created_method.length === 0) {
+      settingsForSave.event_created_method = "POST";
+    }
+    const saveN8nResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_24__["default"])({
+      method: "PUT",
+      url: "/wp-json/servv-plugin/v1/n8n/settings",
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      },
+      data: n8nCurentSettings
+    });
+    if (saveN8nResponse && saveN8nResponse.status === 200) {
+      setLoading(false);
+    }
   };
   const getSettings = async () => {
     setLoading(true);
@@ -1046,24 +1490,39 @@ const SettingsPage = () => {
           widget_style_settings: JSON.stringify(settings.settings.widget_style_settings)
         }
       }
-    });
+    }).catch(err => console.error(err));
     if (saveSettingsResponse && saveSettingsResponse.status === 200) {
       (0,react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast)("Settings saved successfully.");
     }
     setLoading(false);
   };
+  const saveAllSettings = async () => {
+    if (servvData.servv_plugin_mode === "development") {
+      await saveSettings();
+      if (isN8NSettingsUpdated) {
+        await saveN8nSettings();
+      }
+    } else {
+      saveSettings();
+      if (isN8NSettingsUpdated) {
+        saveN8nSettings();
+      }
+    }
+  };
   const getSettingsInfo = async () => {
     if (servvData.servv_plugin_mode === "development") {
       await getSettings();
       await getBillingPlans();
-      if (settings.current_plan.id === 2) {
+      await getN8nSettings();
+      if (settings && settings.current_plan.id === 2) {
         await getZoomAccount();
         await getStripeAccount();
       }
     } else {
       getSettings();
       getBillingPlans();
-      if (settings.current_plan.id === 2) {
+      getN8nSettings();
+      if (settings && settings.current_plan.id === 2) {
         getZoomAccount();
         getStripeAccount();
       }
@@ -1078,12 +1537,10 @@ const SettingsPage = () => {
       if (i === 1) options.push({
         label: "1 hour",
         value: 1
-      });else {
-        options.push({
-          label: `${i} hours`,
-          value: i
-        });
-      }
+      });else options.push({
+        label: `${i} hours`,
+        value: i
+      });
     }
     return options.map(option => option.label);
   };
@@ -1092,6 +1549,7 @@ const SettingsPage = () => {
       ...settings
     };
     currentSettings.settings.admin_dashboard.default_timezone = zone;
+    currentSettings.settings = zone;
     setSettings(currentSettings);
   };
   const handleDefaultStartTimeChange = newVal => {
@@ -1140,6 +1598,13 @@ const SettingsPage = () => {
       ...settings
     };
     currentSettings.settings.admin_dashboard.default_price = newVal;
+    setSettings(currentSettings);
+  };
+  const handleDefaultQuantityChange = newVal => {
+    let currentSettings = {
+      ...settings
+    };
+    currentSettings.settings.admin_dashboard.default_quantity = newVal;
     setSettings(currentSettings);
   };
   const getDefaultStartTime = () => {
@@ -1279,28 +1744,28 @@ const SettingsPage = () => {
     let currentSettings = {
       ...settings
     };
-    const filterSettings = settings.settings.widget_style_settings.ew_widget_desplayed_filter || "";
-    let selectedFilters = filterSettings.split(",");
-    if (selectedFilters.includes(filter)) {
+    const filterSettings = settings.settings.widget_style_settings.available_filters || "";
+    let selectedFilters = filterSettings.split(",").filter(f => f.length > 0);
+    console.log(selectedFilters);
+    if (selectedFilters.indexOf(filter) >= 0) {
       selectedFilters = selectedFilters.filter(fil => fil !== filter);
     } else {
       selectedFilters.push(filter);
     }
-    currentSettings.settings.widget_style_settings.ew_widget_desplayed_filter = selectedFilters.join(",");
+    console.log(selectedFilters);
+    currentSettings.settings.widget_style_settings.available_filters = selectedFilters.join(",");
     setSettings(currentSettings);
   };
   const [langForEdit, setLangForEdit] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)(getDefaultWidgetLanguageName());
-  const handleSelectLanguageforEdit = newVal => {
-    setLangForEdit(newVal);
-  };
+  const handleSelectLanguageforEdit = newVal => setLangForEdit(newVal);
   const renderAvailableFilters = () => {
-    const filterSettings = settings.settings.widget_style_settings.ew_widget_desplayed_filter || "";
+    const filterSettings = settings.settings.widget_style_settings.available_filters || "";
     const selectedFilters = filterSettings.split(",");
     return filters.map(filter => {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
         label: filter,
-        checked: selectedFilters.includes(filter),
-        onChange: () => handleSelectedFilterChange(filter)
+        checked: selectedFilters.some(f => f.toLowerCase() === filter.toLowerCase()),
+        onChange: () => handleSelectedFilterChange(filter.toLowerCase())
       });
     });
   };
@@ -1336,58 +1801,21 @@ const SettingsPage = () => {
     const fullList = (0,_utilities_languages__WEBPACK_IMPORTED_MODULE_18__.getLanguagesList)();
     const langCode = fullList.filter(lang => lang.label === langForEdit)[0].value;
     const translationSection = settings.settings.widget_style_settings.translations[langCode][section];
-    return Object.keys(translationSection).map(translation => {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        gap: 1,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
-          className: "font-semibold",
-          children: lodash_capitalize__WEBPACK_IMPORTED_MODULE_20___default()(lodash_startcase__WEBPACK_IMPORTED_MODULE_19___default()(translation))
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-          value: translationSection[translation],
-          fullWidth: true,
-          type: "text",
-          align: "left",
-          suffix: langCode,
-          onChange: newVal => handleTranslationChange(section, langCode, translation, newVal)
-        })]
-      });
-    });
-    // forEach(
-    //   translationsForEdit[this.state.currentLanguageForEdit][
-    //     fieldsGroup
-    //   ],
-    //   (fieldValue, fieldName) => {
-    //     const getFieldLabel = () => {
-    //       if (fieldsGroup === "customFilters") {
-    //         if (fieldName.indexOf("filter_label_") === 0) {
-    //           if (fieldName === "filter_label_dates") return "Dates";
-    //           else return capitalize(widget_style_settings[fieldName]);
-    //         }
-    //         const field = startCase(fieldName).replace("Filter Property", "");
-    //         return capitalize(field);
-    //         // return startCase(fieldName).replace('Filter Property', '');
-    //       }
-    //       return capitalize(startCase(fieldName));
-    //     };
-
-    //     inputsList.push(
-    //       <TextField
-    //         key={fieldName}
-    //         suffix={currentLanguageForEdit}
-    //         type="text"
-    //         label={<Text as="strong">{getFieldLabel()}</Text>}
-    //         onChange={(newVal) =>
-    //           this.handlerTranslationFieldChange(fieldsGroup, fieldName, newVal)
-    //         }
-    //         value={fieldValue}
-    //         disabled={isLoading}
-    //       />
-    //     );
-    //   }
-    // );
-
-    // return inputsList;
-    return null;
+    return Object.keys(translationSection).map(translation => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      gap: 1,
+      className: responsiveBlockStack,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+        className: "font-semibold",
+        children: lodash_capitalize__WEBPACK_IMPORTED_MODULE_20___default()(lodash_startcase__WEBPACK_IMPORTED_MODULE_19___default()(translation))
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        value: translationSection[translation],
+        fullWidth: true,
+        type: "text",
+        align: "left",
+        suffix: langCode,
+        onChange: newVal => handleTranslationChange(section, langCode, translation, newVal)
+      })]
+    }));
   };
   const activateBillingPlan = async id => {
     setLoading(true);
@@ -1410,9 +1838,6 @@ const SettingsPage = () => {
         (0,react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast)("Your billing plan has been successfully activated.");
         await getBillingPlans();
         setShowPaymentForm(false);
-        // const details = await retrievePurchaseDetails();
-
-        // showPurchaseSummary(details);
       };
       const checkout = await stripe.initEmbeddedCheckout({
         clientSecret: client_secret,
@@ -1426,55 +1851,50 @@ const SettingsPage = () => {
   };
   const renderBillingPlans = () => {
     if (!billingPlans) return;
-    return billingPlans.map(plan => {
-      // console.log(plan);
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        gap: 2,
-        cardsLayout: true,
-        onAction: () => {},
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-          className: "flex flex-col gap-2 border border-gray-200 bg-white rounded-lg flex flex-row p-lg",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h2", {
-            className: "card-section-heading",
-            children: plan.name
-          }), plan.features.map(feature => {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-              className: "flex flex-row justify-start align-center gap-2",
-              children: [feature.value === "true" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__["default"], {
-                className: "w-6 fill-success-700"
-              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__["default"], {
-                className: "w-6 fill-error-700"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
-                children: feature.title
-              })]
-            });
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
-            disabled: settings && (settings.current_plan.id === plan.id || plan.id < settings.current_plan.id),
-            className: "rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-combined-gray",
-            onClick: () => activateBillingPlan(plan.id),
-            children: settings.current_plan.id === plan.id ? "Activated" : "Activate"
+    return billingPlans.map(plan => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      gap: 2,
+      cardsLayout: true,
+      className: `${responsiveBlockStack} h-full`,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+        className: `flex flex-col gap-2 border border-gray-200 bg-white rounded-lg p-lg ${responsiveBlockStack} h-full`,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h2", {
+          className: "card-section-heading",
+          children: plan.name
+        }), plan.features.map(feature => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
+          className: "flex flex-row justify-start align-center gap-2",
+          children: [feature.value === "true" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__["default"], {
+            className: "w-6 fill-success-700"
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__["default"], {
+            className: "w-6 fill-error-700"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+            children: feature.title
           })]
-        })
-      });
-    });
+        })), settings && plan.id >= settings.current_plan.id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+          disabled: settings && (settings.current_plan.id === plan.id || plan.id < settings.current_plan.id),
+          className: "rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-combined-gray",
+          onClick: () => activateBillingPlan(plan.id),
+          children: settings.current_plan.id === plan.id ? "Activated" : "Activate"
+        })]
+      })
+    }));
   };
-  // console.log(settings);
-  // const isBillingPlanRestriction = false;
   const isBillingPlanRestriction = settings && settings.current_plan && settings.current_plan.id === 1;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_16__["default"], {
     loading: loading,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+        className: responsiveBlockStack,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h1", {
           className: "text-display-sm font-semibold mt-6",
           children: "Settings"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("p", {
           className: "page-header-description",
-          children: "Set default values for any new events to save time."
+          children: "Set default values for new events to save time"
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
         gap: 2,
         align: "right",
+        className: responsiveInlineStack,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
           text: "Cancel",
           icon: null,
@@ -1484,43 +1904,54 @@ const SettingsPage = () => {
           text: "Save",
           icon: null,
           type: "primary",
-          onAction: () => saveSettings()
+          onAction: () => saveAllSettings()
         })]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 8,
         cardsLayout: true,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_15__["default"], {
-          tabsList: tabsList,
-          selected: selectedTab,
-          handleSelectChange: handleSelectChange,
-          fullWidth: true
+        className: responsiveBlockStack,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+          className: responsiveTabsWrapper,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_15__["default"], {
+            tabsList: tabsList,
+            selected: selectedTab,
+            handleSelectChange: handleSelectChange,
+            fullWidth: true
+          })
         }), selectedTab === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
           gap: 8,
           cardsLayout: true,
+          className: responsiveBlockStack,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Time zone",
             description: "Set a default time zone.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 2,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 label: "",
                 options: timezoneOptions,
                 selected: settings?.settings?.admin_dashboard?.default_timezone || null,
-                onSelectChange: handleTimezoneChange
+                onSelectChange: handleTimezoneChange,
+                className: responsiveInput
               })
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Time format",
             description: "Set a default time format.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 4,
+              className: responsiveBlockStack,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 label: "",
                 options: timeOptions,
                 selected: settings?.settings?.time_format_24_hours ? "24 hours" : "12 hours",
-                onSelectChange: handleTimeFormatChange
+                onSelectChange: handleTimeFormatChange,
+                className: responsiveInput
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Hide timezone abbreviation in email, widget and dashboard.",
                 checked: settings?.settings?.hide_time_zone,
@@ -1530,43 +1961,52 @@ const SettingsPage = () => {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Currency format",
             description: "Set a default currency.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 2,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 label: "",
                 options: currencyOptions,
                 selected: settings?.settings?.widget_style_settings?.currency_format === "sign" ? "Currency sign: $ / 元" : "Alphabets: USD / CAD / CNY",
-                onSelectChange: handleCurrencyChange
+                onSelectChange: handleCurrencyChange,
+                className: responsiveInput
               })
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Duration",
             description: "Set a default event duration.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 2,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 label: "",
                 options: durationOptions(),
                 selected: settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_duration ? durationOptions()[settings.settings.admin_dashboard.default_duration - 1] : "1 hour",
-                onSelectChange: val => handleDefaultDurationChange(val)
+                onSelectChange: val => handleDefaultDurationChange(val),
+                className: responsiveInput
               })
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Start / end time",
             description: "Set a default start and end time.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 2,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-                className: "flex flex-row gap-5 justify-between",
+                className: "flex flex-col md:flex-row gap-5 w-full min-w-0",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_11__["default"], {
                   label: "Start time",
                   time: getDefaultStartTime(),
                   onChange: val => handleDefaultStartTimeChange(val),
                   minValue: 0,
                   maxValue: 12,
-                  timeFormat: settings?.seetings?.admin_dashboard?.time_format_24_hours ? "HH:mm" : "hh:mm a"
+                  timeFormat: settings?.seetings?.admin_dashboard?.time_format_24_hours ? "HH:mm" : "hh:mm a",
+                  className: responsiveInput
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_11__["default"], {
                   label: "End time",
                   time: getDefaultEndTime(),
@@ -1574,16 +2014,19 @@ const SettingsPage = () => {
                   minValue: 0,
                   maxValue: 60,
                   disabled: true,
-                  timeFormat: settings?.seetings?.admin_dashboard?.time_format_24_hours ? "HH:mm" : "hh:mm a"
+                  timeFormat: settings?.seetings?.admin_dashboard?.time_format_24_hours ? "HH:mm" : "hh:mm a",
+                  className: responsiveInput
                 })]
               })
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Ticket price",
             description: "Set a default ticket price.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 2,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
                 value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_price : 0.0,
                 type: "number",
@@ -1591,15 +2034,35 @@ const SettingsPage = () => {
                 minValue: 0,
                 disabled: isBillingPlanRestriction || !stripeAccount,
                 onChange: newVal => handleDefaultPriceChange(newVal),
-                width: "100%"
+                className: responsiveInput
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Ticket quantity",
+            description: "Set a default ticket quantity.",
+            className: responsiveBlockStack,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+              gap: 2,
+              cardsLayout: true,
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_quantity : 0.0,
+                type: "number",
+                align: "left",
+                minValue: 0,
+                disabled: isBillingPlanRestriction ? 25 : null,
+                onChange: newVal => handleDefaultQuantityChange(newVal),
+                className: responsiveInput
               })
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Location",
             description: "Set a default event location.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 2,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_12__["default"], {
                 title: "",
                 buttons: eventTypes.map(type => type.label),
@@ -1611,12 +2074,15 @@ const SettingsPage = () => {
           })]
         }), selectedTab === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
           gap: 8,
+          className: responsiveBlockStack,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Email notifications",
             description: "Enable email notifications",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 2,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Enable email notifications",
                 checked: settings?.settings?.disable_emails === false,
@@ -1627,9 +2093,11 @@ const SettingsPage = () => {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "First reminder",
             description: "Enable first reminder and specify time to first reminder",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 4,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "First reminder",
                 checked: settings?.settings?.first_reminder,
@@ -1641,15 +2109,18 @@ const SettingsPage = () => {
                 type: "number",
                 align: "left",
                 disabled: isBillingPlanRestriction,
-                onChange: newVal => handleFirstReminderHoursChange(newVal)
+                onChange: newVal => handleFirstReminderHoursChange(newVal),
+                className: responsiveInput
               })]
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Second reminder",
             description: "Enable second reminder and specify time to second reminder",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 4,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Second reminder",
                 checked: settings?.settings?.second_reminder,
@@ -1661,15 +2132,18 @@ const SettingsPage = () => {
                 type: "number",
                 align: "left",
                 disabled: isBillingPlanRestriction,
-                onChange: newVal => handleSecondReminderHoursChange(newVal)
+                onChange: newVal => handleSecondReminderHoursChange(newVal),
+                className: responsiveInput
               })]
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Finished reminder",
             description: "Send notification after the event has ended",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 4,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Finished reminder",
                 disabled: isBillingPlanRestriction,
@@ -1680,11 +2154,14 @@ const SettingsPage = () => {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Additional Email Notification Settings",
             description: "Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
+              className: responsiveBlockStack,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 2,
                 cardsLayout: true,
+                className: responsiveBlockStack,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
                   className: "input-container-col",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
@@ -1696,12 +2173,14 @@ const SettingsPage = () => {
                     fullWidth: true,
                     type: "text",
                     align: "left",
-                    onChange: newVal => handleNewAdditionalEmailsChange(newVal)
+                    onChange: newVal => handleNewAdditionalEmailsChange(newVal),
+                    className: responsiveInput
                   })]
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 2,
                 cardsLayout: true,
+                className: responsiveBlockStack,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
                   className: "input-container-col",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
@@ -1713,12 +2192,14 @@ const SettingsPage = () => {
                     type: "number",
                     align: "left",
                     disabled: isBillingPlanRestriction,
-                    onChange: newVal => handleAdditionalRemindersHoursChange(newVal)
+                    onChange: newVal => handleAdditionalRemindersHoursChange(newVal),
+                    className: responsiveInput
                   })]
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 2,
                 cardsLayout: true,
+                className: responsiveBlockStack,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                   label: "Skip Staff Email Notification",
                   disabled: isBillingPlanRestriction,
@@ -1771,17 +2252,21 @@ const SettingsPage = () => {
           })]
         }), selectedTab === 5 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
           gap: 8,
+          className: responsiveBlockStack,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Display mode options",
             description: "These settings let you choose how your widget appears on the page. Each mode offers a unique experience, tailored to your needs.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 label: "",
                 options: availableViewMods,
                 selected: selectedView,
-                onSelectChange: handleViewModeChange
+                onSelectChange: handleViewModeChange,
+                className: responsiveInput
               }), settings?.settings?.widget_style_settings?.ew_events_list_view === "grid" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Fluid grid",
                 checked: settings?.settings?.widget_style_settings?.ew_events_grid_fluid_mode || false,
@@ -1791,16 +2276,20 @@ const SettingsPage = () => {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Item settings",
             description: "Configure the display limits and default page sizes for various items.",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
                 gap: 4,
                 cardsLayout: true,
                 align: "left",
+                className: responsiveInlineStack,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                   gap: 2,
                   cardsLayout: true,
+                  className: responsiveBlockStack,
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
                     className: "font-semibold",
                     children: "Grid item description display limit"
@@ -1810,11 +2299,13 @@ const SettingsPage = () => {
                     type: "number",
                     align: "left",
                     onChange: newVal => handleDescriptionLengthChange("ew_card_description_display_words_limit", newVal),
-                    suffix: "words"
+                    suffix: "words",
+                    className: responsiveInput
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                   gap: 2,
                   cardsLayout: true,
+                  className: responsiveBlockStack,
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
                     className: "font-semibold",
                     children: "List item description display limit"
@@ -1824,12 +2315,14 @@ const SettingsPage = () => {
                     type: "number",
                     align: "left",
                     onChange: newVal => handleDescriptionLengthChange("ew_list_item_description_display_words_limit", newVal),
-                    suffix: "words"
+                    suffix: "words",
+                    className: responsiveInput
                   })]
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 1,
                 cardsLayout: true,
+                className: responsiveBlockStack,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
                   className: "font-semibold",
                   children: "Default page size"
@@ -1837,23 +2330,28 @@ const SettingsPage = () => {
                   label: "",
                   options: availablePageSizes,
                   selected: selectedPageSize,
-                  onSelectChange: handlePageSizeChange
+                  onSelectChange: handlePageSizeChange,
+                  className: responsiveInput
                 })]
               })]
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Filter settings",
             description: "Select the filters to be displayed on the event widget.",
+            className: responsiveBlockStack,
             children: settings?.settings?.widget_style_settings && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
+              className: responsiveBlockStack,
               children: renderAvailableFilters()
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Additional widget display settings",
             description: "Select which parts of the events widget users can see. Also, adjust the visibility of different components",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
               cardsLayout: true,
+              className: responsiveBlockStack,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
                 className: "font-semibold border-b pb-1",
                 children: "Widget elements"
@@ -1862,24 +2360,16 @@ const SettingsPage = () => {
                 checked: settings?.settings?.widget_style_settings?.ew_show_language_selector || false,
                 onChange: () => handleAdditionalPropertyChange("ew_show_language_selector")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show calendar",
-                checked: settings?.settings?.widget_style_settings?.show_calendar || false,
-                onChange: () => handleAdditionalPropertyChange("show_calendar")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Display calendar permanently",
                 checked: settings?.settings?.widget_style_settings?.permanently_open_calendar || false,
                 onChange: () => handleAdditionalPropertyChange("permanently_open_calendar")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show widget title",
-                checked: settings?.settings?.widget_style_settings?.show_widget_title || false,
-                onChange: () => handleAdditionalPropertyChange("show_widget_title")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Show events counter",
                 checked: settings?.settings?.widget_style_settings?.ew_events_counter || false,
                 onChange: () => handleAdditionalPropertyChange("ew_events_counter")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "View mode switch",
-                checked: settings?.settings?.widget_style_settings?.ew_hide_view_mode_switch || false,
+                checked: !settings?.settings?.widget_style_settings?.ew_hide_view_mode_switch || false,
                 onChange: () => handleAdditionalPropertyChange("ew_hide_view_mode_switch")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
                 className: "font-semibold border-b pb-1",
@@ -1897,10 +2387,6 @@ const SettingsPage = () => {
                 checked: settings?.settings?.widget_style_settings?.show_events_list_separator_badge || false,
                 onChange: () => handleAdditionalPropertyChange("show_events_list_separator_badge")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show quantity",
-                checked: settings?.settings?.widget_style_settings?.ew_show_quantity || false,
-                onChange: () => handleAdditionalPropertyChange("ew_show_quantity")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                 label: "Share button",
                 checked: settings?.settings?.widget_style_settings?.ew_show_share_button || false,
                 onChange: () => handleAdditionalPropertyChange("ew_show_share_button")
@@ -1914,43 +2400,63 @@ const SettingsPage = () => {
         }), selectedTab === 6 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
           gap: 8,
           cardsLayout: true,
+          className: responsiveBlockStack,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Default language for widgets",
             description: "Translate text in widgets to any language",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"]
             // label="Languages"
             , {
               label: "Default language",
               options: getLangsSelectOptions().map(lang => lang.label),
               onSelectChange: handleDefaultLanguageChange,
-              selected: getDefaultWidgetLanguageName()
-              // disabled={isLoading}
+              selected: getDefaultWidgetLanguageName(),
+              className: responsiveInput
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Language for translate",
             description: "Before choosing the default language, select one from the list. Then, edit the widget fields and save the changes",
+            className: responsiveBlockStack,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
               label: "Language",
               options: getLangsSelectOptions().map(lang => lang.label),
               onSelectChange: handleSelectLanguageforEdit,
-              selected: langForEdit
+              selected: langForEdit,
+              className: responsiveInput
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Global Widgets Translations",
+            className: responsiveBlockStack,
             children: renderTranslations()
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             title: "Events Widget Translations",
+            className: responsiveBlockStack,
             children: renderTranslations("mainWidget")
           })]
         }), selectedTab === 7 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
           gap: 8,
+          className: responsiveBlockStack,
           children: [!showPaymentForm && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
             gap: 4,
             cardsLayout: true,
+            className: responsiveInlineStack,
             children: renderBillingPlans()
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
             id: "servv-payment-element"
           })]
+        }), selectedTab === 8 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+          gap: 8,
+          className: responsiveBlockStack,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            gap: 4,
+            cardsLayout: true,
+            className: responsiveInlineStack,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_N8NSettings__WEBPACK_IMPORTED_MODULE_22__["default"], {
+              n8nSettingsData: n8nCurentSettings,
+              settingsUpdate: updateN8NSettings
+            })
+          })
         })]
       })
     })]
@@ -3230,24 +3736,14 @@ const translationsKeysTpl = {
   mainWidget: {
     openDialogButton: "Book event",
     eventsListTitle: "Events list",
-    bundlesListTitle: "Bundles list",
     widgetEventsListSwitchLabel: "Events",
-    widgetBundlesListSwitchLabel: "Bundles",
-    bundleAddToCartButtonLabel: "Add to Cart",
     eventAddToCartButtonLabel: "Add to Cart",
     liveShoppingJoinButtonLabel: "Join",
     liveShoppingStartCountdown: "in",
-    bundleEventsListTitle: "Included events",
-    shareEventPanelTitle: "Share this event",
     searchEventPlaceholder: "Search",
     itemsCounterLabel: "items",
     clearFiltersLabel: "clear",
     bookButtonLabel: "Book now",
-    virtualAppointmentLabel: "Appointment",
-    virtualEventLabel: "Virtual",
-    inPersonEventLabel: "In-Person",
-    webinarLabel: "Webinar",
-    liveShoppingLabel: "Live Shopping",
     eventDetailsButtonLabel: "Details",
     eventDescriptionFieldLabel: "Description",
     todaySeparatorLabel: "Today",
@@ -3256,8 +3752,7 @@ const translationsKeysTpl = {
     resultStypeLabel: "Result",
     goToFiltersResultButton: "Next: Result",
     labelForMonthWithoutEvents: "There are no events scheduled for this month",
-    nextMonthButton: "Next",
-    availableQuantitySuffix: "left"
+    nextMonthButton: "Next"
   },
   onProductWidget: {
     selectTimeButton: "Select the Date and Time",
@@ -3290,28 +3785,6 @@ const translationsKeysTpl = {
     noAvailableSlots: "No appointment slots available at the moment",
     registrationCompletedMessageTitle: "Registration completed!",
     registrationCompletedMessageDescription: "You have successfully registered. A confirmation email has been sent to the provided email address. Please check your inbox."
-  },
-  liveShoppingWidget: {
-    joinToCallButton: "Join",
-    enterAdmittedUser: "Enter",
-    joinUserWithEmailButton: "Join",
-    usernameInputLabel: "Username",
-    emailInputLabel: "Email",
-    usernameInputPlaceholder: "john.doe",
-    emailInputPlaceholder: "john.doe@acme.com",
-    loginFormTitle: "Please enter your username and email to join the call",
-    waitForConnectionMessage: "Please wait until the owner allows you in",
-    reconnectionMessage: "Something has gone wrong, we are trying to reconnect you",
-    waitForAdmitMessage: "Please wait, we are trying to connect you",
-    connectionErrorMessage: "Please reload the page",
-    productAddedToCartMessage: "The product has been added to the cart",
-    emptyUsernameWarning: "Please enter your username",
-    emptyEmailWarning: "Please enter your email",
-    wrongEmailFormatWarning: "Please enter the correct email",
-    audioRequirmentsIssue: "The system does not support VOIP, but you can join the audio by phone",
-    screenRequirmentsIssue: "The screen is not compatible with the current web browser.",
-    videoRequirmentsIssue: "The video is not compatible with the current web browser.",
-    browserRequirmentsIssue: "Please update your browser"
   }
 };
 const defaultTranslationLanguages = ["zh-cn", "nl", "en", "fr", "de", "hi", "it", "ja", "ko", "no", "ru", "es", "sv"];
@@ -3370,4 +3843,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=eccdff1853abc3c2a5e4
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=b49c4a6faec57d770a89

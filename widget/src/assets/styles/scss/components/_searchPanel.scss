@@ -1,4 +1,8 @@
 .svv-search-container {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+  max-width: calc(50% - 0.875em);
   &.header-position {
     position: absolute;
   }
@@ -23,21 +27,21 @@
     display: flex;
     align-items: center;
 
-    border: 1px solid $svv_blue_ultra_dark;
+    border: 1px solid $svv-elements-border;
     background-color: $svv_common_background;
-    color: $svv_blue_ultra_dark;
+    // color: red;
     //width: 32px;
-    height: 30px;
-    border-radius: 100px;
+    height: 31.5px;
+    border-radius: 10.5px;
   }
 
   .svv-open-search-btn {
-    border: 1px solid #fff;
+    border: 1px solid $svv-elements-border;
     background-color: $svv_common_background;
     color: $svv_blue_ultra_dark;
-    width: 28px;
-    height: 28px;
-    border-radius: 100px;
+    width: 29px;
+    height: 29px;
+    border-radius: 10.5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,23 +51,25 @@
     svg {
       width: 15px;
       height: auto;
-      fill: $svv_blue_ultra_dark;
+      stroke: $svv-brand-primary;
+      fill: $svv-brand-primary;
       transition: $global-transition;
     }
 
     &:hover {
-      border-color: $svv_blue_ultra_dark;
-      background-color: $svv_blue_ultra_dark;
+      border-color: $svv-brand-secondary;
+      background-color: $svv-brand-secondary;
       transition: $global-transition;
       svg {
-        fill: #fff;
+        stroke: $svv-brand-primary;
+        fill: $svv-brand-primary;
         transition: $global-transition;
       }
     }
   }
 
   .svv-search-input-container {
-    height: 27px;
+    // height: 27px;
     width: 0;
     max-width: 0;
     overflow: hidden;
@@ -79,7 +85,10 @@
     height: 30px;
     border: none;
     border-radius: 100px;
-    color: $svv-text_gray_dark;
+    color: $svv_text_black;
+    font-weight: 600;
+    margin-left: 10px;
+
     background-color: transparent;
 
     &::placeholder {
@@ -106,14 +115,13 @@
   }
 
   .svv-action-search-btn {
-    border: 1px solid #fff;
     background-color: $svv_common_background;
     color: $svv_text_gray;
     width: 30px;
     height: 30px;
     min-width: 30px;
     min-height: 30px;
-    border-radius: 100px;
+    border-radius: 10.5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,37 +133,57 @@
     svg {
       width: 15px;
       height: auto;
-      fill: $svv_text_gray;
+      fill: $svv_text_secondary;
       transition: $global-transition;
     }
 
     &:hover {
-      border-color: $svv_text_gray;
+      border-color: $svv_text_secondary;
+      background: $svv-elements-background-color;
+      border-radius: 7px;
+      color: $svv-text-hover-color;
       transition: $global-transition;
       svg {
+        stroke: $svv_white;
         transition: $global-transition;
       }
     }
   }
 
   &.open-search {
+    width: calc(50% - 0.875em);
+    border: 1px solid $svv-brand-primary;
+    box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 10.5px;
     .svv-search-input-container {
       transition: $global-transition;
-      width: 250px;
-      max-width: 250px;
+      width: 100%;
+      max-width: 100%;
+
       @include media-breakpoint-down(sm) {
         width: 250px;
         max-width: 250px;
       }
     }
     .svv-open-search-btn {
-      border-color: $svv_blue_ultra_dark;
-      background-color: $svv_blue_ultra_dark;
+      border-color: $svv_text_secondary;
+      background-color: $svv_white;
       transition: $global-transition;
-      border-right: none;
+      border: none;
+      margin-right: 3px;
+      width: 30px;
+      height: 30px;
+      &:hover {
+        fill: $svv_text_secondary;
+        background: $svv-elements-background-color;
+        border-radius: 7px;
+        color: $svv-text-hover-color;
+        border: none;
+      }
       svg {
-        fill: #fff;
-        color: #fff;
+        fill: $svv_text_secondary;
+        color: $svv_white;
         transition: $global-transition;
       }
     }

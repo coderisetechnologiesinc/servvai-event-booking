@@ -1,4 +1,3 @@
-import apiFetch from "@wordpress/api-fetch";
 import ButtonGroup from "../Controls/ButtonGroup";
 import { Fragment, useEffect, useState } from "react";
 const NotificationsSection = ({
@@ -14,12 +13,13 @@ const NotificationsSection = ({
   // useEffect(() => {
   //     getAccountsInfo()
   // }, [])
+  // console.log(notifications);
 
   return (
     <Fragment>
       <div className="section-container border-b">
-        <div className="section-heading">Notifications</div>
-        <ButtonGroup
+        <div className="section-heading">{t("Notifications")}</div>
+        {/* <ButtonGroup
           title="Calendar notifications"
           buttons={notificationsOptions}
           disabled={
@@ -34,12 +34,12 @@ const NotificationsSection = ({
           onChange={() => {
             onChange("google_calendar", !notifications.google_calendar);
           }}
-        />
+        /> */}
         <ButtonGroup
           title="Email notifications"
           buttons={notificationsOptions}
           active={
-            notifications.disable_emails && connectedMailAccount
+            !notifications.disable_emails && connectedMailAccount
               ? notificationsOptions[0]
               : notificationsOptions[1]
           }

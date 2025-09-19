@@ -38,7 +38,7 @@ const IntegrationsPage = ({
         {},
         "",
         window.location.origin +
-          "/wp-admin/admin.php?page=servvai-event-booking"
+          `${servvData.adminUrl}?page=servvai-event-booking`
       );
     }
   }, []);
@@ -56,50 +56,50 @@ const IntegrationsPage = ({
               </h1>
               <p className="page-header-description">
                 Connect and manage your integrations to enhance your event
-                management.
+                management
               </p>
             </BlockStack>
           </PageHeader>
           <PageContent>
-            <BlockStack gap={4}>
-              <InlineStack gap={8} cardsLayout={true}>
+            <div className="flex flex-wrap gap-4 max-md:flex-col max-md:flex-nowrap">
+              <div
+                className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem]`}
+              >
                 <BlockStack
                   gap={2}
                   cardsLayout={true}
                   action={true}
                   onAction={() => handleSelectPage("calendars")}
                 >
-                  <div
-                    className="card-image"
-                    style={{
-                      background: `url("${"https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3Dhttps://www.onecalendar.nl/images/onecalendar.jpg"}")`,
-                    }}
-                  ></div>
                   <a
                     href=""
                     className="servv-button-link"
                     onClick={(e) => e.preventDefault()}
                   >
-                    Calendar Integration
+                    Calendars
                   </a>
                   <InlineStack align={"left"} justify={"space"}>
                     <h2 className="card-section-heading">Calendars</h2>
                     <ArrowUpRightIcon className="size-6" />
                   </InlineStack>
-                  <p className="section-description">
-                    Sync your event schedules effortlessly with Google Calendar
-                    or Outlook to keep everyone informed.
+                  <p className="section-description mb-2">
+                    Keep your team and attendees aligned by syncing events
+                    directly with Google Calendar
                   </p>
                   <InlineStack align={"left"}>
                     <Badge
                       text="Google Calendar"
-                      image="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/1024px-Gmail_icon_%282020%29.svg.png"
                       type="pill-outline"
                       size="medium"
                     />
                   </InlineStack>
                 </BlockStack>
-
+              </div>
+              <div
+                className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] ${
+                  !isFeatureAvailable ? "opacity-[0.5]" : ""
+                }`}
+              >
                 <BlockStack
                   gap={2}
                   action={true}
@@ -111,40 +111,33 @@ const IntegrationsPage = ({
                   }
                   disabled={!isFeatureAvailable}
                 >
-                  <div
-                    className="card-image"
-                    style={{
-                      background: `url("${"https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}")`,
-                    }}
-                  ></div>
                   <a
                     href=""
                     className="servv-button-link"
                     onClick={(e) => e.preventDefault()}
                   >
-                    Email Integration
+                    Emails
                   </a>
                   <InlineStack align={"left"} justify={"space"}>
                     <h2 className="card-section-heading">Emails</h2>
                     <ArrowUpRightIcon className="size-6" />
                   </InlineStack>
-                  <p className="section-description">
-                    Automate communications using Google Mail and Microsoft
-                    Outlook, ensuring timely updates for your events.
+                  <p className="section-description mb-2">
+                    Automate email notifications and reminders through your
+                    Gmail account to ensure smooth event communication
                   </p>
                   <InlineStack align={"left"}>
-                    <Badge
-                      text="Gmail"
-                      image="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/1024px-Gmail_icon_%282020%29.svg.png"
-                      type="pill-outline"
-                      size="medium"
-                    />
+                    <Badge text="Gmail" type="pill-outline" size="medium" />
                   </InlineStack>
                 </BlockStack>
-              </InlineStack>
+              </div>
 
-              <InlineStack gap={8} cardsLayout={true}>
-                {settings && (
+              {settings && (
+                <div
+                  className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] ${
+                    !isFeatureAvailable ? "opacity-[0.5]" : ""
+                  }`}
+                >
                   <BlockStack
                     gap={2}
                     cardsLayout={true}
@@ -155,18 +148,12 @@ const IntegrationsPage = ({
                     }
                     disabled={!isFeatureAvailable}
                   >
-                    <div
-                      className="card-image"
-                      style={{
-                        background: `url("${"https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}")`,
-                      }}
-                    ></div>
                     <a
                       href=""
                       className="servv-button-link"
                       onClick={(e) => e.preventDefault()}
                     >
-                      Zoom Integration
+                      Video Conferencing
                     </a>
                     <InlineStack align={"left"} justify={"space"}>
                       <h2 className="card-section-heading">
@@ -174,21 +161,26 @@ const IntegrationsPage = ({
                       </h2>
                       <ArrowUpRightIcon className="size-6" />
                     </InlineStack>
-                    <p className="section-description">
-                      Sync your event schedules effortlessly with Google
-                      Calendar or Outlook to keep everyone informed.
+                    <p className="section-description mb-2">
+                      Host and manage Zoom events effortlessly by integrating
+                      Zoom
                     </p>
                     <InlineStack align={"left"}>
                       <Badge
                         text="Zoom"
-                        image="https://cdn.worldvectorlogo.com/logos/zoom-app.svg"
                         type="pill-outline"
                         size="medium"
                         align="center"
                       />
                     </InlineStack>
                   </BlockStack>
-                )}
+                </div>
+              )}
+              <div
+                className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem]  ${
+                  !isFeatureAvailable ? "opacity-[0.5]" : ""
+                }`}
+              >
                 <BlockStack
                   action={true}
                   gap={2}
@@ -200,35 +192,19 @@ const IntegrationsPage = ({
                       : () => {}
                   }
                 >
-                  <div
-                    className="card-image"
-                    style={{
-                      background: `url("${"https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}")`,
-                    }}
-                  ></div>
-                  {/* <div
-                    className="card-image"
-                    style={{
-                      background: `url("${"https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}")`,
-                      maxWidth:
-                        settings && settings.current_plan
-                          ? "calc(33% - 1rem)"
-                          : "calc(50% - 1rem)",
-                    }}
-                  ></div> */}
                   <a
                     href=""
                     className="servv-button-link"
                     onClick={(e) => e.preventDefault()}
                   >
-                    Stripe integration
+                    Stripe
                   </a>
                   <InlineStack align={"left"} justify={"space"}>
                     <h2 className="card-section-heading">Stripe</h2>
                     <ArrowUpRightIcon className="size-6" />
                   </InlineStack>
                   <p
-                    className="section-description"
+                    className="section-description mb-2"
                     // style={{
                     //   maxWidth:
                     //     settings && settings.current_plan
@@ -236,20 +212,15 @@ const IntegrationsPage = ({
                     //       : "calc(50% - 1rem)",
                     // }}
                   >
-                    Sync your event schedules effortlessly with Google Calendar
-                    or Outlook to keep everyone informed.
+                    Accept secure payments for your events with Stripe, ensuring
+                    a seamless checkout experience for attendees
                   </p>
                   <InlineStack align={"left"}>
-                    <Badge
-                      text="Stripe"
-                      image="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/2560px-Stripe_Logo%2C_revised_2016.svg.png"
-                      type="pill-outline"
-                      size="medium"
-                    />
+                    <Badge text="Stripe" type="pill-outline" size="medium" />
                   </InlineStack>
                 </BlockStack>
-              </InlineStack>
-            </BlockStack>
+              </div>
+            </div>
           </PageContent>
         </Fragment>
       )}

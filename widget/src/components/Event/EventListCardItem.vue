@@ -67,6 +67,7 @@ import {
 
 import EventCardListLayout from "@/components/Event/EventCard/EventCardListLayout";
 import EventCardGridLayout from "@/components/Event/EventCard/EventCardGridLayout";
+import placeholderImage from "@/assets/images/placeholder.png";
 import { Fragment } from "vue-frag";
 
 export default {
@@ -327,7 +328,7 @@ export default {
     getEventImage(currentEvent) {
       return currentEvent.product && currentEvent.product.image_url
         ? currentEvent.product.image_url
-        : "https://servv-images.s3.us-east-2.amazonaws.com/placeholder.png";
+        : `${servvAjax.assets_url}img/placeholder.png`;
     },
     getDetailsTooltipContent(item) {
       let itemsList = "";
@@ -407,10 +408,11 @@ export default {
 
       if (!this.productUrl) {
         if (!this.event.product) return;
-        const productHandle = await this.fetchProductDetails(
-          this.event.product.parent_product_id
-        );
-        this.productUrl = `${window.location.origin}/products/${productHandle}?variant=${this.event.product.product_id}`;
+        // const productHandle = await this.fetchProductDetails(
+        //   this.event.product.parent_product_id
+        // );
+
+        this.productUrl = this.event.product.post_url;
       }
 
       this.showSharingControls = true;

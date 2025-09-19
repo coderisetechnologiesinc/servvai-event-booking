@@ -104,6 +104,7 @@ const RegistrantsSection = ({
                   onChange={(val) => setFirstName(val)}
                   type="text"
                   width={"100%"}
+                  align="left"
                 />
               </div>
               <div className="input-container-col">
@@ -113,6 +114,7 @@ const RegistrantsSection = ({
                   onChange={(val) => setLastName(val)}
                   type="text"
                   width={"100%"}
+                  align="left"
                 />
               </div>
             </InlineStack>
@@ -123,6 +125,7 @@ const RegistrantsSection = ({
                 onChange={(val) => setEmail(val)}
                 type="text"
                 width={"100%"}
+                align="left"
               />
             </div>
             <InlineStack align="right">
@@ -142,7 +145,7 @@ const RegistrantsSection = ({
         )}
       </fieldset>
       <BlockStack gap={2}>{renderRegistrants()}</BlockStack>
-      <InlineStack align="right">
+      <InlineStack align="right" gap={2}>
         {selectedRegistrants.length > 0 && isResendAvailable() && (
           <Fragment>
             <button

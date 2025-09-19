@@ -13,6 +13,8 @@ import moment from "moment";
 // import { toast } from "react-toastify";
 import DatePickerControl from "./DatePickerControl";
 import AIButton from "./AIButton";
+import apiFetch from "@wordpress/api-fetch";
+import { toast } from "react-toastify";
 const DateTimeSection = ({
   eventDetails,
   onChange,
@@ -21,8 +23,16 @@ const DateTimeSection = ({
   adminSection,
   setToast,
 }) => {
+  const [isAiLoading, setIsAILoading] = useState(false);
   const { startTime, duration, timezone, recurrence } = eventDetails;
-  const time = startTime !== null ? moment(startTime) : moment();
+
+  const time =
+    startTime !== null
+      ? typeof startTime === "string"
+        ? moment(startTime)
+        : startTime
+      : moment();
+
   const [isDateChanged, setDateChanged] = useState(!!startTime);
   const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const endTime = time
@@ -30,10 +40,39 @@ const DateTimeSection = ({
     : moment().add(duration, "minutes");
   const timezoneOptions = timezones.map((timezone) => timezone.zone);
 
-  const userTimezone = timezones.filter(
-    (timezone) =>
-      timezone.zone === Intl.DateTimeFormat().resolvedOptions().timeZone
-  );
+  const [userTimezone, setUserTimezone] = useState("US/Pacific");
+  const updateTimezone = (settings) => {
+    let defaultTimezone = null;
+
+    if (!settings) return;
+
+    if (settings.settings?.admin_dashboard) {
+      const adminSettings = settings.settings.admin_dashboard;
+      defaultTimezone = adminSettings.default_timezone || moment.tz.guess();
+    } else {
+      defaultTimezone = moment.tz.guess();
+    }
+
+    let findTimezone = timezones.filter((t) => t.zone === defaultTimezone);
+
+    if (findTimezone.length > 0) {
+      setUserTimezone(findTimezone[0]);
+    } else {
+      let timezoneOffset = moment.tz(defaultTimezone).format("Z");
+      let formattedOffset = `(GMT${timezoneOffset})`;
+
+      let availableTimezone = timezones.filter(
+        (t) => t.gmt === formattedOffset
+      );
+
+      if (availableTimezone.length > 0) {
+        setUserTimezone(availableTimezone[0]);
+      }
+    }
+  };
+  useEffect(() => {
+    updateTimezone(settings);
+  }, [settings]);
 
   useEffect(() => {
     if (
@@ -113,72 +152,166 @@ const DateTimeSection = ({
 
   const fetchDescription = async () => {
     if (adminSection) return;
+
     if (eventDetails.title.length === 0) {
       setToast("Please enter a title to use this feature.");
       return;
     }
+    setIsAILoading(true);
     const { createBlock } = wp.blocks;
-    const { dispatch } = wp.data;
-    let url = "https://ai-api.servv.ai/generate-description";
+    const { dispatch, select } = wp.data;
+    const url = "/wp-json/servv-plugin/v1/event/data/generate";
 
-    // let prompt = `Write a compelling event description for this information specific to the store provided.
-    //               Title: ${eventDetails.title}
-    //               Date time: ${eventDetails.startTime} timezone: ${eventDetails.timezone}
-    //               Put location and date time in separate lines at the end.`;
-    await axios
-      .post(
-        url,
-        {
-          title: eventDetails.title,
-          // model: "gpt-4o-mini",
-          // messages: [
-          //   {
-          //     role: "user",
-          //     content: prompt,
-          //   },
-          // ],
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    try {
+      const response = await axios
+        .post(
+          url,
+          { title: eventDetails.title },
+          {
+            headers: {
+              "X-WP-Nonce": servvData.nonce,
+            },
+          }
+        )
+        .catch((error) => {
+          toast(
+            error.message
+              ? error.message
+              : "AI generation could not be completed. Please try again."
+          );
+        });
+
+      const { description, image, tags } = response.data;
+
+      // 1. Insert Description Block
+      if (description && description.length > 0) {
+        const descriptionBlock = createBlock("core/paragraph", {
+          content: description,
+        });
+        dispatch("core/block-editor").insertBlocks(descriptionBlock);
+      }
+      setIsAILoading(false);
+      if (image) {
+        const blob = b64toBlob(image, "image/png");
+        const file = new File([blob], "featured-image.png", {
+          type: "image/png",
+        });
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("title", "Featured Image");
+        if (eventDetails?.title) {
+          formData.append("alt_text", eventDetails.title);
         }
-      )
-      .then((response) => {
-        const descriptionContent =
-          response?.data?.description.length > 0
-            ? response?.data?.description
-            : "";
 
-        const descriptionBlock = createBlock("core/paragraph", {
-          content: descriptionContent,
-        });
+        try {
+          // Upload to WP Media Library
+          const uploadResponse = await apiFetch({
+            path: "/wp/v2/media",
+            method: "POST",
+            body: formData,
+            headers: {
+              "X-WP-Nonce": servvData.nonce, // provided by wp_localize_script
+            },
+          });
 
-        // Insert block into current post
-        dispatch("core/block-editor").insertBlocks(descriptionBlock);
-        return response;
-      })
-      .catch((error) => {
-        console.error(
-          "Error:",
-          error.response ? error.response.data : error.message
-        );
-        const descriptionContent = error.response
-          ? error.response.data
-          : error.message;
+          if (uploadResponse?.id) {
+            // Assign uploaded image as Featured Image
+            dispatch("core/editor").editPost({
+              featured_media: uploadResponse.id,
+            });
+          }
+        } catch (imgErr) {
+          console.error("Failed to upload featured image:", imgErr);
+        }
+      }
+      // 3. Create and Assign Tags
+      if (Array.isArray(tags)) {
+        const tagIds = [];
 
-        const descriptionBlock = createBlock("core/paragraph", {
-          content: descriptionContent,
-        });
-        dispatch("core/block-editor").insertBlocks(descriptionBlock);
+        for (const tagRaw of tags) {
+          const tagName = tagRaw.replace(/^#/, "").trim();
+          if (!tagName) continue;
+
+          let tag = select("core").getEntityRecords("taxonomy", "post_tag", {
+            search: tagName,
+            per_page: 1,
+          });
+
+          if (!tag) {
+            const results = await apiFetch({
+              path: `/wp/v2/tags?search=${encodeURIComponent(tagName)}`,
+            });
+            tag = results.length ? results[0] : null;
+          }
+
+          if (!tag) {
+            tag = await apiFetch({
+              path: "/wp/v2/tags",
+              method: "POST",
+              data: { name: tagName },
+            });
+          }
+
+          if (tag && tag.id) {
+            tagIds.push(tag.id);
+          }
+        }
+
+        if (tagIds.length > 0) {
+          dispatch("core/editor").editPost({ tags: tagIds });
+        }
+      }
+    } catch (error) {
+      setIsAILoading(false);
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
+      const fallbackContent = error.response
+        ? error.response.data
+        : error.message;
+
+      const fallbackBlock = wp.blocks.createBlock("core/paragraph", {
+        content: fallbackContent,
       });
+      wp.data.dispatch("core/block-editor").insertBlocks(fallbackBlock);
+    }
   };
+
+  // Helper: base64 → Blob
+  function b64toBlob(b64Data, contentType = "", sliceSize = 512) {
+    // Remove "data:image/...;base64," if present
+    const cleaned = b64Data.includes(",") ? b64Data.split(",")[1] : b64Data;
+
+    // Remove any whitespace or line breaks
+    const safeBase64 = cleaned.replace(/\s/g, "");
+
+    const byteCharacters = atob(safeBase64);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
+  }
 
   return (
     <div className="section-container">
       <div className="flex flex-row justify-between">
-        <div className="section-heading">Date and time</div>
-        {!adminSection && <AIButton onClick={fetchDescription} />}
+        <div className="section-heading">Date and time *</div>
+        {!adminSection && (
+          <AIButton onClick={fetchDescription} loading={isAiLoading} />
+        )}
       </div>
       {/* <DatePicker
         date={time}
@@ -191,13 +324,14 @@ const DateTimeSection = ({
         variant="button"
         instance="main"
       /> */}
-      <div className="flex flex-row gap-5 justify-between items-end">
+      <div className="flex flex-row gap-5 justify-between items-end max-sm:flex-col">
         <DatePickerControl
           date={time}
           onChange={handleDateChange}
           variant="button"
+          adminSection={adminSection}
         />
-        <div className="flex flex-row gap-5 justify-between align-center">
+        <div className="flex flex-row gap-3 justify-between align-center max-sm:justify-start md:justify-between max-sm:w-full">
           <TimeInputControl
             // label="Start time"
             time={time}
@@ -221,12 +355,13 @@ const DateTimeSection = ({
         </div>
       </div>
       <SelectControl
-        label="Time zone"
+        label="Timezone *"
         options={timezoneOptions}
         helpText="Select a timezone"
         selected={timezone ? timezone : null}
         disabled={false}
         onSelectChange={handleTimezoneChange}
+        style={{ padding: "10px" }}
       />
       {!occurrenceId && (
         <RecurringSection

@@ -1,5 +1,4 @@
 const FilterTypePage = ({ filterType }) => {
-    return
-
-}
+  return;
+};
 export default FilterTypePage;

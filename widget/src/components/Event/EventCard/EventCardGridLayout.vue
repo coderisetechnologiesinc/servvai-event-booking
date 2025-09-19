@@ -1,7 +1,25 @@
 <template>
   <div :class="['svv-event-card-item', 'grid-layout-item']" v-masonry-tile>
     <div class="soc-sharing-buttons-container" v-if="showSharingControls">
-      <div class="soc-sharing-buttons-inner-container">
+      <SharingModal
+        :visible="showSharingControls"
+        :image="eventImage"
+        :date="eventDateFormatted"
+        :time="eventTimeFormatted + ' ' + eventDateTime.timeZone"
+        :title="event.topic"
+        :description="
+          truncateString(
+            event.agenda,
+            widgetSettings.widget_style_settings
+              .ew_card_description_display_words_limit
+          )
+        "
+        :link="productUrl"
+        :location="getLocation"
+        :language="getLanguage"
+        :onClose="onOpenSharingControlsClick"
+      />
+      <!-- <div class="soc-sharing-buttons-inner-container">
         <a
           @click.prevent="() => (showSharingControls = false)"
           class="close-share-controls"
@@ -19,23 +37,49 @@
             :product-image="eventImage"
           />
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="card-top-section-container">
       <div
         class="svv-event-image-container"
         v-if="widgetSettings.widget_style_settings.show_event_images"
       >
-        <!--      https://freedesignfile.com/upload/2018/03/Yoga-silhouette-with-sunset-background-vector-06.jpg-->
-
-        <div class="svv-event-datetime-top">
+        <div class="provider-social-container">
+          <div
+            class="item-provider-label"
+            v-if="
+              event.provider &&
+                widgetSettings.widget_style_settings.ew_show_event_type_badge
+            "
+            :class="{
+              zoom: event.provider === 'zoom',
+              offline: event.provider === 'offline',
+            }"
+          >
+            <div class="label-value">
+              {{ eventProviderLabel }}
+            </div>
+          </div>
+          <a
+            v-if="
+              !!event.product &&
+                widgetSettings.widget_style_settings.ew_show_share_button
+            "
+            href="#"
+            class="svv-social-share-btn"
+            @click.prevent="onOpenSharingControlsClick"
+          >
+            <ShareIcon />
+          </a>
+        </div>
+        <!-- <div class="svv-event-datetime-top">
           <div class="datetime-top-month">
             {{ eventDateTime.month }}
           </div>
           <div class="datetime-top-date">
             {{ eventDateTime.date }}
           </div>
-        </div>
+        </div> -->
         <a
           href="#"
           @click.prevent="() => onEventClick(event)"
@@ -50,38 +94,16 @@
           }"
         ></a>
       </div>
-      <div class="svv-event-details-container">
+      <div
+        class="svv-event-details-container"
+        :style="
+          !widgetSettings.widget_style_settings.show_event_images
+            ? { paddingLeft: '5px', paddingTop: '15px' }
+            : {}
+        "
+      >
         <div class="svv-event-main-info-outer-container">
           <div class="svv-event-main-info-container">
-            <div class="provider-social-container">
-              <div
-                class="item-provider-label"
-                v-if="
-                  event.provider &&
-                  !widgetSettings.widget_style_settings.ew_show_event_type_badge
-                "
-                :class="{
-                  zoom: event.provider === 'zoom',
-                  offline: event.provider === 'offline',
-                }"
-              >
-                <div class="label-value">
-                  {{ eventProviderLabel }}
-                </div>
-              </div>
-              <a
-                v-if="
-                  !!event.product &&
-                  !widgetSettings.widget_style_settings.ew_show_share_button
-                "
-                href="#"
-                class="svv-social-share-btn"
-                @click.prevent="onOpenSharingControlsClick"
-              >
-                <ShareIcon />
-              </a>
-            </div>
-
             <div class="svv-event-topic">
               <a href="#" @click.prevent="() => onEventClick(event)">{{
                 event.topic
@@ -173,9 +195,9 @@
       </div>
     </div>
 
-    <div class="svv-purchase-controls-container">
+    <div class="svv-grid-layout-separator">
       <div v-if="!event.is_live_shopping" class="svv-event-price">
-        <span
+        <!-- <span
           v-if="
             eventPrice &&
             (event.product.current_quantity === null ||
@@ -204,7 +226,7 @@
           "
           class="svv-event-quantity"
           >{{ eventQuantity }}</span
-        >
+        > -->
       </div>
 
       <LiveShoppingEventStartCountdown
@@ -214,6 +236,25 @@
 
       <div class="svv-event-controls">
         <a
+          v-if="true"
+          href="#"
+          class="svv-add-to-cart-btn"
+          @click="
+            (e) =>
+              widgetSettings.widget_style_settings
+                .ew_redirect_to_product_page ||
+              (widgetSettings.free_events_skip_checkout && eventPrice === 0)
+                ? onEventClick(event)
+                : onBookEventClick(e, event)
+          "
+        >
+          {{
+            !event.is_live_shopping
+              ? $t("mainWidget.eventAddToCartButtonLabel")
+              : $t("mainWidget.liveShoppingJoinButtonLabel")
+          }}
+        </a>
+        <!-- <a
           v-if="
             event.product.current_quantity === null ||
             (event.product.current_quantity &&
@@ -230,13 +271,13 @@
                 : onBookEventClick(e, event)
           "
         >
-          <!--          <AddCartIcon />-->
+
           {{
             !event.is_live_shopping
               ? $t("mainWidget.eventAddToCartButtonLabel")
               : $t("mainWidget.liveShoppingJoinButtonLabel")
           }}
-        </a>
+        </a> -->
         <a
           v-else
           href="#"
@@ -266,7 +307,7 @@ import LocationIcon from "@/assets/images/icons/location.svg";
 import MembersIcon from "@/assets/images/icons/members.svg";
 import CloseIcon from "@/assets/images/icons/close.svg";
 import LiveShoppingEventStartCountdown from "@/components/common/LiveShoppingEventStartCountdown";
-
+import SharingModal from "@/components/Event/SharingModal";
 import has from "lodash.has";
 
 import {
@@ -289,6 +330,7 @@ export default {
     CloseIcon,
     SocialSharingButtons,
     LiveShoppingEventStartCountdown,
+    SharingModal,
   },
   props: {
     event: {
@@ -414,6 +456,39 @@ export default {
       )
         return "";
       else return "";
+    },
+    getLanguage() {
+      const filters = this.eventTypesList;
+      let language = filters.filter((t) => t && t.typeName === "language");
+      let isFilterAllowed = null;
+      if (language.length > 0) {
+        isFilterAllowed = filters.filter(
+          (x) => !this.displayedFilters.includes(language[0].typeName)
+        );
+      }
+      if (language.length > 0 && isFilterAllowed) {
+        return language[0].value;
+      } else {
+        return "";
+      }
+    },
+    getLocation() {
+      const filters = this.eventTypesList;
+
+      let location = filters.filter((t) => t && t.typeName === "location");
+
+      let isFilterAllowed = null;
+      if (location.length > 0) {
+        isFilterAllowed = filters.filter(
+          (x) => !this.displayedFilters.includes(location[0].typeName)
+        );
+      }
+
+      if (location.length > 0 && isFilterAllowed) {
+        return location[0].value;
+      } else {
+        return "";
+      }
     },
   },
 };

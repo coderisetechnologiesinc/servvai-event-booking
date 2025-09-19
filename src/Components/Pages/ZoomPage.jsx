@@ -48,7 +48,9 @@ const ZoomPage = (props) => {
           servvData.shopify_app
         }/zoom/connect?wordpress_url=${encodeURIComponent(
           getAuthURLResponse.data.auth_url
-        )}&wordpress_return_url=${encodeURIComponent(window.location.origin)}`,
+        )}&wordpress_return_url=${encodeURIComponent(
+          window.location.origin
+        )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
         "_top"
       );
       // open(getAuthURLResponse.data.auth_url)
@@ -72,7 +74,7 @@ const ZoomPage = (props) => {
       <PageHeader>
         <BlockStack>
           <h1 className="text-display-sm font-semibold mt-6">
-            Video Conferencing
+            {t("Video Conferencing")}
           </h1>
           <BreadCrumbs
             breadcrumbs={[
@@ -83,10 +85,11 @@ const ZoomPage = (props) => {
               { label: "Calendar", action: () => {} },
             ]}
           />
-          <p className="page-header-description">
-            Sync your event schedules effortlessly with Google Calendar or
-            Outlook to keep everyone informed.
-          </p>
+          {/* <p className="page-header-description">
+            {t(
+              "Sync your event schedules effortlessly with Google Calendar or\r\n            Outlook to keep everyone informed."
+            )}
+          </p> */}
         </BlockStack>
       </PageHeader>
       <PageContent>
@@ -95,20 +98,22 @@ const ZoomPage = (props) => {
             <div
               className="service-image"
               style={{
-                background: `url("https://images.unsplash.com/photo-1622547748225-3fc4abd2cca0?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
+                background: `linear-gradient(135deg, #2D8CFF, #0055FF)`,
               }}
             >
               {account && (
                 <div className="connected-account bg-gradient-to-b from-transparent to-black/40">
-                  <span>Account</span>
+                  <span>{t("Account")}</span>
                   <Badge text={badge()} justify={"start"} color="gray" />
                 </div>
               )}
             </div>
             <div className="card-content">
-              <h2 className="card-section-heading">Zoom</h2>
+              <h2 className="card-section-heading">{t("Zoom")}</h2>
               <p className="section-description">
-                Sync and manage your Google Calendar account and settings.
+                {t(
+                  "Host and manage Zoom events effortlessly by integrating Zoom"
+                )}
               </p>
               {isAccountFetched && !account && (
                 <a
@@ -119,7 +124,7 @@ const ZoomPage = (props) => {
                     handleGetConnectURL();
                   }}
                 >
-                  Connect
+                  {t("Connect")}
                 </a>
               )}
               {isAccountFetched && account && (
@@ -131,7 +136,7 @@ const ZoomPage = (props) => {
                     handleRemoveAccount();
                   }}
                 >
-                  Disconnect
+                  {t("Disconnect")}
                 </a>
               )}
               {isAccountFetched && account && (
@@ -143,7 +148,7 @@ const ZoomPage = (props) => {
                     props.onPageSelect("settings");
                   }}
                 >
-                  Manage
+                  {t("Manage")}
                 </a>
               )}
             </div>

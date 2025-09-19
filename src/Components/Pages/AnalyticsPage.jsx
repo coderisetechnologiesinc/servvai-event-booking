@@ -1,10 +1,13 @@
 import axios from "axios";
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import PageWrapper from "./PageWrapper";
 import PageContent from "../Containers/PageContent";
 import PageHeader from "../Containers/PageHeader";
 import TabsComponent from "../Containers/TabsComponent";
 import BlockStack from "../Containers/BlockStack";
+import InlineStack from "../Containers/InlineStack";
+import SelectControl from "../Controls/SelectControl";
+import PageActionButton from "../Controls/PageActionButton";
 import {
   StackedBarChart,
   StackedBarSeries,
@@ -22,38 +25,42 @@ import {
   PieChart,
   PieArcSeries,
 } from "reaviz";
+import Datepicker from "react-tailwindcss-datepicker";
 import he from "he";
 import { getCurrencySymbol } from "../../../widget/servicesShared/currencies";
-import Datepicker from "react-tailwindcss-datepicker";
-import InlineStack from "../Containers/InlineStack";
-import SelectControl from "../Controls/SelectControl";
-import PageActionButton from "../Controls/PageActionButton";
-const AnalyticsPage = ({ settings }) => {
+import moment from "moment-timezone";
+
+const AnalyticsPage = () => {
   const [loading, setLoading] = useState(false);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [filteredByDateRevenue, setFilteredByDateRevenue] = useState(null);
-
+  const [settings, setSettings] = useState({});
   const [registrants, setRegistrants] = useState(null);
   const [registrantsTotal, setTotalRegistrants] = useState(null);
+
   const tabsList = [
-    { label: "Revenue", value: 0 },
-    { label: "Registrants", value: 1 },
+    { label: "Total Revenue", value: 0 },
+    { label: "Total Registrants", value: 1 },
     { label: "Events", value: 2 },
     { label: "Filters", value: 3 },
   ];
+  const [selectedTab, setSelectedTab] = useState(0);
+
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [isMonthSelected, setIsMonthSelected] = useState(false);
-  const [selectedTab, setSelectedTab] = useState(0);
+
   const [eventsStatistic, setEventsStatistic] = useState(null);
   const [filtersStatistic, setFiltersStatistic] = useState(null);
   const [filtersStatisticFilteredByDate, setFiltersStatisticFilteredByDate] =
     useState(null);
+
   const [revenueDates, setRevenueDates] = useState({
     startDate: null,
     endDate: null,
   });
 
+  // Tab change handler
   const handleSelectTabChange = (val) => {
     setSelectedTab(val);
     if (val === 1 && !registrantsTotal) {
@@ -63,7 +70,7 @@ const AnalyticsPage = ({ settings }) => {
       fetchTotalRegistrants();
     }
     if (val === 2 && !eventsStatistic) {
-      fetchEventsAnalityc();
+      fetchEventsAnalytics();
     }
     if (val === 3 && !filtersStatistic) {
       setIsMonthSelected(false);
@@ -73,6 +80,123 @@ const AnalyticsPage = ({ settings }) => {
     }
   };
 
+  // Settings fetch
+  const getSettings = async () => {
+    setLoading(true);
+    try {
+      const resp = await axios.get("/wp-json/servv-plugin/v1/shop/info", {
+        headers: { "X-WP-Nonce": servvData.nonce },
+      });
+      if (resp.status === 200) {
+        setSettings(resp.data);
+      }
+    } catch (e) {
+      console.error("Failed to fetch settings", e);
+    }
+    setLoading(false);
+  };
+
+  // Total revenue fetch (fixed logic)
+  const fetchTotalRevenue = async (from = null, to = null) => {
+    setLoading(true);
+    try {
+      let url = "/wp-json/servv-plugin/v1/analytics/revenue";
+      if (from && to) {
+        url += `?from=${from}&to=${to}`;
+      }
+      const revenue = await axios.get(url, {
+        headers: { "X-WP-Nonce": servvData.nonce },
+      });
+      if (revenue && revenue.data) {
+        if (!from && !to) {
+          setTotalRevenue(revenue.data.total || 0);
+        } else {
+          setFilteredByDateRevenue(revenue.data.total || 0);
+        }
+      }
+    } catch (e) {
+      console.error("Error fetching revenue", e);
+    }
+    setLoading(false);
+  };
+
+  // Registrants fetch
+  const fetchTotalRegistrants = async (month = null) => {
+    setLoading(true);
+    try {
+      let url = "/wp-json/servv-plugin/v1/analytics/registrants";
+      if (isMonthSelected || month) {
+        url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(
+          selectedMonth
+        )}`;
+      }
+      const resp = await axios.get(url, {
+        headers: { "X-WP-Nonce": servvData.nonce },
+      });
+      if (resp && resp.data) {
+        if (!isMonthSelected && !month) {
+          setTotalRegistrants(resp.data);
+        } else {
+          setRegistrants(resp.data);
+        }
+      }
+    } catch (e) {
+      console.error("Error fetching registrants", e);
+    }
+    setLoading(false);
+  };
+
+  // Month/year toggle for registrants/filters
+  useEffect(() => {
+    if (isMonthSelected) {
+      if (selectedTab === 1) fetchTotalRegistrants(true);
+      if (selectedTab === 3) fetchFiltersStatistic(true);
+    }
+  }, [isMonthSelected, selectedMonth, selectedYear]);
+
+  // Registrants total
+  const getRegistrantsTotal = () => {
+    let total = { unique: 0, total: 0 };
+    const dataSource = isMonthSelected ? registrants : registrantsTotal;
+    if (dataSource) {
+      total = Object.values(dataSource).reduce(
+        (acc, curr) => {
+          acc.unique += curr.unique;
+          acc.total += curr.total;
+          return acc;
+        },
+        { unique: 0, total: 0 }
+      );
+    }
+    return total;
+  };
+
+  // Registrants diagram data
+  const getDataForRegistrants = () => {
+    let dataForDiagram = [];
+    const dataSource = isMonthSelected ? registrants : registrantsTotal;
+    if (dataSource) {
+      dataForDiagram = [
+        {
+          key: "Events",
+          data: [
+            { key: "Unique", data: dataSource?.offline?.unique || 0 },
+            { key: "Total", data: dataSource?.offline?.total || 0 },
+          ],
+        },
+        {
+          key: "Zoom Events",
+          data: [
+            { key: "Unique", data: dataSource?.online_zoom?.unique || 0 },
+            { key: "Total", data: dataSource?.online_zoom?.total || 0 },
+          ],
+        },
+      ];
+    }
+    return dataForDiagram;
+  };
+
+  // Filters analytics fetch (from your provided code)
   const fetchFiltersStatistic = async (month) => {
     setLoading(true);
     let url = "/wp-json/servv-plugin/v1/analytics/types";
@@ -96,179 +220,69 @@ const AnalyticsPage = ({ settings }) => {
     return null;
   };
 
-  const fetchTotalRevenue = async (from = null, to = null) => {
-    setLoading(true);
-    let url = "/wp-json/servv-plugin/v1/analytics/revenue";
-    if (from && to) {
-      url += `?from=${from}&to=${to}`;
-    }
-    const revenue = await axios
-      .get(url, {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      })
-      .catch((error) => console.log(error));
-    if (revenue) {
-      if (!from && !to) setTotalRevenue(revenue.data.total);
-      else setFilteredByDateRevenue(revenue.data.total);
-      setLoading(false);
-      return revenue;
-    }
-    setLoading(false);
-    return null;
-  };
-
-  const fetchTotalRegistrants = async (month) => {
-    setLoading(true);
-    let url = "/wp-json/servv-plugin/v1/analytics/registrants";
-    if (isMonthSelected || month) {
-      url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(
-        selectedMonth
-      )}`;
-    }
-    const registrantsTotal = await axios
-      .get(url, {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      })
-      .catch((error) => console.log(error));
-    if (registrantsTotal) {
-      if (!isMonthSelected && !month)
-        setTotalRegistrants(registrantsTotal.data);
-      else setRegistrants(registrantsTotal.data);
-      setLoading(false);
-      return registrantsTotal;
-    }
-    setLoading(false);
-    return null;
-  };
-  useEffect(() => {
-    if (isMonthSelected) {
-      if (selectedTab === 1) fetchTotalRegistrants(true);
-      if (selectedTab === 3) fetchFiltersStatistic(true);
-    }
-  }, [isMonthSelected, selectedMonth, selectedYear]);
-  const getRegistrantsTotal = () => {
-    let total = { unique: 0, total: 0 };
-
-    const registrantsData = isMonthSelected ? registrants : registrantsTotal;
-
-    if (registrantsData) {
-      total = Object.values(registrantsData).reduce(
-        (acc, curr) => {
-          acc.unique += curr.unique;
-          acc.total += curr.total;
-          return acc;
-        },
-        { unique: 0, total: 0 }
-      );
-    }
-
-    return total;
-  };
-  const getDataForRegistrants = () => {
-    let dataForDiagram = [];
-    const registrantsData = isMonthSelected ? registrants : registrantsTotal;
-    if (registrantsData) {
-      dataForDiagram = [
-        {
-          key: "Events",
-          data: [
-            { key: "Unique", data: registrantsData.offline.unique },
-            { key: "Total", data: registrantsData.offline.total },
-          ],
-        },
-        {
-          key: "Zoom Events",
-          data: [
-            { key: "Unique", data: registrantsData.online_zoom.unique },
-            { key: "Total", data: registrantsData.online_zoom.total },
-          ],
-        },
-      ];
-    }
-
-    return dataForDiagram;
-  };
-  const fetchEventsAnalityc = async () => {
+  // Events analytics fetch
+  const fetchEventsAnalytics = async () => {
     setLoading(true);
     let statistic = eventsStatistic ? { ...eventsStatistic } : {};
-    const getHappendAnalytics = await axios
-      .get("/wp-json/servv-plugin/v1/analytics/happened", {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    if (getHappendAnalytics) {
-      statistic = { ...statistic, happend: getHappendAnalytics.data };
+    try {
+      const resp1 = await axios.get(
+        "/wp-json/servv-plugin/v1/analytics/happened",
+        { headers: { "X-WP-Nonce": servvData.nonce } }
+      );
+      if (resp1 && resp1.data) {
+        statistic = { ...statistic, happened: resp1.data };
+      }
+      const resp2 = await axios.get(
+        "/wp-json/servv-plugin/v1/analytics/cancelled",
+        { headers: { "X-WP-Nonce": servvData.nonce } }
+      );
+      if (resp2 && resp2.data) {
+        statistic = {
+          ...statistic,
+          cancelled: resp2.data,
+        };
+      }
+      const resp3 = await axios.get(
+        "/wp-json/servv-plugin/v1/analytics/active",
+        { headers: { "X-WP-Nonce": servvData.nonce } }
+      );
+      if (resp3 && resp3.data) {
+        statistic = {
+          ...statistic,
+          active: resp3.data,
+        };
+      }
+      setEventsStatistic(statistic);
+    } catch (e) {
+      console.error("Error fetching events analytics", e);
     }
-
-    const getCancelledAnalytics = await axios
-      .get("/wp-json/servv-plugin/v1/analytics/cancelled", {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    if (getCancelledAnalytics) {
-      statistic = {
-        ...statistic,
-        cancelled: getCancelledAnalytics.data,
-      };
-    }
-
-    const getActiveAnalytics = await axios
-      .get("/wp-json/servv-plugin/v1/analytics/active", {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    if (getActiveAnalytics) {
-      statistic = {
-        ...statistic,
-        active: getActiveAnalytics.data,
-      };
-    }
-    setEventsStatistic(statistic);
     setLoading(false);
   };
 
+  // Event counts
   const getActiveEvents = () => {
-    if (eventsStatistic && eventsStatistic.active) {
-      return (
-        eventsStatistic.active.offline + eventsStatistic.active.online_zoom
-      );
-    }
-    return 0;
+    return eventsStatistic?.active
+      ? eventsStatistic.active.offline + eventsStatistic.active.online_zoom
+      : 0;
   };
-
-  const getHappendEvents = () => {
-    if (eventsStatistic && eventsStatistic.happend) {
-      return (
-        eventsStatistic.happend.offline + eventsStatistic.happend.online_zoom
-      );
-    }
-    return 0;
+  const getHappenedEvents = () => {
+    return eventsStatistic?.happened
+      ? eventsStatistic.happened.offline + eventsStatistic.happened.online_zoom
+      : 0;
   };
-
   const getCanceledEvents = () => {
-    if (eventsStatistic && eventsStatistic.cancelled) {
-      return (
-        eventsStatistic.cancelled.offline +
-        eventsStatistic.cancelled.online_zoom
-      );
-    }
-    return 0;
+    return eventsStatistic?.cancelled
+      ? eventsStatistic.cancelled.offline +
+          eventsStatistic.cancelled.online_zoom
+      : 0;
   };
 
+  // Month/year select handlers
   const handleMonthSelect = (val) => {
     if (val === "") return;
     setSelectedMonth(val);
     if (selectedYear === "") {
-      setSelectedYear(2025);
+      setSelectedYear(new Date().getFullYear());
     }
   };
   const handleYearSelect = (val) => {
@@ -279,123 +293,15 @@ const AnalyticsPage = ({ settings }) => {
     }
   };
 
-  const renderEventsAnalytics = () => {
-    return (
-      <div className="w-full h-64 bg-[linear-gradient(180deg,_rgba(236,229,246,0)_0%,_#ECE4F6_100%)] rounded-lg flex flex-col items-center justify-center">
-        <div className="flex w-full pl-8 pr-8 justify-between pb-2 pt-8">
-          <div className="flex flex-col gap-2 w-1/2 items-center">
-            <h2 className="font-semibold text-brand-700 text-lg">
-              Active events
-            </h2>
-            <div className="flex items-center gap-2">
-              <Count
-                from={0}
-                to={getActiveEvents()}
-                className="font-semibold text-brand-700 text-display-md"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 w-1/2 items-center">
-            <h2 className="font-semibold text-brand-700 text-lg">
-              Events happend
-            </h2>
-            <div className="flex items-center gap-2">
-              <Count
-                from={0}
-                to={getHappendEvents()}
-                className="font-semibold text-brand-700 text-display-md"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 w-1/2 items-center">
-            <h2 className="font-semibold text-brand-700 text-lg">
-              Events cancelled
-            </h2>
-            <div className="flex items-center gap-2">
-              <Count
-                from={0}
-                to={getCanceledEvents()}
-                className="font-semibold text-brand-700 text-display-md"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  const renderRegistrantsDiagram = () => {
-    return (
-      <StackedBarChart
-        height={350}
-        data={getDataForRegistrants()}
-        yAxis={
-          <LinearYAxis
-            axisLine={null}
-            tickSeries={<LinearYAxisTickSeries line={null} label={null} />}
-          />
-        }
-        xAxis={
-          <LinearXAxis
-            type="category"
-            tickSeries={
-              <LinearXAxisTickSeries
-                label={
-                  <LinearXAxisTickLabel
-                    padding={10}
-                    rotation={0}
-                    // format={(text) => `${text.slice(0, 5)}...`}
-                    format={(text) => `${text}`}
-                    fill="#535362"
-                  />
-                }
-                tickSize={60}
-              />
-            }
-          />
-        }
-        series={
-          <StackedBarSeries
-            bar={
-              <Bar
-                glow={{
-                  blur: 20,
-                  opacity: 0.5,
-                }}
-                gradient={
-                  <Gradient
-                    stops={[
-                      <GradientStop
-                        offset="5%"
-                        stopOpacity={0.1}
-                        key="start"
-                      />,
-                      <GradientStop
-                        offset="90%"
-                        stopOpacity={0.7}
-                        key="stop"
-                      />,
-                    ]}
-                  />
-                }
-              />
-            }
-            colorScheme={["#B692F6", "#7319C6", "#8217E5", "#9D49EC"]}
-            padding={0.5}
-          />
-        }
-        gridlines={
-          <GridlineSeries line={<Gridline strokeColor="#7E7E8F75" />} />
-        }
-      />
-    );
-  };
-  const { unique, total } = getRegistrantsTotal();
-
+  // Pie chart helpers for filter analytics
   const getCategoriesData = () => {
     const filtersData =
       isMonthSelected !== null
         ? filtersStatistic
         : filtersStatisticFilteredByDate;
+
+    if (!filtersData || !filtersData.offline || !filtersData.online_zoom)
+      return null;
 
     const categoryNames = filtersData.offline.categories.map((cat) => cat.name);
 
@@ -416,12 +322,6 @@ const AnalyticsPage = ({ settings }) => {
     if (categoriesStatistic.filter((cat) => cat.data > 0).length > 0)
       return categoriesStatistic;
     else return null;
-
-    // return [
-    //   { key: "Yoga", data: 10 },
-    //   { key: "Math", data: 5 },
-    //   { key: "Software", data: 15 },
-    // ];
   };
 
   const getLanguagesData = () => {
@@ -429,6 +329,9 @@ const AnalyticsPage = ({ settings }) => {
       isMonthSelected !== null
         ? filtersStatistic
         : filtersStatisticFilteredByDate;
+
+    if (!filtersData || !filtersData.offline || !filtersData.online_zoom)
+      return null;
 
     const languageNames = filtersData.offline.languages.map(
       (lang) => lang.name
@@ -451,11 +354,6 @@ const AnalyticsPage = ({ settings }) => {
     return languagesStatistic.some((lang) => lang.data > 0)
       ? languagesStatistic
       : null;
-    // return [
-    //   { key: "English", data: 10 },
-    //   { key: "Japanise", data: 2 },
-    //   { key: "Ukranian", data: 3 },
-    // ];
   };
 
   const getMembersData = () => {
@@ -463,6 +361,9 @@ const AnalyticsPage = ({ settings }) => {
       isMonthSelected !== null
         ? filtersStatistic
         : filtersStatisticFilteredByDate;
+
+    if (!filtersData || !filtersData.offline || !filtersData.online_zoom)
+      return null;
 
     const memberNames = filtersData.offline.members.map((mem) => mem.name);
 
@@ -483,11 +384,6 @@ const AnalyticsPage = ({ settings }) => {
     return membersStatistic.some((mem) => mem.data > 0)
       ? membersStatistic
       : null;
-    // return [
-    //   { key: "Roman", data: 2 },
-    //   { key: "Hlib", data: 1 },
-    //   { key: "Harmeek", data: 15 },
-    // ];
   };
 
   const getLocationsData = () => {
@@ -495,6 +391,9 @@ const AnalyticsPage = ({ settings }) => {
       isMonthSelected !== null
         ? filtersStatistic
         : filtersStatisticFilteredByDate;
+
+    if (!filtersData || !filtersData.offline || !filtersData.online_zoom)
+      return null;
 
     const locationNames = filtersData.offline.locations.map((loc) => loc.name);
 
@@ -515,87 +414,40 @@ const AnalyticsPage = ({ settings }) => {
     return locationsStatistic.some((loc) => loc.data > 0)
       ? locationsStatistic
       : null;
-    // return [
-    //   { key: "London", data: 150 },
-    //   { key: "Kiev", data: 51 },
-    //   { key: "Toronto", data: 110 },
-    // ];
   };
 
-  const renderCategoriesStatistic = (data) => {
+  // Pie chart block
+  const renderPieBlock = (title, data) => {
     return (
-      <Fragment>
-        {data && (
-          <PieChart
-            id="simple"
-            height={350}
-            data={data}
-            series={
-              <PieArcSeries
-                colorScheme={["#B692F6", "#7319C6", "#8217E5", "#9D49EC"]}
-              />
-            }
-          />
-        )}
-      </Fragment>
-    );
-  };
-
-  const renderLanguagesStatistic = (data) => {
-    return (
-      <Fragment>
-        {data && (
-          <PieChart
-            id="languages"
-            height={350}
-            data={data}
-            series={
-              <PieArcSeries
-                colorScheme={["#B692F6", "#7319C6", "#8217E5", "#9D49EC"]}
-              />
-            }
-          />
-        )}
-      </Fragment>
-    );
-  };
-  const renderMembersStatistic = (data) => {
-    return (
-      <Fragment>
-        {data && (
-          <PieChart
-            id="members"
-            height={350}
-            data={data}
-            series={
-              <PieArcSeries
-                colorScheme={["#B692F6", "#7319C6", "#8217E5", "#9D49EC"]}
-              />
-            }
-          />
-        )}
-      </Fragment>
-    );
-  };
-  const renderLocationsStatistic = (data) => {
-    return (
-      <Fragment>
-        {data && (
-          <PieChart
-            id="locations"
-            height={350}
-            data={data}
-            series={
-              <PieArcSeries
-                colorScheme={["#B692F6", "#7319C6", "#8217E5", "#9D49EC"]}
-              />
-            }
-          />
-        )}
-      </Fragment>
+      <div className="w-full md:w-1/2 lg:w-1/3 flex flex-col gap-4 min-w-0">
+        <h2 className="font-semibold text-gray-700 text-lg border-b pb-2">
+          {title}
+        </h2>
+        <div className="w-full h-64 md:h-80 lg:h-96 min-w-0">
+          {data ? (
+            <PieChart
+              id={title.toLowerCase()}
+              height="100%"
+              data={data}
+              series={
+                <PieArcSeries
+                  colorScheme={["#B692F6", "#7319C6", "#8217E5", "#9D49EC"]}
+                />
+              }
+            />
+          ) : (
+            <p className="text-gray-500">
+              {t("No data available for")}
+              {title.toLowerCase()}
+              {t(".")}
+            </p>
+          )}
+        </div>
+      </div>
     );
   };
 
+  // Filters analytics rendering
   const renderFiltersStatistic = () => {
     const membersData = getMembersData();
     const locationsData = getLocationsData();
@@ -604,51 +456,27 @@ const AnalyticsPage = ({ settings }) => {
 
     return (
       <Fragment>
-        {categoriesData && (
-          <BlockStack gap={4}>
-            <h2 className="font-semibold text-gray-700 text-display-md border-b">
-              Categories
-            </h2>
-            {renderCategoriesStatistic(categoriesData)}
-          </BlockStack>
-        )}
-        {locationsData && (
-          <BlockStack gap={4}>
-            <h2 className="font-semibold text-gray-700 text-display-md border-b">
-              Locations
-            </h2>
-            {renderLocationsStatistic(locationsData)}
-          </BlockStack>
-        )}
-        {languagesData && (
-          <BlockStack gap={4}>
-            <h2 className="font-semibold text-gray-700 text-display-md border-b">
-              Languages
-            </h2>
-            {renderLanguagesStatistic(languagesData)}
-          </BlockStack>
-        )}
-        {membersData && (
-          <BlockStack gap={4}>
-            <h2 className="font-semibold text-gray-700 text-display-md border-b">
-              Members
-            </h2>
-            {renderMembersStatistic(membersData)}
-          </BlockStack>
-        )}
+        <div className="flex flex-col md:flex-row flex-wrap gap-8 w-full min-w-0">
+          {categoriesData && renderPieBlock(t("Categories"), categoriesData)}
+          {locationsData && renderPieBlock(t("Locations"), locationsData)}
+          {languagesData && renderPieBlock(t("Languages"), languagesData)}
+          {membersData && renderPieBlock(t("Members"), membersData)}
+        </div>
         {!membersData &&
           !locationsData &&
           !languagesData &&
           !categoriesData && (
-            <div className="w-full h-64 bg-[linear-gradient(180deg,_rgba(236,229,246,0)_0%,_#ECE4F6_100%)] rounded-lg flex flex-col items-center justify-center">
+            <div className="w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center">
               <div className="flex flex-col items-center justify-start">
-                {<p>You dont have filters statistic yet.</p>}
+                {<p>{t("You don’t have Filter Statistics yet.")}</p>}
               </div>
             </div>
           )}
       </Fragment>
     );
   };
+
+  // Revenue datepicker effect
   useEffect(() => {
     if (revenueDates.startDate && revenueDates.endDate) {
       fetchTotalRevenue(
@@ -657,12 +485,16 @@ const AnalyticsPage = ({ settings }) => {
       );
     }
   }, [revenueDates]);
+
+  // Initial load
   const getData = async () => {
     await fetchTotalRevenue();
+    await getSettings();
   };
   useEffect(() => {
     getData();
   }, []);
+
   const monthOptions = [
     "",
     "January",
@@ -679,87 +511,99 @@ const AnalyticsPage = ({ settings }) => {
     "December",
   ];
   const yearOptions = ["", 2025, 2026, 2027];
+
+  const { unique, total } = getRegistrantsTotal();
+
   return (
     <PageWrapper loading={loading}>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">Analytics</h1>
+          <h1 className="text-display-sm font-semibold mt-6">
+            {t("Analytics")}
+          </h1>
           <p className="page-header-description">
-            Track and measure the performance of your events with real-time
-            analytics and insights.
+            {/* {t("View your Revenue, Registrants, Events, and Filter analytics.")} */}
+            Access analytics for your revenue, registrants, events, and filters
           </p>
         </BlockStack>
       </PageHeader>
       <PageContent>
-        <BlockStack gap={8} cardsLayout={true}>
-          <TabsComponent
-            tabsList={tabsList}
-            selected={selectedTab}
-            handleSelectChange={handleSelectTabChange}
-            fullWidth={true}
-          />
+        <BlockStack gap={8} cardsLayout={true} className="w-full min-w-0">
+          {/* Tabs: always horizontally scrollable on mobile */}
+          <div className="w-full min-w-0 overflow-x-auto">
+            <TabsComponent
+              tabsList={tabsList}
+              selected={selectedTab}
+              handleSelectChange={handleSelectTabChange}
+              fullWidth={true}
+            />
+          </div>
+          {/* Responsive content blocks */}
           {selectedTab === 0 && (
-            <BlockStack gap={8}>
-              <div className="flex flex-row justify-end items-end min-w-[270px] ml-auto">
-                <Datepicker
-                  displayFormat={"MMM DD, YYYY"}
-                  value={revenueDates}
-                  placeholder="Select dates"
-                  inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
-                  onChange={(newValue) => setRevenueDates(newValue)}
-                />
+            <BlockStack gap={8} className="w-full min-w-0">
+              <div className="flex flex-col md:flex-row justify-end items-end min-w-0 w-full">
+                <div className="w-full md:w-72">
+                  <Datepicker
+                    displayFormat={"MMM DD, YYYY"}
+                    value={revenueDates}
+                    placeholder="Select Dates"
+                    inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
+                    onChange={(newValue) => setRevenueDates(newValue)}
+                  />
+                </div>
               </div>
-              <div className="w-full h-64 bg-[linear-gradient(180deg,_rgba(236,229,246,0)_0%,_#ECE4F6_100%)] rounded-lg flex flex-col items-center justify-center">
+              <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
                 <div className="flex flex-col items-center justify-start">
                   <h2 className="font-semibold text-brand-700 text-display-md">
-                    {/* {`${he.decode(getCurrencySymbol("CAD"))} 
-                    ${
-                      !revenueDates.startDate
-                        ? totalRevenue
-                        : filteredByDateRevenue
-                    }`} */}
                     <Count
                       from={0}
                       to={
                         !revenueDates.startDate
-                          ? totalRevenue
-                          : filteredByDateRevenue
+                          ? totalRevenue || 0
+                          : filteredByDateRevenue || 0
                       }
                       className="font-semibold text-brand-700 text-display-md"
                     />
-                    {/* {`${
-                    settings && settings.currency ? settings.currency : ""
-                  } ${totalRevenue}`} */}
                   </h2>
-                  {totalRevenue === 0 && <p>You haven’t made any sales yet.</p>}
+                  {totalRevenue === 0 && (
+                    <p>{t("You haven’t made any Sales yet.")}</p>
+                  )}
                 </div>
               </div>
             </BlockStack>
           )}
+
           {selectedTab === 1 && (
-            <BlockStack gap={8}>
-              <InlineStack gap={4}>
-                <SelectControl
-                  options={monthOptions}
-                  selected={selectedMonth}
-                  onSelectChange={(val) => {
-                    handleMonthSelect(val);
-                    setIsMonthSelected(true);
-                  }}
-                />
-                <SelectControl
-                  options={yearOptions}
-                  selected={selectedYear}
-                  onSelectChange={(val) => {
-                    handleYearSelect(val);
-                    setIsMonthSelected(true);
-                  }}
-                />
+            <BlockStack gap={8} className="w-full min-w-0">
+              <InlineStack
+                gap={4}
+                className="flex-col sm:flex-row w-full items-start min-w-0"
+              >
+                <div className="w-full sm:w-48">
+                  <SelectControl
+                    options={monthOptions}
+                    selected={selectedMonth}
+                    onSelectChange={(val) => {
+                      handleMonthSelect(val);
+                      setIsMonthSelected(true);
+                    }}
+                  />
+                </div>
+                <div className="w-full sm:w-48">
+                  <SelectControl
+                    options={yearOptions}
+                    selected={selectedYear}
+                    onSelectChange={(val) => {
+                      handleYearSelect(val);
+                      setIsMonthSelected(true);
+                    }}
+                  />
+                </div>
                 <PageActionButton
                   text="Reset"
                   icon={null}
                   type="primary"
-                  customStyle={"p-[0.75rem] self-end"}
+                  className="p-3 self-center w-full sm:w-auto"
                   onAction={() => {
                     setIsMonthSelected(false);
                     setSelectedMonth("");
@@ -767,51 +611,98 @@ const AnalyticsPage = ({ settings }) => {
                   }}
                 />
               </InlineStack>
-              <div className="w-full h-64 bg-[linear-gradient(180deg,_rgba(236,229,246,0)_0%,_#ECE4F6_100%)] rounded-lg flex flex-col items-center justify-center">
-                <div className="flex flex-col items-center justify-start">
-                  <h2 className="font-semibold text-brand-700 text-display-md">
-                    <Count
-                      from={0}
-                      to={unique + total}
-                      className="font-semibold text-brand-700 text-display-md"
-                    />
-                    {` registrants`}
-                    {/* {`${unique + total} registrants`} */}
-                  </h2>
-                  {unique + total === 0 && (
-                    <p>You dont have registrants yet.</p>
-                  )}
-                </div>
+              <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
+                <h2 className="font-semibold text-brand-700 text-3xl">
+                  <Count
+                    from={0}
+                    to={unique + total}
+                    className="font-semibold"
+                  />
+                  {` Registrants`}
+                </h2>
+                {unique + total === 0 && (
+                  <p className="text-gray-500 mt-2">
+                    {t("You don’t have any Registrants yet.")}
+                  </p>
+                )}
               </div>
-
-              {/* {registrantsTotal && renderRegistrantsDiagram()} */}
             </BlockStack>
           )}
-          {selectedTab === 2 && renderEventsAnalytics()}
+
+          {selectedTab === 2 && (
+            <>
+              {eventsStatistic ? (
+                <div className="w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-8 gap-4 min-w-0">
+                  <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                    <h2 className="font-semibold text-brand-700 text-lg">
+                      {t("Active Events")}
+                    </h2>
+                    <Count
+                      from={0}
+                      to={getActiveEvents()}
+                      className="font-semibold text-brand-700 text-3xl"
+                    />
+                  </div>
+                  <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                    <h2 className="font-semibold text-brand-700 text-lg">
+                      {t("Events Happened")}
+                    </h2>
+                    <Count
+                      from={0}
+                      to={getHappenedEvents()}
+                      className="font-semibold text-brand-700 text-3xl"
+                    />
+                  </div>
+                  <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                    <h2 className="font-semibold text-brand-700 text-lg">
+                      {t("Events Cancelled")}
+                    </h2>
+                    <Count
+                      from={0}
+                      to={getCanceledEvents()}
+                      className="font-semibold text-brand-700 text-3xl"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full h-64 flex items-center justify-center text-gray-500 min-w-0">
+                  {t("No event analytics to display.")}
+                </div>
+              )}
+            </>
+          )}
+
           {selectedTab === 3 && (
-            <BlockStack gap={8}>
-              <InlineStack gap={4}>
-                <SelectControl
-                  options={monthOptions}
-                  selected={selectedMonth}
-                  onSelectChange={(val) => {
-                    handleMonthSelect(val);
-                    setIsMonthSelected(true);
-                  }}
-                />
-                <SelectControl
-                  options={yearOptions}
-                  selected={selectedYear}
-                  onSelectChange={(val) => {
-                    handleYearSelect(val);
-                    setIsMonthSelected(true);
-                  }}
-                />
+            <BlockStack gap={8} className="w-full min-w-0">
+              <InlineStack
+                gap={4}
+                className="flex-col sm:flex-row w-full min-w-0"
+              >
+                <div className="w-full sm:w-48">
+                  <SelectControl
+                    options={monthOptions}
+                    selected={selectedMonth}
+                    onSelectChange={(val) => {
+                      handleMonthSelect(val);
+                      setIsMonthSelected(true);
+                    }}
+                  />
+                </div>
+                <div className="w-full sm:w-48">
+                  <SelectControl
+                    options={yearOptions}
+                    selected={selectedYear}
+                    onSelectChange={(val) => {
+                      handleYearSelect(val);
+                      setIsMonthSelected(true);
+                    }}
+                  />
+                </div>
                 <PageActionButton
                   text="Reset"
                   icon={null}
                   type="primary"
-                  customStyle={"p-[0.75rem] self-end"}
+                  className="p-[0.75rem] self-end w-full sm:w-auto"
                   onAction={() => {
                     setIsMonthSelected(false);
                     setSelectedMonth("");
@@ -827,4 +718,5 @@ const AnalyticsPage = ({ settings }) => {
     </PageWrapper>
   );
 };
+
 export default AnalyticsPage;

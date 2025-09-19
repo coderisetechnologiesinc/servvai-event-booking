@@ -1,6 +1,8 @@
 <?php
 
-
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 function servv_get_post_by_meta_value($meta_key, $meta_value) {
     $posts = get_posts(array(
         'post_type'  => 'any', // Replace 'any' with your specific post type
@@ -124,7 +126,7 @@ function servv_format_amount_from_stripe($amount, $currency) {
     }
 }
 
-function get_post_image_url($post_id, $default = '') {
+function servv_get_post_image_url($post_id, $default = '') {
     $thumbnail = get_the_post_thumbnail_url($post_id, 'full');
     if ($thumbnail) return $thumbnail;
 
@@ -134,5 +136,12 @@ function get_post_image_url($post_id, $default = '') {
     }
 
     // Fallback to default image
-    return $default ? $default : false;
+    return $default ?: false;
+}
+
+
+function servv_js_redirect($redirectUrl) {
+    wp_register_script('servv-plugin-redirect', '', [], SERVV_PLUGIN_VERSION, true);
+    wp_enqueue_script('servv-plugin-redirect');
+    wp_add_inline_script('servv-plugin-redirect', 'window.location.href = "' . esc_js(esc_url_raw($redirectUrl)) . '";');
 }

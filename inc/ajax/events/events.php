@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 require_once __DIR__ . '/qa/qa.php';
 require_once __DIR__ . '/bookings/bookings.php';
 require_once __DIR__ . '/tickets/tickets.php';
@@ -298,5 +302,19 @@ function servv_delete_event_registrant($request)
         !empty($occurrenceId) ? $quantities[$occurrenceId]++ : $quantities[0]++;
         update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
     }
+    return $responseBody;
+}
+
+
+function servv_generate_event_data($request)
+{
+    $apiRoute = '/wordpress/data/generate';
+    $requestBody = $request->get_json_params();
+    try {
+        $responseBody = servvSendApiRequest($apiRoute, $requestBody, 'POST');
+    } catch(\Exception $e) {
+        return new WP_Error($e->getCode(), 'Bad api response. '.$e->getMessage(), ['status' => $e->getCode()]);
+    }
+
     return $responseBody;
 }

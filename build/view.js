@@ -12,16 +12,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const BlockStack = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `block-stack gap-${props.gap ? props.gap : 1} ${props.cardsLayout ? "flex-[1_1_0]" : ""} ${props.action ? "cursor-pointer" : ""} ${props.disabled ? "filter grayscale" : ""}`,
-    onClick: props.onAction ? () => props.onAction() : null,
-    children: props.children
-  });
-};
+
+const BlockStack = ({
+  gap = 4,
+  cardsLayout,
+  action,
+  disabled,
+  onAction,
+  className = "",
+  children,
+  ...rest
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  ...rest,
+  onClick: onAction ? () => onAction() : undefined,
+  className: `${className} flex flex-col ${gap ? `space-y-${gap}` : ""} ${cardsLayout ? "flex-[1_1_0]" : ""} ${action ? "cursor-pointer" : ""} ${disabled ? "filter grayscale" : ""}`,
+  children: children
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BlockStack);
 
 /***/ }),
@@ -37,13 +48,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const InlineStack = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `inline-stack ${!props.forceAlign ? props.align && props.align !== "right" ? "w-full grow" : props.align !== "left" ? "justify-end" : "justify-start grow" : props.forceAlign} gap-${props.gap || 0} ${props.cardsLayout ? "flex-[1_1_0] items-baseline" : ""} ${props.justify === "space" ? "justify-between" : ""}`,
-    children: props.children
+
+const InlineStack = ({
+  className = "",
+  forceAlign,
+  align,
+  gap,
+  cardsLayout,
+  justify,
+  children,
+  ...rest
+}) => {
+  const alignClass = !forceAlign ? align && align !== "right" ? "w-full grow" : align === "right" ? "justify-end" : "justify-start grow" : forceAlign;
+  const gapClass = gap ? `gap-${gap}` : "";
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    ...rest,
+    className: `${className} inline-stack ${alignClass} ${gapClass} ${cardsLayout ? "flex-[1_1_0] items-baseline" : ""} ${justify === "space" ? "justify-between" : ""}`,
+    children: children
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InlineStack);
@@ -129,32 +155,99 @@ const InputFieldControl = ({
   width = null,
   prefix = "",
   prefixWidth = "w-12",
-  step = null
+  step = null,
+  className = "",
+  style = {}
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [!image && prefix === "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  // Alignment helper
+  const getAlignmentClass = () => {
+    switch (align) {
+      case "center":
+        return "text-center";
+      case "right":
+        return "text-right";
+      default:
+        return "text-left";
+    }
+  };
+  const handleChange = e => {
+    const value = e.target.value;
+    if (type === "number" && maxValue && value > maxValue) {
+      onChange(maxValue);
+    } else if (type === "number" && minValue && value < minValue) {
+      onChange(minValue);
+    } else {
+      onChange(value);
+    }
+  };
+
+  // Responsive style for mobile
+  const responsiveStyle = {
+    // maxWidth: "100%",
+    // width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
+
+  // Input classes
+  const inputClasses = `
+    w-full min-w-[4rem]
+    input-control
+    px-3 py-2
+    pl-6
+    border border-gray-300 rounded-lg
+    text-sm font-medium
+    focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500
+    disabled:bg-gray-100 disabled:cursor-not-allowed
+    transition-colors duration-200
+    section-description
+    ${getAlignmentClass()}
+    ${fullWidth ? "w-full" : ""}
+    ${width ? "w-full" : ""}
+    ${align === "right" ? "pr-1" : ""}
+    ${className}
+  `.trim();
+  const inputStyle = {
+    width: fullWidth ? "100%" : width || undefined,
+    fontFamily: "'Inter', sans-serif",
+    ...responsiveStyle
+  };
+
+  // Main input (no image, no prefix)
+  if (!image && prefix === "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex relative group justify-center items-center w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: type,
-        className: `input-control section-description text-${align} ${align === "right" ? "pr-1" : ""} ${fullWidth || width ? "w-full" : ""}`,
+        className: inputClasses,
+        style: inputStyle,
         placeholder: placeholder,
         value: value,
         disabled: disabled,
         maxLength: maxLength,
-        onChange: e => onChange(e.target.value),
         min: minValue,
         max: maxValue,
+        onChange: e => handleChange(e),
         onKeyDown: handleKeyPress,
-        step: step
+        step: step,
+        autoComplete: "off"
       }), suffix && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "absolute text-gray-500 right-0 pr-8",
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
         children: suffix
       })]
-    }), !image && prefix !== "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    });
+  }
+
+  // Input with prefix (e.g. currency)
+  if (!image && prefix !== "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex w-full rounded-lg border border-gray-300 overflow-hidden text-md shadow-sm h-9",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "flex items-center justify-center bg-gray-50 text-gray-600 text-md w-12 border-r border-gray-300",
-        children: "$"
+        className: `flex items-center justify-center bg-gray-50 text-gray-600 text-md ${prefixWidth} border-r border-gray-300`,
+        children: prefix
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: "text",
         inputMode: "decimal",
@@ -170,34 +263,46 @@ const InputFieldControl = ({
           }
           if (val.startsWith("00")) val = "0";else if (val.startsWith("0") && val[1] !== ".") val = val.slice(1);
           onChange(val);
+        },
+        style: responsiveStyle
+      })]
+    });
+  }
+
+  // Input with image
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex relative group justify-center items-center w-full",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "size-6",
+        style: {
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          width: "1.7rem",
+          height: "1.7rem"
         }
-      })]
-    }), image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "flex relative group justify-center items-center w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-        className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "size-6",
-          style: {
-            backgroundImage: `url(${image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            width: "24px",
-            height: "24px"
-          }
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: type,
-        className: `input-control section-description description-image text-${align} ${align === "right" ? "pr-1 pl-8" : ""} ${fullWidth ? "w-full" : ""}`,
-        placeholder: placeholder,
-        value: value,
-        disabled: disabled,
-        size: maxLength,
-        onChange: e => onChange(e.target.value),
-        min: minValue,
-        max: maxValue
-      })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: type,
+      className: `
+          input-control section-description description-image
+          ${getAlignmentClass()}
+          ${align === "right" ? "pr-1 pl-8" : ""}
+          ${fullWidth ? "w-full" : ""}
+          ${className}
+        `,
+      style: inputStyle,
+      placeholder: placeholder,
+      value: value,
+      disabled: disabled,
+      maxLength: maxLength,
+      min: minValue,
+      max: maxValue,
+      onChange: e => onChange(e.target.value),
+      autoComplete: "off"
     })]
   });
 };
@@ -218,6 +323,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CheckIcon.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CalendarDaysIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -241,7 +347,10 @@ const OccurrencessDropdown = ({
         className: "absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 p-4",
         children: options.map(option => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("a", {
           className: `flex items-center px-2 py-1 no-underline cursor-pointer`,
-          onClick: e => handleOptionSelect(e, option),
+          onClick: e => {
+            handleOptionSelect(e, option);
+            setActive(false);
+          },
           children: [selected === option ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_2__["default"], {
             className: "w-4 mr-2"
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
@@ -265,6 +374,8 @@ const OccurrencessDropdown = ({
         className: "w-4"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         children: selected
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "w-6"
       })]
     }), active && renderOptions()]
   });
@@ -298,7 +409,8 @@ const SelectControl = ({
   disabled = false,
   onSelectChange = () => {},
   iconRight = null,
-  iconLeft = null
+  iconLeft = null,
+  style = {} // <-- Add style prop
 }) => {
   const renderOptions = () => {
     if (options.length > 0) {
@@ -312,25 +424,39 @@ const SelectControl = ({
           value: option,
           selected: selected === option,
           children: option
-        }, "value"))]
+        }, option))]
       });
     }
   };
+  // Responsive style for mobile
+  const responsiveStyle = {
+    maxWidth: "100%",
+    width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "input-container-col",
+    style: {
+      width: "100%"
+    },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-      for: "timezone",
+      htmlFor: "timezone",
       className: "section-description",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "select-control-with-icon-container",
+      style: {
+        width: "100%"
+      },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
         name: "timezone",
-        id: "timezone",
-        className: "select-control select-control-with-icon text-sm",
+        id: "timezone-select",
+        className: "select-control select-control-with-icon text-sm p-4",
         value: selected,
         onChange: e => onSelectChange(e.target.value),
         disabled: disabled,
+        style: responsiveStyle,
         children: renderOptions()
       }), iconRight !== null && iconRight]
     })]
@@ -1505,6 +1631,45 @@ function CheckIcon({
   }));
 }
 const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(CheckIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function ChevronDownIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fillRule: "evenodd",
+    d: "M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z",
+    clipRule: "evenodd"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ChevronDownIcon);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
 /***/ }),
@@ -6725,10 +6890,20 @@ const PaymentForm = () => {
       let flag = true;
       if (!sameForAll) {
         additionalRegistrants.forEach(registrant => {
-          if (isEmailValid(registrant.email) === null || registrant.firstName.length === 0 || registrant.lastName.length === 0) flag = false;
+          if (isEmailValid(registrant.email) === null || registrant.firstName.length === 0 || registrant.lastName.length === 0) {
+            flag = false;
+          }
+          if (isTicketsAvailable() && registrant.ticket.is_donation && registrant.donation === 0) {
+            flag = false;
+          }
         });
         return flag;
-      } else if (isEmailValid(additionalRegistrants[0].email) === null || additionalRegistrants[0].firstName.length === 0 || additionalRegistrants[0].lastName.length === 0) return false;
+      } else if (isEmailValid(additionalRegistrants[0].email) === null || additionalRegistrants[0].firstName.length === 0 || additionalRegistrants[0].lastName.length === 0) {
+        return false;
+      }
+      if (isTicketsAvailable() && additionalRegistrants[0].ticket.is_donation && additionalRegistrants[0].donation === 0) {
+        return false;
+      }
     }
     return true;
   };
@@ -6746,7 +6921,7 @@ const PaymentForm = () => {
       setLoading(true);
       const params = new URLSearchParams();
       params.append("action", "servv_create_checkout_session");
-      params.append("security", pluginData.security);
+      params.append("security", servvData.security);
       params.append("post_id", document.getElementById("post-id").value);
       if (selectedOccurrence) {
         params.append("occurrence_id", selectedOccurrence.id);
@@ -6783,7 +6958,18 @@ const PaymentForm = () => {
           }
           return registrantData;
         });
+        console.log(additionalRegistrantsData.join(";"));
         params.append("additional_registrants", additionalRegistrantsData.join(";"));
+        // // Get the value of "additional_registrants"
+        // const additionalRegistrantsD = params.get("additional_registrants");
+
+        // // If it was URL-encoded, decode it
+        // const decodedValue = additionalRegistrantsD
+        //   ? decodeURIComponent(additionalRegistrantsD)
+        //   : null;
+
+        // // Log it
+        // console.log(decodedValue.split(";"));
       }
       // if (isDonation()) {
       //   params.append("donation_amount", donation);
@@ -6801,18 +6987,18 @@ const PaymentForm = () => {
         params.append("first_name", firstRegistrant.firstName);
         params.append("last_name", firstRegistrant.lastName);
         params.append("ticket_id", firstRegistrant.ticket.id);
-        if (firstRegistrant.donation) {
-          params.append("donation_amount", firstRegistrant.donation);
+        if (firstRegistrant.ticket.is_donation) {
+          params.append("donation_amount", firstRegistrant.donation || 0);
         }
       }
-      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(pluginData.ajaxUrl, params);
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvData.ajaxUrl, params);
       if (response && response.status === 200 && response.data.success) {
         if (response.data.success) {
           const clientSecret = response.data.data.client_secret;
           const stripePublicKey = response.data.data.public_key;
           setClientSecret(clientSecret);
           const stripe = await (0,_stripe_stripe_js__WEBPACK_IMPORTED_MODULE_9__.loadStripe)(stripePublicKey, {
-            stripeAccount: pluginData.stripeAccountId
+            stripeAccount: servvData.stripeAccountId
           });
           const handleComplete = async function () {
             checkout.destroy();
@@ -6864,25 +7050,34 @@ const PaymentForm = () => {
   };
   const handleRegistrantDonation = (index, val) => {
     let registrants = [...additionalRegistrants];
-    registrants[index].donation = val;
+    registrants[index].donation = Number.parseFloat(val);
     setAdditionalRegistrants(registrants);
     // if (validateRegistrants()) {
     //   setErrorMessage(false);
     // }
   };
-  const handleRegistrantTicketSelect = (index, newVal) => {
-    let updatedRegistrants = [...additionalRegistrants];
-    let newTickets = [...tickets];
-    let ticket = newTickets[tickets.findIndex(ticket => ticket.name === newVal)];
-    if (ticket && (ticket.current_quantity === null || ticket.current_quantity - 2 >= 0)) updatedRegistrants[index].ticket = ticket;else return;
-    setAdditionalRegistrants(updatedRegistrants);
-  };
+
+  // const handleRegistrantTicketSelect = (index, newVal) => {
+  //   let updatedRegistrants = [...additionalRegistrants];
+  //   let newTickets = [...tickets];
+  //   let ticket =
+  //     newTickets[tickets.findIndex((ticket) => ticket.name === newVal)];
+
+  //   if (
+  //     ticket &&
+  //     (ticket.current_quantity === null || ticket.current_quantity - 2 >= 0)
+  //   )
+  //     updatedRegistrants[index].ticket = ticket;
+  //   else return;
+  //   setAdditionalRegistrants(updatedRegistrants);
+  // };
+
   const renderAdditionalRegistrantsForm = () => {
     const price = getEventPrice();
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
       className: "flex flex-col gap-4",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-        className: "flex flex-row gap-4",
+        className: "flex flex-row gap-4 max-sm:flex-col",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "flex flex-col w-full gap-4",
           children: [additionalRegistrants.map((registrant, index) => {
@@ -6911,19 +7106,10 @@ const PaymentForm = () => {
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                     className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
-                    children: price > 0 ? price + " " + meetingData.currency : "Free"
+                    children: price > 0 ? price + " " + meetingData.currency.toUpperCase() : "Free"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                     className: "flex flex-col gap-2",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                      className: "flex flex-col font-semibold",
-                      children: "Email *"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                      value: registrant.email,
-                      align: "left",
-                      type: "text",
-                      width: "100%",
-                      onChange: val => handleRegistrantEmailChange(index, val)
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                       className: "flex flex-row justify-evenly items-baseline w-full gap-4",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                         className: "flex flex-col gap-2 flex-1",
@@ -6950,6 +7136,15 @@ const PaymentForm = () => {
                           onChange: val => handleRegistrantLastNameChange(index, val)
                         })]
                       })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                      className: "flex flex-col font-semibold",
+                      children: "Email *"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                      value: registrant.email,
+                      align: "left",
+                      type: "text",
+                      width: "100%",
+                      onChange: val => handleRegistrantEmailChange(index, val)
                     })]
                   })]
                 }), additionalRegistrants.length > 1 && registrant.first_registrant && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
@@ -6966,7 +7161,7 @@ const PaymentForm = () => {
             className: "flex flex-row justify-between pt-8",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
               onClick: () => handlePrevStep(),
-              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem]",
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem] max-sm:p-1",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_13__["default"], {
                 className: "w-[1rem]"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -6974,7 +7169,7 @@ const PaymentForm = () => {
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
               onClick: handleCheckout,
-              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem]",
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 className: "w-[1rem]"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -7064,9 +7259,9 @@ const PaymentForm = () => {
       setLoading(true);
       const params = new URLSearchParams();
       params.append("action", "servv_get_event_info");
-      params.append("security", pluginData.security);
+      params.append("security", servvData.security);
       params.append("post_id", document.getElementById("post-id").value);
-      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(pluginData.ajaxUrl, params);
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvData.ajaxUrl, params);
       if (response && response.status === 200) {
         setMeetingData(response.data);
       }
@@ -7138,7 +7333,8 @@ const PaymentForm = () => {
     let newRegistrant = {
       email: "",
       firstName: "",
-      lastName: ""
+      lastName: "",
+      canBeAdded: true
     };
     if (registrants.length === 0) {
       newRegistrant.first_registrant = true;
@@ -7172,7 +7368,8 @@ const PaymentForm = () => {
     let newRegistrant = {
       email: "",
       firstName: "",
-      lastName: ""
+      lastName: "",
+      canBeAdded: true
     };
     if (newRegistrants.length === 0) {
       newRegistrant.first_registrant = true;
@@ -7300,17 +7497,66 @@ const PaymentForm = () => {
       })));
     }
   }, [selectedOccurrence]);
+  const checkEndTime = () => {
+    if (additionalRegistrants.length === 0) {
+      return;
+    }
+    // else if (
+    //   additionalRegistrants.filter((reg) => reg.ticket.end_datetime !== null)
+    //     .length === 0
+    // ) {
+    //   return;
+    // }
+    else {
+      let currentRegistrants = [...additionalRegistrants];
+      currentRegistrants = currentRegistrants.map(reg => {
+        if (reg.ticket && reg.ticket.end_datetime) {
+          const currentTime = moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()().utc();
+          const ticketSalesStart = moment_timezone__WEBPACK_IMPORTED_MODULE_2___default().utc(reg.ticket.end_datetime);
+          if (currentTime.isSameOrAfter(ticketSalesStart)) {
+            return {
+              ...reg,
+              canBeAdded: false
+            };
+          } else {
+            return {
+              ...reg,
+              canBeAdded: true
+            };
+          }
+        } else return {
+          ...reg
+        };
+      });
+      setAdditionalRegistrants(currentRegistrants);
+    }
+  };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (meetingData && meetingData.meeting && meetingData.meeting.tickets && meetingData.meeting.tickets.length > 0) {
       let availableTicket = findFirstAvailableTicket(meetingData.meeting.tickets);
       setSelectedTicket(availableTicket);
     }
-    if (meetingData && meetingData.meeting.tickets && meetingData.meeting.tickets.length > 0) {
+    if (meetingData && meetingData.meeting && meetingData.meeting.tickets && meetingData.meeting.tickets.length > 0) {
       const copied = JSON.parse(JSON.stringify(meetingData.meeting.tickets));
       setInitialTickets(copied);
+      // const isEndTime =
+      //   copied.filter((ticket) => ticket.end_datetime).length > 0;
+      // if (isEndTime) {
+      //   setInterval(() => {
+      //     checkEndTime();
+      //   }, 1000);
+      // }
       setTickets([...meetingData.meeting.tickets]);
     }
   }, [meetingData]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const isEndTime = initialTickets.filter(ticket => ticket.end_datetime).length > 0;
+    if (!isEndTime || additionalRegistrants.length === 0) return;
+    const intervalId = setInterval(() => {
+      checkEndTime();
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [additionalRegistrants]);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (selectedOccurrence && selectedOccurrence.tickets && selectedOccurrence.tickets.length > 0 && !selectedTicket) {
       let availableTicket = findFirstAvailableTicket([...selectedOccurrence.tickets]);
@@ -7346,6 +7592,10 @@ const PaymentForm = () => {
       }
     }
     setAdditionalRegistrants(registrantsList);
+    // console.log(registrantsList.length);
+    if (registrantsList.length === 0 && step !== 1) {
+      handlePrevStep();
+    }
   };
   const isFreeRegistrationPossible = () => {
     if (!meetingData) return;
@@ -7391,7 +7641,7 @@ const PaymentForm = () => {
       setLoading(true);
       const params = new URLSearchParams();
       params.append("action", "servv_process_free_order");
-      params.append("security", pluginData.security);
+      params.append("security", servvData.security);
       params.append("post_id", document.getElementById("post-id").value);
       if (selectedOccurrence) {
         params.append("occurrence_id", selectedOccurrence.id);
@@ -7449,9 +7699,10 @@ const PaymentForm = () => {
           params.append("donation_amount", firstRegistrant.donation);
         }
       }
-      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(pluginData.ajaxUrl, params);
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvData.ajaxUrl, params);
       if (response && response.status === 200 && response.data.success) {
         setLoading(false);
+        setStep(step + 1);
         setConfirmMessage(true);
       } else if (response && response.status === 200 && !response.data.success) {
         setLoading(false);
@@ -7677,18 +7928,18 @@ const PaymentForm = () => {
     // console.log(meetingData);
     if (isTicketsAvailable()) {
       if (selectedTicket && selectedTicket.price) {
-        return selectedTicket.price + " " + selectedTicket.currency;
+        return selectedTicket.price + " " + selectedTicket.currency.toUpperCase();
       } else return false;
     } else {
       if (isRecurringEvent()) {
         if (selectedOccurrence && selectedOccurrence.product && selectedOccurrence.product.price) {
-          return selectedOccurrence.product.price + " " + meetingData.currency;
+          return selectedOccurrence.product.price + " " + meetingData.currency.toUpperCase();
         } else {
           return false;
         }
       } else {
         if (meetingData && meetingData.product && meetingData.product.price) {
-          return meetingData.product.price + " " + meetingData.currency;
+          return meetingData.product.price + " " + meetingData.currency.toUpperCase();
         } else return false;
       }
     }
@@ -7697,8 +7948,11 @@ const PaymentForm = () => {
     setDonation(newVal);
   };
   const renderRegistrantsFormByTicket = id => {
+    // console.log(additionalRegistrants);
+
     return additionalRegistrants.map((registrant, index) => {
       if (registrant.ticket && registrant.ticket.id === id) {
+        attendeeCounter.current += 1;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
           children: (registrant.first_registrant || !registrant.first_registrant && !sameForAll) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-full",
@@ -7710,7 +7964,7 @@ const PaymentForm = () => {
                   className: "flex flex-row gap-4 items-center",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                     className: "font-semibold text-[1rem]",
-                    children: registrant.first_registrant ? "Attendee " + (index + 1) + " (Main contact)" : "Attendee " + (index + 1)
+                    children: registrant.first_registrant ? "Attendee " + attendeeCounter.current + " (Main contact)" : "Attendee " + attendeeCounter.current
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                     className: "text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white",
                     children: registrant.ticket.name
@@ -7724,7 +7978,7 @@ const PaymentForm = () => {
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                 className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
-                children: registrant.ticket.price > 0 ? registrant.ticket.price + " " + registrant.ticket.currency : "Free"
+                children: registrant.ticket.price > 0 ? registrant.ticket.price + " " + registrant.ticket.currency.toUpperCase() : registrant.ticket.is_donation ? "Donation" : "Free"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                 className: "flex flex-col gap-2",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
@@ -7763,11 +8017,11 @@ const PaymentForm = () => {
                       onChange: val => handleRegistrantLastNameChange(index, val)
                     })]
                   })]
-                }), registrant.ticket && registrant.ticket?.is_donation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
-                  cardsLayout: true,
+                }), registrant.ticket && registrant.ticket?.is_donation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                  className: "flex flex-col gap-2 flex-1",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                    className: "section-description font-regular",
-                    children: "Donation"
+                    className: "flex flex-col font-semibold",
+                    children: "Donation *"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                     value: registrant.donation,
                     align: "left",
@@ -7813,9 +8067,9 @@ const PaymentForm = () => {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
           className: "flex flex-col",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-            className: `flex flex-row gap-[1rem] p-[17px] items-start border rounded-[17px] bg-white ${initialTicket.current_quantity > 0 || initialTicket.current_quantity === null ? "opacity-100" : "opacity-40"}`,
+            className: `flex flex-row gap-[1rem] p-[17px] items-start border rounded-[17px] bg-white ${initialTicket.current_quantity > 0 || initialTicket.current_quantity === null ? "opacity-100" : "opacity-40"} max-sm:flex-col max-sm:grow-0 max-sm:items-center`,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-              className: "flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px]",
+              className: "flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px] max-sm:basis-auto",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                 className: "flex flex-row gap-2",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -7823,14 +8077,14 @@ const PaymentForm = () => {
                   children: ticket.name
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                   className: "text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] bg-[#171717] text-white",
-                  children: initialTicket.current_quantity > 0 || initialTicket.current_quantity === null ? "Available" : "Sold out"
+                  children: (initialTicket.current_quantity > 0 || initialTicket.current_quantity === null) && isWithinSalesWindow ? "Available" : !isWithinSalesWindow ? "Not available" : "Sold out"
                 })]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "flex flex-col items-start basis-[332px] grow shrink min-w-[250px]",
+              className: "flex flex-col items-start basis-[332px] grow shrink min-w-[250px] max-sm:basis-auto max-sm:items-center",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "font-regular text-[1.125rem]",
-                children: ticket.price > 0 ? ticket.price + ` ${meetingData.currency}` : "Free"
+                children: ticket.price > 0 ? ticket.price + ` ${meetingData.currency.toUpperCase()}` : "Free"
               }), (initialTicket.current_quantity > 0 || initialTicket.current_quantity === null) && isWithinSalesWindow ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                 className: "flex flex-row gap-2 border border-[#E5E5E5] rounded-[4px] px-4 py-1",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
@@ -7852,7 +8106,7 @@ const PaymentForm = () => {
                 })]
               }) : !isWithinSalesWindow && (ticketSalesStart || ticketSalesEnd) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                 className: "flex flex-col items-start self-stretch  px-[1.0625rem] py-[0.8125rem]  rounded-[0.625rem] border border-[#E5E5E5]  bg-white text-[0.875rem]",
-                children: ticketSalesStart ? "Available · " + ticketSalesStart.tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a") : ticketSalesEnd ? "Available · " + ticketSalesEnd.tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a") : ""
+                children: ticketSalesStart && (!ticketSalesEnd || ticketSalesEnd && currentTime.isSameOrBefore(ticketSalesEnd)) ? "Available · " + ticketSalesStart.tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a") : ticketSalesEnd ? "Ticket sale ended on · " + ticketSalesEnd.tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a") : ""
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
                 className: "flex flex-row gap-2 h-[1.5rem]"
               })]
@@ -7864,7 +8118,7 @@ const PaymentForm = () => {
   };
   const renderSummary = () => {
     const ticketStats = tickets.map(ticket => {
-      const count = additionalRegistrants.filter(r => r.ticket.id === ticket.id).length;
+      const count = additionalRegistrants.filter(r => r.ticket.id === ticket.id && r.canBeAdded === true).length;
       let total = count * ticket.price;
       return {
         ...ticket,
@@ -7877,8 +8131,9 @@ const PaymentForm = () => {
       ticketsCount
     } = getTotal();
     let counter = 0;
+    const isDonation = isTicketsAvailable() ? additionalRegistrants.filter(reg => reg.ticket.is_donation).length > 0 : false;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-      className: "flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-1/3 h-fit",
+      className: "flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-1/3 h-fit max-sm:w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
         className: "font-semibold",
         children: "Order summary"
@@ -7899,7 +8154,7 @@ const PaymentForm = () => {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "text-[0.875rem]",
-                children: ticket.total > 0 ? ticket.total + " " + ticket.currency : "Free"
+                children: ticket.total > 0 ? ticket.total + " " + ticket.currency.toUpperCase() : ticket.is_donation ? "Donation" : "Free"
               })
             })]
           });
@@ -7927,7 +8182,7 @@ const PaymentForm = () => {
                 className: `w-[8px] h-[8px] rounded-full ${r.first_registrant ? "bg-[#0ED300]" : "bg-[#BCBCBC]"}`
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "text-[#4A5565] text-[0.875rem]",
-                children: r.ticket.name
+                children: r.canBeAdded ? r.ticket.name : "Ticket closed"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "text-[#4A5565] text-[0.875rem]",
                 children: "-"
@@ -7959,7 +8214,8 @@ const PaymentForm = () => {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
           className: "font-semibold",
           children: "Required fields:"
-        }), " First name, last name, and email address are required for all attendees."]
+        }), " ", `First name,
+          last name,${isDonation ? " donation" : ""} and email address are required for all attendees.`]
       })]
     });
   };
@@ -7970,8 +8226,11 @@ const PaymentForm = () => {
       freeRegistration();
     } else fetchClientSecret();
   };
+  const attendeeCounter = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)(0);
   const renderAttendees = () => {
     if (!tickets || tickets.length === 0) return;
+    const disabled = additionalRegistrants.filter(reg => reg.ticket.canBeAdded === false).length > 0;
+    attendeeCounter.current = 0;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
       className: "flex flex-col gap-4",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
@@ -7983,16 +8242,20 @@ const PaymentForm = () => {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "flex flex-row justify-between pt-8",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
-              onClick: () => handlePrevStep(),
-              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem]",
+              onClick: () => {
+                handlePrevStep();
+                setErrorMessage(false);
+              },
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem] max-sm:p-1",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_13__["default"], {
                 className: "w-[1rem]"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 children: "Back to tickets"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
+            }), additionalRegistrants.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
               onClick: handleCheckout,
-              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem]",
+              disabled: disabled,
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 className: "w-[1rem]"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -8013,21 +8276,21 @@ const PaymentForm = () => {
   const getTotal = () => {
     let total = 0;
     let ticketsCount = 0;
-    let currency = additionalRegistrants.length > 0 ? additionalRegistrants[0].ticket ? additionalRegistrants[0].ticket.currency : "" : "";
+    let currency = additionalRegistrants.length > 0 ? additionalRegistrants[0].ticket ? additionalRegistrants[0].ticket.currency.toUpperCase() : "" : "";
     additionalRegistrants.forEach(reg => {
       if (reg.ticket && reg.ticket.id) {
         ticketsCount += 1;
         total += reg.ticket.price;
         if (reg.ticket.is_donation) {
-          total += reg.donation;
+          if (!sameForAll) total += reg.donation || 0;else total += additionalRegistrants[0].donation || 0;
         }
       }
     });
     if (isTicketsAvailable()) return {
-      total: total + " " + currency,
+      total: total + " " + currency.toUpperCase(),
       ticketsCount: ticketsCount
     };else return {
-      total: total + " " + currency,
+      total: total + " " + currency.toUpperCase(),
       ticketsCount: additionalRegistrants.length
     };
   };
@@ -8122,7 +8385,7 @@ const PaymentForm = () => {
           children: "Attendee details"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "flex flex-col gap-[0.75rem] w-full",
-          children: [mainRegistrant && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          children: [mainRegistrant && additionalRegistrants.map((registrant, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
               className: "flex flex-col gap-[4px] items-start",
@@ -8137,10 +8400,10 @@ const PaymentForm = () => {
               className: "flex flex-col gap-[4px] items-start",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "font-semibold text-[0.875rem]",
-                children: `${mainRegistrant.ticket.name}`
+                children: registrant.ticket.name
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "text-[#4A5565] text-[0.875rem]",
-                children: mainRegistrant.ticket.price > 0 ? mainRegistrant.ticket.price + " " + mainRegistrant.ticket.currency : mainRegistrant.ticket.is_donation ? mainRegistrant.ticket.donation + " " + mainRegistrant.ticket.currency : "Free"
+                children: registrant.ticket.price > 0 ? `${registrant.ticket.price} ${registrant.ticket.currency.toUpperCase()}` : registrant.ticket.is_donation ? `${registrant.ticket.donation} ${registrant.ticket.currency.toUpperCase()}` : "Free"
               })]
             }), !isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
               className: "flex flex-col gap-[4px] items-start",
@@ -8152,7 +8415,7 @@ const PaymentForm = () => {
                 children: "Free"
               })]
             })]
-          }), !mainRegistrant && additionalRegistrants.map((registrant, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          }, registrant.id || index)), !mainRegistrant && additionalRegistrants.map((registrant, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
               className: "flex flex-col gap-[4px] items-start",
@@ -8205,9 +8468,9 @@ const PaymentForm = () => {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
       className: "flex flex-col",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-        className: `flex flex-row gap-[1rem] p-[17px] items-start border rounded-[17px] bg-white ${isAvailable ? "opacity-100" : "opacity-40"}`,
+        className: `flex flex-row gap-[1rem] p-[17px] items-start border rounded-[17px] bg-white ${isAvailable ? "opacity-100" : "opacity-40"} max-sm:flex-col max-sm:grow-0 max-sm:items-center`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-          className: "flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px]",
+          className: "flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px] max-sm:basis-auto",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "flex flex-row gap-2",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -8219,10 +8482,10 @@ const PaymentForm = () => {
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-          className: "flex flex-col items-start basis-[332px] grow shrink min-w-[250px]",
+          className: "flex flex-col items-start basis-[332px] grow shrink min-w-[250px] max-sm:basis-auto max-sm:items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
             className: "font-regular text-[1.125rem]",
-            children: price > 0 ? price + meetingData.currency : "Free"
+            children: price > 0 ? price + meetingData.currency.toUpperCase() : "Free"
           }), isAvailable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
             className: "flex flex-row gap-2 border border-[#E5E5E5] rounded-[4px] px-4 py-1",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
@@ -8249,20 +8512,31 @@ const PaymentForm = () => {
       })
     });
   };
+  const getStartTime = () => {
+    if (meetingData && meetingData.meeting) {
+      return moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(meetingData.meeting.start_time).tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a");
+    }
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-      className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+      className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]",
       children: loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Menu_Spinner__WEBPACK_IMPORTED_MODULE_7__["default"], {
         loading: true
       })
     }), !isRecurringEvent() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
       gap: 4,
       cardsLayout: true,
-      children: [step === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      children: [step === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
         className: "flex flex-row justify-between items-end",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
           children: "Select your tickets"
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "flex flex-row gap-2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+            className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]",
+            children: getStartTime()
+          })
+        })]
       }), step === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
         className: "flex flex-row justify-between items-end",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
@@ -8329,12 +8603,15 @@ const PaymentForm = () => {
           className: "flex flex-row justify-between items-end",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
             children: "Registrant Details"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-            className: "flex flex-row gap-2",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-col gap-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]",
+              children: selectedOccurrence && selectedOccurrence?.label
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
               className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]",
               children: additionalRegistrants.length > 1 ? additionalRegistrants.length + " attendees" : additionalRegistrants.length + " attendee"
-            })
+            })]
           })]
         })]
       }), selectedOccurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
@@ -8377,7 +8654,7 @@ const PaymentForm = () => {
         })]
       })]
     }), additionalRegistrants.length > 0 && step === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-      className: "flex flex-row justify-between w-full",
+      className: "flex flex-row justify-between w-full mt-4",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
         className: "flex flex-row gap-1",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -8392,7 +8669,7 @@ const PaymentForm = () => {
         className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem]",
         children: "Proceed to checkout"
       })]
-    })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("br", {})]
   });
 };
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(() => {

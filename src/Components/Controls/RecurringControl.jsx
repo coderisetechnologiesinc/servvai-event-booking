@@ -170,9 +170,9 @@ const RecurringControl = ({ recurrence, onChange }) => {
       <fieldset className="input-container-col">
         <BlockStack gap={4}>
           <legend className="section-description">
-            Select type of recurrence
+            {t("Select type of recurrence")}
           </legend>
-          <div className="input-container-row justify-start gap-40">
+          <div className="input-container-row items-start justify-between w-full">
             {renderOptions()}
           </div>
         </BlockStack>
@@ -186,6 +186,7 @@ const RecurringControl = ({ recurrence, onChange }) => {
               repeat_interval === 1 ? "1 day" : `${repeat_interval} days`
             }
             onSelectChange={handleRepeatIntervalChange}
+            style={{ padding: "10px" }}
           />
         )}
 
@@ -198,8 +199,9 @@ const RecurringControl = ({ recurrence, onChange }) => {
                 repeat_interval === 1 ? "1 week" : `${repeat_interval} weeks`
               }
               onSelectChange={handleRepeatIntervalChange}
+              style={{ padding: "10px" }}
             />
-            <p>Occurs on</p>
+            <p>{t("Occurs on")}</p>
             <div className="grid grid-cols-2">{renderWeeklyOptions()}</div>
           </BlockStack>
         )}
@@ -214,6 +216,7 @@ const RecurringControl = ({ recurrence, onChange }) => {
                   : `${repeat_interval} months`
               }
               onSelectChange={handleRepeatIntervalChange}
+              style={{ padding: "10px" }}
             />
             <ButtonGroup
               title="Event recurrence"
@@ -232,6 +235,7 @@ const RecurringControl = ({ recurrence, onChange }) => {
                   options={monthlyDayRepeatOptions()}
                   selected={monthly_day}
                   onSelectChange={handleMonthlyDayChange}
+                  style={{ padding: "10px" }}
                 />
               </div>
             )}
@@ -247,6 +251,7 @@ const RecurringControl = ({ recurrence, onChange }) => {
                         : monthlyWeekRepeatOptions[0]
                     }
                     onSelectChange={handleMonthlyWeekChange}
+                    style={{ padding: "10px" }}
                   />
                   <SelectControl
                     label=""
@@ -255,6 +260,7 @@ const RecurringControl = ({ recurrence, onChange }) => {
                       monthly_week_day ? days[monthly_week_day - 1] : days[0]
                     }
                     onSelectChange={handleMonthlyWeekDayChange}
+                    style={{ padding: "10px" }}
                   />
                 </InlineStack>
               </BlockStack>

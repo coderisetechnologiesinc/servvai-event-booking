@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import ButtonGroup from "../Controls/ButtonGroup";
 import InputFieldControl from "../Controls/InputFieldControl";
+import SelectDropdown from "./SelectDropdown";
+
 const LocationSection = ({
   eventDetails,
   onChange,
@@ -9,56 +11,84 @@ const LocationSection = ({
   handleCustomFieldChange,
   settings = {},
   disabled = false,
-  zoomAcctount,
+  zoomAccount,
+  types = {},
+  filtersList = [],
+  onFilterChange = () => {},
 }) => {
   const { custom_field_1_name, custom_field_1_value } = customFields;
+  const [onlineType, setOnlineType] = useState(false);
   const { location } = eventDetails;
-  const eventTypes = ["Standard", "Zoom meeting"];
+  const eventTypes = ["In-person", "Online"];
   const handleLocationChange = (newVal) => {
-    if (newVal === eventTypes[0] && location !== "offline") {
+    if (newVal === eventTypes[0]) {
       onChange("location", "offline");
-    } else if (newVal === eventTypes[1] && location !== "zoom") {
+      handleCustomFieldChange("custom_field_1_name", "Address");
+      handleCustomFieldChange("custom_field_1_value", "");
+    } else if (newVal === eventTypes[1]) {
       onChange("location", "zoom");
+      handleCustomFieldChange("custom_field_1_name", "Link");
+      handleCustomFieldChange("custom_field_1_value", "");
     }
   };
-  useEffect(() => {
-    if (disabled) {
-      handleLocationChange("Standard");
+  const handleSelectLocation = (location) => {
+    onFilterChange("location_id", location);
+  };
+  const handleSelectOnlineType = (type) => {
+    setOnlineType(type);
+    if (!type) {
+      onChange("location", "offline");
+    } else {
+      onChange("location", "zoom");
     }
-  }, [disabled, location]);
+    handleCustomFieldChange("custom_field_1_name", "Link");
+    handleCustomFieldChange("custom_field_1_value", "");
+  };
+  useEffect(() => {
+    // if (disabled) {
+    //   handleLocationChange("offline");
+    // }
+
+    if (
+      (location === "zoom" || location === "online") &&
+      !custom_field_1_name
+    ) {
+      handleCustomFieldChange("custom_field_1_name", "Link");
+    }
+  }, [disabled, location, customFields]);
 
   return (
     <div className="section-container">
-      <div className="section-heading">
-        {zoomAcctount ? "Type" : "Add location"}
-      </div>
-      {settings && zoomAcctount && (
+      <div className="section-heading">Venue & access</div>
+      {settings && zoomAccount && (
         <ButtonGroup
           title=""
           buttons={eventTypes}
-          active={location === "offline" ? eventTypes[0] : eventTypes[1]}
+          active={
+            location === "offline" && custom_field_1_name !== "Link"
+              ? eventTypes[0]
+              : eventTypes[1]
+          }
           onChange={handleLocationChange}
-          disabled={disabled}
+          // disabled={disabled}
         />
       )}
-      {meetingType === "offline" && (
+      {settings && (!zoomAccount || !zoomAccount.id) && (
+        <div className="section-description">
+          Please note: To use the Integrations feature, you need to connect your
+          Zoom account.
+        </div>
+      )}
+      {meetingType === "offline" && custom_field_1_name !== "Link" && (
         <div className="input-container-row items-center">
           <div className="input-container-col w-full">
             <div className="section-description">
-              Location (In-person) or meeting link (e.g., Google Meet, Microsoft
-              Teams)
+              {t(
+                "Location (In-person) or meeting link (e.g., Google Meet, Microsoft\r\n              Teams)"
+              )}
             </div>
-            {/* <InputFieldControl
-              value={custom_field_1_name}
-              onChange={(val) =>
-                handleCustomFieldChange("custom_field_1_name", val)
-              }
-              fullWidth={true}
-              type="text"
-              align="left"
-            /> */}
 
-            {/* <div className="section-description">Custom field value</div> */}
+            {/* Custom field */}
             <InputFieldControl
               value={custom_field_1_value}
               onChange={(val) =>
@@ -71,41 +101,70 @@ const LocationSection = ({
           </div>
         </div>
       )}
-      {/* <div className="flex flex-row gap-10 justify-between"> */}
-      {/* Location Type */}
-      {/* <div className="input-container-col grow">
-        <div className="button-group-container">
-          <button className="button-group-button-active">In-person</button>
-          <button className="button-group-button">Online</button>
-          <button className="button-group-button">Hybrid</button>
-        </div>
-      </div> */}
-      {/* </div> */}
-      {/* <div className="input-container-row items-center">
-        <div className="input-container-col grow">
-          <div className="text-md">Location</div>
 
-          <div className="input-control-with-icon-container">
-            <input
-              type="text"
-              placeholder="Start typing an adress"
-              className="input-control-with-icon"
-            />
-            <MapPinIcon className="input-control-icon" />
+      {(meetingType !== "offline" || custom_field_1_name === "Link") && (
+        <Fragment>
+          {/* Tabs */}
+          <div className="section-description">Choose a join method:</div>
+          <div className="tabs-group-container">
+            <ul className="flex flex-row">
+              <li className="me-2">
+                <button
+                  onClick={() => handleSelectOnlineType(false)}
+                  className={`tab-element ${!onlineType ? "tab-active" : ""}`}
+                >
+                  Join link URL
+                </button>
+              </li>
+              <li className="me-2">
+                <button
+                  onClick={() => handleSelectOnlineType(true)}
+                  className={`tab-element ${onlineType ? "tab-active" : ""}`}
+                  disabled={!zoomAccount || (zoomAccount && !zoomAccount.email)}
+                >
+                  Integration
+                </button>
+              </li>
+            </ul>
           </div>
-        </div>
-      </div>
-      <div className="rounded-lg">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d92265.70148399581!2d-79.8419434744499!3d43.72502846063614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b15eaa5d05abf%3A0x352d31667cc38677!2sBrampton%2C%20ON%2C%20Canada!5e0!3m2!1sen!2sua!4v1732201987269!5m2!1sen!2sua"
-          width="100%"
-          height="300"
-          style={{ border: "0" }}
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div> */}
+          {!onlineType && custom_field_1_name === "Link" && (
+            <div className="input-container-col w-full">
+              <div className="section-description">Join link URL</div>
+              <InputFieldControl
+                value={custom_field_1_value}
+                onChange={(val) =>
+                  handleCustomFieldChange("custom_field_1_value", val)
+                }
+                fullWidth={true}
+                type="text"
+                align="left"
+              />
+            </div>
+          )}
+          {onlineType && zoomAccount && zoomAccount.email && (
+            <div className="input-container-col w-full">
+              {/* <div className="section-description">Select an integration</div> */}
+              <SelectDropdown
+                title="Select an integration"
+                options={[{ ...zoomAccount }].map((acc) => {
+                  return { name: acc.email, id: acc.id };
+                })}
+                selected={zoomAccount.id || null}
+                onSelect={() => {}}
+              />
+            </div>
+          )}
+        </Fragment>
+      )}
+
+      {filtersList.locations && filtersList.locations.length > 0 && (
+        <SelectDropdown
+          title="Location"
+          options={filtersList.locations}
+          selected={types.location_id || null}
+          onSelect={handleSelectLocation}
+        />
+      )}
     </div>
   );
 };

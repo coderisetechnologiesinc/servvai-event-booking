@@ -12,17 +12,24 @@
 
   .vs__selected-options {
     width: 150px;
+    height: 31.5px;
   }
 
   .svv-languages-selector-option-item {
     display: flex;
     align-items: center;
+    padding-top: 3px;
+    @include media-breakpoint-down(sm) {
+      padding-top: 0;
+    }
   }
   .svv-languages-selector-option-icon {
     line-height: 1;
     padding-left: 10px;
     padding-right: 10px;
+
     svg {
+      margin: 0 0;
       display: inline-block;
       width: 20px;
       height: auto;

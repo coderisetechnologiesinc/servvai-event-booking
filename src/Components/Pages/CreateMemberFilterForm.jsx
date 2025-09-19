@@ -5,23 +5,35 @@ import PageActionButton from "../Controls/PageActionButton";
 import PageHeader from "../Containers/PageHeader";
 import PageContent from "../Containers/PageContent";
 import AnnotatedSection from "../Containers/AnnotatedSection";
+import MobileFooterActions from "../Controls/MobileFooterActions";
 import { InboxArrowDownIcon } from "@heroicons/react/16/solid";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import axios from "axios";
-import CheckboxControl from "../Controls/CheckboxControl";
+
 const CreateMemberFilterForm = ({
   member = {},
   onCancel = () => {},
   setLoading = () => {},
 }) => {
   const [memberData, setMemberData] = useState(member);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // Track window size changes
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleMemberChange = (field, value) => {
     let newMemberData = { ...memberData };
-
     newMemberData[field] = value;
-
     setMemberData(newMemberData);
   };
+
   const handleMemberSave = async () => {
     if (memberData.name && memberData.name.length > 0) {
       setLoading(true);
@@ -46,125 +58,202 @@ const CreateMemberFilterForm = ({
       onCancel();
     }
   };
+
+  const isFormValid = memberData?.name && memberData.name.length > 0;
+
   return (
     <Fragment>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">
+          <h1
+            className="text-display-sm font-bold mt-6 text-gray-900"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
             {memberData && memberData.id
-              ? `Member filter "${memberData.name}"`
+              ? `Member Filter "${memberData.name}"`
               : "New Member"}
           </h1>
-          <p className="page-header-description">
-            Edit details for{" "}
-            {memberData && memberData.id ? `${memberData.name}` : "new member"}
+          <p
+            className="page-header-description text-gray-600 text-base leading-relaxed"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            {t("Edit Details for")}{" "}
+            {memberData && memberData.id ? `${memberData.name}` : "New Member"}
           </p>
         </BlockStack>
-        <InlineStack gap={2} align="right">
-          <PageActionButton
-            text="Save"
-            icon={
-              <InboxArrowDownIcon
-                className={`${
-                  !memberData ||
-                  !memberData?.name ||
-                  memberData?.name?.length === 0
-                    ? "button-icon-disabled"
-                    : "button-icon"
-                }`}
-              />
-            }
-            type="primary"
-            onAction={() => handleMemberSave()}
-            disabled={
-              !memberData || !memberData?.name || memberData?.name?.length === 0
-            }
-          />
-          <PageActionButton
-            text="Cancel"
-            type="secondary"
-            onAction={() => onCancel()}
-          />
-        </InlineStack>
+
+        {/* Desktop Actions - Only visible on desktop */}
+        {!isMobile && (
+          <InlineStack gap={2} align="right" className="hidden md:flex">
+            <PageActionButton
+              text="Cancel"
+              type="secondary"
+              onAction={onCancel}
+              className="font-medium px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            />
+            <PageActionButton
+              text="Save"
+              // icon={
+              //   <InboxArrowDownIcon
+              //     className={`w-5 h-5 ${
+              //       !isFormValid ? "text-gray-400" : "text-white"
+              //     }`}
+              //   />
+              // }
+              type="primary"
+              onAction={handleMemberSave}
+              disabled={!isFormValid}
+              className="font-semibold px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            />
+          </InlineStack>
+        )}
       </PageHeader>
+
       <PageContent>
-        <BlockStack gap={8} cardsLayout={true}>
-          <AnnotatedSection title="Member name" description="">
-            <InputFieldControl
-              value={memberData?.name || ""}
-              fullWidth={false}
-              type="text"
-              align="right"
-              disabled={false}
-              maxLength={30}
-              onChange={(val) => handleMemberChange("name", val)}
-              width={"100%"}
-            />
-          </AnnotatedSection>
-          <AnnotatedSection title="Member email" description="">
-            <InputFieldControl
-              value={memberData?.email || ""}
-              fullWidth={false}
-              type="text"
-              align="right"
-              disabled={false}
-              maxLength={30}
-              onChange={(val) => handleMemberChange("email", val)}
-              width={"100%"}
-            />
-          </AnnotatedSection>
-          <AnnotatedSection title="Phone" description="">
-            <InputFieldControl
-              value={memberData?.phone || ""}
-              fullWidth={false}
-              type="text"
-              align="right"
-              disabled={false}
-              maxLength={30}
-              onChange={(val) => handleMemberChange("phone", val)}
-              width={"100%"}
-            />
-          </AnnotatedSection>
-          <AnnotatedSection title="Description" description="">
-            <InputFieldControl
-              value={memberData?.description || ""}
-              fullWidth={false}
-              type="text"
-              align="right"
-              disabled={false}
-              maxLength={30}
-              onChange={(val) => handleMemberChange("description", val)}
-              width={"100%"}
-            />
-          </AnnotatedSection>
-          {/* {!member && (
-            <AnnotatedSection title="Description" description="">
-              <CheckboxControl
-                label={"Check to send email"}
-                checked={memberData?.send_welcome_email || false}
-                onChange={(val) =>
-                  handleMemberChange("send_welcome_email", val.target.checked)
-                }
-              />
-            </AnnotatedSection>
-          )} */}
-          {member && member.id && (
-            <AnnotatedSection title="Order" description="">
+        <div className="pb-20 md:pb-0">
+          <BlockStack gap={8} cardsLayout={true}>
+            {/* Member Name - Wider on desktop */}
+            <AnnotatedSection
+              title="Member Name"
+              description=""
+              titleClassName="font-semibold text-gray-900"
+              className="items-start"
+            >
               <InputFieldControl
-                value={memberData?.priority}
+                value={memberData?.name || ""}
                 fullWidth={false}
                 type="text"
-                align="right"
+                align="left"
                 disabled={false}
-                maxLength={30}
-                onChange={(val) => handleMemberChange("priority", val)}
-                width={"100%"}
+                maxLength={100}
+                onChange={(val) => handleMemberChange("name", val)}
+                width={isMobile ? "100%" : "400px"}
+                className={`${
+                  isMobile ? "w-full" : "w-96"
+                } px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
               />
             </AnnotatedSection>
-          )}
-        </BlockStack>
+
+            {/* Member Email - Wider on desktop */}
+            <AnnotatedSection
+              title="Member Email"
+              description=""
+              titleClassName="font-semibold text-gray-900"
+              className="items-start"
+            >
+              <InputFieldControl
+                value={memberData?.email || ""}
+                fullWidth={false}
+                type="email"
+                align="left"
+                disabled={false}
+                maxLength={100}
+                onChange={(val) => handleMemberChange("email", val)}
+                width={isMobile ? "100%" : "400px"}
+                className={`${
+                  isMobile ? "w-full" : "w-96"
+                } px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              />
+            </AnnotatedSection>
+
+            {/* Phone - Wider on desktop */}
+            <AnnotatedSection
+              title="Phone"
+              description=""
+              titleClassName="font-semibold text-gray-900"
+              className="items-start"
+            >
+              <InputFieldControl
+                value={memberData?.phone || ""}
+                fullWidth={false}
+                type="tel"
+                align="left"
+                disabled={false}
+                maxLength={50}
+                onChange={(val) => handleMemberChange("phone", val)}
+                width={isMobile ? "100%" : "400px"}
+                className={`${
+                  isMobile ? "w-full" : "w-96"
+                } px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              />
+            </AnnotatedSection>
+
+            {/* Description - Wider on desktop */}
+            <AnnotatedSection
+              title="Description"
+              description=""
+              titleClassName="font-semibold text-gray-900"
+              className="items-start"
+            >
+              <InputFieldControl
+                value={memberData?.description || ""}
+                fullWidth={false}
+                type="text"
+                align="left"
+                disabled={false}
+                maxLength={200}
+                onChange={(val) => handleMemberChange("description", val)}
+                width={isMobile ? "100%" : "400px"}
+                className={`${
+                  isMobile ? "w-full" : "w-96"
+                } px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              />
+            </AnnotatedSection>
+
+            {/* Order field - only show if editing existing member */}
+            {member && member.id && (
+              <AnnotatedSection
+                title="Order"
+                description=""
+                titleClassName="font-semibold text-gray-900"
+                className="items-start"
+              >
+                <InputFieldControl
+                  value={memberData?.priority || ""}
+                  fullWidth={false}
+                  type="text"
+                  align="left"
+                  disabled={false}
+                  maxLength={10}
+                  onChange={(val) => handleMemberChange("priority", val)}
+                  width={isMobile ? "100%" : "400px"}
+                  className={`${
+                    isMobile ? "w-full" : "w-96"
+                  } px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500`}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                />
+              </AnnotatedSection>
+            )}
+          </BlockStack>
+        </div>
       </PageContent>
+
+      {/* Mobile Footer Actions - Only visible on mobile */}
+      {isMobile && (
+        <MobileFooterActions
+          onSave={handleMemberSave}
+          onCancel={onCancel}
+          saveText="Save"
+          cancelText="Cancel"
+          saveDisabled={!isFormValid}
+          // saveIcon={
+          //   <InboxArrowDownIcon
+          //     className={`w-5 h-5 ${
+          //       !isFormValid ? "text-gray-400" : "text-white"
+          //     }`}
+          //   />
+          // }
+          className="font-semibold"
+        />
+      )}
     </Fragment>
   );
 };
+
 export default CreateMemberFilterForm;

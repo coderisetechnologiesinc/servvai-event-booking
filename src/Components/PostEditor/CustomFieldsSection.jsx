@@ -15,16 +15,17 @@ const CustomFieldsSection = ({
   };
   // console.log(meetingType);
   return (
-    <div className="section-container border-b-2 border-gray-200">
-      <div className="section-heading">Additional notes</div>
+    <div className="section-container">
+      <div className="section-heading">{t("Additional notes")}</div>
       <p className="text-gray-600 font-regular text-sm">
-        Add items to bring or other info for attendees. Included in email
-        notifications.
+        {t(
+          "Add items to bring or other info for attendees. Included in email\r\n        notifications."
+        )}
       </p>
-      {meetingType === "online" && (
+      {/* {meetingType === "online" && (
         <div className="input-container-row items-center">
           <div className="input-container-col w-full">
-            <div className="section-description">Title</div>
+            <div className="section-description">{t("Title")}</div>
             <InputFieldControl
               value={custom_field_1_name}
               onChange={(val) =>
@@ -36,7 +37,7 @@ const CustomFieldsSection = ({
             />
           </div>
           <div className="input-container-col w-full">
-            <div className="section-description">Description</div>
+            <div className="section-description">{t("Description")}</div>
             <InputFieldControl
               value={custom_field_1_value}
               onChange={(val) =>
@@ -48,10 +49,10 @@ const CustomFieldsSection = ({
             />
           </div>
         </div>
-      )}
+      )} */}
       <div className="input-container-row items-center">
         <div className="input-container-col w-full">
-          <div className="section-description">Title</div>
+          <div className="section-description">{t("Title")}</div>
           <InputFieldControl
             value={custom_field_2_name}
             onChange={(val) =>
@@ -63,7 +64,7 @@ const CustomFieldsSection = ({
           />
         </div>
         <div className="input-container-col w-full">
-          <div className="section-description">Description</div>
+          <div className="section-description">{t("Description")}</div>
           <InputFieldControl
             value={custom_field_2_value}
             onChange={(val) =>

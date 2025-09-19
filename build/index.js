@@ -8914,16 +8914,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const BlockStack = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `block-stack gap-${props.gap ? props.gap : 1} ${props.cardsLayout ? "flex-[1_1_0]" : ""} ${props.action ? "cursor-pointer" : ""} ${props.disabled ? "filter grayscale" : ""}`,
-    onClick: props.onAction ? () => props.onAction() : null,
-    children: props.children
-  });
-};
+
+const BlockStack = ({
+  gap = 4,
+  cardsLayout,
+  action,
+  disabled,
+  onAction,
+  className = "",
+  children,
+  ...rest
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  ...rest,
+  onClick: onAction ? () => onAction() : undefined,
+  className: `${className} flex flex-col ${gap ? `space-y-${gap}` : ""} ${cardsLayout ? "flex-[1_1_0]" : ""} ${action ? "cursor-pointer" : ""} ${disabled ? "filter grayscale" : ""}`,
+  children: children
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BlockStack);
 
 /***/ }),
@@ -8939,13 +8950,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
-const InlineStack = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `inline-stack ${!props.forceAlign ? props.align && props.align !== "right" ? "w-full grow" : props.align !== "left" ? "justify-end" : "justify-start grow" : props.forceAlign} gap-${props.gap || 0} ${props.cardsLayout ? "flex-[1_1_0] items-baseline" : ""} ${props.justify === "space" ? "justify-between" : ""}`,
-    children: props.children
+
+const InlineStack = ({
+  className = "",
+  forceAlign,
+  align,
+  gap,
+  cardsLayout,
+  justify,
+  children,
+  ...rest
+}) => {
+  const alignClass = !forceAlign ? align && align !== "right" ? "w-full grow" : align === "right" ? "justify-end" : "justify-start grow" : forceAlign;
+  const gapClass = gap ? `gap-${gap}` : "";
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    ...rest,
+    className: `${className} inline-stack ${alignClass} ${gapClass} ${cardsLayout ? "flex-[1_1_0] items-baseline" : ""} ${justify === "space" ? "justify-between" : ""}`,
+    children: children
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InlineStack);
@@ -8973,21 +8999,41 @@ const TabsComponent = ({
   fullWidth
 }) => {
   const renderTabs = () => {
-    return tabsList.map(tab => {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
-        className: "me-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-          onClick: () => handleSelectChange(tab.value),
-          className: `tab-element ${selected === tab.value ? "tab-active" : ""}`,
-          children: tab.label
-        })
-      });
-    });
+    return tabsList.map(tab => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+      style: {
+        flex: "0 0 auto",
+        minWidth: 120
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+        onClick: () => handleSelectChange(tab.value),
+        className: `tab-element ${selected === tab.value ? "tab-active" : ""}`,
+        style: {
+          minWidth: 120,
+          whiteSpace: "nowrap",
+          flex: "0 0 auto"
+        },
+        children: tab.label
+      })
+    }, tab.value));
   };
+
+  // Responsive scroll for mobile
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: `tabs-group-container ${fullWidth ? "w-full justify-between" : ""}`,
+    className: "tabs-group-container",
+    style: {
+      overflowX: "auto",
+      WebkitOverflowScrolling: "touch",
+      width: "100%",
+      marginBottom: 16
+    },
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
-      className: "flex flex-row",
+      className: "flex flex-row servv-tabs",
+      style: {
+        flexWrap: "nowrap",
+        minWidth: "100%",
+        width: "max-content",
+        marginBottom: 0
+      },
       children: renderTabs()
     })
   });
@@ -9030,7 +9076,7 @@ const ButtonGroup = ({
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "button-group-container",
         children: buttons.map(button => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: `button-group-button${active == button ? "-active" : ""} section-description`,
+          className: `${active == button ? "button-group-button-active" : "button-group-button"} section-description`,
           "data-value": button,
           disabled: disabled,
           onClick: e => {
@@ -9091,6 +9137,28 @@ const CheckboxControl = ({
 
 /***/ }),
 
+/***/ "./src/Components/Controls/CustomDropdown.jsx":
+/*!****************************************************!*\
+  !*** ./src/Components/Controls/CustomDropdown.jsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const CustomDropdown = ({
+  options,
+  selected,
+  onSelectChange,
+  icon,
+  image
+}) => {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomDropdown);
+
+/***/ }),
+
 /***/ "./src/Components/Controls/EndDateControl.jsx":
 /*!****************************************************!*\
   !*** ./src/Components/Controls/EndDateControl.jsx ***!
@@ -9115,14 +9183,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import DatePicker from "../PostEditor/DatePicker";
 
 
 
 
 const EndDateControl = ({
   recurrence,
-  onChange
+  onChange,
+  meetingType = "offline"
 }) => {
   const {
     end_times,
@@ -9133,28 +9201,44 @@ const EndDateControl = ({
     setSelected(val);
   };
   const endDate = end_date_time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(end_date_time).format("YYYY-MM-DDTHH:mm:ss") : moment__WEBPACK_IMPORTED_MODULE_3___default()().format("YYYY-MM-DDTHH:mm:ss");
-  const handleEndTimesChange = val => {
-    const newRecurrenceSettings = {
-      ...recurrence
-    };
-    delete newRecurrenceSettings.end_date_time;
-    newRecurrenceSettings.end_times = val;
-    onChange(newRecurrenceSettings);
-  };
-  const handleEndDateTimeChange = val => {
-    const newRecurrenceSettings = {
-      ...recurrence
-    };
-    delete newRecurrenceSettings.end_times;
-    newRecurrenceSettings.end_date_time = val;
-    onChange(newRecurrenceSettings);
-  };
+
+  // --- ENFORCE LIMITS ---
+  // For Zoom: max 60 occurrences, for in-person: up to 12 months
+  const isZoom = meetingType === "zoom";
+  const maxOccurrences = isZoom ? 60 : 365; // 365 is a safe upper bound for in-person
+  const maxMonths = 12;
+
+  // Generate options for occurrences
   const numbersOptions = () => {
     let numberOpt = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 1; i <= maxOccurrences; i++) {
       numberOpt.push(i);
     }
     return numberOpt;
+  };
+
+  // Clamp end date for in-person to 12 months from now
+  const minDate = moment__WEBPACK_IMPORTED_MODULE_3___default()().toDate();
+  const maxDate = isZoom ? null : moment__WEBPACK_IMPORTED_MODULE_3___default()().add(maxMonths, "months").toDate();
+  const handleEndTimesChange = val => {
+    let newVal = parseInt(val, 10);
+    if (isZoom && newVal > 60) newVal = 60;
+    onChange({
+      ...recurrence,
+      end_times: newVal,
+      end_date_time: undefined
+    });
+  };
+  const handleEndDateTimeChange = val => {
+    let dateVal = val;
+    if (!isZoom && maxDate && moment__WEBPACK_IMPORTED_MODULE_3___default()(val).isAfter(maxDate)) {
+      dateVal = moment__WEBPACK_IMPORTED_MODULE_3___default()(maxDate).format("YYYY-MM-DDTHH:mm:ss");
+    }
+    onChange({
+      ...recurrence,
+      end_date_time: dateVal,
+      end_times: undefined
+    });
   };
   const iconRight = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
     className: "input-control-icon-right"
@@ -9172,34 +9256,34 @@ const EndDateControl = ({
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               onClick: () => handleSelectChange("date"),
               className: `tab-element ${selected === "date" ? "tab-active" : ""}`,
-              children: "End date by"
+              children: t("End date by")
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
             className: "me-2",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               onClick: () => handleSelectChange("number"),
               className: `tab-element ${selected === "number" ? "tab-active" : ""}`,
-              children: "End date after"
+              children: t("End date after")
             })
           })]
         })
-      }), selected === "date" &&
-      /*#__PURE__*/
-      // <DatePicker
-      //   date={endDate}
-      //   onChange={handleEndDateTimeChange}
-      //   label={!endDate ? "Select a Date" : endDate}
-      //   variant="field"
-      //   instance="endDate"
-      // />
-      (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PostEditor_DatePickerControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }), selected === "date" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PostEditor_DatePickerControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
         date: endDate,
         onChange: handleEndDateTimeChange,
-        variant: "field"
+        variant: "field",
+        minDate: minDate,
+        maxDate: maxDate
       }), selected === "number" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
         options: numbersOptions(),
         selected: end_times,
-        onSelectChange: handleEndTimesChange
+        onSelectChange: handleEndTimesChange,
+        helpText: isZoom ? "Max 60 occurrences for Zoom meetings" : "Up to 12 months for in-person events",
+        style: {
+          padding: "10px"
+        }
+      }), isZoom && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: "text-xs text-gray-600 mt-2",
+        children: t("Recurring meetings expire 365 days after the last occurrence of the series. You can schedule up to 60 occurrences into the future.")
       })]
     })
   });
@@ -9242,32 +9326,99 @@ const InputFieldControl = ({
   width = null,
   prefix = "",
   prefixWidth = "w-12",
-  step = null
+  step = null,
+  className = "",
+  style = {}
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [!image && prefix === "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  // Alignment helper
+  const getAlignmentClass = () => {
+    switch (align) {
+      case "center":
+        return "text-center";
+      case "right":
+        return "text-right";
+      default:
+        return "text-left";
+    }
+  };
+  const handleChange = e => {
+    const value = e.target.value;
+    if (type === "number" && maxValue && value > maxValue) {
+      onChange(maxValue);
+    } else if (type === "number" && minValue && value < minValue) {
+      onChange(minValue);
+    } else {
+      onChange(value);
+    }
+  };
+
+  // Responsive style for mobile
+  const responsiveStyle = {
+    // maxWidth: "100%",
+    // width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
+
+  // Input classes
+  const inputClasses = `
+    w-full min-w-[4rem]
+    input-control
+    px-3 py-2
+    pl-6
+    border border-gray-300 rounded-lg
+    text-sm font-medium
+    focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500
+    disabled:bg-gray-100 disabled:cursor-not-allowed
+    transition-colors duration-200
+    section-description
+    ${getAlignmentClass()}
+    ${fullWidth ? "w-full" : ""}
+    ${width ? "w-full" : ""}
+    ${align === "right" ? "pr-1" : ""}
+    ${className}
+  `.trim();
+  const inputStyle = {
+    width: fullWidth ? "100%" : width || undefined,
+    fontFamily: "'Inter', sans-serif",
+    ...responsiveStyle
+  };
+
+  // Main input (no image, no prefix)
+  if (!image && prefix === "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex relative group justify-center items-center w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: type,
-        className: `input-control section-description text-${align} ${align === "right" ? "pr-1" : ""} ${fullWidth || width ? "w-full" : ""}`,
+        className: inputClasses,
+        style: inputStyle,
         placeholder: placeholder,
         value: value,
         disabled: disabled,
         maxLength: maxLength,
-        onChange: e => onChange(e.target.value),
         min: minValue,
         max: maxValue,
+        onChange: e => handleChange(e),
         onKeyDown: handleKeyPress,
-        step: step
+        step: step,
+        autoComplete: "off"
       }), suffix && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "absolute text-gray-500 right-0 pr-8",
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
         children: suffix
       })]
-    }), !image && prefix !== "" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    });
+  }
+
+  // Input with prefix (e.g. currency)
+  if (!image && prefix !== "") {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "flex w-full rounded-lg border border-gray-300 overflow-hidden text-md shadow-sm h-9",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "flex items-center justify-center bg-gray-50 text-gray-600 text-md w-12 border-r border-gray-300",
-        children: "$"
+        className: `flex items-center justify-center bg-gray-50 text-gray-600 text-md ${prefixWidth} border-r border-gray-300`,
+        children: prefix
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: "text",
         inputMode: "decimal",
@@ -9283,34 +9434,46 @@ const InputFieldControl = ({
           }
           if (val.startsWith("00")) val = "0";else if (val.startsWith("0") && val[1] !== ".") val = val.slice(1);
           onChange(val);
+        },
+        style: responsiveStyle
+      })]
+    });
+  }
+
+  // Input with image
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex relative group justify-center items-center w-full",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "size-6",
+        style: {
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          width: "1.7rem",
+          height: "1.7rem"
         }
-      })]
-    }), image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "flex relative group justify-center items-center w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-        className: "flex absolute left-0 bg-transparent rounded text-base text-gray-600 p-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "size-6",
-          style: {
-            backgroundImage: `url(${image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            width: "24px",
-            height: "24px"
-          }
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: type,
-        className: `input-control section-description description-image text-${align} ${align === "right" ? "pr-1 pl-8" : ""} ${fullWidth ? "w-full" : ""}`,
-        placeholder: placeholder,
-        value: value,
-        disabled: disabled,
-        size: maxLength,
-        onChange: e => onChange(e.target.value),
-        min: minValue,
-        max: maxValue
-      })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: type,
+      className: `
+          input-control section-description description-image
+          ${getAlignmentClass()}
+          ${align === "right" ? "pr-1 pl-8" : ""}
+          ${fullWidth ? "w-full" : ""}
+          ${className}
+        `,
+      style: inputStyle,
+      placeholder: placeholder,
+      value: value,
+      disabled: disabled,
+      maxLength: maxLength,
+      min: minValue,
+      max: maxValue,
+      onChange: e => onChange(e.target.value),
+      autoComplete: "off"
     })]
   });
 };
@@ -9355,7 +9518,7 @@ const ListPagination = ({
         className: "pagination-control-icon"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
         className: "pagination-control-text",
-        children: "Previous"
+        children: t("Previous")
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
       className: "pagination-control",
@@ -9365,7 +9528,7 @@ const ListPagination = ({
         className: "pagination-control-icon"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
         className: "pagination-control-text",
-        children: "Next"
+        children: t("Next")
       })]
     })]
   });
@@ -9563,9 +9726,9 @@ const RecurringControl = ({
         gap: 4,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("legend", {
           className: "section-description",
-          children: "Select type of recurrence"
+          children: t("Select type of recurrence")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-          className: "input-container-row justify-start gap-40",
+          className: "input-container-row items-start justify-between w-full",
           children: renderOptions()
         })]
       })
@@ -9576,7 +9739,10 @@ const RecurringControl = ({
         label: "Repeat every",
         options: dailyRepeatOptions(),
         selected: repeat_interval === 1 ? "1 day" : `${repeat_interval} days`,
-        onSelectChange: handleRepeatIntervalChange
+        onSelectChange: handleRepeatIntervalChange,
+        style: {
+          padding: "10px"
+        }
       }), type === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
         gap: 4,
         cardsLayout: true,
@@ -9584,9 +9750,12 @@ const RecurringControl = ({
           label: "Repeat every",
           options: weeklyRepeatOptions(),
           selected: repeat_interval === 1 ? "1 week" : `${repeat_interval} weeks`,
-          onSelectChange: handleRepeatIntervalChange
+          onSelectChange: handleRepeatIntervalChange,
+          style: {
+            padding: "10px"
+          }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-          children: "Occurs on"
+          children: t("Occurs on")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "grid grid-cols-2",
           children: renderWeeklyOptions()
@@ -9598,7 +9767,10 @@ const RecurringControl = ({
           label: "Repeat every",
           options: monthlyRepeatOptions(),
           selected: repeat_interval === 1 || repeat_interval > 3 ? "1 month" : `${repeat_interval} months`,
-          onSelectChange: handleRepeatIntervalChange
+          onSelectChange: handleRepeatIntervalChange,
+          style: {
+            padding: "10px"
+          }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_2__["default"], {
           title: "Event recurrence",
           buttons: monthlyTypes,
@@ -9610,7 +9782,10 @@ const RecurringControl = ({
             label: "",
             options: monthlyDayRepeatOptions(),
             selected: monthly_day,
-            onSelectChange: handleMonthlyDayChange
+            onSelectChange: handleMonthlyDayChange,
+            style: {
+              padding: "10px"
+            }
           })
         }), !monthlyType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
           gap: 4,
@@ -9621,12 +9796,18 @@ const RecurringControl = ({
               label: "",
               options: monthlyWeekRepeatOptions,
               selected: monthly_week ? monthlyWeekRepeatOptions[monthly_week - 1] : monthlyWeekRepeatOptions[0],
-              onSelectChange: handleMonthlyWeekChange
+              onSelectChange: handleMonthlyWeekChange,
+              style: {
+                padding: "10px"
+              }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
               label: "",
               options: days,
               selected: monthly_week_day ? days[monthly_week_day - 1] : days[0],
-              onSelectChange: handleMonthlyWeekDayChange
+              onSelectChange: handleMonthlyWeekDayChange,
+              style: {
+                padding: "10px"
+              }
             })]
           })
         })]
@@ -9664,23 +9845,16 @@ __webpack_require__.r(__webpack_exports__);
 const RecurringSection = ({
   recurrence,
   onChange = () => {},
-  disabled = false
+  disabled = false,
+  meetingType = "offline" // <-- Accept meetingType
 }) => {
-  // Button group control
   const eventTypes = ["One-time", "Recurring"];
   const handleTypeChange = val => {
     if (val === "Recurring") {
       onChange({
         type: 1,
-        // Daily
         repeat_interval: 1,
-        // 1 day, 1 week, 1 month
-        // weekly_days: [], // "2,3"
-        // monthly_day: 1, // 1 - 30,
-        // monthly_week: 1, // 1 - 4, -1
-        // monthly_week_day: 2, // 1 - 7
         end_times: 1
-        // end_date_time: new Date(),
       });
     } else onChange(null);
   };
@@ -9693,10 +9867,12 @@ const RecurringSection = ({
       disabled: disabled
     }), recurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_RecurringControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
       recurrence: recurrence,
-      onChange: onChange
+      onChange: onChange,
+      meetingType: meetingType // <-- Pass down
     }), recurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_EndDateControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
       recurrence: recurrence,
-      onChange: onChange
+      onChange: onChange,
+      meetingType: meetingType // <-- Pass down
     })]
   });
 };
@@ -9729,7 +9905,8 @@ const SelectControl = ({
   disabled = false,
   onSelectChange = () => {},
   iconRight = null,
-  iconLeft = null
+  iconLeft = null,
+  style = {} // <-- Add style prop
 }) => {
   const renderOptions = () => {
     if (options.length > 0) {
@@ -9743,25 +9920,39 @@ const SelectControl = ({
           value: option,
           selected: selected === option,
           children: option
-        }, "value"))]
+        }, option))]
       });
     }
   };
+  // Responsive style for mobile
+  const responsiveStyle = {
+    maxWidth: "100%",
+    width: "100%",
+    boxSizing: "border-box",
+    ...style
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "input-container-col",
+    style: {
+      width: "100%"
+    },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-      for: "timezone",
+      htmlFor: "timezone",
       className: "section-description",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "select-control-with-icon-container",
+      style: {
+        width: "100%"
+      },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
         name: "timezone",
-        id: "timezone",
-        className: "select-control select-control-with-icon text-sm",
+        id: "timezone-select",
+        className: "select-control select-control-with-icon text-sm p-4",
         value: selected,
         onChange: e => onSelectChange(e.target.value),
         disabled: disabled,
+        style: responsiveStyle,
         children: renderOptions()
       }), iconRight !== null && iconRight]
     })]
@@ -9811,25 +10002,34 @@ const TimeInputControl = ({
   }, []);
   const getHours = () => {
     const selectedTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
-    const hh = selectedTime.get("hour");
-    if (hh > 12 && timeFormat === "hh:mm a") return hh % 12;else return hh;
+    const hh = selectedTime.hour();
+    if (timeFormat === "hh:mm a") {
+      return selectedTime.format("hh");
+    } else {
+      return hh;
+    }
   };
   const getMinutes = () => {
     const selectedTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
     return selectedTime.get("minute");
   };
   const onHoursChange = val => {
-    let currentVal = val;
-    if (currentVal.length > 2) {
-      if (currentVal[0] !== "0") currentVal = currentVal.slice(0, 2);else currentVal = currentVal.slice(1, 3);
-    }
-    if (Number.parseInt(currentVal) > 12 && timeFormat === "hh:mm a") {
-      currentVal = 12;
-    } else if (Number.parseInt(currentVal) > 24 && timeFormat === "hh:mm a") {
-      currentVal = 24;
-    }
     const newTime = moment__WEBPACK_IMPORTED_MODULE_3___default()(time);
-    newTime.set("hour", Number.parseInt(val ? currentVal : 0));
+    let currentVal = Number.parseInt(val);
+    if (timeFormat === "hh:mm a") {
+      if (currentVal < 1) currentVal = 1;
+      if (currentVal > 12) currentVal = 12;
+      const isPM = newTime.format("A") === "PM";
+      if (isPM && currentVal !== 12) {
+        currentVal += 12;
+      } else if (!isPM && currentVal === 12) {
+        currentVal = 0;
+      }
+    } else {
+      if (currentVal < 0) currentVal = 0;
+      if (currentVal > 23) currentVal = 23;
+    }
+    newTime.set("hour", currentVal);
     onChange(newTime);
   };
   const onMinutesChange = val => {
@@ -9846,18 +10046,26 @@ const TimeInputControl = ({
   };
   const onPeriodChange = val => {
     const newTime = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
-    // console.log(newTime);
-
-    const hh = time.get("hour");
-    if (val === "am") {
-      newTime.set("hour", hh + 12);
+    const currentDate = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time).date() : moment__WEBPACK_IMPORTED_MODULE_3___default()().date();
+    const hh = newTime.hour();
+    let newTimeValue = val;
+    if (val === "am" && hh < 12) {
+      newTimeValue = hh - 12;
+    } else if (val === "pm" && hh >= 12) {
+      newTimeValue = hh + 12;
+    }
+    if (newTimeValue > -24 || newTimeValue < 0) {
+      newTime.hour(newTimeValue);
+      newTime.set({
+        date: currentDate
+      });
     } else {
-      newTime.set("hour", hh - 12);
+      newTime.hour(newTimeValue);
     }
     onChange(newTime);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between`,
+    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between md:grow-0`,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-description",
       children: label
@@ -9865,11 +10073,11 @@ const TimeInputControl = ({
       className: "input-container-row items-center",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_InputFieldControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
         value: String(getHours()).padStart(2, "0"),
-        onChange: val => onHoursChange(val),
+        onChange: onHoursChange,
         maxLength: 2,
         type: "number",
-        minValue: 0,
-        maxValue: timeFormat === "hh:mm a" ? 12 : 24,
+        minValue: timeFormat === "hh:mm a" ? 1 : 0,
+        maxValue: timeFormat === "hh:mm a" ? 12 : 23,
         disabled: disabled
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         className: "section-description",
@@ -9921,11 +10129,12 @@ const TimePeriodControl = ({
 }) => {
   // useEffect(() => {
   // }, [time]);
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-    onClick: () => onChange(moment__WEBPACK_IMPORTED_MODULE_1___default()(time).get("hour") > 12 ? "pm" : "am"),
+    onClick: () => onChange(time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).format("a") : "am"),
     className: "period-control section-description font-regular leading-none",
     disabled: disabled,
-    children: time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).get("hour") > 12 ? "pm" : "am" : "am"
+    children: time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).format("a") : "am"
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TimePeriodControl);
@@ -9989,14 +10198,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
 
 
-
 const AIButton = ({
   onClick,
-  children = "Use AI"
+  children = "Use AI",
+  loading = false
 }) => {
+  const pulseClasses = loading ? "animate-pulse scale-105" : "";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
     onClick: onClick,
-    className: " inline-flex items-center px-6 py-2 rounded-lg  text-md              text-brand-700 bg-transparent            relative                  font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 overflow-hidden           ",
+    disabled: loading,
+    className: `
+        inline-flex items-center
+        px-6 py-2
+        rounded-lg 
+        text-md             
+        text-brand-700
+        bg-transparent           
+        relative                 
+        font-semibold
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+        overflow-hidden
+        transition-transform duration-300
+        ${loading ? "opacity-70 cursor-wait" : "hover:bg-gray-100"}
+      `,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
       className: " absolute inset-0      rounded-lg            -z-10                 ",
       style: {
@@ -10005,9 +10229,12 @@ const AIButton = ({
         WebkitMaskComposite: "xor"
       }
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      className: "w-4 h-4 mr-3",
+      className: `w-4 h-4 mr-3 transition-transform duration-300 ${pulseClasses}`,
       "aria-hidden": "true"
-    }), children]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+      className: `transition-transform duration-300 ${pulseClasses}`,
+      children: children
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AIButton);
@@ -10046,47 +10273,20 @@ const CustomFieldsSection = ({
   };
   // console.log(meetingType);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "section-container border-b-2 border-gray-200",
+    className: "section-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "section-heading",
-      children: "Additional notes"
+      children: t("Additional notes")
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
       className: "text-gray-600 font-regular text-sm",
-      children: "Add items to bring or other info for attendees. Included in email notifications."
-    }), meetingType === "online" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "input-container-row items-center",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "input-container-col w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "section-description",
-          children: "Title"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          value: custom_field_1_name,
-          onChange: val => handleCustomFieldsChange("custom_field_1_name", val),
-          fullWidth: true,
-          type: "text",
-          align: "left"
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "input-container-col w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "section-description",
-          children: "Description"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          value: custom_field_1_value,
-          onChange: val => handleCustomFieldsChange("custom_field_1_value", val),
-          fullWidth: true,
-          type: "text",
-          align: "left"
-        })]
-      })]
+      children: t("Add items to bring or other info for attendees. Included in email\r\n        notifications.")
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "input-container-row items-center",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "input-container-col w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "section-description",
-          children: "Title"
+          children: t("Title")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
           value: custom_field_2_name,
           onChange: val => handleCustomFieldsChange("custom_field_2_name", val),
@@ -10098,7 +10298,7 @@ const CustomFieldsSection = ({
         className: "input-container-col w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "section-description",
-          children: "Description"
+          children: t("Description")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_0__["default"], {
           value: custom_field_2_value,
           onChange: val => handleCustomFieldsChange("custom_field_2_value", val),
@@ -10140,16 +10340,17 @@ const DatePickerControl = ({
   date = null,
   onChange = () => {},
   label = "Select a Date",
-  variant = "button"
+  variant = "button",
+  adminSection = false
 }) => {
   const [value, setValue] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).toDate() : null,
+    startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).startOf("day").toDate() : null,
     endDate: null
   });
-  const minDate = moment__WEBPACK_IMPORTED_MODULE_1___default()().toDate();
+  const minDate = moment__WEBPACK_IMPORTED_MODULE_1___default()().startOf("day").toDate();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setValue({
-      startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).toDate() : null,
+      startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).startOf("day").toDate() : null,
       endDate: null
     });
   }, [date]);
@@ -10170,7 +10371,7 @@ const DatePickerControl = ({
     selected: value,
     value: value,
     placeholder: value?.startDate && moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate, (moment__WEBPACK_IMPORTED_MODULE_1___default().ISO_8601), true).isValid() ? moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate).format("MMM DD, YYYY") : "Select dates",
-    inputClassName: "input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700",
+    inputClassName: `input-control section-description text-left w-full ${variant === "button" ? adminSection ? "" : "max-w-[10rem]" : "w-full"} ${adminSection ? "min-w-[8rem]" : "min-w-[10rem]"} shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`,
     onChange: handleDateChange
   });
 };
@@ -10194,15 +10395,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
 /* harmony import */ var _Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/TimeInputControl */ "./src/Components/Controls/TimeInputControl.jsx");
 /* harmony import */ var _Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/RecurringSection */ "./src/Components/Controls/RecurringSection.jsx");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js");
 /* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utilities/timezones */ "./src/utilities/timezones.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "moment");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _DatePickerControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DatePickerControl */ "./src/Components/PostEditor/DatePickerControl.jsx");
 /* harmony import */ var _AIButton__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AIButton */ "./src/Components/PostEditor/AIButton.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
 
 // Components
 // import DatePicker from "./DatePicker";
@@ -10219,6 +10423,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 const DateTimeSection = ({
   eventDetails,
   onChange,
@@ -10227,18 +10433,43 @@ const DateTimeSection = ({
   adminSection,
   setToast
 }) => {
+  const [isAiLoading, setIsAILoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const {
     startTime,
     duration,
     timezone,
     recurrence
   } = eventDetails;
-  const time = startTime !== null ? moment__WEBPACK_IMPORTED_MODULE_5___default()(startTime) : moment__WEBPACK_IMPORTED_MODULE_5___default()();
+  const time = startTime !== null ? typeof startTime === "string" ? moment__WEBPACK_IMPORTED_MODULE_5___default()(startTime) : startTime : moment__WEBPACK_IMPORTED_MODULE_5___default()();
   const [isDateChanged, setDateChanged] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(!!startTime);
   const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("hh:mm a");
   const endTime = time ? moment__WEBPACK_IMPORTED_MODULE_5___default()(time).add(duration, "minutes") : moment__WEBPACK_IMPORTED_MODULE_5___default()().add(duration, "minutes");
   const timezoneOptions = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].map(timezone => timezone.zone);
-  const userTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(timezone => timezone.zone === Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const [userTimezone, setUserTimezone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("US/Pacific");
+  const updateTimezone = settings => {
+    let defaultTimezone = null;
+    if (!settings) return;
+    if (settings.settings?.admin_dashboard) {
+      const adminSettings = settings.settings.admin_dashboard;
+      defaultTimezone = adminSettings.default_timezone || moment__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
+    } else {
+      defaultTimezone = moment__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
+    }
+    let findTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(t => t.zone === defaultTimezone);
+    if (findTimezone.length > 0) {
+      setUserTimezone(findTimezone[0]);
+    } else {
+      let timezoneOffset = moment__WEBPACK_IMPORTED_MODULE_5___default().tz(defaultTimezone).format("Z");
+      let formattedOffset = `(GMT${timezoneOffset})`;
+      let availableTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(t => t.gmt === formattedOffset);
+      if (availableTimezone.length > 0) {
+        setUserTimezone(availableTimezone[0]);
+      }
+    }
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    updateTimezone(settings);
+  }, [settings]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (settings && !settings.timezone && userTimezone.length > 0 && eventDetails && eventDetails.timezone && timezone.length === 0) {
       onChange("timezone", userTimezone[0].zone);
@@ -10287,7 +10518,7 @@ const DateTimeSection = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     handleTimeFormatChange();
   }, [settings]);
-  const iconRight = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  const iconRight = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
     className: "input-control-icon-right"
   });
   const fetchDescription = async () => {
@@ -10296,68 +10527,159 @@ const DateTimeSection = ({
       setToast("Please enter a title to use this feature.");
       return;
     }
+    setIsAILoading(true);
     const {
       createBlock
     } = wp.blocks;
     const {
-      dispatch
+      dispatch,
+      select
     } = wp.data;
-    let url = "https://ai-api.servv.ai/generate-description";
+    const url = "/wp-json/servv-plugin/v1/event/data/generate";
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(url, {
+        title: eventDetails.title
+      }, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
+      }).catch(error => {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_9__.toast)(error.message ? error.message : "AI generation could not be completed. Please try again.");
+      });
+      const {
+        description,
+        image,
+        tags
+      } = response.data;
 
-    // let prompt = `Write a compelling event description for this information specific to the store provided.
-    //               Title: ${eventDetails.title}
-    //               Date time: ${eventDetails.startTime} timezone: ${eventDetails.timezone}
-    //               Put location and date time in separate lines at the end.`;
-    await axios__WEBPACK_IMPORTED_MODULE_10__["default"].post(url, {
-      title: eventDetails.title
-      // model: "gpt-4o-mini",
-      // messages: [
-      //   {
-      //     role: "user",
-      //     content: prompt,
-      //   },
-      // ],
-    }, {
-      headers: {
-        "Content-Type": "application/json"
+      // 1. Insert Description Block
+      if (description && description.length > 0) {
+        const descriptionBlock = createBlock("core/paragraph", {
+          content: description
+        });
+        dispatch("core/block-editor").insertBlocks(descriptionBlock);
       }
-    }).then(response => {
-      const descriptionContent = response?.data?.description.length > 0 ? response?.data?.description : "";
-      const descriptionBlock = createBlock("core/paragraph", {
-        content: descriptionContent
-      });
-
-      // Insert block into current post
-      dispatch("core/block-editor").insertBlocks(descriptionBlock);
-      return response;
-    }).catch(error => {
+      setIsAILoading(false);
+      if (image) {
+        const blob = b64toBlob(image, "image/png");
+        const file = new File([blob], "featured-image.png", {
+          type: "image/png"
+        });
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("title", "Featured Image");
+        if (eventDetails?.title) {
+          formData.append("alt_text", eventDetails.title);
+        }
+        try {
+          // Upload to WP Media Library
+          const uploadResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default()({
+            path: "/wp/v2/media",
+            method: "POST",
+            body: formData,
+            headers: {
+              "X-WP-Nonce": servvData.nonce // provided by wp_localize_script
+            }
+          });
+          if (uploadResponse?.id) {
+            // Assign uploaded image as Featured Image
+            dispatch("core/editor").editPost({
+              featured_media: uploadResponse.id
+            });
+          }
+        } catch (imgErr) {
+          console.error("Failed to upload featured image:", imgErr);
+        }
+      }
+      // 3. Create and Assign Tags
+      if (Array.isArray(tags)) {
+        const tagIds = [];
+        for (const tagRaw of tags) {
+          const tagName = tagRaw.replace(/^#/, "").trim();
+          if (!tagName) continue;
+          let tag = select("core").getEntityRecords("taxonomy", "post_tag", {
+            search: tagName,
+            per_page: 1
+          });
+          if (!tag) {
+            const results = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default()({
+              path: `/wp/v2/tags?search=${encodeURIComponent(tagName)}`
+            });
+            tag = results.length ? results[0] : null;
+          }
+          if (!tag) {
+            tag = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default()({
+              path: "/wp/v2/tags",
+              method: "POST",
+              data: {
+                name: tagName
+              }
+            });
+          }
+          if (tag && tag.id) {
+            tagIds.push(tag.id);
+          }
+        }
+        if (tagIds.length > 0) {
+          dispatch("core/editor").editPost({
+            tags: tagIds
+          });
+        }
+      }
+    } catch (error) {
+      setIsAILoading(false);
       console.error("Error:", error.response ? error.response.data : error.message);
-      const descriptionContent = error.response ? error.response.data : error.message;
-      const descriptionBlock = createBlock("core/paragraph", {
-        content: descriptionContent
+      const fallbackContent = error.response ? error.response.data : error.message;
+      const fallbackBlock = wp.blocks.createBlock("core/paragraph", {
+        content: fallbackContent
       });
-      dispatch("core/block-editor").insertBlocks(descriptionBlock);
-    });
+      wp.data.dispatch("core/block-editor").insertBlocks(fallbackBlock);
+    }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+
+  // Helper: base64 → Blob
+  function b64toBlob(b64Data, contentType = "", sliceSize = 512) {
+    // Remove "data:image/...;base64," if present
+    const cleaned = b64Data.includes(",") ? b64Data.split(",")[1] : b64Data;
+
+    // Remove any whitespace or line breaks
+    const safeBase64 = cleaned.replace(/\s/g, "");
+    const byteCharacters = atob(safeBase64);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    return new Blob(byteArrays, {
+      type: contentType
+    });
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
     className: "section-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
       className: "flex flex-row justify-between",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
         className: "section-heading",
-        children: "Date and time"
-      }), !adminSection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_AIButton__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        onClick: fetchDescription
+        children: "Date and time *"
+      }), !adminSection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_AIButton__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        onClick: fetchDescription,
+        loading: isAiLoading
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-      className: "flex flex-row gap-5 justify-between items-end",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+      className: "flex flex-row gap-5 justify-between items-end max-sm:flex-col",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
         date: time,
         onChange: handleDateChange,
-        variant: "button"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-        className: "flex flex-row gap-5 justify-between align-center",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
+        variant: "button",
+        adminSection: adminSection
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+        className: "flex flex-row gap-3 justify-between align-center max-sm:justify-start md:justify-between max-sm:w-full",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
         // label="Start time"
         , {
           time: time,
@@ -10366,10 +10688,10 @@ const DateTimeSection = ({
           maxValue: timeFormat === "hh:mm a" ? 12 : 24,
           timeFormat: timeFormat,
           align: "start"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
           className: "self-center",
           children: "to"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
         // label="End time"
         , {
           time: endTime,
@@ -10380,14 +10702,17 @@ const DateTimeSection = ({
           align: "end"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      label: "Time zone",
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      label: "Timezone *",
       options: timezoneOptions,
       helpText: "Select a timezone",
       selected: timezone ? timezone : null,
       disabled: false,
-      onSelectChange: handleTimezoneChange
-    }), !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      onSelectChange: handleTimezoneChange,
+      style: {
+        padding: "10px"
+      }
+    }), !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
       recurrence: recurrence,
       onChange: handleRecurrenceChange,
       disabled: settings && settings.current_plan.id !== 2
@@ -10414,24 +10739,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DateTimeSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DateTimeSection */ "./src/Components/PostEditor/DateTimeSection.jsx");
 /* harmony import */ var _LocationSection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LocationSection */ "./src/Components/PostEditor/LocationSection.jsx");
 /* harmony import */ var _Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Containers/TabsComponent */ "./src/Components/Containers/TabsComponent.jsx");
-/* harmony import */ var _ProductDetails__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ProductDetails */ "./src/Components/PostEditor/ProductDetails.jsx");
-/* harmony import */ var _EventVisibility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./EventVisibility */ "./src/Components/PostEditor/EventVisibility.jsx");
-/* harmony import */ var _RegistrantsSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./RegistrantsSection */ "./src/Components/PostEditor/RegistrantsSection.jsx");
-/* harmony import */ var _NotificationsSection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./NotificationsSection */ "./src/Components/PostEditor/NotificationsSection.jsx");
-/* harmony import */ var _FiltersSection__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./FiltersSection */ "./src/Components/PostEditor/FiltersSection.jsx");
-/* harmony import */ var _TicketsSection__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TicketsSection */ "./src/Components/PostEditor/TicketsSection.jsx");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _CustomFieldsSection__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CustomFieldsSection */ "./src/Components/PostEditor/CustomFieldsSection.jsx");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _EventVisibility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EventVisibility */ "./src/Components/PostEditor/EventVisibility.jsx");
+/* harmony import */ var _RegistrantsSection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RegistrantsSection */ "./src/Components/PostEditor/RegistrantsSection.jsx");
+/* harmony import */ var _NotificationsSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NotificationsSection */ "./src/Components/PostEditor/NotificationsSection.jsx");
+/* harmony import */ var _FiltersSection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./FiltersSection */ "./src/Components/PostEditor/FiltersSection.jsx");
+/* harmony import */ var _TicketsSection__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TicketsSection */ "./src/Components/PostEditor/TicketsSection.jsx");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _CustomFieldsSection__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./CustomFieldsSection */ "./src/Components/PostEditor/CustomFieldsSection.jsx");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
 
 // Components
 
 
 
+// import ProductDetails from "./ProductDetails";
 
 
 
@@ -10446,6 +10772,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const EventDetails = ({
   title,
+  agenda,
   attributes,
   setAttributes,
   postID = null,
@@ -10455,13 +10782,17 @@ const EventDetails = ({
   removeBlock = () => {},
   returnWithError = () => {},
   filters = null,
-  settingsData = null
+  settingsData = null,
+  requiredFieldsNotification = false,
+  hideReqieredFieldsNotification = () => {}
 }) => {
+  // console.log(attributes);
   let eventDetails = {
     ...attributes.meeting
   };
   const [postId, setPostId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   let [settings, setSettings] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [status, setStatus] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [registrants, setRegistrants] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [googleCalendar, setGoogleCalendar] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [calendarAccountFetched, setCalendarAccountFetched] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -10470,48 +10801,61 @@ const EventDetails = ({
   const [zoomAccount, setZoomAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [stripeAccount, setStripeAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [filtersList, setFiltersList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [activationError, setActivationError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const getCalendarAccount = async () => {
-    const getCalendarAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/calendar/account"
+    const getCalendarAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/calendar/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getCalendarAccountResponse) {
-      setGoogleCalendar(getCalendarAccountResponse);
+    if (getCalendarAccountResponse && getCalendarAccountResponse.status === 200) {
+      setGoogleCalendar(getCalendarAccountResponse.data);
     }
     setCalendarAccountFetched(true);
   };
   const setToastMessage = val => {
-    (0,react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast)(val, {
+    (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)(val, {
       autoClose: 5000
     });
   };
-  const servvData = {
-    servv_plugin_mode: "production"
-  };
+  // const servvData = { servv_plugin_mode: "production" };
   // const servvData = { servv_plugin_mode: "development" };
 
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/zoom/account"
+    const getZoomAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/zoom/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getZoomAccountResponse) {
-      setZoomAccount(getZoomAccountResponse);
+    if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
+      setZoomAccount(getZoomAccountResponse.data);
     }
     // setCalendarAccountFetched(true);
   };
+  // useEffect(() => {
+  //   if (requiredFieldsNotification) {
+  //     setToastMessage("Please fill in the required fields");
+  //     hideReqieredFieldsNotification();
+  //   }
+  // }, [requiredFieldsNotification]);
   const getStripeAccount = async () => {
-    const getStripeAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/stripe/account"
+    const getStripeAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/stripe/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getStripeAccountResponse) {
-      setStripeAccount(getStripeAccountResponse);
+    if (getStripeAccountResponse && getStripeAccountResponse.status === 200) {
+      setStripeAccount(getStripeAccountResponse.data);
     }
   };
   const getGmailAccount = async () => {
-    const getGmailAccountResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: "/servv-plugin/v1/gmail/account"
+    const getGmailAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/gmail/account", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
     });
-    if (getGmailAccountResponse) {
-      setConnectedMailAccount(getGmailAccountResponse);
+    if (getGmailAccountResponse && getGmailAccountResponse.status === 200) {
+      setConnectedMailAccount(getGmailAccountResponse.data);
     }
     setMailAccountFetched(true);
   };
@@ -10546,36 +10890,48 @@ const EventDetails = ({
     let getSettingsResponse;
     if (!adminSection) {
       try {
-        getSettingsResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-          path: "/servv-plugin/v1/shop/info"
+        getSettingsResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/wp-json/servv-plugin/v1/shop/info", {
+          headers: {
+            "X-WP-Nonce": servvData.nonce
+          }
         });
       } catch (e) {
         console.log(e);
+        setLoading(false);
+        if (e.status === 401) setActivationError(true);
       }
     } else {
-      console.log(settingsData);
-      getSettingsResponse = settingsData;
+      // console.log(settingsData);
+      getSettingsResponse = {
+        status: 200,
+        data: settingsData
+      };
     }
-    if (getSettingsResponse) {
+    if (getSettingsResponse && getSettingsResponse.status === 200) {
       setSettings({
-        ...getSettingsResponse,
+        ...getSettingsResponse.data,
+        // current_plan: { ...getSettingsResponse.data.current_plan, id: 1 },
         settings: {
-          ...getSettingsResponse.settings,
-          admin_dashboard: getSettingsResponse?.settings?.admin_dashboard ? JSON.parse(getSettingsResponse.settings.admin_dashboard) : {}
+          ...getSettingsResponse.data.settings,
+          admin_dashboard: getSettingsResponse.data?.settings?.admin_dashboard ? JSON.parse(getSettingsResponse.data.settings.admin_dashboard) : {}
         }
       });
     }
   };
+  // console.log(attributes);
+
   const getFilterType = async type => {
     try {
-      let reqURL = `/servv-plugin/v1/filters/${type}`;
-      let getFiltersListResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-        path: reqURL
+      let reqURL = `/wp-json/servv-plugin/v1/filters/${type}`;
+      let getFiltersListResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get(reqURL, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
       });
-      if (getFiltersListResponse) {
+      if (getFiltersListResponse && getFiltersListResponse.status === 200) {
         setFiltersList(prevFilters => ({
           ...prevFilters,
-          [type]: getFiltersListResponse
+          [type]: getFiltersListResponse.data
         }));
       }
     } catch (error) {
@@ -10586,22 +10942,36 @@ const EventDetails = ({
     try {
       const urlParams = new URLSearchParams(window.location.search);
       let postId = postID ? postID : urlParams.get("post");
-      let reqURL = `/servv-plugin/v1/event/${postId}/tickets`;
+      let reqURL = `/wp-json/servv-plugin/v1/event/${postId}/tickets`;
       if (occurrenceId) {
         reqURL += `?occurrence_id=${occurrenceId}`;
       }
-      let getTicketsResponse = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-        path: reqURL
+      let getTicketsResponse = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].get(reqURL, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
       });
-      if (getTicketsResponse) {
+      if (getTicketsResponse && getTicketsResponse.status === 200) {
         setAttributes({
-          tickets: getTicketsResponse
+          tickets: getTicketsResponse.data
         });
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
     }
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!adminSection) {
+      setTabsList([{
+        label: "Details",
+        value: 0
+      }, {
+        label: "Settings",
+        value: 1
+      }]);
+    }
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {}, []);
   const getFilters = async () => {
     setLoading(true);
     if (!filters) {
@@ -10622,7 +10992,7 @@ const EventDetails = ({
         default_start_time,
         default_duration,
         default_event_type,
-        default_price
+        default_quantity
       } = settings.settings.admin_dashboard;
       let newStartTime = null;
       if (default_start_time) {
@@ -10635,14 +11005,26 @@ const EventDetails = ({
       if (default_event_type) {
         handleEventChange("location", default_event_type);
       }
-      // if (default_price && settings.current_plan === 2) {
-      //   handleProductChange("price", default_price);
-      // }
+      if (settings.current_plan.id === 1) {
+        if (default_quantity) {
+          handleProductChange("quantity", Number.parseInt(default_quantity));
+        } else {
+          handleProductChange("quantity", 1);
+        }
+      }
     }
   }, [settings]);
   const getEventData = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     let postId = postID ? postID : urlParams.get("post");
+    let postStatus = "admin";
+    if (!adminSection) {
+      const {
+        getEditedPostAttribute
+      } = wp.data.select("core/editor");
+      postStatus = getEditedPostAttribute("status");
+      setStatus(postStatus);
+    }
     setPostId(postId);
     if (postId) {
       let url = `/servv-plugin/v1/event/${postId}`;
@@ -10650,17 +11032,9 @@ const EventDetails = ({
         url += `?occurrence_id=${occurrenceId}`;
       }
       let res = null;
-      let postStatus = "admin";
-      if (!adminSection) {
-        const {
-          getEditedPostAttribute
-        } = wp.data.select("core/editor");
-        postStatus = getEditedPostAttribute("status");
-      }
       if (postStatus === "publish" || postStatus === "admin") {
-        // console.log("Error fetching post");
         try {
-          res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+          res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
             path: url
           });
         } catch (e) {
@@ -10669,7 +11043,6 @@ const EventDetails = ({
           if (adminSection && e.message === "Post doesn't exist") {
             returnWithError(e.message);
           }
-          if (!adminSection) removeBlock();
           return;
         }
       }
@@ -10689,6 +11062,15 @@ const EventDetails = ({
             startTime = moment(res.meeting.occurrences[0].start_time).tz(res.meeting.timezone).format("YYYY-MM-DDTHH:mm:ss:SSS").replace(/:\d\d\d$/, "");
           }
         }
+        if (res.meeting.recurrence && !occurrenceId) {
+          setTabsList([{
+            label: "Details",
+            value: 0
+          }, {
+            label: "Settings",
+            value: 1
+          }]);
+        }
         let eventRecurrence = null;
         if (res.meeting.recurrence && res.meeting.recurrence.type) {
           eventRecurrence = res.meeting.recurrence;
@@ -10705,7 +11087,7 @@ const EventDetails = ({
           },
           product: {
             price: res.product.price,
-            quantity: res.product.current_quantity || 0,
+            quantity: res.product.current_quantity,
             current_quantity: res.product.current_quantity
           },
           notifications: {
@@ -10742,8 +11124,6 @@ const EventDetails = ({
   };
   const [registrantsPagination, setRegistrantsPagination] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const getEventRegistrants = async (page = 1, id = null) => {
-    // const urlParams = new URLSearchParams(window.location.search);
-    // let postId = urlParams.get("post");
     setLoading(true);
     let post = postID;
     let res = null;
@@ -10755,7 +11135,7 @@ const EventDetails = ({
       url += `&occurrence_id=${occurrenceId}`;
     }
     try {
-      res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+      res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
         path: url
       });
     } catch (e) {
@@ -10800,7 +11180,7 @@ const EventDetails = ({
     return results;
   };
   const removeSingleRegistrant = async registrantID => {
-    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
       path: `/servv-plugin/v1/event/${postID}/registrants/${registrantID}`,
       method: "DELETE"
     });
@@ -10808,7 +11188,7 @@ const EventDetails = ({
   };
   const removeRegistrant = async registrantID => {
     setLoading(true);
-    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
       path: `/servv-plugin/v1/event/${postID}/registrants/${registrantID}`,
       method: "DELETE"
     });
@@ -10824,7 +11204,6 @@ const EventDetails = ({
   };
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const getEventFullInfo = async () => {
-    // setLoading(true);
     setLoading(true);
     if (servvData && servvData.servv_plugin_mode === "development") {
       const id = await getEventData();
@@ -10837,7 +11216,7 @@ const EventDetails = ({
       await getFilters();
       await getAccountsInfo();
     } else {
-      const id = getEventData();
+      const id = await getEventData();
       if (id && adminSection) {
         getEventRegistrants(1, id);
         if (adminSection && settings && settings.current_plan.id === 2) {
@@ -10850,6 +11229,7 @@ const EventDetails = ({
     setLoading(false);
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setLoading(true);
     setAttributes({
       registrants: []
     });
@@ -10871,6 +11251,7 @@ const EventDetails = ({
     ...attributes.types
   };
   const tickets = [...attributes.tickets];
+  // console.log(productDetails);
   const handleRegistrantsChange = registrant => {
     let currentRegistrants = registrants;
     // console.log(registrant, registrant?.status);
@@ -10878,7 +11259,6 @@ const EventDetails = ({
       if (registrant.status === "create") {
         currentRegistrants.push(registrant);
       } else {
-        console.log("delete");
         currentRegistrants = currentRegistrants.filter(reg => reg.tempId !== registrant.tempId);
       }
       setRegistrants(currentRegistrants);
@@ -10921,14 +11301,14 @@ const EventDetails = ({
         if (meeting.recurrence) {
           meeting.eventType = 8;
         } else meeting.eventType = 2;
-        customFields.custom_field_1_name = "";
-        customFields.custom_field_1_value = "";
+        // customFields.custom_field_1_name = "";
+        // customFields.custom_field_1_value = "";
       } else {
         if (meeting.recurrence) {
           meeting.eventType = 2;
         } else meeting.eventType = 1;
-        customFields.custom_field_1_name = "Meeting URL";
-        customFields.custom_field_1_value = "";
+        // customFields.custom_field_1_name = "Meeting URL";
+        // customFields.custom_field_1_value = "";
       }
     }
     // console.log(meeting.location);
@@ -10943,14 +11323,8 @@ const EventDetails = ({
   };
   const handleTypesChange = (field, value) => {
     let types = attributes.types;
-    if (field === "members") {
-      let members = types.members || [];
-      if (members.indexOf(value) >= 0) {
-        members = members.filter(id => id !== value);
-      } else {
-        members.push(value);
-      }
-      types["members"] = members;
+    if (field === "members" && value.length > 0) {
+      types["members"] = value;
     } else {
       if (types[field] === value) {
         delete types[field];
@@ -10976,16 +11350,19 @@ const EventDetails = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     handleEventChange("title", title);
   }, [title]);
-  const tabsList = [{
-    label: "Event details",
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    handleEventChange("agenda", agenda);
+  }, [agenda]);
+  const [tabsList, setTabsList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    label: "Details",
     value: 0
   }, {
-    label: "Event settings",
+    label: "Settings",
     value: 1
   }, {
     label: "Registrants",
     value: 2
-  }];
+  }]);
   const [selectedTab, setSelectedTab] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const handleSelectChange = val => {
     setSelectedTab(val);
@@ -11012,12 +11389,12 @@ const EventDetails = ({
     for (const id of registrants) {
       try {
         await handleResendNotificationToSingleRegistrant(id);
-        (0,react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast)("Email notifications are successfully resend", {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)("Email notifications are successfully resend", {
           autoClose: 5000
         });
       } catch (error) {
         console.error(`Failed to resend notification to registrant ${id}:`, error);
-        (0,react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast)(`Failed to resend notification to registrant ${registrants.filter(reg => reg.id === id)[0].email}:`, {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)(`Failed to resend notification to registrant ${registrants.filter(reg => reg.id === id)[0].email}:`, {
           autoClose: 5000
         });
       }
@@ -11028,27 +11405,34 @@ const EventDetails = ({
     if (occurrenceId) {
       url += `?occurrence_id=${occurrenceId}`;
     }
-    return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
+    return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_9___default()({
       path: url,
       method: "POST"
     });
   };
   const handleResendNotificationsToAll = async () => {
-    let url = `/servv-plugin/v1/event/${postID}/registrants/resend`;
+    let url = `/wp-json/servv-plugin/v1/event/${postID}/registrants/resend`;
     if (occurrenceId) {
       url += `?occurrence_id=${occurrenceId}`;
     }
-    let res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_10___default()({
-      path: url,
-      method: "POST"
+    let res = await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+      url: url,
+      method: "POST",
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
+    }).catch(e => {
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)("Servv was unable to resend notifications. Please try again.");
     });
+    if (res && res.status === 200) {
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_11__.toast)("Email notifications have been resent.");
+    }
   };
   const handleTicketsChange = tickets => {
     setAttributes({
       tickets: tickets
     });
     const quantity = tickets.reduce((totalQuantity, ticket) => totalQuantity + ticket.quantity, 0);
-    console.log(quantity);
     if (quantity > 0) {
       handleProductChange("quantity", quantity);
     }
@@ -11064,45 +11448,54 @@ const EventDetails = ({
   //     : "offline"
   // );
   // console.log(postId);
-  const isFiltersEmpty = Object.values(filtersList).reduce((allEmptySoFar, value) => {
-    return allEmptySoFar && Array.isArray(value) && value.length === 0;
-  }, true);
+
+  const [emptyFilters, setEmptyFilters] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const isFiltersEmpty = !filtersList || filtersList && filtersList.categories && filtersList.categories.length === 0 && filtersList && filtersList.members && filtersList.members.length === 0 && filtersList && filtersList.languages && filtersList.languages.length === 0;
+    // console.log(isFiltersEmpty);
+    if (isFiltersEmpty) {
+      setEmptyFilters(true);
+    }
+  }, [filtersList]);
   const isBillingPlanRestriction = occurrenceId || settings?.current_plan.id !== 2;
   // const isBillingPlanRestriction = false;
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+  // console.log(status === "publish");
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
     className: "relative",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
       className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-      children: loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      children: loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_12__["default"], {
         loading: true
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
       className: `${loading ? "loading" : ""}`,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_12__.ToastContainer, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_11__.ToastContainer, {
         position: "bottom-right"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_3__["default"], {
         tabsList: tabsList,
         selected: selectedTab,
         handleSelectChange: handleSelectChange
-      }), selectedTab === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_DateTimeSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }), selectedTab === 0 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_DateTimeSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
           eventDetails: eventDetails,
           occurrenceId: occurrenceId,
           onChange: handleEventChange,
           settings: settings,
           adminSection: adminSection,
           setToast: setToastMessage
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_LocationSection__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_LocationSection__WEBPACK_IMPORTED_MODULE_2__["default"], {
           eventDetails: eventDetails,
           onChange: handleEventChange,
           settings: settings,
-          disabled: !zoomAccount || zoomAccount && zoomAccount.length === 0 || adminSection,
+          disabled: !zoomAccount || zoomAccount && zoomAccount.length === 0 || adminSection || status === "publish",
           meetingType: eventDetails && eventDetails.location ? eventDetails.location : settings && settings.settings.admin_dashboard.default_event_type ? settings.settings.admin_dashboard.default_event_type : "offline",
           customFields: customFields,
           handleCustomFieldChange: handleCustomFieldsChange,
-          zoomAccount: zoomAccount
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_TicketsSection__WEBPACK_IMPORTED_MODULE_9__["default"], {
+          zoomAccount: zoomAccount,
+          types: types,
+          onFilterChange: handleTypesChange,
+          filtersList: filtersList
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_TicketsSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
           adminSection: adminSection,
           tickets: tickets,
           eventDetails: eventDetails,
@@ -11115,21 +11508,22 @@ const EventDetails = ({
           disabled: settings?.current_plan.id !== 2,
           handleSetLoading: handleSetLoading,
           stripeAccount: stripeAccount,
-          occurrenceId: occurrenceId
-        }), !isFiltersEmpty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_FiltersSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          occurrenceId: occurrenceId,
+          status: status
+        }), emptyFilters !== undefined && emptyFilters === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_FiltersSection__WEBPACK_IMPORTED_MODULE_7__["default"], {
           types: types,
           onChange: handleTypesChange,
           filtersList: filtersList
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_CustomFieldsSection__WEBPACK_IMPORTED_MODULE_11__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_CustomFieldsSection__WEBPACK_IMPORTED_MODULE_10__["default"], {
           customFields: customFields,
           onChange: handleCustomFieldsChange,
           meetingType: eventDetails && eventDetails.location ? eventDetails.location : settings && settings.settings.admin_dashboard.default_event_type ? settings.settings.admin_dashboard.default_event_type : "offline"
         })]
-      }), selectedTab === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_EventVisibility__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), selectedTab === 1 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_EventVisibility__WEBPACK_IMPORTED_MODULE_4__["default"], {
           productDetails: productDetails,
           onChange: handleProductChange
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_NotificationsSection__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_NotificationsSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
           notifications: notifications,
           onChange: handleNotificationsChange,
           googleCalendar: googleCalendar,
@@ -11137,7 +11531,7 @@ const EventDetails = ({
           calendarAccountFetched: calendarAccountFetched,
           mailAccountFetched: mailAccountFetched
         })]
-      }), selectedTab === 2 && adminSection && postId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_RegistrantsSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }), selectedTab === 2 && adminSection && postId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_RegistrantsSection__WEBPACK_IMPORTED_MODULE_5__["default"], {
         registrants: registrants,
         onChange: handleRegistrantsChange,
         onDelete: removeRegistrant,
@@ -11150,7 +11544,19 @@ const EventDetails = ({
         handleResendNotifications: handleResendNotifications,
         handleResendNotificationsToAll: handleResendNotificationsToAll,
         disabled: settings?.current_plan.id !== 2
+      }), selectedTab === 0 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "section-container border-b-2 border-gray-200",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "section-description",
+          children: "* Indicates a required field"
+        })
       })]
+    }), activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+      className: "section-container border-b-2 border-gray-200",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "section-description",
+        children: "Activation failed. Please contact the Servv support team."
+      })
     })]
   });
 };
@@ -11183,7 +11589,7 @@ const EventVisibility = ({
     className: "section-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "section-heading",
-      children: "Visibility"
+      children: t("Visibility")
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_0__["default"], {
       title: "Set event visibility",
       buttons: eventVisibilityOptions,
@@ -11211,12 +11617,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
-/* harmony import */ var _SelectDropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SelectDropdown */ "./src/Components/PostEditor/SelectDropdown.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
+/* harmony import */ var _SelectDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SelectDropdown */ "./src/Components/PostEditor/SelectDropdown.jsx");
+/* harmony import */ var _Controls_CustomDropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/CustomDropdown */ "./src/Components/Controls/CustomDropdown.jsx");
+/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -11228,31 +11635,6 @@ const FiltersSection = ({
   onChange = () => {}
 }) => {
   const filtersTabs = ["Your filters", "Create new"];
-  //   const [filtersList, setFiltersList] = useState({});
-  //   const getFilterType = async (type) => {
-  //     try {
-  //       let reqURL = `/servv-plugin/v1/filters/${type}`;
-  //       let getFiltersListResponse = await apiFetch({ path: reqURL });
-  //       if (getFiltersListResponse) {
-  //         setFiltersList((prevFilters) => ({
-  //           ...prevFilters,
-  //           [type]: getFiltersListResponse,
-  //         }));
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching filters:", error);
-  //     }
-  //   };
-  //   const getFilters = async () => {
-  //     await getFilterType("locations");
-  //     // await getFilterType("languages");
-  //     // await getFilterType("categories");
-  //     // await getFilterType("members");
-  //   };
-  //   useEffect(() => {
-  //     getFilters();
-  //   }, []);
-
   const handleSelectLocation = location => {
     onChange("location_id", location);
   };
@@ -11263,35 +11645,30 @@ const FiltersSection = ({
     onChange("language_id", language);
   };
   const handleSelectMember = member => {
-    console.log(member);
     onChange("members", member);
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "section-container border-b",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "section-container",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "section-heading",
-        children: "Filters"
-      }), filtersList.locations && filtersList.locations.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        title: "Location",
-        options: filtersList.locations,
-        selected: types.location_id || null,
-        onSelect: handleSelectLocation
-      }), filtersList.categorie && filtersList.categories.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        children: t("Filters")
+      }), filtersList.categories && filtersList.categories.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         title: "Category",
         options: filtersList.categories,
         selected: types.category_id || null,
         onSelect: handleSelectCategory
-      }), filtersList.languages && filtersList.languages.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), filtersList.languages && filtersList.languages.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         title: "Language",
         options: filtersList.languages,
         selected: types.language_id || null,
         onSelect: handleSelectLanguage
-      }), filtersList.members && filtersList.members.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), filtersList.members && filtersList.members.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_2__["default"], {
         title: "Members",
         options: filtersList.members,
         selected: types.members || [],
-        onSelect: handleSelectMember
+        onSelect: handleSelectMember,
+        multi: true
       })]
     })
   });
@@ -11315,8 +11692,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
 /* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _SelectDropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SelectDropdown */ "./src/Components/PostEditor/SelectDropdown.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -11329,47 +11708,75 @@ const LocationSection = ({
   handleCustomFieldChange,
   settings = {},
   disabled = false,
-  zoomAcctount
+  zoomAccount,
+  types = {},
+  filtersList = [],
+  onFilterChange = () => {}
 }) => {
   const {
     custom_field_1_name,
     custom_field_1_value
   } = customFields;
+  const [onlineType, setOnlineType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const {
     location
   } = eventDetails;
-  const eventTypes = ["Standard", "Zoom meeting"];
+  const eventTypes = ["In-person", "Online"];
   const handleLocationChange = newVal => {
-    if (newVal === eventTypes[0] && location !== "offline") {
+    if (newVal === eventTypes[0]) {
       onChange("location", "offline");
-    } else if (newVal === eventTypes[1] && location !== "zoom") {
+      handleCustomFieldChange("custom_field_1_name", "Address");
+      handleCustomFieldChange("custom_field_1_value", "");
+    } else if (newVal === eventTypes[1]) {
       onChange("location", "zoom");
+      handleCustomFieldChange("custom_field_1_name", "Link");
+      handleCustomFieldChange("custom_field_1_value", "");
     }
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (disabled) {
-      handleLocationChange("Standard");
+  const handleSelectLocation = location => {
+    onFilterChange("location_id", location);
+  };
+  const handleSelectOnlineType = type => {
+    setOnlineType(type);
+    if (!type) {
+      onChange("location", "offline");
+    } else {
+      onChange("location", "zoom");
     }
-  }, [disabled, location]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    handleCustomFieldChange("custom_field_1_name", "Link");
+    handleCustomFieldChange("custom_field_1_value", "");
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    // if (disabled) {
+    //   handleLocationChange("offline");
+    // }
+
+    if ((location === "zoom" || location === "online") && !custom_field_1_name) {
+      handleCustomFieldChange("custom_field_1_name", "Link");
+    }
+  }, [disabled, location, customFields]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "section-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-heading",
-      children: zoomAcctount ? "Type" : "Add location"
-    }), settings && zoomAcctount && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      children: "Venue & access"
+    }), settings && zoomAccount && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "",
       buttons: eventTypes,
-      active: location === "offline" ? eventTypes[0] : eventTypes[1],
-      onChange: handleLocationChange,
-      disabled: disabled
-    }), meetingType === "offline" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      active: location === "offline" && custom_field_1_name !== "Link" ? eventTypes[0] : eventTypes[1],
+      onChange: handleLocationChange
+      // disabled={disabled}
+    }), settings && (!zoomAccount || !zoomAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "section-description",
+      children: "Please note: To use the Integrations feature, you need to connect your Zoom account."
+    }), meetingType === "offline" && custom_field_1_name !== "Link" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "input-container-row items-center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "input-container-col w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "section-description",
-          children: "Location (In-person) or meeting link (e.g., Google Meet, Microsoft Teams)"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          children: t("Location (In-person) or meeting link (e.g., Google Meet, Microsoft\r\n              Teams)")
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           value: custom_field_1_value,
           onChange: val => handleCustomFieldChange("custom_field_1_value", val),
           fullWidth: true,
@@ -11377,6 +11784,64 @@ const LocationSection = ({
           align: "left"
         })]
       })
+    }), (meetingType !== "offline" || custom_field_1_name === "Link") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "section-description",
+        children: "Choose a join method:"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "tabs-group-container",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
+          className: "flex flex-row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+            className: "me-2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              onClick: () => handleSelectOnlineType(false),
+              className: `tab-element ${!onlineType ? "tab-active" : ""}`,
+              children: "Join link URL"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+            className: "me-2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              onClick: () => handleSelectOnlineType(true),
+              className: `tab-element ${onlineType ? "tab-active" : ""}`,
+              disabled: !zoomAccount || zoomAccount && !zoomAccount.email,
+              children: "Integration"
+            })
+          })]
+        })
+      }), !onlineType && custom_field_1_name === "Link" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "input-container-col w-full",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "section-description",
+          children: "Join link URL"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          value: custom_field_1_value,
+          onChange: val => handleCustomFieldChange("custom_field_1_value", val),
+          fullWidth: true,
+          type: "text",
+          align: "left"
+        })]
+      }), onlineType && zoomAccount && zoomAccount.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "input-container-col w-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          title: "Select an integration",
+          options: [{
+            ...zoomAccount
+          }].map(acc => {
+            return {
+              name: acc.email,
+              id: acc.id
+            };
+          }),
+          selected: zoomAccount.id || null,
+          onSelect: () => {}
+        })
+      })]
+    }), filtersList.locations && filtersList.locations.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Location",
+      options: filtersList.locations,
+      selected: types.location_id || null,
+      onSelect: handleSelectLocation
     })]
   });
 };
@@ -11395,14 +11860,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
-
+/* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -11419,25 +11881,18 @@ const NotificationsSection = ({
   // useEffect(() => {
   //     getAccountsInfo()
   // }, [])
+  // console.log(notifications);
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "section-container border-b",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "section-heading",
-        children: "Notifications"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        title: "Calendar notifications",
-        buttons: notificationsOptions,
-        disabled: !calendarAccountFetched || calendarAccountFetched && !googleCalendar,
-        active: notifications.google_calendar && googleCalendar ? notificationsOptions[0] : notificationsOptions[1],
-        onChange: () => {
-          onChange("google_calendar", !notifications.google_calendar);
-        }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        children: t("Notifications")
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_0__["default"], {
         title: "Email notifications",
         buttons: notificationsOptions,
-        active: notifications.disable_emails && connectedMailAccount ? notificationsOptions[0] : notificationsOptions[1],
+        active: !notifications.disable_emails && connectedMailAccount ? notificationsOptions[0] : notificationsOptions[1],
         disabled: !mailAccountFetched || mailAccountFetched && !connectedMailAccount,
         onChange: () => {
           onChange("disable_emails", !notifications.disable_emails);
@@ -11467,7 +11922,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
 /* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PlusCircleIcon.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 
@@ -11475,7 +11929,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+// import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const ProductDetails = ({
   productDetails,
@@ -11495,6 +11949,11 @@ const ProductDetails = ({
   const handleTicketTypeChange = newValue => {
     setSelectedTicketType(newValue);
   };
+  const changeQuantity = val => {
+    // console.log(val);
+    if (isNaN(Number.parseInt(val))) handleDetailsChange("quantity", 0);else handleDetailsChange("quantity", Number.parseInt(val) <= 100 ? Number.parseInt(val) : 100);
+    // handleDetailsChange("quantity", Number.parseInt(val));
+  };
   const renderStandartTicket = () => {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "w-full border border-gray-200 bg-white rounded-lg flex flex-row p-lg relative",
@@ -11509,8 +11968,8 @@ const ProductDetails = ({
             className: "text-sm font-regular text-gray-600",
             children: productDetails?.price || "Free"
           })]
-        }), productDetails.quantity ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          text: `${productDetails.quantity > 1 ? productDetails.quantity + " " + "tickets" : productDetails.quantity + " " + "ticket"}`,
+        }), productDetails.quantity !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          text: `${productDetails.quantity > 1 || productDetails.quantity < 1 ? productDetails.quantity + " " + "tickets" : productDetails.quantity + " " + "ticket"}`,
           color: "success",
           type: "pill-colour"
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -11530,17 +11989,8 @@ const ProductDetails = ({
   }, []);
   const handleTicketAdd = () => {};
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [renderStandartTicket(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
-        className: `flex flex-row gap-2 text-brand-700 fill-brand-700 items-center ${ true ? "filter grayscale" : 0}`,
-        onClick: handleTicketAdd,
-        disabled: true,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          className: "w-4"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-          children: "Create new ticket"
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("fieldset", {
+    children: [renderStandartTicket(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("fieldset", {
         className: "input-container-col",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
           gap: 4,
@@ -11571,14 +12021,17 @@ const ProductDetails = ({
               className: "input-container-col w-full",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
                 value: quantity,
-                onChange: val => handleDetailsChange("quantity", Number.parseInt(val)),
+                onChange: val => changeQuantity(val),
                 fullWidth: true,
                 maxLength: 20,
                 type: "number",
                 minValue: 0,
-                maxValue: 10000000,
-                align: "right"
+                maxValue: 100,
+                align: "left"
               })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              className: "text-sm text-gray-300",
+              children: "Maximum quantity for free plan is 25"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_3__["default"], {
             title: "Availability",
@@ -11588,7 +12041,7 @@ const ProductDetails = ({
             disabled: true
           })]
         })
-      })]
+      })
     })]
   })
   // <div className="input-container-row items-center">
@@ -11808,7 +12261,8 @@ const RegistrantsSection = ({
               value: firstNameValue,
               onChange: val => setFirstName(val),
               type: "text",
-              width: "100%"
+              width: "100%",
+              align: "left"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "input-container-col",
@@ -11819,7 +12273,8 @@ const RegistrantsSection = ({
               value: lastNameValue,
               onChange: val => setLastName(val),
               type: "text",
-              width: "100%"
+              width: "100%",
+              align: "left"
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -11831,7 +12286,8 @@ const RegistrantsSection = ({
             value: email,
             onChange: val => setEmail(val),
             type: "text",
-            width: "100%"
+            width: "100%",
+            align: "left"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
           align: "right",
@@ -11848,6 +12304,7 @@ const RegistrantsSection = ({
       children: renderRegistrants()
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
       align: "right",
+      gap: 2,
       children: [selectedRegistrants.length > 0 && isResendAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
           className: "flex-row items-center px-2 rounded-lg border-solid border border-error-700 bg-error-600 text-gray-50 text-sm ml-auto group-hover:flex disabled:text-gray-300 disabled:border-gray-200 disabled:bg-gray-50",
@@ -11901,53 +12358,103 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @param {string} title
+ * @param {Array} options [{id, name}]
+ * @param {number|Array} selected
+ * @param {function} onSelect
+ * @param {boolean} multi
+ */
+
 const SelectDropdown = ({
   title,
   options,
   selected,
-  onSelect
+  onSelect,
+  multi = false
 }) => {
   const [isOpen, setIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const handleSelect = option => {
-    onSelect(option);
+  const dropdownRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  // console.log(options, selected);
+  // Robust outside click handler using pointerdown and composedPath
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!isOpen) return;
+    const handleClickOutside = event => {
+      const path = event.composedPath ? event.composedPath() : [];
+      if (dropdownRef.current && !path.includes(dropdownRef.current) && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => document.removeEventListener("pointerdown", handleClickOutside);
+  }, [isOpen]);
+
+  // Multi-select logic
+  const handleMultiSelect = optionId => {
+    let newSelected = Array.isArray(selected) ? [...selected] : [];
+    if (newSelected.includes(optionId)) {
+      newSelected = newSelected.filter(id => id !== optionId);
+    } else {
+      newSelected.push(optionId);
+    }
+    onSelect(newSelected);
     setIsOpen(false);
+  };
+
+  // Single-select logic
+  const handleSingleSelect = optionId => {
+    onSelect(optionId);
+    setIsOpen(false);
+  };
+
+  // Remove badge for multi-select
+  const handleRemoveBadge = (optionId, e) => {
+    e.stopPropagation();
+    let newSelected = Array.isArray(selected) ? [...selected] : [];
+    newSelected = newSelected.filter(id => id !== optionId);
+    onSelect(newSelected);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "relative w-full",
+    ref: dropdownRef,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
       htmlFor: `${title}-select`,
       className: "block text-sm font-medium text-gray-700 mb-1",
       children: title
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "border border-gray-300 rounded-lg p-2 flex justify-between items-center cursor-pointer",
-      onClick: () => setIsOpen(!isOpen),
+      className: "border border-gray-300 rounded-lg p-2 flex justify-between items-center cursor-pointer bg-white",
+      onClick: () => setIsOpen(open => !open),
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-        className: "flex flex-row text-sm",
-        children: selected && typeof selected !== "number" && selected.length > 0 ? selected.map(selected => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          text: options.filter(option => option.id === selected)[0].name,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            style: {
-              width: "10px",
-              fill: "#17B26A"
-            }
-          }),
-          iconAfter: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-            onClick: e => {
-              e.stopPropagation();
-              onSelect(selected);
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "flex flex-row text-sm flex-wrap gap-1",
+        children: multi && Array.isArray(selected) && selected.length > 0 ? selected.map(selectedId => {
+          const option = options.find(opt => opt.id === selectedId);
+          // console.log("option", option);
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            text: option?.name,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
               style: {
-                width: "10px"
+                width: "10px",
+                fill: "#17B26A"
               }
-            })
-          }),
-          color: "gray",
-          type: "badge-pill-outline",
-          size: "small",
-          align: "center"
-        })) : selected && typeof selected === "number" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          text: options.filter(option => option.id === selected)[0].name,
+            }),
+            iconAfter: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              onClick: e => handleRemoveBadge(selectedId, e),
+              style: {
+                cursor: "pointer"
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                style: {
+                  width: "10px"
+                }
+              })
+            }),
+            color: "gray",
+            type: "badge-pill-outline",
+            size: "small",
+            align: "center"
+          }, selectedId);
+        }) : !multi && options.find(option => option.id === selected) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          text: options.find(option => option.id === selected)?.name,
           icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
             style: {
               width: "10px",
@@ -11957,7 +12464,10 @@ const SelectDropdown = ({
           iconAfter: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             onClick: e => {
               e.stopPropagation();
-              onSelect(selected);
+              onSelect(null);
+            },
+            style: {
+              cursor: "pointer"
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_Close__WEBPACK_IMPORTED_MODULE_4__["default"], {
               style: {
@@ -11986,11 +12496,11 @@ const SelectDropdown = ({
     }), isOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
       className: "absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto",
       children: options.map((option, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
-        className: "w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center",
-        onClick: () => handleSelect(option.id),
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-          className: "w-full",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        className: `w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center ${multi && selected && selected.includes(option.id) ? "font-semibold text-purple-700" : ""}`,
+        onClick: () => multi ? handleMultiSelect(option.id) : handleSingleSelect(option.id),
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "w-full flex items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
             text: option.name,
             icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_mui_icons_material_FiberManualRecord__WEBPACK_IMPORTED_MODULE_3__["default"], {
               style: {
@@ -12003,7 +12513,10 @@ const SelectDropdown = ({
             size: "small",
             fullWidth: true,
             align: "center"
-          })
+          }), multi && selected && selected.includes(option.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: "ml-auto text-xs text-purple-600",
+            children: t("✓")
+          })]
         })
       }, index))
     })]
@@ -12068,7 +12581,8 @@ const TicketsSection = ({
   productDetails,
   id,
   handleDetailsChange = () => {},
-  occurrenceId
+  occurrenceId,
+  status = null
 }) => {
   const ticketTypes = ["Paid", "Free", "Donation"];
   const ticketsAvailability = ["Open", "Sales start & end"];
@@ -12081,6 +12595,19 @@ const TicketsSection = ({
   const [ticketPriceInput, setTicketPriceInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [ticketAvailability, setTicketAvailability] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("hh:mm a");
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (status === "publish" || status === "admin") return;
+    if (settings && settings.settings && settings.current_plan && settings.current_plan.id === 1) {
+      if (settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_quantity) {
+        if (productDetails.quantity !== 1) {
+          handleDetailsChange("quantity", 1);
+        }
+      } else {
+        console.log("quantity change");
+        handleDetailsChange("quantity", 1);
+      }
+    }
+  }, [status, settings]);
   const handleTicketDelete = async index => {
     let currentTickets = [...tickets];
     if (currentTickets[index].id) {
@@ -12140,10 +12667,10 @@ const TicketsSection = ({
               className: "flex flex-row gap-1 justify-start items-center",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-semibold text-gray-700",
-                children: ticket?.name || "Unknown"
+                children: ticket?.name || ""
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-regular text-gray-600",
-                children: ticket?.price || "Free"
+                children: ticket?.price ? ticket.price + ` ${settings.currency ? settings.currency : "CAD"}` : "Free"
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "flex flex-row gap-2",
@@ -12164,7 +12691,7 @@ const TicketsSection = ({
                 })
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
+          }), (adminSection || !ticket.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
             className: "justify-self-end ml-auto",
             onClick: showTicketDropdown === index ? () => setShowTicketDropdown(null) : () => setShowTicketDropdown(index),
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
@@ -12172,16 +12699,16 @@ const TicketsSection = ({
             })
           }), showTicketDropdown === index && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             className: "absolute top-full right-0 mt-2 transform translate-x-full bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 flex flex-col gap-4 transition-all duration-200 ease-out opacity-100 scale-100",
-            children: [ticket?.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+            children: [ticket?.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "text-sm font-semibold text-gray-700",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 children: ticket?.name
-              })
-            }), ticket?.price && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-              className: "text-sm font-regular text-gray-600",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
-                children: ticket?.price
-              })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+                children: " "
+              }), ticket?.price && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+                className: "font-regular",
+                children: ticket?.price + ` ${settings.currency ? settings.currency : "CAD"}`
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
               className: "flex flex-row justify-start gap-2 w-full flex-nowrap",
               onClick: () => {
@@ -12191,7 +12718,7 @@ const TicketsSection = ({
                 className: "w-6 stroke-white fill-black"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-medium text-gray-700",
-                children: "Edit ticket"
+                children: t("Edit ticket")
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
               className: "flex flex-row justify-start gap-2 w-full flex-nowrap",
@@ -12202,7 +12729,7 @@ const TicketsSection = ({
                 className: "w-6 stroke-white fill-black"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-medium text-gray-700",
-                children: "Duplicate ticket"
+                children: t("Duplicate ticket")
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
               className: "w-full border-b border-gray-200"
@@ -12213,7 +12740,7 @@ const TicketsSection = ({
                 className: "w-6 stroke-white fill-black"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "text-sm font-medium text-gray-700",
-                children: "Delete ticket"
+                children: t("Delete ticket")
               })]
             })]
           })]
@@ -12226,6 +12753,10 @@ const TicketsSection = ({
     let currentTickets = [...tickets];
     if (type === 0) {
       currentTickets[selectedTicket].price = 0;
+      if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_price) {
+        currentTickets[selectedTicket].price = settings.settings.admin_dashboard.default_price;
+        setTicketPriceInput(settings.settings.admin_dashboard.default_price);
+      }
       currentTickets[selectedTicket].is_donation = false;
     }
     if (type === 1) {
@@ -12252,7 +12783,7 @@ const TicketsSection = ({
     setTicketPriceInput(val);
   };
   const handleTicketsQuantityChange = val => {
-    handleTicketChange("quantity", Number.parseInt(val));
+    if (isNaN(Number.parseInt(val)) && Number.parseInt(val) < 0) handleTicketChange("quantity", 0);else handleTicketChange("quantity", Number.parseInt(val) <= 1000 ? Number.parseInt(val) : 1000);
   };
   const handleTicketAvailabilityChange = val => {
     const type = ticketsAvailability.indexOf(val);
@@ -12285,14 +12816,18 @@ const TicketsSection = ({
     let currentTickets = [...tickets];
     if (ticket) {
       currentTickets.push({
-        ...ticket
+        ...ticket,
+        id: null
       });
     } else {
       let newTicket = {
         quantity: null
       };
       if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_price && !disabled && selectedTicketType === 0) {
-        newTicket.price = settings.settings.admin_dashboard.default_price;
+        newTicket.price = Number.parseFloat(settings.settings.admin_dashboard.default_price);
+      }
+      if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_quantity) {
+        newTicket.quantity = Number.parseInt(settings.settings.admin_dashboard.default_quantity);
       }
       currentTickets.push({
         ...newTicket
@@ -12314,7 +12849,7 @@ const TicketsSection = ({
     setSelectedTicket(null);
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (!tickets || tickets.length === 0 || !selectedTicket || tickets.length - 1 < selectedTicket) return;
+    if (!tickets || tickets.length === 0 || selectedTicket === null || tickets.length - 1 < selectedTicket) return;
     if (tickets[selectedTicket].name) {
       setTicketName(tickets[selectedTicket].name);
     }
@@ -12332,39 +12867,56 @@ const TicketsSection = ({
     } else {
       setSelectedTicketType(1);
     }
-    if (tickets[selectedTicket].start_datetime || tickets[selectedTicket].end_datetime) {
+    // console.log(
+    //   tickets[selectedTicket].start_datetime,
+    //   tickets[selectedTicket].end_datetime
+    // );
+    if (tickets[selectedTicket].start_datetime !== undefined || tickets[selectedTicket].end_datetime !== undefined) {
       setTicketAvailability(1);
     } else {
       setTicketAvailability(0);
     }
   }, [selectedTicket]);
   const handleSaleStartDateChange = date => {
-    let currentTickets = [...tickets];
-    const currentTime = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime);
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date);
-    selectedDate.set("hour", currentTime.get("hour"));
-    selectedDate.set("minute", currentTime.get("minute"));
-    selectedDate.set("second", currentTime.get("second"));
-    currentTickets[selectedTicket].start_datetime = selectedDate.tz(eventDetails.timezone || "US/Pacific").format("YYYY-MM-DDTHH:mm:ss");
+    const currentTickets = [...tickets];
+    // console.log("newDate", date);
+    // console.log("time", currentTickets[selectedTicket].start_datetime);
+    const currentTime = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
+    // console.log("currentTime", currentTime);
+    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).startOf("day");
+    // console.log("selectedDate", selectedDate);
+    currentTime.set({
+      year: selectedDate.year(),
+      month: selectedDate.month(),
+      date: selectedDate.date()
+    }, true);
+    // console.log("selectedDate+time", currentTime);
+
+    currentTickets[selectedTicket].start_datetime = currentTime.toISOString();
     onTicketsChange(currentTickets);
   };
   const handleSaleEndDateChange = date => {
-    let currentTickets = [...tickets];
-    const currentTime = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).add(1, "d");
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date);
-    selectedDate.set("hour", currentTime.get("hour"));
-    selectedDate.set("minute", currentTime.get("minute"));
-    selectedDate.set("second", currentTime.get("second"));
-    currentTickets[selectedTicket].end_datetime = selectedDate.tz(eventDetails.timezone || "US/Pacific").format("YYYY-MM-DDTHH:mm:ss");
+    const currentTickets = [...tickets];
+    const currentTime = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).add(1, "d").tz(eventDetails.timezone || "US/Pacific");
+    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone || "US/Pacific");
+    selectedDate.set({
+      hour: currentTime.get("hour"),
+      minute: currentTime.get("minute"),
+      second: currentTime.get("second")
+    });
+    currentTickets[selectedTicket].end_datetime = selectedDate.toISOString();
     onTicketsChange(currentTickets);
   };
   const getStartDate = () => {
-    let startDate = null;
     if (tickets[selectedTicket].start_datetime) {
-      startDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific");
+      // console.log(tickets[selectedTicket].start_datetime);
+      // const startMoment = moment(tickets[selectedTicket].start_datetime);
+
+      // console.log(startMoment.format("YYYY-MM-DD").split("T")[0]);
+
       return {
-        startDate: startDate,
-        label: startDate.format("DDD MM, YYYY")
+        startDate: tickets[selectedTicket].start_datetime.split("T")[0],
+        label: tickets[selectedTicket].start_datetime.split("T")[0]
       };
     }
     return {
@@ -12373,12 +12925,14 @@ const TicketsSection = ({
     };
   };
   const getEndDate = () => {
-    let endDate = null;
     if (tickets[selectedTicket].end_datetime) {
-      endDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific");
+      // const endMoment = moment(tickets[selectedTicket].end_datetime).tz(
+      //   eventDetails.timezone || "US/Pacific"
+      // );
+
       return {
-        endDate: endDate,
-        label: endDate.format("DDD MM, YYYY")
+        endDate: tickets[selectedTicket].end_datetime.split("T")[0],
+        label: tickets[selectedTicket].end_datetime.split("T")[0]
       };
     }
     return {
@@ -12388,40 +12942,38 @@ const TicketsSection = ({
   };
   const getStartTime = () => {
     if (tickets[selectedTicket].start_datetime) {
-      return tickets[selectedTicket].start_datetime;
-    } else {
-      return moment__WEBPACK_IMPORTED_MODULE_9___default()();
+      return moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific");
     }
+    return moment__WEBPACK_IMPORTED_MODULE_9___default()().tz(eventDetails.timezone || "US/Pacific");
   };
   const getEndTime = () => {
     if (tickets[selectedTicket].end_datetime) {
-      return tickets[selectedTicket].end_datetime;
-    } else {
-      return moment__WEBPACK_IMPORTED_MODULE_9___default()();
+      return moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific");
     }
+    return moment__WEBPACK_IMPORTED_MODULE_9___default()().tz(eventDetails.timezone || "US/Pacific");
   };
   const handleSaleStartTimeChange = newVal => {
-    let currentDateTime = tickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime);
-    let selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal);
+    const currentDateTime = tickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
+    const selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal).tz(eventDetails.timezone || "US/Pacific");
     currentDateTime.set({
       hour: selectedTime.get("hour"),
-      minutes: selectedTime.get("minute"),
+      minute: selectedTime.get("minute"),
       second: 0
     });
-    let currentTickets = [...tickets];
-    currentTickets[selectedTicket].start_datetime = currentDateTime;
+    const currentTickets = [...tickets];
+    currentTickets[selectedTicket].start_datetime = currentDateTime.toISOString();
     onTicketsChange(currentTickets);
   };
   const handleSaleEndTimeChange = newVal => {
-    let currentDateTime = tickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime) : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime);
-    let selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal);
+    const currentDateTime = tickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(tickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
+    const selectedTime = moment__WEBPACK_IMPORTED_MODULE_9___default()(newVal).tz(eventDetails.timezone || "US/Pacific");
     currentDateTime.set({
       hour: selectedTime.get("hour"),
-      minutes: selectedTime.get("minute"),
+      minute: selectedTime.get("minute"),
       second: 0
     });
-    let currentTickets = [...tickets];
-    currentTickets[selectedTicket].end_datetime = currentDateTime;
+    const currentTickets = [...tickets];
+    currentTickets[selectedTicket].end_datetime = currentDateTime.toISOString();
     onTicketsChange(currentTickets);
   };
   const checkTimeDiff = () => {
@@ -12430,7 +12982,7 @@ const TicketsSection = ({
     if (startDate && endDate) {
       let start = moment__WEBPACK_IMPORTED_MODULE_9___default()(startDate);
       let end = moment__WEBPACK_IMPORTED_MODULE_9___default()(endDate);
-      return end.diff(start) <= 0;
+      return start.isAfter(end);
     } else return false;
   };
   const ticketsMods = ["Single", "Multiple"];
@@ -12443,12 +12995,17 @@ const TicketsSection = ({
       setSelectedTicketMode(ticketsMods[1]);
     }
   }, [tickets]);
+  // useEffect(() => {
+  //   if (ticketAvailability === 1) {
+  //     console.log(moment.utc(getEndDate().endDate).toISOString());
+  //   }
+  // }, [ticketAvailability]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
       className: `section-container`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
         className: "section-heading",
-        children: "Tickets"
+        children: t("Tickets")
       }), disabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_ProductDetails__WEBPACK_IMPORTED_MODULE_7__["default"], {
         productDetails: productDetails,
         id: postId,
@@ -12457,10 +13014,10 @@ const TicketsSection = ({
       }), !disabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [tickets?.length === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
           className: "text-gray-600 font-regular text-sm",
-          children: "Click the button below to create a new ticket"
+          children: t("Click the button below to create a new ticket")
         }), adminSection && eventDetails.recurrence && !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
           className: "text-gray-600 font-regular text-sm",
-          children: "This is a recurring event. To see tickets for a specific date, please view that occurrence."
+          children: t("This is a recurring event. To see tickets for a specific date,\r\n                please view that occurrence.")
         }), tickets?.length > 0 && renderTickets(), (tickets?.length === 0 || tickets?.length > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
           className: `flex flex-row gap-2 text-brand-700 fill-brand-700 items-center ${disabled ? "filter grayscale" : ""}`,
           onClick: handleTicketAdd,
@@ -12468,7 +13025,7 @@ const TicketsSection = ({
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
             className: "w-4"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
-            children: "Create new ticket"
+            children: t("Create new ticket")
           })]
         }), tickets?.length > 0 && selectedTicket !== null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("fieldset", {
           className: "input-container-col",
@@ -12480,11 +13037,14 @@ const TicketsSection = ({
               active: ticketTypes[selectedTicketType],
               onChange: handleTicketTypeChange,
               disabled: !stripeAccount || !stripeAccount.id || disabled
+            }), settings && (!stripeAccount || !stripeAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+              className: "section-description",
+              children: "Please note: To create paid and donation tickets, you need to connect your Stripe account."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "input-container-col",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                 className: "section-description",
-                children: "Name"
+                children: t("Name")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 value: tickets[selectedTicket]?.name || "",
                 onChange: handleTicketNameChange,
@@ -12497,7 +13057,7 @@ const TicketsSection = ({
               className: "input-container-col",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                 className: "section-description",
-                children: "Ticket price"
+                children: t("Ticket price")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 value: ticketPriceInput
                 // value={ticketPrice}
@@ -12514,12 +13074,15 @@ const TicketsSection = ({
               className: "input-container-col",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                 className: "section-description",
-                children: "Quantity"
+                children: t("Quantity")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 value: tickets[selectedTicket]?.quantity || "",
                 onChange: handleTicketsQuantityChange,
                 type: "number",
                 width: "100%",
+                minValue: "0"
+                // maxValue="1000"
+                ,
                 disabled: disabled,
                 align: "left",
                 placeholder: "0"
@@ -12535,21 +13098,21 @@ const TicketsSection = ({
                 children: `Timezone: ${eventDetails.timezone ? eventDetails.timezone : "Not selected"}`
               }), checkTimeDiff() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
                 className: "text-sm text-regular text-error-500",
-                children: "Sales start must be erlier then sales end."
+                children: t("Sales start must be erlier then sales end.")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                 className: "flex flex-row justify-between gap-8",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
                   className: "input-container-col w-full",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     className: "section-description text-gray-700",
-                    children: "Sales start"
+                    children: t("Sales start")
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
                     className: "pt-",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                       label: getStartDate().label,
                       date: getStartDate().startDate,
                       onChange: handleSaleStartDateChange,
-                      variant: "button",
+                      variant: "fields",
                       disabled: disabled
                     })
                   })]
@@ -12569,15 +13132,15 @@ const TicketsSection = ({
                   className: "input-container-col w-full",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
                     className: "section-description text-gray-700",
-                    children: "Sales end"
+                    children: t("Sales end")
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-                    className: "pt-",
+                    className: "",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                       label: getEndDate().label,
                       date: getEndDate().endDate,
                       onChange: handleSaleEndDateChange,
                       disabled: disabled,
-                      variant: "button"
+                      variant: "fields"
                     })
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
@@ -12597,14 +13160,14 @@ const TicketsSection = ({
                 className: "rounded-lg border border-gray-300 text-sm text-gray-500 font-semibold px-lg py-md bg-white shadow-combined-gray disabled:border-gray-100 text-gray-200",
                 onClick: handleTicketCancel,
                 disabled: disabled,
-                children: "Cancel"
+                children: t("Cancel")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
                 className: "rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand",
                 onClick: () => {
                   setSelectedTicket(null);
                 },
                 disabled: disabled,
-                children: "Save"
+                children: t("Save")
               })]
             })]
           })
@@ -12614,6 +13177,29 @@ const TicketsSection = ({
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TicketsSection);
+
+/***/ }),
+
+/***/ "./src/bootstrap-i18n.js":
+/*!*******************************!*\
+  !*** ./src/bootstrap-i18n.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
+// src/bootstrap-i18n.js
+
+
+// 1. Initialize to your default build‐time locale
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_0__.initI18n)("en_US");
+
+// 2. Detect the user’s browser language / locale (e.g. "de", "es", "fr")
+const browserLang = (navigator.language || navigator.userLanguage || "en_US").replace("-", "_");
+
+// 3. Switch to it if you have that dictionary
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_0__.setLocale)(browserLang);
 
 /***/ }),
 
@@ -12638,9 +13224,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _Components_PostEditor_EventDetails__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Components/PostEditor/EventDetails */ "./src/Components/PostEditor/EventDetails.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Components_PostEditor_EventDetails__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Components/PostEditor/EventDetails */ "./src/Components/PostEditor/EventDetails.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -12650,6 +13239,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function Edit({
   title,
+  agenda,
   attributes,
   setAttributes,
   clientId
@@ -12659,12 +13249,11 @@ function Edit({
     meeting,
     product
   } = attributes;
-
   // const isValid =
   //   meeting?.startTime &&
   //   meeting?.timezone &&
   //   (product.quantity || product.current_quantity);
-  const isValid = meeting?.startTime && meeting?.timezone && meeting.title.length > 0;
+  const isValid = meeting?.startTime && meeting.timezone.length > 0;
   const {
     createErrorNotice,
     removeNotice
@@ -12673,6 +13262,7 @@ function Edit({
     lockPostSaving,
     unlockPostSaving
   } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useDispatch)("core/editor");
+  const [requiredFieldsNotice, setRequiredFieldsNotice] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(false);
   const isSaving = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(select => select("core/editor").isSavingPost());
   const isAutosaving = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(select => select("core/editor").isAutosavingPost());
 
@@ -12694,14 +13284,34 @@ function Edit({
       }
     }
   }, [isValid, clientId]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
+    const lockKey = `servv_plugin-${clientId}-publish`;
+    if (!isValid) {
+      // Lock the publish button only
+      lockPostSaving(lockKey, "publish");
+    } else {
+      // Unlock the publish button
+      unlockPostSaving(lockKey, "publish");
+      // Remove error notice immediately if valid
+      if (noticeIdRef.current) {
+        removeNotice(noticeIdRef.current);
+        noticeIdRef.current = null;
+      }
+    }
+    return () => {
+      // Ensure cleanup on unmount
+      unlockPostSaving(lockKey, "publish");
+    };
+  }, [isValid, clientId]);
 
   // Effect to show error notice only when save is attempted with invalid data
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
     if (isSaving && !isAutosaving && !isValid && !hasAttemptedSave.current) {
       const id = `servv_plugin-validation-${clientId}`;
-      createErrorNotice(!product.current_quantity && product.quantity === 0 || product.current_quantity === 0 && product.quantity === 0 || !product.quantity && !product.current_quantity ? "Quantity must be greater then zero" : "Please fill all required fields in the block.", {
+      createErrorNotice("Please fill all required fields in the block.", {
         id
       });
+      setRequiredFieldsNotice(true);
       noticeIdRef.current = id;
       hasAttemptedSave.current = true;
     }
@@ -12709,25 +13319,50 @@ function Edit({
       hasAttemptedSave.current = false;
     }
   }, [isSaving, isAutosaving, isValid]);
+  const handleDisableRequiredFieldsNotice = () => {
+    setRequiredFieldsNotice(false);
+  };
   const removeBlock = () => {
     wp.data.dispatch("core/block-editor").removeBlock(clientId);
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
     ...blockProps,
     className: "servv-app",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Components_PostEditor_EventDetails__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Components_PostEditor_EventDetails__WEBPACK_IMPORTED_MODULE_6__["default"], {
       title: title,
+      agenda: agenda,
       attributes: attributes,
       setAttributes: setAttributes,
-      removeBlock: removeBlock
+      removeBlock: removeBlock,
+      requiredFieldsNotification: requiredFieldsNotice,
+      hideReqieredFieldsNotification: handleDisableRequiredFieldsNotice
     })
   });
 }
 
 // Keep compose with withSelect for injecting post title prop
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__.compose)([(0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.withSelect)(select => {
+  const rawContent = select("core/editor").getEditedPostAttribute("content");
+  if (!rawContent) return {
+    agenda: ""
+  };
+
+  // Create a DOM element to strip tags & comments
+  const tmpDiv = document.createElement("div");
+  tmpDiv.innerHTML = rawContent;
+
+  // Remove Gutenberg block comments
+  Array.from(tmpDiv.childNodes).forEach(node => {
+    if (node.nodeType === Node.COMMENT_NODE) {
+      tmpDiv.removeChild(node);
+    }
+  });
+
+  // Get plain text content
+  const plainText = tmpDiv.textContent.trim();
   return {
-    title: select("core/editor").getEditedPostAttribute("title")
+    title: select("core/editor").getEditedPostAttribute("title"),
+    agenda: plainText
   };
 })])(Edit));
 
@@ -12741,178 +13376,200 @@ function Edit({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _bootstrap_i18n_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap-i18n.js */ "./src/bootstrap-i18n.js");
+/* harmony import */ var _input_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./input.css */ "./src/input.css");
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./edit */ "./src/edit.jsx");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _edit_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./edit.jsx */ "./src/edit.jsx");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
+/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
 /**
- * Registers a new block provided a unique name and an object defining its behavior.
+ * File: src/index.js
  *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
+ * Entry point for your block plugin.
+ * - Bootstraps i18n
+ * - Registers the block
+ * - Translates any existing DOM (data‑i18n‑key markers)
  */
 
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor. All other files
- * get applied to the editor only.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+ // if you have code to load WP translations
+ // block’s editor styles
+ // both frontend & editor styles
+ // editor‑only styles
 
 
 
-/**
- * Internal dependencies
- */
 
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
-const BLOCK_NAME = _block_json__WEBPACK_IMPORTED_MODULE_6__.name;
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(BLOCK_NAME, {
-  edit: _edit__WEBPACK_IMPORTED_MODULE_5__["default"],
-  blockHooks: {
-    "core/post-content": "after"
-  },
-  attributes: {
-    meeting: {
-      type: "object",
-      default: {
-        eventType: 1,
-        title: "",
-        startTime: null,
-        duration: 60,
-        timezone: "",
-        recurrence: null,
-        location: "offline"
-      },
-      eventType: {
-        type: "number",
-        default: "1"
-      },
-      title: {
-        type: "string",
-        default: ""
-      },
-      startTime: {
-        type: "string",
-        default: null
-      },
-      duration: {
-        type: "number",
-        default: 60
-      },
-      timezone: {
-        type: "string",
-        default: ""
-      },
-      recurrence: {
+
+
+// --- i18n Bootstrap ---------------------------------
+
+
+
+// 1. Expose helper to `window` so any `{t("…")}` calls injected by transforms or manual calls work:
+window.t = _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__.t;
+
+// 2. Initialize default locale. Pass “de” for German as requested:
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__.initI18n)("en_US");
+
+// ---------------------------------------------------
+
+const BLOCK_NAME = _block_json__WEBPACK_IMPORTED_MODULE_8__.name;
+if (typeof wp === "undefined" || !wp.blocks) {
+  const el = document.getElementById("servv-wrap");
+  if (el) {
+    el.innerHTML = "<div style='padding:1rem; background:#fff3cd; color:#856404; border:1px solid #ffeeba;'>⚠️ Gutenberg (block editor) is not supported on this site. Please activate Gutenberg to use the Servv Plugin block.</div>";
+  }
+} else {
+  // Register your block exactly as you had it before:
+  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)(BLOCK_NAME, {
+    edit: _edit_jsx__WEBPACK_IMPORTED_MODULE_7__["default"],
+    blockHooks: {
+      "core/post-content": "after"
+    },
+    attributes: {
+      meeting: {
         type: "object",
-        default: null
+        default: {
+          eventType: 1,
+          title: "",
+          agenda: "",
+          startTime: null,
+          duration: 60,
+          timezone: "",
+          recurrence: null,
+          location: "offline"
+        },
+        eventType: {
+          type: "number",
+          default: "1"
+        },
+        title: {
+          type: "string",
+          default: ""
+        },
+        agenda: {
+          type: "string",
+          default: ""
+        },
+        startTime: {
+          type: "string",
+          default: null
+        },
+        duration: {
+          type: "number",
+          default: 60
+        },
+        timezone: {
+          type: "string",
+          default: ""
+        },
+        recurrence: {
+          type: "object",
+          default: null
+        },
+        location: {
+          type: "string",
+          default: "offline"
+        }
       },
-      location: {
-        type: "string",
-        default: "offline"
-      }
-    },
-    product: {
-      type: "object",
-      default: {
-        price: 0,
-        quantity: 0
+      product: {
+        type: "object",
+        default: {
+          price: 0,
+          quantity: null
+        },
+        price: {
+          type: "number",
+          default: 0
+        },
+        quantity: {
+          type: "number",
+          default: 1
+        }
       },
-      price: {
-        type: "number",
-        default: 0
+      notifications: {
+        type: "object",
+        default: {
+          google_calendar: true,
+          disable_emails: false
+        },
+        google_calendar: {
+          type: "boolean",
+          default: true
+        },
+        disable_emails: {
+          type: "boolean",
+          default: false
+        }
       },
-      quantity: {
-        type: "number",
-        default: 0
-      }
-    },
-    notifications: {
-      type: "object",
-      default: {
-        google_calendar: false,
-        disable_emails: false
+      registrants: {
+        type: "array",
+        default: []
       },
-      google_calendar: {
-        type: "boolean",
-        default: false
+      types: {
+        type: "object",
+        default: {},
+        location_id: {
+          type: "number"
+        },
+        category_id: {
+          type: "number"
+        },
+        language_id: {
+          type: "number"
+        },
+        members: {
+          type: "array",
+          default: []
+        }
       },
-      disable_emails: {
-        type: "boolean",
-        default: false
-      }
-    },
-    registrants: {
-      type: "array",
-      default: []
-    },
-    types: {
-      type: "object",
-      default: {},
-      location_id: {
-        type: "number"
+      custom_fields: {
+        type: "object",
+        default: {},
+        custom_field_1_name: {
+          type: "string",
+          default: ""
+        },
+        custom_field_1_value: {
+          type: "string",
+          default: ""
+        },
+        custom_field_2_name: {
+          type: "string",
+          default: ""
+        },
+        custom_field_2_value: {
+          type: "string",
+          default: ""
+        }
       },
-      category_id: {
-        type: "number"
-      },
-      language_id: {
-        type: "number"
-      },
-      members: {
+      tickets: {
         type: "array",
         default: []
       }
-    },
-    custom_fields: {
-      type: "object",
-      default: {},
-      custom_field_1_name: {
-        type: "string",
-        default: ""
-      },
-      custom_field_1_value: {
-        type: "string",
-        default: ""
-      },
-      custom_field_2_name: {
-        type: "string",
-        default: ""
-      },
-      custom_field_2_value: {
-        type: "string",
-        default: ""
-      }
-    },
-    tickets: {
-      type: "array",
-      default: []
     }
-  }
-  // onSave: ({ attributes }) => {
-  //   const blockProps = useBlockProps.save();
-  //   console.log(attributes);
-  // },
-});
+
+    // onSave: ({ attributes }) => {
+    //   const blockProps = useBlockProps.save();
+    //   console.log(attributes);
+    // },
+  });
+}
 const isBlockInserted = () => {
-  const blocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.select)("core/block-editor").getBlocks();
+  const blocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.select)("core/block-editor").getBlocks();
   return blocks.some(block => block.name === BLOCK_NAME);
 };
 wp.domReady(() => {
   const searchParams = new URLSearchParams(window.location.search);
-  const block = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.createBlock)(BLOCK_NAME);
+  const block = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.createBlock)(BLOCK_NAME);
   const checkEditorLoaded = setInterval(() => {
     const blocks = wp.data.select("core/block-editor").getBlocks();
     if (blocks !== undefined) {
@@ -12923,7 +13580,70 @@ wp.domReady(() => {
       }
     }
   }, 500);
+  // **Finally**—once the editor has mounted (or after a tick), translate everything
+  // in the current DOM under the block’s root.
+  // We `setTimeout(..., 0)` just to let React/WordPress finish mounting first.
+  setTimeout(() => {
+    // If you know your block’s wrapper element, you can pass it in:
+    // e.g. translateAll(document.querySelector('.wp-block-servv-your-block'));
+    // Here we simply translate the entire document so any data‑i18n‑key tags also update:
+    (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__.translateAll)();
+  }, 0);
 });
+
+/***/ }),
+
+/***/ "./src/utilities/textResolver.js":
+/*!***************************************!*\
+  !*** ./src/utilities/textResolver.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initI18n: () => (/* binding */ initI18n),
+/* harmony export */   setLocale: () => (/* binding */ setLocale),
+/* harmony export */   t: () => (/* binding */ t),
+/* harmony export */   translateAll: () => (/* binding */ translateAll)
+/* harmony export */ });
+// File: src/utilities/textResolver.js
+/* eslint-env browser, node */
+/* global require */
+
+let _currentLocale = "en_US";
+const _dicts = {};
+
+// Webpack require.context
+const ctx = __webpack_require__("./src/locales sync recursive translation\\.json$");
+ctx.keys().forEach(filePath => {
+  const match = filePath.match(/\.\/([^/]+)\//);
+  if (!match) return;
+  const locale = match[1];
+  // Load JSON
+  const dict = ctx(filePath);
+  _dicts[locale] = dict.default || dict;
+});
+function initI18n(defaultLocale = "en_US") {
+  if (_dicts[defaultLocale]) {
+    _currentLocale = defaultLocale;
+  }
+}
+function setLocale(locale) {
+  if (_dicts[locale]) {
+    _currentLocale = locale;
+  }
+}
+function t(key) {
+  const dict = _dicts[_currentLocale] || {};
+  return key in dict ? dict[key] : key;
+}
+function translateAll(root = document.body) {
+  root.querySelectorAll("[data-i18n-key]").forEach(el => {
+    const key = el.getAttribute("data-i18n-key");
+    if (key) el.textContent = t(key);
+  });
+}
 
 /***/ }),
 
@@ -13678,10 +14398,10 @@ module.exports = hoistNonReactStatics;
 
 /***/ }),
 
-/***/ "./node_modules/react-toastify/dist/ReactToastify.css":
-/*!************************************************************!*\
-  !*** ./node_modules/react-toastify/dist/ReactToastify.css ***!
-  \************************************************************/
+/***/ "./src/input.css":
+/*!***********************!*\
+  !*** ./src/input.css ***!
+  \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -19819,6 +20539,46 @@ var zh = /*#__PURE__*/Object.freeze({
 
 /***/ }),
 
+/***/ "./src/locales sync recursive translation\\.json$":
+/*!**********************************************!*\
+  !*** ./src/locales/ sync translation\.json$ ***!
+  \**********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./de/translation.json": "./src/locales/de/translation.json",
+	"./en/translation.json": "./src/locales/en/translation.json",
+	"./es/translation.json": "./src/locales/es/translation.json",
+	"./fr/translation.json": "./src/locales/fr/translation.json",
+	"./hi/translation.json": "./src/locales/hi/translation.json",
+	"./ja/translation.json": "./src/locales/ja/translation.json",
+	"./ko/translation.json": "./src/locales/ko/translation.json",
+	"./ru/translation.json": "./src/locales/ru/translation.json",
+	"./zh/translation.json": "./src/locales/zh/translation.json"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./src/locales sync recursive translation\\.json$";
+
+/***/ }),
+
 /***/ "react":
 /*!************************!*\
   !*** external "React" ***!
@@ -19904,6 +20664,17 @@ module.exports = window["wp"]["compose"];
 
 "use strict";
 module.exports = window["wp"]["data"];
+
+/***/ }),
+
+/***/ "@wordpress/dom-ready":
+/*!**********************************!*\
+  !*** external ["wp","domReady"] ***!
+  \**********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["domReady"];
 
 /***/ }),
 
@@ -26328,6 +27099,105 @@ function validate(uuid) {
 
 "use strict";
 module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/servv-plugin","version":"0.1.0","title":"Servv Plugin","category":"widgets","icon":"media-interactive","description":"An interactive block with the Interactivity API","example":{},"supports":{"interactivity":true},"textdomain":"servv-plugin","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":["file:../build-assets/index.css","file:./style-index.css"],"render":"file:./render.php","viewScript":"file:./view.js"}');
+
+/***/ }),
+
+/***/ "./src/locales/de/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/de/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0)","Events":"Veranstaltungen","Create event":"Event erstellen","Customize":"Anpassen","Upcoming":"Aufkommen","Past":"Vergangenheit","Zoom Events":"Veranstaltungen","Your Events":"Ihre Veranstaltungen","0 Event":"0 Veranstaltung","Enter search string":"Eingabe der Suchfolge","Select dates":"Termine auswählen","Filters":"Filter","Title":"Titel","Date":"Datum","Time":"Zeit","Location":"Standort","Type":"Typ","Recurrence":"Wiederauftreten","Status":"Status","Bookings":"Buchungen","Set default values for any new events to save time.":"Legen Sie Standardwerte für neue Ereignisse fest, um Zeit zu sparen.","Export":"Ausfuhr","All time":"Zeit","12 month":"12 Monate","30 days":"30 Tage","7 days":"7 Tage","0 item":"0 Artikel","Review and manage all your event bookings here.":"Überprüfen und verwalten Sie alle Ihre Eventbuchungen hier.","Order ID":"Bestellschein","Order Date/Time":"Bestelldatum/Zeit","Registrant":"Kanzler","Event Title/Location":"Veranstaltungstitel/Standort","Occurrence":"Korrektheit","Paid":"Bezahlt","Event":"Veranstaltung","Zoom meeting":"Treffen im Großraum","Apply":"Anwendung","Integrations":"Integration","Connect and manage your integrations to enhance your event management.":"Verbinden und verwalten Sie Ihre Integrationen, um Ihr Eventmanagement zu verbessern.","Connected":"verbunden","Calendars Integration":"Integration von Kalendern","Event Integrations":"Veranstaltungsintegration","Calendars":"Kalender","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Synchronisieren Sie Ihre Veranstaltungspläne mühelos mit Google Kalender oder Outlook, um alle informiert zu halten.","Manage":"Verwalten","Learn More →":"Mehr erfahren →","Emails Integration":"E-Mails Integration","Emails":"E-Mails","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automatische Kommunikation mit Google Mail und Microsoft Outlook, um rechtzeitige Updates für Ihre Veranstaltungen zu gewährleisten.","Connect":"Verbindung","OAuth Setup Required Before Connecting.":"OAuth Setup erforderlich vor dem Verbinden.","Gmail":"Gmail","Zoom Integration":"Zoom Integration","Video Conferencing":"Videokonferenz","Available on paid plans.":"Verfügbar auf bezahlten Plänen.","Zoom":"Zoom","Stripe Integration":"Integration von Streifen","Stripe":"Streifen","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Synchronisieren Sie Ihre Zahlungen und Tickets direkt über Stripe. (Erfordert einen aktiven Abonnementplan.)","Email Templates":"E-Mail Vorlagen","Easily View, Create, and Modify Email Templates":"Einfache Ansicht, Erstellen und Ändern von Email-Vorlagen","Save":"Speichern","Cancel":"Abbrechen","Template Name":"Vorname","In-person Event - Booking":"In-Person Event - Buchung","Email Subject":"E-Mail-Adresse","{{event_name}} - {{store_name}}":"{{event_name} - {\\\\store_name}","Template Parameters":"Vorlagenparameter","Parameter":"Parameter","Description":"Warenbezeichnung","{{category_details}}":"{{category_details}}","Category details":"Details der Kategorie","{{category}}":"{Kategorie}","Category of event":"Veranstaltungskategorie","{{custom_field_1_name}}":"{custom_field_1_name}","Custom field 1 name":"Zollfeld 1 Name","{{custom_field_1_value}}":"{custom_field_1_value}","Custom field 1 value":"Zollfeld 1 Wert","{{custom_field_2_name}}":"{custom_field_2_name}","Custom field 2 name":"Zollfeld 2 Name","{{custom_field_2_value}}":"{custom_field_2_value}","Custom field 2 value":"Zollfeld 2 Wert","{{customer_name}}":"{{Kundenname}","Customer name":"Kundenname","{{date}}":"{\\\\date}","Date of event":"Datum der Veranstaltung","{{event_name}}":"{{event_name}","Event name":"Vorname","{{location_details}}":"{{Location_details}}","Location details":"Details zum Standort","{{location_hours}}":"{Location_hours}","Location operational hours":"Standort Betriebsstunden","{{location}}":"{\\\\location}","Location of event":"Veranstaltungsort","{{members_list}}":"{{members_list}}","Event members info list":"Infoliste der Teilnehmer","{{store_email}}":"{store_email}","Store contact email":"Kontakt E-Mail speichern","{{store_name}}":"{\\\\store_name}","Store name":"Bestellname","{{time}}":"{time}","Time of event":"Zeit der Veranstaltung","Edit Mode":"Bearbeitungsmodus","Rich Text":"Text","HTML":"HTML","Email Content":"E-Mail senden","Hi {{customer_name}}, Thank you for registering!":"Hallo {{customer_name}, Danke für die Anmeldung!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Sie wurden erfolgreich in das Ereignis {{event_name} eingetragen. Bitte speichern Sie diese E-Mail für die unten angegebenen Veranstaltungsdetails","{{date}} {{time}}":"{\\\\date} {time}","For any queries or to cancel booking please contact the store at {{store_email}}":"Für Anfragen oder zur Stornierung der Buchung kontaktieren Sie bitte den Laden unter {{store_email}}}","We look forward to seeing you.":"Wir freuen uns auf Sie.","Preview":"Voransicht","Subject: {{event_name}} - {{store_name}}":"Betrifft: {{event_name}} - {\\\\store_name}","Analytics":"Analyse","View your Revenue, Registrants, Events, and Filter analytics.":"Sehen Sie sich Ihre Revenue, Registranten, Events und Filter-Analysen an.","Total Revenue":"Einnahmen insgesamt","Total Registrants":"Kanzler insgesamt","Events Analytics":"Veranstaltungen und Veranstaltungen","Filters Analytics":"Filter Analytics","Select Dates":"Wählen Sie Termine","You haven’t made any Sales yet.":"Sie haben noch keine Verkäufe gemacht.","Reset":"Zurück zur Übersicht","0 Registrants":"0 Registranten","You don’t have any Registrants yet.":"Sie haben noch keine Registranten.","Active Events":"Veranstaltungen","Events Happened":"Veranstaltungen","Events Cancelled":"Veranstaltungen gekündigt","You don’t have Filter Statistics yet.":"Sie haben noch keine Filterstatistiken.","Settings":"Einstellungen","General":"Allgemeines","Reminders":"Erinnerungen","Billing plans":"Abrechnungspläne","Fast Checkout":"Schnelle Überprüfung","Widget Settings":"Widget Einstellungen","Widget Translations":"Übersetzungen von Widget","Time zone":"Zeitzone","Set a default time zone.":"Legen Sie eine Standardzeitzone fest.","US/Pacific":"USA/Pazifik","Time format":"Zeitformat","Set a default time format.":"Legen Sie ein Standard-Zeitformat ein.","12 hours":"12 Stunden","Hide timezone abbreviation in email, widget and dashboard.":"Verstecken Sie Zeitzone Abkürzung in E-Mail, Widget und Dashboard.","Currency format":"Währung","Set a default currency.":"Setzen Sie eine Standardwährung.","Alphabets: USD / CAD / CNY":"Alphabete: USD / CAD / CNY","Duration":"Dauer","Set a default event duration.":"Legen Sie eine Standardereignisdauer fest.","1 hour":"1 Stunde","Start / end time":"Start / Endzeit","Set a default start and end time.":"Setzen Sie einen Standardstart- und Endzeitpunkt ein.","Start time":"Startzeit","End time":"Endzeit","Ticket price":"Ticketpreis","Set a default ticket price.":"Setzen Sie einen Standard-Ticketpreis.","Set a default event location.":"Setzen Sie einen Standard-Event-Standort.","Zoom Event":"Event vergrößern","Email notifications":"E-Mail-Benachrichtigungen","Enable email notifications":"E-Mail-Benachrichtigungen aktivieren","First reminder":"Erste Erinnerung","Enable first reminder and specify time to first reminder":"Aktivieren Sie erste Erinnerung und geben Sie die Zeit an erste Erinnerung","Second reminder":"Zweite Erinnerung","Enable second reminder and specify time to second reminder":"Ermöglichen Sie zweite Erinnerung und geben Sie die Zeit zur zweiten Erinnerung an","Finished reminder":"Fertige Erinnerung","Send notification after the event has ended":"Mitteilung senden, nachdem die Veranstaltung beendet ist","Additional Email Notification Settings":"Weitere E-Mail-Benachrichtigungseinstellungen","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Richten Sie zusätzliche E-Mail-Benachrichtigungen und Erinnerungen für Ihre Veranstaltungen ein. Sie können wählen, um Mitarbeiter-Benachrichtigungen überspringen oder Erinnerungs-E-Mails zu bestimmten Zeiten vor der Veranstaltung hinzufügen","Additional reminder emails list (comma-separated)":"Zusätzliche Erinnerungs-E-Mails-Liste (komma-separiert)","Additional reminder hours":"Zusätzliche Mahnstunden","Skip Staff Email Notification":"E-Mail-Benachrichtigung über das Personal","Free":"Kostenlos","Unlimited Bookings":"Unbegrenzte Buchungen","Widgets":"Widgets","Notifications":"Mitteilungen","Multi Booking":"Multi Buchung","Custom Store Email":"In den Warenkorb","Recurring":"Recuring","Multi Tickets":"Mehr Tickets","Premium Support":"Premium Support","Email Customization":"Email Anpassung","User Management":"Benutzermanagement","Activated":"Aktiviert","Premium":"Prämie","Activate":"Aktivieren","Enable Fast Checkout for Free Events":"Aktivieren Sie schnelle Checkout für kostenlose Veranstaltungen","Activate fast checkout to speed up the booking process for free services":"Aktivieren Sie einen schnellen Check-out, um den Buchungsprozess für kostenlose Dienste zu beschleunigen","Enable Fast Checkout":"Schnelle Checkout aktivieren","Skip Captcha on Fast Checkout":"Skip Captcha auf Fast Checkout","Activate to bypass captcha verification during fast checkout for free services.":"Aktivieren Sie die Captcha-Überprüfung während des schnellen Checkouts für kostenlose Dienste zu umgehen.","Skip Captcha":"Über uns","Marketing Consent Checkbox":"Marketing Consent Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Schalten Sie diese Option ein, um eine Checkbox bei kostenlosem Checkout anzuzeigen, so dass sich Kunden für Marketing-E-Mails und Newsletter anmelden können","Marketing Consent":"Marketing Consent"}');
+
+/***/ }),
+
+/***/ "./src/locales/en/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/en/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"Events","Create event":"Create event","Customize":"Customize","Upcoming":"Upcoming","Past":"Past","Zoom Events":"Zoom Events","Your Events":"Your Events","0 Event":"0 Event","Enter search string":"Enter search string","Select dates":"Select dates","Filters":"Filters","Title":"Title","Date":"Date","Time":"Time","Location":"Location","Type":"Type","Recurrence":"Recurrence","Status":"Status","Bookings":"Bookings","Set default values for any new events to save time.":"Set default values for any new events to save time.","Export":"Export","All time":"All time","12 month":"12 month","30 days":"30 days","7 days":"7 days","0 item":"0 item","Review and manage all your event bookings here.":"View and manage all event bookings in one place","Order ID":"Order ID","Order Date/Time":"Order Date/Time","Registrant":"Registrant","Event Title/Location":"Event Title/Location","Occurrence":"Occurrence","Paid":"Paid","Event":"Event","Zoom meeting":"Zoom meeting","Apply":"Apply","Integrations":"Integrations","Connect and manage your integrations to enhance your event management.":"Connect and manage your integrations to enhance your event management.","Connected":"Connected","Calendars Integration":"Calendars Integration","Event Integrations":"Event Integrations","Calendars":"Calendars","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.","Manage":"Manage","Learn More →":"Learn More →","Emails Integration":"Emails Integration","Emails":"Emails","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.","Connect":"Connect","OAuth Setup Required Before Connecting.":"OAuth Setup Required Before Connecting.","Gmail":"Gmail","Zoom Integration":"Zoom Integration","Video Conferencing":"Video Conferencing","Available on paid plans.":"Available on paid plans.","Zoom":"Zoom","Stripe Integration":"Stripe Integration","Stripe":"Stripe","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)","Email Templates":"Email Templates","Easily View, Create, and Modify Email Templates":"Easily view, create, and modify email templates.","Save":"Save","Cancel":"Cancel","Template Name":"Template Name","In-person Event - Booking":"In-person Event - Booking","Email Subject":"Email Subject","{{event_name}} - {{store_name}}":"{{event_name}} - {{store_name}}","Template Parameters":"Template Parameters","Parameter":"Parameter","Description":"Description","{{category_details}}":"{{category_details}}","Category details":"Category details","{{category}}":"{{category}}","Category of event":"Category of event","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"Custom field 1 name","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"Custom field 1 value","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"Custom field 2 name","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"Custom field 2 value","{{customer_name}}":"{{customer_name}}","Customer name":"Customer name","{{date}}":"{{date}}","Date of event":"Date of event","{{event_name}}":"{{event_name}}","Event name":"Event name","{{location_details}}":"{{location_details}}","Location details":"Location details","{{location_hours}}":"{{location_hours}}","Location operational hours":"Location operational hours","{{location}}":"{{location}}","Location of event":"Location of event","{{members_list}}":"{{members_list}}","Event members info list":"Event members info list","{{store_email}}":"{{store_email}}","Store contact email":"Store contact email","{{store_name}}":"{{store_name}}","Store name":"Store name","{{time}}":"{{time}}","Time of event":"Time of event","Edit Mode":"Edit Mode","Rich Text":"Rich Text","HTML":"HTML","Email Content":"Email Content","Hi {{customer_name}}, Thank you for registering!":"Hi {{customer_name}}, Thank you for registering!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below","{{date}} {{time}}":"{{date}} {{time}}","For any queries or to cancel booking please contact the store at {{store_email}}":"For any queries or to cancel booking please contact the store at {{store_email}}","We look forward to seeing you.":"We look forward to seeing you.","Preview":"Preview","Subject: {{event_name}} - {{store_name}}":"Subject: {{event_name}} - {{store_name}}","Analytics":"Analytics","View your Revenue, Registrants, Events, and Filter analytics.":"Access analytics for your revenue, registrants, events, and filters.","Total Revenue":"Total Revenue","Total Registrants":"Total Registrants","Events Analytics":"Events Analytics","Filters Analytics":"Filters Analytics","Select Dates":"Select Dates","You haven’t made any Sales yet.":"You haven’t made any Sales yet.","Reset":"Reset","0 Registrants":"0 Registrants","You don’t have any Registrants yet.":"You don’t have any Registrants yet.","Active Events":"Active Events","Events Happened":"Events Happened","Events Cancelled":"Events Cancelled","You don’t have Filter Statistics yet.":"You don’t have Filter Statistics yet.","Settings":"Settings","General":"General","Reminders":"Reminders","Billing plans":"Billing plans","Fast Checkout":"Fast Checkout","Widget Settings":"Widget Settings","Widget Translations":"Widget Translations","Time zone":"Time zone","Set a default time zone.":"Set a default time zone.","US/Pacific":"US/Pacific","Time format":"Time format","Set a default time format.":"Set a default time format.","12 hours":"12 hours","Hide timezone abbreviation in email, widget and dashboard.":"Hide timezone abbreviation in email, widget and dashboard.","Currency format":"Currency format","Set a default currency.":"Set a default currency.","Alphabets: USD / CAD / CNY":"Alphabets: USD / CAD / CNY","Duration":"Duration","Set a default event duration.":"Set a default event duration.","1 hour":"1 hour","Start / end time":"Start / end time","Set a default start and end time.":"Set a default start and end time.","Start time":"Start time","End time":"End time","Ticket price":"Ticket price","Set a default ticket price.":"Set a default ticket price.","Set a default event location.":"Set a default event location.","Zoom Event":"Zoom Event","Email notifications":"Notifications","Enable email notifications":"Enable email notifications","First reminder":"First reminder","Enable first reminder and specify time to first reminder":"Enable first reminder and specify time to first reminder","Second reminder":"Second reminder","Enable second reminder and specify time to second reminder":"Enable second reminder and specify time to second reminder","Finished reminder":"Finished reminder","Send notification after the event has ended":"Send notification after the event has ended","Additional Email Notification Settings":"Additional Email Notification Settings","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event","Additional reminder emails list (comma-separated)":"Additional reminder emails list (comma-separated)","Additional reminder hours":"Additional reminder hours","Skip Staff Email Notification":"Skip Staff Email Notification","Free":"Free","Unlimited Bookings":"Unlimited Bookings","Widgets":"Widgets","Notifications":"Notifications","Multi Booking":"Multi Booking","Custom Store Email":"Custom Store Email","Recurring":"Recurring","Multi Tickets":"Multi Tickets","Premium Support":"Premium Support","Email Customization":"Email Customization","User Management":"User Management","Activated":"Activated","Premium":"Premium","Activate":"Activate","Enable Fast Checkout for Free Events":"Enable Fast Checkout for Free Events","Activate fast checkout to speed up the booking process for free services":"Activate fast checkout to speed up the booking process for free services","Enable Fast Checkout":"Enable Fast Checkout","Skip Captcha on Fast Checkout":"Skip Captcha on Fast Checkout","Activate to bypass captcha verification during fast checkout for free services.":"Activate to bypass captcha verification during fast checkout for free services.","Skip Captcha":"Skip Captcha","Marketing Consent Checkbox":"Marketing Consent Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters","Marketing Consent":"Marketing Consent"}');
+
+/***/ }),
+
+/***/ "./src/locales/es/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/es/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"Eventos","Create event":"Crear evento","Customize":"Personalizar","Upcoming":"Subiendo","Past":"Pasado","Zoom Events":"Eventos Zoom","Your Events":"Sus eventos","0 Event":"0 Evento","Enter search string":"Introduzca cadena de búsqueda","Select dates":"Seleccionar fechas","Filters":"Filtros","Title":"Título","Date":"Fecha","Time":"Hora","Location":"Ubicación","Type":"Tipo","Recurrence":"Recurrencia","Status":"Situación","Bookings":"Reservas","Set default values for any new events to save time.":"Establecer valores predeterminados para cualquier nuevo evento para ahorrar tiempo.","Export":"Exportación","All time":"Todo el tiempo","12 month":"12 meses","30 days":"30 días","7 days":"7 días","0 item":"0 artículo","Review and manage all your event bookings here.":"Revise y gestione todas sus reservas de eventos aquí.","Order ID":"ID de orden","Order Date/Time":"Fecha del pedido/hora","Registrant":"Registrante","Event Title/Location":"Título del evento/Ubicación","Occurrence":"Occurrence","Paid":"Pagado","Event":"Evento","Zoom meeting":"Zoom meeting","Apply":"Aplicar","Integrations":"Integración","Connect and manage your integrations to enhance your event management.":"Conecta y gestiona tus integraciones para mejorar tu gestión de eventos.","Connected":"Conectado","Calendars Integration":"Calendarios Integración","Event Integrations":"Integración de eventos","Calendars":"Calendarios","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Sincroniza tus calendarios de eventos sin esfuerzo con Google Calendar o Outlook para mantener a todos informados.","Manage":"Manage","Learn More →":"Más información →","Emails Integration":"Emails Integration","Emails":"Emails","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automatizar las comunicaciones usando Google Mail y Microsoft Outlook, garantizando actualizaciones oportunas para sus eventos.","Connect":"Conectar","OAuth Setup Required Before Connecting.":"OAuth Setup Se requiere antes de conectarse.","Gmail":"Gmail","Zoom Integration":"Integración del Zoom","Video Conferencing":"Videoconferencia","Available on paid plans.":"Disponible en planes pagados.","Zoom":"Zoom","Stripe Integration":"Integración de Stripe","Stripe":"Stripe","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Sincronice sus pagos y venta de entradas directamente a través de Stripe. (Requiere un plan de suscripción activo.)","Email Templates":"Plantillas de correo electrónico","Easily View, Create, and Modify Email Templates":"Ver, crear y modificar fácilmente las plantillas de correo electrónico","Save":"Guardar","Cancel":"Cancelar","Template Name":"Nombre de la plantilla","In-person Event - Booking":"Evento en persona - Reserva","Email Subject":"Asunto","{{event_name}} - {{store_name}}":"{{event_name} - {{store_name}","Template Parameters":"Parámetros de plantilla","Parameter":"Parámetro","Description":"Descripción","{{category_details}}":"{{category_details}}","Category details":"Categoría detalles","{{category}}":"{{category}","Category of event":"Categoría del evento","{{custom_field_1_name}}":"{custom_field_1_name}","Custom field 1 name":"Campo personalizado 1 nombre","{{custom_field_1_value}}":"{custom_field_1_value}","Custom field 1 value":"Valor de campo personalizado 1","{{custom_field_2_name}}":"{custom_field_2_name}","Custom field 2 name":"Campo personalizado 2 nombre","{{custom_field_2_value}}":"{custom_field_2_value}","Custom field 2 value":"Valor de campo personalizado 2","{{customer_name}}":"{{customer_name}","Customer name":"Nombre del cliente","{{date}}":"{{date}}","Date of event":"Fecha del evento","{{event_name}}":"{{event_name}","Event name":"Nombre del evento","{{location_details}}":"{{location_details}}","Location details":"Detalles de la ubicación","{{location_hours}}":"{{location_hours}","Location operational hours":"Horas de funcionamiento","{{location}}":"{{location}}","Location of event":"Ubicación del evento","{{members_list}}":"{{members_list}","Event members info list":"Lista de información de los miembros del evento","{{store_email}}":"{{store_email}","Store contact email":"Tienda de correo electrónico de contacto","{{store_name}}":"{{store_name}","Store name":"Nombre de la tienda","{{time}}":"{{time}","Time of event":"Hora del evento","Edit Mode":"Modo de edición","Rich Text":"Texto rico","HTML":"HTML","Email Content":"Email Content","Hi {{customer_name}}, Thank you for registering!":"Hola. ¡Gracias por registrarse!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Usted ha sido registrado con éxito al evento {{event_name}. Por favor guarde este correo electrónico para los detalles del evento que se dan a continuación","{{date}} {{time}}":"{{date} {{time}","For any queries or to cancel booking please contact the store at {{store_email}}":"Para cualquier consulta o para cancelar la reserva, póngase en contacto con la tienda en {{store_email}}","We look forward to seeing you.":"Esperamos verte.","Preview":"Vista previa","Subject: {{event_name}} - {{store_name}}":"Asunto: {{event_name}} - {{store_name}","Analytics":"Análisis","View your Revenue, Registrants, Events, and Filter analytics.":"Vea su Ingreso, Registrantes, Eventos y Filtrar análisis.","Total Revenue":"Total de ingresos","Total Registrants":"Total Registrantes","Events Analytics":"Eventos Análisis","Filters Analytics":"Filtros Analytics","Select Dates":"Seleccionar fechas","You haven’t made any Sales yet.":"Aún no has hecho ninguna venta.","Reset":"Reset","0 Registrants":"0 Registrantes","You don’t have any Registrants yet.":"Aún no tienes ningún Registrante.","Active Events":"Eventos activos","Events Happened":"Eventos ocurridos","Events Cancelled":"Eventos cancelados","You don’t have Filter Statistics yet.":"Aún no tienes Filtro Estadísticas.","Settings":"Ajustes","General":"General","Reminders":"Recordadores","Billing plans":"Planes de facturación","Fast Checkout":"Checkout rápido","Widget Settings":"Ajustes del Widget","Widget Translations":"Widget Translations","Time zone":"Zona horaria","Set a default time zone.":"Establecer una zona horaria predeterminada.","US/Pacific":"Estados Unidos/Pacífico","Time format":"Formato de tiempo","Set a default time format.":"Establecer un formato de tiempo predeterminado.","12 hours":"12 horas","Hide timezone abbreviation in email, widget and dashboard.":"Ocultar la abreviatura de la zona temporal en correo electrónico, widget y dashboard.","Currency format":"Formato de moneda","Set a default currency.":"Establezca una moneda predeterminada.","Alphabets: USD / CAD / CNY":"Alfabetos: USD / CAD / CNY","Duration":"Duración","Set a default event duration.":"Establecer una duración predeterminada del evento.","1 hour":"1 hora","Start / end time":"Inicio / hora final","Set a default start and end time.":"Establezca un inicio predeterminado y el tiempo final.","Start time":"Hora de inicio","End time":"Tiempo final","Ticket price":"Precio del billete","Set a default ticket price.":"Establece un precio de entrada predeterminado.","Set a default event location.":"Establecer una ubicación predeterminada del evento.","Zoom Event":"Evento Zoom","Email notifications":"Notificaciones por correo electrónico","Enable email notifications":"Permitir notificaciones de correo electrónico","First reminder":"Primer recordatorio","Enable first reminder and specify time to first reminder":"Permitir el primer recordatorio y especificar el tiempo para el primer recordatorio","Second reminder":"Segundo recordatorio","Enable second reminder and specify time to second reminder":"Permitir un segundo recordatorio y especificar tiempo para un segundo recordatorio","Finished reminder":"Recordatorio terminado","Send notification after the event has ended":"Enviar notificación después de que el evento haya terminado","Additional Email Notification Settings":"Ajustes adicionales de notificación por correo electrónico","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Establecer alertas y recordatorios adicionales de correo electrónico para sus eventos. Puede optar por saltar las notificaciones del personal o agregar correos electrónicos recordatorios en momentos específicos antes del evento","Additional reminder emails list (comma-separated)":"Lista adicional de correos electrónicos recordatorio (separados por el mapa)","Additional reminder hours":"Horas adicionales de recordatorio","Skip Staff Email Notification":"Skip Staff Email Notification","Free":"Gratis","Unlimited Bookings":"Reservas ilimitadas","Widgets":"Widgets","Notifications":"Notificaciones","Multi Booking":"Multi Booking","Custom Store Email":"Custom Store Email","Recurring":"Recurriendo","Multi Tickets":"Entradas múltiples","Premium Support":"Soporte Premium","Email Customization":"Personalización por correo electrónico","User Management":"Gestión de usuarios","Activated":"Activado","Premium":"Premium","Activate":"Activar","Enable Fast Checkout for Free Events":"Activar el registro rápido para eventos gratis","Activate fast checkout to speed up the booking process for free services":"Activar el checkout rápido para acelerar el proceso de reserva para servicios gratuitos","Enable Fast Checkout":"Activar el checkout rápido","Skip Captcha on Fast Checkout":"Skip Captcha en el checkout rápido","Activate to bypass captcha verification during fast checkout for free services.":"Activar para evitar la verificación captcha durante el checkout rápido para servicios gratuitos.","Skip Captcha":"Skip Captcha","Marketing Consent Checkbox":"Caja de control de consentimiento de marketing","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Enciende esta opción para mostrar una casilla de verificación en el checkout gratuito, por lo que los clientes pueden registrarse para emails de marketing y boletines de noticias","Marketing Consent":"Consentimiento de Marketing"}');
+
+/***/ }),
+
+/***/ "./src/locales/fr/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/fr/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"Événements","Create event":"Créer un événement","Customize":"Personnaliser","Upcoming":"À venir","Past":"Passé","Zoom Events":"Zoomer les événements","Your Events":"Vos événements","0 Event":"0 Événement","Enter search string":"Saisissez la chaîne de recherche","Select dates":"Sélectionner les dates","Filters":"Filtres","Title":"Titre","Date":"Date","Time":"Heure","Location":"Lieu","Type":"Type","Recurrence":"Récurrence","Status":"État","Bookings":"Réservations","Set default values for any new events to save time.":"Définir des valeurs par défaut pour tout nouvel événement afin d\'économiser du temps.","Export":"Exportations","All time":"Tous les temps","12 month":"12 mois","30 days":"30 jours","7 days":"7 jours","0 item":"0 élément","Review and manage all your event bookings here.":"Revoir et gérer toutes vos réservations d\'événements ici.","Order ID":"Numéro d\'ordre","Order Date/Time":"Date/heure de commande","Registrant":"Titulaire","Event Title/Location":"Titre/Lieu de l\'événement","Occurrence":"Répartition","Paid":"Paiement","Event":"Événement","Zoom meeting":"Zoom de la réunion","Apply":"Appliquer","Integrations":"Intégrations","Connect and manage your integrations to enhance your event management.":"Connectez et gérez vos intégrations pour améliorer la gestion de vos événements.","Connected":"Connecté","Calendars Integration":"Intégration des calendriers","Event Integrations":"Intégrations d\'événements","Calendars":"Calendriers","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Synchronisez vos horaires d\'événements sans effort avec Google Calendar ou Outlook pour tenir tout le monde informé.","Manage":"Gérer","Learn More →":"En savoir plus →","Emails Integration":"Intégration des courriels","Emails":"Courriels","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Automatiser les communications en utilisant Google Mail et Microsoft Outlook, en assurant des mises à jour opportunes pour vos événements.","Connect":"Connexion","OAuth Setup Required Before Connecting.":"Configuration OAuth requise avant la connexion.","Gmail":"Gmail","Zoom Integration":"Zoom Intégration","Video Conferencing":"Conférence vidéo","Available on paid plans.":"Disponible sur les régimes payés.","Zoom":"Zoom","Stripe Integration":"Intégration des rayures","Stripe":"Bande","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Synchronisez vos paiements et vos ventes de billets directement via Stripe. ( Nécessite un abonnement actif.)","Email Templates":"Modèles de courriel","Easily View, Create, and Modify Email Templates":"Afficher, créer et modifier facilement les modèles de courriel","Save":"Enregistrer","Cancel":"Annuler","Template Name":"Nom du modèle","In-person Event - Booking":"Événement en personne - Réservation","Email Subject":"Sujet du courriel","{{event_name}} - {{store_name}}":"{{event_name}} - {{store_name}}","Template Parameters":"Paramètres du modèle","Parameter":"Paramètre","Description":"Désignation des marchandises","{{category_details}}":"{{details_catégorie}}","Category details":"Catégorie","{{category}}":"{ {catégorie}}","Category of event":"Catégorie de manifestation","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"Nom du champ personnalisé 1","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"Valeur du champ personnalisé 1","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"Nom du champ personnalisé 2","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"Valeur du champ personnalisé 2","{{customer_name}}":"{{nom_client}}","Customer name":"Nom du client","{{date}}":"{{date}}","Date of event":"Date de la manifestation","{{event_name}}":"{{nom_événement}}","Event name":"Nom de l\'événement","{{location_details}}":"{{location_details}}","Location details":"Détails de l\'emplacement","{{location_hours}}":"{{localisation_heures}}","Location operational hours":"Nombre d \' heures de fonctionnement","{{location}}":"{{localisation}}","Location of event":"Lieu de l\'événement","{{members_list}}":"{{member_list}}","Event members info list":"Liste des membres de l\'événement","{{store_email}}":"{{store_email}}","Store contact email":"Stocker les courriels de contact","{{store_name}}":"{{store_name}}","Store name":"Nom du magasin","{{time}}":"{{temps}}","Time of event":"Heure de l\'événement","Edit Mode":"Modifier le mode","Rich Text":"Texte riche","HTML":"HTML","Email Content":"Contenu du courriel","Hi {{customer_name}}, Thank you for registering!":"Bonjour {{nom_client}}, Merci de vous être inscrit!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Vous avez été enregistré avec succès à l\'événement {{event_name}}. S\'il vous plaît enregistrer ce courriel pour les détails de l\'événement qui sont donnés ci-dessous","{{date}} {{time}}":"{{date} {{heure}}","For any queries or to cancel booking please contact the store at {{store_email}}":"Pour toute question ou pour annuler la réservation, veuillez contacter le magasin à {{store_email}}","We look forward to seeing you.":"Nous avons hâte de vous voir.","Preview":"Aperçu","Subject: {{event_name}} - {{store_name}}":"Sujet : {{event_name}} - {{store_name}}","Analytics":"Analyse","View your Revenue, Registrants, Events, and Filter analytics.":"Consultez votre analyse des revenus, des inscrits, des événements et des filtres.","Total Revenue":"Total des recettes","Total Registrants":"Total des inscrits","Events Analytics":"Analyse des événements","Filters Analytics":"Analyse des filtres","Select Dates":"Sélectionner des dates","You haven’t made any Sales yet.":"Tu n\'as pas encore vendu.","Reset":"Réinitialiser","0 Registrants":"0 Inscrits","You don’t have any Registrants yet.":"Vous n\'avez pas encore d\'inscrits.","Active Events":"Événements actifs","Events Happened":"Événements survenus","Events Cancelled":"Événements annulés","You don’t have Filter Statistics yet.":"Vous n\'avez pas encore Filter Statistics.","Settings":"Paramètres","General":"Généralités","Reminders":"Rappels","Billing plans":"Plans de facturation","Fast Checkout":"Départ rapide","Widget Settings":"Paramètres du widget","Widget Translations":"Traductions Widget","Time zone":"Fuseau horaire","Set a default time zone.":"Définir un fuseau horaire par défaut.","US/Pacific":"États-Unis/Pacifique","Time format":"Format de temps","Set a default time format.":"Définir un format de temps par défaut.","12 hours":"12 heures","Hide timezone abbreviation in email, widget and dashboard.":"Masquer l\'abréviation timezone dans le courriel, le widget et le tableau de bord.","Currency format":"Format de devise","Set a default currency.":"Définir une devise par défaut.","Alphabets: USD / CAD / CNY":"Alphabets: USD / CAD / CNY","Duration":"Durée","Set a default event duration.":"Définir une durée d\'événement par défaut.","1 hour":"1 heure","Start / end time":"Heure de début/fin","Set a default start and end time.":"Définir une heure de début et de fin par défaut.","Start time":"Heure de début","End time":"Heure de fin","Ticket price":"Prix du billet","Set a default ticket price.":"Définir un prix par défaut du billet.","Set a default event location.":"Définir un emplacement d\'événement par défaut.","Zoom Event":"Événement de zoom","Email notifications":"Notifications par courriel","Enable email notifications":"Activer les notifications par courriel","First reminder":"Premier rappel","Enable first reminder and specify time to first reminder":"Activer le premier rappel et spécifier l\'heure du premier rappel","Second reminder":"Deuxième rappel","Enable second reminder and specify time to second reminder":"Activer le deuxième rappel et spécifier l\'heure du deuxième rappel","Finished reminder":"Rappel terminé","Send notification after the event has ended":"Envoyer une notification après la fin de l\'événement","Additional Email Notification Settings":"Paramètres supplémentaires de notification par courriel","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Configurez des alertes et des rappels supplémentaires pour vos événements. Vous pouvez choisir de sauter les notifications du personnel ou d\'ajouter des courriels de rappel à des moments précis avant l\'événement","Additional reminder emails list (comma-separated)":"Liste d\'e-mails de rappel supplémentaires (séparés par le coma)","Additional reminder hours":"Heures de rappel supplémentaires","Skip Staff Email Notification":"Passer la notification par courriel du personnel","Free":"Gratuit","Unlimited Bookings":"Réservations illimitées","Widgets":"Widgets","Notifications":"Notifications","Multi Booking":"Multiréservation","Custom Store Email":"Custom Store Email","Recurring":"Récurrent","Multi Tickets":"Billets multiples","Premium Support":"Soutien Premium","Email Customization":"Personnalisation des courriels","User Management":"Gestion des utilisateurs","Activated":"Activé","Premium":"Prime","Activate":"Activer","Enable Fast Checkout for Free Events":"Activer le checkout rapide pour les événements gratuits","Activate fast checkout to speed up the booking process for free services":"Activer la caisse rapide pour accélérer le processus de réservation des services gratuits","Enable Fast Checkout":"Activer la vérification rapide","Skip Captcha on Fast Checkout":"Sautez Captcha lors d\'un départ rapide","Activate to bypass captcha verification during fast checkout for free services.":"Activer pour contourner la vérification de captcha lors de la caisse rapide pour les services gratuits.","Skip Captcha":"Sautez Captcha","Marketing Consent Checkbox":"Boîte à cocher Consentement à la commercialisation","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Activez cette option pour afficher une case à cocher à la caisse gratuite, afin que les clients puissent s\'inscrire pour les emails marketing et les newsletters","Marketing Consent":"Consentement à la commercialisation"}');
+
+/***/ }),
+
+/***/ "./src/locales/hi/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/hi/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"आयोजन","Create event":"घटना बनाएँ","Customize":"अनुकूलित","Upcoming":"आगामी","Past":"पिछला","Zoom Events":"ज़ूम इवेंट","Your Events":"आपकी घटना","0 Event":"कार्यक्रम","Enter search string":"खोज स्ट्रिंग दर्ज करें","Select dates":"तारीख चुनें","Filters":"फ़िल्टर","Title":"शीर्षक","Date":"तारीख","Time":"समय","Location":"स्थान","Type":"प्रकार","Recurrence":"पुनरावृत्ति","Status":"स्थिति","Bookings":"बुकिंग","Set default values for any new events to save time.":"समय बचाने के लिए किसी भी नए कार्यक्रम के लिए डिफ़ॉल्ट मान निर्धारित करें।","Export":"निर्यात","All time":"समय","12 month":"12 महीनो","30 days":"30 दिन","7 days":"7 दिन","0 item":"0 आइटम","Review and manage all your event bookings here.":"यहां अपनी सभी इवेंट बुकिंग की समीक्षा और प्रबंधन करें।","Order ID":"आदेश ID","Order Date/Time":"आदेश दिनांक / समय","Registrant":"रजिस्ट्रार","Event Title/Location":"कार्यक्रम शीर्षक/स्थान","Occurrence":"असुरक्षा","Paid":"भुगतान","Event":"घटना","Zoom meeting":"ज़ूम बैठक","Apply":"आवेदन","Integrations":"एकीकरण","Connect and manage your integrations to enhance your event management.":"अपने कार्यक्रम प्रबंधन को बढ़ाने के लिए अपने एकीकरण को कनेक्ट और प्रबंधित करें।","Connected":"कनेक्ट","Calendars Integration":"कैलेंडर एकीकरण","Event Integrations":"घटना एकीकरण","Calendars":"कैलेंडर","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"हर किसी को सूचित रखने के लिए Google कैलेंडर या आउटलुक के साथ आसानी से अपने कार्यक्रम शेड्यूल को सिंक्रनाइज़ करें।","Manage":"प्रबंधन","Learn More →":"Learn More →","Emails Integration":"ईमेल एकीकरण","Emails":"ईमेल","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Google Mail और Microsoft Outlook का उपयोग करके संचार को स्वचालित करें, अपनी घटनाओं के लिए समय पर अपडेट सुनिश्चित करें।","Connect":"कनेक्ट","OAuth Setup Required Before Connecting.":"कनेक्ट करने से पहले OAuth सेटअप आवश्यक है।","Gmail":"जीमेल","Zoom Integration":"ज़ूम एकीकरण","Video Conferencing":"वीडियो कॉन्फ्रेंसिंग","Available on paid plans.":"भुगतान योजनाओं पर उपलब्ध है।","Zoom":"ज़ूम","Stripe Integration":"स्ट्रिप एकीकरण","Stripe":"स्ट्रिप","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"अपने भुगतान और टिकट की बिक्री सीधे स्ट्राइप के माध्यम से सिंक करें। (एक सक्रिय सदस्यता योजना की आवश्यकता)","Email Templates":"ईमेल टेम्पलेट","Easily View, Create, and Modify Email Templates":"आसानी से ईमेल टेम्पलेट्स को देखें, बनाएं और संशोधित करें","Save":"सहेजें","Cancel":"रद्द करना","Template Name":"टेम्पलेट नाम","In-person Event - Booking":"व्यक्तिगत घटना - बुकिंग","Email Subject":"ईमेल विषय","{{event_name}} - {{store_name}}":"{{event_name}} {{store_name}}","Template Parameters":"टेम्पलेट पैरामीटर","Parameter":"पैरामीटर","Description":"विवरण","{{category_details}}":"{{category_details}}","Category details":"श्रेणी विवरण","{{category}}":"{{category}}","Category of event":"घटना की श्रेणी","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"कस्टम फील्ड 1 नाम","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"कस्टम फील्ड 1 मान","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"कस्टम फील्ड 2 नाम","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"कस्टम फील्ड 2 मान","{{customer_name}}":"{{customer_name}}","Customer name":"ग्राहक का नाम","{{date}}":"{{date}}","Date of event":"कार्यक्रम की तारीख","{{event_name}}":"{{event_name}}","Event name":"घटना का नाम","{{location_details}}":"{{location_details}}","Location details":"स्थान विवरण","{{location_hours}}":"{{location_hours}}","Location operational hours":"स्थान परिचालन घंटे","{{location}}":"सम्पर्क","Location of event":"घटना का स्थान","{{members_list}}":"{{members_list}}","Event members info list":"घटना सदस्यों की जानकारी सूची","{{store_email}}":"{{store_email}}","Store contact email":"स्टोर संपर्क ईमेल","{{store_name}}":"{{store_name}}","Store name":"स्टोर का नाम","{{time}}":"{{time}}","Time of event":"घटना का समय","Edit Mode":"संपादन मोड","Rich Text":"रिच टेक्स्ट","HTML":"एचटीएमएल","Email Content":"ईमेल सामग्री","Hi {{customer_name}}, Thank you for registering!":"हाय {{customer_name}}, धन्यवाद!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"आप सफलतापूर्वक \\"{event_name}} इवेंट\\" में पंजीकृत हुए हैं। कृपया इस ईमेल को उस घटना के विवरण के लिए बचाएं जो नीचे दिए गए हैं","{{date}} {{time}}":"{{date}}","For any queries or to cancel booking please contact the store at {{store_email}}":"किसी भी पूछताछ के लिए या बुकिंग रद्द करने के लिए कृपया स्टोर से संपर्क करें {{store_email}}","We look forward to seeing you.":"हम आपको देखने के लिए तत्पर हैं।","Preview":"पूर्वावलोकन","Subject: {{event_name}} - {{store_name}}":"विषय: {{event_name}} {{store_name}}","Analytics":"विश्लेषण","View your Revenue, Registrants, Events, and Filter analytics.":"अपने राजस्व, रेजिस्ट्रेंट्स, इवेंट्स और फ़िल्टर एनालिटिक्स देखें।","Total Revenue":"कुल राजस्व","Total Registrants":"कुलसचिव","Events Analytics":"इवेंट एनालिटिक्स","Filters Analytics":"फ़िल्टर एनालिटिक्स","Select Dates":"चयन तिथि","You haven’t made any Sales yet.":"आपने अभी तक कोई बिक्री नहीं की है।","Reset":"रीसेट करें","0 Registrants":"0 रजिस्ट्रार","You don’t have any Registrants yet.":"आपके पास अभी तक कोई रजिस्ट्रार नहीं है।","Active Events":"सक्रिय आयोजन","Events Happened":"घटनाओं Happened","Events Cancelled":"आयोजन रद्द","You don’t have Filter Statistics yet.":"अभी तक फ़िल्टर सांख्यिकी नहीं है।","Settings":"सेटिंग","General":"जनरल","Reminders":"अनुस्मारक","Billing plans":"बिलिंग प्लान","Fast Checkout":"फास्ट चेकआउट","Widget Settings":"विजेट सेटिंग्स","Widget Translations":"विजेट अनुवाद","Time zone":"समय क्षेत्र","Set a default time zone.":"डिफ़ॉल्ट समय क्षेत्र सेट करें।","US/Pacific":"यूएस / प्रशांत","Time format":"समय स्वरूप","Set a default time format.":"एक डिफ़ॉल्ट समय स्वरूप सेट करें।","12 hours":"12 घंटे","Hide timezone abbreviation in email, widget and dashboard.":"ईमेल, विजेट और डैशबोर्ड में टाइमज़ोन संक्षिप्तीकरण छिपाएं।","Currency format":"मुद्रा प्रारूप","Set a default currency.":"डिफ़ॉल्ट मुद्रा सेट करें।","Alphabets: USD / CAD / CNY":"वर्णमाला: USD / CAD / CNY","Duration":"अवधि","Set a default event duration.":"एक डिफ़ॉल्ट घटना अवधि निर्धारित करें।","1 hour":"1 घंटे","Start / end time":"प्रारंभ / समाप्ति समय","Set a default start and end time.":"एक डिफ़ॉल्ट प्रारंभ और अंत समय निर्धारित करें।","Start time":"प्रारंभ समय","End time":"अंत समय","Ticket price":"टिकट की कीमत","Set a default ticket price.":"डिफ़ॉल्ट टिकट की कीमत निर्धारित करें।","Set a default event location.":"एक डिफ़ॉल्ट घटना स्थान सेट करें।","Zoom Event":"ज़ूम इवेंट","Email notifications":"ईमेल सूचनाएं","Enable email notifications":"ईमेल सूचनाएं सक्षम करें","First reminder":"प्रथम अनुस्मारक","Enable first reminder and specify time to first reminder":"पहली अनुस्मारक सक्षम करें और पहली अनुस्मारक के लिए समय निर्दिष्ट करें","Second reminder":"दूसरा अनुस्मारक","Enable second reminder and specify time to second reminder":"दूसरे अनुस्मारक को सक्षम करें और दूसरे अनुस्मारक को समय निर्दिष्ट करें","Finished reminder":"समाप्त अनुस्मारक","Send notification after the event has ended":"घटना समाप्त होने के बाद अधिसूचना भेजें","Additional Email Notification Settings":"अतिरिक्त ईमेल अधिसूचना सेटिंग्स","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"अपनी घटनाओं के लिए अतिरिक्त ईमेल अलर्ट और अनुस्मारक सेट करें। आप घटना से पहले विशिष्ट समय पर स्टाफ सूचनाएं छोड़ सकते हैं या अनुस्मारक ईमेल जोड़ सकते हैं","Additional reminder emails list (comma-separated)":"अतिरिक्त अनुस्मारक ईमेल सूची (comma-separated)","Additional reminder hours":"अतिरिक्त अनुस्मारक घंटे","Skip Staff Email Notification":"कर्मचारी ईमेल अधिसूचना","Free":"फ्री","Unlimited Bookings":"असीमित बुकिंग","Widgets":"विजेट","Notifications":"अधिसूचनाएं","Multi Booking":"मल्टी बुकिंग","Custom Store Email":"कस्टम स्टोर ईमेल","Recurring":"आवर्ती","Multi Tickets":"मल्टी टिकट","Premium Support":"प्रीमियम समर्थन","Email Customization":"ईमेल अनुकूलन","User Management":"उपयोगकर्ता प्रबंधन","Activated":"सक्रिय","Premium":"प्रीमियम","Activate":"सक्रिय","Enable Fast Checkout for Free Events":"मुफ्त घटनाओं के लिए फास्ट चेकआउट सक्षम करें","Activate fast checkout to speed up the booking process for free services":"मुफ्त सेवाओं के लिए बुकिंग प्रक्रिया को तेज करने के लिए फास्ट चेकआउट को सक्रिय करें","Enable Fast Checkout":"फास्ट चेकआउट सक्षम करें","Skip Captcha on Fast Checkout":"फास्ट चेकआउट पर कैप्चा छोड़ें","Activate to bypass captcha verification during fast checkout for free services.":"मुफ्त सेवाओं के लिए फास्ट चेकआउट के दौरान कैप्चा सत्यापन को रोकने के लिए सक्रिय करें।","Skip Captcha":"कैप्चा","Marketing Consent Checkbox":"विपणन Consent Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"इस विकल्प को नि: शुल्क चेकआउट पर एक चेकबॉक्स दिखाने के लिए चालू करें, इसलिए ग्राहक विपणन ईमेल और न्यूज़लेटर के लिए साइन अप कर सकते हैं।","Marketing Consent":"विपणन सहमति"}');
+
+/***/ }),
+
+/***/ "./src/locales/ja/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/ja/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0 の 0","Events":"イベント","Create event":"イベントの作成","Customize":"カスタマイズ","Upcoming":"アップカム","Past":"新着情報","Zoom Events":"ズームイベント","Your Events":"あなたのイベント","0 Event":"0 イベント","Enter search string":"検索文字列を入力する","Select dates":"日付を選択","Filters":"フィルター","Title":"タイトル","Date":"日程表","Time":"タイムタイム","Location":"アクセス","Type":"タイプ:","Recurrence":"再発","Status":"ステータス","Bookings":"予約する","Set default values for any new events to save time.":"任意の新しいイベントのデフォルト値を設定して、時間を節約できます。","Export":"エクスポート","All time":"すべての時間","12 month":"12 ヶ月","30 days":"30日","7 days":"7 日","0 item":"0 アイテム","Review and manage all your event bookings here.":"各イベントの予約の確認と管理","Order ID":"注文ID","Order Date/Time":"注文日付/時刻","Registrant":"参加登録者","Event Title/Location":"イベント名/開催場所","Occurrence":"職業紹介","Paid":"ペイド","Event":"イベント","Zoom meeting":"ズーム会議","Apply":"お問い合わせ","Integrations":"ソリューション","Connect and manage your integrations to enhance your event management.":"統合を接続して管理し、イベント管理を強化します。","Connected":"コネクテッド","Calendars Integration":"カレンダーの統合","Event Integrations":"イベントの統合","Calendars":"カレンダー","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"誰もが情報を保持するために、あなたのイベントスケジュールをGoogleカレンダーやOutlookと楽に同期.","Manage":"マネージング","Learn More →":"もっと知る →","Emails Integration":"電子メールの統合","Emails":"メール","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Google MailとMicrosoft Outlookを使用して通信を自動化し、イベントのタイムリーな更新を保証します。","Connect":"ログイン","OAuth Setup Required Before Connecting.":"接続前に OAuth の設定が必要です。","Gmail":"ログイン","Zoom Integration":"Zoomの統合","Video Conferencing":"ビデオ会議","Available on paid plans.":"有料プランでご利用いただけます。","Zoom":"ズーム","Stripe Integration":"Stripeの統合","Stripe":"ストライプ","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"支払いとチケット販売をStripe経由で直接同期します。 (有効なサブスクリプションプランが必要です。)","Email Templates":"メールテンプレート","Easily View, Create, and Modify Email Templates":"メールテンプレートを簡単に表示、作成、変更","Save":"保存する","Cancel":"キャンセル","Template Name":"テンプレート名","In-person Event - Booking":"スタッフイベント - 予約","Email Subject":"メールの件名","{{event_name}} - {{store_name}}":"お問い合わせ お問い合わせ","Template Parameters":"テンプレートパラメータ","Parameter":"パラメータ","Description":"コンテンツ","{{category_details}}":"お問い合わせ","Category details":"カテゴリー詳細","{{category}}":"お問い合わせ","Category of event":"イベントカテゴリー","{{custom_field_1_name}}":"お問い合わせ","Custom field 1 name":"カスタムフィールド1名","{{custom_field_1_value}}":"お問い合わせ","Custom field 1 value":"カスタムフィールド 1 値","{{custom_field_2_name}}":"お問い合わせ","Custom field 2 name":"カスタムフィールド2名","{{custom_field_2_value}}":"お問い合わせ","Custom field 2 value":"カスタムフィールド2値","{{customer_name}}":"お問い合わせ","Customer name":"顧客名","{{date}}":"お問い合わせ","Date of event":"イベント開催日","{{event_name}}":"お問い合わせ","Event name":"イベント名","{{location_details}}":"お問い合わせ","Location details":"位置情報","{{location_hours}}":"お問い合わせ","Location operational hours":"勤務時間","{{location}}":"お問い合わせ","Location of event":"イベントの場所","{{members_list}}":"お問い合わせ","Event members info list":"イベント情報","{{store_email}}":"お問い合わせ","Store contact email":"コンタクトメールの保存","{{store_name}}":"お問い合わせ","Store name":"店舗名","{{time}}":"お問い合わせ","Time of event":"イベント時間","Edit Mode":"編集モード","Rich Text":"豊富なテキスト","HTML":"アーカイブ","Email Content":"メールコンテンツ","Hi {{customer_name}}, Thank you for registering!":"お問い合わせ ご登録ありがとうございました!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"{{event_name}} イベントに正常に登録されています。 下記のイベントの詳細につきましては、このメールを保存してください。","{{date}} {{time}}":"お問い合わせ","For any queries or to cancel booking please contact the store at {{store_email}}":"ご質問やご予約のキャンセルは、 {{store_email}} の店舗にお問い合わせください。","We look forward to seeing you.":"皆様のお越しをお待ちしております。","Preview":"プレビュー","Subject: {{event_name}} - {{store_name}}":"件名: {{event_name}} お問い合わせ","Analytics":"アナリティクス","View your Revenue, Registrants, Events, and Filter analytics.":"Revenue、Registrants、イベント、およびフィルタ分析をご覧いただけます。","Total Revenue":"総収入","Total Registrants":"参加登録者数","Events Analytics":"イベント アナリティクス","Filters Analytics":"フィルター分析","Select Dates":"日付を選択","You haven’t made any Sales yet.":"まだ販売を行わない","Reset":"リセット","0 Registrants":"0 登録者","You don’t have any Registrants yet.":"まだ登録者はありません。","Active Events":"アクティブイベント","Events Happened":"イベント 催し物","Events Cancelled":"イベント中止","You don’t have Filter Statistics yet.":"フィルター統計はまだありません。","Settings":"コンテンツ","General":"インフォメーション","Reminders":"リマインダー","Billing plans":"請求プラン","Fast Checkout":"速いチェックアウト","Widget Settings":"ウィジェットの設定","Widget Translations":"ウィジェットの翻訳","Time zone":"タイムゾーン","Set a default time zone.":"デフォルトのタイムゾーンを設定します。","US/Pacific":"米国/太平洋","Time format":"時間フォーマット","Set a default time format.":"デフォルトの時刻形式を設定します。","12 hours":"12時間","Hide timezone abbreviation in email, widget and dashboard.":"電子メール、ウィジェット、ダッシュボードでタイムゾーンの省略を非表示にします。","Currency format":"通貨形式","Set a default currency.":"デフォルト通貨を設定します。","Alphabets: USD / CAD / CNY":"アルファベット:USD / CAD / CNY","Duration":"期間","Set a default event duration.":"デフォルトのイベント期間を設定します。","1 hour":"1時間","Start / end time":"開始/終了時刻","Set a default start and end time.":"デフォルト起動と終了時刻を設定します。","Start time":"開始時間","End time":"終了時間","Ticket price":"チケット料金","Set a default ticket price.":"デフォルトのチケット価格を設定します。","Set a default event location.":"デフォルトのイベントの場所を設定します。","Zoom Event":"ズームイベント","Email notifications":"メール通知","Enable email notifications":"メール通知を有効にする","First reminder":"ファーストリマインダー","Enable first reminder and specify time to first reminder":"最初のリマインダーを有効にし、最初のリマインダーに時間を指定","Second reminder":"第二のリマインダー","Enable second reminder and specify time to second reminder":"2番目のリマインダーを有効にし、2番目のリマインダーに時間を指定","Finished reminder":"仕上げリマインダー","Send notification after the event has ended":"イベント終了後に通知を送信","Additional Email Notification Settings":"追加メール通知設定","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"イベントのメールアラートやリマインダーを設定できます。 スタッフの通知をスキップしたり、イベントの前に特定の時間にリマインダーメールを追加したりすることができます。","Additional reminder emails list (comma-separated)":"追加リマインダーメールリスト(コンマ区切り)","Additional reminder hours":"追加のリマインダー時間","Skip Staff Email Notification":"スタッフのメール通知をスキップ","Free":"無料","Unlimited Bookings":"無制限の予約","Widgets":"ウィジェット","Notifications":"お知らせ","Multi Booking":"複数予約","Custom Store Email":"カスタムストアメール","Recurring":"リサイクル","Multi Tickets":"マルチチケット","Premium Support":"プレミアムサポート","Email Customization":"電子メールのカスタマイズ","User Management":"ユーザー管理","Activated":"アクティブ化","Premium":"プレミアム","Activate":"アクティブ化","Enable Fast Checkout for Free Events":"無料イベントの高速チェックアウトを有効にする","Activate fast checkout to speed up the booking process for free services":"無料のサービスのための予約プロセスをスピードアップするための高速チェックアウトを有効にします","Enable Fast Checkout":"高速チェックアウトを有効にする","Skip Captcha on Fast Checkout":"Captchaを高速チェックアウトにスキップ","Activate to bypass captcha verification during fast checkout for free services.":"無料のサービスのための高速チェックアウト中にカプチャの検証をバイパスする活性化。","Skip Captcha":"スキップキャプチャ","Marketing Consent Checkbox":"マーケティングの一貫したチェックボックス","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"無料のチェックアウト時にチェックボックスを表示するために、このオプションを有効にすると、お客様はマーケティングメールやニュースレターにサインアップすることができます","Marketing Consent":"マーケティングの一貫性"}');
+
+/***/ }),
+
+/***/ "./src/locales/ko/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/ko/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0 댓글","Events":"- 연혁","Create event":"공지사항","Customize":"사용자 정의","Upcoming":"지원하다","Past":"이름 *","Zoom Events":"Zoom 이벤트","Your Events":"당신의 사건","0 Event":"0 이벤트","Enter search string":"검색 문자열","Select dates":"자주 묻는 질문","Filters":"필터링","Title":"이름 *","Date":"(주)","Time":"(주)","Location":"- 연혁","Type":"제품정보","Recurrence":"계정 관리","Status":"주요연혁","Bookings":"【특전】","Set default values for any new events to save time.":"시간을 절약 할 수있는 새로운 이벤트에 대한 기본 값을 설정합니다.","Export":"수출입","All time":"모든 시간","12 month":"12 개월","30 days":"30 일","7 days":"7 일","0 item":"0 항목","Review and manage all your event bookings here.":"모든 이벤트 예약을 검토하고 관리합니다.","Order ID":"주문 ID","Order Date/Time":"주문 날짜/시간","Registrant":"회사연혁","Event Title/Location":"이벤트 제목/위치","Occurrence":"계정 관리","Paid":"뚱 베어","Event":"(주)","Zoom meeting":"Zoom 회의","Apply":"지원하다","Integrations":"통합","Connect and manage your integrations to enhance your event management.":"통합을 연결하고 관리하여 이벤트 관리를 향상시킬 수 있습니다.","Connected":"연결하기","Calendars Integration":"달력 통합","Event Integrations":"이벤트 통합","Calendars":"한국어","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Google 캘린더 또는 Outlook으로 이벤트 일정을 동기화하여 모든 것을 알 수 있습니다.","Manage":"계정 관리","Learn More →":"더 알아보기 →","Emails Integration":"이메일 통합","Emails":"이름 *","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Google Mail 및 Microsoft Outlook을 사용하여 자동 통신, 이벤트에 적시 업데이트를 보장합니다.","Connect":"연결하기","OAuth Setup Required Before Connecting.":"연결하기 전에 OAuth 설정.","Gmail":"사이트맵","Zoom Integration":"Zoom 통합","Video Conferencing":"영상 Conferencing","Available on paid plans.":"유료 계획에서 사용할 수 있습니다.","Zoom":"주 메뉴","Stripe Integration":"Stripe 통합","Stripe":"뚱 베어","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Stripe를 통해 결제 및 티켓 판매를 직접 동기화하십시오. (활동적인 가입 계획이 필요합니다.)","Email Templates":"이메일 템플릿","Easily View, Create, and Modify Email Templates":"쉽게 보기, 만들기, 및 이메일 템플릿 수정","Save":"제품 정보","Cancel":"이름 *","Template Name":"템플릿 이름","In-person Event - Booking":"In-person 이벤트 - 예약","Email Subject":"이메일 제목","{{event_name}} - {{store_name}}":"제품 정보 - 이름","Template Parameters":"템플릿 매개 변수","Parameter":"제품 설명","Description":"이름 *","{{category_details}}":"제품 정보","Category details":"범주 세부 사항","{{category}}":"제품 정보","Category of event":"행사일정","{{custom_field_1_name}}":"{{custom_field_1_이름}}","Custom field 1 name":"주문 분야 1 이름","{{custom_field_1_value}}":"{{custom_field_1_value}}을 선택하십시오.","Custom field 1 value":"주문 분야 1 가치","{{custom_field_2_name}}":"{{custom_field_2_이름}}","Custom field 2 name":"주문 분야 2 이름","{{custom_field_2_value}}":"{{custom_field_2_value}}을 선택하십시오.","Custom field 2 value":"주문 분야 2 가치","{{customer_name}}":"제품 정보","Customer name":"고객 이름","{{date}}":"이름 *","Date of event":"행사 일정","{{event_name}}":"제품 정보","Event name":"이벤트 이름","{{location_details}}":"제품 정보","Location details":"오시는 길","{{location_hours}}":"제품 정보","Location operational hours":"위치 운영 시간","{{location}}":"제품 정보","Location of event":"행사일정","{{members_list}}":"회원정보","Event members info list":"이벤트 회원 정보 목록","{{store_email}}":"제품 정보","Store contact email":"회사소개","{{store_name}}":"제품 정보","Store name":"상점 이름","{{time}}":"제품 정보","Time of event":"행사시간","Edit Mode":"편집 모드","Rich Text":"풍부한 텍스트","HTML":"HTML 지원","Email Content":"이메일 내용","Hi {{customer_name}}, Thank you for registering!":"안녕하세요. 감사합니다!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"{{event_name}} 이벤트에 성공적으로 등록되었습니다. 이 이메일은 아래의 이벤트 세부 정보를 저장해 주십시오.","{{date}} {{time}}":"제품 정보","For any queries or to cancel booking please contact the store at {{store_email}}":"예약을 취소하거나 취소하려면 {{store_email}}에서 상점에 문의하십시오.","We look forward to seeing you.":"우리는 당신을 보고 기대합니다.","Preview":"다운로드","Subject: {{event_name}} - {{store_name}}":"제목: {{event_name}} - 이름","Analytics":"웹 사이트","View your Revenue, Registrants, Events, and Filter analytics.":"Revenue, Registrants, 이벤트 및 필터 분석 보기","Total Revenue":"총 매출","Total Registrants":"전체 등록","Events Analytics":"이벤트 Analytics","Filters Analytics":"필터 분석","Select Dates":"날짜 선택","You haven’t made any Sales yet.":"아직 판매하지 않았습니다.","Reset":"지원하다","0 Registrants":"0 등록","You don’t have any Registrants yet.":"아직 등록이 없습니다.","Active Events":"Active 이벤트","Events Happened":"이벤트 Happened","Events Cancelled":"행사 취소","You don’t have Filter Statistics yet.":"아직 필터 통계가 없습니다.","Settings":"지원하다","General":"주요사업","Reminders":"회사연혁","Billing plans":"빌링 계획","Fast Checkout":"빠른 체크 아웃","Widget Settings":"Widget 설정","Widget Translations":"Widget 번역","Time zone":"시간 영역","Set a default time zone.":"기본 시간대를 설정합니다.","US/Pacific":"미국/태평양","Time format":"시간 형식","Set a default time format.":"기본 시간 형식을 설정합니다.","12 hours":"12시간","Hide timezone abbreviation in email, widget and dashboard.":"이메일, 위젯 및 대시보드에서 timezone 약어를 숨기기.","Currency format":"통화 형식","Set a default currency.":"기본 통화를 설정합니다.","Alphabets: USD / CAD / CNY":"알파벳: USD / CAD / CNY","Duration":"이름 *","Set a default event duration.":"기본 이벤트 기간을 설정합니다.","1 hour":"1시간","Start / end time":"시작 / 종료 시간","Set a default start and end time.":"기본 시작 및 종료 시간을 설정합니다.","Start time":"시작 시간","End time":"종료 시간","Ticket price":"티켓 가격","Set a default ticket price.":"기본 티켓 가격을 설정합니다.","Set a default event location.":"기본 이벤트 위치를 설정합니다.","Zoom Event":"Zoom 이벤트","Email notifications":"이메일 알림","Enable email notifications":"이메일 알림","First reminder":"첫 번째 알림","Enable first reminder and specify time to first reminder":"첫 번째 알림을 활성화하고 첫 알림에 시간을 지정","Second reminder":"두 번째 알림","Enable second reminder and specify time to second reminder":"두 번째 알림을 활성화하고 두 번째 알림에 시간을 지정","Finished reminder":"끝마친","Send notification after the event has ended":"이벤트가 종료된 후 알림 보내기","Additional Email Notification Settings":"추가 이메일 알림 설정","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"이벤트에 대한 추가 이메일 알림 및 알림 설정. 직원 알림을 건너 뛰거나 이벤트 전 특정 시간에 알림 이메일을 추가 할 수 있습니다.","Additional reminder emails list (comma-separated)":"추가 알림 이메일 목록 (comma-separated)","Additional reminder hours":"추가 알림 시간","Skip Staff Email Notification":"자주 묻는 질문","Free":"무료 다운로드","Unlimited Bookings":"무제한 예약","Widgets":"다운로드","Notifications":"공지사항","Multi Booking":"멀티 예약","Custom Store Email":"회사 소개","Recurring":"회사연혁","Multi Tickets":"멀티 티켓","Premium Support":"Premium 지원","Email Customization":"이메일 Customization","User Management":"사용자 관리","Activated":"이름 *","Premium":"제품정보","Activate":"이름 *","Enable Fast Checkout for Free Events":"무료 이벤트에 대한 빠른 체크 아웃","Activate fast checkout to speed up the booking process for free services":"무료 서비스에 대한 예약 프로세스를 가속화 빠른 체크 아웃 활성화","Enable Fast Checkout":"빠른 체크 아웃","Skip Captcha on Fast Checkout":"빠른 체크 아웃에서 Captcha를 건너","Activate to bypass captcha verification during fast checkout for free services.":"무료 서비스에 대한 빠른 체크 아웃 중 captcha 검증을 우회합니다.","Skip Captcha":"카카오톡","Marketing Consent Checkbox":"마케팅 일관성 Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"무료 체크 아웃에서 체크 박스를 보여주기 위해이 옵션을 켜십시오. 그래서 고객은 마케팅 이메일 및 뉴스 레터에 가입 할 수 있습니다.","Marketing Consent":"마케팅 Consent"}');
+
+/***/ }),
+
+/***/ "./src/locales/ru/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/ru/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0","Events":"События","Create event":"Создать событие","Customize":"настраивать","Upcoming":"приближающийся","Past":"Прошлое","Zoom Events":"События Zoom","Your Events":"Ваши события","0 Event":"0 События","Enter search string":"Введите строку поиска","Select dates":"Выберите даты","Filters":"Фильтры","Title":"Название","Date":"Дата","Time":"Время","Location":"Расположение","Type":"Тип","Recurrence":"рецидив","Status":"статус","Bookings":"Бронирование","Set default values for any new events to save time.":"Установите значения по умолчанию для любых новых событий, чтобы сэкономить время.","Export":"экспорт","All time":"Все время","12 month":"12 месяцев","30 days":"30 дней","7 days":"7 дней","0 item":"0 пункт","Review and manage all your event bookings here.":"Просмотрите и управляйте всеми бронированиями мероприятий здесь.","Order ID":"Идентификатор заказа","Order Date/Time":"Дата/время заказа","Registrant":"регистрант","Event Title/Location":"Название / Место проведения","Occurrence":"возникновение","Paid":"Оплаченный","Event":"Событие","Zoom meeting":"Встреча Зум","Apply":"Применять","Integrations":"Интеграция","Connect and manage your integrations to enhance your event management.":"Подключайте и управляйте интеграциями, чтобы улучшить управление событиями.","Connected":"подключенный","Calendars Integration":"Интеграция календарей","Event Integrations":"Интеграция событий","Calendars":"Расписание","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"Легко синхронизируйте расписание мероприятий с Google Calendar или Outlook, чтобы держать всех в курсе.","Manage":"Управление","Learn More →":"Узнать больше →","Emails Integration":"Интеграция электронной почты","Emails":"Электронные письма","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"Автоматизация коммуникаций с помощью Google Mail и Microsoft Outlook, обеспечение своевременного обновления событий.","Connect":"Соединить","OAuth Setup Required Before Connecting.":"Требуется настройка OAuth перед подключением.","Gmail":"Gmail","Zoom Integration":"Интеграция Zoom","Video Conferencing":"Видеоконференции","Available on paid plans.":"Доступен по платным планам.","Zoom":"Зум","Stripe Integration":"Стрип-интеграция","Stripe":"полосатый","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"Синхронизируйте платежи и продажи билетов напрямую через Stripe. (Требуется активный план подписки.)","Email Templates":"Шаблоны электронной почты","Easily View, Create, and Modify Email Templates":"Легко просматривать, создавать и изменять шаблоны электронной почты","Save":"Спасти","Cancel":"отменить","Template Name":"Шаблонное имя","In-person Event - Booking":"Личное мероприятие - Бронирование","Email Subject":"Тема электронной почты","{{event_name}} - {{store_name}}":"{{событие_имя}} -{{store_name}}","Template Parameters":"Параметры шаблонов","Parameter":"Параметр","Description":"Описание","{{category_details}}":"{{Категория_детали}}","Category details":"Категория детали","{{category}}":"{{Категория}}","Category of event":"Категория события","{{custom_field_1_name}}":"{{custom_field_1_name}}","Custom field 1 name":"Пользовательское поле 1 имя","{{custom_field_1_value}}":"{{custom_field_1_value}}","Custom field 1 value":"Пользовательское поле 1 значение","{{custom_field_2_name}}":"{{custom_field_2_name}}","Custom field 2 name":"Пользовательское поле 2 имя","{{custom_field_2_value}}":"{{custom_field_2_value}}","Custom field 2 value":"Пользовательское поле 2 значение","{{customer_name}}":"{{customer_name}}","Customer name":"Имя клиента","{{date}}":"{{Дата}}","Date of event":"Дата события","{{event_name}}":"{{событие_имя}}","Event name":"Название мероприятия","{{location_details}}":"{{location_details}}","Location details":"Подробнее о местоположении","{{location_hours}}":"{{location_hours}}","Location operational hours":"Рабочие часы на месте","{{location}}":"{{местонахождение}}","Location of event":"Место проведения мероприятия","{{members_list}}":"{{members_list}}","Event members info list":"Список участников мероприятия Info List","{{store_email}}":"{{store_email}}","Store contact email":"Магазин контактной почты","{{store_name}}":"{{store_name}}","Store name":"Название магазина","{{time}}":"{{Время}}","Time of event":"Время события","Edit Mode":"Режим редактирования","Rich Text":"Богатый текст","HTML":"HTML","Email Content":"Контент электронной почты","Hi {{customer_name}}, Thank you for registering!":"Привет {{customer_name}} Спасибо за регистрацию!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"Вы успешно зарегистрировались на мероприятие {{событие_имя}} Пожалуйста, сохраните это электронное письмо для деталей мероприятия, которые приведены ниже.","{{date}} {{time}}":"{{date}} {{time}}","For any queries or to cancel booking please contact the store at {{store_email}}":"Для любых запросов или отмены бронирования, пожалуйста, свяжитесь с магазином по адресу {{store_email}}","We look forward to seeing you.":"Мы с нетерпением ждем встречи с вами.","Preview":"Предварительный просмотр","Subject: {{event_name}} - {{store_name}}":"Subject: {{событие_имя}} -{{store_name}}","Analytics":"Аналитика","View your Revenue, Registrants, Events, and Filter analytics.":"Просмотр ваших доходов, регистрантов, событий и аналитики фильтров.","Total Revenue":"Общий доход","Total Registrants":"Всего регистрантов","Events Analytics":"Аналитика событий","Filters Analytics":"Фильтры Analytics","Select Dates":"Выберите даты","You haven’t made any Sales yet.":"Вы еще не сделали никаких продаж.","Reset":"сброс","0 Registrants":"0 Регистранты","You don’t have any Registrants yet.":"У вас пока нет регистраторов.","Active Events":"Активные события","Events Happened":"Произошли события","Events Cancelled":"События отменены","You don’t have Filter Statistics yet.":"У вас пока нет статистики фильтров.","Settings":"Настройки","General":"Генерал","Reminders":"Напоминания","Billing plans":"Биллинговые планы","Fast Checkout":"Быстрая проверка","Widget Settings":"Настройки виджетов","Widget Translations":"Переводы виджетов","Time zone":"Часовой пояс","Set a default time zone.":"Установите часовой пояс по умолчанию.","US/Pacific":"США/Тихоокеанский регион","Time format":"Формат времени","Set a default time format.":"Установите формат времени по умолчанию.","12 hours":"12 часов","Hide timezone abbreviation in email, widget and dashboard.":"Скрыть аббревиатуру Timezone в электронной почте, виджете и панели инструментов.","Currency format":"Валютный формат","Set a default currency.":"Установите валюту по умолчанию.","Alphabets: USD / CAD / CNY":"Алфавиты: USD / CAD / CNY","Duration":"Продолжительность","Set a default event duration.":"Установите продолжительность события по умолчанию.","1 hour":"1 час","Start / end time":"Время начала/конца","Set a default start and end time.":"Установите время начала и окончания по умолчанию.","Start time":"Время начала","End time":"Время окончания","Ticket price":"Стоимость билета","Set a default ticket price.":"Установите цену билета по умолчанию.","Set a default event location.":"Установите место события по умолчанию.","Zoom Event":"Событие Zoom","Email notifications":"Уведомления электронной почты","Enable email notifications":"Включить уведомления по электронной почте","First reminder":"Первое напоминание","Enable first reminder and specify time to first reminder":"Включите первое напоминание и укажите время для первого напоминания.","Second reminder":"Второе напоминание","Enable second reminder and specify time to second reminder":"Включите второе напоминание и укажите время второго напоминания","Finished reminder":"Завершенное напоминание","Send notification after the event has ended":"Отправить уведомление после окончания мероприятия","Additional Email Notification Settings":"Дополнительные настройки уведомлений по электронной почте","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"Настройте дополнительные оповещения по электронной почте и напоминания о ваших событиях. Вы можете пропустить уведомления персонала или добавить электронные письма с напоминаниями в определенное время перед мероприятием.","Additional reminder emails list (comma-separated)":"Дополнительный список напоминаний по электронной почте (с раздельной запятой)","Additional reminder hours":"Дополнительные часы напоминания","Skip Staff Email Notification":"Уведомление Skip Staff Email","Free":"бесплатно","Unlimited Bookings":"Неограниченные бронирования","Widgets":"виджеты","Notifications":"Уведомления","Multi Booking":"Многократное бронирование","Custom Store Email":"Custom Store электронная почта","Recurring":"повторяющийся","Multi Tickets":"Много билетов","Premium Support":"Премиальная поддержка","Email Customization":"Настройка электронной почты","User Management":"Управление пользователями","Activated":"Активированный","Premium":"Премиум","Activate":"активировать","Enable Fast Checkout for Free Events":"Возможность быстрого оформления заказа на бесплатные мероприятия","Activate fast checkout to speed up the booking process for free services":"Активировать быстрый контроль, чтобы ускорить процесс бронирования бесплатных услуг","Enable Fast Checkout":"Включить Fast Checkout","Skip Captcha on Fast Checkout":"Skip Captcha в Fast Checkout","Activate to bypass captcha verification during fast checkout for free services.":"Активируйте для обхода проверки captcha во время быстрого оформления бесплатных услуг.","Skip Captcha":"Скип Капча","Marketing Consent Checkbox":"Маркетинговое согласие Checkbox","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"Включите эту опцию, чтобы показать флажок при бесплатном оформлении заказа, чтобы клиенты могли подписаться на маркетинговые электронные письма и информационные бюллетени","Marketing Consent":"Маркетинговое согласие"}');
+
+/***/ }),
+
+/***/ "./src/locales/zh/translation.json":
+/*!*****************************************!*\
+  !*** ./src/locales/zh/translation.json ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create event":"创建事件","Customize":"自定义","Upcoming":"即将","Past":"过去","Zoom Events":"缩放事件","Your Events":"您的事件","0 Event":"0 事件","Enter search string":"输入搜索字符串","Select dates":"选择日期","Filters":"过滤器","Title":"标题","Date":"日期","Time":"时间","Location":"地点","Type":"类型","Recurrence":"重现","Status":"状态","Bookings":"预订","Set default values for any new events to save time.":"为任何新事件设置默认值以节省时间 。","Export":"导出","All time":"永远","12 month":"12个月","30 days":"30天时间","7 days":"7天时间","0 item":"0项","Review and manage all your event bookings here.":"检查和管理您所有的活动预定。","Order ID":"顺序编号","Order Date/Time":"日期/时间","Registrant":"书记官长","Event Title/Location":"活动名称/地点","Occurrence":"发生","Paid":"已支付","Event":"活动","Zoom meeting":"缩小会议","Apply":"应用","Integrations":"整合","Connect and manage your integrations to enhance your event management.":"连接并管理您的集成,以加强事件管理.","Connected":"已连接","Calendars Integration":"日历集成","Event Integrations":"事件整合","Calendars":"日历","Sync your event schedules effortlessly with Google Calendar or Outlook to keep everyone informed.":"与 Google 日历或 Outlook 同步您的活动日程, 以便让每个人都了解情况 。","Manage":"管理","Learn More →":"学习更多","Emails Integration":"电子邮件集成","Emails":"电子邮件","Automate communications using Google Mail and Microsoft Outlook, ensuring timely updates for your events.":"使用 Google Mail 和 Microsoft Outlook 实现通信自动化,确保您事件的及时更新.","Connect":"连接","OAuth Setup Required Before Connecting.":"连接前需要 OAuth 设置 。","Gmail":"邮件","Zoom Integration":"缩放整合","Video Conferencing":"视频配置","Available on paid plans.":"带薪计划可用。","Zoom":"缩放","Stripe Integration":"条纹融合","Stripe":"条纹","Sync your payments and ticket sales directly via Stripe. (Requires an active subscription plan.)":"直接通过Frede同步支付和售票. (需要主动订阅计划.","Email Templates":"电子邮件模板","Easily View, Create, and Modify Email Templates":"轻松查看、创建和修改电子邮件模板","Save":"保存","Cancel":"取消","Template Name":"模板名称","In-person Event - Booking":"亲自活动- 预订","Email Subject":"电子邮件主题","{{event_name}} - {{store_name}}":"活动(_V) - [ 店 名 ]","Template Parameters":"模板参数","Parameter":"参数","Description":"说明","{{category_details}}":"分类_详细_____________________","Category details":"类别详情","{{category}}":"{{类 }}类","Category of event":"事件类别","{{custom_field_1_name}}":"习惯_ 字段_ 1_ 名称_ {}","Custom field 1 name":"自定义字段 1 名称","{{custom_field_1_value}}":"==============================================================================================================================================================================","Custom field 1 value":"自定义字段 1 值","{{custom_field_2_name}}":"用户名(_C)","Custom field 2 name":"自定义字段 2 名称","{{custom_field_2_value}}":"常规(_F):","Custom field 2 value":"自定义字段 2 值","{{customer_name}}":"用户名","Customer name":"客户名","{{date}}":"约会","Date of event":"活动日期","{{event_name}}":"活动(_V)","Event name":"事件名称","{{location_details}}":"位置 _ 细节 _","Location details":"地点详情","{{location_hours}}":"地点_小时_","Location operational hours":"地点运行时数","{{location}}":"地点","Location of event":"活动地点","{{members_list}}":"成员列表(_L)","Event members info list":"活动成员信息清单","{{store_email}}":"QQstore_电子邮件QQ","Store contact email":"存储联系人电子邮件","{{store_name}}":"\\\\\\\\\\\\ 商店_名称\\\\ \\\\ \\\\","Store name":"存储名称","{{time}}":"时间","Time of event":"活动时间","Edit Mode":"编辑模式","Rich Text":"丰富文本","HTML":"HTML 语句","Email Content":"电子邮件内容","Hi {{customer_name}}, Thank you for registering!":"嗨,顾客。 谢谢你的注册!","You have been successfully registered to the {{event_name}} event. Please save this email for the event details which are given below":"您已成功注册到 QQevent_ name_ 活动 。 请保存此邮件, 以获取以下事件的细节","{{date}} {{time}}":"时间","For any queries or to cancel booking please contact the store at {{store_email}}":"任何查询或取消预订,请联系QQstore_email_QX商店","We look forward to seeing you.":"我们期待着见到你。","Preview":"预览","Subject: {{event_name}} - {{store_name}}":"主题: 活动_名称__ - [ 店 名 ]","Analytics":"分析","View your Revenue, Registrants, Events, and Filter analytics.":"查看您的收入、登记人、事件和过滤分析。","Total Revenue":"收入共计","Total Registrants":"书记官长共计","Events Analytics":"事件分析","Filters Analytics":"过滤分析","Select Dates":"选择日期","You haven’t made any Sales yet.":"你还没有做任何销售。","Reset":"重设","0 Registrants":"0名书记官长","You don’t have any Registrants yet.":"你们还没有登记员。","Active Events":"活动活动","Events Happened":"发生的事件","Events Cancelled":"已取消的事件","You don’t have Filter Statistics yet.":"您还没有过滤统计 。","Settings":"设置","General":"常规","Reminders":"提醒","Billing plans":"计费计划","Fast Checkout":"快速检出","Widget Settings":"部件设置","Widget Translations":"部件翻译","Time zone":"时区","Set a default time zone.":"设定默认时区 。","US/Pacific":"美国/ 太平洋","Time format":"时间格式","Set a default time format.":"设置默认的时间格式 。","12 hours":"12小时","Hide timezone abbreviation in email, widget and dashboard.":"在电子邮件、部件和仪表板中隐藏时区缩写 。","Currency format":"货币格式","Set a default currency.":"设定默认货币 。","Alphabets: USD / CAD / CNY":"字母顺序:美元/CAD/纽约市","Duration":"会期","Set a default event duration.":"设定默认事件持续时间 。","1 hour":"1小时","Start / end time":"开始/ 结束时间","Set a default start and end time.":"设定默认的开始和结束时间 。","Start time":"开始时间","End time":"结束时间","Ticket price":"车票价格","Set a default ticket price.":"设定违约票价.","Set a default event location.":"设置默认事件位置 。","Zoom Event":"缩放事件","Email notifications":"电子邮件通知","Enable email notifications":"启用电子邮件通知","First reminder":"第一次提醒","Enable first reminder and specify time to first reminder":"启用第一次提醒并指定第一次提醒的时间","Second reminder":"第二次提醒","Enable second reminder and specify time to second reminder":"启用第二次提醒并指定第二次提醒的时间","Finished reminder":"已完成提醒","Send notification after the event has ended":"事件结束后发送通知","Additional Email Notification Settings":"其它电子邮件通知设置","Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event":"为您的事件设置额外的电子邮件提醒和提醒 。 您可以选择跳过员工通知或在事件前的特定时间添加提醒邮件","Additional reminder emails list (comma-separated)":"额外的提醒邮件列表( comma- 分隔)","Additional reminder hours":"其他提醒时间","Skip Staff Email Notification":"跳过工作人员电子邮件通知","Free":"免费","Unlimited Bookings":"无限制的预订","Widgets":"部件","Notifications":"通知","Multi Booking":"多种预订","Custom Store Email":"自定义存储电子邮件","Recurring":"经常性","Multi Tickets":"多张票","Premium Support":"ium支持","Email Customization":"电子邮件自定义","User Management":"用户管理","Activated":"已激活","Premium":"ium","Activate":"启动","Enable Fast Checkout for Free Events":"启用自由事件快速检出","Activate fast checkout to speed up the booking process for free services":"启动快速报到以加快免费服务的预订进程","Enable Fast Checkout":"启用快速检出","Skip Captcha on Fast Checkout":"快速检出时跳过Captcha","Activate to bypass captcha verification during fast checkout for free services.":"激活在快速检查免费服务时绕过Captcha验证.","Skip Captcha":"跳过队长","Marketing Consent Checkbox":"营销同意复选框","Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters":"打开此选项在免费退票时显示一个复选框, 这样客户可以报名销售电子邮件和通讯","Marketing Consent":"营销同意"}');
 
 /***/ })
 

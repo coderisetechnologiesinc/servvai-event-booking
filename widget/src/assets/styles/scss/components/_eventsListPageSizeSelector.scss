@@ -3,14 +3,21 @@
   .svv-events-list-page-size-selector {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    gap: 3.5px;
+    // margin-bottom: 5px;
     margin-left: 5px;
+    border: 1px solid $svv-elements-border;
+    border-radius: 10.5px;
+    box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+      0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    height: 31.5px;
+    padding: 0 4.5px;
 
     .svv-events-list-page-size-selector-item {
-      border: 1px solid $svv_text_border_gray;
+      // border: 1px solid $svv_text_border_gray;
       transition: $global-transition;
-      width: 28px;
-      height: 28px;
+      width: 38px;
+      height: 24.5px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,24 +27,29 @@
 
       &:hover {
         transition: $global-transition;
-        color: $svv-orange_dark;
+        fill: $svv-text-hover-color;
+        background: $svv-elements-background-color;
+        border-radius: 7px;
+        color: $svv-text-hover-color;
       }
 
       &:first-of-type {
-        border-bottom-left-radius: 3px;
-        border-top-left-radius: 3px;
+        // border-bottom-left-radius: 3px;
+        // border-top-left-radius: 3px;
         margin-right: -1px;
       }
       &:last-of-type {
-        border-bottom-right-radius: 3px;
-        border-top-right-radius: 3px;
+        // border-bottom-right-radius: 3px;
+        // border-top-right-radius: 3px;
         margin-left: -1px;
       }
     }
 
     .svv-active-page-size {
-      font-weight: 500;
-      color: $svv-blue_dark;
+      font-weight: 600;
+      border-radius: 8.5px;
+      background: $svv-brand-secondary;
+      color: $svv-brand-primary;
     }
   }
 }

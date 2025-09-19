@@ -8,7 +8,7 @@
         : '',
     ]"
   >
-    <div
+    <!-- <div
       v-if="
         widgetSettings.widget_style_settings.show_events_list_separator_badge &&
         event.separator_label &&
@@ -18,28 +18,31 @@
       class="svv-events-group-separator-label"
     >
       {{ event.separator_label }}
-    </div>
+    </div> -->
     <div class="soc-sharing-buttons-container" v-if="showSharingControls">
-      <div class="soc-sharing-buttons-inner-container">
-        <a
-          @click.prevent="() => (showSharingControls = false)"
-          class="close-share-controls"
-          href="#"
-        >
-          <CloseIcon />
-        </a>
-        <div class="sharing-section-title">
-          {{ $t("mainWidget.shareEventPanelTitle") }}
-        </div>
-        <div class="controls-container">
-          <SocialSharingButtons
-            :product-title="event.topic"
-            :product-url="productUrl"
-            :product-image="eventImage"
-          />
-        </div>
-      </div>
+      <SharingModal
+        :visible="showSharingControls"
+        :image="eventImage"
+        :date="eventDateFormatted"
+        :time="eventTimeFormatted + ' ' + eventDateTime.timeZone"
+        :title="event.topic"
+        :description="
+          truncateString(
+            event.agenda,
+            widgetSettings.widget_style_settings
+              .ew_card_description_display_words_limit
+          )
+        "
+        :link="productUrl"
+        :location="getLocation"
+        :language="getLanguage"
+        :onClose="onOpenSharingControlsClick"
+      />
     </div>
+    <!-- <div class="soc-sharing-buttons-inner-container">
+   
+        
+    </div> -->
     <div
       class="svv-event-image-container"
       v-if="widgetSettings.widget_style_settings.show_event_images"
@@ -59,7 +62,14 @@
         }"
       ></a>
     </div>
-    <div :class="['svv-event-details-container']">
+    <div
+      :class="['svv-event-details-container']"
+      :style="
+        !widgetSettings.widget_style_settings.show_event_images
+          ? { paddingLeft: '20px' }
+          : {}
+      "
+    >
       <div class="svv-event-main-info-outer-container" v-if="!isBundlePage">
         <a
           v-if="widgetSettings.widget_style_settings.show_event_images"
@@ -71,33 +81,6 @@
           }"
         ></a>
         <div class="svv-event-main-info-container">
-          <div class="svv-event-datetime" v-show="!isBundlePage">
-            <span v-if="!isBundlePage">{{ eventDateFormatted }} </span>
-            <div
-              class="item-provider-label mobile"
-              v-if="
-                event.provider &&
-                !widgetSettings.widget_style_settings.ew_show_event_type_badge
-              "
-              :class="{
-                zoom: event.provider === 'zoom',
-                offline: event.provider === 'offline',
-              }"
-            >
-              <div class="label-value">
-                {{ eventProviderLabel }}
-              </div>
-            </div>
-            <a
-              v-if="!!event.product"
-              href="#"
-              class="svv-social-share-btn"
-              @click.prevent="onOpenSharingControlsClick"
-            >
-              <ShareIcon />
-            </a>
-          </div>
-
           <div class="svv-event-topic" v-show="!isBundlePage">
             <a href="#" @click.prevent="() => onEventClick(event)">{{
               event.topic
@@ -106,7 +89,7 @@
               class="item-provider-label"
               v-if="
                 event.provider &&
-                !widgetSettings.widget_style_settings.ew_show_event_type_badge
+                  widgetSettings.widget_style_settings.ew_show_event_type_badge
               "
               :class="{
                 zoom: event.provider === 'zoom',
@@ -118,6 +101,25 @@
               </div>
             </div>
           </div>
+          <div class="svv-event-datetime" v-show="!isBundlePage">
+            <span v-if="!isBundlePage">{{ eventDateFormatted }} </span>
+            <div
+              class="item-provider-label mobile"
+              v-if="
+                event.provider &&
+                  widgetSettings.widget_style_settings.ew_show_event_type_badge
+              "
+              :class="{
+                zoom: event.provider === 'zoom',
+                offline: event.provider === 'offline',
+              }"
+            >
+              <div class="label-value">
+                {{ eventProviderLabel }}
+              </div>
+            </div>
+          </div>
+
           <div class="svv-event-short-description">
             {{
               truncateString(
@@ -235,7 +237,7 @@
     </div>
     <div class="svv-purchase-controls-container" v-if="!isBundlePage">
       <div class="svv-event-controls">
-        <a
+        <!-- <a
           v-if="
             event.product.current_quantity === null ||
             (event.product.current_quantity &&
@@ -252,7 +254,34 @@
                 : onBookEventClick(e, event)
           "
         >
-          <!--          <AddCartIcon />-->
+
+          {{
+            !event.is_live_shopping
+              ? $t("mainWidget.eventAddToCartButtonLabel")
+              : $t("mainWidget.liveShoppingJoinButtonLabel")
+          }}
+        </a> -->
+        <a
+          v-if="!!event.product"
+          href="#"
+          class="svv-social-share-btn"
+          @click.prevent="onOpenSharingControlsClick"
+        >
+          <ShareIcon />
+        </a>
+        <a
+          v-if="true"
+          href="#"
+          class="svv-add-to-cart-btn"
+          @click="
+            (e) =>
+              widgetSettings.widget_style_settings
+                .ew_redirect_to_product_page ||
+              (widgetSettings.free_events_skip_checkout && eventPrice === 0)
+                ? onEventClick(event)
+                : onBookEventClick(e, event)
+          "
+        >
           {{
             !event.is_live_shopping
               ? $t("mainWidget.eventAddToCartButtonLabel")
@@ -283,7 +312,7 @@
         v-if="!event.is_live_shopping && !isBundlePage"
         class="svv-event-price"
       >
-        <span
+        <!-- <span
           v-if="
             eventPrice &&
             (event.product.current_quantity === null ||
@@ -313,7 +342,7 @@
           "
           class="svv-event-quantity"
           >{{ eventQuantity }}</span
-        >
+        > -->
       </div>
       <LiveShoppingEventStartCountdown
         v-if="event.is_live_shopping"
@@ -336,7 +365,7 @@ import LevelIcon from "@/assets/images/icons/level.svg";
 import LocationIcon from "@/assets/images/icons/location.svg";
 import MembersIcon from "@/assets/images/icons/members.svg";
 import CloseIcon from "@/assets/images/icons/close.svg";
-
+import SharingModal from "@/components/Event/SharingModal";
 import has from "lodash.has";
 import moment from "moment-timezone";
 import {
@@ -361,6 +390,7 @@ export default {
     CloseIcon,
     SocialSharingButtons,
     LiveShoppingEventStartCountdown,
+    SharingModal,
   },
   props: {
     event: {
@@ -488,6 +518,32 @@ export default {
         return "";
       else return "";
     },
+    getLanguage() {
+      let language = this.eventTypesList.filter(
+        (t) => t && t.typeName === "language"
+      );
+      let isFilterAllowed = this.eventTypesList.filter(
+        (x) => !this.displayedFilters.includes(language[0].typeName)
+      );
+      if (language.length > 0 && isFilterAllowed) {
+        return language[0].value;
+      } else {
+        return "";
+      }
+    },
+    getLocation() {
+      let location = this.eventTypesList.filter(
+        (t) => t && t.typeName === "location"
+      );
+      let isFilterAllowed = this.eventTypesList.filter(
+        (x) => !this.displayedFilters.includes(location[0].typeName)
+      );
+      if (location.length > 0 && isFilterAllowed) {
+        return location[0].value;
+      } else {
+        return "";
+      }
+    },
   },
   methods: {
     getDurationDecorated,
@@ -522,7 +578,9 @@ export default {
                 .tz(event.timezone)
                 ._z.offsets.indexOf(
                   Math.abs(
-                    moment(event.start_time).tz(event.timezone).utcOffset()
+                    moment(event.start_time)
+                      .tz(event.timezone)
+                      .utcOffset()
                   )
                 )
             ]

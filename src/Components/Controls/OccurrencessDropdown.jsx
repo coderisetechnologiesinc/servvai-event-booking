@@ -1,4 +1,8 @@
-import { CalendarDaysIcon, CheckIcon } from "@heroicons/react/16/solid";
+import {
+  CalendarDaysIcon,
+  CheckIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/16/solid";
 import { useState, Fragment } from "react";
 const OccurrencessDropdown = ({ options, selected, onSelectChange }) => {
   const [active, setActive] = useState(false);
@@ -14,7 +18,10 @@ const OccurrencessDropdown = ({ options, selected, onSelectChange }) => {
             <a
               key={option}
               className={`flex items-center px-2 py-1 no-underline cursor-pointer`}
-              onClick={(e) => handleOptionSelect(e, option)}
+              onClick={(e) => {
+                handleOptionSelect(e, option);
+                setActive(false);
+              }}
             >
               {selected === option ? (
                 <CheckIcon className="w-4 mr-2" />
@@ -40,6 +47,7 @@ const OccurrencessDropdown = ({ options, selected, onSelectChange }) => {
       >
         <CalendarDaysIcon className="w-4" />
         <span>{selected}</span>
+        <ChevronDownIcon className="w-6" />
       </button>
       {active && renderOptions()}
     </div>

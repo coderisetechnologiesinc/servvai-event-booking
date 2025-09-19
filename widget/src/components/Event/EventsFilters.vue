@@ -5,6 +5,20 @@
       'active-filter': isParametersFilterActive,
     }"
   >
+    <div class="filters-header">
+      <div class="svv-plain-list-container-title" v-show="true">
+        {{ $t("mainWidget.eventsListTitle") }}
+      </div>
+      <div class="events-filters-controls">
+        <a
+          class="cleat-all-filters"
+          href="#"
+          @click.prevent="onClearAllFilters"
+        >
+          <CloseIcon /><span>{{ $t("mainWidget.clearFiltersLabel") }}</span></a
+        >
+      </div>
+    </div>
     <div class="events-filters-inner-container" v-show="isFiltersPanelVisible">
       <div class="svv-mobile-filters-section-header">
         <a
@@ -16,14 +30,7 @@
         </a>
       </div>
       <div class="events-filters-controls-wrapper">
-        <div
-          class="events-filters-selects-wrapper"
-          v-if="
-            !widgetSettings.widget_style_settings.ew_show_top_filters &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'progressive'
-          "
-        >
+        <div class="events-filters-selects-wrapper" v-if="true">
           <div
             v-if="
               widgetSettings.widget_style_settings.available_filters.indexOf(
@@ -44,7 +51,7 @@
               @input="(val) => onFilterSelectChange(val, 'team')"
             />
           </div>
-          <div v-else></div>
+          <!-- <div v-else></div> -->
 
           <div
             v-if="
@@ -70,15 +77,15 @@
               @input="(val) => onFilterSelectChange(val, 'member')"
             />
           </div>
-          <div v-else></div>
+          <!-- <div v-else></div> -->
 
           <div
             v-if="
               widgetSettings.widget_style_settings.available_filters.indexOf(
                 'categories'
               ) >= 0 &&
-              typeListCategories.length > 0 &&
-              !isCategoryAutoSelected
+                typeListCategories.length > 0 &&
+                !isCategoryAutoSelected
             "
             class="event-filter-container"
           >
@@ -98,7 +105,7 @@
               @input="(val) => onFilterSelectChange(val, 'category')"
             />
           </div>
-          <div v-else></div>
+          <!-- <div v-else></div> -->
 
           <div
             v-if="
@@ -124,7 +131,7 @@
               @input="(val) => onFilterSelectChange(val, 'language')"
             />
           </div>
-          <div v-else></div>
+          <!-- <div v-else></div> -->
 
           <div
             v-if="
@@ -150,7 +157,7 @@
               @input="(val) => onFilterSelectChange(val, 'location')"
             />
           </div>
-          <div v-else></div>
+          <!-- <div v-else></div> -->
         </div>
         <EventsFiltersMultiSelect
           v-if="
@@ -158,18 +165,6 @@
               'progressive' && windowSize !== 'mobile'
           "
         />
-
-        <div class="events-filters-controls">
-          <a
-            class="cleat-all-filters"
-            href="#"
-            @click.prevent="onClearAllFilters"
-          >
-            <TrashIcon /><span>{{
-              $t("mainWidget.clearFiltersLabel")
-            }}</span></a
-          >
-        </div>
       </div>
     </div>
   </div>
@@ -232,6 +227,9 @@ export default {
     },
   },
   watch: {
+    // widgetSettings(newVal) {
+
+    // },
     eventTypes(newVal) {
       // if (newVal.categories && newVal.categories.length > 0) {
       //   const link = window.location.href.split('/');
@@ -257,6 +255,9 @@ export default {
       // }
     },
   },
+  // mounted() {
+  //   console.log(this.widgetSettings.widget_style_settings.available_filters);
+  // },
   methods: {
     ...mapActions({
       parseSearchRequest: "search/parseSearchRequest",

@@ -1,3 +1,609 @@
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/Components/Layout/Layout.css ***!
+  \**************************************************************************************************************************************************************************************/
+/* ──────────────────────────────────────────────────────────────────────────
+   Layout.css (Updated: no vertical divider, full-width table, mobile/card)
+   Paste this over your existing Layout.css
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ----------------------------------------
+   1) Base layout: Sidebar & Content Area
+---------------------------------------- */
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar: remove vertical separator */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;       /* desktop width */
+  height: 100vh;
+  background: #ffffff;
+  z-index: 20;
+  overflow: auto;
+}
+
+/* Collapsed sidebar state (if used) */
+.collapsed-sidebar {
+  width: 70px;
+}
+
+/* Overlay that appears on mobile if sidebar toggled */
+.sidebar-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+/* Main content area: NO left border between sidebar and content */
+.content-area {
+  flex: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+/* ----------------------------------------
+   2) Utility classes (pills, buttons, hover states)
+---------------------------------------- */
+
+/* PageActionButton hover/active states */
+.page-action-button:hover {
+  background-color: #f3f4f6;
+}
+.page-action-button:active {
+  background-color: #e5e7eb;
+}
+
+/* Pills (Type, Recurrence, Status) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem; /* 4px top/bottom, 8px left/right */
+  font-size: 0.75rem;      /* 12px */
+  font-weight: 500;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+.pill-gray {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+.pill-purple {
+  background-color: #f5f3ff;
+  color: #7c3aed;
+}
+.pill-green {
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+.pill-yellow {
+  background-color: #fef3c7;
+  color: #ca8a04;
+}
+
+/* Progress bar for "Tickets sold" */
+.progress-container {
+  width: 100%;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  height: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  background-color: #7c3aed;
+  height: 100%;
+  border-radius: 9999px;
+}
+
+/* Utility blur (if used) */
+.blur-sm {
+  filter: blur(4px);
+}
+
+/* ----------------------------------------
+   3) Filters Dropdown (Desktop + Mobile)
+---------------------------------------- */
+
+/* Common dropdown panel */
+.filters-dropdown,
+.filter-table-dropdown {
+  position: absolute;
+  right: 0.5rem;
+  z-index: 50;
+  min-width: 200px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-top: 0.25rem;
+  padding: 0.5rem 0;
+}
+
+/* Header inside dropdown */
+.filter-table-dropdown .dropdown-header,
+.filters-dropdown .dropdown-header {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Description text inside dropdown */
+.filter-table-dropdown .dropdown-description {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Actions inside desktop dropdown */
+.filter-table-dropdown .dropdown-actions {
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.filter-table-dropdown .dropdown-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #1f2937;
+  white-space: nowrap;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.filter-table-dropdown .dropdown-action:hover {
+  background-color: #f3f4f6;
+  color: #7c3aed;
+}
+
+/* Icon for delete in dropdown */
+.dropdown-icon-critical {
+  color: #dc2626;
+}
+
+/* Mobile-only filter panel (under funnel icon) */
+.filters-dropdown {
+  top: 3.5rem;   /* adjust if header is taller */
+  right: 1rem;
+  padding: 1rem;
+}
+.filters-dropdown .collapsible-section {
+  margin-bottom: 0.5rem;
+}
+/* "Apply" button in mobile filters */
+.filters-dropdown .apply-button {
+  margin-top: 0.75rem;
+  width: 100%;
+  background-color: #7c3aed;
+  color: #ffffff;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* ----------------------------------------
+   4) Table Container & Full-Width Table - FIXED FOR DESKTOP
+---------------------------------------- */
+
+/* Wrapping <div> around your table */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+/* CRITICAL FIX: Ensure table takes full width on desktop */
+@media (min-width: 768px) {
+  .table-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: visible; /* Remove horizontal scroll on desktop */
+  }
+}
+
+/* The <table> itself - CRITICAL FIXES */
+.table-container table {
+  width: 100%;
+  min-width: 100%;
+  table-layout: auto; /* Changed back to auto for better column distribution */
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: #ffffff;
+}
+
+/* DESKTOP SPECIFIC: Ensure table spans full width */
+@media (min-width: 768px) {
+  .table-container table {
+    width: 100% !important;
+    min-width: 100% !important;
+    table-layout: fixed; /* Fixed layout for consistent column widths on desktop */
+  }
+}
+
+/* Table header cells (<th>) - FIXED BACKGROUND COVERAGE */
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f9fafb !important;
+  color: #374151;
+  font-weight: 600;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  box-sizing: border-box;
+  width: auto;
+}
+
+/* DESKTOP SPECIFIC: Better column width distribution */
+@media (min-width: 768px) {
+  .table-container thead th {
+    width: auto;
+    min-width: 0;
+  }
+  
+  /* Specific column widths for better distribution */
+  .table-container thead th:nth-child(1) { width: 50px; } /* Checkbox */
+  .table-container thead th:nth-child(2) { width: 25%; }  /* Title */
+  .table-container thead th:nth-child(3) { width: 15%; }  /* Date */
+  .table-container thead th:nth-child(4) { width: 15%; }  /* Time */
+  .table-container thead th:nth-child(5) { width: 15%; }  /* Location */
+  .table-container thead th:nth-child(6) { width: 10%; }  /* Type */
+  .table-container thead th:nth-child(7) { width: 10%; }  /* Recurrence */
+  .table-container thead th:nth-child(8) { width: 10%; }  /* Status */
+  .table-container thead th:nth-child(9) { width: 50px; } /* Actions */
+}
+
+/* Ensure the last header cell extends to the edge */
+.table-container thead th:last-child {
+  border-right: none;
+  background-color: #f9fafb !important;
+  padding-right: 16px;
+}
+
+/* Table header row - ensure full width coverage */
+.table-container thead tr {
+  width: 100%;
+  background-color: #f9fafb !important;
+  display: table-row;
+}
+
+/* Table data cells (<td>) */
+.table-container tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 0.875rem;
+  vertical-align: middle;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.table-container tbody tr td:last-child {
+  border-right: none;
+  padding-right: 16px;
+}
+
+/* Hover state for rows */
+.table-container tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Sticky first column (checkbox) */
+.sticky-left-col {
+  position: sticky;
+  left: 0;
+  background: #ffffff;
+  z-index: 5;
+  box-shadow: 2px 0 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Sticky first column header - ensure grey background */
+.table-container thead th.sticky-left-col {
+  background-color: #f9fafb !important;
+  z-index: 6;
+}
+
+/* Sticky last column (action) */
+.sticky-right-col {
+  position: sticky;
+  right: 0;
+  background: #ffffff;
+  z-index: 5;
+  box-shadow: -2px 0 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Sticky last column header - ensure grey background */
+.table-container thead th.sticky-right-col {
+  background-color: #f9fafb !important;
+  z-index: 6;
+}
+
+/* ----------------------------------------
+   5) Mobile card styling (<768px)
+---------------------------------------- */
+
+/* Single-row card styling */
+.mobile-event-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Content (title + date) inside card */
+.mobile-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Title inside mobile card */
+.mobile-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mobile-card-title:hover {
+  overflow: visible;
+  white-space: normal;
+}
+
+/* Date/icon line under title */
+.mobile-card-info {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Action icons on the right side of each mobile card */
+.mobile-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Hide columns on mobile if needed */
+.hide-on-mobile {
+  display: none !important;
+}
+
+/* ----------------------------------------
+   6) Enhanced Mobile Event Row Styling
+---------------------------------------- */
+.mobile-event-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  transition: background-color 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.mobile-event-row:hover {
+  background-color: #f9fafb;
+}
+
+.mobile-event-row:last-child {
+  border-bottom: none;
+}
+
+/* Mobile card title styling */
+.mobile-card-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 180px;
+}
+
+/* Mobile card date styling */
+.mobile-card-date {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  white-space: nowrap;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+/* Mobile card actions styling */
+.mobile-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+.mobile-card-actions button {
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-card-actions button:hover {
+  background-color: #f3f4f6;
+}
+
+.mobile-card-actions button:active {
+  transform: scale(0.95);
+}
+
+/* ----------------------------------------
+   7) Responsive breakpoints
+---------------------------------------- */
+@media (max-width: 767px) {
+  .filter-table-headings, .table-row th { display: none !important; }
+  .table-row, .filter-table-headings { display: none !important; }
+  .mobile-event-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fff;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    min-height: 64px;
+  }
+  .mobile-event-title { font-weight: 600; font-size: 1rem; }
+  .mobile-event-date { color: #7c3aed; font-size: 0.95rem; }
+  .mobile-event-actions { min-width: 44px; min-height: 44px; }
+  .mobile-event-details {
+    position: absolute;
+    left: 0; right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    background: #f9fafb;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(63,61,86,0.07);
+  }
+  .mobile-event-details .mobile-event-actions-row button {
+    margin-right: 0.5rem;
+    min-width: 44px; min-height: 44px;
+  }
+  .mobile-header-actions button { min-width: 44px; min-height: 44px; }
+  .mobile-tabs {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #fff;
+    z-index: 10;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .mobile-tab-btn {
+    flex: 1;
+    padding: 0.75rem 0;
+    text-align: center;
+    font-size: 1rem;
+    color: #7c3aed;
+    background: none;
+    border: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet: adjust sidebar width */
+  .sidebar {
+    width: 200px;
+  }
+  .collapsed-sidebar {
+    width: 70px;
+  }
+
+  /* Hide columns marked .hide-on-tablet */
+  .hide-on-tablet {
+    display: none !important;
+  }
+}
+
+/* ----------------------------------------
+   8) Event Timeline & Header Styling
+---------------------------------------- */
+.event-timeline-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.event-count-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.event-timeline-toggle {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* ----------------------------------------
+   9) Enhanced Typography
+---------------------------------------- */
+.events-main-heading {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.events-subheading {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.events-main-heading-mobile {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ----------------------------------------
+   10) Page Action Button Enhancements
+---------------------------------------- */
+.page-action-button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+.page-action-button.secondary {
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #374151;
+}
+
+.page-action-button.secondary:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.page-action-button:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #a855f7;
+  ring-opacity: 0.5;
+}
 /*!********************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/quill/dist/quill.core.css ***!
   \********************************************************************************************************************************************************************************************/

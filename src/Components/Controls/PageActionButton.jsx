@@ -3,26 +3,32 @@ const PageActionButton = ({
   text,
   icon,
   type,
-  customStyle,
-  hidden = false,
-  onAction = () => {},
-  slim = false,
-  justify = null,
-  disabled,
+  onAction,
+  disabled = false,
+  className = "",
+  style = {},
 }) => {
   return (
     <button
-      className={`page-action-button ${type === "primary" ? "primary" : ""}${
-        hidden ? "opacity-0" : ""
-      } ${slim ? "px-1 py-0.5" : "p-2"} ${customStyle ? customStyle : ""} ${
-        justify ? justify : ""
-      }`}
       onClick={onAction}
       disabled={disabled}
+      className={`
+        flex items-center justify-center px-4 py-2 rounded-lg
+        font-medium text-sm transition-colors duration-200
+        ${
+          type === "primary"
+            ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200"
+            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"
+        }
+        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${className}
+      `}
+      style={{ fontFamily: "'Inter', sans-serif", ...style }}
     >
-      {icon && icon}
+      {icon && <span className="mr-2">{icon}</span>}
       {text}
     </button>
   );
 };
+
 export default PageActionButton;

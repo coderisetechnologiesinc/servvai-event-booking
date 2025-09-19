@@ -12,9 +12,16 @@ module.exports = {
     "items-center",
     "mr-2",
     "gap-8",
+    "md:max-w-[65%]",
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Inter"],
+      },
+      blur: {
+        sm: "4px",
+      },
       spacing: {
         0: "0rem",
         0.5: "0.125rem",

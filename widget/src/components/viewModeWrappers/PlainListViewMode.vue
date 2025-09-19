@@ -43,24 +43,24 @@
         }"
         v-if="openItemsList === 'events' && pageSize !== 1"
       >
-        <div
+        <!-- <div
           class="show-desktop-calendar-btn"
           :class="{ active: openDesktopCalendar }"
           @click="onShowDesktopCalendarClick"
           v-if="
             widgetSettings.widget_style_settings.show_calendar &&
-              !widgetSettings.widget_style_settings.permanently_open_calendar &&
-              widgetSettings.widget_style_settings.ew_events_list_view !==
-                'category' &&
-              !isBundlePage &&
-              !widgetSettings.widget_style_settings.ew_show_top_filters
+            !widgetSettings.widget_style_settings.permanently_open_calendar &&
+            widgetSettings.widget_style_settings.ew_events_list_view !==
+              'category' &&
+            !isBundlePage &&
+            !widgetSettings.widget_style_settings.ew_show_top_filters
           "
         >
           <div class="show-calendar-btn-label">
             {{ $t("globalWidgetsTranslations.calendarLabel") }}
           </div>
           <CalendarIcon class="show-calendar-btn-icon" />
-        </div>
+        </div> -->
       </div>
       <!--      <SearchPanel-->
       <!--        v-if="openItemsList === 'events'"-->
@@ -79,12 +79,12 @@
             !collectionsMode
         "
       /> -->
-      <div
+      <!-- <div
         class="svv-plain-list-container-title"
         v-show="
           widgetSettings.widget_style_settings.show_widget_title &&
-            !isBundlePage &&
-            pageSize !== 1
+          !isBundlePage &&
+          pageSize !== 1
         "
       >
         {{
@@ -92,7 +92,7 @@
             ? $t("mainWidget.eventsListTitle")
             : $t("mainWidget.bundlesListTitle")
         }}
-      </div>
+      </div> -->
     </div>
 
     <div
@@ -116,6 +116,7 @@
         }"
         v-if="
           widgetSettings.widget_style_settings.show_calendar &&
+            widgetSettings.widget_style_settings.permanently_open_calendar &&
             widgetSettings.widget_style_settings.ew_events_list_view !==
               'category' &&
             widgetSettings.widget_style_settings.ew_events_list_view !==
@@ -183,22 +184,23 @@
         class="svv-mobile-panel-wrapper svv-mobile-calendar-panel"
         :class="{ 'open-mobile-calendar': openMobileCalendar }"
       >
-        <EventsCalendar />
+        <!-- <EventsCalendar /> -->
       </div>
+      <div class="svv-mobile-filters-overlay" v-if="openMobileFilters"></div>
       <div
         v-if="openItemsList === 'events'"
         class="svv-mobile-panel-wrapper svv-mobile-filters-panel"
         :class="{ 'open-mobile-filters': openMobileFilters }"
       >
-        <!-- <EventsFilters /> -->
-        <EventsFiltersMultiSelectSection
+        <EventsFilters />
+        <!-- <EventsFiltersMultiSelectSection
           v-if="
             widgetSettings.widget_style_settings.ew_events_list_view !==
               'category' &&
               !isBundlePage &&
               pageSize !== 1
           "
-        />
+        /> -->
       </div>
     </MountingPortal>
   </div>

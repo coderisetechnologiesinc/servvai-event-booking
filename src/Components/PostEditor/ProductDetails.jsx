@@ -3,7 +3,7 @@ import InputFieldControl from "../Controls/InputFieldControl";
 import BlockStack from "../Containers/BlockStack";
 import ButtonGroup from "../Controls/ButtonGroup";
 import Badge from "../Containers/Badge";
-import { PlusCircleIcon } from "@heroicons/react/16/solid";
+// import { PlusCircleIcon } from "@heroicons/react/16/solid";
 
 const ProductDetails = ({
   productDetails,
@@ -19,6 +19,18 @@ const ProductDetails = ({
   const handleTicketTypeChange = (newValue) => {
     setSelectedTicketType(newValue);
   };
+
+  const changeQuantity = (val) => {
+    // console.log(val);
+    if (isNaN(Number.parseInt(val))) handleDetailsChange("quantity", 0);
+    else
+      handleDetailsChange(
+        "quantity",
+        Number.parseInt(val) <= 100 ? Number.parseInt(val) : 100
+      );
+    // handleDetailsChange("quantity", Number.parseInt(val));
+  };
+
   const renderStandartTicket = () => {
     return (
       <div className="w-full border border-gray-200 bg-white rounded-lg flex flex-row p-lg relative">
@@ -31,10 +43,10 @@ const ProductDetails = ({
               {productDetails?.price || "Free"}
             </span>
           </div>
-          {productDetails.quantity ? (
+          {productDetails.quantity !== null ? (
             <Badge
               text={`${
-                productDetails.quantity > 1
+                productDetails.quantity > 1 || productDetails.quantity < 1
                   ? productDetails.quantity + " " + "tickets"
                   : productDetails.quantity + " " + "ticket"
               }`}
@@ -66,7 +78,7 @@ const ProductDetails = ({
     <Fragment>
       {renderStandartTicket()}
       <Fragment>
-        <button
+        {/* <button
           className={`flex flex-row gap-2 text-brand-700 fill-brand-700 items-center ${
             true ? "filter grayscale" : ""
           }`}
@@ -75,7 +87,7 @@ const ProductDetails = ({
         >
           <PlusCircleIcon className="w-4" />
           <span>Create new ticket</span>
-        </button>
+        </button> */}
 
         {
           <fieldset className="input-container-col">
@@ -107,17 +119,18 @@ const ProductDetails = ({
                 <div className="input-container-col w-full">
                   <InputFieldControl
                     value={quantity}
-                    onChange={(val) =>
-                      handleDetailsChange("quantity", Number.parseInt(val))
-                    }
+                    onChange={(val) => changeQuantity(val)}
                     fullWidth={true}
                     maxLength={20}
                     type="number"
                     minValue={0}
-                    maxValue={10000000}
-                    align="right"
+                    maxValue={100}
+                    align="left"
                   />
                 </div>
+                <span className="text-sm text-gray-300">
+                  Maximum quantity for free plan is 25
+                </span>
               </div>
               <ButtonGroup
                 title="Availability"

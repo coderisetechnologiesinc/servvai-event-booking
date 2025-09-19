@@ -41,6 +41,16 @@
   tr * * * span {
     @apply md:text-sm;
   }
+  .hide-submenu-item {
+    @apply hidden;
+  }
+  .wp-submenu li a[href*="servv-plugin-zoom-confirm-page"],
+  .wp-submenu li a[href*="servv-plugin-calendar-confirm-page"],
+  .wp-submenu li a[href*="servv-plugin-gmail-confirm-page"],
+  .wp-submenu li a[href*="servv-plugin-stripe-confirm-page"] {
+    @apply hide-submenu-item;
+  }
+
   .section-container {
     @apply flex flex-col gap-5 border border-b-0 border-gray-200 p-4;
   }
@@ -58,7 +68,10 @@
   }
 
   select#timezone {
-    @apply p-2 border-solid border border-gray-300 rounded-lg text-gray-700 bg-white grow min-w-full;
+    @apply px-2 py-[0.125rem] border-solid border border-gray-300 rounded-lg text-gray-700 bg-white grow min-w-full;
+  }
+  select#timezone-select {
+    @apply px-2 py-2 border-solid border border-gray-300 rounded-lg text-gray-700 bg-white grow min-w-full;
   }
 
   input.input-control.section-description {
@@ -139,7 +152,9 @@
     padding-top: 1rem;
     padding-left: 1.15rem;
   }
-
+  .wrap-break-word {
+    overflow-wrap: break-word;
+  }
   .period-control {
     @apply p-2 rounded-lg border-solid border-2 border-gray-200 bg-gray-100 text-slate-400 text-center;
   }
@@ -194,8 +209,8 @@
   .page-heading {
     @apply text-2xl;
   }
-  .page {
-    @apply flex flex-row flex-1 h-full min-h-screen pl-8 pb-14 bg-white;
+  .servv-page {
+    @apply flex flex-row flex-1 h-full min-h-screen pl-8 pb-14 bg-white max-md:pl-1;
   }
 
   div.collapse-activator {
@@ -204,16 +219,15 @@
 
   div.servv-logo-collapsed {
     @apply justify-self-start mt-6 ml-[-5px];
-    background: left/cover no-repeat
-      url("https://servv.ai/wp-content/uploads/2024/05/image-3.svg");
+    background: left/cover no-repeat url("../public/assets/images/image-3.svg");
     width: 40px;
     height: 40px;
   }
 
   div.servv-logo {
-    @apply justify-self-start mt-6;
+    @apply justify-self-start mt-6 ml-2;
     background: left / contain no-repeat
-      url("https://servv.ai/wp-content/uploads/2024/05/image-3.svg");
+      url("../public/assets/images/image-3.svg");
     width: 180px;
     height: 40px;
   }
@@ -228,7 +242,7 @@
     @apply flex flex-row gap-2 no-underline hover:no-underline hover:cursor-pointer;
   }
   .sidebar {
-    @apply mr-4 sticky top-0;
+    @apply mr-4 sticky top-0 max-md:mr-1;
   }
   .page-header {
     @apply flex flex-row justify-between w-full items-baseline m-0 p-0;
@@ -239,8 +253,9 @@
   .button-icon {
     @apply w-[20px] text-gray-600 mr-1;
   }
+
   .primary {
-    @apply bg-primary-button-bg text-white font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:fill-gray-700;
+    @apply text-white font-medium disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none disabled:fill-gray-700;
   }
   .primary .button-icon {
     @apply fill-white;
@@ -279,22 +294,22 @@
     @apply text-primary-button-bg underline font-semibold;
   }
   .badge {
-    @apply flex flex-row flex-nowrap border border-gray-300 text-gray-700 rounded-lg px-1 py-0.5 text-xs grow-0 items-center justify-center;
+    @apply flex flex-row flex-nowrap border border-gray-300 text-gray-700 rounded-lg py-0.5 px-[0.125rem] text-xs grow-0 items-center justify-center md:text-sm md:text-[0.65rem];
   }
   .badge-icon {
     @apply w-4;
   }
   .badge-small span {
-    @apply text-xs font-medium px-md py-xxs inline-flex;
+    @apply text-xs font-medium px-md py-xxs inline-flex sm:text-[0.5rem] md:text-[0.65rem];
   }
   .servv-card .card-header .card-heading .badge-small span {
-    @apply text-xs font-medium px-md py-xxs inline-flex;
+    @apply text-xs font-medium px-md py-xxs inline-flex sm:text-[0.5rem] md:text-[0.65rem];
   }
   .badge-medium span {
-    @apply text-sm font-medium px-md py-xxs inline-flex;
+    @apply text-sm font-medium px-md py-xxs inline-flex sm:text-[0.5rem] md:text-[0.65rem];
   }
   .badge-large small {
-    @apply text-sm font-medium px-lg py-xs;
+    @apply text-sm font-medium px-lg py-xs sm:text-[0.5rem] md:text-[0.65rem];
   }
   .badge-gray {
     @apply bg-utility-gray-50 border-utility-gray-200 text-utility-gray-700;
@@ -319,7 +334,7 @@
   }
   /* ... */
   .badge-pill-outline {
-    @apply border-2 bg-white rounded-full;
+    @apply border bg-white rounded-full;
   }
   .badge-pill-colour {
     @apply rounded-full;
@@ -335,10 +350,10 @@
     @apply p-2 font-medium text-xs text-gray-600 bg-gray-50 border-b border-gray-200 text-left first:border-l last:border-r first:shrink;
   }
   .table-row td {
-    @apply py-xl px-2  text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm;
+    @apply py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 max-md:text-[0.65rem] max-sm:text-[0.5rem];
   }
   .table-row .filter-table-link {
-    @apply font-semibold underline hover:text-primary-button-bg;
+    @apply font-semibold underline cursor-pointer hover:text-primary-button-bg;
   }
   .registrant {
     @apply py-3 px-1 hover:bg-utility-gray-200 flex flex-row items-center;
@@ -362,7 +377,7 @@
     @apply p-4 text-sm font-semibold text-gray-700 border-b flex flex-col w-full;
   }
   .dropdown-description {
-    @apply font-regular;
+    @apply font-regular wrap-break-word;
   }
   .dropdown-actions {
     @apply p-4 flex flex-col;
@@ -380,7 +395,7 @@
     @apply text-sm font-regular text-gray-600;
   }
   .card-image {
-    @apply aspect-[4/3] bg-cover bg-no-repeat bg-center rounded-lg;
+    @apply aspect-[10/3] bg-cover bg-no-repeat bg-center rounded-lg;
   }
   div .card-image {
     @apply bg-no-repeat bg-cover !important;
@@ -398,7 +413,7 @@
     @apply flex flex-col p-4 gap-2;
   }
   .connected-account {
-    @apply flex flex-col p-4 h-1/4 w-full backdrop-blur-xl border-t border-gray-100;
+    @apply flex flex-col p-4 h-1/2 max-md:h-full w-full backdrop-blur-xl border-t border-gray-100;
   }
   .connected-account span {
     @apply text-white font-semibold text-sm;
@@ -437,7 +452,7 @@
     @apply flex flex-col gap-3;
   }
   #servv-wrap {
-    @apply bg-white;
+    @apply bg-white min-h-screen;
   }
   #wpcontent {
     @apply bg-white pl-0;
@@ -490,9 +505,12 @@
   #servv-on-product-widget {
     @apply mx-auto;
   }
+  .servv-tabs li {
+    margin-bottom: 0;
+  }
 }
-    #servv-on-product-widget {
-      all: unset;
-      display: revert;
-      box-sizing: border-box;
-    }
+#servv-on-product-widget {
+  all: unset;
+  display: revert;
+  box-sizing: border-box;
+}

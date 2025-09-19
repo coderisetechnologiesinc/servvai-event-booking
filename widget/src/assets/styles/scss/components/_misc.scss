@@ -5,7 +5,7 @@
     padding: 10px 20px;
     font-size: 13px;
     font-family: inherit;
-    color: #fff;
+    color: $svv_white;
     border-radius: 4px;
     border: none;
     box-shadow: none;
@@ -30,10 +30,10 @@
       }
     }
     &.gray-btn {
-      background-color: $svv_cancel_gray;
+      background-color: $svv_text_gray;
 
       &:hover {
-        background-color: $svv_cancel_gray_dark;
+        background-color: $svv_text_gray;
       }
     }
 
@@ -43,7 +43,7 @@
       border: 1px solid $svv_blue_ultra_dark;
 
       &:hover {
-        color: #fff;
+        color: $svv_white;
         background-color: $svv_blue_ultra_dark;
       }
     }
@@ -57,7 +57,7 @@
       &:hover {
         background-color: $svv_blue_ultra_dark;
         border: 1px solid $svv_blue_ultra_dark;
-        color: #fff;
+        color: $svv_white;
       }
 
       svg {
@@ -125,15 +125,15 @@
   }
 
   .svv-simple-link {
-    color: $svv_orange_light;
+    color: $svv_text_black;
     display: inline-block;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid $svv_orange_light;
+    border: 1px solid $svv_text_black;
     margin: 5px;
 
     &:hover {
-      color: $svv_orange_dark;
+      color: $svv_text_black;
     }
   }
 
@@ -149,41 +149,42 @@
   .svv-loader {
     height: 32px;
     width: 32px;
+    position: relative;
     -webkit-animation: svv-loader-1 4.8s linear infinite;
     animation: svv-loader-1 4.8s linear infinite;
+  }
 
-    span {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      margin: auto;
-      height: 32px;
-      width: 32px;
-      clip: rect(0, 32px, 32px, 16px);
-      -webkit-animation: svv-loader-2 1.2s linear infinite;
-      animation: svv-loader-2 1.2s linear infinite;
+  .svv-loader span {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    height: 32px;
+    width: 32px;
+    -webkit-animation: svv-loader-1 1.2s linear infinite;
+    animation: svv-loader-1 1.2s linear infinite;
+    clip-path: circle(50%);
+  }
 
-      &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        margin: auto;
-        height: 32px;
-        width: 32px;
-        clip: rect(0, 32px, 32px, 16px);
-        border: 3px solid $svv_blue_ultra_dark;
-        border-radius: 50%;
-        -webkit-animation: svv-loader-3 1.2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
-        animation: svv-loader-3 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
-      }
-    }
+  .svv-loader span::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    height: 32px;
+    width: 32px;
+    border: 3px solid #165dfb;
+    border-radius: 50%;
+    -webkit-animation: svv-loader-3 1.2s cubic-bezier(0.77, 0, 0.175, 1)
+      infinite;
+    animation: svv-loader-3 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+    clip-path: circle(50%);
   }
 
   @-webkit-keyframes svv-loader-1 {
@@ -261,7 +262,9 @@
   .svv-list-controls-container {
     display: flex;
     align-items: center;
-
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
     &.svv-bundles-list-controls {
       justify-content: flex-end;
     }
@@ -290,12 +293,12 @@
 
     .item-name {
       padding: 2px 1px;
-      color: $svv_text_gray_dark;
+      color: $svv_text_gray;
     }
     .item-value {
       padding: 2px;
       background-color: transparent;
-      color: $svv_text_gray_dark;
+      color: $svv_text_gray;
       font-weight: 500;
       display: flex;
     }
@@ -304,18 +307,6 @@
       margin-left: 5px;
       margin-bottom: 3px;
       position: relative;
-
-      //&:after {
-      //  content: '';
-      //  display: block;
-      //  background-color: $svv_text_gray_dark;
-      //  width: 4px;
-      //  height: 4px;
-      //  border-radius: 10px;
-      //  position: absolute;
-      //  left: -6px;
-      //  top: 6px;
-      //}
     }
 
     .has-tooltip {
@@ -340,7 +331,7 @@
   .servv-logo-container {
     position: absolute;
     bottom: 0;
-    left: 10px;
+    left: 0;
     display: flex;
     z-index: 15;
 
@@ -367,9 +358,22 @@
   .cleat-all-filters {
     font-size: 14px;
     font-weight: 500;
-    color: $svv-orange_light;
+    color: $svv-brand-primary;
     display: flex;
-    align-content: center;
+    align-items: center;
+    padding: 7px 14px;
+    &:hover {
+      border-radius: 8.5px;
+      background-color: $svv-brand-secondary;
+      color: $svv-brand-primary;
+      svg {
+        fill: $svv-brand-primary;
+      }
+    }
+    &:focus {
+      border: none;
+      border-radius: 8.5px;
+    }
 
     span {
       line-height: 1.4;
@@ -385,8 +389,8 @@
   }
   .svv-empty-events-list {
     text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 30px auto;
+    color: $svv-brand-primary;
   }
 
   .svv-custom-vs-select {
@@ -398,15 +402,23 @@
     .vs__clear {
       position: absolute;
       right: 22px;
+      svg {
+        fill: $svv_text_black;
+      }
     }
 
     .vs__dropdown-toggle {
-      border: 1px solid $svv-text_gray;
-      height: 40px;
-      border-radius: 100px;
+      height: 31.5px;
+      border-radius: 10.5px;
+      border: 1px solid $svv-elements-border;
+      box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+        0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      // padding-top: 2px;
+      // border-radius: 100px;
     }
 
     .vs__selected {
+      color: $svv_text_black;
       overflow: hidden;
       align-items: flex-start;
       font-size: 14px;
@@ -414,16 +426,21 @@
       padding-left: 10px;
       padding-right: 30px;
       max-height: 32px;
+      margin: 0 2px;
+
+      @include media-breakpoint-down(sm) {
+        margin-top: 2px;
+      }
     }
 
     .vs__selected-options {
-      color: $svv-blue_dark;
+      color: $svv_text_secondary;
       font-size: 14px;
 
       input {
         all: unset;
         font-family: inherit;
-        height: 36px;
+        height: 31px;
         font-weight: 500;
         padding-left: 15px;
         color: $svv-text_gray;
@@ -438,14 +455,28 @@
       width: auto;
       min-width: 100%;
       color: $svv-blue_dark;
-      border-radius: 3px;
+      border-radius: 10px;
       margin-top: 5px;
-      border: 1px solid $svv-text_border_gray;
+      padding: 4px 5px 4px 5px;
+      border: 1px solid $svv-elements-border;
     }
 
     .style-chooser .vs__clear,
     .style-chooser .vs__open-indicator {
       fill: $svv-blue_dark;
+    }
+  }
+  .vs__dropdown-option- {
+    padding: 4px 5px 4px 5px;
+    &-highlight {
+      background: $svv-elements-background-color;
+      border-radius: 7px;
+
+      &:hover {
+        background: $svv-elements-background-color;
+        border-radius: 7px;
+        color: $svv-text-hover-color;
+      }
     }
   }
 
@@ -461,6 +492,7 @@
   }
   .svv-mobile-lang-selector-wrapper {
     margin-bottom: 10px;
+    margin-left: 5px;
     padding-top: 10px;
     display: flex;
     align-items: center;
@@ -472,6 +504,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-top: 15px;
+    margin-left: 6px;
 
     .main-controls-items-container {
       display: flex;
@@ -479,34 +513,50 @@
     }
 
     .cleat-all-filters {
-      width: 40px;
-      height: 40px;
-      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      color: $svv-brand-primary;
       display: flex;
-      justify-content: center;
       align-items: center;
-      border: 1px solid $svv-red;
-      color: $svv-red;
-      margin-left: 12px;
+      padding: 7px 14px;
+      &:hover {
+        border-radius: 8.5px;
+        background-color: $svv-brand-secondary;
+        color: $svv-brand-primary;
+        svg {
+          fill: $svv-brand-primary;
+        }
+      }
+      &:focus {
+        border: none;
+        border-radius: 8.5px;
+      }
 
+      span {
+        line-height: 1.4;
+        display: inline-block;
+        font-weight: 600;
+      }
       svg {
-        margin-right: auto;
-        margin-left: auto;
-        top: auto;
-        color: $svv-red;
-        width: 22px;
+        width: 18px;
+        margin-right: 3px;
+        position: relative;
+        //top: 3px;
       }
     }
 
     .show-filters-btn {
       display: none;
       background-color: transparent;
-      padding: 10px 10px;
+      padding: 4px 5.75px;
       min-width: 110px;
       line-height: 1;
       z-index: 22;
-      border: 1px solid $svv-blue_dark;
-      border-radius: 100px;
+      height: 31.5px;
+      border: 1px solid $svv-elements-border;
+      border-radius: 10.5px;
+      box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),
+        0 1px 3px 0 rgba(0, 0, 0, 0.1);
 
       @include media-breakpoint-down(md) {
         display: flex;
@@ -515,16 +565,18 @@
       }
 
       .show-filters-btn-icon {
-        width: 20px;
+        width: 14px;
         height: auto;
-        color: $svv-blue_dark;
-        fill: $svv-blue_dark;
+        margin-right: 5px;
+        color: #000000;
+        fill: #000000;
       }
       .show-filters-btn-label {
         color: $svv-blue_dark;
         font-size: 14px;
         margin-right: 5px;
         font-weight: 500;
+        color: $svv_text_secondary;
       }
     }
 
@@ -547,11 +599,11 @@
       .show-calendar-btn-icon {
         width: 15px;
         height: auto;
-        color: #fff;
-        fill: #fff;
+        color: $svv_white;
+        fill: $svv_white;
       }
       .show-calendar-btn-label {
-        color: #fff;
+        color: $svv_white;
         font-size: 14px;
         margin-right: 5px;
         font-weight: 500;
@@ -579,11 +631,11 @@
     .show-calendar-btn-icon {
       width: 15px;
       height: auto;
-      color: #fff;
-      fill: #fff;
+      color: $svv_white;
+      fill: $svv_white;
     }
     .show-calendar-btn-label {
-      color: #fff;
+      color: $svv_white;
       font-size: 14px;
       margin-right: 5px;
       font-weight: 500;
@@ -593,8 +645,8 @@
 
     &.active {
       transition: $global-transition;
-      background-color: $svv-orange_dark;
-      border-color: $svv-orange_dark;
+      background-color: $svv_text_black;
+      border-color: $svv_text_black;
     }
   }
 }
@@ -677,7 +729,7 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
-  color: $svv_black !important;
+  color: $svv_text_black !important;
   margin-right: 3px;
   font-weight: normal !important;
   margin-bottom: 5px;
@@ -687,7 +739,7 @@
   svg {
     width: 1em;
     height: auto;
-    color: $svv-text_gray-dark;
+    color: $svv-text_gray;
     margin-right: 5px;
     padding-top: 3px;
     line-height: 1;
@@ -750,8 +802,8 @@
   top: 180px;
   transform: translate(-50%, -35%);
   z-index: 2;
-  color: $svv_bgr_gray !important;
-  width: 85%;
+  color: $svv-brand-primary;
+  width: 75%;
   span {
     display: flex;
     justify-content: center;
@@ -761,30 +813,46 @@
 }
 
 .svv-next-month {
-  color: $svv_bgr_gray !important;
+  color: $svv_common_background !important;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $svv-blue_ultra_dark;
-  border: 1px solid $svv-blue_ultra_dark;
+  background-color: $svv-brand-primary;
+  border: 1px solid 4f46e5;
   padding: 5px 20px 3px 20px;
   height: 30px;
   //min-width: 110px;
   line-height: 1;
   //z-index: 22;
-  border-radius: 100px;
+  border-radius: 10.5px;
   //margin-right: 10px;
   font-size: 14px;
   cursor: pointer;
   transition: $global-transition;
   &:hover {
+    color: $svv-brand-primary;
+    background-color: $svv-brand-secondary;
+    border-color: $svv-brand-secondary;
     transition: $global-transition;
-    background-color: $svv-orange_dark;
-    border-color: $svv-orange_dark;
   }
 }
 
 .svv-dynamic-list-height {
   height: auto !important;
+}
+.svv-mobile-panel-wrapper .svv-custom-vs-select .vs__selected {
+  color: white !important;
+}
+.svv-mobile-filters-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }

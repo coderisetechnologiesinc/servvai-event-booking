@@ -31,7 +31,7 @@ const TicketsSelect = ({
   return (
     <div className="input-container-col">
       <label for="timezone" className="section-description">
-        Ticket
+        {t("Ticket")}
       </label>
       <div className="select-control-with-icon-container">
         <select

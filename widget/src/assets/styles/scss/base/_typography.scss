@@ -2,15 +2,15 @@
 .svv-mobile-panel-wrapper,
 #svv-wgt-app {
   //@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;600;700;800;900&display=swap');
+  @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;600;700;800;900&display=swap");
   //@import url('https://use.typekit.net/qyl7rml.css');
 
   //font-family: 'Maven Pro', sans-serif;
   //font-family: 'sofia-pro';
-  font-family: 'Heebo', sans-serif;
+  font-family: "Heebo", sans-serif;
   font-size: 16px;
   font-weight: 400;
-  color: $svv_black;
+  color: $svv_white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -25,14 +25,14 @@
     text-transform: none;
     transition: $global-transition;
     text-decoration: none;
-    color: $svv_black;
+    color: $svv_text_black;
     font-family: inherit;
 
     &:hover {
       text-transform: none;
       text-decoration: none;
       transition: $global-transition;
-      color: $svv_blue_dark;
+      color: $svv_text_black;
     }
   }
 
