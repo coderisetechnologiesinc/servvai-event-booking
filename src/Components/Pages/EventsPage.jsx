@@ -159,7 +159,7 @@ const EventsCardHeader = ({
           {view === "events" ? t("Your Events") : t("Event Occurrences")}
         </span>
         <Badge
-          text={`${eventsCount} ${t("Event")}${eventsCount > 1 ? "s" : ""}`}
+          text={`${eventsCount} ${t("item")}${eventsCount > 1 ? "s" : ""}`}
           color="secondary"
           size="small"
           align="center"

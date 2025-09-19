@@ -3,7 +3,7 @@ Contributors: servvai
 Tags: event booking, event calendar, online booking, booking system, wordpress events plugin
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,10 +20,15 @@ Automated reminders & notifications: reduce no-shows with email follow-ups and c
 Customizable booking widgets: embed responsive booking flows into posts, pages, or sidebars 
 Hybrid event support: deliver seamless in-person or virtual attendance experiences 
 
+== Pre-requisites ==
+Please ensure that `/wp-json/` is publicly accessible over the internet  
+For local development, restricted access to `/wp-json/` may cause issues
+
 == Installation ==
-1. Upload servv-ai-event-booking.zip via Plugins → Add New
-2. Activate Servv AI Event Booking
-4. Go to Servv AI → Add New Event to start hosting
+1. Search "servvai" and install from from Plugin repository
+2. You can also manually upload servvai-event-booking.zip via Plugins → Add New
+2. Activate ServvAI Event Booking
+4. Go to ServvAI Event Booking → Add New Event to start hosting
 
 == Frequently Asked Questions ==
 = Can I sell tickets? =
@@ -35,72 +40,12 @@ Yes - For online events, Zoom/Google Meet/Teams links are supported. Premium ver
 = Is recurring scheduling supported? =
 Absolutely. Define your own recurrence patterns easily.
 
+= What payment gateways are supported? =
+Currently, only the Stripe payment gateway is supported.
+
 == Changelog ==
-= 1.0.0 =
-* Initial release (beta)
 
-
-== Bundled Libraries and Licenses ==
-- firebase/php-jwt (MIT License) - https://github.com/firebase/php-jwt
-(All libraries are GPL-compatible.)
-
-- @emotion/react (MIT License) - https://github.com/emotion-js/emotion  
-- @emotion/styled (MIT License) - https://github.com/emotion-js/emotion  
-- @heroicons/react (MIT License) - https://github.com/tailwindlabs/heroicons  
-- @mui/icons-material (MIT License) - https://github.com/mui/material-ui  
-- @mui/material (MIT License) - https://github.com/mui/material-ui  
-- @mui/styled-engine-sc (MIT License) - https://github.com/mui/material-ui  
-- @stripe/react-stripe-js (MIT License) - https://github.com/stripe/react-stripe-js  
-- @stripe/stripe-js (MIT License) - https://github.com/stripe/stripe-js  
-- @wordpress/api-fetch (GPL-compatible) - https://github.com/WordPress/gutenberg  
-- @wordpress/components (GPL-compatible) - https://github.com/WordPress/gutenberg  
-- @wordpress/compose (GPL-compatible) - https://github.com/WordPress/gutenberg  
-- @wordpress/dom-ready (GPL-compatible) - https://github.com/WordPress/gutenberg  
-- @wordpress/icons (GPL-compatible) - https://github.com/WordPress/gutenberg  
-- @wordpress/interactivity (GPL-compatible) - https://github.com/WordPress/gutenberg  
-- @wordpress/url (GPL-compatible) - https://github.com/WordPress/gutenberg  
-- axios (MIT License) - https://github.com/axios/axios  
-- dotenv (BSD-2-Clause) - https://github.com/motdotla/dotenv  
-- he (MIT License) - https://github.com/mathiasbynens/he  
-- lodash.capitalize (MIT License) - https://github.com/lodash/lodash  
-- lodash.foreach (MIT License) - https://github.com/lodash/lodash  
-- lodash.startcase (MIT License) - https://github.com/lodash/lodash  
-- moment (MIT License) - https://github.com/moment/moment  
-- moment-timezone (MIT License) - https://github.com/moment/moment-timezone  
-- quill (BSD-3-Clause) - https://github.com/quilljs/quill  
-- react-spinners (MIT License) - https://github.com/davidhu2000/react-spinners  
-- react-tailwindcss-datepicker (MIT License) - https://github.com/heyjuliette/react-tailwindcss-datepicker  
-- react-toastify (MIT License) - https://github.com/fkhadra/react-toastify  
-- reaviz (MIT License) - https://github.com/reaviz/reaviz  
-- stripe (MIT License) - https://github.com/stripe/stripe-node  
-- styled-components (MIT License) - https://github.com/styled-components/styled-components  
-- tailwind-datepicker-react (MIT License) - https://github.com/onefuture/tailwind-datepicker-react  
-- uuid (MIT License) - https://github.com/uuidjs/uuid  
-
-### Vue Widget Dependencies
-
-- @vue/composition-api (MIT License) - https://github.com/vuejs/composition-api  
-- core-js (MIT License) - https://github.com/zloirock/core-js  
-- jquery (MIT License) - https://jquery.org/license/  
-- js-datepicker (MIT License) - https://github.com/qodesmith/datepicker  
-- lodash.has (MIT License) - https://github.com/lodash/lodash  
-- lodash.isempty (MIT License) - https://github.com/lodash/lodash  
-- lodash.sortby (MIT License) - https://github.com/lodash/lodash  
-- lodash.uniq (MIT License) - https://github.com/lodash/lodash  
-- portal-vue (MIT License) - https://github.com/LinusBorg/portal-vue  
-- v-calendar (MIT License) - https://github.com/nathanreyes/v-calendar  
-- v-tooltip (MIT License) - https://github.com/Akryum/v-tooltip  
-- vue (MIT License) - https://github.com/vuejs/vue  
-- vue-copy-to-clipboard (MIT License) - https://github.com/Inndy/vue-copy-to-clipboard  
-- vue-frag (MIT License) - https://github.com/Thomvaill/vue-frag  
-- vue-fragment (MIT License) - https://github.com/Thomvaill/vue-fragment  
-- vue-i18n (MIT License) - https://github.com/kazupon/vue-i18n  
-- vue-js-modal (MIT License) - https://github.com/euvl/vue-js-modal  
-- vue-masonry (MIT License) - https://github.com/shershen08/vue-masonry  
-- vue-select (MIT License) - https://github.com/sagalbot/vue-select  
-- vue-svg-loader (MIT License) - https://github.com/visualfanatic/vue-svg-loader  
-- vue-waypoint (MIT License) - https://github.com/scaccogatto/vue-waypoint  
-- vuex (MIT License) - https://github.com/vuejs/vuex  
+Link: https://support.servv.ai/changelogs/changelog/
 
 == Source code & build ==
 

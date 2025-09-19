@@ -4184,6 +4184,10 @@ svg.breadcrumbs-icon {
   padding: 0.75rem;
 }
 
+.p-\[10\%\] {
+  padding: 10%;
+}
+
 .px-0 {
   padding-left: 0rem;
   padding-right: 0rem;
@@ -4337,6 +4341,16 @@ svg.breadcrumbs-icon {
 .py-xl {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.px-\[10\%\] {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.py-\[5\%\] {
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
 
 .pb-1 {

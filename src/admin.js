@@ -41,7 +41,7 @@ initI18n("en_US");
 import "quill/dist/quill.core.css";
 import { getSettings } from "./utilities/settings";
 import { getFilters } from "./utilities/filters";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import ValidationScreen from "./Components/Pages/ValidationScreen.jsx";
 const AdminSettingsPage = ({ settingsData }) => {
   const [selectedPage, setSelectedPage] = useState("events");
@@ -126,6 +126,7 @@ const AdminSettingsPage = ({ settingsData }) => {
     const parsedUrl = new URL(window.location);
     const params = new URLSearchParams(parsedUrl.search);
     const section = params.get("section");
+
     if (section && section === "stripe-integration") {
       setSelectedPage("integrations");
     } else {
@@ -230,43 +231,65 @@ domReady(() => {
   const rootEl = document.getElementById("servv-wrap");
   const root = createRoot(rootEl);
 
-  function renderComponent() {
-    let component;
+  async function init() {
+    let restAPIAvailable = true;
 
-    if (servvData.page === "servvai-event-booking") {
-      if (servvData.install_status === "failed") {
-        component = (
-          <ValidationScreen message="Activation failed. Please contact the Servv support team." />
-        );
-      } else if (
-        servvData.install_status !== "ok" &&
-        servvData.install_status !== "failed"
-      ) {
-        component = (
-          <ValidationScreen message="Please wait. The installation is in progress" />
-        );
-
-        setTimeout(() => {
-          if (
-            servvData.install_status !== "ok" &&
-            servvData.install_status !== "failed"
-          ) {
-            window.location.reload();
-          }
-        }, 5000);
+    try {
+      const res = await fetch(window.location.origin + "/wp-json/");
+      if (!res.ok) {
+        restAPIAvailable = false;
       } else {
-        component = <AdminSettingsPage />;
+        console.log("REST API accessible");
       }
-    } else if (servvData.page === "events") {
-      component = <EventPage />;
+    } catch (err) {
+      restAPIAvailable = false;
+      console.error("REST API error:", err);
     }
 
-    root.render(<div>{component}</div>);
+    function renderComponent() {
+      let component;
+
+      if (servvData.page === "servvai-event-booking") {
+        if (!restAPIAvailable) {
+          component = (
+            <ValidationScreen message="We couldn't complete the installation of Servv AI Event Booking because the WordPress REST API (/wp-json/) is not accessible. Please enable it to allow the plugin to work properly." />
+          );
+        } else if (servvData.install_status === "failed") {
+          component = (
+            <ValidationScreen message="Activation failed. Please contact the Servv support team." />
+          );
+        } else if (
+          servvData.install_status !== "ok" &&
+          servvData.install_status !== "failed"
+        ) {
+          component = (
+            <ValidationScreen message="Please wait. The installation is in progress" />
+          );
+
+          setTimeout(() => {
+            if (
+              servvData.install_status !== "ok" &&
+              servvData.install_status !== "failed"
+            ) {
+              if (restAPIAvailable) window.location.reload();
+            }
+          }, 5000);
+        } else {
+          component = <AdminSettingsPage />;
+        }
+      } else if (servvData.page === "events") {
+        component = <EventPage />;
+      }
+
+      root.render(<div>{component}</div>);
+    }
+
+    renderComponent();
+
+    setTimeout(() => {
+      translateAll();
+    }, 0);
   }
 
-  renderComponent();
-
-  setTimeout(() => {
-    translateAll();
-  }, 0);
+  init();
 });

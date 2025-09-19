@@ -72,7 +72,7 @@ function servv_plugin_make_delayed_install() {
         }
     }
     update_option('servv_install_status', 'failed');
-    deactivate_plugins( plugin_basename( __FILE__ ) );
+    // deactivate_plugins( plugin_basename( __FILE__ ) );
 }
 
 

@@ -1861,7 +1861,7 @@ const EventsCardHeader = ({
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
         children: view === "events" ? t("Your Events") : t("Event Occurrences")
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        text: `${eventsCount} ${t("Event")}${eventsCount > 1 ? "s" : ""}`,
+        text: `${eventsCount} ${t("item")}${eventsCount > 1 ? "s" : ""}`,
         color: "secondary",
         size: "small",
         align: "center"
@@ -7152,4 +7152,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=cf73c2372b59ba223d38
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=1337993da938828592c5

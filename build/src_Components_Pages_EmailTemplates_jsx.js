@@ -1089,7 +1089,7 @@ const EmailTemplates = ({
               children: t("Email Templates")
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("p", {
               className: "text-sm text-gray-600 mt-1",
-              children: t("Easily View, Create, and Modify Email Templates")
+              children: "Easily view, create, and modify email templates"
             })]
           })
         })
@@ -1498,4 +1498,4 @@ const PageWrapper = props => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=d1428982c28247b38e30
+//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=3939b379b3627c84e236

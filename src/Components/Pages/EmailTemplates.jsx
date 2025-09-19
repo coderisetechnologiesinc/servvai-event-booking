@@ -266,7 +266,8 @@ const EmailTemplates = ({ settings }) => {
                   {t("Email Templates")}
                 </h1>
                 <p className="text-sm text-gray-600 mt-1">
-                  {t("Easily View, Create, and Modify Email Templates")}
+                  {/* {t("Easily View, Create, and Modify Email Templates")} */}
+                  Easily view, create, and modify email templates
                 </p>
               </div>
             </div>

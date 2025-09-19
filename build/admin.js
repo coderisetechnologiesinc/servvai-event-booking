@@ -384,18 +384,118 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/EnvelopeIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChatBubbleLeftRightIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
 
 const ValidationScreen = ({
   message
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: "flex h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-transparent to-[#ECE4F6] border-brand-800",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-      className: "text-3xl font-regular text-gray-900",
+  const [intercomLaded, setIntercomLoaded] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    handleIntercomClick();
+  }, []);
+  const handleIntercomClick = () => {
+    // Avoid injecting multiple times
+    if (window.IntercomInjected) return;
+    window.IntercomInjected = true;
+
+    // Set Intercom settings
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "peztdh9y",
+      custom_launcher_selector: "#servv_live_chat"
+    };
+
+    // Inject main Intercom loader script
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = `
+      (function () { 
+        var w = window; 
+        var ic = w.Intercom; 
+        if (typeof ic === "function") { 
+          ic('reattach_activator'); 
+          ic('update', w.intercomSettings); 
+        } else { 
+          var d = document; 
+          var i = function () { i.c(arguments); }; 
+          i.q = []; 
+          i.c = function (args) { i.q.push(args); }; 
+          w.Intercom = i; 
+          var l = function () { 
+            var s = d.createElement('script'); 
+            s.type = 'text/javascript'; 
+            s.async = true; 
+            s.src = 'https://widget.intercom.io/widget/peztdh9y'; 
+            var x = d.getElementsByTagName('script')[0]; 
+            x.parentNode.insertBefore(s, x); 
+          }; 
+          if (document.readyState === 'complete') { 
+            l(); 
+          } else if (w.attachEvent) { 
+            w.attachEvent('onload', l); 
+          } else { 
+            w.addEventListener('load', l, false); 
+          } 
+        } 
+      })();
+    `;
+    document.body.appendChild(script);
+    script.onload = () => {
+      if (window.Intercom) {
+        window.Intercom("boot");
+      }
+    };
+    setIntercomLoaded(true);
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "flex h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-transparent to-[#ECE4F6] border-brand-800 gap-4",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "flex flex-col justify-center items-center gap-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+        className: "text-gray-900 font-semibold text-display-sm",
+        children: "ServvAI Event Booking \u2013 Installation & Setup"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+      className: "text-2xl font-regular text-gray-900 px-[10%] py-[5%]",
       children: message
-    })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "flex flex-col justify-center items-center gap-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+        className: "text-gray-900 font-semibold text-display-sm",
+        children: "Need help?"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "flex flex-row gap-2 justify-center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("a", {
+        href: "mailto:support@servv.ai",
+        className: "rounded-[0.625rem] border no-underline border-gray-300 bg-white shadow-sm flex flex-row gap-2 justify-between px-[14px] py-[10px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          className: "w-[20px] fill-gray-700"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          className: "text-sm text-gray-700 font-semibold",
+          children: "Email Us"
+        })]
+      }), intercomLaded && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+        id: "servv_live_chat",
+        className: "rounded-[0.625rem] border border-white bg-brand-600 shadow-sm flex flex-row gap-2 justify-between px-[14px] py-[10px]"
+        // onClick={handleIntercomClick}
+        ,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          className: "w-[20px] fill-white"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          className: "text-sm text-white font-semibold",
+          children: "StartChat"
+        })]
+      })]
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ValidationScreen);
@@ -809,6 +909,45 @@ function ChartBarIcon({
   }));
 }
 const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ChartBarIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/16/solid/esm/ChatBubbleLeftRightIcon.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/ChatBubbleLeftRightIcon.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function ChatBubbleLeftRightIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M1 8.849c0 1 .738 1.851 1.734 1.947L3 10.82v2.429a.75.75 0 0 0 1.28.53l1.82-1.82A3.484 3.484 0 0 1 5.5 10V9A3.5 3.5 0 0 1 9 5.5h4V4.151c0-1-.739-1.851-1.734-1.947a44.539 44.539 0 0 0-8.532 0C1.738 2.3 1 3.151 1 4.151V8.85Z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M7 9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-.25v1.25a.75.75 0 0 1-1.28.53L9.69 12H9a2 2 0 0 1-2-2V9Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ChatBubbleLeftRightIcon);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
 /***/ }),
@@ -6090,7 +6229,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"cf73c2372b59ba223d38","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"a9b926045bd448c1bec2","src_Components_PostEditor_EventDetails_jsx":"4f9d3cb9fa33ad3d0d95","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"b49c4a6faec57d770a89","src_Components_Pages_FiltersPage_jsx":"7da0ea33ae2dd7b3e6ba","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"8a75896413353bfbbfd0","src_Components_Pages_EmailTemplates_jsx":"d1428982c28247b38e30","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"11ae205916778467fe00","src_Components_Pages_BookingsPage_jsx":"d72c67bb0e5b8a7d1804","src_Components_Pages_SupportPage_jsx":"a7b00bb5ef2bf4e54ffc"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"1337993da938828592c5","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"a9b926045bd448c1bec2","src_Components_PostEditor_EventDetails_jsx":"4f9d3cb9fa33ad3d0d95","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"b49c4a6faec57d770a89","src_Components_Pages_FiltersPage_jsx":"7da0ea33ae2dd7b3e6ba","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"8a75896413353bfbbfd0","src_Components_Pages_EmailTemplates_jsx":"3939b379b3627c84e236","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"11ae205916778467fe00","src_Components_Pages_BookingsPage_jsx":"3f85110ac27371528715","src_Components_Pages_SupportPage_jsx":"daab7d5c09442282ce69"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -6606,36 +6745,55 @@ const EventPage = () => {
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(() => {
   const rootEl = document.getElementById("servv-wrap");
   const root = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createRoot)(rootEl);
-  function renderComponent() {
-    let component;
-    if (servvData.page === "servvai-event-booking") {
-      if (servvData.install_status === "failed") {
-        component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
-          message: "Activation failed. Please contact the Servv support team."
-        });
-      } else if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
-        component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
-          message: "Please wait. The installation is in progress"
-        });
-        setTimeout(() => {
-          if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
-            window.location.reload();
-          }
-        }, 5000);
+  async function init() {
+    let restAPIAvailable = true;
+    try {
+      const res = await fetch(window.location.origin + "/wp-json/");
+      if (!res.ok) {
+        restAPIAvailable = false;
       } else {
-        component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(AdminSettingsPage, {});
+        console.log("REST API accessible");
       }
-    } else if (servvData.page === "events") {
-      component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(EventPage, {});
+    } catch (err) {
+      restAPIAvailable = false;
+      console.error("REST API error:", err);
     }
-    root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-      children: component
-    }));
+    function renderComponent() {
+      let component;
+      if (servvData.page === "servvai-event-booking") {
+        if (!restAPIAvailable) {
+          component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
+            message: "We couldn't complete the installation of Servv AI Event Booking because the WordPress REST API (/wp-json/) is not accessible. Please enable it to allow the plugin to work properly."
+          });
+        } else if (servvData.install_status === "failed") {
+          component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
+            message: "Activation failed. Please contact the Servv support team."
+          });
+        } else if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
+          component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
+            message: "Please wait. The installation is in progress"
+          });
+          setTimeout(() => {
+            if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
+              if (restAPIAvailable) window.location.reload();
+            }
+          }, 5000);
+        } else {
+          component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(AdminSettingsPage, {});
+        }
+      } else if (servvData.page === "events") {
+        component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(EventPage, {});
+      }
+      root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+        children: component
+      }));
+    }
+    renderComponent();
+    setTimeout(() => {
+      (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_8__.translateAll)();
+    }, 0);
   }
-  renderComponent();
-  setTimeout(() => {
-    (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_8__.translateAll)();
-  }, 0);
+  init();
 });
 })();
 

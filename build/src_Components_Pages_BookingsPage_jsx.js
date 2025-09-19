@@ -770,9 +770,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
 /* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../utilities/timezones */ "./src/utilities/timezones.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Bars4Icon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PaperAirplaneIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/WalletIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/XCircleIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/WalletIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/XCircleIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PaperAirplaneIcon.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsVerticalIcon.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ArrowDownOnSquareStackIcon.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -817,7 +817,7 @@ const BookingsPage = ({
     value: "registrant",
     visible: true
   }, {
-    label: "Event Title/Location",
+    label: "Title",
     value: "title",
     visible: true
   }, {
@@ -919,10 +919,12 @@ const BookingsPage = ({
   };
   const resendConfirmations = async ({
     id,
-    occurrence
+    occurrence,
+    registrant
   }) => {
+    let registrants = registrant.indexOf(",") > 0 ? registrant.split(",")[0] : registrant;
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${registrant}/resend`;
+    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${registrants}/resend`;
     if (occurrence) {
       url += `?occurrence_id=${occurrence}`;
     }
@@ -1257,16 +1259,7 @@ const BookingsPage = ({
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("div", {
               className: "dropdown-actions",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                gap: 4,
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
-                  className: "dropdown-action",
-                  onClick: () => resendConfirmations({
-                    ...getPostId(row.variant_id)
-                  }),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
-                    className: "dropdown-icon"
-                  }), t("Resend confirmation")]
-                })
+                gap: 4
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("div", {
               className: "dropdown-actions border-t w-full",
@@ -1275,13 +1268,13 @@ const BookingsPage = ({
                 children: [row.price > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
                   className: "dropdown-action",
                   onClick: () => refundBooking(row.id),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
                     className: "dropdown-icon"
                   }), t("Issue refund")]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
                   className: "dropdown-action",
                   onClick: () => cancelBookings(row.id),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
                     className: "dropdown-icon"
                   }), t("Cancel booking")]
                 })]
@@ -1537,19 +1530,19 @@ const BookingsPage = ({
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
             className: "dropdown-action",
             onClick: () => performBulkAction("resend"),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
               className: "dropdown-icon"
             }), "Resend confirmations"]
           }), isRefundAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
             className: "dropdown-action",
             onClick: () => performBulkAction("refund"),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
               className: "dropdown-icon"
             }), t("Refund bookings")]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
             className: "dropdown-action",
             onClick: () => performBulkAction("cancel"),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
               className: "dropdown-icon"
             }), t("Cancel bookings")]
           })]
@@ -2529,4 +2522,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(X
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=d72c67bb0e5b8a7d1804
+//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=3f85110ac27371528715

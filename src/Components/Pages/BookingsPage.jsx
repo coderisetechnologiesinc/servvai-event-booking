@@ -35,7 +35,7 @@ const BookingsPage = ({ settings }) => {
     { label: "Order ID", value: "order", visible: true },
     { label: "Order Date/Time", value: "date", visible: true },
     { label: "Registrant", value: "registrant", visible: true },
-    { label: "Event Title/Location", value: "title", visible: true },
+    { label: "Title", value: "title", visible: true },
     { label: "Occurrence", value: "occurrence", visible: true },
     { label: "Mode", value: "paid", visible: true },
     { label: "Status", value: "status", visible: true },
@@ -131,9 +131,11 @@ const BookingsPage = ({ settings }) => {
     setSelectedOrder(newOrders);
   };
 
-  const resendConfirmations = async ({ id, occurrence }) => {
+  const resendConfirmations = async ({ id, occurrence, registrant }) => {
+    let registrants =
+      registrant.indexOf(",") > 0 ? registrant.split(",")[0] : registrant;
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${registrant}/resend`;
+    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${registrants}/resend`;
     if (occurrence) {
       url += `?occurrence_id=${occurrence}`;
     }
@@ -534,15 +536,18 @@ const BookingsPage = ({ settings }) => {
                 </span>
                 <div className="dropdown-actions">
                   <BlockStack gap={4}>
-                    <button
+                    {/* <button
                       className="dropdown-action"
                       onClick={() =>
-                        resendConfirmations({ ...getPostId(row.variant_id) })
+                        resendConfirmations({
+                          ...getPostId(row.variant_id),
+                          registrant: row.registrants_ids,
+                        })
                       }
                     >
                       <PaperAirplaneIcon className="dropdown-icon" />
                       {t("Resend confirmation")}
-                    </button>
+                    </button> */}
                   </BlockStack>
                 </div>
                 <div className="dropdown-actions border-t w-full">
