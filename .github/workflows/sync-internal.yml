@@ -48,7 +48,7 @@ jobs:
         run: |
           echo "Cloning private repo: coderisetechnologiesinc/servv-wpse"
           for i in {1..3}; do
-            git clone --branch release/4x https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/coderisetechnologiesinc/servv-wpse.git private-repo && break
+            git clone --branch release/4.x https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/coderisetechnologiesinc/servv-wpse.git private-repo && break
             echo "Clone attempt $i failed, retrying in 5 seconds..."
             sleep 5
           done
@@ -96,7 +96,7 @@ jobs:
           echo "Fetching latest release notes from coderisetechnologiesinc/servv-wpse"
           RELEASE_NOTES=$(gh release view --repo coderisetechnologiesinc/servv-wpse --json body -q '.body' || echo "No release found")
           if [ -z "$RELEASE_NOTES" ]; then
-            COMMIT_MESSAGE="Sync changes from private repo release/4x"
+            COMMIT_MESSAGE="Sync changes from private repo release/4.x"
           else
             COMMIT_MESSAGE="$RELEASE_NOTES"
           fi
@@ -145,7 +145,7 @@ jobs:
               --head develop \
               --base main \
               --title "Sync develop → main" \
-              --body "Automated PR syncing changed files from private repo release/4x" || { echo "Failed to create PR"; exit 1; }
+              --body "Automated PR syncing changed files from private repo release/4.x" || { echo "Failed to create PR"; exit 1; }
           else
             echo "PR from develop to main already exists: $PR_EXISTS"
           fi
