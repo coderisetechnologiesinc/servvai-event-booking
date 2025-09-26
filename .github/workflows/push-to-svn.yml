@@ -15,11 +15,11 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Remove all hidden files and directories (except .git temporarily)
+      - name: Remove all hidden files and directories
         run: |
-          find . -type f -name ".*" ! -path "./.git/*" -exec rm -f {} +
-          find . -type d -name ".*" ! -path "./.git/*" -exec rm -rf {} +
-          echo "All hidden files and directories removed (except .git temporarily)"
+          find . -type f -name ".*" ! -name "." ! -name ".." ! -path "./.git/*" -exec rm -f {} +
+          find . -type d -name ".*" ! -name "." ! -name ".." ! -path "./.git/*" -exec rm -rf {} +
+          echo "All hidden files and directories removed"
 
       - name: Get latest tag
         run: |
