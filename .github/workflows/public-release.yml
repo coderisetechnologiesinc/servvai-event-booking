@@ -11,7 +11,7 @@ permissions:
   pull-requests: read
 
 env:
-  DEFAULT_TAG: v1.0.0.0
+  DEFAULT_TAG: v1.0.0
   TIMEZONE: Asia/Kolkata
   BOT_NAME: coderiseio-bot
   BOT_EMAIL: coderiseio@bot.com
@@ -28,13 +28,13 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.PAT_TOKEN }}  # Use PAT_TOKEN instead of github.token
+          token: ${{ secrets.PAT_TOKEN }}
 
-      # Calculate 4-digit version
-      - name: Calculate 4-Digit Version
+      # Calculate 3-digit version
+      - name: Calculate 3-Digit Version
         id: version
         env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use PAT_TOKEN for gh CLI
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           echo "Fetching tags"
           git fetch --tags --force
@@ -42,7 +42,7 @@ jobs:
           echo "Latest tag: $LAST_TAG"
 
           # Validate LAST_TAG format
-          if [[ ! "$LAST_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if [[ ! "$LAST_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Error: Invalid LAST_TAG format: $LAST_TAG. Using DEFAULT_TAG: ${{ env.DEFAULT_TAG }}"
             LAST_TAG="${{ env.DEFAULT_TAG }}"
           fi
@@ -68,22 +68,21 @@ jobs:
           # Parse current version
           VERSION=${LAST_TAG#v}
           echo "VERSION: $VERSION"
-          IFS='.' read -r MAJOR MINOR PATCH FOURTH <<< "$VERSION"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
           MAJOR=${MAJOR:-0}
           MINOR=${MINOR:-0}
           PATCH=${PATCH:-0}
-          FOURTH=${FOURTH:-0}
-          echo "Parsed version: MAJOR=$MAJOR, MINOR=$MINOR, PATCH=$PATCH, FOURTH=$FOURTH"
+          echo "Parsed version: MAJOR=$MAJOR, MINOR=$MINOR, PATCH=$PATCH"
 
           # Validate parsed values
-          if ! [[ "$MAJOR" =~ ^[0-9]+$ && "$MINOR" =~ ^[0-9]+$ && "$PATCH" =~ ^[0-9]+$ && "$FOURTH" =~ ^[0-9]+$ ]]; then
-            echo "Error: Invalid version components: MAJOR=$MAJOR, MINOR=$MINOR, PATCH=$PATCH, FOURTH=$FOURTH"
+          if ! [[ "$MAJOR" =~ ^[0-9]+$ && "$MINOR" =~ ^[0-9]+$ && "$PATCH" =~ ^[0-9]+$ ]]; then
+            echo "Error: Invalid version components: MAJOR=$MAJOR, MINOR=$MINOR, PATCH=$PATCH"
             exit 1
           fi
 
           # Get PR labels
           PR_NUMBER=${{ github.event.pull_request.number }}
-          LABELS=$(GH_TOKEN=${{ secrets.PAT_TOKEN }} gh pr view $PR_NUMBER --json labels --jq '.labels[].name')  # Use PAT_TOKEN
+          LABELS=$(GH_TOKEN=${{ secrets.PAT_TOKEN }} gh pr view $PR_NUMBER --json labels --jq '.labels[].name')
           echo "PR labels: $LABELS"
 
           # Determine release type and version
@@ -92,25 +91,22 @@ jobs:
             MAJOR=$((MAJOR + 1))
             MINOR=0
             PATCH=0
-            FOURTH=0
             CHANGELOG_SECTION="Feature Release"
             BREAKING_CHANGES="true"
           elif echo "$LABELS" | grep -q "^release:minor$"; then
             RELEASE_TYPE="minor"
             MINOR=$((MINOR + 1))
             PATCH=0
-            FOURTH=0
             CHANGELOG_SECTION="Feature Release"
             BREAKING_CHANGES="false"
           elif echo "$LABELS" | grep -q "^release:patch$"; then
             RELEASE_TYPE="patch"
             PATCH=$((PATCH + 1))
-            FOURTH=0
             CHANGELOG_SECTION="Maintenance Release"
             BREAKING_CHANGES="false"
           elif echo "$LABELS" | grep -q "^release:hotfix$"; then
             RELEASE_TYPE="hotfix"
-            FOURTH=$((FOURTH + 1))
+            PATCH=$((PATCH + 1))   
             CHANGELOG_SECTION="Hotfix Release"
             BREAKING_CHANGES="false"
           else
@@ -118,7 +114,7 @@ jobs:
             COMMIT_MSGS=$(git log $COMMIT_RANGE --no-merges --pretty=%B -n 20 || echo "")
             if echo "$COMMIT_MSGS" | grep -E "^(chore|hotfix):" | grep -v "\[skip-chore\]" > /dev/null; then
               RELEASE_TYPE="hotfix"
-              FOURTH=$((FOURTH + 1))
+              PATCH=$((PATCH + 1))
               CHANGELOG_SECTION="Hotfix Release"
               BREAKING_CHANGES="false"
             else
@@ -133,12 +129,12 @@ jobs:
 
           # Set version
           if [ "$RELEASE_TYPE" != "none" ]; then
-            NEW_VERSION="v$MAJOR.$MINOR.$PATCH.$FOURTH"
-            BARE_VERSION="$MAJOR.$MINOR.$PATCH.$FOURTH"
+            NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+            BARE_VERSION="$MAJOR.$MINOR.$PATCH"
             echo "NEW_VERSION=$NEW_VERSION"
             echo "BARE_VERSION=$BARE_VERSION"
             # Validate NEW_VERSION format
-            if [[ ! "$NEW_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            if [[ ! "$NEW_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "Error: Invalid version format for NEW_VERSION: $NEW_VERSION"
               exit 1
             fi
@@ -152,45 +148,46 @@ jobs:
           fi
 
           # Get commit SHA
-          COMMIT_SHA=$(git log -1 --pretty=%H)
+          COMMIT_SHA=$(git log -1 --no-merges --pretty=%H)
           SHORT_COMMIT_SHA=$(echo "$COMMIT_SHA" | cut -c1-7)
-          echo "Commit SHA: $COMMIT_SHA"
-          echo "Short commit: $SHORT_COMMIT_SHA"
-
-          # Collect commit messages (non-merge commits, last 20)
-          echo "Collecting commits"
-          COMMITS=$(git log $COMMIT_RANGE --no-merges --pretty="%h %s" -n 20 || echo "")
-          echo "Raw COMMITS: $COMMITS"
-          BREAKING_COMMIT=""
-          OTHER_COMMIT=""
-          while IFS=' ' read -r SHA MSG; do
-            # Clean commit message (strip prefixes if present)
-            CLEAN_MSG=$(echo "$MSG" | sed -E 's/^(feat!?:|fix:|hotfix:|docs:|style:|refactor:|perf:|test:|chore:)//')
-            if [ -n "$CLEAN_MSG" ]; then
-              # Format for changelog (Markdown link)
-              FORMATTED_MD="- $CLEAN_MSG [$SHA](https://github.com/${{ env.REPO }}/commit/$SHA)"
-              if echo "$MSG" | grep -q "^feat!:"; then
-                BREAKING_MD="$BREAKING_MD\n$FORMATTED_MD"
-              else
-                OTHER_MD="$OTHER_MD\n$FORMATTED_MD"
-              fi
-            fi
-          done <<< "$COMMITS"
-          BREAKING_MD=$(echo -e "$BREAKING_MD" | sed '/^$/d')
-          OTHER_MD=$(echo -e "$OTHER_MD" | sed '/^$/d')
-          echo "BREAKING_COMMITS: $BREAKING_MD"
-          echo "OTHER_COMMITS: $OTHER_MD"
-          echo "BREAKING_COMMITS<<EOF" >> $GITHUB_ENV
-          echo "$BREAKING_MD" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          echo "OTHER_COMMITS<<EOF" >> $GITHUB_ENV
-          echo "$OTHER_MD" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-          # Export commit message (for fallback)
           echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
           echo "SHORT_COMMIT_SHA=$SHORT_COMMIT_SHA" >> $GITHUB_ENV
           echo "LAST_TAG=$LAST_TAG" >> $GITHUB_ENV
+
+          # Collect commit messages
+          COMMIT_MSG=$(git log -1 --no-merges --pretty=%B || echo "")
+          if [[ "$COMMIT_MSG" =~ $'\n' ]]; then
+            # Multi-line commit message
+            FORMATTED_MD=$(echo "$COMMIT_MSG" | sed 's/^- /  /; s/^[^-]/- /')
+            echo "OTHER_COMMITS<<EOF" >> $GITHUB_ENV
+            echo "$FORMATTED_MD" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+            echo "BREAKING_COMMITS=" >> $GITHUB_ENV
+          else
+            # Single-line commit message, process all commits
+            COMMITS=$(git log $COMMIT_RANGE --no-merges --pretty="%h %s" -n 20 || echo "")
+            BREAKING_MD=""
+            OTHER_MD=""
+            while IFS=' ' read -r SHA MSG; do
+              CLEAN_MSG=$(echo "$MSG" | sed -E 's/^(feat!?:|fix:|hotfix:|docs:|style:|refactor:|perf:|test:|chore:)//')
+              if [ -n "$CLEAN_MSG" ]; then
+                FORMATTED_MD="- $CLEAN_MSG [$SHA](https://github.com/${{ env.REPO }}/commit/$SHA)"
+                if echo "$MSG" | grep -q "^feat!:"; then
+                  BREAKING_MD="$BREAKING_MD\n$FORMATTED_MD"
+                else
+                  OTHER_MD="$OTHER_MD\n$FORMATTED_MD"
+                fi
+              fi
+            done <<< "$COMMITS"
+            BREAKING_MD=$(echo -e "$BREAKING_MD" | sed '/^$/d')
+            OTHER_MD=$(echo -e "$OTHER_MD" | sed '/^$/d')
+            echo "BREAKING_COMMITS<<EOF" >> $GITHUB_ENV
+            echo "$BREAKING_MD" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+            echo "OTHER_COMMITS<<EOF" >> $GITHUB_ENV
+            echo "$OTHER_MD" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          fi
 
       # Generate changelog
       - name: Generate Changelog
@@ -227,44 +224,38 @@ jobs:
           git config user.name "${{ env.BOT_NAME }}"
           git config user.email "${{ env.BOT_EMAIL }}"
           git commit -m "update changelog for ${{ env.NEW_VERSION }}"
-          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ env.REPO }}.git  # Use PAT_TOKEN for push
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ env.REPO }}.git
           git push origin main
 
-      # Create source code zip without hidden files
+      # Create source code zip
       - name: Create Source Code Zip
         if: env.NEW_VERSION != ''
         run: |
-          echo "Creating source code zip for ${{ env.NEW_VERSION }}"
-          # Extract repository name 
           REPO_NAME="servvai-event-booking"
           ZIP_NAME="${REPO_NAME}-${{ env.NEW_VERSION }}.zip"
-          # Use git archive to create a clean zip 
           git archive --format=zip --output="${ZIP_NAME}" HEAD $(git ls-files | grep -v '^\.' | grep -v '/\.')
-          echo "Source code zip created: ${ZIP_NAME}"
           echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
 
+      # Debug zip contents
       - name: Debug Zip Contents
         if: env.NEW_VERSION != ''
-        run: |
-          echo "Listing contents of ${ZIP_NAME}:"
-          unzip -l "${ZIP_NAME}"
+        run: unzip -l "${ZIP_NAME}"
 
       # Create tag and release
       - name: Create Tag and Release
         if: env.NEW_VERSION != ''
         env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use PAT_TOKEN for gh CLI
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           echo "Checking if tag ${{ env.NEW_VERSION }} exists..."
           if git rev-parse "${{ env.NEW_VERSION }}" >/dev/null 2>&1; then
             echo "Error: Tag ${{ env.NEW_VERSION }} already exists."
             exit 1
           fi
-          echo "Creating tag ${{ env.NEW_VERSION }}..."
           git config user.name "${{ env.BOT_NAME }}"
           git config user.email "${{ env.BOT_EMAIL }}"
           git tag -a "${{ env.NEW_VERSION }}" -m "release ${{ env.NEW_VERSION }}"
-          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ env.REPO }}.git  # Use PAT_TOKEN for push
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ env.REPO }}.git
           git push origin "${{ env.NEW_VERSION }}"
 
           echo "Creating GitHub release..."

@@ -15,11 +15,11 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Remove all hidden files and directories
+      - name: Remove all hidden files and directories (except .git temporarily)
         run: |
           find . -type f -name ".*" ! -path "./.git/*" -exec rm -f {} +
           find . -type d -name ".*" ! -path "./.git/*" -exec rm -rf {} +
-          echo "All hidden files and directories removed (except .git)"
+          echo "All hidden files and directories removed (except .git temporarily)"
 
       - name: Get latest tag
         run: |
@@ -28,12 +28,17 @@ jobs:
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           echo "Using latest tag: $LATEST_TAG"
 
+      - name: Remove .git directory before deployment
+        run: |
+          rm -rf .git
+          echo ".git directory removed"
+
       - name: Deploy to WordPress.org
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SLUG: servvai-event-booking  # Updated to match your SVN slug
+          SLUG: servvai-event-booking
         with:
           generate-zip: true
           tag: ${{ env.LATEST_TAG }}
