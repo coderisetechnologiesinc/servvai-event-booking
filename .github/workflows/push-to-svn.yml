@@ -1,0 +1,39 @@
+name: Deploy to WordPress.org SVN
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Remove all hidden files and directories
+        run: |
+          find . -type f -name ".*" ! -path "./.git/*" -exec rm -f {} +
+          find . -type d -name ".*" ! -path "./.git/*" -exec rm -rf {} +
+          echo "All hidden files and directories removed (except .git)"
+
+      - name: Get latest tag
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+          echo "Using latest tag: $LATEST_TAG"
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: servvai-event-booking  # Updated to match your SVN slug
+        with:
+          generate-zip: true
+          tag: ${{ env.LATEST_TAG }}
