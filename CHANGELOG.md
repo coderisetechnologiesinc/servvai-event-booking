@@ -1,3 +1,11 @@
+# v1.0.0.0
+
+1.0.0.0 (2025-09-26)
+
+Initial Release
+
+- No changes recorded for this release
+
 # v1.0.2
 
 1.0.2 (2025-09-22)
