@@ -1,3 +1,12 @@
+# v1.0.3
+
+1.0.3 (2025-09-27)
+
+Maintenance Release
+- Improved layout and responsiveness across sections
+- Fixed event links, labels, and translations
+- Enhanced filters, payments, and overall stability
+
 # v1.0.2
 
 1.0.2 (2025-09-22)
