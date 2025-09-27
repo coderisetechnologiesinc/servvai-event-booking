@@ -132,26 +132,33 @@ const BookingsPage = ({ settings }) => {
   };
 
   const resendConfirmations = async ({ id, occurrence, registrant }) => {
-    let registrants =
-      registrant.indexOf(",") > 0 ? registrant.split(",")[0] : registrant;
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${registrants}/resend`;
-    if (occurrence) {
-      url += `?occurrence_id=${occurrence}`;
-    }
-    const refundBookingResponse = await axios(url, {
-      method: "POST",
-      headers: { "X-WP-Nonce": servvData.nonce },
-    }).catch((error) => {
+
+    const registrants = registrant.includes(",")
+      ? registrant.split(",")
+      : [registrant];
+
+    try {
+      for (const reg of registrants) {
+        let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${reg}/resend`;
+        if (occurrence) {
+          url += `?occurrence_id=${occurrence}`;
+        }
+
+        await axios(url, {
+          method: "POST",
+          headers: { "X-WP-Nonce": servvData.nonce },
+        });
+      }
+
+      toast("Emails successfully resent to all registrants");
+    } catch (error) {
+      console.error(error);
       toast("Failed to resend emails");
+    } finally {
       setActiveDropdown(null);
       setLoading(false);
-    });
-    if (refundBookingResponse && refundBookingResponse.status === 200) {
-      toast("Emails successfully resent");
     }
-    setActiveDropdown(null);
-    setLoading(false);
   };
 
   const refundBooking = async ({ id, occurrence }) => {
@@ -534,22 +541,24 @@ const BookingsPage = ({ settings }) => {
                     {row.email}
                   </p>
                 </span>
-                <div className="dropdown-actions">
-                  <BlockStack gap={4}>
-                    {/* <button
-                      className="dropdown-action"
-                      onClick={() =>
-                        resendConfirmations({
-                          ...getPostId(row.variant_id),
-                          registrant: row.registrants_ids,
-                        })
-                      }
-                    >
-                      <PaperAirplaneIcon className="dropdown-icon" />
-                      {t("Resend confirmation")}
-                    </button> */}
-                  </BlockStack>
-                </div>
+                {row.active_registrants > 0 && (
+                  <div className="dropdown-actions">
+                    <BlockStack gap={4}>
+                      <button
+                        className="dropdown-action"
+                        onClick={() =>
+                          resendConfirmations({
+                            ...getPostId(row.variant_id),
+                            registrant: row.registrants_ids,
+                          })
+                        }
+                      >
+                        <PaperAirplaneIcon className="dropdown-icon" />
+                        {t("Resend confirmation")}
+                      </button>
+                    </BlockStack>
+                  </div>
+                )}
                 <div className="dropdown-actions border-t w-full">
                   <BlockStack gap={4}>
                     {row.price > 0 && (
@@ -561,13 +570,15 @@ const BookingsPage = ({ settings }) => {
                         {t("Issue refund")}
                       </button>
                     )}
-                    <button
-                      className="dropdown-action"
-                      onClick={() => cancelBookings(row.id)}
-                    >
-                      <XCircleIcon className="dropdown-icon" />
-                      {t("Cancel booking")}
-                    </button>
+                    {row.active_registrants > 0 && (
+                      <button
+                        className="dropdown-action"
+                        onClick={() => cancelBookings(row.id)}
+                      >
+                        <XCircleIcon className="dropdown-icon" />
+                        {t("Cancel booking")}
+                      </button>
+                    )}
                   </BlockStack>
                 </div>
               </div>
@@ -696,74 +707,104 @@ const BookingsPage = ({ settings }) => {
     let successCount = 0;
     let failureCount = 0;
 
-    for (const variant of selectedOrder) {
-      let id = null;
-      let occurrence = null;
+    try {
+      for (const variant of selectedOrder) {
+        let id = null;
+        let occurrence = null;
 
-      const variantId = bookings.bookings.find(
-        (booking) => booking.id === variant
-      );
-      if (variantId) {
-        ({ id, occurrence } = getPostId(variantId.variant_id));
-      }
+        const variantData = bookings.bookings.find(
+          (booking) => booking.id === variant
+        );
+        if (!variantData) continue;
 
-      let url = "";
-      let successMessage = "";
-      let errorMessage = "";
+        ({ id, occurrence } = getPostId(variantData.variant_id));
 
-      switch (actionType) {
-        case "resend":
-          url = `/wp-json/servv-plugin/v1/event/${id}/registrants/resend`;
-          if (occurrence) url += `?occurrence_id=${occurrence}`;
-          successMessage = "Emails resent successfully.";
-          errorMessage = "Some emails failed to resend.";
-          break;
+        // Make sure registrants is an array
+        const registrants = variantData.registrants_ids.includes(",")
+          ? variantData.registrants_ids.split(",")
+          : [variantData.registrants_ids];
 
-        case "refund":
-          url = `/wp-json/servv-plugin/v1/booking/${variant}/refund`;
-          successMessage = "Bookings refunded successfully.";
-          errorMessage = "Some bookings failed to refund.";
-          break;
+        let url = "";
+        let successMessage = "";
+        let errorMessage = "";
 
-        case "cancel":
-          url = `/wp-json/servv-plugin/v1/booking/${variant}/cancel`;
-          successMessage = "Bookings cancelled successfully.";
-          errorMessage = "Some bookings failed to cancel.";
-          break;
+        switch (actionType) {
+          case "resend":
+            url = `/wp-json/servv-plugin/v1/event/${id}/registrants/`;
 
-        default:
-          toast("Unknown action type.");
-          setLoading(false);
-          return;
-      }
+            successMessage = "Emails resent successfully.";
+            errorMessage = "Some emails failed to resend.";
+            break;
 
-      try {
-        const res = await axios(url, {
-          method: "POST",
-          headers: { "X-WP-Nonce": servvData.nonce },
-        });
+          case "refund":
+            url = `/wp-json/servv-plugin/v1/booking/${variant}/refund`;
+            successMessage = "Bookings refunded successfully.";
+            errorMessage = "Some bookings failed to refund.";
+            break;
 
-        if (res.status === 200) {
-          successCount++;
-        } else {
-          failureCount++;
+          case "cancel":
+            url = `/wp-json/servv-plugin/v1/booking/${variant}/cancel`;
+            successMessage = "Bookings cancelled successfully.";
+            errorMessage = "Some bookings failed to cancel.";
+            break;
+
+          default:
+            toast("Unknown action type.");
+            return;
         }
-      } catch (error) {
-        failureCount++;
+
+        if (actionType !== "resend") {
+          try {
+            const res = await axios.post(url, null, {
+              headers: { "X-WP-Nonce": servvData.nonce },
+            });
+            if (res.status === 200) successCount++;
+            else failureCount++;
+          } catch (error) {
+            console.error(error);
+            failureCount++;
+          }
+        } else {
+          try {
+            const requests = registrants.map((registrant) => {
+              let newURL = url + registrant + "/resend";
+              if (occurrence) newURL += `?occurrence_id=${occurrence}`;
+              return axios.post(newURL, null, {
+                headers: { "X-WP-Nonce": servvData.nonce },
+              });
+            });
+
+            const responses = await Promise.allSettled(requests);
+            let succeeded = 0;
+            let failed = 0;
+
+            responses.forEach((res) => {
+              if (res.status === "fulfilled" && res.value.status === 200)
+                succeeded++;
+              else failed++;
+            });
+            console.log(succeeded, registrants.length);
+            if (succeeded === registrants.length) successCount++;
+            else failureCount++;
+          } catch (error) {
+            console.error(error);
+            failureCount++;
+          }
+        }
       }
-    }
 
-    if (successCount > 0 && failureCount === 0) {
-      toast("All actions completed successfully.");
-    } else if (successCount > 0 && failureCount > 0) {
-      toast(`${successCount} succeeded, ${failureCount} failed.`);
-    } else {
-      toast("All actions failed.");
+      if (successCount > 0 && failureCount === 0) {
+        toast("All actions completed successfully.");
+      } else if (successCount > 0 && failureCount > 0) {
+        toast(`${successCount} succeeded, ${failureCount} failed.`);
+      } else {
+        toast("All actions failed.");
+      }
+    } finally {
+      setActiveDropdown(null);
+      setShowBulkActions(false);
+      setLoading(false);
     }
-
-    setActiveDropdown(null);
-    setShowBulkActions(false);
-    setLoading(false);
   };
 
   const handleExport = async () => {
@@ -973,9 +1014,7 @@ const BookingsPage = ({ settings }) => {
       <BlockStack gap={4}>
         <PageHeader>
           <BlockStack gap={4}>
-            <h1 className="text-display-sm font-semibold mt-6">
-              {t("Bookings")}
-            </h1>
+            <h1 className="text-display-sm mt-6">{t("Bookings")}</h1>
             <p className="page-header-description">
               {/* {t("Review and manage all your event bookings here.")} */}
               View and manage all event bookings in one place
@@ -1045,7 +1084,7 @@ const BookingsPage = ({ settings }) => {
                 <FilterTable headings={renderHeadings()} rows={renderRows()} />
               </Fragment>
             )}
-            {selectedOrder.length > 0 && (
+            {selectedOrder.length > 1 && (
               <div className="filter-table-dropdown-container py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm flex flex-row">
                 <button
                   onClick={() => setShowBulkActions(!showBulkAction)}

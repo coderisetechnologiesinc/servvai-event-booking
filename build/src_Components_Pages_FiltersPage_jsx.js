@@ -768,7 +768,7 @@ const TimeInputControl = ({
     onChange(newTime);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between md:grow-0`,
+    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between [@media(max-width:735px)]:grow-0`,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-description",
       children: label
@@ -1018,7 +1018,7 @@ const CreateCategoryFilterForm = ({
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h1", {
-          className: "text-display-sm font-bold mt-6 text-gray-900",
+          className: "text-display-sm mt-6 text-gray-900",
           style: {
             fontFamily: "'Inter', sans-serif"
           },
@@ -1236,7 +1236,7 @@ const CreateLanguageFilterForm = ({
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h1", {
-          className: "text-display-sm font-bold mt-6 text-gray-900",
+          className: "text-display-sm mt-6 text-gray-900",
           style: {
             fontFamily: "'Inter', sans-serif"
           },
@@ -1485,7 +1485,7 @@ const CreateLocationFilterForm = ({
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h1", {
-          className: "text-display-sm font-bold mt-6 text-gray-900",
+          className: "text-display-sm mt-6 text-gray-900",
           style: {
             fontFamily: "'Inter', sans-serif"
           },
@@ -1735,7 +1735,7 @@ const CreateMemberFilterForm = ({
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h1", {
-          className: "text-display-sm font-bold mt-6 text-gray-900",
+          className: "text-display-sm mt-6 text-gray-900",
           style: {
             fontFamily: "'Inter', sans-serif"
           },
@@ -2047,13 +2047,21 @@ const FiltersList = ({
         onChange: () => onSelect(row.id)
       })
     }), headings().map(heading => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("td", {
-      children: heading.value === "name" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
-        href: "#",
-        className: "filter-table-link",
-        onClick: e => onEdit(e, row),
-        children: row[heading.value]
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
-        children: row[heading.value]
+      className: "max-w-[150px]",
+      children: heading.value === "name" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        class: "truncate w-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+          href: "#",
+          className: "filter-table-link",
+          onClick: e => onEdit(e, row),
+          children: row[heading.value]
+        })
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        class: "truncate w-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+          className: "break-all",
+          children: row[heading.value]
+        })
       })
     }, heading.value)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("td", {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
@@ -2302,7 +2310,7 @@ const FiltersPage = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setFiltersCategories(Object.keys(filtersList).map(filter => {
       if (filtersList[filter] && filtersList[filter].length > 0) return filter.charAt(0).toUpperCase() + filter.slice(1);
-    }));
+    }).filter(filter => filter));
   }, [filtersList]);
   const [createFilterOpen, setCreateFilterOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const handleCloseCreateForm = () => {
@@ -2487,7 +2495,7 @@ const FiltersPage = ({
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_2__["default"], {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("h1", {
-            className: "text-display-sm font-semibold mt-6",
+            className: "text-display-sm mt-6",
             children: !selectedList ? "Filters" : selectedList
           }), breadcrumbs.length > 1 && renderBreadCrumbs(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("p", {
             className: "page-header-description",
@@ -2984,4 +2992,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=7da0ea33ae2dd7b3e6ba
+//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=d5f6335b891a903a2fdb

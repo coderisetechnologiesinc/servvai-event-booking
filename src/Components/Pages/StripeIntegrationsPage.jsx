@@ -195,7 +195,7 @@ const StripeIntegrationsPage = (props) => {
     <Fragment>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">{t("Stripe")}</h1>
+          <h1 className="text-display-sm mt-6">{t("Stripe")}</h1>
           {/* <p className="page-header-description">
             {t(
               "Sync your event schedules effortlessly with Google Calendar or\r\n            Outlook to keep everyone informed."

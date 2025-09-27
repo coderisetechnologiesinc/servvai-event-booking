@@ -75,7 +75,7 @@ const EmailsPage = ({ onPageSelect }) => {
     <Fragment>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">{t("Emails")}</h1>
+          <h1 className="text-display-sm mt-6">{t("Emails")}</h1>
           <BreadCrumbs
             breadcrumbs={[
               { label: "Integrations", action: () => onPageSelect("main") },

@@ -152,6 +152,7 @@ const AdminSettingsPage = ({ settingsData }) => {
             isLoading={loading}
             setIsLoading={setLoading}
             globalError={errorMessage}
+            redirect={handlePageChange}
           />
         </React.Suspense>
       )}
@@ -256,7 +257,10 @@ domReady(() => {
           );
         } else if (servvData.install_status === "failed") {
           component = (
-            <ValidationScreen message="Activation failed. Please contact the Servv support team." />
+            <ValidationScreen
+              message="⚠️ Activation could not be completed."
+              troubleshoot={true}
+            />
           );
         } else if (
           servvData.install_status !== "ok" &&

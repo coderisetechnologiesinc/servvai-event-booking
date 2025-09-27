@@ -1188,7 +1188,7 @@ const TimeInputControl = ({
     onChange(newTime);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between md:grow-0`,
+    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between [@media(max-width:735px)]:grow-0`,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-description",
       children: label
@@ -1489,7 +1489,7 @@ const DatePickerControl = ({
     selected: value,
     value: value,
     placeholder: value?.startDate && moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate, (moment__WEBPACK_IMPORTED_MODULE_1___default().ISO_8601), true).isValid() ? moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate).format("MMM DD, YYYY") : "Select dates",
-    inputClassName: `input-control section-description text-left w-full ${variant === "button" ? adminSection ? "" : "max-w-[10rem]" : "w-full"} ${adminSection ? "min-w-[8rem]" : "min-w-[10rem]"} shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`,
+    inputClassName: `input-control section-description text-left w-full ${variant === "button" ? adminSection ? "max-w-full" : "max-w-[160px]" : "w-full"} ${adminSection ? "min-w-[128px]" : "min-w-[160px]"} shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`,
     onChange: handleDateChange
   });
 };
@@ -1788,14 +1788,14 @@ const DateTimeSection = ({
         loading: isAiLoading
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
-      className: "flex flex-row gap-5 justify-between items-end max-sm:flex-col",
+      className: `flex flex-row gap-5 justify-between items-end ${!adminSection ? "[@media(max-width:735px)]:flex-col [@media(max-width:735px)]:items-start [@media(max-width:735px)]:w-full" : "[@media(max-width:1385px)]:flex-col [@media(max-width:1385px)]:items-start [@media(max-width:1385px)]:w-full"}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
         date: time,
         onChange: handleDateChange,
         variant: "button",
         adminSection: adminSection
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
-        className: "flex flex-row gap-3 justify-between align-center max-sm:justify-start md:justify-between max-sm:w-full",
+        className: `flex flex-row gap-3 justify-between items-center max-sm:justify-start ${!adminSection ? "[@media(max-width:735px)]:justify-between [@media(max-width:735px)]:w-full" : "[@media(max-width:1385px)]:justify-between [@media(max-width:1385px)]:w-full"}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
         // label="Start time"
         , {
@@ -2868,6 +2868,12 @@ const LocationSection = ({
       handleCustomFieldChange("custom_field_1_name", "Link");
     }
   }, [disabled, location, customFields]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (location === "online" && (disabled || !zoomAccount || !zoomAccount.id)) {
+      console.log("change location");
+      handleLocationChange(eventTypes[0]);
+    }
+  }, [disabled, location, zoomAccount]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "section-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -2879,7 +2885,7 @@ const LocationSection = ({
       active: location === "offline" && custom_field_1_name !== "Link" ? eventTypes[0] : eventTypes[1],
       onChange: handleLocationChange
       // disabled={disabled}
-    }), settings && (!zoomAccount || !zoomAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), settings && settings.current_plan && settings.current_plan.id === 2 && (!zoomAccount || !zoomAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-description",
       children: "Please note: To use the Integrations feature, you need to connect your Zoom account."
     }), meetingType === "offline" && custom_field_1_name !== "Link" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -3142,7 +3148,7 @@ const ProductDetails = ({
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "text-sm text-gray-300",
-              children: "Maximum quantity for free plan is 25"
+              children: "Maximum quantity for free plan is 100"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_3__["default"], {
             title: "Availability",
@@ -3329,8 +3335,7 @@ const RegistrantsSection = ({
     onChange(newRegistrant);
   };
   const renderRegistrants = () => {
-    return registrants.map(registrant => {
-      console.log("selectedRegistrants", selectedRegistrants, registrant.id, selectedRegistrants.indexOf(registrant.id) >= 0);
+    if (registrants.length > 0) return registrants.map(registrant => {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Registrant__WEBPACK_IMPORTED_MODULE_3__["default"], {
         id: registrant.id || registrant.tempId,
         firstName: registrant.firstName,
@@ -3341,6 +3346,8 @@ const RegistrantsSection = ({
         onSelect: handleSelectRegistrants,
         selected: selectedRegistrants.indexOf(registrant.id) >= 0 || selectedRegistrants.indexOf(registrant.tempId) >= 0
       });
+    });else return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+      children: "This event doesn't have any registrants yet"
     });
   };
   const isResentdToAllAvailable = () => {
@@ -4132,6 +4139,7 @@ const TicketsSection = ({
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
             className: "w-4"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
+            className: "text-[16px]",
             children: t("Create new ticket")
           })]
         }), tickets?.length > 0 && selectedTicket !== null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("fieldset", {
@@ -4913,4 +4921,4 @@ const timezones = [{
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=4f9d3cb9fa33ad3d0d95
+//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=34ff97a3e5bd77d8b90a

@@ -129,7 +129,7 @@ const ProductDetails = ({
                   />
                 </div>
                 <span className="text-sm text-gray-300">
-                  Maximum quantity for free plan is 25
+                  Maximum quantity for free plan is 100
                 </span>
               </div>
               <ButtonGroup

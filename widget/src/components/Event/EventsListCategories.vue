@@ -198,10 +198,14 @@
     </div> -->
 
     <div class="list-result-counter-container">
-      <span v-show="meetingsListForRender && meetingsListForRender.length"
-        >{{ meetingsListForRender.length }}
-        {{ $t("mainWidget.itemsCounterLabel") }}</span
-      >
+      <span v-if="meetingsListForRender && meetingsListForRender.length">
+        {{ meetingsListForRender.length }}
+        {{
+          meetingsListForRender.length === 1
+            ? $t("mainWidget.singleEventItemsCounterLabel")
+            : $t("mainWidget.itemsCounterLabel")
+        }}
+      </span>
     </div>
     <!--    v-show="!isListInTheEnd && meetingsListForRender.length > 0"-->
     <div

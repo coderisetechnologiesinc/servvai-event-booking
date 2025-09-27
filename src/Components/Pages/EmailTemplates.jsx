@@ -262,9 +262,12 @@ const EmailTemplates = ({ settings }) => {
           <div className="sticky top-0 bg-white z-20 border-b border-gray-200 px-4 py-4">
             <div className="flex items-center justify-between mb-4">
               <div className="flex-1">
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-2xl text-gray-900">
                   {t("Email Templates")}
                 </h1>
+                {/* <h1 className="text-2xl font-bold text-gray-900">
+                  {t("Email Templates")}
+                </h1> */}
                 <p className="text-sm text-gray-600 mt-1">
                   {/* {t("Easily View, Create, and Modify Email Templates")} */}
                   Easily view, create, and modify email templates
@@ -463,7 +466,7 @@ const EmailTemplates = ({ settings }) => {
           {/* Desktop Header */}
           <PageHeader>
             <BlockStack>
-              <h1 className="text-3xl font-bold text-gray-900 w-full mt-6">
+              <h1 className="text-3xl text-gray-900 w-full mt-6">
                 {t("Email Templates")}
               </h1>
               <p className="text-gray-600 mt-1 w-full">

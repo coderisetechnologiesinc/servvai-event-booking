@@ -67,7 +67,7 @@ const CreateCategoryFilterForm = ({
       <PageHeader>
         <BlockStack>
           <h1
-            className="text-display-sm font-bold mt-6 text-gray-900"
+            className="text-display-sm mt-6 text-gray-900"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             {categoryData && categoryData.id

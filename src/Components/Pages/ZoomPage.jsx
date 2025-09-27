@@ -73,9 +73,7 @@ const ZoomPage = (props) => {
     <Fragment>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">
-            {t("Video Conferencing")}
-          </h1>
+          <h1 className="text-display-sm mt-6">{t("Video Conferencing")}</h1>
           <BreadCrumbs
             breadcrumbs={[
               {

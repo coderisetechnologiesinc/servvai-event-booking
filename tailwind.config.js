@@ -13,6 +13,11 @@ module.exports = {
     "mr-2",
     "gap-8",
     "md:max-w-[65%]",
+    "[@media(max-width:735px)]:grow-0",
+    "[@media(max-width:735px)]:justify-between",
+    "[@media(max-width:735px)]:w-full",
+    "[@media(max-width:735px)]:flex-col",
+    "[@media(max-width:735px)]:items-start",
   ],
   theme: {
     extend: {

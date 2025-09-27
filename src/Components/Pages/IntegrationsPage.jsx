@@ -51,9 +51,7 @@ const IntegrationsPage = ({
         <Fragment>
           <PageHeader>
             <BlockStack>
-              <h1 className="text-display-sm font-semibold mt-6">
-                Integrations
-              </h1>
+              <h1 className="text-display-sm mt-6">Integrations</h1>
               <p className="page-header-description">
                 Connect and manage your integrations to enhance your event
                 management

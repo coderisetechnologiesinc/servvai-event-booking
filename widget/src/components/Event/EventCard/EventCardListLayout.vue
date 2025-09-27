@@ -89,11 +89,16 @@
               class="item-provider-label"
               v-if="
                 event.provider &&
-                  widgetSettings.widget_style_settings.ew_show_event_type_badge
+                widgetSettings.widget_style_settings.ew_show_event_type_badge
               "
               :class="{
-                zoom: event.provider === 'zoom',
-                offline: event.provider === 'offline',
+                zoom:
+                  event.provider === 'zoom' ||
+                  (event.provider === 'offline' &&
+                    event.custom_field_1_name === 'Link'),
+                offline:
+                  event.provider === 'offline' &&
+                  event.custom_field_1_name !== 'Link',
               }"
             >
               <div class="label-value">
@@ -107,7 +112,7 @@
               class="item-provider-label mobile"
               v-if="
                 event.provider &&
-                  widgetSettings.widget_style_settings.ew_show_event_type_badge
+                widgetSettings.widget_style_settings.ew_show_event_type_badge
               "
               :class="{
                 zoom: event.provider === 'zoom',
@@ -500,6 +505,11 @@ export default {
       default: () => 10,
     },
   },
+  // watch: {
+  //   event(newVal) {
+  //     console.log(newVal);
+  //   },
+  // },
   computed: {
     eventQuantity() {
       if (
@@ -578,9 +588,7 @@ export default {
                 .tz(event.timezone)
                 ._z.offsets.indexOf(
                   Math.abs(
-                    moment(event.start_time)
-                      .tz(event.timezone)
-                      .utcOffset()
+                    moment(event.start_time).tz(event.timezone).utcOffset()
                   )
                 )
             ]
@@ -589,7 +597,6 @@ export default {
         )`;
     },
   },
-  mounted() {},
 };
 </script>
 

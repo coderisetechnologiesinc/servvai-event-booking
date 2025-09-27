@@ -748,7 +748,7 @@ const AnalyticsPage = () => {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_3__["default"], {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h1", {
-          className: "text-display-sm font-semibold mt-6",
+          className: "text-display-sm mt-6",
           children: t("Analytics")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
           className: "page-header-description",
@@ -1462,4 +1462,4 @@ const getCurrencySymbol = currencyCode => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=11ae205916778467fe00
+//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=e93bd574c791652ae2ca

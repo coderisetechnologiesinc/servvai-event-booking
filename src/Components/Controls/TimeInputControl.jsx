@@ -93,7 +93,7 @@ const TimeInputControl = ({
     <div
       className={`input-container-col items-start ${
         align === "start" ? "grow" : "grow-0"
-      } justify-between md:grow-0`}
+      } justify-between [@media(max-width:735px)]:grow-0`}
     >
       <div className="section-description">{label}</div>
       <div className="input-container-row items-center">

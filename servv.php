@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: ServvAI Event Booking
+ * Plugin Name: Servv AI Event Booking
  * Plugin URI: https://github.com/coderisetechnologiesinc/servvai-event-booking/
  * Description: Easily manage event bookings and schedules for both online and in-person experiences, powered by smart AI features.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Servv Inc.
  * Author URI: https://servv.ai/
  * License: GPL2
@@ -101,7 +101,7 @@ function servv_plugin_get_config($key) {
     $config = array_merge($defaults, $dbSettings);
     return $config[$key] ?? null;
 }
-define('SERVV_PLUGIN_VERSION', '1.0.2');
+define('SERVV_PLUGIN_VERSION', '1.0.0');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Block Editor Registration + Editor Script Localization
@@ -195,7 +195,7 @@ add_action('admin_menu', 'servv_add_admin_page');
 add_action('admin_enqueue_scripts', 'servv_admin_enqueue_scripts');
 
 function servv_add_admin_page() {
-    add_menu_page('ServvAI', 'ServvAI Event Booking', 'manage_options', SERVV_PLUGIN_SLUG, 'servv_render_admin_page','dashicons-calendar-alt');
+    add_menu_page('ServvAI', 'Servv AI Events', 'manage_options', SERVV_PLUGIN_SLUG, 'servv_render_admin_page','dashicons-calendar-alt');
     
     add_submenu_page(SERVV_PLUGIN_SLUG, 'Zoom Integration', '.', 'manage_options', 'servv-plugin-zoom-confirm-page', 'servv_plugin_zoom_confirm');
     add_submenu_page(SERVV_PLUGIN_SLUG, 'Calendar Integration', '.', 'manage_options', 'servv-plugin-calendar-confirm-page', 'servv_plugin_calendar_confirm');
@@ -496,11 +496,10 @@ function servv_widget_shortcode($atts) {
     $style .= '--servv-link-hover-color:'    . esc_attr($finalVars['link-hover'])            . ';';
     $style .= '--servv-elements-border:'     . esc_attr($finalVars['elements-border'])       . ';';
 
-    echo '<style>:root { ' . $style . ' }</style>';
+    $output  = '<style>:root { ' . $style . ' }</style>';
+    $output .= '<div id="widget-wrapper"><div id="servv-widget"></div></div>';
 
-    return '<div id="widget-wrapper" style="' . esc_attr($style) . '">
-                <div id="servv-widget"></div>
-            </div>';
+    return $output;
     
 }
 // add_filter( 'use_block_editor_for_post', '__return_false' );
