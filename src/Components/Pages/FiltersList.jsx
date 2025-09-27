@@ -69,7 +69,9 @@ const FiltersList = ({
           onChange={() => onSelectAll()}
         />
       </th>
-      {headings().map((heading) => <th>{heading.label}</th>)}
+      {headings().map((heading) => (
+        <th>{heading.label}</th>
+      ))}
       <th></th>
     </Fragment>
   );
@@ -84,17 +86,21 @@ const FiltersList = ({
           />
         </td>
         {headings().map((heading) => (
-          <td key={heading.value}>
+          <td key={heading.value} className="max-w-[150px]">
             {heading.value === "name" ? (
-              <a
-                href="#"
-                className="filter-table-link"
-                onClick={(e) => onEdit(e, row)}
-              >
-                {row[heading.value]}
-              </a>
+              <div class="truncate w-full">
+                <a
+                  href="#"
+                  className="filter-table-link"
+                  onClick={(e) => onEdit(e, row)}
+                >
+                  {row[heading.value]}
+                </a>
+              </div>
             ) : (
-              <span>{row[heading.value]}</span>
+              <div class="truncate w-full">
+                <span className="break-all">{row[heading.value]}</span>
+              </div>
             )}
           </td>
         ))}
@@ -106,7 +112,9 @@ const FiltersList = ({
               onClick={() => {
                 if (
                   window.confirm(
-                    `Are you sure you want to delete this ${title.slice(0, -1).toLowerCase()}?`
+                    `Are you sure you want to delete this ${title
+                      .slice(0, -1)
+                      .toLowerCase()}?`
                   )
                 ) {
                   onDelete(title, [row.id]);

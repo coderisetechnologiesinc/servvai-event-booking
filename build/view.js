@@ -7091,10 +7091,10 @@ const PaymentForm = () => {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                       className: "flex flex-row gap-4 items-center",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                        className: "font-semibold text-[1rem]",
+                        className: "font-semibold text-[16px]",
                         children: "Attendee " + (index + 1)
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                        className: "text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white",
+                        className: "text-[16px] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white",
                         children: "Standard ticket"
                       })]
                     }), registrant.canBeAdded === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -7105,16 +7105,25 @@ const PaymentForm = () => {
                       children: "Remove"
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                    className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
+                    className: "text-[16px] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
                     children: price > 0 ? price + " " + meetingData.currency.toUpperCase() : "Free"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                     className: "flex flex-col gap-2",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                      className: "text-[16px] flex flex-col font-semibold",
+                      children: "Email *"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                      value: registrant.email,
+                      align: "left",
+                      type: "text",
+                      width: "100%",
+                      onChange: val => handleRegistrantEmailChange(index, val)
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                       className: "flex flex-row justify-evenly items-baseline w-full gap-4",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                         className: "flex flex-col gap-2 flex-1",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                          className: "flex flex-col font-semibold",
+                          className: "text-[16px] flex flex-col font-semibold",
                           children: "First Name *"
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                           value: registrant.firstName,
@@ -7126,7 +7135,7 @@ const PaymentForm = () => {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                         className: "flex flex-col gap-2 flex-1",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                          className: "flex flex-col font-semibold",
+                          className: "text-[16px] flex flex-col font-semibold",
                           children: "Last Name *"
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                           value: registrant.lastName,
@@ -7136,15 +7145,6 @@ const PaymentForm = () => {
                           onChange: val => handleRegistrantLastNameChange(index, val)
                         })]
                       })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                      className: "flex flex-col font-semibold",
-                      children: "Email *"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                      value: registrant.email,
-                      align: "left",
-                      type: "text",
-                      width: "100%",
-                      onChange: val => handleRegistrantEmailChange(index, val)
                     })]
                   })]
                 }), additionalRegistrants.length > 1 && registrant.first_registrant && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
@@ -7963,10 +7963,10 @@ const PaymentForm = () => {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                   className: "flex flex-row gap-4 items-center",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                    className: "font-semibold text-[1rem]",
+                    className: "font-semibold text-[16px]",
                     children: registrant.first_registrant ? "Attendee " + attendeeCounter.current + " (Main contact)" : "Attendee " + attendeeCounter.current
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                    className: "text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white",
+                    className: "text-[16px] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white",
                     children: registrant.ticket.name
                   })]
                 }), registrant.canBeAdded === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -7977,12 +7977,12 @@ const PaymentForm = () => {
                   children: "Remove"
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
+                className: "text-[16px] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
                 children: registrant.ticket.price > 0 ? registrant.ticket.price + " " + registrant.ticket.currency.toUpperCase() : registrant.ticket.is_donation ? "Donation" : "Free"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                 className: "flex flex-col gap-2",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                  className: "flex flex-col font-semibold",
+                  className: "text-[16px] flex flex-col font-semibold",
                   children: "Email *"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                   value: registrant.email,
@@ -7995,7 +7995,7 @@ const PaymentForm = () => {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                     className: "flex flex-col gap-2 flex-1",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                      className: "flex flex-col font-semibold",
+                      className: "text-[16px] flex flex-col font-semibold",
                       children: "First Name *"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                       value: registrant.firstName,
@@ -8007,7 +8007,7 @@ const PaymentForm = () => {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                     className: "flex flex-col gap-2 flex-1",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                      className: "flex flex-col font-semibold",
+                      className: "text-[16px] flex flex-col font-semibold",
                       children: "Last Name *"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                       value: registrant.lastName,
@@ -8020,7 +8020,7 @@ const PaymentForm = () => {
                 }), registrant.ticket && registrant.ticket?.is_donation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
                   className: "flex flex-col gap-2 flex-1",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
-                    className: "flex flex-col font-semibold",
+                    className: "text-[16px] flex flex-col font-semibold",
                     children: "Donation *"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
                     value: registrant.donation,

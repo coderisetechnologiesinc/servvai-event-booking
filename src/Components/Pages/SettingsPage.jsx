@@ -782,7 +782,7 @@ const SettingsPage = () => {
       const handleComplete = async function () {
         checkout.destroy();
         toast("Your billing plan has been successfully activated.");
-        await getBillingPlans();
+        await getSettings();
         setShowPaymentForm(false);
       };
       const checkout = await stripe.initEmbeddedCheckout({
@@ -843,7 +843,7 @@ const SettingsPage = () => {
     <PageWrapper loading={loading}>
       <PageHeader>
         <BlockStack className={responsiveBlockStack}>
-          <h1 className="text-display-sm font-semibold mt-6">Settings</h1>
+          <h1 className="text-display-sm mt-6">Settings</h1>
           <p className="page-header-description">
             Set default values for new events to save time
           </p>

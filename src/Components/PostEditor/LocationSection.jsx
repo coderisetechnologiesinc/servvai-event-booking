@@ -56,6 +56,15 @@ const LocationSection = ({
       handleCustomFieldChange("custom_field_1_name", "Link");
     }
   }, [disabled, location, customFields]);
+  useEffect(() => {
+    if (
+      location === "online" &&
+      (disabled || !zoomAccount || !zoomAccount.id)
+    ) {
+      console.log("change location");
+      handleLocationChange(eventTypes[0]);
+    }
+  }, [disabled, location, zoomAccount]);
 
   return (
     <div className="section-container">
@@ -73,12 +82,15 @@ const LocationSection = ({
           // disabled={disabled}
         />
       )}
-      {settings && (!zoomAccount || !zoomAccount.id) && (
-        <div className="section-description">
-          Please note: To use the Integrations feature, you need to connect your
-          Zoom account.
-        </div>
-      )}
+      {settings &&
+        settings.current_plan &&
+        settings.current_plan.id === 2 &&
+        (!zoomAccount || !zoomAccount.id) && (
+          <div className="section-description">
+            Please note: To use the Integrations feature, you need to connect
+            your Zoom account.
+          </div>
+        )}
       {meetingType === "offline" && custom_field_1_name !== "Link" && (
         <div className="input-container-row items-center">
           <div className="input-container-col w-full">

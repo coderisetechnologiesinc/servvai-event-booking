@@ -518,9 +518,7 @@ const AnalyticsPage = () => {
     <PageWrapper loading={loading}>
       <PageHeader>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">
-            {t("Analytics")}
-          </h1>
+          <h1 className="text-display-sm mt-6">{t("Analytics")}</h1>
           <p className="page-header-description">
             {/* {t("View your Revenue, Registrants, Events, and Filter analytics.")} */}
             Access analytics for your revenue, registrants, events, and filters

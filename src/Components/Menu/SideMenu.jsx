@@ -41,7 +41,7 @@ const SideBar = ({ page, onChange, collapsed, onToggle }) => {
 
         <BlockStack gap={4}>
           <div
-            className={!collapsed ? `servv-logo` : `servv-logo-collapsed`}
+            className={!collapsed ? `servv-logo-png` : `servv-logo-collapsed`}
           ></div>
           {/* <div className="text-regular text-gray-500">Version 0.3</div> */}
 

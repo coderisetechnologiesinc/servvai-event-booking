@@ -1085,7 +1085,7 @@ const EmailTemplates = ({
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
             className: "flex-1",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h1", {
-              className: "text-2xl font-bold text-gray-900",
+              className: "text-2xl text-gray-900",
               children: t("Email Templates")
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("p", {
               className: "text-sm text-gray-600 mt-1",
@@ -1264,7 +1264,7 @@ const EmailTemplates = ({
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h1", {
-            className: "text-3xl font-bold text-gray-900 w-full mt-6",
+            className: "text-3xl text-gray-900 w-full mt-6",
             children: t("Email Templates")
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("p", {
             className: "text-gray-600 mt-1 w-full",
@@ -1498,4 +1498,4 @@ const PageWrapper = props => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=3939b379b3627c84e236
+//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=fca1af8aae84769efd74

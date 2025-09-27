@@ -34,6 +34,7 @@ export const translationsKeysTpl = {
     liveShoppingStartCountdown: "in",
     searchEventPlaceholder: "Search",
     itemsCounterLabel: "items",
+    singleEventItemsCounterLabel: "item",
     clearFiltersLabel: "clear",
     bookButtonLabel: "Book now",
     eventDetailsButtonLabel: "Details",

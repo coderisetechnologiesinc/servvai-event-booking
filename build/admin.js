@@ -295,7 +295,7 @@ const SideBar = ({
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
         gap: 4,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: !collapsed ? `servv-logo` : `servv-logo-collapsed`
+          className: !collapsed ? `servv-logo-png` : `servv-logo-collapsed`
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
           title: typeof t === "function" ? t("Events") : "Events",
           link: "events",
@@ -394,7 +394,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ValidationScreen = ({
-  message
+  message,
+  troubleshoot
 }) => {
   const [intercomLaded, setIntercomLoaded] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -460,16 +461,42 @@ const ValidationScreen = ({
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "flex flex-col justify-center items-center gap-4",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
-        className: "text-gray-900 font-semibold text-display-sm",
-        children: "ServvAI Event Booking \u2013 Installation & Setup"
+        className: "text-gray-900 text-display-sm",
+        children: "Installation & Setup"
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-      className: "text-2xl font-regular text-gray-900 px-[10%] py-[5%]",
+      className: "text-2xl font-regular text-gray-900 px-[10%] py-[2%]",
       children: message
+    }), troubleshoot && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "pb-[2%]",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ol", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
+          className: "text-xl font-regular text-gray-900",
+          children: ["Review our", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            className: "text-brand-500 hover:text-brand-400",
+            href: "https://support.servv.ai/getting-started/troubleshooting/faq/",
+            children: "Troubleshooting Guide"
+          }), " ", "to resolve common setup issues."]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
+          className: "text-xl font-regular text-gray-900",
+          children: ["Watch the Servv AI", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            className: "text-brand-500 hover:text-brand-400",
+            href: "https://demo.servv.ai/",
+            children: "Demo"
+          }), " ", "to see how the platform works."]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
+          className: "text-xl font-regular text-gray-900",
+          children: ["Explore our Servv AI", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            className: "text-brand-500 hover:text-brand-400",
+            href: "https://www.youtube.com/channel/UCiUGsW6_-iTqUw-tebA9CEQ",
+            children: "Video Library"
+          }), " ", "to learn more."]
+        })]
+      })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "flex flex-col justify-center items-center gap-4",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
-        className: "text-gray-900 font-semibold text-display-sm",
+        className: "text-gray-900 text-display-sm",
         children: "Need help?"
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -492,7 +519,7 @@ const ValidationScreen = ({
           className: "w-[20px] fill-white"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
           className: "text-sm text-white font-semibold",
-          children: "StartChat"
+          children: "Live Chat"
         })]
       })]
     })]
@@ -6229,7 +6256,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"1337993da938828592c5","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"a9b926045bd448c1bec2","src_Components_PostEditor_EventDetails_jsx":"4f9d3cb9fa33ad3d0d95","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"b49c4a6faec57d770a89","src_Components_Pages_FiltersPage_jsx":"7da0ea33ae2dd7b3e6ba","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"8a75896413353bfbbfd0","src_Components_Pages_EmailTemplates_jsx":"3939b379b3627c84e236","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"11ae205916778467fe00","src_Components_Pages_BookingsPage_jsx":"3f85110ac27371528715","src_Components_Pages_SupportPage_jsx":"daab7d5c09442282ce69"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"bf2d9bb9faf34d406b41","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"6973e84d4423ccbaaf09","src_Components_PostEditor_EventDetails_jsx":"34ff97a3e5bd77d8b90a","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"281159e52efa18aebe61","src_Components_Pages_FiltersPage_jsx":"d5f6335b891a903a2fdb","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"8a75896413353bfbbfd0","src_Components_Pages_EmailTemplates_jsx":"fca1af8aae84769efd74","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"e93bd574c791652ae2ca","src_Components_Pages_BookingsPage_jsx":"191ebdcac4fca0f060ea","src_Components_Pages_SupportPage_jsx":"3dcae418be344fc19eea"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -6676,7 +6703,8 @@ const AdminSettingsPage = ({
           filtersList: filtersList,
           isLoading: loading,
           setIsLoading: setLoading,
-          globalError: errorMessage
+          globalError: errorMessage,
+          redirect: handlePageChange
         })
       }), selectedPage === "bookings" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(React.Suspense, {
         fallback: null,
@@ -6767,7 +6795,8 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(() => {
           });
         } else if (servvData.install_status === "failed") {
           component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
-            message: "Activation failed. Please contact the Servv support team."
+            message: "\u26A0\uFE0F Activation could not be completed.",
+            troubleshoot: true
           });
         } else if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
           component = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {

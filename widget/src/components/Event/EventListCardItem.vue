@@ -210,12 +210,14 @@ export default {
             this.event.is_live_shopping
           ) {
             return this.$t("mainWidget.liveShoppingLabel");
-          } else {
+          } else if (this.event.custom_field_1_name !== "Link") {
             return this.$t("mainWidget.virtualEventLabel");
           }
 
         case "offline":
-          return this.$t("mainWidget.inPersonEventLabel");
+          if (this.event.custom_field_1_name === "Link")
+            return this.$t("mainWidget.virtualEventLabel");
+          else return this.$t("mainWidget.inPersonEventLabel");
         default:
           return "";
       }

@@ -84,9 +84,7 @@ const ZoomSettingsPage = () => {
     <Fragment>
       <PageHeader bottomLine={true}>
         <BlockStack>
-          <h1 className="text-display-sm font-semibold mt-6">
-            {t("Zoom Settings")}
-          </h1>
+          <h1 className="text-display-sm mt-6">{t("Zoom Settings")}</h1>
           <p className="page-header-description">
             {t("Connect and manage your Zoom account and settings.")}
           </p>

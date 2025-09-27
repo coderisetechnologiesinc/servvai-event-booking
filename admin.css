@@ -1,0 +1,7 @@
+/* Hide unwanted submenu items in WordPress admin */
+.wp-submenu li a[href*="servv-plugin-zoom-confirm-page"],
+.wp-submenu li a[href*="servv-plugin-calendar-confirm-page"],
+.wp-submenu li a[href*="servv-plugin-gmail-confirm-page"],
+.wp-submenu li a[href*="servv-plugin-stripe-confirm-page"] {
+    display: none !important;
+}

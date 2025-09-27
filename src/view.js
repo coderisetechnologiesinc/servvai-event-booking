@@ -303,10 +303,10 @@ const PaymentForm = () => {
                       <div className="flex flex-col w-full flex-1 gap-2">
                         <div className="flex flex-row items-center justify-between">
                           <div className="flex flex-row gap-4 items-center">
-                            <span className="font-semibold text-[1rem]">
+                            <span className="font-semibold text-[16px]">
                               {"Attendee " + (index + 1)}
                             </span>
-                            <div className="text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white">
+                            <div className="text-[16px] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white">
                               Standard ticket
                             </div>
                           </div>
@@ -320,15 +320,27 @@ const PaymentForm = () => {
                             Remove
                           </button>
                         </div>
-                        <div className="text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8">
+                        <div className="text-[16px] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8">
                           {price > 0
                             ? price + " " + meetingData.currency.toUpperCase()
                             : "Free"}
                         </div>
                         <div className="flex flex-col gap-2">
+                          <div className="text-[16px] flex flex-col font-semibold">
+                            Email *
+                          </div>
+                          <InputFieldControl
+                            value={registrant.email}
+                            align="left"
+                            type="text"
+                            width={"100%"}
+                            onChange={(val) =>
+                              handleRegistrantEmailChange(index, val)
+                            }
+                          />
                           <div className="flex flex-row justify-evenly items-baseline w-full gap-4">
                             <div className="flex flex-col gap-2 flex-1">
-                              <div className="flex flex-col font-semibold">
+                              <div className="text-[16px] flex flex-col font-semibold">
                                 First Name *
                               </div>
                               <InputFieldControl
@@ -342,7 +354,7 @@ const PaymentForm = () => {
                               />
                             </div>
                             <div className="flex flex-col gap-2 flex-1">
-                              <div className="flex flex-col font-semibold">
+                              <div className="text-[16px] flex flex-col font-semibold">
                                 Last Name *
                               </div>
                               <InputFieldControl
@@ -356,18 +368,6 @@ const PaymentForm = () => {
                               />
                             </div>
                           </div>
-                          <div className="flex flex-col font-semibold">
-                            Email *
-                          </div>
-                          <InputFieldControl
-                            value={registrant.email}
-                            align="left"
-                            type="text"
-                            width={"100%"}
-                            onChange={(val) =>
-                              handleRegistrantEmailChange(index, val)
-                            }
-                          />
                         </div>
                       </div>
                       {additionalRegistrants.length > 1 &&
@@ -1395,7 +1395,7 @@ const PaymentForm = () => {
                 <div className="flex flex-col w-full flex-1 gap-2">
                   <div className="flex flex-row items-center justify-between">
                     <div className="flex flex-row gap-4 items-center">
-                      <span className="font-semibold text-[1rem]">
+                      <span className="font-semibold text-[16px]">
                         {registrant.first_registrant
                           ? "Attendee " +
                             attendeeCounter.current +
@@ -1403,7 +1403,7 @@ const PaymentForm = () => {
                           : "Attendee " + attendeeCounter.current}
                       </span>
                       {
-                        <div className="text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white">
+                        <div className="text-[16px] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white">
                           {registrant.ticket.name}
                         </div>
                       }
@@ -1419,7 +1419,7 @@ const PaymentForm = () => {
                     </button>
                   </div>
                   {
-                    <div className="text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8">
+                    <div className="text-[16px] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8">
                       {registrant.ticket.price > 0
                         ? registrant.ticket.price +
                           " " +
@@ -1430,7 +1430,9 @@ const PaymentForm = () => {
                     </div>
                   }
                   <div className="flex flex-col gap-2">
-                    <div className="flex flex-col font-semibold">Email *</div>
+                    <div className="text-[16px] flex flex-col font-semibold">
+                      Email *
+                    </div>
                     <InputFieldControl
                       value={registrant.email}
                       align="left"
@@ -1442,7 +1444,7 @@ const PaymentForm = () => {
                     />
                     <div className="flex flex-row justify-evenly items-baseline w-full gap-4">
                       <div className="flex flex-col gap-2 flex-1">
-                        <div className="flex flex-col font-semibold">
+                        <div className="text-[16px] flex flex-col font-semibold">
                           First Name *
                         </div>
                         <InputFieldControl
@@ -1456,7 +1458,7 @@ const PaymentForm = () => {
                         />
                       </div>
                       <div className="flex flex-col gap-2 flex-1">
-                        <div className="flex flex-col font-semibold">
+                        <div className="text-[16px] flex flex-col font-semibold">
                           Last Name *
                         </div>
                         <InputFieldControl
@@ -1472,7 +1474,7 @@ const PaymentForm = () => {
                     </div>
                     {registrant.ticket && registrant.ticket?.is_donation && (
                       <div className="flex flex-col gap-2 flex-1">
-                        <div className="flex flex-col font-semibold">
+                        <div className="text-[16px] flex flex-col font-semibold">
                           Donation *
                         </div>
                         <InputFieldControl

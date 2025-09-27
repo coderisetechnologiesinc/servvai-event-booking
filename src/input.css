@@ -217,20 +217,19 @@
     @apply w-[10px] hover:cursor-pointer;
   }
 
-  div.servv-logo-collapsed {
-    @apply justify-self-start mt-6 ml-[-5px];
-    background: left/cover no-repeat url("../public/assets/images/image-3.svg");
-    width: 40px;
-    height: 40px;
-  }
+    div.servv-logo-collapsed {
+      @apply justify-self-start mt-6 ml-[-5px];
+      background: left/cover no-repeat url("../public/assets/images/servv-logo.png");
+      width: 40px;
+      height: 40px;
+    }
 
-  div.servv-logo {
-    @apply justify-self-start mt-6 ml-2;
-    background: left / contain no-repeat
-      url("../public/assets/images/image-3.svg");
-    width: 180px;
-    height: 40px;
-  }
+    div.servv-logo-png {
+      @apply justify-self-start mt-6 ml-2;
+      background: left / contain no-repeat url("../public/assets/images/servv-logo.png");
+      width: 180px;
+      height: 40px;
+    }
 
   .menu-item-title {
     @apply font-semibold text-gray-800;

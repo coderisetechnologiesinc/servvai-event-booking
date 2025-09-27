@@ -280,6 +280,11 @@
     font-weight: 500;
     padding: 5px;
     margin-bottom: -30px;
+    span {
+      @include media-breakpoint-down(sm) {
+        margin-right: 20px;
+      }
+    }
   }
 
   .card-type-item-badge {
@@ -336,8 +341,8 @@
     z-index: 15;
 
     @include media-breakpoint-down(sm) {
-      bottom: -17px;
-      //bottom: -5px;
+      // bottom: -17px;
+      // bottom: -5px;
     }
     .svv-servv-logo {
       display: flex;

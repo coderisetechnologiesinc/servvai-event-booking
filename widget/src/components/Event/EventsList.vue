@@ -207,8 +207,13 @@
           !isLoading &&
           !isListLoading
         "
-        >{{ meetingsListForRender.length }}
-        {{ $t("mainWidget.itemsCounterLabel") }}</span
+      >
+        {{ meetingsListForRender.length }}
+        {{
+          meetingsListForRender.length === 1
+            ? $t("mainWidget.singleEventItemsCounterLabel")
+            : $t("mainWidget.itemsCounterLabel")
+        }}</span
       >
     </div>
   </div>

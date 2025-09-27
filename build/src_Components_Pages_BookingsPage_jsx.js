@@ -770,9 +770,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
 /* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../utilities/timezones */ "./src/utilities/timezones.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/Bars4Icon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/WalletIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/XCircleIcon.js");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PaperAirplaneIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PaperAirplaneIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/WalletIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/XCircleIcon.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/AdjustmentsVerticalIcon.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ArrowDownOnSquareStackIcon.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -922,27 +922,29 @@ const BookingsPage = ({
     occurrence,
     registrant
   }) => {
-    let registrants = registrant.indexOf(",") > 0 ? registrant.split(",")[0] : registrant;
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${registrants}/resend`;
-    if (occurrence) {
-      url += `?occurrence_id=${occurrence}`;
-    }
-    const refundBookingResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_20__["default"])(url, {
-      method: "POST",
-      headers: {
-        "X-WP-Nonce": servvData.nonce
+    const registrants = registrant.includes(",") ? registrant.split(",") : [registrant];
+    try {
+      for (const reg of registrants) {
+        let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${reg}/resend`;
+        if (occurrence) {
+          url += `?occurrence_id=${occurrence}`;
+        }
+        await (0,axios__WEBPACK_IMPORTED_MODULE_20__["default"])(url, {
+          method: "POST",
+          headers: {
+            "X-WP-Nonce": servvData.nonce
+          }
+        });
       }
-    }).catch(error => {
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("Emails successfully resent to all registrants");
+    } catch (error) {
+      console.error(error);
       (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("Failed to resend emails");
+    } finally {
       setActiveDropdown(null);
       setLoading(false);
-    });
-    if (refundBookingResponse && refundBookingResponse.status === 200) {
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("Emails successfully resent");
     }
-    setActiveDropdown(null);
-    setLoading(false);
   };
   const refundBooking = async ({
     id,
@@ -1256,10 +1258,20 @@ const BookingsPage = ({
                 className: "dropdown-description wrap-break-word",
                 children: row.email
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("div", {
+            }), row.active_registrants > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("div", {
               className: "dropdown-actions",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                gap: 4
+                gap: 4,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
+                  className: "dropdown-action",
+                  onClick: () => resendConfirmations({
+                    ...getPostId(row.variant_id),
+                    registrant: row.registrants_ids
+                  }),
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
+                    className: "dropdown-icon"
+                  }), t("Resend confirmation")]
+                })
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("div", {
               className: "dropdown-actions border-t w-full",
@@ -1268,13 +1280,13 @@ const BookingsPage = ({
                 children: [row.price > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
                   className: "dropdown-action",
                   onClick: () => refundBooking(row.id),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
                     className: "dropdown-icon"
                   }), t("Issue refund")]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
+                }), row.active_registrants > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
                   className: "dropdown-action",
                   onClick: () => cancelBookings(row.id),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
                     className: "dropdown-icon"
                   }), t("Cancel booking")]
                 })]
@@ -1393,67 +1405,91 @@ const BookingsPage = ({
     setLoading(true);
     let successCount = 0;
     let failureCount = 0;
-    for (const variant of selectedOrder) {
-      let id = null;
-      let occurrence = null;
-      const variantId = bookings.bookings.find(booking => booking.id === variant);
-      if (variantId) {
+    try {
+      for (const variant of selectedOrder) {
+        let id = null;
+        let occurrence = null;
+        const variantData = bookings.bookings.find(booking => booking.id === variant);
+        if (!variantData) continue;
         ({
           id,
           occurrence
-        } = getPostId(variantId.variant_id));
-      }
-      let url = "";
-      let successMessage = "";
-      let errorMessage = "";
-      switch (actionType) {
-        case "resend":
-          url = `/wp-json/servv-plugin/v1/event/${id}/registrants/resend`;
-          if (occurrence) url += `?occurrence_id=${occurrence}`;
-          successMessage = "Emails resent successfully.";
-          errorMessage = "Some emails failed to resend.";
-          break;
-        case "refund":
-          url = `/wp-json/servv-plugin/v1/booking/${variant}/refund`;
-          successMessage = "Bookings refunded successfully.";
-          errorMessage = "Some bookings failed to refund.";
-          break;
-        case "cancel":
-          url = `/wp-json/servv-plugin/v1/booking/${variant}/cancel`;
-          successMessage = "Bookings cancelled successfully.";
-          errorMessage = "Some bookings failed to cancel.";
-          break;
-        default:
-          (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("Unknown action type.");
-          setLoading(false);
-          return;
-      }
-      try {
-        const res = await (0,axios__WEBPACK_IMPORTED_MODULE_20__["default"])(url, {
-          method: "POST",
-          headers: {
-            "X-WP-Nonce": servvData.nonce
-          }
-        });
-        if (res.status === 200) {
-          successCount++;
-        } else {
-          failureCount++;
+        } = getPostId(variantData.variant_id));
+
+        // Make sure registrants is an array
+        const registrants = variantData.registrants_ids.includes(",") ? variantData.registrants_ids.split(",") : [variantData.registrants_ids];
+        let url = "";
+        let successMessage = "";
+        let errorMessage = "";
+        switch (actionType) {
+          case "resend":
+            url = `/wp-json/servv-plugin/v1/event/${id}/registrants/`;
+            successMessage = "Emails resent successfully.";
+            errorMessage = "Some emails failed to resend.";
+            break;
+          case "refund":
+            url = `/wp-json/servv-plugin/v1/booking/${variant}/refund`;
+            successMessage = "Bookings refunded successfully.";
+            errorMessage = "Some bookings failed to refund.";
+            break;
+          case "cancel":
+            url = `/wp-json/servv-plugin/v1/booking/${variant}/cancel`;
+            successMessage = "Bookings cancelled successfully.";
+            errorMessage = "Some bookings failed to cancel.";
+            break;
+          default:
+            (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("Unknown action type.");
+            return;
         }
-      } catch (error) {
-        failureCount++;
+        if (actionType !== "resend") {
+          try {
+            const res = await axios__WEBPACK_IMPORTED_MODULE_20__["default"].post(url, null, {
+              headers: {
+                "X-WP-Nonce": servvData.nonce
+              }
+            });
+            if (res.status === 200) successCount++;else failureCount++;
+          } catch (error) {
+            console.error(error);
+            failureCount++;
+          }
+        } else {
+          try {
+            const requests = registrants.map(registrant => {
+              let newURL = url + registrant + "/resend";
+              if (occurrence) newURL += `?occurrence_id=${occurrence}`;
+              return axios__WEBPACK_IMPORTED_MODULE_20__["default"].post(newURL, null, {
+                headers: {
+                  "X-WP-Nonce": servvData.nonce
+                }
+              });
+            });
+            const responses = await Promise.allSettled(requests);
+            let succeeded = 0;
+            let failed = 0;
+            responses.forEach(res => {
+              if (res.status === "fulfilled" && res.value.status === 200) succeeded++;else failed++;
+            });
+            console.log(succeeded, registrants.length);
+            if (succeeded === registrants.length) successCount++;else failureCount++;
+          } catch (error) {
+            console.error(error);
+            failureCount++;
+          }
+        }
       }
+      if (successCount > 0 && failureCount === 0) {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("All actions completed successfully.");
+      } else if (successCount > 0 && failureCount > 0) {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)(`${successCount} succeeded, ${failureCount} failed.`);
+      } else {
+        (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("All actions failed.");
+      }
+    } finally {
+      setActiveDropdown(null);
+      setShowBulkActions(false);
+      setLoading(false);
     }
-    if (successCount > 0 && failureCount === 0) {
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("All actions completed successfully.");
-    } else if (successCount > 0 && failureCount > 0) {
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)(`${successCount} succeeded, ${failureCount} failed.`);
-    } else {
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("All actions failed.");
-    }
-    setActiveDropdown(null);
-    setShowBulkActions(false);
-    setLoading(false);
   };
   const handleExport = async () => {
     let allBookings = [];
@@ -1530,19 +1566,19 @@ const BookingsPage = ({
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
             className: "dropdown-action",
             onClick: () => performBulkAction("resend"),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
               className: "dropdown-icon"
             }), "Resend confirmations"]
           }), isRefundAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
             className: "dropdown-action",
             onClick: () => performBulkAction("refund"),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_22__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
               className: "dropdown-icon"
             }), t("Refund bookings")]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("button", {
             className: "dropdown-action",
             onClick: () => performBulkAction("cancel"),
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_23__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_24__["default"], {
               className: "dropdown-icon"
             }), t("Cancel bookings")]
           })]
@@ -1629,7 +1665,7 @@ const BookingsPage = ({
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
           gap: 4,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("h1", {
-            className: "text-display-sm font-semibold mt-6",
+            className: "text-display-sm mt-6",
             children: t("Bookings")
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("p", {
             className: "page-header-description",
@@ -1699,7 +1735,7 @@ const BookingsPage = ({
               headings: renderHeadings(),
               rows: renderRows()
             })
-          }), selectedOrder.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("div", {
+          }), selectedOrder.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsxs)("div", {
             className: "filter-table-dropdown-container py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm flex flex-row",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)("button", {
               onClick: () => setShowBulkActions(!showBulkAction),
@@ -2522,4 +2558,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(X
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=3f85110ac27371528715
+//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=191ebdcac4fca0f060ea

@@ -642,7 +642,7 @@ const TicketsSection = ({
                 disabled={disabled}
               >
                 <PlusCircleIcon className="w-4" />
-                <span>{t("Create new ticket")}</span>
+                <span className="text-[16px]">{t("Create new ticket")}</span>
               </button>
             )}
             {tickets?.length > 0 && selectedTicket !== null && (

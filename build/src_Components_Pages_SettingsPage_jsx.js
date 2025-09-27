@@ -693,7 +693,7 @@ const TimeInputControl = ({
     onChange(newTime);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between md:grow-0`,
+    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between [@media(max-width:735px)]:grow-0`,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "section-description",
       children: label
@@ -1836,7 +1836,7 @@ const SettingsPage = () => {
       const handleComplete = async function () {
         checkout.destroy();
         (0,react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast)("Your billing plan has been successfully activated.");
-        await getBillingPlans();
+        await getSettings();
         setShowPaymentForm(false);
       };
       const checkout = await stripe.initEmbeddedCheckout({
@@ -1885,7 +1885,7 @@ const SettingsPage = () => {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         className: responsiveBlockStack,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h1", {
-          className: "text-display-sm font-semibold mt-6",
+          className: "text-display-sm mt-6",
           children: "Settings"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("p", {
           className: "page-header-description",
@@ -3742,6 +3742,7 @@ const translationsKeysTpl = {
     liveShoppingStartCountdown: "in",
     searchEventPlaceholder: "Search",
     itemsCounterLabel: "items",
+    singleEventItemsCounterLabel: "item",
     clearFiltersLabel: "clear",
     bookButtonLabel: "Book now",
     eventDetailsButtonLabel: "Details",
@@ -3843,4 +3844,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=b49c4a6faec57d770a89
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=281159e52efa18aebe61

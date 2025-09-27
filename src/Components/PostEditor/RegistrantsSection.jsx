@@ -54,29 +54,25 @@ const RegistrantsSection = ({
   };
 
   const renderRegistrants = () => {
-    return registrants.map((registrant) => {
-      console.log(
-        "selectedRegistrants",
-        selectedRegistrants,
-        registrant.id,
-        selectedRegistrants.indexOf(registrant.id) >= 0
-      );
-      return (
-        <Registrant
-          id={registrant.id || registrant.tempId}
-          firstName={registrant.firstName}
-          lastName={registrant.lastName}
-          email={registrant.email}
-          status={registrant.status}
-          onStatusChange={onStatusChange}
-          onSelect={handleSelectRegistrants}
-          selected={
-            selectedRegistrants.indexOf(registrant.id) >= 0 ||
-            selectedRegistrants.indexOf(registrant.tempId) >= 0
-          }
-        />
-      );
-    });
+    if (registrants.length > 0)
+      return registrants.map((registrant) => {
+        return (
+          <Registrant
+            id={registrant.id || registrant.tempId}
+            firstName={registrant.firstName}
+            lastName={registrant.lastName}
+            email={registrant.email}
+            status={registrant.status}
+            onStatusChange={onStatusChange}
+            onSelect={handleSelectRegistrants}
+            selected={
+              selectedRegistrants.indexOf(registrant.id) >= 0 ||
+              selectedRegistrants.indexOf(registrant.tempId) >= 0
+            }
+          />
+        );
+      });
+    else return <p>This event doesn't have any registrants yet</p>;
   };
 
   const isResentdToAllAvailable = () => {

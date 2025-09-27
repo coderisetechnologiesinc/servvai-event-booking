@@ -324,14 +324,26 @@ const DateTimeSection = ({
         variant="button"
         instance="main"
       /> */}
-      <div className="flex flex-row gap-5 justify-between items-end max-sm:flex-col">
+      <div
+        className={`flex flex-row gap-5 justify-between items-end ${
+          !adminSection
+            ? "[@media(max-width:735px)]:flex-col [@media(max-width:735px)]:items-start [@media(max-width:735px)]:w-full"
+            : "[@media(max-width:1385px)]:flex-col [@media(max-width:1385px)]:items-start [@media(max-width:1385px)]:w-full"
+        }`}
+      >
         <DatePickerControl
           date={time}
           onChange={handleDateChange}
           variant="button"
           adminSection={adminSection}
         />
-        <div className="flex flex-row gap-3 justify-between align-center max-sm:justify-start md:justify-between max-sm:w-full">
+        <div
+          className={`flex flex-row gap-3 justify-between items-center max-sm:justify-start ${
+            !adminSection
+              ? "[@media(max-width:735px)]:justify-between [@media(max-width:735px)]:w-full"
+              : "[@media(max-width:1385px)]:justify-between [@media(max-width:1385px)]:w-full"
+          }`}
+        >
           <TimeInputControl
             // label="Start time"
             time={time}

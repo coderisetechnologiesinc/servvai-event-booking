@@ -166,12 +166,15 @@ const FiltersPage = ({
   // };
   useEffect(() => {
     setFiltersCategories(
-      Object.keys(filtersList).map((filter) => {
-        if (filtersList[filter] && filtersList[filter].length > 0)
-          return filter.charAt(0).toUpperCase() + filter.slice(1);
-      })
+      Object.keys(filtersList)
+        .map((filter) => {
+          if (filtersList[filter] && filtersList[filter].length > 0)
+            return filter.charAt(0).toUpperCase() + filter.slice(1);
+        })
+        .filter((filter) => filter)
     );
   }, [filtersList]);
+
   const [createFilterOpen, setCreateFilterOpen] = useState(null);
   const handleCloseCreateForm = () => {
     setFilterForUpdate(null);
@@ -363,7 +366,7 @@ const FiltersPage = ({
         <Fragment>
           <PageHeader>
             <BlockStack>
-              <h1 className="text-display-sm font-semibold mt-6">
+              <h1 className="text-display-sm mt-6">
                 {!selectedList ? "Filters" : selectedList}
               </h1>
               {breadcrumbs.length > 1 && renderBreadCrumbs()}

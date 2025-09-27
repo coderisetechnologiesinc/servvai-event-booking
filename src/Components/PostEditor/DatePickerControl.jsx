@@ -48,9 +48,13 @@ const DatePickerControl = ({
           : "Select dates"
       }
       inputClassName={`input-control section-description text-left w-full ${
-        variant === "button" ? (adminSection ? "" : "max-w-[10rem]") : "w-full"
+        variant === "button"
+          ? adminSection
+            ? "max-w-full"
+            : "max-w-[160px]"
+          : "w-full"
       } ${
-        adminSection ? "min-w-[8rem]" : "min-w-[10rem]"
+        adminSection ? "min-w-[128px]" : "min-w-[160px]"
       } shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`}
       onChange={handleDateChange}
     />

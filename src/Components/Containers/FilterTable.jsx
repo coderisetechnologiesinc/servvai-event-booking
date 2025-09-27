@@ -1,6 +1,12 @@
 import React from "react";
 
-const FilterTable = ({ headings, rows, className = "", tableClassName = "", ...rest }) => {
+const FilterTable = ({
+  headings,
+  rows,
+  className = "",
+  tableClassName = "",
+  ...rest
+}) => {
   return (
     <div className={`table-container w-full ${className}`} {...rest}>
       <table className={`filter-table w-full ${tableClassName}`}>
