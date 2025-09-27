@@ -80,6 +80,10 @@ jobs:
             exit 1
           fi
 
+          # Get current version from PHP file
+          CURRENT_VERSION=$(grep "Version:" servv.php | head -n 1 | awk '{print $2}')
+          echo "Current version in PHP file: $CURRENT_VERSION"
+
           # Get PR labels
           PR_NUMBER=${{ github.event.pull_request.number }}
           LABELS=$(GH_TOKEN=${{ secrets.PAT_TOKEN }} gh pr view $PR_NUMBER --json labels --jq '.labels[].name')
@@ -141,6 +145,19 @@ jobs:
             echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
             echo "BARE_VERSION=$BARE_VERSION" >> $GITHUB_ENV
             echo "CHANGELOG_SECTION=$CHANGELOG_SECTION" >> $GITHUB_ENV
+
+            # Update version in PHP file if different
+            if [ "$CURRENT_VERSION" != "$BARE_VERSION" ]; then
+              sed -i "s/Version: .*/Version: $BARE_VERSION/" servv.php
+              git config user.name "${{ env.BOT_NAME }}"
+              git config user.email "${{ env.BOT_EMAIL }}"
+              git add servv.php
+              git commit -m "Update version to $BARE_VERSION"
+              git push origin main
+              echo "Version updated to $BARE_VERSION in servv.php"
+            else
+              echo "Version $CURRENT_VERSION matches $BARE_VERSION, no update needed"
+            fi
           else
             echo "No release will be created (RELEASE_TYPE=none)"
             echo "NEW_VERSION=" >> $GITHUB_ENV
