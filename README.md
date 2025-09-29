@@ -1,4 +1,4 @@
-# coderisetechnologiesinc/servvai-event-booking
+# servvai-event-booking
 
 ## Overview
 This document outlines the rules and regulations for commits, branching, merging, and release management for the `coderisetechnologiesinc/servvai-event-booking` repository.
