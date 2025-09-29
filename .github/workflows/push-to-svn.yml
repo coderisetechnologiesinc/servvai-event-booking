@@ -1,8 +1,8 @@
 name: Deploy to WordPress.org SVN
 
 on:
-  # release:
-  #   types: [published]
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
