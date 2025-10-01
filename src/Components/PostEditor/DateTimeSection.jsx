@@ -7,7 +7,8 @@ import RecurringSection from "../Controls/RecurringSection";
 // Icons
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 // Utilities
-import timezones from "../../utilities/timezones";
+import timezonesWithOffset from "../../utilities/timezones";
+import { timezonesList } from "../../utilities/timezones";
 import axios from "axios";
 import moment from "moment";
 // import { toast } from "react-toastify";
@@ -23,8 +24,14 @@ const DateTimeSection = ({
   adminSection,
   setToast,
 }) => {
-  const [isAiLoading, setIsAILoading] = useState(false);
   const { startTime, duration, timezone, recurrence } = eventDetails;
+  const [timeFormat, setTimeFormat] = useState("hh:mm a");
+  const [userTimezone, setUserTimezone] = useState("US/Pacific");
+  const [isAiLoading, setIsAILoading] = useState(false);
+
+  const timezones = Object.keys(timezonesList).map((zone) => {
+    return { id: zone, name: timezonesList[zone] };
+  });
 
   const time =
     startTime !== null
@@ -33,14 +40,10 @@ const DateTimeSection = ({
         : startTime
       : moment();
 
-  const [isDateChanged, setDateChanged] = useState(!!startTime);
-  const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const endTime = time
     ? moment(time).add(duration, "minutes")
     : moment().add(duration, "minutes");
-  const timezoneOptions = timezones.map((timezone) => timezone.zone);
 
-  const [userTimezone, setUserTimezone] = useState("US/Pacific");
   const updateTimezone = (settings) => {
     let defaultTimezone = null;
 
@@ -53,39 +56,52 @@ const DateTimeSection = ({
       defaultTimezone = moment.tz.guess();
     }
 
-    let findTimezone = timezones.filter((t) => t.zone === defaultTimezone);
+    let findTimezone = timezones.filter((t) => t.id === defaultTimezone);
 
     if (findTimezone.length > 0) {
       setUserTimezone(findTimezone[0]);
     } else {
       let timezoneOffset = moment.tz(defaultTimezone).format("Z");
       let formattedOffset = `(GMT${timezoneOffset})`;
-
-      let availableTimezone = timezones.filter(
+      // console.log(timezoneOffset, formattedOffset);
+      let availableTimezone = timezonesWithOffset.filter(
         (t) => t.gmt === formattedOffset
       );
 
       if (availableTimezone.length > 0) {
-        setUserTimezone(availableTimezone[0]);
+        let zone = availableTimezone[0];
+        let newTimezone = timezones.filter((t) => t.id === zone.zone);
+        // console.log(newTimezone.length, newTimezone[0].id);
+        if (newTimezone.length > 0) setUserTimezone(newTimezone[0]);
       }
     }
   };
+
   useEffect(() => {
     updateTimezone(settings);
   }, [settings]);
 
   useEffect(() => {
+    if (startTime === null) {
+      handleDateChange(time);
+    }
+  }, [startTime]);
+
+  useEffect(() => {
     if (
       settings &&
-      !settings.timezone &&
-      userTimezone.length > 0 &&
+      settings.settings &&
+      settings.settings.admin_dashboard &&
+      !settings.settings.admin_dashboard.default_timezone &&
       eventDetails &&
-      eventDetails.timezone &&
-      timezone.length === 0
+      (!eventDetails.timezone || timezone.length === 0)
     ) {
-      onChange("timezone", userTimezone[0].zone);
+      console.log(userTimezone.id);
+      if (userTimezone) onChange("timezone", userTimezone.id);
+      else onChange("timezone", userTimezone);
     }
-  }, []);
+  }, [userTimezone]);
+
   useEffect(() => {
     if (
       settings &&
@@ -98,11 +114,14 @@ const DateTimeSection = ({
   }, [settings]);
 
   const handleTimezoneChange = (value) => {
-    let currentSelectedTimezone = timezones.filter(
-      (timezone) => timezone.zone === value
+    let currentSelectedTimezone = timezones.findIndex(
+      (timezone) => timezone.name === value
     );
-    if (currentSelectedTimezone.length > 0) {
-      onChange("timezone", currentSelectedTimezone[0].zone);
+    // let currentSelectedTimezone = timezones.filter(
+    //   (timezone) => timezone.zone === value
+    // );
+    if (currentSelectedTimezone >= 0) {
+      onChange("timezone", timezones[currentSelectedTimezone].id);
     }
   };
 
@@ -147,8 +166,6 @@ const DateTimeSection = ({
   useEffect(() => {
     handleTimeFormatChange();
   }, [settings]);
-
-  const iconRight = <ChevronDownIcon className="input-control-icon-right" />;
 
   const fetchDescription = async () => {
     if (adminSection) return;
@@ -313,17 +330,6 @@ const DateTimeSection = ({
           <AIButton onClick={fetchDescription} loading={isAiLoading} />
         )}
       </div>
-      {/* <DatePicker
-        date={time}
-        onChange={handleDateChange}
-        label={
-          time === null
-            ? "Select a Date"
-            : moment(time).format("DD - MM - YYYY")
-        }
-        variant="button"
-        instance="main"
-      /> */}
       <div
         className={`flex flex-row gap-5 justify-between items-end ${
           !adminSection
@@ -368,9 +374,13 @@ const DateTimeSection = ({
       </div>
       <SelectControl
         label="Timezone *"
-        options={timezoneOptions}
+        options={timezones.map((t) => t.name)}
         helpText="Select a timezone"
-        selected={timezone ? timezone : null}
+        selected={
+          timezone && timezones.findIndex((t) => t.id === timezone) >= 0
+            ? timezones[timezones.findIndex((t) => t.id === timezone)].name
+            : null
+        }
         disabled={false}
         onSelectChange={handleTimezoneChange}
         style={{ padding: "10px" }}

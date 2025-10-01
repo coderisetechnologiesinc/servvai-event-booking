@@ -232,7 +232,7 @@ const MenuItem = ({
       gap: 2,
       className: "items-center",
       children: [icon, !collapsed && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-        className: "text-md",
+        className: "text-md text-gray-700 font-semibold",
         children: title
       })]
     })
@@ -292,78 +292,81 @@ const SideBar = ({
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__["default"], {
           className: "h-5 w-5"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        gap: 4,
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "flex flex-col gap-[24px]",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: !collapsed ? `servv-logo-png` : `servv-logo-collapsed`
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title: typeof t === "function" ? t("Events") : "Events",
-          link: "events",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title: typeof t === "function" ? t("Bookings") : "Bookings",
-          link: "bookings",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title: typeof t === "function" ? t("Filters") : "Filters",
-          link: "filters",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title: typeof t === "function" ? t("Integrations") : "Integrations",
-          link: "integrations",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_8__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title:
-          // typeof t === "function"
-          // ? t("Email notifications")
-          // : "Notifications"
-          "Notifications",
-          link: "notifications",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title: typeof t === "function" ? t("Analytics") : "Analytics",
-          link: "analytics",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_10__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title: typeof t === "function" ? t("Settings") : "Settings",
-          link: "settings",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          title: "Support",
-          link: "support",
-          onSelect: onChange,
-          collapsed: collapsed,
-          icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_12__["default"], {
-            className: "menu-icon group-hover:fill-primary-button-bg"
-          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "flex flex-col gap-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title: typeof t === "function" ? t("Events") : "Events",
+            link: "events",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_5__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title: typeof t === "function" ? t("Bookings") : "Bookings",
+            link: "bookings",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title: typeof t === "function" ? t("Filters") : "Filters",
+            link: "filters",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title: typeof t === "function" ? t("Integrations") : "Integrations",
+            link: "integrations",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_8__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title:
+            // typeof t === "function"
+            // ? t("Email notifications")
+            // : "Notifications"
+            "Notifications",
+            link: "notifications",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_9__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title: typeof t === "function" ? t("Analytics") : "Analytics",
+            link: "analytics",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title: typeof t === "function" ? t("Settings") : "Settings",
+            link: "settings",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            title: "Support",
+            link: "support",
+            onSelect: onChange,
+            collapsed: collapsed,
+            icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_12__["default"], {
+              className: "menu-icon fill-gray-700 group-hover:fill-primary-button-bg"
+            })
+          })]
         })]
       })]
     })
@@ -6256,7 +6259,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"bf2d9bb9faf34d406b41","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"6973e84d4423ccbaaf09","src_Components_PostEditor_EventDetails_jsx":"34ff97a3e5bd77d8b90a","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"281159e52efa18aebe61","src_Components_Pages_FiltersPage_jsx":"d5f6335b891a903a2fdb","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"8a75896413353bfbbfd0","src_Components_Pages_EmailTemplates_jsx":"fca1af8aae84769efd74","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"e93bd574c791652ae2ca","src_Components_Pages_BookingsPage_jsx":"191ebdcac4fca0f060ea","src_Components_Pages_SupportPage_jsx":"3dcae418be344fc19eea"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-tailwindcss-datepick-ce8c2e":"11e2cd38220fac5d449c","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"a9ed415ddcabfb9c0695","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"6973e84d4423ccbaaf09","src_Components_PostEditor_EventDetails_jsx":"e7dc597a1dcf951c8d53","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"0ee8e6194828027f6602","src_Components_Pages_FiltersPage_jsx":"d5f6335b891a903a2fdb","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"8a75896413353bfbbfd0","src_Components_Pages_EmailTemplates_jsx":"fca1af8aae84769efd74","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"e93bd574c791652ae2ca","src_Components_Pages_BookingsPage_jsx":"1f65548c0197052043d6","src_Components_Pages_SupportPage_jsx":"3dcae418be344fc19eea"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

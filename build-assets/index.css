@@ -2545,6 +2545,10 @@ svg.breadcrumbs-icon {
   top: 1rem;
 }
 
+.top-\[-21px\] {
+  top: -21px;
+}
+
 .top-\[50vh\] {
   top: 50vh;
 }
@@ -2931,16 +2935,20 @@ svg.breadcrumbs-icon {
   min-width: 0rem;
 }
 
+.min-w-8 {
+  min-width: 2rem;
+}
+
+.min-w-\[10rem\] {
+  min-width: 10rem;
+}
+
 .min-w-\[120px\] {
   min-width: 120px;
 }
 
-.min-w-\[128px\] {
-  min-width: 128px;
-}
-
-.min-w-\[160px\] {
-  min-width: 160px;
+.min-w-\[150px\] {
+  min-width: 150px;
 }
 
 .min-w-\[220px\] {
@@ -2959,6 +2967,10 @@ svg.breadcrumbs-icon {
   min-width: 4rem;
 }
 
+.min-w-\[8rem\] {
+  min-width: 8rem;
+}
+
 .min-w-full {
   min-width: 100%;
 }
@@ -2971,12 +2983,12 @@ svg.breadcrumbs-icon {
   max-width: 1080px;
 }
 
-.max-w-\[150px\] {
-  max-width: 150px;
+.max-w-\[10rem\] {
+  max-width: 10rem;
 }
 
-.max-w-\[160px\] {
-  max-width: 160px;
+.max-w-\[150px\] {
+  max-width: 150px;
 }
 
 .max-w-\[30\%\] {
@@ -3187,12 +3199,8 @@ svg.breadcrumbs-icon {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
-.grid-cols-\[10\%_auto_10\%\] {
-  grid-template-columns: 10% auto 10%;
-}
-
-.grid-cols-\[7\%_auto_10\%\] {
-  grid-template-columns: 7% auto 10%;
+.grid-cols-\[auto_auto_150px\] {
+  grid-template-columns: auto auto 150px;
 }
 
 .flex-row {
@@ -4145,6 +4153,10 @@ svg.breadcrumbs-icon {
   fill: #344054;
 }
 
+.fill-gray-900 {
+  fill: #101828;
+}
+
 .fill-success-700 {
   fill: #067647;
 }
@@ -4571,6 +4583,10 @@ svg.breadcrumbs-icon {
 
 .text-\[1\.125rem\] {
   font-size: 1.125rem;
+}
+
+.text-\[14px\] {
+  font-size: 14px;
 }
 
 .text-\[16px\] {

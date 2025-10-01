@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import moment from "moment";
 import Datepicker from "react-tailwindcss-datepicker";
 const DatePickerControl = ({
@@ -8,10 +8,24 @@ const DatePickerControl = ({
   variant = "button",
   adminSection = false,
 }) => {
+  const [open, setOpen] = useState(false);
+  const wrapperRef = useRef(null);
   const [value, setValue] = useState({
     startDate: date ? moment(date).startOf("day").toDate() : null,
     endDate: null,
   });
+
+  // useEffect(() => {
+  //   const editor = document.querySelector(".block-editor__container");
+
+  //   function handleClickOutside(event) {
+  //     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+  //       setOpen(false);
+  //     }
+  //   }
+  //   editor.addEventListener("mousedown", handleClickOutside);
+  //   return () => editor.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
   const minDate = moment().startOf("day").toDate();
 
@@ -35,6 +49,7 @@ const DatePickerControl = ({
 
   return (
     <Datepicker
+      ref={wrapperRef}
       minDate={minDate}
       asSingle={true}
       useRange={false}
@@ -51,12 +66,13 @@ const DatePickerControl = ({
         variant === "button"
           ? adminSection
             ? "max-w-full"
-            : "max-w-[160px]"
+            : "max-w-[10rem]"
           : "w-full"
       } ${
-        adminSection ? "min-w-[128px]" : "min-w-[160px]"
-      } shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`}
+        adminSection ? "min-w-[8rem]" : "min-w-[10rem]"
+      } min-w-8 shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`}
       onChange={handleDateChange}
+      show={open}
     />
   );
 };

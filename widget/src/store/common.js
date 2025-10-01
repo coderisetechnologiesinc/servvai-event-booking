@@ -40,7 +40,7 @@ export default {
         currency_format: "sign",
         time_format_24_hours: false,
         show_calendar: true,
-        permanently_open_calendar: false,
+        permanently_open_calendar: true,
         ew_available_lists: ["events", "bundles"],
         ew_default_list: "events", // events | bundles
         ew_bundle_events_list_visible: true,
