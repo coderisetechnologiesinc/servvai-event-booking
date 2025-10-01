@@ -76,9 +76,9 @@ const SettingsPage = () => {
     // { label: "Workflow", value: "progressive" },
   ];
   const pageSizes = [
-    { label: "10 items", value: 10 },
-    { label: "20 items", value: 20 },
-    { label: "50 items", value: 50 },
+    { label: "12 items", value: 12 },
+    { label: "24 items", value: 24 },
+    { label: "48 items", value: 48 },
   ];
 
   const filters = ["Locations", "Languages", "Categories", "Members"];
@@ -117,7 +117,7 @@ const SettingsPage = () => {
     if (settings.ew_list_item_description_display_words_limit === undefined)
       settings.ew_list_item_description_display_words_limit = 9;
     if (settings.ew_events_list_page_size_default === undefined)
-      settings.ew_events_list_page_size_default = 10;
+      settings.ew_events_list_page_size_default = 12;
     if (settings.available_filters === undefined)
       settings.available_filters = "locations,languages,categories,members";
     if (settings.ew_show_language_selector === undefined)
@@ -669,7 +669,7 @@ const SettingsPage = () => {
               .ew_events_list_page_size_default
           )
       ].name
-    : "10 items";
+    : "12 items";
 
   const handleDescriptionLengthChange = (view, length) => {
     let currentSettings = { ...settings };

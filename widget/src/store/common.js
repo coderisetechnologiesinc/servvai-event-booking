@@ -46,6 +46,8 @@ export default {
         ew_bundle_events_list_visible: true,
         ew_bundle_events_list_open: true,
         ew_bundle_events_list_title_visible: true,
+        ew_show_share_button: true,
+        ew_show_event_type_badge: true,
         // show_filtered_widget: false,
         available_filters: [
           "locations",
@@ -69,8 +71,8 @@ export default {
         ew_events_grid_fluid_mode: true,
         ew_card_description_display_words_limit: 9,
         ew_list_item_description_display_words_limit: 9,
-        ew_events_list_page_size_default: 10,
-        ew_bundles_list_page_size_default: 10,
+        ew_events_list_page_size_default: 12,
+        ew_bundles_list_page_size_default: 12,
         ew_show_language_selector: true,
       },
       widget_view_mode: "",
@@ -347,14 +349,14 @@ export default {
             commit(
               "events/setEventsPageSize",
               settingsData.widget_style_settings
-                .ew_events_list_page_size_default || 10,
+                .ew_events_list_page_size_default || 12,
               { root: true }
             );
 
             commit(
               "bundles/setBundlesPageSize",
               settingsData.widget_style_settings
-                .ew_bundles_list_page_size_default || 10,
+                .ew_bundles_list_page_size_default || 12,
               { root: true }
             );
           }

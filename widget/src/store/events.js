@@ -15,7 +15,7 @@ export default {
       meetings: [],
       page_count: 0,
       page_number: 0,
-      page_size: 10,
+      page_size: 12,
       total_records: 0,
       listIsEmpty: false,
     },

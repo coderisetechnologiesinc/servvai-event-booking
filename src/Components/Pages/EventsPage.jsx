@@ -661,12 +661,11 @@ const EventsPage = ({
         setMeetingsList(rowsForTable);
 
         if (
-          (rowsForTable.length === 0 &&
-            !firstFetchDone &&
-            !connectedZoomAccount) ||
-          (connectedZoomAccount &&
-            !connectedZoomAccount.id &&
-            type === "offline")
+          rowsForTable.length === 0 &&
+          !firstFetchDone &&
+          (!connectedZoomAccount ||
+            (connectedZoomAccount && !connectedZoomAccount.id)) &&
+          type === "offline"
         ) {
           console.log(1);
           setShowGuide(true);
@@ -680,9 +679,7 @@ const EventsPage = ({
           handleTypeChange("zoom");
         } else if (
           rowsForTable.length === 0 &&
-          firstFetchDone &&
-          connectedZoomAccount &&
-          connectedZoomAccount.id &&
+          !firstFetchDone &&
           type === "zoom"
         ) {
           console.log(3);

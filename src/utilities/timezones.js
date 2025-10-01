@@ -22,7 +22,7 @@ const timezones = [
   {
     zone: "US/Pacific",
     gmt: "(GMT-08:00)",
-    name: "Pacific Time (US &amp; Canada)",
+    name: "Pacific Time (US and Canada)",
   },
   {
     zone: "America/Tijuana",
@@ -37,7 +37,7 @@ const timezones = [
   {
     zone: "US/Mountain",
     gmt: "(GMT-07:00)",
-    name: "Mountain Time (US &amp; Canada)",
+    name: "Mountain Time (US and Canada)",
   },
   {
     zone: "America/Chihuahua",
@@ -67,12 +67,12 @@ const timezones = [
   {
     zone: "US/Central",
     gmt: "(GMT-06:00)",
-    name: "Central Time (US &amp; Canada)",
+    name: "Central Time (US and Canada)",
   },
   {
     zone: "US/Eastern",
     gmt: "(GMT-05:00)",
-    name: "Eastern Time (US &amp; Canada)",
+    name: "Eastern Time (US and Canada)",
   },
   {
     zone: "US/East-Indiana",

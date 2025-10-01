@@ -70,6 +70,8 @@
   }
 
   .vs__selected-options {
+    cursor: pointer;
+    caret-color: transparent;
     color: $svv_text_secondary !important;
 
     input {

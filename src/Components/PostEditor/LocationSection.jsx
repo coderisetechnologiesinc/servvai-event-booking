@@ -19,11 +19,11 @@ const LocationSection = ({
   const { custom_field_1_name, custom_field_1_value } = customFields;
   const [onlineType, setOnlineType] = useState(false);
   const { location } = eventDetails;
-  const eventTypes = ["In-person", "Online"];
+  const eventTypes = ["In-person", "Online or Hybrid"];
   const handleLocationChange = (newVal) => {
     if (newVal === eventTypes[0]) {
       onChange("location", "offline");
-      handleCustomFieldChange("custom_field_1_name", "Address");
+      handleCustomFieldChange("custom_field_1_name", "Access details");
       handleCustomFieldChange("custom_field_1_value", "");
     } else if (newVal === eventTypes[1]) {
       onChange("location", "zoom");
@@ -61,7 +61,7 @@ const LocationSection = ({
       location === "online" &&
       (disabled || !zoomAccount || !zoomAccount.id)
     ) {
-      console.log("change location");
+      // console.log("change location");
       handleLocationChange(eventTypes[0]);
     }
   }, [disabled, location, zoomAccount]);
@@ -85,19 +85,19 @@ const LocationSection = ({
       {settings &&
         settings.current_plan &&
         settings.current_plan.id === 2 &&
-        (!zoomAccount || !zoomAccount.id) && (
-          <div className="section-description">
-            Please note: To use the Integrations feature, you need to connect
-            your Zoom account.
+        (!zoomAccount || !zoomAccount.id) &&
+        location === "zoom" && (
+          <div className="section-description text-brand-600">
+            Note: To use the Integrations feature, you need to connect your Zoom
+            account.
           </div>
         )}
       {meetingType === "offline" && custom_field_1_name !== "Link" && (
         <div className="input-container-row items-center">
           <div className="input-container-col w-full">
             <div className="section-description">
-              {t(
-                "Location (In-person) or meeting link (e.g., Google Meet, Microsoft\r\n              Teams)"
-              )}
+              Add parking or venue access details, such as directions or a link
+              to a map
             </div>
 
             {/* Custom field */}
@@ -117,7 +117,7 @@ const LocationSection = ({
       {(meetingType !== "offline" || custom_field_1_name === "Link") && (
         <Fragment>
           {/* Tabs */}
-          <div className="section-description">Choose a join method:</div>
+          <div className="section-description">Choose a meeting method:</div>
           <div className="tabs-group-container">
             <ul className="flex flex-row">
               <li className="me-2">
@@ -125,7 +125,7 @@ const LocationSection = ({
                   onClick={() => handleSelectOnlineType(false)}
                   className={`tab-element ${!onlineType ? "tab-active" : ""}`}
                 >
-                  Join link URL
+                  Meeting URL
                 </button>
               </li>
               <li className="me-2">
@@ -134,14 +134,16 @@ const LocationSection = ({
                   className={`tab-element ${onlineType ? "tab-active" : ""}`}
                   disabled={!zoomAccount || (zoomAccount && !zoomAccount.email)}
                 >
-                  Integration
+                  Zoom API integration
                 </button>
               </li>
             </ul>
           </div>
           {!onlineType && custom_field_1_name === "Link" && (
             <div className="input-container-col w-full">
-              <div className="section-description">Join link URL</div>
+              <div className="section-description">
+                Meeting link (e.g., Google Meet, Microsoft Teams, Zoom)
+              </div>
               <InputFieldControl
                 value={custom_field_1_value}
                 onChange={(val) =>
@@ -157,7 +159,7 @@ const LocationSection = ({
             <div className="input-container-col w-full">
               {/* <div className="section-description">Select an integration</div> */}
               <SelectDropdown
-                title="Select an integration"
+                title="Select Zoom account"
                 options={[{ ...zoomAccount }].map((acc) => {
                   return { name: acc.email, id: acc.id };
                 })}
