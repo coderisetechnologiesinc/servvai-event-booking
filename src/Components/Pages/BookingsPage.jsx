@@ -18,7 +18,8 @@ import ListPagination from "../Controls/ListPagination";
 import Dropdown from "../Containers/Dropdown";
 import PageActionButton from "../Controls/PageActionButton";
 import CheckboxControl from "../Controls/CheckboxControl";
-import timezones from "../../utilities/timezones";
+import { timezonesList } from "../../utilities/timezones";
+import timezonesWithOffset from "../../utilities/timezones";
 import {
   Bars4Icon,
   PencilSquareIcon,
@@ -66,7 +67,9 @@ const BookingsPage = ({ settings }) => {
   // --- Dropdown refs and click outside handlers ---
   const customizeDropdownRef = useRef(null);
   const filterDropdownRef = useRef(null);
-
+  const timezones = Object.keys(timezonesList).map((zone) => {
+    return { id: zone, name: timezonesList[zone] };
+  });
   useEffect(() => {
     if (!customizeDropdown) return;
     const handleClickOutside = (event) => {
@@ -212,6 +215,7 @@ const BookingsPage = ({ settings }) => {
       setTimeFormat("HH:mm");
     }
   };
+
   const updateTimezone = (settings) => {
     let defaultTimezone = null;
 
@@ -224,7 +228,7 @@ const BookingsPage = ({ settings }) => {
       defaultTimezone = moment.tz.guess();
     }
 
-    let findTimezone = timezones.filter((t) => t.zone === defaultTimezone);
+    let findTimezone = timezones.filter((t) => t.id === defaultTimezone);
 
     if (findTimezone.length > 0) {
       setTimezone(findTimezone[0]);
@@ -232,12 +236,15 @@ const BookingsPage = ({ settings }) => {
       let timezoneOffset = moment.tz(defaultTimezone).format("Z");
       let formattedOffset = `(GMT${timezoneOffset})`;
 
-      let availableTimezone = timezones.filter(
+      let availableTimezone = timezonesWithOffset.filter(
         (t) => t.gmt === formattedOffset
       );
 
       if (availableTimezone.length > 0) {
-        setTimezone(availableTimezone[0]);
+        let zone = availableTimezone[0];
+        let newTimezone = timezones.filter((t) => t.id === zone.zone);
+
+        if (newTimezone.length > 0) setTimezone(newTimezone[0]);
       }
     }
   };
@@ -247,7 +254,7 @@ const BookingsPage = ({ settings }) => {
     updateTimezone(settings);
   }, [settings]);
 
-  const getDates = (tz = timezone.zone) => {
+  const getDates = (tz = timezone.id) => {
     let datesValue = { startDate: null, endDate: null };
 
     if (dates.startDate) {
@@ -279,7 +286,7 @@ const BookingsPage = ({ settings }) => {
 
   const handleSetDates = (dates) => {
     let startDate = null;
-
+    console.log(timezone);
     if (dates.startDate)
       startDate = moment.tz(
         {
@@ -290,7 +297,7 @@ const BookingsPage = ({ settings }) => {
           minute: 0,
           second: 0,
         },
-        timezone.zone
+        timezone.id
       );
     let endDate = null;
     if (dates.endDate)
@@ -303,7 +310,7 @@ const BookingsPage = ({ settings }) => {
           minute: 59,
           second: 0,
         },
-        timezone.zone
+        timezone.id
       );
 
     setDates({

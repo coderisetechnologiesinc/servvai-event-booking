@@ -5,7 +5,7 @@ import { withSelect, useSelect, useDispatch } from "@wordpress/data";
 import { useEffect, useRef } from "@wordpress/element";
 import { useState } from "react";
 import EventDetails from "./Components/PostEditor/EventDetails";
-
+import { decodeEntities } from "@wordpress/html-entities";
 function Edit({ title, agenda, attributes, setAttributes, clientId }) {
   const blockProps = useBlockProps();
   const { meeting, product } = attributes;
@@ -121,9 +121,10 @@ export default compose([
 
     // Get plain text content
     const plainText = tmpDiv.textContent.trim();
-
+    const rawTitle = select("core/editor").getEditedPostAttribute("title");
+    const decodedTitle = decodeEntities(rawTitle);
     return {
-      title: select("core/editor").getEditedPostAttribute("title"),
+      title: decodedTitle,
       agenda: plainText,
     };
   }),

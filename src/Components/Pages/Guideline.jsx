@@ -51,7 +51,7 @@ const Guideline = ({ showGuide = () => {}, redirect = () => {} }) => {
       <div className=" flex flex-col w-full gap-8 mt-4">
         {guidelineItems.map((item) => {
           return (
-            <div className="grid grid-cols-[7%_auto_10%] w-full gap-4 items-center p-8 rounded-lg shadow-lg">
+            <div className="grid grid-cols-[auto_auto_150px] w-full gap-4 items-center p-8 rounded-lg shadow-lg">
               <div className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-500 text-white text-xl font-regular">
                 {item.id}
               </div>
@@ -64,7 +64,7 @@ const Guideline = ({ showGuide = () => {}, redirect = () => {} }) => {
                 </p>
               </div>
               <button
-                className="bg-white text-brand-700 border border-brand-300 hover:bg-brand-50 focus:ring-2 focus:ring-gray-200 text-md px-4 py-2 rounded-lg transition-colors duration-200 shrink-0"
+                className="bg-white text-brand-700 border border-brand-300 hover:bg-brand-50 focus:ring-2 focus:ring-gray-200 text-md px-4 py-2 rounded-lg transition-colors duration-200 shrink-0 min-w-[150px]"
                 onClick={() =>
                   item.id !== 4
                     ? open(item.link, "_blank")

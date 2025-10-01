@@ -31,7 +31,6 @@ const EventDetails = ({
   requiredFieldsNotification = false,
   hideReqieredFieldsNotification = () => {},
 }) => {
-  // console.log(attributes);
   let eventDetails = { ...attributes.meeting };
   const [postId, setPostId] = useState(null);
   let [settings, setSettings] = useState(null);

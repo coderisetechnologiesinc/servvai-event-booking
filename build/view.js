@@ -366,17 +366,20 @@ const OccurrencessDropdown = ({
     class: "relative inline-block text-left",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
       id: "dropdownButton",
-      className: "flex h-[2.25rem] px-[0.8125rem] pt-[0.46875rem] pb-[0.53125rem] justify-center items-center gap-[0.5rem] rounded-[0.425rem] border border-[#E5E5E5] bg-white",
+      className: "flex h-[2.25rem] px-[0.8125rem] pt-[0.46875rem] pb-[0.53125rem] justify-center items-center gap-[0.5rem] rounded-[0.425rem] border border-[#E5E5E5] bg-white text-gray-900",
       onClick: () => {
         setActive(!active);
       },
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        className: "w-4"
+        className: "w-4 fill-gray-900"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         children: selected
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        className: "w-6"
+        className: "w-6 fill-gray-900"
       })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "text-[14px] text-gray-500 font-regular absolute top-[-21px]",
+      children: "Click here to select date"
     }), active && renderOptions()]
   });
 };

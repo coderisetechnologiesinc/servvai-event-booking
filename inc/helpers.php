@@ -145,3 +145,7 @@ function servv_js_redirect($redirectUrl) {
     wp_enqueue_script('servv-plugin-redirect');
     wp_add_inline_script('servv-plugin-redirect', 'window.location.href = "' . esc_js(esc_url_raw($redirectUrl)) . '";');
 }
+
+function servv_decode_speshial_characters($value) {
+    return is_string($value) ? wp_specialchars_decode($value, ENT_QUOTES) : $value;
+}

@@ -39,64 +39,67 @@ const SideBar = ({ page, onChange, collapsed, onToggle }) => {
           </button>
         )}
 
-        <BlockStack gap={4}>
+        <div className="flex flex-col gap-[24px]">
           <div
             className={!collapsed ? `servv-logo-png` : `servv-logo-collapsed`}
           ></div>
-          {/* <div className="text-regular text-gray-500">Version 0.3</div> */}
+          <div className="flex flex-col gap-2">
+            {/* <div className="text-regular text-gray-500">Version 0.3</div> */}
 
-          <MenuItem
-            title={typeof t === "function" ? t("Events") : "Events"}
-            link={"events"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <ListBulletIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
-          <MenuItem
-            title={typeof t === "function" ? t("Bookings") : "Bookings"}
-            link={"bookings"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <ClipboardDocumentCheckIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
-          <MenuItem
-            title={typeof t === "function" ? t("Filters") : "Filters"}
-            link={"filters"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <AdjustmentsHorizontalIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
+            <MenuItem
+              title={typeof t === "function" ? t("Events") : "Events"}
+              link={"events"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <ListBulletIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
+            <MenuItem
+              title={typeof t === "function" ? t("Bookings") : "Bookings"}
+              link={"bookings"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <ClipboardDocumentCheckIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
+            <MenuItem
+              title={typeof t === "function" ? t("Filters") : "Filters"}
+              link={"filters"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <AdjustmentsHorizontalIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
 
-          <MenuItem
-            title={typeof t === "function" ? t("Integrations") : "Integrations"}
-            link={"integrations"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <Square3Stack3DIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
-          <MenuItem
-            title={
-              // typeof t === "function"
-              // ? t("Email notifications")
-              // : "Notifications"
-              "Notifications"
-            }
-            link={"notifications"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <EnvelopeIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
-          {/* Uncomment if you want to show FAQs or Questions
+            <MenuItem
+              title={
+                typeof t === "function" ? t("Integrations") : "Integrations"
+              }
+              link={"integrations"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <Square3Stack3DIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
+            <MenuItem
+              title={
+                // typeof t === "function"
+                // ? t("Email notifications")
+                // : "Notifications"
+                "Notifications"
+              }
+              link={"notifications"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <EnvelopeIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
+            {/* Uncomment if you want to show FAQs or Questions
           <MenuItem
             title={"FAQs"}
             link={"faq"}
@@ -107,16 +110,16 @@ const SideBar = ({ page, onChange, collapsed, onToggle }) => {
             }
           />
           */}
-          <MenuItem
-            title={typeof t === "function" ? t("Analytics") : "Analytics"}
-            link={"analytics"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <ChartBarIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
-          {/* <MenuItem
+            <MenuItem
+              title={typeof t === "function" ? t("Analytics") : "Analytics"}
+              link={"analytics"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <ChartBarIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
+            {/* <MenuItem
             title={"Membership & plans"}
             link={"pricing"}
             onSelect={onChange}
@@ -125,25 +128,26 @@ const SideBar = ({ page, onChange, collapsed, onToggle }) => {
               <SparklesIcon className="menu-icon group-hover:fill-primary-button-bg" />
             }
           /> */}
-          <MenuItem
-            title={typeof t === "function" ? t("Settings") : "Settings"}
-            link={"settings"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <Cog6ToothIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
-          <MenuItem
-            title={"Support"}
-            link={"support"}
-            onSelect={onChange}
-            collapsed={collapsed}
-            icon={
-              <QuestionMarkCircleIcon className="menu-icon group-hover:fill-primary-button-bg" />
-            }
-          />
-        </BlockStack>
+            <MenuItem
+              title={typeof t === "function" ? t("Settings") : "Settings"}
+              link={"settings"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <Cog6ToothIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
+            <MenuItem
+              title={"Support"}
+              link={"support"}
+              onSelect={onChange}
+              collapsed={collapsed}
+              icon={
+                <QuestionMarkCircleIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
+              }
+            />
+          </div>
+        </div>
       </div>
     </>
   );

@@ -6,7 +6,8 @@ import AnnotatedSection from "../Containers/AnnotatedSection";
 import PageContent from "../Containers/PageContent";
 import { useState, useEffect } from "react";
 import SelectControl from "../Controls/SelectControl";
-import timezones from "../../utilities/timezones";
+// import timezonesWithOffset from "../../utilities/timezones";
+import { timezonesList } from "../../utilities/timezones";
 import CheckboxControl from "../Controls/CheckboxControl";
 import axios from "axios";
 import InputFieldControl from "../Controls/InputFieldControl";
@@ -34,7 +35,9 @@ const SettingsPage = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [zoomAccount, setZoomAccount] = useState(null);
   const [stripeAccount, setStripeAccount] = useState(null);
-  const timezoneOptions = timezones.map((timezone) => timezone.zone);
+  const timezones = Object.keys(timezonesList).map((zone) => {
+    return { id: zone, name: timezonesList[zone] };
+  });
   const getZoomAccount = async () => {
     const getZoomAccountResponse = await axios.get(
       "/wp-json/servv-plugin/v1/zoom/account",
@@ -168,7 +171,7 @@ const SettingsPage = () => {
       !newSettings.settings.admin_dashboard.default_timezone
     ) {
       validatedSettings.settings.admin_dashboard.default_timezone =
-        "US/Pacific";
+        "America/Los_Angeles";
     }
     if (
       !newSettings ||
@@ -444,9 +447,17 @@ const SettingsPage = () => {
 
   const handleTimezoneChange = (zone) => {
     let currentSettings = { ...settings };
-    currentSettings.settings.admin_dashboard.default_timezone = zone;
-    currentSettings.settings = zone;
-    setSettings(currentSettings);
+    let currentSelectedTimezone = timezones.findIndex(
+      (timezone) => timezone.name === zone
+    );
+
+    if (currentSelectedTimezone >= 0) {
+      currentSettings.settings.admin_dashboard.default_timezone =
+        timezones[currentSelectedTimezone].id;
+      currentSettings.settings.admin_dashboard.default_timezone =
+        timezones[currentSelectedTimezone].id;
+      setSettings(currentSettings);
+    }
   };
   const handleDefaultStartTimeChange = (newVal) => {
     let currentSettings = { ...settings };
@@ -619,9 +630,10 @@ const SettingsPage = () => {
         settings.settings.admin_dashboard.default_start_time,
         "hh:mm a"
       );
+
       newTime.add(settings.settings.admin_dashboard.default_duration, "hours");
       return newTime;
-    } else return moment("11:00 am");
+    } else return moment("11:00 am", "hh:mm a");
   };
 
   const handleViewModeChange = (val) => {
@@ -887,10 +899,23 @@ const SettingsPage = () => {
                 <BlockStack gap={2} className={responsiveBlockStack}>
                   <SelectControl
                     label=""
-                    options={timezoneOptions}
+                    options={timezones.map((t) => t.name)}
                     selected={
-                      settings?.settings?.admin_dashboard?.default_timezone ||
-                      null
+                      settings?.settings?.admin_dashboard?.default_timezone &&
+                      timezones.findIndex(
+                        (t) =>
+                          t.id ===
+                          settings?.settings?.admin_dashboard?.default_timezone
+                      ) >= 0
+                        ? timezones[
+                            timezones.findIndex(
+                              (t) =>
+                                t.id ===
+                                settings?.settings?.admin_dashboard
+                                  ?.default_timezone
+                            )
+                          ].name
+                        : null
                     }
                     onSelectChange={handleTimezoneChange}
                     className={responsiveInput}
@@ -1496,7 +1521,7 @@ const SettingsPage = () => {
                     label="Display calendar permanently"
                     checked={
                       settings?.settings?.widget_style_settings
-                        ?.permanently_open_calendar || false
+                        ?.permanently_open_calendar || true
                     }
                     onChange={() =>
                       handleAdditionalPropertyChange(

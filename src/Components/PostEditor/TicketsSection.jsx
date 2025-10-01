@@ -61,7 +61,6 @@ const TicketsSection = ({
           handleDetailsChange("quantity", 1);
         }
       } else {
-        console.log("quantity change");
         handleDetailsChange("quantity", 1);
       }
     }

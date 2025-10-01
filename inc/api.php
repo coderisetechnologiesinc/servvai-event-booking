@@ -189,10 +189,10 @@ function servv_process_custom_block_on_save($post_id, $post, $update) {
                 }
                 $requestBody = [
                     'meeting'   => [
-                        'topic'   =>   $post->post_title,
+                        'topic'   =>   servv_decode_speshial_characters($post->post_title),
                         'start_time'  => $event['startTime'] ?? '',
                         'duration'  => $event['duration'] ?? '',
-                        'agenda'  => $event['agenda'] ?? '',
+                        'agenda'  => servv_decode_speshial_characters($event['agenda'] ?? ''),
                         'timezone'  => $event['timezone'] ?? '',
                         'type'  => $event['eventType'] ?? '',
                     ],

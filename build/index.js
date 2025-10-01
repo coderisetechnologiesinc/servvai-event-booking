@@ -10343,10 +10343,25 @@ const DatePickerControl = ({
   variant = "button",
   adminSection = false
 }) => {
+  const [open, setOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const wrapperRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   const [value, setValue] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     startDate: date ? moment__WEBPACK_IMPORTED_MODULE_1___default()(date).startOf("day").toDate() : null,
     endDate: null
   });
+
+  // useEffect(() => {
+  //   const editor = document.querySelector(".block-editor__container");
+
+  //   function handleClickOutside(event) {
+  //     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+  //       setOpen(false);
+  //     }
+  //   }
+  //   editor.addEventListener("mousedown", handleClickOutside);
+  //   return () => editor.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
+
   const minDate = moment__WEBPACK_IMPORTED_MODULE_1___default()().startOf("day").toDate();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setValue({
@@ -10364,6 +10379,7 @@ const DatePickerControl = ({
     }
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    ref: wrapperRef,
     minDate: minDate,
     asSingle: true,
     useRange: false,
@@ -10371,8 +10387,9 @@ const DatePickerControl = ({
     selected: value,
     value: value,
     placeholder: value?.startDate && moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate, (moment__WEBPACK_IMPORTED_MODULE_1___default().ISO_8601), true).isValid() ? moment__WEBPACK_IMPORTED_MODULE_1___default()(value.startDate).format("MMM DD, YYYY") : "Select dates",
-    inputClassName: `input-control section-description text-left w-full ${variant === "button" ? adminSection ? "max-w-full" : "max-w-[160px]" : "w-full"} ${adminSection ? "min-w-[128px]" : "min-w-[160px]"} shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`,
-    onChange: handleDateChange
+    inputClassName: `input-control section-description text-left w-full ${variant === "button" ? adminSection ? "max-w-full" : "max-w-[10rem]" : "w-full"} ${adminSection ? "min-w-[8rem]" : "min-w-[10rem]"} min-w-8 shadow-sm border-solid border border-gray-300 bg-white placeholder-gray-700 max-sm:w-full`,
+    onChange: handleDateChange,
+    show: open
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DatePickerControl);
@@ -10395,9 +10412,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
 /* harmony import */ var _Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/TimeInputControl */ "./src/Components/Controls/TimeInputControl.jsx");
 /* harmony import */ var _Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/RecurringSection */ "./src/Components/Controls/RecurringSection.jsx");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js");
 /* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utilities/timezones */ "./src/utilities/timezones.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "moment");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _DatePickerControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DatePickerControl */ "./src/Components/PostEditor/DatePickerControl.jsx");
@@ -10419,6 +10435,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 // import { toast } from "react-toastify";
 
 
@@ -10433,19 +10450,23 @@ const DateTimeSection = ({
   adminSection,
   setToast
 }) => {
-  const [isAiLoading, setIsAILoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const {
     startTime,
     duration,
     timezone,
     recurrence
   } = eventDetails;
-  const time = startTime !== null ? typeof startTime === "string" ? moment__WEBPACK_IMPORTED_MODULE_5___default()(startTime) : startTime : moment__WEBPACK_IMPORTED_MODULE_5___default()();
-  const [isDateChanged, setDateChanged] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(!!startTime);
   const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("hh:mm a");
-  const endTime = time ? moment__WEBPACK_IMPORTED_MODULE_5___default()(time).add(duration, "minutes") : moment__WEBPACK_IMPORTED_MODULE_5___default()().add(duration, "minutes");
-  const timezoneOptions = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].map(timezone => timezone.zone);
   const [userTimezone, setUserTimezone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("US/Pacific");
+  const [isAiLoading, setIsAILoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const timezones = Object.keys(_utilities_timezones__WEBPACK_IMPORTED_MODULE_4__.timezonesList).map(zone => {
+    return {
+      id: zone,
+      name: _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__.timezonesList[zone]
+    };
+  });
+  const time = startTime !== null ? typeof startTime === "string" ? moment__WEBPACK_IMPORTED_MODULE_5___default()(startTime) : startTime : moment__WEBPACK_IMPORTED_MODULE_5___default()();
+  const endTime = time ? moment__WEBPACK_IMPORTED_MODULE_5___default()(time).add(duration, "minutes") : moment__WEBPACK_IMPORTED_MODULE_5___default()().add(duration, "minutes");
   const updateTimezone = settings => {
     let defaultTimezone = null;
     if (!settings) return;
@@ -10455,15 +10476,19 @@ const DateTimeSection = ({
     } else {
       defaultTimezone = moment__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
     }
-    let findTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(t => t.zone === defaultTimezone);
+    let findTimezone = timezones.filter(t => t.id === defaultTimezone);
     if (findTimezone.length > 0) {
       setUserTimezone(findTimezone[0]);
     } else {
       let timezoneOffset = moment__WEBPACK_IMPORTED_MODULE_5___default().tz(defaultTimezone).format("Z");
       let formattedOffset = `(GMT${timezoneOffset})`;
+      // console.log(timezoneOffset, formattedOffset);
       let availableTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(t => t.gmt === formattedOffset);
       if (availableTimezone.length > 0) {
-        setUserTimezone(availableTimezone[0]);
+        let zone = availableTimezone[0];
+        let newTimezone = timezones.filter(t => t.id === zone.zone);
+        // console.log(newTimezone.length, newTimezone[0].id);
+        if (newTimezone.length > 0) setUserTimezone(newTimezone[0]);
       }
     }
   };
@@ -10471,19 +10496,28 @@ const DateTimeSection = ({
     updateTimezone(settings);
   }, [settings]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (settings && !settings.timezone && userTimezone.length > 0 && eventDetails && eventDetails.timezone && timezone.length === 0) {
-      onChange("timezone", userTimezone[0].zone);
+    if (startTime === null) {
+      handleDateChange(time);
     }
-  }, []);
+  }, [startTime]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (settings && settings.settings && settings.settings.admin_dashboard && !settings.settings.admin_dashboard.default_timezone && eventDetails && (!eventDetails.timezone || timezone.length === 0)) {
+      console.log(userTimezone.id);
+      if (userTimezone) onChange("timezone", userTimezone.id);else onChange("timezone", userTimezone);
+    }
+  }, [userTimezone]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_timezone) {
       onChange("timezone", settings.settings.admin_dashboard.default_timezone);
     }
   }, [settings]);
   const handleTimezoneChange = value => {
-    let currentSelectedTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].filter(timezone => timezone.zone === value);
-    if (currentSelectedTimezone.length > 0) {
-      onChange("timezone", currentSelectedTimezone[0].zone);
+    let currentSelectedTimezone = timezones.findIndex(timezone => timezone.name === value);
+    // let currentSelectedTimezone = timezones.filter(
+    //   (timezone) => timezone.zone === value
+    // );
+    if (currentSelectedTimezone >= 0) {
+      onChange("timezone", timezones[currentSelectedTimezone].id);
     }
   };
   const handleDateChange = val => {
@@ -10518,9 +10552,6 @@ const DateTimeSection = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     handleTimeFormatChange();
   }, [settings]);
-  const iconRight = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    className: "input-control-icon-right"
-  });
   const fetchDescription = async () => {
     if (adminSection) return;
     if (eventDetails.title.length === 0) {
@@ -10537,7 +10568,7 @@ const DateTimeSection = ({
     } = wp.data;
     const url = "/wp-json/servv-plugin/v1/event/data/generate";
     try {
-      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(url, {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_11__["default"].post(url, {
         title: eventDetails.title
       }, {
         headers: {
@@ -10704,9 +10735,9 @@ const DateTimeSection = ({
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
       label: "Timezone *",
-      options: timezoneOptions,
+      options: timezones.map(t => t.name),
       helpText: "Select a timezone",
-      selected: timezone ? timezone : null,
+      selected: timezone && timezones.findIndex(t => t.id === timezone) >= 0 ? timezones[timezones.findIndex(t => t.id === timezone)].name : null,
       disabled: false,
       onSelectChange: handleTimezoneChange,
       style: {
@@ -10786,7 +10817,6 @@ const EventDetails = ({
   requiredFieldsNotification = false,
   hideReqieredFieldsNotification = () => {}
 }) => {
-  // console.log(attributes);
   let eventDetails = {
     ...attributes.meeting
   };
@@ -12610,7 +12640,6 @@ const TicketsSection = ({
           handleDetailsChange("quantity", 1);
         }
       } else {
-        console.log("quantity change");
         handleDetailsChange("quantity", 1);
       }
     }
@@ -13235,8 +13264,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _Components_PostEditor_EventDetails__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Components/PostEditor/EventDetails */ "./src/Components/PostEditor/EventDetails.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _wordpress_html_entities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/html-entities */ "@wordpress/html-entities");
+/* harmony import */ var _wordpress_html_entities__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -13333,10 +13365,10 @@ function Edit({
   const removeBlock = () => {
     wp.data.dispatch("core/block-editor").removeBlock(clientId);
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
     ...blockProps,
     className: "servv-app",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Components_PostEditor_EventDetails__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Components_PostEditor_EventDetails__WEBPACK_IMPORTED_MODULE_6__["default"], {
       title: title,
       agenda: agenda,
       attributes: attributes,
@@ -13368,8 +13400,10 @@ function Edit({
 
   // Get plain text content
   const plainText = tmpDiv.textContent.trim();
+  const rawTitle = select("core/editor").getEditedPostAttribute("title");
+  const decodedTitle = (0,_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_7__.decodeEntities)(rawTitle);
   return {
-    title: select("core/editor").getEditedPostAttribute("title"),
+    title: decodedTitle,
     agenda: plainText
   };
 })])(Edit));
@@ -13827,457 +13861,595 @@ const multipleTicketsUpdate = async ({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   timezonesList: () => (/* binding */ timezonesList)
 /* harmony export */ });
 const timezones = [{
-  "zone": "Pacific/Midway",
-  "gmt": "(GMT-11:00)",
-  "name": "Midway Island"
-}, {
-  "zone": "US/Samoa",
-  "gmt": "(GMT-11:00)",
-  "name": "Samoa"
-}, {
-  "zone": "US/Hawaii",
-  "gmt": "(GMT-10:00)",
-  "name": "Hawaii"
-}, {
-  "zone": "US/Alaska",
-  "gmt": "(GMT-09:00)",
-  "name": "Alaska"
-}, {
-  "zone": "US/Pacific",
-  "gmt": "(GMT-08:00)",
-  "name": "Pacific Time (US &amp; Canada)"
-}, {
-  "zone": "America/Tijuana",
-  "gmt": "(GMT-08:00)",
-  "name": "Tijuana"
-}, {
-  "zone": "US/Arizona",
-  "gmt": "(GMT-07:00)",
-  "name": "Arizona"
-}, {
-  "zone": "US/Mountain",
-  "gmt": "(GMT-07:00)",
-  "name": "Mountain Time (US &amp; Canada)"
-}, {
-  "zone": "America/Chihuahua",
-  "gmt": "(GMT-07:00)",
-  "name": "Chihuahua"
-}, {
-  "zone": "America/Mazatlan",
-  "gmt": "(GMT-07:00)",
-  "name": "Mazatlan"
-}, {
-  "zone": "America/Mexico_City",
-  "gmt": "(GMT-06:00)",
-  "name": "Mexico City"
-}, {
-  "zone": "America/Monterrey",
-  "gmt": "(GMT-06:00)",
-  "name": "Monterrey"
-}, {
-  "zone": "Canada/Saskatchewan",
-  "gmt": "(GMT-06:00)",
-  "name": "Saskatchewan"
-}, {
-  "zone": "US/Central",
-  "gmt": "(GMT-06:00)",
-  "name": "Central Time (US &amp; Canada)"
-}, {
-  "zone": "US/Eastern",
-  "gmt": "(GMT-05:00)",
-  "name": "Eastern Time (US &amp; Canada)"
-}, {
-  "zone": "US/East-Indiana",
-  "gmt": "(GMT-05:00)",
-  "name": "Indiana (East)"
-}, {
-  "zone": "America/Bogota",
-  "gmt": "(GMT-05:00)",
-  "name": "Bogota"
-}, {
-  "zone": "America/Lima",
-  "gmt": "(GMT-05:00)",
-  "name": "Lima"
-}, {
-  "zone": "America/Caracas",
-  "gmt": "(GMT-04:30)",
-  "name": "Caracas"
-}, {
-  "zone": "Canada/Atlantic",
-  "gmt": "(GMT-04:00)",
-  "name": "Atlantic Time (Canada)"
-}, {
-  "zone": "America/La_Paz",
-  "gmt": "(GMT-04:00)",
-  "name": "La_Paz"
-}, {
-  "zone": "America/Santiago",
-  "gmt": "(GMT-04:00)",
-  "name": "Santiago"
-}, {
-  "zone": "Canada/Newfoundland",
-  "gmt": "(GMT-03:30)",
-  "name": "Newfoundland"
-}, {
-  "zone": "America/Buenos_Aires",
-  "gmt": "(GMT-03:00)",
-  "name": "Buenos Aires"
-}, {
-  "zone": "Greenland",
-  "gmt": "(GMT-03:00)",
-  "name": "Greenland"
-}, {
-  "zone": "Atlantic/Stanley",
-  "gmt": "(GMT-02:00)",
-  "name": "Stanley"
-}, {
-  "zone": "Atlantic/Azores",
-  "gmt": "(GMT-01:00)",
-  "name": "Azores"
-}, {
-  "zone": "Atlantic/Cape_Verde",
-  "gmt": "(GMT-01:00)",
-  "name": "Cape Verde Is."
-}, {
-  "zone": "Africa/Casablanca",
-  "gmt": "(GMT)",
-  "name": "Casablanca"
-}, {
-  "zone": "Europe/Dublin",
-  "gmt": "(GMT)",
-  "name": "Dublin"
-}, {
-  "zone": "Europe/Lisbon",
-  "gmt": "(GMT)",
-  "name": "Libson"
-}, {
-  "zone": "Europe/London",
-  "gmt": "(GMT)",
-  "name": "London"
-}, {
-  "zone": "Africa/Monrovia",
-  "gmt": "(GMT)",
-  "name": "Monrovia"
-}, {
-  "zone": "Europe/Amsterdam",
-  "gmt": "(GMT+01:00)",
-  "name": "Amsterdam"
-}, {
-  "zone": "Europe/Belgrade",
-  "gmt": "(GMT+01:00)",
-  "name": "Belgrade"
-}, {
-  "zone": "Europe/Berlin",
-  "gmt": "(GMT+01:00)",
-  "name": "Berlin"
-}, {
-  "zone": "Europe/Bratislava",
-  "gmt": "(GMT+01:00)",
-  "name": "Bratislava"
-}, {
-  "zone": "Europe/Brussels",
-  "gmt": "(GMT+01:00)",
-  "name": "Brussels"
-}, {
-  "zone": "Europe/Budapest",
-  "gmt": "(GMT+01:00)",
-  "name": "Budapest"
-}, {
-  "zone": "Europe/Copenhagen",
-  "gmt": "(GMT+01:00)",
-  "name": "Copenhagen"
-}, {
-  "zone": "Europe/Ljubljana",
-  "gmt": "(GMT+01:00)",
-  "name": "Ljubljana"
-}, {
-  "zone": "Europe/Madrid",
-  "gmt": "(GMT+01:00)",
-  "name": "Madrid"
-}, {
-  "zone": "Europe/Paris",
-  "gmt": "(GMT+01:00)",
-  "name": "Paris"
-}, {
-  "zone": "Europe/Prague",
-  "gmt": "(GMT+01:00)",
-  "name": "Prague"
-}, {
-  "zone": "Europe/Rome",
-  "gmt": "(GMT+01:00)",
-  "name": "Rome"
-}, {
-  "zone": "Europe/Sarajevo",
-  "gmt": "(GMT+01:00)",
-  "name": "Sarajevo"
-}, {
-  "zone": "Europe/Skopje",
-  "gmt": "(GMT+01:00)",
-  "name": "Skopje"
-}, {
-  "zone": "Europe/Stockholm",
-  "gmt": "(GMT+01:00)",
-  "name": "Stockholm"
-}, {
-  "zone": "Europe/Vienna",
-  "gmt": "(GMT+01:00)",
-  "name": "Vienna"
-}, {
-  "zone": "Europe/Warsaw",
-  "gmt": "(GMT+01:00)",
-  "name": "Warsaw"
-}, {
-  "zone": "Europe/Zagreb",
-  "gmt": "(GMT+01:00)",
-  "name": "Zagreb"
-}, {
-  "zone": "Europe/Athens",
-  "gmt": "(GMT+02:00)",
-  "name": "Athens"
-}, {
-  "zone": "Europe/Bucharest",
-  "gmt": "(GMT+02:00)",
-  "name": "Bucharest"
-}, {
-  "zone": "Africa/Cairo",
-  "gmt": "(GMT+02:00)",
-  "name": "Cairo"
-}, {
-  "zone": "Africa/Harare",
-  "gmt": "(GMT+02:00)",
-  "name": "Harere"
-}, {
-  "zone": "Europe/Helsinki",
-  "gmt": "(GMT+02:00)",
-  "name": "Helsinki"
-}, {
-  "zone": "Europe/Istanbul",
-  "gmt": "(GMT+02:00)",
-  "name": "Istanbul"
-}, {
-  "zone": "Asia/Jerusalem",
-  "gmt": "(GMT+02:00)",
-  "name": "Jerusalem"
-}, {
-  "zone": "Europe/Kiev",
-  "gmt": "(GMT+02:00)",
-  "name": "Kiev"
-}, {
-  "zone": "Europe/Minsk",
-  "gmt": "(GMT+02:00)",
-  "name": "Minsk"
-}, {
-  "zone": "Europe/Riga",
-  "gmt": "(GMT+02:00)",
-  "name": "Riga"
-}, {
-  "zone": "Europe/Sofia",
-  "gmt": "(GMT+02:00)",
-  "name": "Sofia"
-}, {
-  "zone": "Europe/Tallinn",
-  "gmt": "(GMT+02:00)",
-  "name": "Tallinn"
-}, {
-  "zone": "Europe/Vilnius",
-  "gmt": "(GMT+02:00)",
-  "name": "Vilnius"
-}, {
-  "zone": "Asia/Baghdad",
-  "gmt": "(GMT+03:00)",
-  "name": "Baghdad"
-}, {
-  "zone": "Asia/Kuwait",
-  "gmt": "(GMT+03:00)",
-  "name": "Kuwait"
-}, {
-  "zone": "Africa/Nairobi",
-  "gmt": "(GMT+03:00)",
-  "name": "Nairobi"
-}, {
-  "zone": "Asia/Riyadh",
-  "gmt": "(GMT+03:00)",
-  "name": "Riyadh"
-}, {
-  "zone": "Asia/Tehran",
-  "gmt": "(GMT+03:30)",
-  "name": "Tehran"
-}, {
-  "zone": "Europe/Moscow",
-  "gmt": "(GMT+04:00)",
-  "name": "Moscow"
-}, {
-  "zone": "Asia/Baku",
-  "gmt": "(GMT+04:00)",
-  "name": "Baku"
-}, {
-  "zone": "Europe/Volgograd",
-  "gmt": "(GMT+04:00)",
-  "name": "Volgograd"
-}, {
-  "zone": "Asia/Muscat",
-  "gmt": "(GMT+04:00)",
-  "name": "Muscat"
-}, {
-  "zone": "Asia/Tbilisi",
-  "gmt": "(GMT+04:00)",
-  "name": "Tbilisi"
-}, {
-  "zone": "Asia/Yerevan",
-  "gmt": "(GMT+04:00)",
-  "name": "Yerevan"
-}, {
-  "zone": "Asia/Kabul",
-  "gmt": "(GMT+04:30)",
-  "name": "Kabul"
-}, {
-  "zone": "Asia/Karachi",
-  "gmt": "(GMT+05:00)",
-  "name": "Karachi"
-}, {
-  "zone": "Asia/Tashkent",
-  "gmt": "(GMT+05:00)",
-  "name": "Tashkent"
-}, {
-  "zone": "Asia/Kolkata",
-  "gmt": "(GMT+05:30)",
-  "name": "Kolkata"
-}, {
-  "zone": "Asia/Kathmandu",
-  "gmt": "(GMT+05:45)",
-  "name": "Kathmandu"
-}, {
-  "zone": "Asia/Yekaterinburg",
-  "gmt": "(GMT+06:00)",
-  "name": "Yekaterinburg"
-}, {
-  "zone": "Asia/Almaty",
-  "gmt": "(GMT+06:00)",
-  "name": "Almaty"
-}, {
-  "zone": "Asia/Dhaka",
-  "gmt": "(GMT+06:00)",
-  "name": "Dhaka"
-}, {
-  "zone": "Asia/Novosibirsk",
-  "gmt": "(GMT+07:00)",
-  "name": "Novosibirsk"
-}, {
-  "zone": "Asia/Bangkok",
-  "gmt": "(GMT+07:00)",
-  "name": "Bangkok"
-}, {
-  "zone": "Asia/Jakarta",
-  "gmt": "(GMT+07:00)",
-  "name": "Jakarta"
-}, {
-  "zone": "Asia/Krasnoyarsk",
-  "gmt": "(GMT+08:00)",
-  "name": "Krasnoyarsk"
-}, {
-  "zone": "Asia/Chongqing",
-  "gmt": "(GMT+08:00)",
-  "name": "Chongqing"
-}, {
-  "zone": "Asia/Hong_Kong",
-  "gmt": "(GMT+08:00)",
-  "name": "Hong Kong"
-}, {
-  "zone": "Asia/Kuala_Lumpur",
-  "gmt": "(GMT+08:00)",
-  "name": "Kuala Lumpur"
-}, {
-  "zone": "Australia/Perth",
-  "gmt": "(GMT+08:00)",
-  "name": "Perth"
-}, {
-  "zone": "Asia/Singapore",
-  "gmt": "(GMT+08:00)",
-  "name": "Singapore"
-}, {
-  "zone": "Asia/Taipei",
-  "gmt": "(GMT+08:00)",
-  "name": "Taipei"
-}, {
-  "zone": "Asia/Ulaanbaatar",
-  "gmt": "(GMT+08:00)",
-  "name": "Ulaan Bataar"
-}, {
-  "zone": "Asia/Urumqi",
-  "gmt": "(GMT+08:00)",
-  "name": "Urumqi"
-}, {
-  "zone": "Asia/Irkutsk",
-  "gmt": "(GMT+09:00)",
-  "name": "Irkutsk"
-}, {
-  "zone": "Asia/Seoul",
-  "gmt": "(GMT+09:00)",
-  "name": "Seoul"
-}, {
-  "zone": "Asia/Tokyo",
-  "gmt": "(GMT+09:00)",
-  "name": "Tokyo"
-}, {
-  "zone": "Australia/Adelaide",
-  "gmt": "(GMT+09:30)",
-  "name": "Adelaide"
-}, {
-  "zone": "Australia/Darwin",
-  "gmt": "(GMT+09:30)",
-  "name": "Darwin"
-}, {
-  "zone": "Asia/Yakutsk",
-  "gmt": "(GMT+10:00)",
-  "name": "Yakutsk"
-}, {
-  "zone": "Australia/Brisbane",
-  "gmt": "(GMT+10:00)",
-  "name": "Brisbane"
-}, {
-  "zone": "Australia/Canberra",
-  "gmt": "(GMT+10:00)",
-  "name": "Canberra"
-}, {
-  "zone": "Pacific/Guam",
-  "gmt": "(GMT+10:00)",
-  "name": "Guam"
-}, {
-  "zone": "Australia/Hobart",
-  "gmt": "(GMT+10:00)",
-  "name": "Hobart"
-}, {
-  "zone": "Australia/Melbourne",
-  "gmt": "(GMT+10:00)",
-  "name": "Melbourne"
-}, {
-  "zone": "Pacific/Port_Moresby",
-  "gmt": "(GMT+10:00)",
-  "name": "Port Moresby"
-}, {
-  "zone": "Australia/Sydney",
-  "gmt": "(GMT+10:00)",
-  "name": "Sydney"
-}, {
-  "zone": "Asia/Vladivostok",
-  "gmt": "(GMT+11:00)",
-  "name": "Vladivostok"
-}, {
-  "zone": "Asia/Magadan",
-  "gmt": "(GMT+12:00)",
-  "name": "Magadan"
-}, {
-  "zone": "Pacific/Auckland",
-  "gmt": "(GMT+12:00)",
-  "name": "Auckland"
-}, {
-  "zone": "Pacific/Fiji",
-  "gmt": "(GMT+12:00)",
-  "name": "Fiji"
+  zone: "Pacific/Midway",
+  gmt: "(GMT-11:00)",
+  name: "Midway Island"
+}, {
+  zone: "US/Samoa",
+  gmt: "(GMT-11:00)",
+  name: "Samoa"
+}, {
+  zone: "US/Hawaii",
+  gmt: "(GMT-10:00)",
+  name: "Hawaii"
+}, {
+  zone: "US/Alaska",
+  gmt: "(GMT-09:00)",
+  name: "Alaska"
+}, {
+  zone: "US/Pacific",
+  gmt: "(GMT-08:00)",
+  name: "Pacific Time (US &amp; Canada)"
+}, {
+  zone: "America/Tijuana",
+  gmt: "(GMT-08:00)",
+  name: "Tijuana"
+}, {
+  zone: "US/Arizona",
+  gmt: "(GMT-07:00)",
+  name: "Arizona"
+}, {
+  zone: "US/Mountain",
+  gmt: "(GMT-07:00)",
+  name: "Mountain Time (US &amp; Canada)"
+}, {
+  zone: "America/Chihuahua",
+  gmt: "(GMT-07:00)",
+  name: "Chihuahua"
+}, {
+  zone: "America/Mazatlan",
+  gmt: "(GMT-07:00)",
+  name: "Mazatlan"
+}, {
+  zone: "America/Mexico_City",
+  gmt: "(GMT-06:00)",
+  name: "Mexico City"
+}, {
+  zone: "America/Monterrey",
+  gmt: "(GMT-06:00)",
+  name: "Monterrey"
+}, {
+  zone: "Canada/Saskatchewan",
+  gmt: "(GMT-06:00)",
+  name: "Saskatchewan"
+}, {
+  zone: "US/Central",
+  gmt: "(GMT-06:00)",
+  name: "Central Time (US &amp; Canada)"
+}, {
+  zone: "US/Eastern",
+  gmt: "(GMT-05:00)",
+  name: "Eastern Time (US &amp; Canada)"
+}, {
+  zone: "US/East-Indiana",
+  gmt: "(GMT-05:00)",
+  name: "Indiana (East)"
+}, {
+  zone: "America/Bogota",
+  gmt: "(GMT-05:00)",
+  name: "Bogota"
+}, {
+  zone: "America/Lima",
+  gmt: "(GMT-05:00)",
+  name: "Lima"
+}, {
+  zone: "America/Caracas",
+  gmt: "(GMT-04:30)",
+  name: "Caracas"
+}, {
+  zone: "Canada/Atlantic",
+  gmt: "(GMT-04:00)",
+  name: "Atlantic Time (Canada)"
+}, {
+  zone: "America/La_Paz",
+  gmt: "(GMT-04:00)",
+  name: "La_Paz"
+}, {
+  zone: "America/Santiago",
+  gmt: "(GMT-04:00)",
+  name: "Santiago"
+}, {
+  zone: "Canada/Newfoundland",
+  gmt: "(GMT-03:30)",
+  name: "Newfoundland"
+}, {
+  zone: "America/Buenos_Aires",
+  gmt: "(GMT-03:00)",
+  name: "Buenos Aires"
+}, {
+  zone: "Greenland",
+  gmt: "(GMT-03:00)",
+  name: "Greenland"
+}, {
+  zone: "Atlantic/Stanley",
+  gmt: "(GMT-02:00)",
+  name: "Stanley"
+}, {
+  zone: "Atlantic/Azores",
+  gmt: "(GMT-01:00)",
+  name: "Azores"
+}, {
+  zone: "Atlantic/Cape_Verde",
+  gmt: "(GMT-01:00)",
+  name: "Cape Verde Is."
+}, {
+  zone: "Africa/Casablanca",
+  gmt: "(GMT)",
+  name: "Casablanca"
+}, {
+  zone: "Europe/Dublin",
+  gmt: "(GMT)",
+  name: "Dublin"
+}, {
+  zone: "Europe/Lisbon",
+  gmt: "(GMT)",
+  name: "Libson"
+}, {
+  zone: "Europe/London",
+  gmt: "(GMT)",
+  name: "London"
+}, {
+  zone: "Africa/Monrovia",
+  gmt: "(GMT)",
+  name: "Monrovia"
+}, {
+  zone: "Europe/Amsterdam",
+  gmt: "(GMT+01:00)",
+  name: "Amsterdam"
+}, {
+  zone: "Europe/Belgrade",
+  gmt: "(GMT+01:00)",
+  name: "Belgrade"
+}, {
+  zone: "Europe/Berlin",
+  gmt: "(GMT+01:00)",
+  name: "Berlin"
+}, {
+  zone: "Europe/Bratislava",
+  gmt: "(GMT+01:00)",
+  name: "Bratislava"
+}, {
+  zone: "Europe/Brussels",
+  gmt: "(GMT+01:00)",
+  name: "Brussels"
+}, {
+  zone: "Europe/Budapest",
+  gmt: "(GMT+01:00)",
+  name: "Budapest"
+}, {
+  zone: "Europe/Copenhagen",
+  gmt: "(GMT+01:00)",
+  name: "Copenhagen"
+}, {
+  zone: "Europe/Ljubljana",
+  gmt: "(GMT+01:00)",
+  name: "Ljubljana"
+}, {
+  zone: "Europe/Madrid",
+  gmt: "(GMT+01:00)",
+  name: "Madrid"
+}, {
+  zone: "Europe/Paris",
+  gmt: "(GMT+01:00)",
+  name: "Paris"
+}, {
+  zone: "Europe/Prague",
+  gmt: "(GMT+01:00)",
+  name: "Prague"
+}, {
+  zone: "Europe/Rome",
+  gmt: "(GMT+01:00)",
+  name: "Rome"
+}, {
+  zone: "Europe/Sarajevo",
+  gmt: "(GMT+01:00)",
+  name: "Sarajevo"
+}, {
+  zone: "Europe/Skopje",
+  gmt: "(GMT+01:00)",
+  name: "Skopje"
+}, {
+  zone: "Europe/Stockholm",
+  gmt: "(GMT+01:00)",
+  name: "Stockholm"
+}, {
+  zone: "Europe/Vienna",
+  gmt: "(GMT+01:00)",
+  name: "Vienna"
+}, {
+  zone: "Europe/Warsaw",
+  gmt: "(GMT+01:00)",
+  name: "Warsaw"
+}, {
+  zone: "Europe/Zagreb",
+  gmt: "(GMT+01:00)",
+  name: "Zagreb"
+}, {
+  zone: "Europe/Athens",
+  gmt: "(GMT+02:00)",
+  name: "Athens"
+}, {
+  zone: "Europe/Bucharest",
+  gmt: "(GMT+02:00)",
+  name: "Bucharest"
+}, {
+  zone: "Africa/Cairo",
+  gmt: "(GMT+02:00)",
+  name: "Cairo"
+}, {
+  zone: "Africa/Harare",
+  gmt: "(GMT+02:00)",
+  name: "Harere"
+}, {
+  zone: "Europe/Helsinki",
+  gmt: "(GMT+02:00)",
+  name: "Helsinki"
+}, {
+  zone: "Europe/Istanbul",
+  gmt: "(GMT+02:00)",
+  name: "Istanbul"
+}, {
+  zone: "Asia/Jerusalem",
+  gmt: "(GMT+02:00)",
+  name: "Jerusalem"
+}, {
+  zone: "Europe/Kiev",
+  gmt: "(GMT+02:00)",
+  name: "Kiev"
+}, {
+  zone: "Europe/Minsk",
+  gmt: "(GMT+02:00)",
+  name: "Minsk"
+}, {
+  zone: "Europe/Riga",
+  gmt: "(GMT+02:00)",
+  name: "Riga"
+}, {
+  zone: "Europe/Sofia",
+  gmt: "(GMT+02:00)",
+  name: "Sofia"
+}, {
+  zone: "Europe/Tallinn",
+  gmt: "(GMT+02:00)",
+  name: "Tallinn"
+}, {
+  zone: "Europe/Vilnius",
+  gmt: "(GMT+02:00)",
+  name: "Vilnius"
+}, {
+  zone: "Asia/Baghdad",
+  gmt: "(GMT+03:00)",
+  name: "Baghdad"
+}, {
+  zone: "Asia/Kuwait",
+  gmt: "(GMT+03:00)",
+  name: "Kuwait"
+}, {
+  zone: "Africa/Nairobi",
+  gmt: "(GMT+03:00)",
+  name: "Nairobi"
+}, {
+  zone: "Asia/Riyadh",
+  gmt: "(GMT+03:00)",
+  name: "Riyadh"
+}, {
+  zone: "Asia/Tehran",
+  gmt: "(GMT+03:30)",
+  name: "Tehran"
+}, {
+  zone: "Europe/Moscow",
+  gmt: "(GMT+04:00)",
+  name: "Moscow"
+}, {
+  zone: "Asia/Baku",
+  gmt: "(GMT+04:00)",
+  name: "Baku"
+}, {
+  zone: "Europe/Volgograd",
+  gmt: "(GMT+04:00)",
+  name: "Volgograd"
+}, {
+  zone: "Asia/Muscat",
+  gmt: "(GMT+04:00)",
+  name: "Muscat"
+}, {
+  zone: "Asia/Tbilisi",
+  gmt: "(GMT+04:00)",
+  name: "Tbilisi"
+}, {
+  zone: "Asia/Yerevan",
+  gmt: "(GMT+04:00)",
+  name: "Yerevan"
+}, {
+  zone: "Asia/Kabul",
+  gmt: "(GMT+04:30)",
+  name: "Kabul"
+}, {
+  zone: "Asia/Karachi",
+  gmt: "(GMT+05:00)",
+  name: "Karachi"
+}, {
+  zone: "Asia/Tashkent",
+  gmt: "(GMT+05:00)",
+  name: "Tashkent"
+}, {
+  zone: "Asia/Kolkata",
+  gmt: "(GMT+05:30)",
+  name: "Kolkata"
+}, {
+  zone: "Asia/Kathmandu",
+  gmt: "(GMT+05:45)",
+  name: "Kathmandu"
+}, {
+  zone: "Asia/Yekaterinburg",
+  gmt: "(GMT+06:00)",
+  name: "Yekaterinburg"
+}, {
+  zone: "Asia/Almaty",
+  gmt: "(GMT+06:00)",
+  name: "Almaty"
+}, {
+  zone: "Asia/Dhaka",
+  gmt: "(GMT+06:00)",
+  name: "Dhaka"
+}, {
+  zone: "Asia/Novosibirsk",
+  gmt: "(GMT+07:00)",
+  name: "Novosibirsk"
+}, {
+  zone: "Asia/Bangkok",
+  gmt: "(GMT+07:00)",
+  name: "Bangkok"
+}, {
+  zone: "Asia/Jakarta",
+  gmt: "(GMT+07:00)",
+  name: "Jakarta"
+}, {
+  zone: "Asia/Krasnoyarsk",
+  gmt: "(GMT+08:00)",
+  name: "Krasnoyarsk"
+}, {
+  zone: "Asia/Chongqing",
+  gmt: "(GMT+08:00)",
+  name: "Chongqing"
+}, {
+  zone: "Asia/Hong_Kong",
+  gmt: "(GMT+08:00)",
+  name: "Hong Kong"
+}, {
+  zone: "Asia/Kuala_Lumpur",
+  gmt: "(GMT+08:00)",
+  name: "Kuala Lumpur"
+}, {
+  zone: "Australia/Perth",
+  gmt: "(GMT+08:00)",
+  name: "Perth"
+}, {
+  zone: "Asia/Singapore",
+  gmt: "(GMT+08:00)",
+  name: "Singapore"
+}, {
+  zone: "Asia/Taipei",
+  gmt: "(GMT+08:00)",
+  name: "Taipei"
+}, {
+  zone: "Asia/Ulaanbaatar",
+  gmt: "(GMT+08:00)",
+  name: "Ulaan Bataar"
+}, {
+  zone: "Asia/Urumqi",
+  gmt: "(GMT+08:00)",
+  name: "Urumqi"
+}, {
+  zone: "Asia/Irkutsk",
+  gmt: "(GMT+09:00)",
+  name: "Irkutsk"
+}, {
+  zone: "Asia/Seoul",
+  gmt: "(GMT+09:00)",
+  name: "Seoul"
+}, {
+  zone: "Asia/Tokyo",
+  gmt: "(GMT+09:00)",
+  name: "Tokyo"
+}, {
+  zone: "Australia/Adelaide",
+  gmt: "(GMT+09:30)",
+  name: "Adelaide"
+}, {
+  zone: "Australia/Darwin",
+  gmt: "(GMT+09:30)",
+  name: "Darwin"
+}, {
+  zone: "Asia/Yakutsk",
+  gmt: "(GMT+10:00)",
+  name: "Yakutsk"
+}, {
+  zone: "Australia/Brisbane",
+  gmt: "(GMT+10:00)",
+  name: "Brisbane"
+}, {
+  zone: "Australia/Canberra",
+  gmt: "(GMT+10:00)",
+  name: "Canberra"
+}, {
+  zone: "Pacific/Guam",
+  gmt: "(GMT+10:00)",
+  name: "Guam"
+}, {
+  zone: "Australia/Hobart",
+  gmt: "(GMT+10:00)",
+  name: "Hobart"
+}, {
+  zone: "Australia/Melbourne",
+  gmt: "(GMT+10:00)",
+  name: "Melbourne"
+}, {
+  zone: "Pacific/Port_Moresby",
+  gmt: "(GMT+10:00)",
+  name: "Port Moresby"
+}, {
+  zone: "Australia/Sydney",
+  gmt: "(GMT+10:00)",
+  name: "Sydney"
+}, {
+  zone: "Asia/Vladivostok",
+  gmt: "(GMT+11:00)",
+  name: "Vladivostok"
+}, {
+  zone: "Asia/Magadan",
+  gmt: "(GMT+12:00)",
+  name: "Magadan"
+}, {
+  zone: "Pacific/Auckland",
+  gmt: "(GMT+12:00)",
+  name: "Auckland"
+}, {
+  zone: "Pacific/Fiji",
+  gmt: "(GMT+12:00)",
+  name: "Fiji"
 }];
+const timezonesList = {
+  "Pacific/Midway": "Midway Island, Samoa",
+  "Pacific/Pago_Pago": "Pago Pago",
+  "Pacific/Honolulu": "Hawaii",
+  "America/Anchorage": "Alaska",
+  "America/Vancouver": "Vancouver",
+  "America/Los_Angeles": "Pacific Time (US and Canada)",
+  "America/Tijuana": "Tijuana",
+  "America/Edmonton": "Edmonton",
+  "America/Denver": "Mountain Time (US and Canada)",
+  "America/Phoenix": "Arizona",
+  "America/Mazatlan": "Mazatlan",
+  "America/Winnipeg": "Winnipeg",
+  "America/Regina": "Saskatchewan",
+  "America/Chicago": "Central Time (US and Canada)",
+  "America/Mexico_City": "Mexico City",
+  "America/Guatemala": "Guatemala",
+  "America/El_Salvador": "El Salvador",
+  "America/Managua": "Managua",
+  "America/Costa_Rica": "Costa Rica",
+  "America/Montreal": "Montreal",
+  "America/New_York": "Eastern Time (US and Canada)",
+  "America/Indianapolis": "Indiana (East)",
+  "America/Panama": "Panama",
+  "America/Bogota": "Bogota",
+  "America/Lima": "Lima",
+  "America/Halifax": "Halifax",
+  "America/Puerto_Rico": "Puerto Rico",
+  "America/Caracas": "Caracas",
+  "America/Santiago": "Santiago",
+  "America/St_Johns": "Newfoundland and Labrador",
+  "America/Montevideo": "Montevideo",
+  "America/Araguaina": "Brasilia",
+  "America/Argentina/Buenos_Aires": "Buenos Aires, Georgetown",
+  "America/Godthab": "Greenland",
+  "America/Sao_Paulo": "Sao Paulo",
+  "Atlantic/Azores": "Azores",
+  "Canada/Atlantic": "Atlantic Time (Canada)",
+  "Atlantic/Cape_Verde": "Cape Verde Islands",
+  UTC: "Universal Time UTC",
+  "Etc/Greenwich": "Greenwich Mean Time",
+  "Europe/Belgrade": "Belgrade, Bratislava, Ljubljana",
+  CET: "Sarajevo, Skopje, Zagreb",
+  "Atlantic/Reykjavik": "Reykjavik",
+  "Europe/Dublin": "Dublin",
+  "Europe/London": "London",
+  "Europe/Lisbon": "Lisbon",
+  "Africa/Casablanca": "Casablanca",
+  "Africa/Nouakchott": "Nouakchott",
+  "Europe/Oslo": "Oslo",
+  "Europe/Copenhagen": "Copenhagen",
+  "Europe/Brussels": "Brussels",
+  "Europe/Berlin": "Amsterdam, Berlin, Rome, Stockholm, Vienna",
+  "Europe/Helsinki": "Helsinki",
+  "Europe/Amsterdam": "Amsterdam",
+  "Europe/Rome": "Rome",
+  "Europe/Stockholm": "Stockholm",
+  "Europe/Vienna": "Vienna",
+  "Europe/Luxembourg": "Luxembourg",
+  "Europe/Paris": "Paris",
+  "Europe/Zurich": "Zurich",
+  "Europe/Madrid": "Madrid",
+  "Africa/Bangui": "West Central Africa",
+  "Africa/Algiers": "Algiers",
+  "Africa/Tunis": "Tunis",
+  "Africa/Harare": "Harare, Pretoria",
+  "Africa/Nairobi": "Nairobi",
+  "Europe/Warsaw": "Warsaw",
+  "Europe/Prague": "Prague Bratislava",
+  "Europe/Budapest": "Budapest",
+  "Europe/Sofia": "Sofia",
+  "Europe/Istanbul": "Istanbul",
+  "Europe/Athens": "Athens",
+  "Europe/Bucharest": "Bucharest",
+  "Asia/Nicosia": "Nicosia",
+  "Asia/Beirut": "Beirut",
+  "Asia/Damascus": "Damascus",
+  "Asia/Jerusalem": "Jerusalem",
+  "Asia/Amman": "Amman",
+  "Africa/Tripoli": "Tripoli",
+  "Africa/Cairo": "Cairo",
+  "Africa/Johannesburg": "Johannesburg",
+  "Europe/Moscow": "Moscow",
+  "Asia/Baghdad": "Baghdad",
+  "Asia/Kuwait": "Kuwait",
+  "Asia/Riyadh": "Riyadh",
+  "Asia/Bahrain": "Bahrain",
+  "Asia/Qatar": "Qatar",
+  "Asia/Aden": "Aden",
+  "Asia/Tehran": "Tehran",
+  "Africa/Khartoum": "Khartoum",
+  "Africa/Djibouti": "Djibouti",
+  "Africa/Mogadishu": "Mogadishu",
+  "Asia/Dubai": "Dubai",
+  "Asia/Muscat": "Muscat",
+  "Asia/Baku": "Baku, Tbilisi, Yerevan",
+  "Asia/Kabul": "Kabul",
+  "Asia/Yekaterinburg": "Yekaterinburg",
+  "Asia/Tashkent": "Islamabad, Karachi, Tashkent",
+  "Asia/Calcutta": "India",
+  "Asia/Kathmandu": "Kathmandu",
+  "Asia/Novosibirsk": "Novosibirsk",
+  "Asia/Almaty": "Almaty",
+  "Asia/Dacca": "Dacca",
+  "Asia/Krasnoyarsk": "Krasnoyarsk",
+  "Asia/Dhaka": "Astana, Dhaka",
+  "Asia/Bangkok": "Bangkok",
+  "Asia/Saigon": "Vietnam",
+  "Asia/Jakarta": "Jakarta",
+  "Asia/Irkutsk": "Irkutsk, Ulaanbaatar",
+  "Asia/Shanghai": "Beijing, Shanghai",
+  "Asia/Hong_Kong": "Hong Kong",
+  "Asia/Taipei": "Taipei",
+  "Asia/Kuala_Lumpur": "Kuala Lumpur",
+  "Asia/Singapore": "Singapore",
+  "Australia/Perth": "Perth",
+  "Asia/Yakutsk": "Yakutsk",
+  "Asia/Seoul": "Seoul",
+  "Asia/Tokyo": "Osaka, Sapporo, Tokyo",
+  "Australia/Darwin": "Darwin",
+  "Australia/Adelaide": "Adelaide",
+  "Asia/Vladivostok": "Vladivostok",
+  "Pacific/Port_Moresby": "Guam, Port Moresby",
+  "Australia/Brisbane": "Brisbane",
+  "Australia/Sydney": "Canberra, Melbourne, Sydney",
+  "Australia/Hobart": "Hobart",
+  "Asia/Magadan": "Magadan",
+  SST: "Solomon Islands",
+  "Pacific/Noumea": "New Caledonia",
+  "Asia/Kamchatka": "Kamchatka",
+  "Pacific/Fiji": "Fiji Islands, Marshall Islands",
+  "Pacific/Auckland": "Auckland, Wellington",
+  "Asia/Kolkata": "Mumbai, Kolkata, New Delhi",
+  "Europe/Kiev": "Kiev",
+  "America/Tegucigalpa": "Tegucigalpa",
+  "Pacific/Apia": "Independent State of Samoa"
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timezones);
 
 /***/ }),
@@ -20694,6 +20866,17 @@ module.exports = window["wp"]["domReady"];
 
 "use strict";
 module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "@wordpress/html-entities":
+/*!**************************************!*\
+  !*** external ["wp","htmlEntities"] ***!
+  \**************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["htmlEntities"];
 
 /***/ }),
 

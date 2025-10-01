@@ -22,7 +22,8 @@ import Datepicker from "react-tailwindcss-datepicker";
 import ConfirmationModal from "../Controls/ConfirmationModal";
 import axios from "axios";
 import { toast } from "react-toastify";
-import timezones from "../../utilities/timezones";
+import { timezonesList } from "../../utilities/timezones";
+import timezonesWithOffset from "../../utilities/timezones";
 import {
   AdjustmentsVerticalIcon,
   PlusIcon,
@@ -123,7 +124,7 @@ const EventsCardHeader = ({
     } else return null;
   };
 
-  const getDates = (tz = timezone.zone) => {
+  const getDates = (tz = timezone.id) => {
     let datesValue = { startDate: null, endDate: null };
 
     if (dates.startDate) {
@@ -276,7 +277,7 @@ const EventsPage = ({
     { label: t("Recurrence"), value: "recurrence", visible: true },
     { label: t("Status"), value: "status", visible: true },
   ]);
-  const [showGuide, setShowGuide] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
   const [firstFetchDone, setFirstFetchDone] = useState(false);
   const [isPast, setIsPast] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -310,6 +311,9 @@ const EventsPage = ({
   const [showDateModal, setShowDateModal] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const timezones = Object.keys(timezonesList).map((zone) => {
+    return { id: zone, name: timezonesList[zone] };
+  });
   // --- Click outside logic for modals ---
   useEffect(() => {
     function handleClickOutside(event) {
@@ -411,7 +415,7 @@ const EventsPage = ({
     setSelectedFilters(newSelectedFilters);
   };
 
-  const getDates = (tz = timezone.zone) => {
+  const getDates = (tz = timezone.id) => {
     let datesValue = { startDate: null, endDate: null };
 
     if (dates.startDate) {
@@ -499,7 +503,7 @@ const EventsPage = ({
               date: datetime.format("MMM DD, YYYY"),
               time: datetime.format("hh:mm a"),
               location: meeting.location ? meeting.location : "",
-              type: eventType === "offline" ? "Event" : "Zoom event",
+              type: eventType === "offline" ? "Event" : "Zoom",
               recurrence:
                 (meeting.type === 2 && eventType && eventType === "offline") ||
                 (meeting.type === 8 && eventType && eventType === "zoom")
@@ -527,14 +531,17 @@ const EventsPage = ({
   };
 
   const getZoomAccount = async () => {
+    let account = null;
     const getZoomAccountResponse = await axios.get(
       "/wp-json/servv-plugin/v1/zoom/account",
       { headers: { "X-WP-Nonce": servvData.nonce } }
     );
     if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
       setZoomAccount(getZoomAccountResponse.data);
+      account = getZoomAccountResponse.data;
     }
     setIsLoading(false);
+    return account;
   };
 
   const getFilteringParameterName = (type) => {
@@ -598,8 +605,10 @@ const EventsPage = ({
     page = 1,
     is_Past = null,
     type = "offline",
+    account = null,
   } = {}) => {
     setLoading(true);
+    let connectedZoomAccount = account ? account : zoomAccount;
     try {
       const selectedEventType = type ? type : eventType;
       let reqUrl = `/wp-json/servv-plugin/v1/events/${selectedEventType}?page_size=10&page=${page}&without_occurrences=true`;
@@ -634,7 +643,7 @@ const EventsPage = ({
                 time: datetime ? datetime.format("hh:mm a") : null,
                 timezone: meeting.timezone,
                 location: meeting.location ? meeting.location : "",
-                type: type === "offline" ? "Event" : "Zoom Event",
+                type: type === "offline" ? "Event" : "Zoom",
                 recurrence:
                   (meeting.type === 2 && type === "offline") ||
                   (meeting.type === 8 && type === "zoom")
@@ -650,6 +659,35 @@ const EventsPage = ({
             })
           : [];
         setMeetingsList(rowsForTable);
+
+        if (
+          (rowsForTable.length === 0 &&
+            !firstFetchDone &&
+            !connectedZoomAccount) ||
+          (connectedZoomAccount &&
+            !connectedZoomAccount.id &&
+            type === "offline")
+        ) {
+          console.log(1);
+          setShowGuide(true);
+        } else if (
+          rowsForTable.length === 0 &&
+          !firstFetchDone &&
+          connectedZoomAccount &&
+          !!connectedZoomAccount.id
+        ) {
+          console.log(2);
+          handleTypeChange("zoom");
+        } else if (
+          rowsForTable.length === 0 &&
+          firstFetchDone &&
+          connectedZoomAccount &&
+          connectedZoomAccount.id &&
+          type === "zoom"
+        ) {
+          console.log(3);
+          setShowGuide(true);
+        }
         setActiveDropdown(false);
         setPagination({
           pageNumber: res.data.page_number,
@@ -663,7 +701,9 @@ const EventsPage = ({
     } catch (e) {
       console.log(e);
       if (e.status === 401) {
-        toast("Activation failed. Please contact the Servv support team.");
+        toast(
+          "Error fetching events list. Please try reloading the page, or contact the Servv support team."
+        );
       } else {
         toast("Servv unable to fetch events.");
       }
@@ -694,24 +734,24 @@ const EventsPage = ({
   const getData = async () => {
     if (firstFetchDone) return;
     setLoading(true);
-
+    let account = null;
     if (servvData.servv_plugin_mode === "development") {
       if (settings && Object.keys(filtersList).length > 0) {
         if (!firstFetchDone) {
-          await getEventsList();
           if (settings.current_plan.id === 2) {
-            await getZoomAccount();
+            account = await getZoomAccount();
           }
+          await getEventsList({ account: account });
           setFirstFetchDone(true);
         }
       }
     } else {
       if (!firstFetchDone) {
-        await getEventsList();
-
         if (settings.current_plan.id === 2) {
-          getZoomAccount();
+          account = await getZoomAccount();
         }
+        await getEventsList({ account: account });
+
         setFirstFetchDone(true);
       }
     }
@@ -863,7 +903,7 @@ const EventsPage = ({
       defaultTimezone = moment.tz.guess();
     }
 
-    let findTimezone = timezones.filter((t) => t.zone === defaultTimezone);
+    let findTimezone = timezones.filter((t) => t.id === defaultTimezone);
 
     if (findTimezone.length > 0) {
       setTimezone(findTimezone[0]);
@@ -871,12 +911,15 @@ const EventsPage = ({
       let timezoneOffset = moment.tz(defaultTimezone).format("Z");
       let formattedOffset = `(GMT${timezoneOffset})`;
 
-      let availableTimezone = timezones.filter(
+      let availableTimezone = timezonesWithOffset.filter(
         (t) => t.gmt === formattedOffset
       );
 
       if (availableTimezone.length > 0) {
-        setTimezone(availableTimezone[0]);
+        let zone = availableTimezone[0];
+        let newTimezone = timezones.filter((t) => t.id === zone.zone);
+
+        if (newTimezone.length > 0) setTimezone(newTimezone[0]);
       }
     }
   };
@@ -1210,7 +1253,7 @@ const EventsPage = ({
           minute: 0,
           second: 0,
         },
-        timezone.zone
+        timezone.id
       );
     let endDate = null;
     if (dates.endDate)
@@ -1223,7 +1266,7 @@ const EventsPage = ({
           minute: 59,
           second: 0,
         },
-        timezone.zone
+        timezone.id
       );
 
     setDates({
@@ -1272,265 +1315,248 @@ const EventsPage = ({
     <Fragment>
       {!selectedEvent &&
         showGuide &&
-        firstFetchDone &&
-        meetingsList.length === 0 &&
         (!zoomAccount || (zoomAccount && !zoomAccount.id)) && (
           <Guideline showGuide={setShowGuide} redirect={redirect} />
         )}
-      {!selectedEvent &&
-        (!firstFetchDone ||
-          (firstFetchDone &&
-            (meetingsList.length > 0 ||
-              !showGuide ||
-              (zoomAccount && zoomAccount.id)))) && (
-          <PageWrapper loading={loading}>
-            <div className="w-full max-w-full px-0">
-              {/* --- DESKTOP HEADER --- */}
-              <div className="hidden md:flex items-center justify-between mt-6 mb-2">
-                <h1 className="text-display-sm">Events</h1>
-                <div className="flex gap-3">
+      {!selectedEvent && (!showGuide || (zoomAccount && zoomAccount.id)) && (
+        <PageWrapper loading={loading}>
+          <div className="w-full max-w-full px-0">
+            {/* --- DESKTOP HEADER --- */}
+            <div className="hidden md:flex items-center justify-between mt-6 mb-2">
+              <h1 className="text-display-sm">Events</h1>
+              <div className="flex gap-3">
+                <button
+                  className="flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition"
+                  onClick={() => setShowCustomizeModal(true)}
+                >
+                  <AdjustmentsVerticalIcon className="w-5 h-5" />
+                  {/* {t("Customise")} */}
+                </button>
+                <button
+                  className="flex items-center px-5 py-2 rounded-lg bg-purple-600 text-white font-medium text-base hover:bg-purple-700 transition"
+                  onClick={() => handleCreateNewEvent()}
+                >
+                  <PlusIcon className="w-5 h-5 mr-2" />
+                  {t("Create event")}
+                </button>
+              </div>
+            </div>
+            {/* --- MOBILE HEADER (Events title + Create/Customise icons) --- */}
+            <div className="md:hidden px-4 pt-4 pb-2">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {t("Events")}
+                </h1>
+                <div className="flex gap-2">
                   <button
-                    className="flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition"
+                    aria-label={t("Customize")}
+                    title={t("Customize")}
+                    className="p-2 rounded-full bg-white shadow"
                     onClick={() => setShowCustomizeModal(true)}
                   >
                     <AdjustmentsVerticalIcon className="w-5 h-5" />
-                    {/* {t("Customise")} */}
                   </button>
                   <button
-                    className="flex items-center px-5 py-2 rounded-lg bg-purple-600 text-white font-medium text-base hover:bg-purple-700 transition"
-                    onClick={() => handleCreateNewEvent()}
+                    aria-label={t("Create Event")}
+                    title={t("Create Event")}
+                    className="p-2 rounded-full bg-purple-600 text-white shadow"
+                    onClick={() =>
+                      open("post-new.php?servv_plugin=true", "_top")
+                    }
                   >
-                    <PlusIcon className="w-5 h-5 mr-2" />
-                    {t("Create event")}
+                    <PlusIcon className="w-5 h-5" />
                   </button>
                 </div>
               </div>
-              {/* --- MOBILE HEADER (Events title + Create/Customise icons) --- */}
-              <div className="md:hidden px-4 pt-4 pb-2">
-                <div className="flex items-center justify-between">
-                  <h1 className="text-2xl font-bold text-gray-900">
-                    {t("Events")}
-                  </h1>
-                  <div className="flex gap-2">
-                    <button
-                      aria-label={t("Customize")}
-                      title={t("Customize")}
-                      className="p-2 rounded-full bg-white shadow"
-                      onClick={() => setShowCustomizeModal(true)}
-                    >
-                      <AdjustmentsVerticalIcon className="w-5 h-5" />
-                    </button>
-                    <button
-                      aria-label={t("Create Event")}
-                      title={t("Create Event")}
-                      className="p-2 rounded-full bg-purple-600 text-white shadow"
-                      onClick={() =>
-                        open("post-new.php?servv_plugin=true", "_top")
-                      }
-                    >
-                      <PlusIcon className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <InlineStack gap={4} align="left">
-                <ButtonGroupConnected>
-                  <ConnectedButton
-                    text={t("Upcoming")}
-                    selected={!isPast}
-                    onAction={handleIsPastChange}
-                  />
-                  <ConnectedButton
-                    text={t("Past")}
-                    selected={isPast}
-                    onAction={handleIsPastChange}
-                  />
-                </ButtonGroupConnected>
-                {settings &&
-                  settings.current_plan &&
-                  settings.current_plan.id === 2 && (
-                    <ButtonGroupConnected>
-                      <ConnectedButton
-                        text={t("Events")}
-                        selected={eventType === "offline"}
-                        onAction={() => handleTypeChange("offline")}
-                      />
-                      <ConnectedButton
-                        text={"Zoom"}
-                        // text={t("Zoom Events")}
-                        selected={eventType === "zoom"}
-                        onAction={() => handleTypeChange("zoom")}
-                      />
-                    </ButtonGroupConnected>
-                  )}
-              </InlineStack>
-              <Card className="w-full max-w-none px-0 mt-4">
-                {/* --- MOBILE: Search, Date, Filter icons under "Your Events" --- */}
-                <div className="md:hidden flex items-center px-4 pt-4 pb-2">
-                  {/* Search icon left */}
+            </div>
+            <InlineStack gap={4} align="left">
+              <ButtonGroupConnected>
+                <ConnectedButton
+                  text={t("Upcoming")}
+                  selected={!isPast}
+                  onAction={handleIsPastChange}
+                />
+                <ConnectedButton
+                  text={t("Past")}
+                  selected={isPast}
+                  onAction={handleIsPastChange}
+                />
+              </ButtonGroupConnected>
+              {settings &&
+                settings.current_plan &&
+                settings.current_plan.id === 2 && (
+                  <ButtonGroupConnected>
+                    <ConnectedButton
+                      text={t("Events")}
+                      selected={eventType === "offline"}
+                      onAction={() => handleTypeChange("offline")}
+                    />
+                    <ConnectedButton
+                      text={"Zoom"}
+                      // text={t("Zoom Events")}
+                      selected={eventType === "zoom"}
+                      onAction={() => handleTypeChange("zoom")}
+                    />
+                  </ButtonGroupConnected>
+                )}
+            </InlineStack>
+            <Card className="w-full max-w-none px-0 mt-4">
+              {/* --- MOBILE: Search, Date, Filter icons under "Your Events" --- */}
+              <div className="md:hidden flex items-center px-4 pt-4 pb-2">
+                {/* Search icon left */}
+                <button
+                  aria-label={t("Search")}
+                  title={t("Search")}
+                  className={`p-2 rounded-full bg-white shadow ${
+                    showMobileSearch ? "ring-2 ring-purple-400" : ""
+                  }`}
+                  onClick={() => setShowMobileSearch((prev) => !prev)}
+                >
+                  <svg width="22" height="22" fill="none" viewBox="0 0 22 22">
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="7"
+                      stroke="#7c3aed"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M16 16l4 4"
+                      stroke="#7c3aed"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+                {/* Spacer */}
+                <div className="flex-1"></div>
+                {/* Date and Filter icons right, spaced from edge */}
+                <div className="flex gap-2 pr-1">
                   <button
-                    aria-label={t("Search")}
-                    title={t("Search")}
-                    className={`p-2 rounded-full bg-white shadow ${
-                      showMobileSearch ? "ring-2 ring-purple-400" : ""
-                    }`}
-                    onClick={() => setShowMobileSearch((prev) => !prev)}
+                    aria-label={t("Date")}
+                    title={t("Pick date")}
+                    className="p-2 rounded-full bg-white shadow"
+                    onClick={() => setShowDateModal(true)}
                   >
                     <svg width="22" height="22" fill="none" viewBox="0 0 22 22">
-                      <circle
-                        cx="10"
-                        cy="10"
-                        r="7"
+                      <rect
+                        x="3"
+                        y="5"
+                        width="16"
+                        height="14"
+                        rx="2"
                         stroke="#7c3aed"
                         strokeWidth="2"
                       />
                       <path
-                        d="M16 16l4 4"
+                        d="M7 3v4M15 3v4"
+                        stroke="#7c3aed"
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    aria-label={t("Filters")}
+                    title={t("Filters")}
+                    className="p-2 rounded-full bg-white shadow"
+                    onClick={() => setShowFiltersModal(true)}
+                  >
+                    <svg width="22" height="22" fill="none" viewBox="0 0 22 22">
+                      <path
+                        d="M3 5h16M6 10h10M9 15h4"
                         stroke="#7c3aed"
                         strokeWidth="2"
                         strokeLinecap="round"
                       />
                     </svg>
                   </button>
-                  {/* Spacer */}
-                  <div className="flex-1"></div>
-                  {/* Date and Filter icons right, spaced from edge */}
-                  <div className="flex gap-2 pr-1">
-                    <button
-                      aria-label={t("Date")}
-                      title={t("Pick date")}
-                      className="p-2 rounded-full bg-white shadow"
-                      onClick={() => setShowDateModal(true)}
-                    >
-                      <svg
-                        width="22"
-                        height="22"
-                        fill="none"
-                        viewBox="0 0 22 22"
-                      >
-                        <rect
-                          x="3"
-                          y="5"
-                          width="16"
-                          height="14"
-                          rx="2"
-                          stroke="#7c3aed"
-                          strokeWidth="2"
-                        />
-                        <path
-                          d="M7 3v4M15 3v4"
-                          stroke="#7c3aed"
-                          strokeWidth="2"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      aria-label={t("Filters")}
-                      title={t("Filters")}
-                      className="p-2 rounded-full bg-white shadow"
-                      onClick={() => setShowFiltersModal(true)}
-                    >
-                      <svg
-                        width="22"
-                        height="22"
-                        fill="none"
-                        viewBox="0 0 22 22"
-                      >
-                        <path
-                          d="M3 5h16M6 10h10M9 15h4"
-                          stroke="#7c3aed"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
                 </div>
-                {/* --- MOBILE: Inline search bar --- */}
-                {showMobileSearch && (
-                  <div className="md:hidden px-4 pb-2">
-                    <input
-                      type="text"
-                      className="w-full border border-gray-300 rounded px-3 py-2 mb-2"
-                      placeholder={t("Enter search")}
-                      value={searchString}
-                      autoFocus
-                      onChange={(e) => setSearchString(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && getEventsList()}
-                    />
-                    <button
-                      className="w-full bg-purple-600 text-white rounded py-2"
-                      onClick={() => getEventsList()}
-                    >
-                      {t("Search")}
-                    </button>
-                  </div>
-                )}
-                <EventsCardHeader
-                  eventsCount={
-                    view === "events"
-                      ? meetingsList.length
-                      : eventOccurrencess.length
-                  }
-                  view={view}
-                  backToEventsList={() => setView("events")}
-                  search={searchString}
-                  onChange={handleSearchChange}
-                  filtersList={filtersList}
-                  onFiltering={getEventsList}
-                  selectedFilters={selectedFilters}
-                  handleFilterSelect={handleFilterSelect}
-                  dates={dates}
-                  setDates={handleSetDates}
-                  isFiltersApplyed={isFiltersApplyed()}
-                  resetFilters={resetFilters}
-                  isPast={isPast}
-                  timezone={timezone}
-                />
-                {/* Desktop Table */}
-                <div className="hidden md:block w-full">
-                  {view === "events" && (
-                    <FilterTable
-                      headings={renderHeadings()}
-                      rows={renderRows(meetingsList)}
-                    />
-                  )}
-                  {view === "occurrences" && (
-                    <FilterTable
-                      headings={renderHeadings()}
-                      rows={renderRows(eventOccurrencess)}
-                    />
-                  )}
+              </div>
+              {/* --- MOBILE: Inline search bar --- */}
+              {showMobileSearch && (
+                <div className="md:hidden px-4 pb-2">
+                  <input
+                    type="text"
+                    className="w-full border border-gray-300 rounded px-3 py-2 mb-2"
+                    placeholder={t("Enter search")}
+                    value={searchString}
+                    autoFocus
+                    onChange={(e) => setSearchString(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && getEventsList()}
+                  />
+                  <button
+                    className="w-full bg-purple-600 text-white rounded py-2"
+                    onClick={() => getEventsList()}
+                  >
+                    {t("Search")}
+                  </button>
                 </div>
-                {/* Mobile Cards */}
-                <div className="block md:hidden">
-                  {renderMobileCards(
-                    view === "events" ? meetingsList : eventOccurrencess
-                  )}
-                </div>
-                {view === "events" && pagination.pageCount > 1 && (
-                  <ListPagination
-                    hasPrev={pagination.pageNumber > 1}
-                    hasNext={pagination.pageNumber < pagination.pageCount}
-                    onPrev={() => handleGetPrevPage()}
-                    onNext={() => handleGetNextPage()}
+              )}
+              <EventsCardHeader
+                eventsCount={
+                  view === "events"
+                    ? meetingsList.length
+                    : eventOccurrencess.length
+                }
+                view={view}
+                backToEventsList={() => setView("events")}
+                search={searchString}
+                onChange={handleSearchChange}
+                filtersList={filtersList}
+                onFiltering={getEventsList}
+                selectedFilters={selectedFilters}
+                handleFilterSelect={handleFilterSelect}
+                dates={dates}
+                setDates={handleSetDates}
+                isFiltersApplyed={isFiltersApplyed()}
+                resetFilters={resetFilters}
+                isPast={isPast}
+                timezone={timezone}
+              />
+              {/* Desktop Table */}
+              <div className="hidden md:block w-full">
+                {view === "events" && (
+                  <FilterTable
+                    headings={renderHeadings()}
+                    rows={renderRows(meetingsList)}
                   />
                 )}
                 {view === "occurrences" && (
-                  <ListPagination
-                    hasPrev={occurrencesPagination.pageNumber > 1}
-                    hasNext={
-                      occurrencesPagination.pageNumber <
-                      occurrencesPagination.pageCount
-                    }
-                    onPrev={() => handleGetPrevOccurrencessPage()}
-                    onNext={() => handleGetNextOccurrencessPage()}
+                  <FilterTable
+                    headings={renderHeadings()}
+                    rows={renderRows(eventOccurrencess)}
                   />
                 )}
-              </Card>
-            </div>
-          </PageWrapper>
-        )}
+              </div>
+              {/* Mobile Cards */}
+              <div className="block md:hidden">
+                {renderMobileCards(
+                  view === "events" ? meetingsList : eventOccurrencess
+                )}
+              </div>
+              {view === "events" && pagination.pageCount > 1 && (
+                <ListPagination
+                  hasPrev={pagination.pageNumber > 1}
+                  hasNext={pagination.pageNumber < pagination.pageCount}
+                  onPrev={() => handleGetPrevPage()}
+                  onNext={() => handleGetNextPage()}
+                />
+              )}
+              {view === "occurrences" && (
+                <ListPagination
+                  hasPrev={occurrencesPagination.pageNumber > 1}
+                  hasNext={
+                    occurrencesPagination.pageNumber <
+                    occurrencesPagination.pageCount
+                  }
+                  onPrev={() => handleGetPrevOccurrencessPage()}
+                  onNext={() => handleGetNextOccurrencessPage()}
+                />
+              )}
+            </Card>
+          </div>
+        </PageWrapper>
+      )}
       {selectedEvent && (
         <SingleEventPage
           attributes={attributes}
