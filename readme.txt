@@ -3,7 +3,7 @@ Contributors: servvai
 Tags: event booking, event calendar, online booking, booking system, wordpress events plugin
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.0.4
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,28 @@ Discover how you can:
 
 👉 **[View Live Demo](https://demo.servv.app/)**
 
+== Features ==
+
+Our powerful Servv AI Event Booking plugin for WordPress gives you everything you need to create, manage, and promote your events — all from your own website.
+
+✔️ **Create events in seconds** — Set up events effortlessly with an intuitive event builder.  
+✔️ **Recurring & single events** — Schedule one-time or recurring sessions with flexible timing.  
+✔️ **Multiple ticket types** — Offer free, paid, and donation-based ticket options for your events.
+✔️ **Saved venues & hosts** — Quickly reuse existing venues and event hosts for consistency.  
+✔️ **Modern calendar views** — Choose from list, grid, or calendar views for easy browsing.  
+✔️ **AI-powered event creation** — Automatically create event description and featured image for your event  
+✔️ **Block Editor support** — Seamlessly integrate events into any page using the Gutenberg block editor.  
+✔️ **Event search & filtering** — Help visitors find events fast with smart search and filters.  
+✔️ **Stripe payment integration** — Collect secure online payments for paid events using Stripe. 
+✔️ **Upcoming events widget** — Showcase your next events anywhere on your site.   
+✔️ **Google Calendar & iCal sync** — Allow users to easily add events to their calendars.  
+✔️ **Zoom & Google Meet/Microsoft Teams integration** — Automatically generate links (Zoom only) or share pre-generated meeting links.  
+✔️ **Attendee registration & reminders** — Manage bookings and send smart reminders automatically.  
+✔️ **Mobile-first responsive design** — Looks great on phones, tablets, and desktops.  
+✔️ **Multi-language ready** — Translated and internationalized in different languages 
+✔️ **Customizable email templates** — Match your brand using Servv’s flexible email templates.  
+✔️ **Smart analytics dashboard** — Get insights into bookings, attendance, and engagement.
+
 == Installation ==
 	•	Search “servvai” and install from from Plugin repository 
 	•	You can also manually upload servvai-event-booking.zip via Plugins → Add New
@@ -60,73 +82,3 @@ Currently, only the Stripe payment gateway is supported.
 == Changelog ==
 
 Link: http://support.servv.ai/changelogs/changelog/
-
-== Developers ==
-
-This plugin ships compiled assets for performance. The corresponding human-readable source code is included in this plugin and also publicly available.
-
-Source directories:
-- Gutenberg/admin/editor source: src/
-- Frontend widget source: widget/src/
-- PHP source: inc/, *.php
-
-Compiled (distributed) assets:
-- Gutenberg/admin/editor bundles: build/
-- Frontend widget bundle: widget/dist/js/servv-widget.js
-- CSS bundles: build/ and widget/dist/css/
-
-Public repository (source and history):
-- https://github.com/coderisetechnologiesinc/servvai-event-booking
-
-We use standard tooling (e.g., webpack/Vite, Babel/TypeScript, Tailwind where applicable). The unminified source is in `src/` and `widget/src/`. The distributed files are generated from those sources.
-
----
-Developer Notes:
-
-This plugin contains two separate projects:
-
-1. **Main plugin React app**
-
-Located in the root `src/` folder, built using `@wordpress/scripts` and Tailwind CSS.
-
-To build:
-
-    npm install
-    npm run build
-
-This generates files in the `build-assets/` folder used by the plugin.
-
----
-
-2. **Widget Vue app**
-
-Located in `widget/`.
-
-To build:
-
-    cd widget
-    yarn install
-    yarn build
-
-This generates minified JS and CSS in `widget/dist/`.
-
----
-
-Both source code and build files are included in this plugin.
-
-Local Development:
-
-*Note: The following setup is required only for local development and testing purposes.*
-
-To run this plugin in a local environment, create a `.env` file in the plugin root directory with the following variables:
-
-    SERVV_PLUGIN_API_DOMAIN=https://devapi.servv.io
-    SERVV_API_VERSION=v1
-    SERVV_PLUGIN_SITE_URL=https://0f3e24eaf32f.ngrok.app
-    SERVV_PLUGIN_MODE=development
-
-Next, start an ngrok tunnel to expose your local WordPress site to the internet:
-
-    ngrok http --host-header=rewrite servv.wordpress.develop
-
-Make sure the `SERVV_PLUGIN_SITE_URL` matches the public URL provided by ngrok.
