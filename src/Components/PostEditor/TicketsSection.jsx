@@ -631,7 +631,7 @@ const TicketsSection = ({
                 )}
               </p>
             )}
-            {tickets?.length > 0 && renderTickets()}
+
             {(tickets?.length === 0 || tickets?.length > 0) && (
               <button
                 className={`flex flex-row gap-2 text-brand-700 fill-brand-700 items-center ${
@@ -644,6 +644,7 @@ const TicketsSection = ({
                 <span className="text-[16px]">{t("Create new ticket")}</span>
               </button>
             )}
+            {tickets?.length > 0 && renderTickets()}
             {tickets?.length > 0 && selectedTicket !== null && (
               <fieldset className="input-container-col">
                 <BlockStack gap={4}>
@@ -658,9 +659,9 @@ const TicketsSection = ({
                     disabled={!stripeAccount || !stripeAccount.id || disabled}
                   />
                   {settings && (!stripeAccount || !stripeAccount.id) && (
-                    <div className="section-description">
-                      Please note: To create paid and donation tickets, you need
-                      to connect your Stripe account.
+                    <div className="section-description text-brand-600">
+                      Note: To create paid and donation tickets, you need to
+                      connect your Stripe account.
                     </div>
                   )}
                   <div className="input-container-col">

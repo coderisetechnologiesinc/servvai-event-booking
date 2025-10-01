@@ -3,32 +3,32 @@
     <a
       href="#"
       class="svv-events-list-page-size-selector-item"
-      @click.prevent="() => setListPageSize(10)"
+      @click.prevent="() => setListPageSize(12)"
       :class="{
-        'svv-active-page-size': currentPageSize === 10,
+        'svv-active-page-size': currentPageSize === 12,
       }"
     >
-      10
+      12
     </a>
     <a
       href="#"
       class="svv-events-list-page-size-selector-item"
-      @click.prevent="() => setListPageSize(20)"
+      @click.prevent="() => setListPageSize(24)"
       :class="{
-        'svv-active-page-size': currentPageSize === 20,
+        'svv-active-page-size': currentPageSize === 24,
       }"
     >
-      20
+      24
     </a>
     <a
       href="#"
       class="svv-events-list-page-size-selector-item"
-      @click.prevent="() => setListPageSize(50)"
+      @click.prevent="() => setListPageSize(48)"
       :class="{
-        'svv-active-page-size': currentPageSize === 50,
+        'svv-active-page-size': currentPageSize === 48,
       }"
     >
-      50
+      48
     </a>
   </div>
 </template>
@@ -57,7 +57,7 @@ export default {
     currentPageSize() {
       if (this.itemType === "event") return this.pageSizeEvents;
       if (this.itemType === "bundle") return this.pageSizeBundles;
-      return 10;
+      return 12;
     },
   },
   methods: {

@@ -1836,7 +1836,7 @@ const timezones = [{
 }, {
   zone: "US/Pacific",
   gmt: "(GMT-08:00)",
-  name: "Pacific Time (US &amp; Canada)"
+  name: "Pacific Time (US and Canada)"
 }, {
   zone: "America/Tijuana",
   gmt: "(GMT-08:00)",
@@ -1848,7 +1848,7 @@ const timezones = [{
 }, {
   zone: "US/Mountain",
   gmt: "(GMT-07:00)",
-  name: "Mountain Time (US &amp; Canada)"
+  name: "Mountain Time (US and Canada)"
 }, {
   zone: "America/Chihuahua",
   gmt: "(GMT-07:00)",
@@ -1872,11 +1872,11 @@ const timezones = [{
 }, {
   zone: "US/Central",
   gmt: "(GMT-06:00)",
-  name: "Central Time (US &amp; Canada)"
+  name: "Central Time (US and Canada)"
 }, {
   zone: "US/Eastern",
   gmt: "(GMT-05:00)",
-  name: "Eastern Time (US &amp; Canada)"
+  name: "Eastern Time (US and Canada)"
 }, {
   zone: "US/East-Indiana",
   gmt: "(GMT-05:00)",
@@ -2706,4 +2706,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(X
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=1f65548c0197052043d6
+//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=f7a127d488559e48caa8

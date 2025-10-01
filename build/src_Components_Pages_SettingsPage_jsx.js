@@ -1235,14 +1235,14 @@ const SettingsPage = () => {
   // { label: "Workflow", value: "progressive" },
   ];
   const pageSizes = [{
-    label: "10 items",
-    value: 10
+    label: "12 items",
+    value: 12
   }, {
-    label: "20 items",
-    value: 20
+    label: "24 items",
+    value: 24
   }, {
-    label: "50 items",
-    value: 50
+    label: "48 items",
+    value: 48
   }];
   const filters = ["Locations", "Languages", "Categories", "Members"];
   const availableViewMods = viewModeOptions.map(opt => opt.label);
@@ -1283,7 +1283,7 @@ const SettingsPage = () => {
     if (settings.ew_events_grid_fluid_mode === undefined) settings.ew_events_grid_fluid_mode = false;
     if (settings.ew_card_description_display_words_limit === undefined) settings.ew_card_description_display_words_limit = 9;
     if (settings.ew_list_item_description_display_words_limit === undefined) settings.ew_list_item_description_display_words_limit = 9;
-    if (settings.ew_events_list_page_size_default === undefined) settings.ew_events_list_page_size_default = 10;
+    if (settings.ew_events_list_page_size_default === undefined) settings.ew_events_list_page_size_default = 12;
     if (settings.available_filters === undefined) settings.available_filters = "locations,languages,categories,members";
     if (settings.ew_show_language_selector === undefined) settings.ew_show_language_selector = true;
     if (settings.ew_show_top_filters === undefined) settings.ew_show_top_filters = true;
@@ -1734,7 +1734,7 @@ const SettingsPage = () => {
     setSettings(currentSettings);
   };
   const selectedView = settings?.settings?.widget_style_settings?.ew_events_list_view ? viewModeOptions[viewModeOptions.map(opt => opt.value).indexOf(settings.settings.widget_style_settings.ew_events_list_view)].label : "List";
-  const selectedPageSize = settings?.settings?.widget_style_settings?.ew_events_list_page_size_default ? pageSizes[pageSizes.map(opt => opt.value).indexOf(settings.settings.widget_style_settings.ew_events_list_page_size_default)].name : "10 items";
+  const selectedPageSize = settings?.settings?.widget_style_settings?.ew_events_list_page_size_default ? pageSizes[pageSizes.map(opt => opt.value).indexOf(settings.settings.widget_style_settings.ew_events_list_page_size_default)].name : "12 items";
   const handleDescriptionLengthChange = (view, length) => {
     let currentSettings = {
       ...settings
@@ -3267,7 +3267,7 @@ const timezones = [{
 }, {
   zone: "US/Pacific",
   gmt: "(GMT-08:00)",
-  name: "Pacific Time (US &amp; Canada)"
+  name: "Pacific Time (US and Canada)"
 }, {
   zone: "America/Tijuana",
   gmt: "(GMT-08:00)",
@@ -3279,7 +3279,7 @@ const timezones = [{
 }, {
   zone: "US/Mountain",
   gmt: "(GMT-07:00)",
-  name: "Mountain Time (US &amp; Canada)"
+  name: "Mountain Time (US and Canada)"
 }, {
   zone: "America/Chihuahua",
   gmt: "(GMT-07:00)",
@@ -3303,11 +3303,11 @@ const timezones = [{
 }, {
   zone: "US/Central",
   gmt: "(GMT-06:00)",
-  name: "Central Time (US &amp; Canada)"
+  name: "Central Time (US and Canada)"
 }, {
   zone: "US/Eastern",
   gmt: "(GMT-05:00)",
-  name: "Eastern Time (US &amp; Canada)"
+  name: "Eastern Time (US and Canada)"
 }, {
   zone: "US/East-Indiana",
   gmt: "(GMT-05:00)",
@@ -3991,4 +3991,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=0ee8e6194828027f6602
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=3ac9d70df60c1f2b203d

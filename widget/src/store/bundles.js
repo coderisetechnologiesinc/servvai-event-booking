@@ -5,12 +5,12 @@ import moment from "moment-timezone";
 export default {
   namespaced: true,
   state: {
-    pageSize: 10,
+    pageSize: 12,
     bundles: {
       bundles: [],
       page_count: 0,
       page_number: 0,
-      page_size: 10,
+      page_size: 12,
       total_records: 0,
       listIsEmpty: false,
     },
@@ -21,7 +21,7 @@ export default {
     setBundlesList(state, payload) {
       state.bundles = payload;
     },
-    setBundlesPageSize(state, size = 10) {
+    setBundlesPageSize(state, size = 12) {
       state.pageSize = size;
     },
     setSingleBundle(state, payload) {

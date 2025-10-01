@@ -96,7 +96,6 @@ const DateTimeSection = ({
       eventDetails &&
       (!eventDetails.timezone || timezone.length === 0)
     ) {
-      console.log(userTimezone.id);
       if (userTimezone) onChange("timezone", userTimezone.id);
       else onChange("timezone", userTimezone);
     }
@@ -109,7 +108,24 @@ const DateTimeSection = ({
       settings.settings.admin_dashboard &&
       settings.settings.admin_dashboard.default_timezone
     ) {
-      onChange("timezone", settings.settings.admin_dashboard.default_timezone);
+      const zone = settings.settings.admin_dashboard.default_timezone;
+
+      const defaultZone = timezones.find((t) => t.id === zone);
+
+      if (defaultZone) {
+        onChange("timezone", defaultZone.id);
+      } else {
+        const findTimezone = timezonesWithOffset.find((t) => t.zone === zone);
+        if (findTimezone) {
+          const existingTimezone = timezones.find(
+            (t) => t.name === findTimezone.name
+          );
+
+          if (existingTimezone) {
+            onChange("timezone", existingTimezone.id);
+          }
+        }
+      }
     }
   }, [settings]);
 

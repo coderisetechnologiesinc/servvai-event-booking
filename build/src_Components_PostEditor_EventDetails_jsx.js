@@ -1619,13 +1619,24 @@ const DateTimeSection = ({
   }, [startTime]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (settings && settings.settings && settings.settings.admin_dashboard && !settings.settings.admin_dashboard.default_timezone && eventDetails && (!eventDetails.timezone || timezone.length === 0)) {
-      console.log(userTimezone.id);
       if (userTimezone) onChange("timezone", userTimezone.id);else onChange("timezone", userTimezone);
     }
   }, [userTimezone]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_timezone) {
-      onChange("timezone", settings.settings.admin_dashboard.default_timezone);
+      const zone = settings.settings.admin_dashboard.default_timezone;
+      const defaultZone = timezones.find(t => t.id === zone);
+      if (defaultZone) {
+        onChange("timezone", defaultZone.id);
+      } else {
+        const findTimezone = _utilities_timezones__WEBPACK_IMPORTED_MODULE_4__["default"].find(t => t.zone === zone);
+        if (findTimezone) {
+          const existingTimezone = timezones.find(t => t.name === findTimezone.name);
+          if (existingTimezone) {
+            onChange("timezone", existingTimezone.id);
+          }
+        }
+      }
     }
   }, [settings]);
   const handleTimezoneChange = value => {
@@ -2006,25 +2017,27 @@ const EventDetails = ({
     setMailAccountFetched(true);
   };
   const getAccountsInfo = async () => {
+    setLoading(true);
     if (servvData && servvData.servv_plugin_mode === "development") {
       if (settings && settings.current_plan.id === 2) {
+        await getStripeAccount();
+        await getZoomAccount();
         await getCalendarAccount();
         await getGmailAccount();
-        await getZoomAccount();
-        await getStripeAccount();
       } else {
         await getCalendarAccount();
       }
     } else {
       if (settings && settings.current_plan.id === 2) {
+        await getStripeAccount();
+        await getZoomAccount();
         getCalendarAccount();
         getGmailAccount();
-        getZoomAccount();
-        getStripeAccount();
       } else {
         getCalendarAccount();
       }
     }
+    setLoading(false);
   };
   const handleNextRegistrantsPage = async () => {
     getEventRegistrants(registrantsPagination.pageNumber + 1);
@@ -2353,24 +2366,24 @@ const EventDetails = ({
     setLoading(true);
     if (servvData && servvData.servv_plugin_mode === "development") {
       const id = await getEventData();
+      await getFilters();
+      await getAccountsInfo();
       if (id && adminSection) {
         await getEventRegistrants(1, id);
         if (adminSection && settings && settings.current_plan.id === 2) {
           await getEventTickets();
         }
       }
-      await getFilters();
-      await getAccountsInfo();
     } else {
       const id = await getEventData();
+      await getFilters();
+      await getAccountsInfo();
       if (id && adminSection) {
         getEventRegistrants(1, id);
         if (adminSection && settings && settings.current_plan.id === 2) {
           getEventTickets();
         }
       }
-      getFilters();
-      getAccountsInfo();
     }
     setLoading(false);
   };
@@ -2693,14 +2706,14 @@ const EventDetails = ({
       }), selectedTab === 0 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
         className: "section-container border-b-2 border-gray-200",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-          className: "section-description",
+          className: "section-description text-brand-600",
           children: "* Indicates a required field"
         })
       })]
     }), activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
       className: "section-container border-b-2 border-gray-200",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-        className: "section-description",
+        className: "section-description text-brand-600",
         children: "Activation failed. Please contact the Servv support team."
       })
     })]
@@ -2864,11 +2877,11 @@ const LocationSection = ({
   const {
     location
   } = eventDetails;
-  const eventTypes = ["In-person", "Online"];
+  const eventTypes = ["In-person", "Online or Hybrid"];
   const handleLocationChange = newVal => {
     if (newVal === eventTypes[0]) {
       onChange("location", "offline");
-      handleCustomFieldChange("custom_field_1_name", "Address");
+      handleCustomFieldChange("custom_field_1_name", "Access details");
       handleCustomFieldChange("custom_field_1_value", "");
     } else if (newVal === eventTypes[1]) {
       onChange("location", "zoom");
@@ -2900,7 +2913,7 @@ const LocationSection = ({
   }, [disabled, location, customFields]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (location === "online" && (disabled || !zoomAccount || !zoomAccount.id)) {
-      console.log("change location");
+      // console.log("change location");
       handleLocationChange(eventTypes[0]);
     }
   }, [disabled, location, zoomAccount]);
@@ -2915,16 +2928,16 @@ const LocationSection = ({
       active: location === "offline" && custom_field_1_name !== "Link" ? eventTypes[0] : eventTypes[1],
       onChange: handleLocationChange
       // disabled={disabled}
-    }), settings && settings.current_plan && settings.current_plan.id === 2 && (!zoomAccount || !zoomAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "section-description",
-      children: "Please note: To use the Integrations feature, you need to connect your Zoom account."
+    }), settings && settings.current_plan && settings.current_plan.id === 2 && (!zoomAccount || !zoomAccount.id) && location === "zoom" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "section-description text-brand-600",
+      children: "Note: To use the Integrations feature, you need to connect your Zoom account."
     }), meetingType === "offline" && custom_field_1_name !== "Link" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "input-container-row items-center",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "input-container-col w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "section-description",
-          children: t("Location (In-person) or meeting link (e.g., Google Meet, Microsoft\r\n              Teams)")
+          children: "Add parking or venue access details, such as directions or a link to a map"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           value: custom_field_1_value,
           onChange: val => handleCustomFieldChange("custom_field_1_value", val),
@@ -2936,7 +2949,7 @@ const LocationSection = ({
     }), (meetingType !== "offline" || custom_field_1_name === "Link") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "section-description",
-        children: "Choose a join method:"
+        children: "Choose a meeting method:"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "tabs-group-container",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
@@ -2946,7 +2959,7 @@ const LocationSection = ({
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               onClick: () => handleSelectOnlineType(false),
               className: `tab-element ${!onlineType ? "tab-active" : ""}`,
-              children: "Join link URL"
+              children: "Meeting URL"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
             className: "me-2",
@@ -2954,7 +2967,7 @@ const LocationSection = ({
               onClick: () => handleSelectOnlineType(true),
               className: `tab-element ${onlineType ? "tab-active" : ""}`,
               disabled: !zoomAccount || zoomAccount && !zoomAccount.email,
-              children: "Integration"
+              children: "Zoom API integration"
             })
           })]
         })
@@ -2962,7 +2975,7 @@ const LocationSection = ({
         className: "input-container-col w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "section-description",
-          children: "Join link URL"
+          children: "Meeting link (e.g., Google Meet, Microsoft Teams, Zoom)"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           value: custom_field_1_value,
           onChange: val => handleCustomFieldChange("custom_field_1_value", val),
@@ -2973,7 +2986,7 @@ const LocationSection = ({
       }), onlineType && zoomAccount && zoomAccount.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "input-container-col w-full",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SelectDropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          title: "Select an integration",
+          title: "Select Zoom account",
           options: [{
             ...zoomAccount
           }].map(acc => {
@@ -4161,7 +4174,7 @@ const TicketsSection = ({
         }), adminSection && eventDetails.recurrence && !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
           className: "text-gray-600 font-regular text-sm",
           children: t("This is a recurring event. To see tickets for a specific date,\r\n                please view that occurrence.")
-        }), tickets?.length > 0 && renderTickets(), (tickets?.length === 0 || tickets?.length > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
+        }), (tickets?.length === 0 || tickets?.length > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("button", {
           className: `flex flex-row gap-2 text-brand-700 fill-brand-700 items-center ${disabled ? "filter grayscale" : ""}`,
           onClick: handleTicketAdd,
           disabled: disabled,
@@ -4171,7 +4184,7 @@ const TicketsSection = ({
             className: "text-[16px]",
             children: t("Create new ticket")
           })]
-        }), tickets?.length > 0 && selectedTicket !== null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("fieldset", {
+        }), tickets?.length > 0 && renderTickets(), tickets?.length > 0 && selectedTicket !== null && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("fieldset", {
           className: "input-container-col",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
             gap: 4,
@@ -4182,8 +4195,8 @@ const TicketsSection = ({
               onChange: handleTicketTypeChange,
               disabled: !stripeAccount || !stripeAccount.id || disabled
             }), settings && (!stripeAccount || !stripeAccount.id) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-              className: "section-description",
-              children: "Please note: To create paid and donation tickets, you need to connect your Stripe account."
+              className: "section-description text-brand-600",
+              children: "Note: To create paid and donation tickets, you need to connect your Stripe account."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "input-container-col",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("label", {
@@ -4516,7 +4529,7 @@ const timezones = [{
 }, {
   zone: "US/Pacific",
   gmt: "(GMT-08:00)",
-  name: "Pacific Time (US &amp; Canada)"
+  name: "Pacific Time (US and Canada)"
 }, {
   zone: "America/Tijuana",
   gmt: "(GMT-08:00)",
@@ -4528,7 +4541,7 @@ const timezones = [{
 }, {
   zone: "US/Mountain",
   gmt: "(GMT-07:00)",
-  name: "Mountain Time (US &amp; Canada)"
+  name: "Mountain Time (US and Canada)"
 }, {
   zone: "America/Chihuahua",
   gmt: "(GMT-07:00)",
@@ -4552,11 +4565,11 @@ const timezones = [{
 }, {
   zone: "US/Central",
   gmt: "(GMT-06:00)",
-  name: "Central Time (US &amp; Canada)"
+  name: "Central Time (US and Canada)"
 }, {
   zone: "US/Eastern",
   gmt: "(GMT-05:00)",
-  name: "Eastern Time (US &amp; Canada)"
+  name: "Eastern Time (US and Canada)"
 }, {
   zone: "US/East-Indiana",
   gmt: "(GMT-05:00)",
@@ -5088,4 +5101,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=e7dc597a1dcf951c8d53
+//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=e60aab740a8ef7023973

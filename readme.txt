@@ -3,7 +3,7 @@ Contributors: servvai
 Tags: event booking, event calendar, online booking, booking system, wordpress events plugin
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,13 +15,24 @@ Servv AI Event Booking makes it easy to schedule and host online, in-person, or 
 
 Here is what you will get:
 
-	•	Schedule One-time or Recurring in-person/hybrid or virtual events: Set it and forget it! Save time and effort by scheduling recurring events long into the future.
- 	•	Multiple Ticket pricing options: Configure your events for different ticket pricing options. For example, define whether or not tickets will be free, or for a fee. You can even configure seat limits to make sure your event isn’t accidentally oversold.   
-    •	Zoom and Google Calendar Integration: Using our Zoom and Google Calendar integrations you can host virtual and hybrid virtual/in-person events using  auto-generated meeting links without having to manually set up a virtual meeting.
- 	•	AI-powered event builder: Our AI-powered event builder helps you build and schedule events quickly and easy, using using smart default settings   
-	•	Automated reminders and notifications: Minimize no-shows by automatically reminding your attendees about upcoming events, with email follow-ups and calendar invites.
-	•	Customizable booking widgets: Embed responsive booking flows into posts, pages, or sidebars. Your schedules, where you want them.
+- Schedule One-time or Recurring in-person/hybrid or virtual events: Set it and forget it! Save time and effort by scheduling recurring events long into the future.
+- Multiple Ticket pricing options: Configure your events for different ticket pricing options. For example, define whether or not tickets will be free, or for a fee. You can even configure seat limits to make sure your event isn’t accidentally oversold.   
+- Zoom and Google Calendar Integration: Using our Zoom and Google Calendar integrations you can host virtual and hybrid virtual/in-person events using  auto-generated meeting links without having to manually set up a virtual meeting.
+- AI-powered event builder: Our AI-powered event builder helps you build and schedule events quickly and easy, using using smart default settings   
+- Automated reminders and notifications: Minimize no-shows by automatically reminding your attendees about upcoming events, with email follow-ups and calendar invites.
+- Customizable booking widgets: Embed responsive booking flows into posts, pages, or sidebars. Your schedules, where you want them.
 
+🤖 Experience AI-Powered Event Booking in Action
+See how Servv AI helps you create events in minutes — with built-in AI assistance, Zoom integration, multiple ticketing options, recurring events, and automated reminders.
+
+Discover how you can:
+✅ Host online, in-person, or hybrid events with ease
+✅ Add custom event widgets anywhere on your WordPress site including existing posts
+✅ Automate follow-ups and notifications for attendees
+
+🎯 Built for WordPress. Powered by AI.
+
+👉 **[View Live Demo](https://demo.servv.app/)**
 
 == Installation ==
 	•	Search “servvai” and install from from Plugin repository 
@@ -50,7 +61,7 @@ Currently, only the Stripe payment gateway is supported.
 
 Link: http://support.servv.ai/changelogs/changelog/
 
-== Developer ==
+== Developers ==
 
 This plugin ships compiled assets for performance. The corresponding human-readable source code is included in this plugin and also publicly available.
 

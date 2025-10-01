@@ -102,25 +102,27 @@ const EventDetails = ({
     setMailAccountFetched(true);
   };
   const getAccountsInfo = async () => {
+    setLoading(true);
     if (servvData && servvData.servv_plugin_mode === "development") {
       if (settings && settings.current_plan.id === 2) {
+        await getStripeAccount();
+        await getZoomAccount();
         await getCalendarAccount();
         await getGmailAccount();
-        await getZoomAccount();
-        await getStripeAccount();
       } else {
         await getCalendarAccount();
       }
     } else {
       if (settings && settings.current_plan.id === 2) {
+        await getStripeAccount();
+        await getZoomAccount();
         getCalendarAccount();
         getGmailAccount();
-        getZoomAccount();
-        getStripeAccount();
       } else {
         getCalendarAccount();
       }
     }
+    setLoading(false);
   };
   const handleNextRegistrantsPage = async () => {
     getEventRegistrants(registrantsPagination.pageNumber + 1);
@@ -474,24 +476,24 @@ const EventDetails = ({
     setLoading(true);
     if (servvData && servvData.servv_plugin_mode === "development") {
       const id = await getEventData();
+      await getFilters();
+      await getAccountsInfo();
       if (id && adminSection) {
         await getEventRegistrants(1, id);
         if (adminSection && settings && settings.current_plan.id === 2) {
           await getEventTickets();
         }
       }
-      await getFilters();
-      await getAccountsInfo();
     } else {
       const id = await getEventData();
+      await getFilters();
+      await getAccountsInfo();
       if (id && adminSection) {
         getEventRegistrants(1, id);
         if (adminSection && settings && settings.current_plan.id === 2) {
           getEventTickets();
         }
       }
-      getFilters();
-      getAccountsInfo();
     }
 
     setLoading(false);
@@ -857,7 +859,7 @@ const EventDetails = ({
         )}
         {selectedTab === 0 && !activationError && (
           <div className="section-container border-b-2 border-gray-200">
-            <div className="section-description">
+            <div className="section-description text-brand-600">
               * Indicates a required field
             </div>
           </div>
@@ -866,7 +868,7 @@ const EventDetails = ({
 
       {activationError && (
         <div className="section-container border-b-2 border-gray-200">
-          <div className="section-description">
+          <div className="section-description text-brand-600">
             Activation failed. Please contact the Servv support team.
           </div>
         </div>
