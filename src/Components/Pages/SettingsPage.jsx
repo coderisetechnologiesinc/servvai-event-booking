@@ -659,17 +659,23 @@ const SettingsPage = () => {
       ].label
     : "List";
 
-  const selectedPageSize = settings?.settings?.widget_style_settings
-    ?.ew_events_list_page_size_default
-    ? pageSizes[
-        pageSizes
-          .map((opt) => opt.value)
-          .indexOf(
-            settings.settings.widget_style_settings
-              .ew_events_list_page_size_default
-          )
-      ].name
-    : "12 items";
+  const selectedPageSize =
+    settings?.settings?.widget_style_settings
+      ?.ew_events_list_page_size_default &&
+    pageSizes
+      .map((opt) => opt.value)
+      .indexOf(
+        settings.settings.widget_style_settings.ew_events_list_page_size_default
+      ) >= 0
+      ? pageSizes[
+          pageSizes
+            .map((opt) => opt.value)
+            .indexOf(
+              settings.settings.widget_style_settings
+                .ew_events_list_page_size_default
+            )
+        ].name
+      : "10 items";
 
   const handleDescriptionLengthChange = (view, length) => {
     let currentSettings = { ...settings };

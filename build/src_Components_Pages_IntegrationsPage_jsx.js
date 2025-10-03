@@ -2940,4 +2940,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_IntegrationsPage_jsx.js.map?ver=6973e84d4423ccbaaf09
+//# sourceMappingURL=src_Components_Pages_IntegrationsPage_jsx.js.map?ver=4c9f122f2462e83ad849

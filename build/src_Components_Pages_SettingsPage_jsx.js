@@ -1734,7 +1734,7 @@ const SettingsPage = () => {
     setSettings(currentSettings);
   };
   const selectedView = settings?.settings?.widget_style_settings?.ew_events_list_view ? viewModeOptions[viewModeOptions.map(opt => opt.value).indexOf(settings.settings.widget_style_settings.ew_events_list_view)].label : "List";
-  const selectedPageSize = settings?.settings?.widget_style_settings?.ew_events_list_page_size_default ? pageSizes[pageSizes.map(opt => opt.value).indexOf(settings.settings.widget_style_settings.ew_events_list_page_size_default)].name : "12 items";
+  const selectedPageSize = settings?.settings?.widget_style_settings?.ew_events_list_page_size_default && pageSizes.map(opt => opt.value).indexOf(settings.settings.widget_style_settings.ew_events_list_page_size_default) >= 0 ? pageSizes[pageSizes.map(opt => opt.value).indexOf(settings.settings.widget_style_settings.ew_events_list_page_size_default)].name : "10 items";
   const handleDescriptionLengthChange = (view, length) => {
     let currentSettings = {
       ...settings
@@ -3991,4 +3991,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=3ac9d70df60c1f2b203d
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=a508636b91ccb7b0be65
