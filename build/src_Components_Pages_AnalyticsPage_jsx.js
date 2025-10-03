@@ -1462,4 +1462,4 @@ const getCurrencySymbol = currencyCode => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=e93bd574c791652ae2ca
+//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=c71ddde40407cbd85e92
