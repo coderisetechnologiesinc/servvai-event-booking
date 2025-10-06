@@ -1,3 +1,12 @@
+# v1.0.7
+
+1.0.7 (2025-10-03)
+
+Hotfix Release
+
+- Update version to 1.0.7 [309ca3b](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/309ca3b)
+- Timezone related bug fixes and UI improvements [338fc6d](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/338fc6d)
+
 # v1.0.5
 
 1.0.5 (2025-10-02)
