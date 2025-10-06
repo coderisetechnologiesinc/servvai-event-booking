@@ -30,7 +30,7 @@ jobs:
           ref: main
           token: ${{ secrets.PAT_TOKEN }}
 
-      # Calculate 3-digit version
+      # Calculate 3-Digit Version
       - name: Calculate 3-Digit Version
         id: version
         env:
@@ -171,11 +171,11 @@ jobs:
           echo "SHORT_COMMIT_SHA=$SHORT_COMMIT_SHA" >> $GITHUB_ENV
           echo "LAST_TAG=$LAST_TAG" >> $GITHUB_ENV
 
-          # Collect commit messages
+          # Collect commit messages, excluding servv.php version updates
           COMMIT_MSG=$(git log -1 --no-merges --pretty=%B || echo "")
           if [[ "$COMMIT_MSG" =~ $'\n' ]]; then
             # Multi-line commit message
-            FORMATTED_MD=$(echo "$COMMIT_MSG" | sed 's/^- /  /; s/^[^-]/- /')
+            FORMATTED_MD=$(echo "$COMMIT_MSG" | sed 's/^- /  /; s/^[^-]/- /' | grep -v "Update version to")
             echo "OTHER_COMMITS<<EOF" >> $GITHUB_ENV
             echo "$FORMATTED_MD" >> $GITHUB_ENV
             echo "EOF" >> $GITHUB_ENV
@@ -187,7 +187,7 @@ jobs:
             OTHER_MD=""
             while IFS=' ' read -r SHA MSG; do
               CLEAN_MSG=$(echo "$MSG" | sed -E 's/^(feat!?:|fix:|hotfix:|docs:|style:|refactor:|perf:|test:|chore:)//')
-              if [ -n "$CLEAN_MSG" ]; then
+              if [ -n "$CLEAN_MSG" ] && ! echo "$MSG" | grep -q "Update version to"; then
                 FORMATTED_MD="- $CLEAN_MSG [$SHA](https://github.com/${{ env.REPO }}/commit/$SHA)"
                 if echo "$MSG" | grep -q "^feat!:"; then
                   BREAKING_MD="$BREAKING_MD\n$FORMATTED_MD"
