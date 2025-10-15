@@ -1,3 +1,16 @@
+# v1.0.8
+
+1.0.8 (2025-10-15)
+
+Maintenance Release
+
+- - Shortcode configuration for filters - UIUX improvements and bug fixes [ae2f99d](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/ae2f99d)
+-  svn push [21c526d](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/21c526d)
+-  svn pipeline [04fdd91](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/04fdd91)
+-  SVN Pipeline [270b6e2](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/270b6e2)
+-  SVN Pipeline [ea4298e](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/ea4298e)
+-  release pipeline [6ce3260](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/6ce3260)
+
 # v1.0.7
 
 1.0.7 (2025-10-03)
