@@ -29,12 +29,12 @@ jobs:
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           echo "Using latest tag: $LATEST_TAG"
 
-      - name: Remove unwanted hidden files and directories (excluding .git and .github)
+      - name: Remove unwanted hidden files and directories
         run: |
-          find . -mindepth: 1 -maxdepth: 1 -type f -name ".*" ! -name ".git" ! -name ".github" -exec rm -f {} +
-          find . -mindepth: 1 -maxdepth: 1 -type d -name ".*" ! -name ".git" ! -name ".github" -exec rm -rf {} +
+          find . -mindepth 1 -maxdepth 1 -type f -name ".*" ! -name ".git" ! -name ".github" -exec rm -f {} \;
+          find . -mindepth 1 -maxdepth 1 -type d -name ".*" ! -name ".git" ! -name ".github" -exec rm -rf {} \;
           echo "Unwanted top-level hidden files and directories removed (preserving .git and .github)"
-
+          
       - name: Remove .git directory before deployment
         run: |
           rm -rf .git
