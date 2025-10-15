@@ -64,18 +64,12 @@ jobs:
         run: |
           set -e
           echo "Syncing plugin files to trunk and tag..."
-
           # Clean old trunk content
           cd svn-repo/trunk
-
-          # Delete everything except .svn directories safely
-
           find . -mindepth 1 -not -path "./.svn*" -exec rm -rf {} +
           cd ../../
-
-          # Copy new plugin files to trunk
-          rsync -av --quiet --exclude='.svn' ./* svn-repo/trunk/
-
+          # Copy new plugin files to trunk (exclude svn-repo and .github)
+          rsync -av --quiet --exclude='.svn' --exclude='svn-repo' --exclude='.github' ./* svn-repo/trunk/
           # Create tag folder
           mkdir -p svn-repo/tags/${TAG}
           rsync -av --quiet --exclude='.svn' svn-repo/trunk/ svn-repo/tags/${TAG}/
