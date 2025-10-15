@@ -509,11 +509,12 @@
     border: 1px solid $svv-elements-border;
     background-color: $svv_white;
     transition: $global-transition;
-    max-width: 205px;
-    width: 205px;
+    // max-width: 205px;
+    // width: 205px;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    margin: 15px 10px;
+    margin: 0px 10px;
     margin-left: 0px;
     border-radius: 14.5px;
     justify-content: space-between;

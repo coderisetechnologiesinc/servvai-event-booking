@@ -3020,7 +3020,7 @@ const EventsPage = ({
               rows: renderRows(eventOccurrencess)
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-            className: "block md:hidden",
+            className: "mobile-cards-container",
             children: renderMobileCards(view === "events" ? meetingsList : eventOccurrencess)
           }), view === "events" && pagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_ListPagination__WEBPACK_IMPORTED_MODULE_14__["default"], {
             hasPrev: pagination.pageNumber > 1,
@@ -7493,4 +7493,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=6f7271c5ce8bbfed5f25
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=7cc07a86a599db8bf9e4

@@ -459,11 +459,17 @@ function servv_widget_shortcode($atts) {
     ];
 
 
-    $atts = array_merge(['preset' => 'light', 'style' => 'blue'], $atts);
+    $atts = array_merge(['preset' => 'light', 'style' => 'blue','location' => '',
+        'category' => '',
+        'member'   => '',
+        'language' => '',], $atts);
 
     $presetName = $atts['preset']; // "light" or "dark"
     $styleName  = $atts['style'];  // "blue", "green", etc.
-
+    $defaultLocation = $atts['location'];
+    $defaultCategory = $atts['category'];
+    $defaultMember = $atts['member'];
+    $defaultLanguage = $atts['language'];
     // fallback if style doesn't exist
     if (!isset($themes[$styleName])) {
         $styleName = 'blue';
@@ -483,7 +489,7 @@ function servv_widget_shortcode($atts) {
             $finalVars[$key] = $value;
         }
     }
-
+    
     // Build CSS variables
     $style  = '--servv-primary-color:'       . esc_attr($finalVars['brand-color-primary'])   . ';';
     $style .= '--servv-secondary-color:'     . esc_attr($finalVars['brand-color-secondary']) . ';';
@@ -497,7 +503,14 @@ function servv_widget_shortcode($atts) {
     $style .= '--servv-elements-border:'     . esc_attr($finalVars['elements-border'])       . ';';
 
     $output  = '<style>:root { ' . $style . ' }</style>';
-    $output .= '<div id="widget-wrapper"><div id="servv-widget"></div></div>';
+    $output .= '<div id="widget-wrapper" '
+    . 'data-widget-location="' . esc_attr( $defaultLocation ) . '" '
+    . 'data-widget-category="' . esc_attr( $defaultCategory ) . '" '
+    . 'data-widget-member="' . esc_attr( $defaultMember ) . '" '
+    . 'data-widget-language="' . esc_attr( $defaultLanguage ) . '">'
+    . '<div id="servv-widget"></div>'
+    . '</div>';
+
 
     return $output;
     

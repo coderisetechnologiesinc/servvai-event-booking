@@ -1294,7 +1294,7 @@ export default {
     },
 
     async fetchFilteredEventsDates(
-      { commit, state, dispatch, rootState },
+      { commit, state, dispatch, rootState, rootGetters },
       { date = false, emptyList = false } = {}
     ) {
       try {
@@ -1309,7 +1309,20 @@ export default {
             let params = new URLSearchParams();
             params.append("security", servvAjax.nonce);
             params.append("action", "servv_get_events_filtered_list_dates");
+            const defaultTypes = rootGetters?.["types/defaultTypes"] || {};
 
+            Object.entries(defaultTypes).forEach(([key, value]) => {
+              if (value) {
+                if (typeof value === "string" && value.indexOf(",") >= 0) {
+                  let values = value.split(",");
+                  values.forEach((val) => {
+                    params.append(`${key}[]`, val);
+                  });
+                } else {
+                  params.append(`${key}[]`, value);
+                }
+              }
+            });
             // params.append("start_datetime", requestedMonth);
             response = await axios.post(servvAjax.ajax_url, params);
           }
@@ -1374,18 +1387,19 @@ export default {
     },
 
     async fetchEventsList(
-      { commit, dispatch, state, rootGetters, rootState },
+      { commit, dispatch, state, rootState, rootGetters },
       { date = null, page = 1, filteringParams = "" } = {}
     ) {
       commit("setLoading", true);
       let response = null;
       try {
         // const allRequestParams = rootGetters["search/searchParamsString"];
-        const filteringParamsString =
+        let filteringParamsString =
           state.reqParams ||
           filteringParams ||
           rootState.search.searchParamsString ||
           "";
+
         const searchDate = date || state.selectedDate;
         // console.log(filteringParamsString);
         let params = new URLSearchParams();
@@ -1404,6 +1418,20 @@ export default {
             else params.append(`${key}`, value);
           }
         }
+        const defaultTypes = rootGetters?.["types/defaultTypes"] || {};
+        // console.log(defaultTypes);
+        Object.entries(defaultTypes).forEach(([key, value]) => {
+          if (value) {
+            if (typeof value === "string" && value.indexOf(",") >= 0) {
+              let values = value.split(",");
+              values.forEach((val) => {
+                params.append(`${key}[]`, val);
+              });
+            } else {
+              params.append(`${key}[]`, value);
+            }
+          }
+        });
 
         response = await axios.post(servvAjax.ajax_url, params);
 

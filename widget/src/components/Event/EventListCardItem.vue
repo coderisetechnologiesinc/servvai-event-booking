@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import moment from "moment-timezone";
+// import moment from "moment-timezone";
 import { mapActions, mapGetters } from "vuex";
 import has from "lodash.has";
 import forEach from "lodash.foreach";

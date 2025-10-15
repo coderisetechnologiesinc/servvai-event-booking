@@ -1526,7 +1526,7 @@ const EventsPage = ({
                 )}
               </div>
               {/* Mobile Cards */}
-              <div className="block md:hidden">
+              <div className="mobile-cards-container">
                 {renderMobileCards(
                   view === "events" ? meetingsList : eventOccurrencess
                 )}

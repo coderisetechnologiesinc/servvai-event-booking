@@ -1,5 +1,22 @@
 <template>
-  <div :class="['svv-event-card-item', 'grid-layout-item']" v-masonry-tile>
+  <div
+    :class="['svv-event-card-item', 'grid-layout-item']"
+    v-bind="
+      widgetSettings.widget_style_settings.ew_events_grid_fluid_mode
+        ? { 'v-masonry-tile': '' }
+        : {}
+    "
+    :style="
+      widgetSettings.widget_style_settings.ew_events_grid_fluid_mode
+        ? {
+            maxWidth: '205px',
+            width: '205px',
+            height: 'auto',
+            margin: '15px 10px',
+          }
+        : {}
+    "
+  >
     <div class="soc-sharing-buttons-container" v-if="showSharingControls">
       <SharingModal
         :visible="showSharingControls"
