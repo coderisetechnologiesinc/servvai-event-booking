@@ -4,7 +4,8 @@
 
 Maintenance Release
 
-- No changes recorded for this release
+- Shortcode configuration for filters
+- UIUX improvements and bug fixes
 
 # v1.0.7
 
