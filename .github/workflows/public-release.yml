@@ -158,6 +158,20 @@ jobs:
             else
               echo "Version $CURRENT_VERSION matches $BARE_VERSION, no update needed"
             fi
+          # Update readme.txt Stable tag if different
+          if [ -f readme.txt ]; then
+            CURRENT_STABLE_TAG=$(grep "^Stable tag:" readme.txt | awk '{print $3}')
+            echo "Current Stable tag: $CURRENT_STABLE_TAG"
+            if [ "$CURRENT_STABLE_TAG" != "${{ env.BARE_VERSION }}" ]; then
+              echo "Updating Stable tag in readme.txt to ${{ env.BARE_VERSION }}"
+              sed -i "s/^Stable tag: .*/Stable tag: ${{ env.BARE_VERSION }}/" readme.txt
+              CHANGED=true
+            else
+              echo "Stable tag already matches ${{ env.BARE_VERSION }}, no update needed"
+            fi
+          else
+            echo "Warning: readme.txt not found, skipping Stable tag update"
+          fi
           else
             echo "No release will be created (RELEASE_TYPE=none)"
             echo "NEW_VERSION=" >> $GITHUB_ENV
