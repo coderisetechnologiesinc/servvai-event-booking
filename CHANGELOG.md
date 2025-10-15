@@ -1,3 +1,12 @@
+# v1.0.8
+
+1.0.8 (2025-10-15)
+
+Maintenance Release
+
+- Shortcode configuration for filters
+- UIUX improvements and bug fixes
+
 # v1.0.7
 
 1.0.7 (2025-10-03)
