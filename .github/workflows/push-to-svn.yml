@@ -71,6 +71,7 @@ jobs:
           # Copy new plugin files to trunk (exclude svn-repo and .github)
           rsync -av --quiet --exclude='.svn' --exclude='svn-repo' --exclude='.github' ./* svn-repo/trunk/
           # Create tag folder
+          rm -rf svn-repo/tags/${TAG}
           mkdir -p svn-repo/tags/${TAG}
           rsync -av --quiet --exclude='.svn' svn-repo/trunk/ svn-repo/tags/${TAG}/
 
