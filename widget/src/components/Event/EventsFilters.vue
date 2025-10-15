@@ -57,7 +57,9 @@
             v-if="
               widgetSettings.widget_style_settings.available_filters.indexOf(
                 'members'
-              ) >= 0 && typeListMembers.length > 0
+              ) >= 0 &&
+                typeListMembers.length > 0 &&
+                !defaultTypes.member_id
             "
             class="event-filter-container"
           >
@@ -85,7 +87,8 @@
                 'categories'
               ) >= 0 &&
                 typeListCategories.length > 0 &&
-                !isCategoryAutoSelected
+                !isCategoryAutoSelected &&
+                !defaultTypes.category_id
             "
             class="event-filter-container"
           >
@@ -111,7 +114,9 @@
             v-if="
               widgetSettings.widget_style_settings.available_filters.indexOf(
                 'languages'
-              ) >= 0 && typeListLanguages.length > 0
+              ) >= 0 &&
+                typeListLanguages.length > 0 &&
+                !defaultTypes.language_id
             "
             class="event-filter-container"
           >
@@ -137,7 +142,9 @@
             v-if="
               widgetSettings.widget_style_settings.available_filters.indexOf(
                 'locations'
-              ) >= 0 && typeListLocations.length > 0
+              ) >= 0 &&
+                typeListLocations.length > 0 &&
+                !defaultTypes.location_id
             "
             class="event-filter-container"
           >
@@ -209,6 +216,7 @@ export default {
       isParametersFilterActive: "search/isParametersFilterActive",
       openMobileFilters: "common/openMobileFilters",
       isFiltersPanelVisible: "common/isFiltersPanelVisible",
+      defaultTypes: "types/defaultTypes",
     }),
     typeListMembers() {
       return this.eventTypes.members || [];

@@ -229,19 +229,21 @@
     @apply w-[10px] hover:cursor-pointer;
   }
 
-    div.servv-logo-collapsed {
-      @apply justify-self-start mt-6 ml-[-5px];
-      background: right/cover no-repeat url(images/servv-logo.1b04df49.png);
-      width: 40px;
-      height: 40px;
-    }
+  div.servv-logo-collapsed {
+    @apply justify-self-start mt-6 ml-[-5px];
+    background: right/cover no-repeat
+      url(images/servv-logo.1b04df49.png);
+    width: 40px;
+    height: 40px;
+  }
 
-    div.servv-logo-png {
-      @apply justify-self-start mt-6 ml-2;
-      background: right / contain no-repeat url(images/servv-logo.1b04df49.png);
-      width: 180px;
-      height: 40px;
-    }
+  div.servv-logo-png {
+    @apply justify-self-start mt-6 ml-2;
+    background: right / contain no-repeat
+      url(images/servv-logo.1b04df49.png);
+    width: 180px;
+    height: 40px;
+  }
 
   .menu-item-title {
     @apply font-semibold text-gray-800;
@@ -518,6 +520,9 @@
   }
   .servv-tabs li {
     margin-bottom: 0;
+  }
+  .mobile-cards-container {
+    @apply block md:hidden;
   }
 }
 #servv-on-product-widget {

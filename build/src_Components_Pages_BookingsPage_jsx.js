@@ -2706,4 +2706,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(X
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=07fcff0fa4f8663b532e
+//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=d1b4fccd18c393c55946

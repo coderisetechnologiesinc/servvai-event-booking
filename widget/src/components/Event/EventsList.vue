@@ -64,7 +64,11 @@
               ? 'list'
               : 'grid'
             : widgetSettings.widget_style_settings.ew_events_list_view
-        }-body`,
+        }-body${
+          widgetSettings.widget_style_settings.ew_events_grid_fluid_mode
+            ? '-fluid'
+            : ''
+        }`,
       ]"
       ref="eventsGridContainer"
       v-if="

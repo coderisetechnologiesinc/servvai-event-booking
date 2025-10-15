@@ -1500,7 +1500,8 @@ div.servv-logo-collapsed {
   margin-top: 1.5rem;
   margin-left: -5px;
   justify-self: start;
-  background: left/cover no-repeat url("../public/assets/images/servv-logo.png");
+  background: left/cover no-repeat
+      url("../public/assets/images/servv-logo.png");
   width: 40px;
   height: 40px;
 }
@@ -1509,7 +1510,8 @@ div.servv-logo-png {
   margin-top: 1.5rem;
   margin-left: 0.5rem;
   justify-self: start;
-  background: left / contain no-repeat url("../public/assets/images/servv-logo.png");
+  background: left / contain no-repeat
+      url("../public/assets/images/servv-logo.png");
   width: 180px;
   height: 40px;
 }
@@ -2454,6 +2456,16 @@ svg.breadcrumbs-icon {
 
 .servv-tabs li {
   margin-bottom: 0;
+}
+
+.mobile-cards-container {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mobile-cards-container {
+    display: none;
+  }
 }
 
 .pointer-events-none {
