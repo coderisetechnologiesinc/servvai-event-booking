@@ -1,12 +1,3 @@
-# v1.0.8
-
-1.0.8 (2025-10-15)
-
-Maintenance Release
-
-- Shortcode configuration for filters
-- UIUX improvements and bug fixes [ae2f99d](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/ae2f99d)
-
 # v1.0.7
 
 1.0.7 (2025-10-03)
