@@ -1,3 +1,11 @@
+# v1.0.8
+
+1.0.8 (2025-10-15)
+
+Maintenance Release
+
+- No changes recorded for this release
+
 # v1.0.7
 
 1.0.7 (2025-10-03)
