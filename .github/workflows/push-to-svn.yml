@@ -15,37 +15,100 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          persist-credentials: false
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Debug Git repository state
-        run: |
-          echo "Checking if .git directory exists: $(ls -d .git 2>/dev/null && echo 'Yes' || echo 'No')"
-          echo "Git status: $(git status 2>/dev/null || echo 'Not a Git repository')"
-
-      - name: Get latest tag
+      - name: Get latest Git tag
         run: |
           git fetch --tags
-          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "v1.0.0")
-          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-          echo "Using latest tag: $LATEST_TAG"
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null)
+          if [ -z "$LATEST_TAG" ]; then
+            echo "No tag found, using v1.0.0"
+            LATEST_TAG="v1.0.0"
+          fi
+          TAG=${LATEST_TAG#v}
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "Deploying tag: $TAG"
 
-      - name: Remove unwanted hidden files and directories
+      - name: Remove unwanted hidden files and directories (before SVN copy)
         run: |
+          echo "Removing unwanted hidden files and folders"
           find . -mindepth 1 -maxdepth 1 -type f -name ".*" ! -name ".git" ! -name ".github" -exec rm -f {} \;
           find . -mindepth 1 -maxdepth 1 -type d -name ".*" ! -name ".git" ! -name ".github" -exec rm -rf {} \;
-          echo "Unwanted top-level hidden files and directories removed (preserving .git and .github)"
-          
-      - name: Remove .git directory before deployment
-        run: |
-          rm -rf .git
-          echo ".git directory removed"
 
-      - name: Deploy to WordPress.org
-        uses: 10up/action-wordpress-plugin-deploy@stable
+      - name: Remove .git and .github directories
+        run: |
+          rm -rf .git .github
+          echo ".git and .github directories removed"
+
+      - name: Install SVN and rsync
+        run: sudo apt-get update && sudo apt-get install -y subversion rsync
+
+      - name: Checkout WordPress SVN repository
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SLUG: servvai-event-booking
-        with:
-          generate-zip: true
-          tag: ${{ env.LATEST_TAG }}
+        run: |
+          svn checkout --depth empty https://plugins.svn.wordpress.org/${SLUG} svn-repo \
+            --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}" \
+            --non-interactive --trust-server-cert-failures=unknown-ca
+          cd svn-repo
+          svn update trunk --set-depth infinity
+          svn update tags --set-depth infinity
+          svn update assets --set-depth infinity  # assets fetched but not modified
+
+      - name: Sync plugin files to trunk and tag (assets untouched)
+        env:
+          TAG: ${{ env.TAG }}
+        run: |
+          set -e
+          echo "Syncing plugin files to trunk and tag..."
+
+          # Clean old trunk content
+          cd svn-repo/trunk
+
+          # Delete everything except .svn directories safely
+
+          find . -mindepth 1 -not -path "./.svn*" -exec rm -rf {} +
+          cd ../../
+
+          # Copy new plugin files to trunk
+          rsync -av --quiet --exclude='.svn' ./* svn-repo/trunk/
+
+          # Create tag folder
+          mkdir -p svn-repo/tags/${TAG}
+          rsync -av --quiet --exclude='.svn' svn-repo/trunk/ svn-repo/tags/${TAG}/
+
+      - name: Commit and push to WordPress SVN
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          TAG: ${{ env.TAG }}
+        run: |
+          cd svn-repo
+          set -e
+
+          # Handle deletions
+          svn status | grep '^!' | awk '{print $2}' | xargs -r svn delete --force
+
+          # Add new/modified files
+          svn add --force * --auto-props --parents --quiet
+
+          if [ -n "$(svn status)" ]; then
+            svn commit -m "Deploy version ${TAG}: updated trunk and tag ${TAG}" \
+              --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}" \
+              --non-interactive --trust-server-cert-failures=unknown-ca
+            echo "Changes committed to SVN"
+          else
+            echo "No changes detected; skipping commit"
+          fi
+
+      - name: Generate plugin ZIP (optional)
+        env:
+          SLUG: servvai-event-booking
+          TAG: ${{ env.TAG }}
+        run: |
+          echo "Generating plugin ZIP..."
+          zip -r ${SLUG}-${TAG}.zip . -x '*.git*' '.github/*' 'svn-repo/*'
+          echo "Created ZIP: ${SLUG}-${TAG}.zip"
