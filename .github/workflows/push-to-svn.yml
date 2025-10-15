@@ -15,6 +15,7 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Remove all hidden files and directories
         run: |
@@ -22,10 +23,15 @@ jobs:
           find . -type d -name ".*" ! -name "." ! -name ".." ! -path "./.git/*" -exec rm -rf {} +
           echo "All hidden files and directories removed"
 
+      - name: Debug Git repository state
+        run: |
+          echo "Checking if .git directory exists: $(ls -d .git 2>/dev/null && echo 'Yes' || echo 'No')"
+          echo "Git status: $(git status 2>/dev/null || echo 'Not a Git repository')"
+
       - name: Get latest tag
         run: |
           git fetch --tags
-          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "v1.0.0")
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           echo "Using latest tag: $LATEST_TAG"
 
