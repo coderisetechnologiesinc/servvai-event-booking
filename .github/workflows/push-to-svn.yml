@@ -83,7 +83,6 @@ jobs:
         run: |
           cd svn-repo
           set -e
-
           # Handle deletions
           svn status | grep '^!' | awk '{print $2}' | xargs -r svn delete --force
 
