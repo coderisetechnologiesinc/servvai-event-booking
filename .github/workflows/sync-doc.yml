@@ -3,7 +3,6 @@ name: Sync Changelog to Docs
 on:
   release:
     types: [published]
-  # Trigger manually
   workflow_dispatch:
 
 jobs:
@@ -13,57 +12,38 @@ jobs:
       - name: Checkout plugin repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensure full history for changelog generation
+          fetch-depth: 0
 
-      - name: Generate Latest Release Notes
-        id: generate_notes
-        run: |
-          # Extract the latest release section from CHANGELOG.md (first heading block)
-          LATEST_NOTES=$(awk '/^# v[0-9]+\.[0-9]+\.[0-9]+$/ {if (p) exit; print; p=1} p' CHANGELOG.md)
-          
-          # Escape newlines and special chars for GitHub env
-          LATEST_NOTES="${LATEST_NOTES//%/\%}"
-          LATEST_NOTES="${LATEST_NOTES//$'\n'/\\n}"
-          LATEST_NOTES="${LATEST_NOTES//$/\$}"
-          
-          echo "NOTES<<EOF" >> $GITHUB_ENV
-          echo "$LATEST_NOTES" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Clone docs repo and update
+      - name: Clone docs repo
         env:
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
         run: |
-          # Clone docs repo
+          # Clone docs repository
           git clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/coderisetechnologiesinc/servvai-docs.git
-          
-          # Navigate to docs repo
           cd servvai-docs
-          
-          # Backup original file
+
+          # Backup existing releasenotes.md
           cp changelogs/releasenotes.md changelogs/releasenotes.md.bak
-          
-          # Insert the new release notes after line 5
-          # Using awk to split and reconstruct
-          awk -v notes="$NOTES" '
-          BEGIN { split(notes, lines, "\\n"); note_idx=1 }
-          NR <= 5 { print; if (NR==5) { for(i=note_idx; i<=length(lines); i++) print lines[i]; print "" } }
-          NR > 5 { print }
-          ' changelogs/releasenotes.md.bak > changelogs/releasenotes.md
-          
+
+          # Keep first 5 lines and remove everything else
+          head -n 5 changelogs/releasenotes.md.bak > changelogs/releasenotes.md
+
+          # Append full plugin CHANGELOG.md from parent repo
+          echo "" >> changelogs/releasenotes.md
+          cat ../CHANGELOG.md >> changelogs/releasenotes.md
+
           # Configure git
           git config user.name "$GIT_USERNAME"
           git config user.email "$GIT_EMAIL"
-          
-          # Check for changes
+
+          # Commit and push if there are changes
           if git diff --quiet changelogs/releasenotes.md; then
             echo "No changes to commit."
             exit 0
           fi
-          
-          # Commit and push
+
           git add changelogs/releasenotes.md
-          git commit -m "Update release notes: ${{ github.event.release.tag_name || 'manual' }}"
+          git commit -m "Sync full CHANGELOG.md for release: ${{ github.event.release.tag_name || 'manual' }}"
           git push
