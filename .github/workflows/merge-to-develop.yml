@@ -1,0 +1,35 @@
+name: Merge main to develop
+
+on:
+  workflow_dispatch: 
+  release:
+    types: [published] 
+
+jobs:
+  merge-main-to-develop:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "coderiseio-bot"
+          git config user.email "coderiseio@bot.com"
+
+      - name: Fetch develop branch
+        run: git fetch origin develop:develop
+
+      - name: Merge main into develop
+        run: |
+          git checkout develop
+          git merge main -X theirs --no-edit
+
+      - name: Push changes with PAT
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }}.git
+          git push origin develop

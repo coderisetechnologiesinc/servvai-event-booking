@@ -1,6 +1,8 @@
 name: Trigger Private Repo Sync
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
   schedule:
     - cron: '0 2 * * *'  # Runs daily at 2 AM UTC
