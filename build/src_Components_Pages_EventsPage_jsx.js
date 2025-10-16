@@ -4687,20 +4687,16 @@ const EventDetails = ({
     });
   };
   const handleTypesChange = (field, value) => {
-    let types = attributes.types;
-    if (field === "members" && value.length > 0) {
-      types["members"] = value;
+    const types = {
+      ...attributes.types
+    };
+    if (value === null || Array.isArray(value) && value.length === 0) {
+      types[field] = undefined;
     } else {
-      if (types[field] === value) {
-        delete types[field];
-      } else {
-        types[field] = value;
-      }
+      types[field] = value;
     }
     setAttributes({
-      types: {
-        ...types
-      }
+      types
     });
   };
   const handleNotificationsChange = (field, value) => {
@@ -7493,4 +7489,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=7cc07a86a599db8bf9e4
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=4c9197fd20ed704a0e4a

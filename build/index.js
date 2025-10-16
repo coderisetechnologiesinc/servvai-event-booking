@@ -11365,20 +11365,16 @@ const EventDetails = ({
     });
   };
   const handleTypesChange = (field, value) => {
-    let types = attributes.types;
-    if (field === "members" && value.length > 0) {
-      types["members"] = value;
+    const types = {
+      ...attributes.types
+    };
+    if (value === null || Array.isArray(value) && value.length === 0) {
+      types[field] = undefined;
     } else {
-      if (types[field] === value) {
-        delete types[field];
-      } else {
-        types[field] = value;
-      }
+      types[field] = value;
     }
     setAttributes({
-      types: {
-        ...types
-      }
+      types
     });
   };
   const handleNotificationsChange = (field, value) => {
@@ -13573,13 +13569,16 @@ if (typeof wp === "undefined" || !wp.blocks) {
         type: "object",
         default: {},
         location_id: {
-          type: "number"
+          type: "number",
+          default: null
         },
         category_id: {
-          type: "number"
+          type: "number",
+          default: null
         },
         language_id: {
-          type: "number"
+          type: "number",
+          default: null
         },
         members: {
           type: "array",
