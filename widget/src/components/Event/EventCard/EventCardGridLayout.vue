@@ -1,20 +1,20 @@
 <template>
   <div
-    :class="['svv-event-card-item', 'grid-layout-item']"
+    :class="[
+      'svv-event-card-item',
+      'grid-layout-item',
+      {
+        'grid-layout-item-fluid':
+          widgetSettings.widget_style_settings.ew_events_grid_fluid_mode,
+      },
+    ]"
     v-bind="
       widgetSettings.widget_style_settings.ew_events_grid_fluid_mode
         ? { 'v-masonry-tile': '' }
         : {}
     "
     :style="
-      widgetSettings.widget_style_settings.ew_events_grid_fluid_mode
-        ? {
-            maxWidth: '205px',
-            width: '205px',
-            height: 'auto',
-            margin: '15px 10px',
-          }
-        : {}
+      widgetSettings.widget_style_settings.ew_events_grid_fluid_mode ? {} : {}
     "
   >
     <div class="soc-sharing-buttons-container" v-if="showSharingControls">
@@ -66,7 +66,7 @@
             class="item-provider-label"
             v-if="
               event.provider &&
-              widgetSettings.widget_style_settings.ew_show_event_type_badge
+                widgetSettings.widget_style_settings.ew_show_event_type_badge
             "
             :class="{
               zoom:
@@ -85,7 +85,7 @@
           <a
             v-if="
               !!event.product &&
-              widgetSettings.widget_style_settings.ew_show_share_button
+                widgetSettings.widget_style_settings.ew_show_share_button
             "
             href="#"
             class="svv-social-share-btn"

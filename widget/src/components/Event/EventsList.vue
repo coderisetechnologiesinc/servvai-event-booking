@@ -19,12 +19,12 @@
     <EventsFilters
       v-if="
         windowSize !== 'mobile' &&
-        ((widgetSettings.widget_style_settings.ew_events_list_view ===
-          'progressive' &&
-          !widgetSettings.widget_style_settings.show_filters_expanded) ||
-          widgetSettings.widget_style_settings.ew_events_list_view !==
-            'progressive') &&
-        pageSize !== 1
+          ((widgetSettings.widget_style_settings.ew_events_list_view ===
+            'progressive' &&
+            !widgetSettings.widget_style_settings.show_filters_expanded) ||
+            widgetSettings.widget_style_settings.ew_events_list_view !==
+              'progressive') &&
+          pageSize !== 1
       "
     />
 
@@ -32,8 +32,8 @@
       v-if="
         widgetSettings.widget_style_settings.ew_events_list_view !==
           'progressive' &&
-        windowSize !== 'mobile' &&
-        pageSize !== 1
+          windowSize !== 'mobile' &&
+          pageSize !== 1
       "
     />
 
@@ -45,7 +45,7 @@
         <EventsListViewModeSelector
           v-if="
             !widgetSettings.widget_style_settings.ew_hide_view_mode_switch &&
-            pageSize !== 1
+              pageSize !== 1
           "
         />
         <EventsListPageSizeSelector
@@ -55,7 +55,22 @@
       </div>
     </div>
 
+    <!-- With masonry -->
     <div
+      v-if="
+        widgetSettings.widget_style_settings.ew_events_grid_fluid_mode &&
+          ((widgetSettings.widget_style_settings.ew_events_list_view ===
+            'grid' &&
+            meetingsListForRender.length > 0 &&
+            !isListLoading) ||
+            (widgetSettings.widget_style_settings.ew_events_list_view ===
+              'progressive' &&
+              eventsPorgressiveView === 'grid') ||
+            (widgetSettings.widget_style_settings.ew_events_list_view ===
+              'category' &&
+              !isListLoading &&
+              meetingsListForRender.length > 0))
+      "
       :class="[
         `${
           widgetSettings.widget_style_settings.ew_events_list_view ===
@@ -64,30 +79,77 @@
               ? 'list'
               : 'grid'
             : widgetSettings.widget_style_settings.ew_events_list_view
-        }-body${
-          widgetSettings.widget_style_settings.ew_events_grid_fluid_mode
-            ? '-fluid'
-            : ''
-        }`,
+        }-body-fluid`,
       ]"
       ref="eventsGridContainer"
-      v-if="
-        (widgetSettings.widget_style_settings.ew_events_list_view === 'grid' &&
-          meetingsListForRender.length > 0 &&
-          !isListLoading) ||
-        (widgetSettings.widget_style_settings.ew_events_list_view ===
-          'progressive' &&
-          eventsPorgressiveView === 'grid') ||
-        (widgetSettings.widget_style_settings.ew_events_list_view ===
-          'category' &&
-          !isListLoading &&
-          meetingsListForRender.length > 0)
-      "
       v-masonry="eventsListMasonryParentContainerId"
       transition-duration="0.3s"
       item-selector=".svv-event-card-item.grid-layout-item"
       fit-width="true"
       origin-left="true"
+    >
+      <EventListCardItem
+        v-for="(event, index) in meetingsListForRender"
+        :key="index"
+        :list-view-mode="
+          widgetSettings.widget_style_settings.ew_events_list_view ===
+          'progressive'
+            ? eventsPorgressiveView === 'list'
+              ? 'list'
+              : 'grid'
+            : widgetSettings.widget_style_settings.ew_events_list_view
+        "
+        :event="event"
+        :more-details-label="
+          widgetSettings.widget_style_settings.event_more_details_label
+        "
+        :open-details-item="openDetailsItem"
+        :shop-currency="widgetSettings.currency"
+        :event-price="getEventPrice(event)"
+        :event-date-time="getEventDateTime(event)"
+        :on-show-more-details-click="onShowMoreDetailsClick"
+        :on-book-event-click="onBookEventClick"
+        :separator-data="getEventSeparatorData(event)"
+        :on-event-click="onEventClick"
+      />
+
+      <div
+        ref="bottomLineEventsGridContainer"
+        v-waypoint="{
+          active: true,
+          callback: onListEnd,
+          options: intersectionOptions,
+        }"
+      ></div>
+    </div>
+
+    <!-- Without masonry -->
+    <div
+      v-if="
+        !widgetSettings.widget_style_settings.ew_events_grid_fluid_mode &&
+          ((widgetSettings.widget_style_settings.ew_events_list_view ===
+            'grid' &&
+            meetingsListForRender.length > 0 &&
+            !isListLoading) ||
+            (widgetSettings.widget_style_settings.ew_events_list_view ===
+              'progressive' &&
+              eventsPorgressiveView === 'grid') ||
+            (widgetSettings.widget_style_settings.ew_events_list_view ===
+              'category' &&
+              !isListLoading &&
+              meetingsListForRender.length > 0))
+      "
+      :class="[
+        `${
+          widgetSettings.widget_style_settings.ew_events_list_view ===
+          'progressive'
+            ? eventsPorgressiveView === 'list'
+              ? 'list'
+              : 'grid'
+            : widgetSettings.widget_style_settings.ew_events_list_view
+        }-body`,
+      ]"
+      ref="eventsGridContainer"
     >
       <EventListCardItem
         v-for="(event, index) in meetingsListForRender"
@@ -140,11 +202,11 @@
       ]"
       v-if="
         widgetSettings.widget_style_settings.ew_events_list_view === 'list' ||
-        (widgetSettings.widget_style_settings.ew_events_list_view ===
-          'progressive' &&
-          eventsPorgressiveView === 'list' &&
-          !isListLoading &&
-          meetingsListForRender.length > 0)
+          (widgetSettings.widget_style_settings.ew_events_list_view ===
+            'progressive' &&
+            eventsPorgressiveView === 'list' &&
+            !isListLoading &&
+            meetingsListForRender.length > 0)
       "
     >
       <EventListCardItem
@@ -205,11 +267,11 @@
       <span
         v-show="
           meetingsListForRender &&
-          meetingsListForRender.length > 0 &&
-          widgetSettings.widget_style_settings.ew_events_counter &&
-          pageSize !== 1 &&
-          !isLoading &&
-          !isListLoading
+            meetingsListForRender.length > 0 &&
+            widgetSettings.widget_style_settings.ew_events_counter &&
+            pageSize !== 1 &&
+            !isLoading &&
+            !isListLoading
         "
       >
         {{ meetingsListForRender.length }}
@@ -286,6 +348,21 @@ export default {
       collectionsMode: "events/collectionsMode",
       pageSize: "events/pageSize",
     }),
+    shouldShowEventsGrid() {
+      return (
+        (this.widgetSettings.widget_style_settings.ew_events_list_view ===
+          "grid" &&
+          this.meetingsListForRender.length > 0 &&
+          !this.isListLoading) ||
+        (this.widgetSettings.widget_style_settings.ew_events_list_view ===
+          "progressive" &&
+          this.eventsPorgressiveView === "grid") ||
+        (this.widgetSettings.widget_style_settings.ew_events_list_view ===
+          "category" &&
+          !this.isListLoading &&
+          this.meetingsListForRender.length > 0)
+      );
+    },
     // isListLoading() {
     //   // return this.isLoading ||;
     //   return this.isCalendarFilterActive
@@ -331,8 +408,9 @@ export default {
                 "mainWidget.tomorrowSeparatorLabel"
               );
             } else {
-              list[index].separator_label =
-                startTimeInst.format("dddd, MMMM D");
+              list[index].separator_label = startTimeInst.format(
+                "dddd, MMMM D"
+              );
             }
 
             eventsListSeparators[getDate(item.start_time)] = item.id;

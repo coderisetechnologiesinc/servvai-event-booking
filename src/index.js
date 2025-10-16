@@ -129,12 +129,15 @@ if (typeof wp === "undefined" || !wp.blocks) {
         default: {},
         location_id: {
           type: "number",
+          default: null,
         },
         category_id: {
           type: "number",
+          default: null,
         },
         language_id: {
           type: "number",
+          default: null,
         },
         members: {
           type: "array",

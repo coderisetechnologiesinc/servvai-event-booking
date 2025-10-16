@@ -2481,20 +2481,16 @@ const EventDetails = ({
     });
   };
   const handleTypesChange = (field, value) => {
-    let types = attributes.types;
-    if (field === "members" && value.length > 0) {
-      types["members"] = value;
+    const types = {
+      ...attributes.types
+    };
+    if (value === null || Array.isArray(value) && value.length === 0) {
+      types[field] = undefined;
     } else {
-      if (types[field] === value) {
-        delete types[field];
-      } else {
-        types[field] = value;
-      }
+      types[field] = value;
     }
     setAttributes({
-      types: {
-        ...types
-      }
+      types
     });
   };
   const handleNotificationsChange = (field, value) => {
@@ -5101,4 +5097,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=146563a8efdee1d59ccd
+//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=46b33cf9f66d92160031

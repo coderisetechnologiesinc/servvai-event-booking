@@ -525,6 +525,12 @@
       margin: 14px 15px;
       padding-top: 15px;
     }
+    &-fluid {
+      max-width: 205px;
+      width: 205px;
+      height: auto;
+      margin: 15px 10px;
+    }
     @include media-breakpoint-down(xs) {
       max-width: 97%;
       width: 97%;
