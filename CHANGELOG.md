@@ -1,3 +1,16 @@
+# v1.0.9
+
+1.0.9 (2025-10-16)
+
+Maintenance Release
+
+- Update version and stable tag to 1.0.9 [5bfcc56](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/5bfcc56)
+- UI bug fix for widget [1860a0b](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/1860a0b)
+- Fixed pipelines for release and sync [345ded8](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/345ded8)
+- Updated Pipelines [6d9c4ca](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/6d9c4ca)
+- Update CHANGELOG for version 1.0.8 [462922c](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/462922c)
+- Update stable tag to version 1.0.8 [47db44b](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/47db44b)
+
 # v1.0.8
 
 1.0.8 (2025-10-15)
