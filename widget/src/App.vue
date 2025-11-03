@@ -12,9 +12,6 @@ export default {
   components: {
     WidgetRoot,
   },
-  // mounted() {
-  //   console.log("app");
-  // },
 };
 </script>
 

@@ -26,8 +26,8 @@
   .svv-search-component {
     display: flex;
     align-items: center;
-
-    border: 1px solid $svv-elements-border;
+    width: 100%;
+    // border: 1px solid $svv-elements-border;
     background-color: $svv_common_background;
     // color: red;
     //width: 32px;
@@ -127,8 +127,8 @@
     justify-content: center;
     cursor: pointer;
     transition: $global-transition;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: auto;
+    // margin-right: 5px;
 
     svg {
       width: 15px;
@@ -156,6 +156,7 @@
     box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
       0px 1px 3px 0px rgba(0, 0, 0, 0.1);
     border-radius: 10.5px;
+    padding-right: 2px;
     .svv-search-input-container {
       transition: $global-transition;
       width: 100%;

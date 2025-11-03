@@ -24,8 +24,69 @@ require_once __DIR__ . '/inc/n8n.php';
 add_action('servv_plugin_delayed_install', 'servv_plugin_make_delayed_install');
 add_action('rest_api_init', 'servv_plugin_register_api_endpoint', 1);
 
-register_activation_hook(__FILE__, 'servv_plugin_activate');
-register_deactivation_hook(__FILE__, 'servv_plugin_deactivate');
+//Multisite Activation 
+register_activation_hook(__FILE__, 'servv_plugin_activate_multisite');
+
+function servv_plugin_activate_multisite($network_wide) {
+    if (is_multisite() && $network_wide) {
+        $sites = get_sites();
+        foreach ($sites as $site) {
+            switch_to_blog($site->blog_id);
+            servv_plugin_activate_single_site();
+            restore_current_blog();
+        }
+    } else {
+        servv_plugin_activate_single_site();
+    }
+}
+
+function servv_plugin_activate_single_site() {
+    if (!wp_next_scheduled('servv_plugin_delayed_install')) {
+        wp_schedule_single_event(time() + 5, 'servv_plugin_delayed_install');
+    }
+    if (function_exists('spawn_cron')) {
+        spawn_cron();
+    }
+}
+
+//Multisite Deactivation 
+register_deactivation_hook(__FILE__, 'servv_plugin_deactivate_multisite');
+
+function servv_plugin_deactivate_multisite($network_wide) {
+    if (is_multisite() && $network_wide) {
+        $sites = get_sites();
+        foreach ($sites as $site) {
+            switch_to_blog($site->blog_id);
+            servv_plugin_deactivate_single_site();
+            restore_current_blog();
+        }
+    } else {
+        servv_plugin_deactivate_single_site();
+    }
+}
+
+function servv_plugin_deactivate_single_site() {
+    wp_clear_scheduled_hook('servv_plugin_delayed_install');
+    delete_option('servv_install_status');
+
+    try {
+        servvSendApiRequest('/wordpress/uninstall', [], 'POST');
+    } catch (Exception $e) {
+    }
+}
+
+/**
+ * Handle new site creation in a multisite network.
+ * Automatically runs plugin setup for the new sub-site.
+ */
+ 
+add_action('wpmu_new_blog', 'servv_plugin_new_blog', 10, 6);
+function servv_plugin_new_blog($blog_id, $user_id, $domain, $path, $site_id, $meta) {
+    switch_to_blog($blog_id);
+    servv_plugin_activate_single_site();
+    restore_current_blog();
+}
+
 function servv_plugin_register_api_endpoint() {
     register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/check-signature', [
             'methods' => 'GET',
@@ -97,7 +158,8 @@ function servv_plugin_deactivate() {
 
 function servv_plugin_get_config($key) {
     $defaults = require __DIR__ . '/config.php';
-    $dbSettings = get_option('servv_plugin_settings', []);
+    $dbSettings = is_multisite() ? get_site_option('servv_plugin_settings', []) : get_option('servv_plugin_settings', []);
+
     $config = array_merge($defaults, $dbSettings);
     return $config[$key] ?? null;
 }
@@ -260,16 +322,101 @@ add_shortcode('servvai', 'servv_widget_shortcode');
 
 function servv_load_vue_scripts() {
     $plugin_base_url = plugin_dir_url(__FILE__) . 'widget/dist/';
+    $plugin_dir = plugin_dir_path(__FILE__) . 'widget/dist/';
 
-    wp_enqueue_script('servv_widget', $plugin_base_url . 'js/servv-widget.js', [], SERVV_PLUGIN_VERSION, true);
-    wp_enqueue_style('servv_widget', $plugin_base_url . 'css/servv-widget.css', [], SERVV_PLUGIN_VERSION);
+    // Define load order: vendors -> common -> chunks -> main widget
+    $load_order = ['vendors.js', 'common.js'];
+    $all_handles = [];
 
-    wp_localize_script('servv_widget', 'servvAjax', [
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce'    => wp_create_nonce("payment_nonce"),
-        'assets_url' => $plugin_base_url
-    ]);
+    // --- Load JS files in specific order ---
+    $js_dir = $plugin_dir . 'js/';
+    
+    // 1. Load vendors and common first
+    foreach ($load_order as $filename) {
+        $filepath = $js_dir . $filename;
+        if (file_exists($filepath)) {
+            $handle = 'servv_' . str_replace(['.js', '-', '.'], ['', '_', '_'], $filename);
+            $deps = !empty($all_handles) ? [$all_handles[count($all_handles) - 1]] : [];
+            
+            wp_enqueue_script(
+                $handle,
+                $plugin_base_url . 'js/' . $filename,
+                $deps,
+                defined('SERVV_PLUGIN_VERSION') ? SERVV_PLUGIN_VERSION : false,
+                true
+            );
+            $all_handles[] = $handle;
+        }
+    }
+
+    // 2. Load chunk files (excluding vendors, common, and servv-widget)
+    $js_files = glob($js_dir . '*.js');
+    if ($js_files) {
+        foreach ($js_files as $js_file) {
+            $filename = basename($js_file);
+            
+            // Skip already loaded files and main widget
+            if (in_array($filename, ['vendors.js', 'common.js', 'servv-widget.js']) || 
+                strpos($filename, '.map') !== false) {
+                continue;
+            }
+
+            $handle = 'servv_' . str_replace(['.js', '-', '.'], ['', '_', '_'], $filename);
+            $deps = !empty($all_handles) ? $all_handles : [];
+
+            wp_enqueue_script(
+                $handle,
+                $plugin_base_url . 'js/' . $filename,
+                $deps,
+                defined('SERVV_PLUGIN_VERSION') ? SERVV_PLUGIN_VERSION : false,
+                true
+            );
+            $all_handles[] = $handle;
+        }
+    }
+
+    // 3. Load main widget JS last
+    $widget_js = $js_dir . 'servv-widget.js';
+    if (file_exists($widget_js)) {
+        wp_enqueue_script(
+            'servv_widget',
+            $plugin_base_url . 'js/servv-widget.js',
+            $all_handles, // Depends on all previous scripts
+            defined('SERVV_PLUGIN_VERSION') ? SERVV_PLUGIN_VERSION : false,
+            true
+        );
+        $all_handles[] = 'servv_widget';
+    }
+
+    // --- Load CSS files ---
+    $css_files = glob($plugin_dir . 'css/*.css');
+    if ($css_files) {
+        foreach ($css_files as $css_file) {
+            $filename = basename($css_file);
+            $handle = 'servv_' . str_replace(['.css', '-', '.'], ['', '_', '_'], $filename);
+
+            wp_enqueue_style(
+                $handle,
+                $plugin_base_url . 'css/' . $filename,
+                [],
+                defined('SERVV_PLUGIN_VERSION') ? SERVV_PLUGIN_VERSION : false
+            );
+        }
+    }
+
+    // --- Localize data for frontend ---
+    if (!empty($all_handles)) {
+        // Attach to the main widget script, or the last loaded script
+        $target_handle = in_array('servv_widget', $all_handles) ? 'servv_widget' : end($all_handles);
+        
+        wp_localize_script($target_handle, 'servvAjax', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('payment_nonce'),
+            'assets_url' => $plugin_base_url,
+        ]);
+    }
 }
+
 
 function servv_widget_shortcode($atts) {
 

@@ -72,7 +72,7 @@
   .vs__selected-options {
     cursor: pointer;
     caret-color: transparent;
-    color: $svv_text_secondary !important;
+    color: $svv-brand-primary !important;
 
     input {
       &::placeholder {
@@ -181,7 +181,7 @@
 
   .event-filter-container {
     margin-left: 0px;
-    margin-right: 5px;
+    // margin-right: 5px;
     // margin-bottom: 15px;
     //width: 100%;
     flex: 1;

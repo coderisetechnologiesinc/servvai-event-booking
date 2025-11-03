@@ -3239,7 +3239,7 @@ const Guideline = ({
       className: " flex flex-col w-full gap-8 mt-4",
       children: guidelineItems.map(item => {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          className: "grid grid-cols-[auto_auto_150px] w-full gap-4 items-center p-8 rounded-lg shadow-lg",
+          className: "grid grid-cols-[max-content_1fr_150px] w-full gap-4 items-center p-8 rounded-lg shadow-lg",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "w-10 h-10 flex items-center justify-center rounded-full bg-brand-500 text-white text-xl font-regular",
             children: item.id
@@ -7489,4 +7489,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=4c9197fd20ed704a0e4a
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=cf5c9113feef3d34a7d0

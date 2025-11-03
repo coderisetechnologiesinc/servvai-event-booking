@@ -196,7 +196,7 @@ export default {
   actions: {
     processShopParams({ commit, state }, params) {
       commit("setShopParams", params);
-      // commit('setCustomerState', params);
+
       commit("setApiHeaders", {
         ...state.apiHeaders,
         "SERVV-SHOP-DOMAIN": params.shopDomain || "",
@@ -208,19 +208,38 @@ export default {
       });
     },
     async fetchWidgetSettings({ commit, dispatch, state }) {
+      const SETTINGS_KEY = "servv_widget_settings";
+      const SETTINGS_TTL = 5 * 60 * 1000;
+
       try {
+        const cached = localStorage.getItem(SETTINGS_KEY);
+        if (cached) {
+          try {
+            const { value, expiry } = JSON.parse(cached);
+            if (expiry && Date.now() < expiry) {
+              // console.log("Loaded widget settings from cache");
+              commit("setWidgetSettings", value);
+              commit("setLoading", false);
+              commit("setApiAccessValid", true);
+              return;
+            } else {
+              localStorage.removeItem(SETTINGS_KEY);
+            }
+          } catch {
+            localStorage.removeItem(SETTINGS_KEY);
+          }
+        }
+
         const root = document.querySelector("#widget-wrapper");
         let accessToken = null;
         let response = null;
         let params = null;
-        // if (root && root.dataset.nonce) {
-        //   accessToken = root.dataset.nonce;
-        //   commit("setApiAccessToken", accessToken);
-        // }
+
         if (root) {
           params = new URLSearchParams();
           params.append("security", servvAjax.nonce);
           params.append("action", "servv_get_shop_settings");
+          // console.log("send api request");
           response = await axios.post(servvAjax.ajax_url, params);
           if (response.status === 200) {
             response.data = {
@@ -257,6 +276,7 @@ export default {
             { root: true }
           );
           commit("setWidgetSettings", settingsData);
+
           if (
             settingsData.widget_style_settings.ew_events_list_view ===
             "progressive"
@@ -314,6 +334,7 @@ export default {
             "setOpenItemsList",
             settingsData.widget_style_settings.ew_default_list
           );
+
           let eventsPerPageFromExtension = null;
           try {
             let eventsPerPageSelector = document.querySelector(
@@ -328,6 +349,7 @@ export default {
           } catch (e) {
             console.log("Page size specified in the app.");
           }
+
           if (
             eventsPerPageFromExtension &&
             eventsPerPageFromExtension !== "nil"
@@ -335,11 +357,8 @@ export default {
             commit(
               "events/setEventsPageSize",
               Number.parseInt(eventsPerPageFromExtension),
-              {
-                root: true,
-              }
+              { root: true }
             );
-
             commit(
               "bundles/setBundlesPageSize",
               Number.parseInt(eventsPerPageFromExtension),
@@ -352,7 +371,6 @@ export default {
                 .ew_events_list_page_size_default || 12,
               { root: true }
             );
-
             commit(
               "bundles/setBundlesPageSize",
               settingsData.widget_style_settings
@@ -360,17 +378,7 @@ export default {
               { root: true }
             );
           }
-          // if (!state.widgetsCurrentLanguage) {
-          //   commit(
-          //     'setWidgetsCurrentLanguage',
-          //     settingsData.widget_style_settings.widgets_default_language
-          //   );
-          // }
-          // dispatch(
-          //   "events/fetchFilteredEventsDates",
-          //   { date: moment().format("YYYY-MM") },
-          //   { root: true }
-          // );
+
           const selectedCollections = document.querySelectorAll(
             ".servv-event-collection"
           );
@@ -382,8 +390,17 @@ export default {
             if (collections.length > 0)
               commit("events/setCollectionsMode", true, { root: true });
           }
+
           commit("setLoading", false);
           commit("setApiAccessValid", true);
+
+          localStorage.setItem(
+            SETTINGS_KEY,
+            JSON.stringify({
+              value: settingsData,
+              expiry: Date.now() + SETTINGS_TTL,
+            })
+          );
         }
       } catch (e) {
         console.log(e);

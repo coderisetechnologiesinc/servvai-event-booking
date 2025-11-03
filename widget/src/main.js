@@ -1,3 +1,5 @@
+__webpack_public_path__ = window.servvAjax?.assets_url || "/";
+
 import Vue from "vue";
 import VModal from "vue-js-modal/dist/index.nocss";
 import VCalendar from "v-calendar";
@@ -22,8 +24,7 @@ Vue.use(VCalendar);
 Vue.component("v-select", vSelect);
 Vue.use(VTooltip);
 Vue.use(VueMasonryPlugin);
-// Vue.component('Fragment', Fragment);
-// console.log("load vue app");
+
 const appInstance = new Vue({
   store,
   render: (h) => h(App),
