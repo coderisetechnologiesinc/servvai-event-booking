@@ -3215,6 +3215,14 @@ svg.breadcrumbs-icon {
   grid-template-columns: auto auto 150px;
 }
 
+.grid-cols-\[auto_auto_100px\] {
+  grid-template-columns: auto auto 100px;
+}
+
+.grid-cols-\[max-content_1fr_150px\] {
+  grid-template-columns: max-content 1fr 150px;
+}
+
 .flex-row {
   flex-direction: row;
 }

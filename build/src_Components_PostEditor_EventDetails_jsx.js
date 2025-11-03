@@ -5097,4 +5097,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=46b33cf9f66d92160031
+//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=b0a957f978c12cea0f84

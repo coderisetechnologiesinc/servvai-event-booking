@@ -1220,10 +1220,9 @@ const SettingsPage = () => {
   }, {
     label: "Translations",
     value: 6
-  }, {
-    label: "Workflow",
-    value: 8
-  }]);
+  }
+  // { label: "Workflow", value: 8 },
+  ]);
   const viewModeOptions = [{
     label: "List",
     value: "list"
@@ -1358,10 +1357,9 @@ const SettingsPage = () => {
     }, {
       label: "Translations",
       value: 6
-    }, {
-      label: "Workflow",
-      value: 8
-    }] : [{
+    }
+    // { label: "Workflow", value: 8 },
+    ] : [{
       label: "General",
       value: 0
     }, {
@@ -1376,10 +1374,9 @@ const SettingsPage = () => {
     }, {
       label: "Billing",
       value: 7
-    }, {
-      label: "Workflow",
-      value: 8
-    }]);
+    }
+    // { label: "Workflow", value: 8 },
+    ]);
     setSettings({
       ...validatedSettings
     }, () => {});
@@ -3991,4 +3988,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=1442efc8de0da090b103
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=a9d437d3829b589c049f

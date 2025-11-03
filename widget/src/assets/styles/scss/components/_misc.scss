@@ -473,10 +473,12 @@
     }
   }
   .vs__dropdown-option- {
+    color: $svv-brand-primary;
     padding: 4px 5px 4px 5px;
     &-highlight {
       background: $svv-elements-background-color;
       border-radius: 7px;
+      color: $svv_text_black;
 
       &:hover {
         background: $svv-elements-background-color;

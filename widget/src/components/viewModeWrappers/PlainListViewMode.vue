@@ -208,7 +208,6 @@
 
 <script>
 import EventsCalendar from "@/components/common/EventsCalendar";
-// import EventsCalendarSection from "@/components/common/EventsCalendarSection";
 import WidgetMobileControls from "@/components/common/WidgetMobileControls";
 import EventsFilters from "@/components/Event/EventsFilters";
 import EventsFiltersMultiSelectSection from "@/components/Event/EventsFiltersMultiSelectSection";
@@ -235,24 +234,32 @@ export default {
     };
   },
   components: {
-    EventsList,
-    EventsListCategories,
-    BundlesList,
-    BundlesListProductPage,
-    WidgetLoader,
-    EventsCalendar,
-    WidgetMobileControls,
-    EventsFilters,
-    LanguagesSelector,
-    CalendarIcon,
-    WidgetPromoLogo,
-    SearchPanel,
-    ItemsListTypeSwitch,
-    EventsListProgressive,
-    EventsFiltersMultiSelectSection,
-    SelectedFiltersPanel,
-    EventsFiltersMultiSelectMobile,
-    // EventsCalendarSection,
+    EventsCalendar: () => import("@/components/common/EventsCalendar.vue"),
+    WidgetMobileControls: () =>
+      import("@/components/common/WidgetMobileControls.vue"),
+    // EventsFilters: () => import("@/components/Event/EventsFilters.vue"),
+    // EventsFiltersMultiSelectSection: () =>
+    //   import("@/components/Event/EventsFiltersMultiSelectSection.vue"),
+    // LanguagesSelector: () =>
+    //   import("@/components/common/LanguagesSelector.vue"),
+    CalendarIcon: () => import("@/assets/icons/calendar.svg"),
+    EventsFiltersMultiSelectMobile: () =>
+      import("@/components/Event/EventsFiltersMultiSelectMobile.vue"),
+    WidgetLoader: () => import("@/components/common/WidgetLoader.vue"),
+    EventsList: () => import("@/components/Event/EventsList.vue"),
+    EventsListCategories: () =>
+      import("@/components/Event/EventsListCategories.vue"),
+    EventsListProgressive: () =>
+      import("@/components/Event/EventsListProgressive.vue"),
+    BundlesList: () => import("@/components/Bundle/BundlesList.vue"),
+    BundlesListProductPage: () =>
+      import("@/components/Bundle/BundlesListProductPage.vue"),
+    WidgetPromoLogo: () => import("@/components/common/WidgetPromoLogo.vue"),
+    SearchPanel: () => import("@/components/common/SearchPanel.vue"),
+    ItemsListTypeSwitch: () =>
+      import("@/components/common/ItemsListTypeSwitch.vue"),
+    SelectedFiltersPanel: () =>
+      import("@/components/common/SelectedFiltersPanel.vue"),
   },
   watch: {
     meetingsList(newVal) {

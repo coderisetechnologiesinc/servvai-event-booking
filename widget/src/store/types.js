@@ -28,27 +28,52 @@ export default {
   },
   actions: {
     async fetchEventTypes({ commit, dispatch }) {
+      const TYPES_KEY = "servv_event_types";
+      const TYPES_TTL = 5 * 60 * 1000; // 5 minutes
+
       try {
-        // const response = await API({
-        //   url: `${window.SVV_API_URL}/widget/filter/types`,
-        //   method: "GET",
-        //   headers: { ...rootState.common.apiHeaders },
-        // });
+        // ✅ Check for cached data first
+        const cached = localStorage.getItem(TYPES_KEY);
+        if (cached) {
+          try {
+            const { value, expiry } = JSON.parse(cached);
+            if (expiry && Date.now() < expiry) {
+              console.log("Loaded event types from cache");
+              commit("setEventTypes", value);
+              dispatch("getDefaultTypes");
+              return;
+            } else {
+              localStorage.removeItem(TYPES_KEY);
+            }
+          } catch {
+            localStorage.removeItem(TYPES_KEY);
+          }
+        }
+
         let params = new URLSearchParams();
         params.append("security", servvAjax.nonce);
         params.append("action", "servv_get_types_list");
 
         const response = await axios.post(servvAjax.ajax_url, params);
+
         if (response.status === 200) {
-          // console.log(response.data);
           commit("setEventTypes", response.data);
           dispatch("getDefaultTypes");
+
+          localStorage.setItem(
+            TYPES_KEY,
+            JSON.stringify({
+              value: response.data,
+              expiry: Date.now() + TYPES_TTL,
+            })
+          );
         }
       } catch (e) {
         console.log(e);
         commit("common/setWidgetNotice", processError(e), { root: true });
       }
     },
+
     async getDefaultTypes({ commit, state }) {
       const wrapper = document.querySelector("#widget-wrapper");
       if (wrapper) {

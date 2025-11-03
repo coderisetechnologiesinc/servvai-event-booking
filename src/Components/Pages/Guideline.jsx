@@ -51,7 +51,7 @@ const Guideline = ({ showGuide = () => {}, redirect = () => {} }) => {
       <div className=" flex flex-col w-full gap-8 mt-4">
         {guidelineItems.map((item) => {
           return (
-            <div className="grid grid-cols-[auto_auto_150px] w-full gap-4 items-center p-8 rounded-lg shadow-lg">
+            <div className="grid grid-cols-[max-content_1fr_150px] w-full gap-4 items-center p-8 rounded-lg shadow-lg">
               <div className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-500 text-white text-xl font-regular">
                 {item.id}
               </div>

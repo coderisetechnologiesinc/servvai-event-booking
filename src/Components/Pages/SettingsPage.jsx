@@ -66,7 +66,7 @@ const SettingsPage = () => {
     { label: "Billing", value: 2 },
     { label: "Widget", value: 5 },
     { label: "Translations", value: 6 },
-    { label: "Workflow", value: 8 },
+    // { label: "Workflow", value: 8 },
   ]);
 
   const viewModeOptions = [
@@ -243,7 +243,7 @@ const SettingsPage = () => {
             { label: "Billing", value: 7 },
             { label: "Widget", value: 5 },
             { label: "Translations", value: 6 },
-            { label: "Workflow", value: 8 },
+            // { label: "Workflow", value: 8 },
           ]
         : [
             { label: "General", value: 0 },
@@ -251,7 +251,7 @@ const SettingsPage = () => {
             { label: "Widget", value: 5 },
             { label: "Translations", value: 6 },
             { label: "Billing", value: 7 },
-            { label: "Workflow", value: 8 },
+            // { label: "Workflow", value: 8 },
           ]
     );
     setSettings({ ...validatedSettings }, () => {});

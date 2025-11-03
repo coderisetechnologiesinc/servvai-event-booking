@@ -1,54 +1,50 @@
 <template>
   <div :class="{ 'svv-auth-valid': isUserValid }">
-    <!--    <link-->
-    <!--      rel="preload"-->
-    <!--      href=""-->
-    <!--      as="font"-->
-    <!--      type="font/woff2"-->
-    <!--      crossorigin="anonymous"-->
-    <!--    />-->
-
     <PlainListViewMode
       v-if="
         apiAccessValid &&
-        widgetSettings.widget_view_mode &&
-        widgetSettings.widget_view_mode === 'plain'
+          widgetSettings.widget_view_mode &&
+          widgetSettings.widget_view_mode === 'plain'
       "
     />
     <ModalDialogViewMode
       v-if="
         apiAccessValid &&
-        widgetSettings.widget_view_mode &&
-        widgetSettings.widget_view_mode === 'modal'
+          widgetSettings.widget_view_mode &&
+          widgetSettings.widget_view_mode === 'modal'
       "
     />
   </div>
 </template>
 
 <script>
-import PlainListViewMode from "@/components/viewModeWrappers/PlainListViewMode";
-import ModalDialogViewMode from "@/components/viewModeWrappers/ModalDialogViewMode";
 import { mapActions, mapGetters, mapMutations } from "vuex";
+
 export default {
   name: "WidgetRoot",
+
   components: {
-    PlainListViewMode,
-    ModalDialogViewMode,
+    PlainListViewMode: () =>
+      import("@/components/viewModeWrappers/PlainListViewMode.vue"),
+    ModalDialogViewMode: () =>
+      import("@/components/viewModeWrappers/ModalDialogViewMode.vue"),
   },
+
   data() {
     return {
       wgtRootContainerLocator: ".svv-wgt-container",
       isUserValid: true,
     };
   },
+
   computed: {
     ...mapGetters({
       widgetSettings: "common/widgetSettings",
-      // isUserValid: "common/isUserValid",
       apiAccessValid: "common/apiAccessValid",
       isBundlePage: "events/isBundlePage",
     }),
   },
+
   methods: {
     ...mapActions({
       fetchWidgetSettings: "common/fetchWidgetSettings",
@@ -61,9 +57,11 @@ export default {
       setWindowSize: "common/setWindowSize",
       setBundleViewMode: "events/setBundleViewMode",
     }),
+
     resizeWindowHandler() {
       this.setWindowSize(window ? window.innerWidth : 1000);
     },
+
     async getShopParams() {
       const customerIdEl = document.getElementById(
         "servv_calendar_customer_id"
@@ -103,9 +101,11 @@ export default {
       await this.setDefaultsFilterParams(defaultFilterParams);
     },
   },
+
   created() {
     this.resizeWindowHandler();
     window.addEventListener("resize", this.resizeWindowHandler);
+
     try {
       const product_id = document.querySelector("#servv_op_wgt_product_id");
 
@@ -116,15 +116,14 @@ export default {
       console.log(e);
     }
   },
+
   async mounted() {
     await this.getShopParams();
     await this.fetchWidgetSettings();
-    // await this.fetchStoreDataShopifyApi();
   },
+
   destroyed() {
     window.removeEventListener("resize", this.resizeWindowHandler);
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
