@@ -1,3 +1,10 @@
+# v1.0.10
+
+1.0.10 (2025-11-04)
+
+Maintenance Release
+- Performance fixes for Widget
+
 # v1.0.9
 
 1.0.9 (2025-10-16)
