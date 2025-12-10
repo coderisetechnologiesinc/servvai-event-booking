@@ -1,13 +1,5 @@
 # v1.0.11
 
-1.0.11 (2025-12-10)
-
-Maintenance Release
-
-
-
-# v1.0.11
-
 1.0.11 (2025-12-09)
 
 Maintenance Release
