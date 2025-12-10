@@ -1,3 +1,10 @@
+# v1.0.11
+
+1.0.11 (2025-12-09)
+
+Maintenance Release
+- Servv App (SaaS) release
+
 # v1.0.10
 
 1.0.10 (2025-11-04)
