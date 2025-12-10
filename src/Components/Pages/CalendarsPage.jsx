@@ -8,7 +8,9 @@ import Badge from "../Containers/Badge";
 import Card from "../Containers/Card";
 import BreadCrumbs from "../Menu/BreadCrumbs";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const CalendarsPage = ({ onPageSelect }) => {
+  const navigate = useNavigate();
   const [account, setAccount] = useState(null);
   const [isAccountFetched, setAccountFetched] = useState(false);
   const getCalendarAccount = async () => {
@@ -92,7 +94,10 @@ const CalendarsPage = ({ onPageSelect }) => {
           <h1 className="text-display-sm mt-6">{t("Calendars")}</h1>
           <BreadCrumbs
             breadcrumbs={[
-              { label: "Integrations", action: () => onPageSelect("main") },
+              {
+                label: "Integrations",
+                action: () => navigate("../integrations"),
+              },
               { label: "Calendar", action: () => {} },
             ]}
             onBreadCrumbClick={handleBreadCrumbsClick}

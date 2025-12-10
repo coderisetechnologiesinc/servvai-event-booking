@@ -25,6 +25,11 @@ add_action('rest_api_init', function () {
         'callback' => 'servv_create_payment_plan_subscription',
         'permission_callback' => 'servv_validate_ajax_permissions',
     ]);
+    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/shop/billing/portal/session', [
+        'methods'  => 'POST',
+        'callback' => 'servv_create_billing_portal_session',
+        'permission_callback' => 'servv_validate_ajax_permissions',
+    ]);
     register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/wordpress/settings', [
         'methods'  => 'GET',
         'callback' => 'servv_get_wordpress_settings',

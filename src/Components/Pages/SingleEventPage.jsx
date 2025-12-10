@@ -5,7 +5,6 @@ import InlineStack from "../Containers/InlineStack";
 import PageActionButton from "../Controls/PageActionButton";
 import PageHeader from "../Containers/PageHeader";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { useState } from "react";
 
 import {
@@ -15,16 +14,11 @@ import {
   multipleTicketsUpdate,
 } from "../../utilities/tickets";
 
-import {
-  InboxArrowDownIcon,
-  ArrowUturnLeftIcon,
-} from "@heroicons/react/16/solid";
-
 const SingleEventPage = ({
-  title,
   attributes,
   setAttributes,
   postID = null,
+  type = "offline",
   occurrenceId = null,
   adminSection = true,
   returnWithError = () => {},
@@ -33,6 +27,7 @@ const SingleEventPage = ({
   settings = null,
 }) => {
   const [loading, setLoading] = useState(false);
+
   const handleEventUpdate = async () => {
     let requestURL = `/wp-json/servv-plugin/v1/event/${postID}`;
     if (occurrenceId) {

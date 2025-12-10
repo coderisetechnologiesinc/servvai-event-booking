@@ -6,60 +6,74 @@ import PageHeader from "../Containers/PageHeader";
 import PageContent from "../Containers/PageContent";
 import AnnotatedSection from "../Containers/AnnotatedSection";
 import MobileFooterActions from "../Controls/MobileFooterActions";
-import { InboxArrowDownIcon } from "@heroicons/react/16/solid";
+
 import { useState, Fragment, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const CreateLanguageFilterForm = ({
-  language = {},
-  onCancel = () => {},
-  setLoading = () => {},
-}) => {
-  const [languageData, setLanguageData] = useState(language);
+import { useServvStore } from "../../store/useServvStore";
+
+const CreateLanguageFilterForm = ({ setLoading = () => {} }) => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const id = searchParams.get("id");
+
+  const filtersList = useServvStore((s) => s.filtersList);
+  const syncSingleFilterFromServer = useServvStore(
+    (s) => s.syncSingleFilterFromServer
+  );
+
+  // Find existing language if editing
+  const existingLanguage =
+    id && filtersList.languages
+      ? filtersList.languages.find((l) => String(l.id) === String(id))
+      : null;
+
+  const [languageData, setLanguageData] = useState(existingLanguage || {});
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   // Track window size changes
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const onCancel = () => navigate(-1); // Return to previous page
+
   const handleLanguageChange = (field, value) => {
-    let newLanguageData = { ...languageData };
-    newLanguageData[field] = value;
-    setLanguageData(newLanguageData);
+    setLanguageData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleLanguageSave = async () => {
-    if (languageData.name && languageData.name.length > 0) {
-      setLoading(true);
-      let url = "/wp-json/servv-plugin/v1/filters/languages";
-      if (language && language.id) {
-        delete languageData.id;
-        delete languageData.shop_id;
-        delete languageData.created_datetime;
-        url += `/${language.id}`;
-      }
-      await axios({
-        method: language && language.id ? "PATCH" : "POST",
-        url: url,
-        headers: { "X-WP-Nonce": servvData.nonce },
-        data: {
-          ...languageData,
-          priority: isNaN(Number.parseInt(languageData.priority))
-            ? 0
-            : Number.parseInt(languageData.priority),
-        },
-      });
-      onCancel();
+    if (!languageData?.name) return;
+
+    setLoading(true);
+
+    let url = "/wp-json/servv-plugin/v1/filters/languages";
+    let method = "POST";
+
+    // Editing existing
+    if (existingLanguage) {
+      url += `/${existingLanguage.id}`;
+      method = "PATCH";
     }
+
+    await axios({
+      method,
+      url,
+      headers: { "X-WP-Nonce": servvData.nonce },
+      data: {
+        ...languageData,
+        priority: Number.parseInt(languageData.priority) || 0,
+      },
+    });
+    await syncSingleFilterFromServer("languages");
+    navigate(-1);
   };
 
-  const isFormValid = languageData?.name && languageData.name.length > 0;
+  const isFormValid = languageData?.name?.length > 0;
 
   return (
     <Fragment>
@@ -69,45 +83,34 @@ const CreateLanguageFilterForm = ({
             className="text-display-sm mt-6 text-gray-900"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            {languageData && languageData.id
-              ? `Language Filter "${languageData.name}"`
+            {existingLanguage
+              ? `Language Filter "${existingLanguage.name}"`
               : "New Language"}
           </h1>
+
           <p
-            className="page-header-description text-gray-600 text-base leading-relaxed"
+            className="page-header-description text-gray-600 text-base leading-relaxed mb-6"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            {t("Edit Details for")}{" "}
-            {languageData && languageData.id
-              ? `${languageData.name}`
-              : "New Language"}
+            {existingLanguage
+              ? `Edit details for ${existingLanguage.name}`
+              : "Create a new language filter"}
           </p>
         </BlockStack>
 
-        {/* Desktop Actions - Only visible on desktop */}
+        {/* Desktop Actions */}
         {!isMobile && (
           <InlineStack gap={2} align="right" className="hidden md:flex">
             <PageActionButton
               text="Cancel"
               type="secondary"
               onAction={onCancel}
-              className="font-medium px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200"
-              style={{ fontFamily: "'Inter', sans-serif" }}
             />
             <PageActionButton
               text="Save"
-              // icon={
-              //   <InboxArrowDownIcon
-              //     className={`w-5 h-5 ${
-              //       !isFormValid ? "text-gray-400" : "text-white"
-              //     }`}
-              //   />
-              // }
               type="primary"
               onAction={handleLanguageSave}
               disabled={!isFormValid}
-              className="font-semibold px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
-              style={{ fontFamily: "'Inter', sans-serif" }}
             />
           </InlineStack>
         )}
@@ -115,51 +118,29 @@ const CreateLanguageFilterForm = ({
 
       <PageContent>
         <div className="pb-20 md:pb-0">
-          <BlockStack gap={8} cardsLayout={true}>
-            {/* Language Name - Wider on desktop */}
-            <AnnotatedSection
-              title="Language Name"
-              description=""
-              titleClassName="font-semibold text-gray-900"
-              className="items-start"
-            >
+          <BlockStack gap={8} cardsLayout>
+            {/* Language Name */}
+            <AnnotatedSection title="Language Name" className="items-start">
               <InputFieldControl
                 value={languageData?.name || ""}
-                fullWidth={false}
                 type="text"
                 align="left"
-                disabled={false}
                 maxLength={100}
                 onChange={(val) => handleLanguageChange("name", val)}
                 width={isMobile ? "100%" : "400px"}
-                className={`${
-                  isMobile ? "w-full" : "w-96"
-                } px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500`}
-                style={{ fontFamily: "'Inter', sans-serif" }}
               />
             </AnnotatedSection>
 
-            {/* Order field - only show if editing existing language */}
-            {languageData && languageData.id && (
-              <AnnotatedSection
-                title="Order"
-                description=""
-                titleClassName="font-semibold text-gray-900"
-                className="items-start"
-              >
+            {/* Order (only if editing) */}
+            {existingLanguage && (
+              <AnnotatedSection title="Order" className="items-start">
                 <InputFieldControl
                   value={languageData.priority || ""}
-                  fullWidth={false}
                   type="text"
                   align="left"
-                  disabled={false}
                   maxLength={10}
                   onChange={(val) => handleLanguageChange("priority", val)}
                   width={isMobile ? "100%" : "400px"}
-                  className={`${
-                    isMobile ? "w-full" : "w-96"
-                  } px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-500`}
-                  style={{ fontFamily: "'Inter', sans-serif" }}
                 />
               </AnnotatedSection>
             )}
@@ -167,7 +148,7 @@ const CreateLanguageFilterForm = ({
         </div>
       </PageContent>
 
-      {/* Mobile Footer Actions - Only visible on mobile */}
+      {/* Mobile Footer */}
       {isMobile && (
         <MobileFooterActions
           onSave={handleLanguageSave}
@@ -175,14 +156,6 @@ const CreateLanguageFilterForm = ({
           saveText="Save"
           cancelText="Cancel"
           saveDisabled={!isFormValid}
-          // saveIcon={
-          //   <InboxArrowDownIcon
-          //     className={`w-5 h-5 ${
-          //       !isFormValid ? "text-gray-400" : "text-white"
-          //     }`}
-          //   />
-          // }
-          className="font-semibold"
         />
       )}
     </Fragment>

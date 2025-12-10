@@ -286,6 +286,17 @@ function servv_process_custom_block_on_save($post_id, $post, $update) {
                         }
                     }
                     $n8nData = $responseBody;
+
+                    $apiRoute = $eventLocationType == 'offline' ? '/offline/meetings/'.$servvEventId
+                        : '/zoom/meetings/'.$servvEventId;
+                    try {
+                        $responseBody = servvSendApiRequest($apiRoute);
+                        $respTypes = $responseBody['types'] ?? [];
+                        $n8nData['location_name'] = $respTypes['location_name'] ?? '';
+                        $n8nData['language_name'] = $respTypes['language_name'] ?? '';
+                        $n8nData['category_name'] = $respTypes['category_name'] ?? '';
+                    } catch(\Exception $e) {}
+
                     $n8nData['wp_post_id'] = $post_id;
                     $n8nData['wp_post_url'] = get_permalink($post_id);
                     servv_n8n_event_created_trigger($n8nData);

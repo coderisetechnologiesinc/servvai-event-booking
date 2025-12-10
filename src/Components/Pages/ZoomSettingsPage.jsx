@@ -8,8 +8,12 @@ import InputFieldControl from "../Controls/InputFieldControl";
 import CheckboxControl from "../Controls/CheckboxControl";
 import InlineStack from "../Containers/InlineStack";
 import PageActionButton from "../Controls/PageActionButton";
+import BreadCrumbs from "../Menu/BreadCrumbs";
+import PageWrapper from "./PageWrapper";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const ZoomSettingsPage = () => {
+  const navigate = useNavigate();
   const [zoomSettings, setZoomSettings] = useState({
     use_pmi: false,
     waiting_room: true,
@@ -21,7 +25,7 @@ const ZoomSettingsPage = () => {
     audio: "voip",
   });
   const [settings, setSettings] = useState({});
-
+  const [loading, setLoading] = useState(false);
   const [account, setAccount] = useState(null);
   const [isAccountFetched, setAccountFetched] = useState(false);
   const updateZoomSettings = async () => {
@@ -80,11 +84,22 @@ const ZoomSettingsPage = () => {
   useEffect(() => {
     getInfo();
   }, []);
+  const responsiveBlockStack = "w-full min-w-0";
   return (
-    <Fragment>
+    <PageWrapper loading={loading}>
       <PageHeader bottomLine={true}>
         <BlockStack>
           <h1 className="text-display-sm mt-6">{t("Zoom Settings")}</h1>
+          <BreadCrumbs
+            breadcrumbs={[
+              {
+                label: "Integrations",
+                action: () => navigate("../../integrations"),
+              },
+              { label: "Zoom", action: () => navigate("../integrations/zoom") },
+              { label: "Zoom Settings", action: () => {} },
+            ]}
+          />
           <p className="page-header-description">
             {t("Connect and manage your Zoom account and settings.")}
           </p>
@@ -99,7 +114,7 @@ const ZoomSettingsPage = () => {
         </InlineStack>
       </PageHeader>
       <PageContent>
-        <BlockStack gap={8} cardsLayout={true}>
+        <BlockStack gap={8} cardsLayout={true} className={responsiveBlockStack}>
           <h1 className="text-lg font-semibold border-b pb-4">
             {t("Account")}
           </h1>
@@ -107,7 +122,7 @@ const ZoomSettingsPage = () => {
             title="Account details"
             description="Account email & name."
           >
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <InputFieldControl
                 value={isAccountFetched ? account.email : ""}
                 fullWidth={true}
@@ -123,7 +138,7 @@ const ZoomSettingsPage = () => {
             title="Account name"
             description="Set a default time zone."
           >
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <InputFieldControl
                 value={isAccountFetched ? account.full_name : ""}
                 fullWidth={false}
@@ -138,7 +153,7 @@ const ZoomSettingsPage = () => {
             {t("Zoom settings")}
           </h1>
           <AnnotatedSection title="Meeting ID" description="Set a meeting ID">
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <RadioControl
                 label="Generate automatically"
                 name="meeting_id"
@@ -157,7 +172,7 @@ const ZoomSettingsPage = () => {
             title="Video"
             description="Show/hide host and guest video"
           >
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <CheckboxControl
                 label="Host video"
                 name="host_video"
@@ -183,7 +198,7 @@ const ZoomSettingsPage = () => {
             title="Audio"
             description="Set default audio settings"
           >
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <RadioControl
                 label="Telephone"
                 name="audio"
@@ -208,7 +223,7 @@ const ZoomSettingsPage = () => {
             title="Enable Join Before Host"
             description="Enable or disabled join before host"
           >
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <RadioControl
                 label="Yes"
                 name="join_before_host"
@@ -227,7 +242,7 @@ const ZoomSettingsPage = () => {
             title="Enable Waiting Room"
             description="Enable or disabled waiting room"
           >
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <RadioControl
                 label="Yes"
                 name="waiting_room"
@@ -246,7 +261,7 @@ const ZoomSettingsPage = () => {
             title="Automatically record meeting"
             description="Record meeting on local computer"
           >
-            <BlockStack gap={2}>
+            <BlockStack gap={4}>
               <RadioControl
                 label="Yes"
                 name="auto_recording"
@@ -263,7 +278,7 @@ const ZoomSettingsPage = () => {
           </AnnotatedSection>
         </BlockStack>
       </PageContent>
-    </Fragment>
+    </PageWrapper>
   );
 };
 

@@ -798,7 +798,7 @@ const TicketsSection = ({
                       }}
                       disabled={disabled}
                     >
-                      {t("Save")}
+                      Done
                     </button>
                   </div>
                 </BlockStack>

@@ -4,7 +4,7 @@ import InlineStack from "../Containers/InlineStack";
 import PageActionButton from "../Controls/PageActionButton";
 import AnnotatedSection from "../Containers/AnnotatedSection";
 import PageContent from "../Containers/PageContent";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import SelectControl from "../Controls/SelectControl";
 // import timezonesWithOffset from "../../utilities/timezones";
 import { timezonesList } from "../../utilities/timezones";
@@ -27,6 +27,7 @@ import capitalize from "lodash.capitalize";
 import { loadStripe } from "@stripe/stripe-js";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import N8NSettings from "./N8NSettings";
+import PaymentOptionsModal from "../Controls/PaymentOptionsModal";
 
 const SettingsPage = () => {
   const [settings, setSettings] = useState(null);
@@ -35,6 +36,7 @@ const SettingsPage = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [zoomAccount, setZoomAccount] = useState(null);
   const [stripeAccount, setStripeAccount] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState(null);
   const timezones = Object.keys(timezonesList).map((zone) => {
     return { id: zone, name: timezonesList[zone] };
   });
@@ -63,7 +65,7 @@ const SettingsPage = () => {
   const [tabsList, setTabsList] = useState([
     { label: "General", value: 0 },
     { label: "Reminders", value: 1 },
-    { label: "Billing", value: 2 },
+    { label: "Billing", value: 7 },
     { label: "Widget", value: 5 },
     { label: "Translations", value: 6 },
     // { label: "Workflow", value: 8 },
@@ -85,8 +87,17 @@ const SettingsPage = () => {
   const availableViewMods = viewModeOptions.map((opt) => opt.label);
   const availablePageSizes = pageSizes.map((opt) => opt.label);
   const [selectedTab, setSelectedTab] = useState(0);
-  const handleSelectChange = (val) => setSelectedTab(val);
+  const [stripeForm, setStripeForm] = useState(null);
+  const handleSelectChange = (val) => {
+    setSelectedTab(val);
+    if (stripeForm) {
+      stripeForm.destroy();
+      setStripeForm(null);
+      setShowPaymentForm(false);
+    }
+  };
   const [defaultEndTime, setDefaultEndTime] = useState(moment());
+  const [showPaymentOptionsModal, setShowPaymentOptionsModal] = useState(false);
   const timeOptions = [
     { label: "24 hours", value: 24 },
     { label: "12 hours", value: 12 },
@@ -486,6 +497,11 @@ const SettingsPage = () => {
     setDefaultEndTime(newTime.add(duration + 1, "hours"));
     setSettings(currentSettings);
   };
+
+  const showPaymentOptions = (plan) => {
+    setSelectedPlan(plan);
+    setShowPaymentOptionsModal(true);
+  };
   const handleTimeFormatChange = (format) => {
     let currentSettings = { ...settings };
     const newFormat = format === "24 hours";
@@ -702,7 +718,7 @@ const SettingsPage = () => {
     } else {
       selectedFilters.push(filter);
     }
-    console.log(selectedFilters);
+
     currentSettings.settings.widget_style_settings.available_filters =
       selectedFilters.join(",");
 
@@ -786,15 +802,40 @@ const SettingsPage = () => {
     ));
   };
 
-  const activateBillingPlan = async (id) => {
+  const getPortalLink = async () => {
     setLoading(true);
+    const getPortalLink = await axios({
+      url: "/wp-json/servv-plugin/v1/shop/billing/portal/session",
+      method: "POST",
+      headers: { "X-WP-Nonce": servvData.nonce },
+    }).catch((error) => {
+      setLoading(false);
+      toast("Servv unable to open billing portal.");
+    });
+    if (getPortalLink && getPortalLink.status === 200) {
+      setLoading(false);
+      return getPortalLink.data;
+    }
+  };
+
+  const handleOpenPortal = async () => {
+    const link = await getPortalLink();
+
+    if (link) {
+      open(link.redirect_url, "_blank");
+    }
+  };
+
+  const activateBillingPlan = async (id, isAnnual = false) => {
+    setLoading(true);
+    setShowPaymentOptionsModal(false);
     const saveSettingsResponse = await axios({
       method: "POST",
       url: `/wp-json/servv-plugin/v1/shop/paymentplans/${id}`,
       headers: { "X-WP-Nonce": servvData.nonce },
+      data: { is_annual: isAnnual },
     });
     if (saveSettingsResponse && saveSettingsResponse.status === 200) {
-      // toast("Unalbe to activate billing plan.");
       const { client_secret, public_key } = saveSettingsResponse.data;
       const stripe = await loadStripe(public_key);
       const handleComplete = async function () {
@@ -805,17 +846,18 @@ const SettingsPage = () => {
       };
       const checkout = await stripe.initEmbeddedCheckout({
         clientSecret: client_secret,
-        // redirectOnCompletion: "if_required",
         onComplete: handleComplete,
       });
       setShowPaymentForm(true);
-      checkout.mount("#servv-payment-element");
+
+      const form = checkout.mount("#servv-payment-element");
+      setStripeForm(checkout);
     }
     setLoading(false);
   };
 
   const renderBillingPlans = () => {
-    if (!billingPlans) return;
+    if (!settings || !settings.current_plan || !billingPlans) return null;
     return billingPlans.map((plan) => (
       <BlockStack
         gap={2}
@@ -825,7 +867,9 @@ const SettingsPage = () => {
         <div
           className={`flex flex-col gap-2 border border-gray-200 bg-white rounded-lg p-lg ${responsiveBlockStack} h-full`}
         >
-          <h2 className="card-section-heading">{plan.name}</h2>
+          <div className="flex flex-row justify-between items center">
+            <h2 className="card-section-heading">{plan.name}</h2>
+          </div>
           {plan.features.map((feature) => (
             <div className="flex flex-row justify-start align-center gap-2">
               {feature.value === "true" ? (
@@ -838,17 +882,37 @@ const SettingsPage = () => {
           ))}
 
           {settings && plan.id >= settings.current_plan.id && (
-            <button
-              disabled={
-                settings &&
-                (settings.current_plan.id === plan.id ||
-                  plan.id < settings.current_plan.id)
-              }
-              className="rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-combined-gray"
-              onClick={() => activateBillingPlan(plan.id)}
-            >
-              {settings.current_plan.id === plan.id ? "Activated" : "Activate"}
-            </button>
+            <Fragment>
+              {settings.current_plan.id !== plan.id ? (
+                <button
+                  disabled={
+                    settings &&
+                    (settings.current_plan.id === plan.id ||
+                      plan.id < settings.current_plan.id)
+                  }
+                  className="rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-combined-gray"
+                  onClick={() => showPaymentOptions(plan)}
+                >
+                  {settings.current_plan.id === plan.id
+                    ? "Activated"
+                    : "Activate"}
+                </button>
+              ) : (
+                <Fragment>
+                  {(plan.price > 0 || plan.price_annual > 0) &&
+                    settings.current_plan.id === plan.id && (
+                      <button
+                        className="rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-combined-gray"
+                        onClick={() => {
+                          handleOpenPortal();
+                        }}
+                      >
+                        Manage
+                      </button>
+                    )}
+                </Fragment>
+              )}
+            </Fragment>
           )}
         </div>
       </BlockStack>
@@ -857,6 +921,7 @@ const SettingsPage = () => {
 
   const isBillingPlanRestriction =
     settings && settings.current_plan && settings.current_plan.id === 1;
+  console.log(selectedTab);
   return (
     <PageWrapper loading={loading}>
       <PageHeader>
@@ -1712,6 +1777,17 @@ const SettingsPage = () => {
             </BlockStack>
           )}
         </BlockStack>
+        <PaymentOptionsModal
+          open={showPaymentOptionsModal}
+          onCancel={() => {
+            setShowPaymentOptionsModal(false);
+            setSelectedPlan(null);
+          }}
+          onAcceptMonthly={() => activateBillingPlan(selectedPlan.id)}
+          onAcceptAnnual={() => activateBillingPlan(selectedPlan.id, true)}
+          price={selectedPlan?.price || 0}
+          priceAnnual={selectedPlan?.price_annual || 0}
+        />
       </PageContent>
     </PageWrapper>
   );

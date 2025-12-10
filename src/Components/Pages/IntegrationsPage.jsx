@@ -11,15 +11,18 @@ import ZoomPage from "./ZoomPage";
 import ZoomSettingsPage from "./ZoomSettingsPage";
 import StripeIntegrationsPage from "./StripeIntegrationsPage";
 import PageWrapper from "./PageWrapper";
+import { useNavigate } from "react-router-dom";
+import { useServvStore } from "../../store/useServvStore";
 const IntegrationsPage = ({
   handleResetSubpage = () => {},
   resetSelectedSubpage = false,
-  settings,
 }) => {
+  const { settings, fetchSettings } = useServvStore();
   const [selectedPage, setSelectedPage] = useState("main");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleSelectPage = (page) => {
-    setSelectedPage(page);
+    navigate(page);
   };
 
   useEffect(() => {
@@ -42,11 +45,14 @@ const IntegrationsPage = ({
       );
     }
   }, []);
-  const isFeatureAvailable = settings?.current_plan?.id === 2;
+
+  const isFeatureAvailable =
+    settings?.current_plan?.id === 2 || settings?.current_plan?.id === 3;
+
   // const isFeatureAvailable = true;
   // console.log(isFeatureAvailable);
   return (
-    <PageWrapper loading={loading}>
+    <PageWrapper loading={loading || !settings}>
       {selectedPage === "main" && (
         <Fragment>
           <PageHeader>

@@ -18,8 +18,12 @@ import { currenciesList } from "../../utilities/currencies";
 import PageActionButton from "../Controls/PageActionButton";
 import { InboxArrowDownIcon } from "@heroicons/react/16/solid";
 import he from "he";
+import { useNavigate } from "react-router-dom";
+import PageWrapper from "./PageWrapper";
 const StripeIntegrationsPage = (props) => {
+  const navigate = useNavigate();
   const [account, setAccount] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [isAccountFetched, setAccountFetched] = useState(false);
   const [connectedAccounts, setConnectedAccounts] = useState([]);
   const [connectedAccountsFetched, setConnectedAccountsFetched] =
@@ -43,7 +47,7 @@ const StripeIntegrationsPage = (props) => {
     if (url) {
       const returnURL = encodeURIComponent(window.location.origin);
       const connectURL = encodeURIComponent(url.auth_url);
-      props.setLoading(false);
+      setLoading(false);
 
       open(
         `${servvData.shopify_app}/payments/stripe/connect?wordpress_url=${connectURL}&wordpress_return_url=${returnURL}`,
@@ -103,18 +107,18 @@ const StripeIntegrationsPage = (props) => {
   };
 
   const handleGetConnectURL = async () => {
-    props.setLoading(true);
+    setLoading(true);
     const existingAccounts = await getDisconnectedStripeAccounts(
       servvData.nonce
     );
     // const url = await getStripeConnectURL(servvData.nonce);
     // setConnectUrl(url.auth_url);
-    props.setLoading(false);
+    setLoading(false);
     if (existingAccounts.length > 0) {
       setConnectedAccounts(existingAccounts);
       setConnectedAccountsFetched(true);
     } else {
-      props.setLoading(true);
+      setLoading(true);
       const url = await getStripeConnectURL(servvData.nonce);
       setConnectUrl(url.auth_url);
       if (url)
@@ -132,12 +136,12 @@ const StripeIntegrationsPage = (props) => {
   };
 
   const handleRemoveAccount = async () => {
-    props.setLoading(true);
+    setLoading(true);
     const res = await disconnectStripeAccount(servvData.nonce);
     if (res === 200) {
       setAccount(null);
     }
-    props.setLoading(false);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -186,13 +190,13 @@ const StripeIntegrationsPage = (props) => {
   };
   const handleCurrencySave = async () => {
     if (selectedCurrency) {
-      props.setLoading(true);
+      setLoading(true);
       await updateStripeSettings(servvData.nonce, selectedCurrency);
-      props.setLoading(false);
+      setLoading(false);
     }
   };
   return (
-    <Fragment>
+    <PageWrapper loading={loading}>
       <PageHeader>
         <BlockStack>
           <h1 className="text-display-sm mt-6">{t("Stripe")}</h1>
@@ -310,7 +314,7 @@ const StripeIntegrationsPage = (props) => {
           </Card>
         </InlineStack>
       </PageContent>
-    </Fragment>
+    </PageWrapper>
   );
 };
 export default StripeIntegrationsPage;

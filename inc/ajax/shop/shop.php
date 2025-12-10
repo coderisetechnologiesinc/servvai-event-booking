@@ -89,6 +89,7 @@ function servv_create_payment_plan_subscription($request)
         wp_send_json_error(['message' => 'Empty plan id']);
         exit();
     }
+    $isAnnual = $request['is_annual'] ?? false;
     try {
         $responseBody = servvSendApiRequest('/wordpress/paymentplans/'.$planId);
     } catch(\Exception $e) {
@@ -99,6 +100,21 @@ function servv_create_payment_plan_subscription($request)
 
     $data = [
         'plan_id' => (int)$planId,
+        'return_url'    => admin_url('admin.php?page='.SERVV_PLUGIN_SLUG),
+        'is_annual'    => (bool)$isAnnual,
+    ];
+    try {
+        $responseBody = servvSendApiRequest($apiRoute, $data, 'POST');
+    } catch(\Exception $e) {
+        return new WP_Error($e->getCode(), 'Bad api response. '.$e->getMessage(), ['status' => $e->getCode()]);
+    }
+    return $responseBody;
+}
+
+function servv_create_billing_portal_session($request)
+{
+    $apiRoute = '/payments/stripe/session/billing/portal';
+    $data = [
         'return_url'    => admin_url('admin.php?page='.SERVV_PLUGIN_SLUG)
     ];
     try {
