@@ -232,7 +232,7 @@
   div.servv-logo-collapsed {
     @apply justify-self-start mt-6 ml-[-5px];
     background: left/cover no-repeat
-      url(images/servv-logo.1b04df49.png);
+      url(images/servv-logo.0661fbe9.png);
     width: 40px;
     height: 40px;
   }
@@ -240,7 +240,7 @@
   div.servv-logo-png {
     @apply justify-self-start mt-6 ml-2;
     background: left / contain no-repeat
-      url(images/servv-logo.1b04df49.png);
+      url(images/servv-logo.0661fbe9.png);
     width: 180px;
     height: 40px;
   }

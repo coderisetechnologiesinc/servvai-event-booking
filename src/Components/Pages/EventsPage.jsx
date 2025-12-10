@@ -1,8 +1,6 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
-import PageHeader from "../Containers/PageHeader";
+import { useEventsLogic } from "./Events/useEventsLogic";
 import PageActionButton from "../Controls/PageActionButton";
-import Layout from "../Layout/Layout";
-
 import InlineStack from "../Containers/InlineStack";
 import ButtonGroupConnected from "../Controls/ButtonGroupConnected";
 import ConnectedButton from "../Controls/ConnectedButton";
@@ -20,10 +18,7 @@ import InputFieldControl from "../Controls/InputFieldControl";
 import CollapsibleSection from "../Containers/CollapsibleSection";
 import Datepicker from "react-tailwindcss-datepicker";
 import ConfirmationModal from "../Controls/ConfirmationModal";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { timezonesList } from "../../utilities/timezones";
-import timezonesWithOffset from "../../utilities/timezones";
 import {
   AdjustmentsVerticalIcon,
   PlusIcon,
@@ -31,10 +26,9 @@ import {
   PencilSquareIcon,
   TrashIcon,
   ArrowLeftIcon,
-  CalendarIcon,
-  ClockIcon,
 } from "@heroicons/react/16/solid";
 import Guideline from "./Guideline";
+import { useServvStore } from "../../store/useServvStore";
 
 const EventsCardHeader = ({
   eventsCount,
@@ -48,13 +42,27 @@ const EventsCardHeader = ({
   handleFilterSelect,
   dates,
   setDates,
-  isFiltersApplyed,
+  isFiltersApplied,
   resetFilters,
   isPast,
+  handleSearchSubmit,
   timezone,
 }) => {
   const [filterDropdown, setFilterDropdown] = useState(false);
   const filterDropdownRef = useRef(null);
+
+  const [localSearch, setLocalSearch] = useState(search);
+
+  const handleEnterButton = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit(localSearch);
+    }
+  };
+
+  useEffect(() => {
+    setLocalSearch(search);
+  }, [search]);
+
   useEffect(() => {
     if (!filterDropdown) return;
     const handleClickOutside = (event) => {
@@ -69,67 +77,18 @@ const EventsCardHeader = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [filterDropdown]);
 
-  const isFiltersEmpty = Object.values(filtersList).reduce(
-    (allEmptySoFar, value) => {
-      return allEmptySoFar && Array.isArray(value) && value.length === 0;
-    },
-    true
+  const isFiltersEmpty = Object.values(filtersList).every(
+    (value) => Array.isArray(value) && value.length === 0
   );
 
-  const handleEnterButton = (event) => {
-    if (event.key === "Enter") {
-      onFiltering();
-    }
-  };
+  const changeFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
-  const changeFilterDropdown = () => {
-    setFilterDropdown(!filterDropdown);
-  };
-
-  const renderFilteringWithFilters = () => {
-    if (Object.keys(filtersList).length > 0) {
-      return Object.keys(filtersList).map((filter) => {
-        return (
-          <Fragment key={filter}>
-            {filtersList[filter].length > 0 && (
-              <CollapsibleSection
-                sectionHeading={
-                  filter.charAt(0).toUpperCase() + filter.substring(1)
-                }
-              >
-                <BlockStack gap={2}>
-                  {filtersList[filter].map((filterToSelect) => {
-                    return (
-                      <CheckboxControl
-                        key={filterToSelect.id}
-                        label={filterToSelect.name}
-                        checked={
-                          selectedFilters[filter] &&
-                          selectedFilters[filter].includes(filterToSelect.id)
-                        }
-                        onChange={() => {
-                          handleFilterSelect(filter, filterToSelect.id);
-                        }}
-                        font="text-sm"
-                        color="text-gray-500"
-                      />
-                    );
-                  })}
-                </BlockStack>
-              </CollapsibleSection>
-            )}
-          </Fragment>
-        );
-      });
-    } else return null;
-  };
-
-  const getDates = (tz = timezone.id) => {
-    let datesValue = { startDate: null, endDate: null };
+  const getDates = () => {
+    let out = { startDate: null, endDate: null };
 
     if (dates.startDate) {
-      const d = dates.startDate; // Moment object
-      datesValue.startDate = new Date(
+      const d = dates.startDate;
+      out.startDate = new Date(
         d.year(),
         d.month(),
         d.date(),
@@ -141,7 +100,7 @@ const EventsCardHeader = ({
 
     if (dates.endDate) {
       const d = dates.endDate;
-      datesValue.endDate = new Date(
+      out.endDate = new Date(
         d.year(),
         d.month(),
         d.date(),
@@ -151,7 +110,7 @@ const EventsCardHeader = ({
       );
     }
 
-    return datesValue;
+    return out;
   };
 
   return (
@@ -166,6 +125,7 @@ const EventsCardHeader = ({
           size="small"
           align="center"
         />
+
         {view === "occurrences" && (
           <button
             className="pagination-control ml-auto"
@@ -178,6 +138,7 @@ const EventsCardHeader = ({
           </button>
         )}
       </div>
+
       <div className="card-description">
         {dates.startDate && dates.endDate && (
           <span>
@@ -186,26 +147,26 @@ const EventsCardHeader = ({
             {moment(dates.endDate).format("MMM DD, YYYY")}
           </span>
         )}
-        {isFiltersApplyed && (
-          <a
-            className="card-header-description-link"
-            onClick={() => resetFilters()}
-          >
+
+        {isFiltersApplied && (
+          <a className="card-header-description-link" onClick={resetFilters}>
             {t("Clear filters")}
           </a>
         )}
       </div>
+
       {!isPast && (
         <div className="hidden md:flex">
           <InlineStack align={"left"} gap={4} cardsLayout={false}>
             <InputFieldControl
-              value={search}
+              value={localSearch}
               placeholder={t("Enter search string")}
-              onChange={onChange}
+              onChange={setLocalSearch}
               handleKeyPress={handleEnterButton}
               fullWidth={true}
               align="left"
             />
+
             <Datepicker
               displayFormat={"MMM DD, YYYY"}
               value={getDates()}
@@ -213,6 +174,7 @@ const EventsCardHeader = ({
               inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
               onChange={(newValue) => setDates(newValue)}
             />
+
             {!isFiltersEmpty && (
               <Dropdown
                 activator={
@@ -220,17 +182,38 @@ const EventsCardHeader = ({
                     text={t("Filters")}
                     icon={<AdjustmentsVerticalIcon className="button-icon" />}
                     type="secondary"
-                    onAction={() => changeFilterDropdown()}
+                    onAction={changeFilterDropdown}
                   />
                 }
                 status={filterDropdown}
-                onClose={() => setFilterDropdown(false)} // <-- ADD THIS LINE
+                onClose={() => setFilterDropdown(false)}
               >
-                {/* <CollapsibleSection sectionHeading={"Event type"}>
-
-          </CollapsibleSection> */}
                 <BlockStack gap={4}>
-                  {renderFilteringWithFilters()}
+                  {Object.keys(filtersList).map((filter) => (
+                    <CollapsibleSection
+                      key={filter}
+                      sectionHeading={
+                        filter.charAt(0).toUpperCase() + filter.substring(1)
+                      }
+                    >
+                      <BlockStack gap={2}>
+                        {filtersList[filter].map((item) => (
+                          <CheckboxControl
+                            key={item.id}
+                            label={item.name}
+                            checked={
+                              selectedFilters[filter]?.includes(item.id) ||
+                              false
+                            }
+                            onChange={() => handleFilterSelect(filter, item.id)}
+                            font="text-sm"
+                            color="text-gray-500"
+                          />
+                        ))}
+                      </BlockStack>
+                    </CollapsibleSection>
+                  ))}
+
                   <PageActionButton
                     text={<span className="text-center">{t("Apply")}</span>}
                     type="primary"
@@ -254,20 +237,74 @@ const EventsCardHeader = ({
 const EventsPage = ({
   handleResetSubpage = () => {},
   resetSelectedSubpage = false,
-  settings,
-  filtersList = {},
-  isLoading,
-  globalError,
-  setIsLoading = () => {},
   redirect = () => {},
 }) => {
+  const settings = useServvStore((s) => s.settings);
+  const filtersList = useServvStore((s) => s.filtersList);
+
+  const zoomAccount = useServvStore((s) => s.zoomAccount);
+  const gmailAccount = useServvStore((s) => s.gmailAccount);
+  const stripeAccount = useServvStore((s) => s.stripeAccount);
+  const calendarAccount = useServvStore((s) => s.calendarAccount);
+
+  const fetchZoomAccount = useServvStore((s) => s.fetchZoomAccount);
+  const fetchStripeAccount = useServvStore((s) => s.fetchStripeAccount);
+  const fetchGmailAccount = useServvStore((s) => s.fetchGmailAccount);
+
+  const {
+    loading,
+    showGuide,
+    isPast,
+    eventType,
+    dates,
+    meetingsList,
+    eventOccurrencess,
+    pagination,
+    occurrencesPagination,
+    view,
+    searchString,
+    selectedFilters,
+    selectedEvent,
+    selectedOccurrence,
+    attributes,
+    timezone,
+    timeFormat,
+    setSelectedEvent,
+    setSelectedOccurrence,
+    setView,
+    setAttributes,
+    handleIsPastChange,
+    handleTypeChange,
+    handleSetDates,
+    handleSearchChange,
+    handleFilterSelect,
+    resetFilters,
+    isFiltersApplied,
+    getEventsList,
+    getEventOccurrencess,
+    handleGetPrevPage,
+    handleGetNextPage,
+    handleGetPrevOccurrencessPage,
+    handleGetNextOccurrencessPage,
+    handleEventChange,
+    handleEventDelete,
+    handleOpenEvent,
+    handleSearchSubmit,
+    handleReturnWithError,
+    resetSubpageSelection,
+    setShowGuide,
+  } = useEventsLogic(settings, filtersList, zoomAccount);
+
   useEffect(() => {
-    if (globalError) {
-      toast(globalError);
+    if (!settings) return;
+
+    const planId = settings.current_plan?.id;
+
+    if (planId === 2 && zoomAccount === null) {
+      fetchZoomAccount();
     }
-  }, [globalError]);
-  const [customizeDropdown, setCustomizeDropdown] = useState(false);
-  const [loading, setLoading] = useState(false);
+  }, [settings]);
+
   const [headings, setHeadings] = useState([
     { label: t("Title"), value: "title", visible: true },
     { label: t("Date"), value: "date", visible: true },
@@ -277,102 +314,29 @@ const EventsPage = ({
     { label: t("Recurrence"), value: "recurrence", visible: true },
     { label: t("Status"), value: "status", visible: true },
   ]);
-  const [showGuide, setShowGuide] = useState(false);
-  const [firstFetchDone, setFirstFetchDone] = useState(false);
-  const [isPast, setIsPast] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState({});
-  const [eventType, setEventType] = useState("offline");
-  const [zoomAccount, setZoomAccount] = useState(null);
-  const [dates, setDates] = useState({
-    startDate: null,
-    endDate: null,
-  });
-  const [meetingsList, setMeetingsList] = useState([]);
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [active, setActiveDropdown] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [selectedOccurrence, setSelectedOccurrence] = useState(null);
-  const [attributes, setAttributes] = useState({
-    meeting: {},
-    product: {},
-    notifications: {},
-    tickets: [],
-  });
-  const [pagination, setPagination] = useState({});
-  const [selectedEventForOccurrences, setSelectedEventForOccurrences] =
-    useState(null);
-  const [view, setView] = useState("events");
-  const [eventOccurrencess, setEventOccurrencess] = useState([]);
-  const [occurrencesPagination, setOccurrencesPagination] = useState({});
-  const [searchString, setSearchString] = useState("");
+
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showDateModal, setShowDateModal] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
-  const timezones = Object.keys(timezonesList).map((zone) => {
-    return { id: zone, name: timezonesList[zone] };
-  });
-  // --- Click outside logic for modals ---
-  useEffect(() => {
-    function handleClickOutside(event) {
-      // Customize Modal
-      if (showCustomizeModal) {
-        const modal = document.querySelector(".customize-modal");
-        if (modal && !modal.contains(event.target)) {
-          setShowCustomizeModal(false);
-        }
-      }
-      // Filters Modal
-      if (showFiltersModal) {
-        const modal = document.querySelector(".filters-modal");
-        if (modal && !modal.contains(event.target)) {
-          setShowFiltersModal(false);
-        }
-      }
-      // Date Modal
-      if (showDateModal) {
-        const modal = document.querySelector(".date-modal");
-        if (modal && !modal.contains(event.target)) {
-          setShowDateModal(false);
-        }
-      }
-      // Search Modal
-      if (showSearchModal) {
-        const modal = document.querySelector(".search-modal");
-        if (modal && !modal.contains(event.target)) {
-          setShowSearchModal(false);
-        }
-      }
-    }
-    if (
-      showCustomizeModal ||
-      showFiltersModal ||
-      showDateModal ||
-      showSearchModal
-    ) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showCustomizeModal, showFiltersModal, showDateModal, showSearchModal]);
 
-  // --- Hamburger dropdown click outside ---
-  const dropdownRefs = useRef({});
+  const [confirmationModalData, setConfirmationModalData] = useState({});
+
+  const dropdownRefs = useRef(null);
+
   useEffect(() => {
     if (active === null) return;
     const handleClickOutside = (event) => {
-      // console.log(dropdownRefs.current.contains(event.target));
       try {
         const ref = dropdownRefs.current;
         if (active && ref && !ref.contains(event.target)) {
           setActiveDropdown(null);
         }
-      } catch (e) {
-        console.log("Dropdown is not active");
-      }
+      } catch (e) {}
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -380,87 +344,16 @@ const EventsPage = ({
 
   useEffect(() => {
     if (resetSelectedSubpage) {
-      setSelectedEvent(null);
-      setSelectedEventForOccurrences(null);
-      setSelectedOccurrence(null);
+      resetSubpageSelection();
       handleResetSubpage(false);
     }
-  }, [resetSelectedSubpage]);
-  useEffect(() => {}, [selectedFilters]);
-
-  useEffect(() => {
-    // toast("Loading settings");
-    if (settings) {
-      getEventsList({ is_Past: isPast });
-    }
-  }, [isPast]);
-
-  const handleFilterSelect = (filter, id) => {
-    const newSelectedFilters = { ...selectedFilters };
-    if (!newSelectedFilters[filter]) {
-      newSelectedFilters[filter] = [id];
-    } else if (
-      newSelectedFilters[filter] &&
-      newSelectedFilters[filter].includes(id)
-    ) {
-      newSelectedFilters[filter] = newSelectedFilters[filter].filter(
-        (filterId) => filterId !== id
-      );
-    } else if (
-      newSelectedFilters[filter] &&
-      !newSelectedFilters[filter].includes(id)
-    ) {
-      newSelectedFilters[filter].push(id);
-    }
-    setSelectedFilters(newSelectedFilters);
-  };
-
-  const getDates = (tz = timezone.id) => {
-    let datesValue = { startDate: null, endDate: null };
-
-    if (dates.startDate) {
-      const d = dates.startDate; // Moment object
-      datesValue.startDate = new Date(
-        d.year(),
-        d.month(),
-        d.date(),
-        d.hour(),
-        d.minute(),
-        d.second()
-      );
-    }
-
-    if (dates.endDate) {
-      const d = dates.endDate;
-      datesValue.endDate = new Date(
-        d.year(),
-        d.month(),
-        d.date(),
-        d.hour(),
-        d.minute(),
-        d.second()
-      );
-    }
-
-    return datesValue;
-  };
+  }, [resetSelectedSubpage, resetSubpageSelection, handleResetSubpage]);
 
   const customizeHeading = (heading) => {
     let newHeadings = [...headings];
-    let selectedHeading = headings
-      .map((heading) => heading.value)
-      .indexOf(heading);
+    let selectedHeading = headings.map((h) => h.value).indexOf(heading);
     newHeadings[selectedHeading].visible = !headings[selectedHeading].visible;
     setHeadings(newHeadings);
-  };
-
-  const handleIsPastChange = () => {
-    setIsPast((prev) => !prev);
-  };
-
-  const handleTypeChange = (type) => {
-    setEventType(type);
-    if (type !== eventType) getEventsList({ page: 1, type: type });
   };
 
   const renderHeadingsCustomization = () => {
@@ -481,356 +374,6 @@ const EventsPage = ({
     setSelectedAll(!selectedAll);
   };
 
-  const getEventOccurrencess = async (event, page = 1, eventType) => {
-    setLoading(true);
-
-    let res = await axios.get(
-      `/wp-json/servv-plugin/v1/event/${event}/occurrences?page_size=10&page=${page}`,
-      {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      }
-    );
-    if (res && res.status === 200) {
-      const rowsForTable = res.data.meetings
-        ? res.data.meetings.map((meeting) => {
-            const datetime = moment.tz(meeting.start_time, meeting.timezone);
-            return {
-              id: meeting.id,
-              occurrence_id: meeting.occurrence_id,
-              title: meeting.topic.length > 0 ? meeting.topic : "(No title)",
-              post_id: meeting.shop_post_object_id,
-              timezone: meeting.timezone,
-              date: datetime.format("MMM DD, YYYY"),
-              time: datetime.format("hh:mm a"),
-              location: meeting.location ? meeting.location : "",
-              type: eventType === "offline" ? "Event" : "Zoom",
-              recurrence:
-                (meeting.type === 2 && eventType && eventType === "offline") ||
-                (meeting.type === 8 && eventType && eventType === "zoom")
-                  ? "One-time"
-                  : "Recurring",
-              tickets: "0/0",
-              status: isPast
-                ? "Past"
-                : meeting.is_hidden
-                ? "Unlisted"
-                : "On sale",
-            };
-          })
-        : [];
-      setEventOccurrencess(rowsForTable);
-      setSelectedEventForOccurrences(event);
-      setView("occurrences");
-      setActiveDropdown(false);
-      setOccurrencesPagination({
-        pageNumber: res.data.page_number,
-        pageCount: res.data.page_count,
-      });
-    }
-    setLoading(false);
-  };
-
-  const getZoomAccount = async () => {
-    let account = null;
-    const getZoomAccountResponse = await axios.get(
-      "/wp-json/servv-plugin/v1/zoom/account",
-      { headers: { "X-WP-Nonce": servvData.nonce } }
-    );
-    if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
-      setZoomAccount(getZoomAccountResponse.data);
-      account = getZoomAccountResponse.data;
-    }
-    setIsLoading(false);
-    return account;
-  };
-
-  const getFilteringParameterName = (type) => {
-    switch (type) {
-      case "locations":
-        return "location_id";
-      case "languages":
-        return "language_id";
-      case "categories":
-        return "category_id";
-      case "members":
-        return "member_id";
-    }
-  };
-
-  const processFilters = () => {
-    let filteringQuery = "";
-    if (selectedFilters)
-      Object.keys(selectedFilters).forEach((filterType) => {
-        if (selectedFilters[filterType].length > 0) {
-          selectedFilters[filterType].forEach((filter) => {
-            filteringQuery += `&${getFilteringParameterName(
-              filterType
-            )}=${filter}`;
-          });
-        }
-      });
-    return filteringQuery;
-  };
-  const processDates = () => {
-    if (dates.startDate && dates.endDate) {
-      return `&start_datetime=${moment(dates.startDate).format(
-        "YY-MM-DD HH:mm:ss"
-      )}&end_datetime=${moment(dates.endDate).format("YY-MM-DD HH:mm:ss")}`;
-    }
-    return null;
-  };
-  useEffect(() => {
-    if (settings) getEventsList();
-  }, [dates]);
-  const isFiltersApplyed = () => {
-    let filterApplied = false;
-    if (selectedFilters) {
-      Object.keys(selectedFilters).forEach((filter) => {
-        if (selectedFilters[filter].length > 0) {
-          filterApplied = true;
-        }
-      });
-    }
-    if (dates.startDate || filterApplied || searchString.length > 0) {
-      return true;
-    }
-    return false;
-  };
-  const resetFilters = () => {
-    setSearchString("");
-    setDates({ startDate: null, endDate: null });
-    setSelectedFilters({});
-  };
-  const getEventsList = async ({
-    page = 1,
-    is_Past = null,
-    type = "offline",
-    account = null,
-  } = {}) => {
-    setLoading(true);
-    let connectedZoomAccount = account ? account : zoomAccount;
-    try {
-      const selectedEventType = type ? type : eventType;
-      let reqUrl = `/wp-json/servv-plugin/v1/events/${selectedEventType}?page_size=10&page=${page}&without_occurrences=true`;
-      if (searchString.length > 0 && !isPast) {
-        reqUrl += `&search=${searchString}`;
-      }
-      const dates = processDates();
-      if (dates && !isPast) {
-        reqUrl += dates;
-      }
-      const filters = processFilters();
-      if (filters.length > 0 && !isPast) {
-        reqUrl += filters;
-      }
-
-      if (isPast) reqUrl += `&is_past=1`;
-      let res = await axios.get(reqUrl, {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      });
-      if (res && res.status === 200) {
-        const rowsForTable = res.data.meetings
-          ? res.data.meetings.map((meeting) => {
-              const datetime = meeting.start_time
-                ? moment.tz(meeting.start_time, meeting.timezone)
-                : null;
-              return {
-                id: meeting.id,
-                occurrence_id: meeting.occurrence_id,
-                title: meeting.topic.length > 0 ? meeting.topic : "(No title)",
-                post_id: meeting.shop_post_object_id,
-                date: datetime ? datetime.format("MMM DD, YYYY") : null,
-                time: datetime ? datetime.format("hh:mm a") : null,
-                timezone: meeting.timezone,
-                location: meeting.location ? meeting.location : "",
-                type: type === "offline" ? "Event" : "Zoom",
-                recurrence:
-                  (meeting.type === 2 && type === "offline") ||
-                  (meeting.type === 8 && type === "zoom")
-                    ? "Recurring"
-                    : "One-time",
-                tickets: "0/0",
-                status: isPast
-                  ? "Past"
-                  : meeting.is_hidden
-                  ? "Unlisted"
-                  : "On sale",
-              };
-            })
-          : [];
-        setMeetingsList(rowsForTable);
-
-        if (
-          rowsForTable.length === 0 &&
-          !firstFetchDone &&
-          (!connectedZoomAccount ||
-            (connectedZoomAccount && !connectedZoomAccount.id)) &&
-          type === "offline"
-        ) {
-          console.log(1);
-          setShowGuide(true);
-        } else if (
-          rowsForTable.length === 0 &&
-          !firstFetchDone &&
-          connectedZoomAccount &&
-          !!connectedZoomAccount.id
-        ) {
-          console.log(2);
-          handleTypeChange("zoom");
-        } else if (
-          rowsForTable.length === 0 &&
-          !firstFetchDone &&
-          type === "zoom"
-        ) {
-          console.log(3);
-          setShowGuide(true);
-        }
-        setActiveDropdown(false);
-        setPagination({
-          pageNumber: res.data.page_number,
-          pageCount: res.data.page_count,
-        });
-        setLoading(false);
-        if (settings.current_plan.id === 1) {
-          setIsLoading(false);
-        }
-      }
-    } catch (e) {
-      console.log(e);
-      if (e.status === 401) {
-        toast(
-          "Error fetching events list. Please try reloading the page, or contact the Servv support team."
-        );
-      } else {
-        toast("Servv unable to fetch events.");
-      }
-      setLoading(false);
-    }
-    if (settings.current_plan.id === 1) {
-      setIsLoading(false);
-    }
-  };
-  const handleGetPrevPage = () => {
-    getEventsList({ page: pagination.pageNumber - 1 });
-  };
-  const handleGetNextPage = () => {
-    getEventsList({ page: pagination.pageNumber + 1 });
-  };
-  const handleGetPrevOccurrencessPage = () => {
-    getEventOccurrencess(
-      selectedEventForOccurrences,
-      occurrencesPagination.pageNumber - 1
-    );
-  };
-  const handleGetNextOccurrencessPage = () => {
-    getEventOccurrencess(
-      selectedEventForOccurrences,
-      occurrencesPagination.pageNumber + 1
-    );
-  };
-  const getData = async () => {
-    if (firstFetchDone) return;
-    setLoading(true);
-    let account = null;
-    if (servvData.servv_plugin_mode === "development") {
-      if (settings && Object.keys(filtersList).length > 0) {
-        if (!firstFetchDone) {
-          if (settings.current_plan.id === 2) {
-            account = await getZoomAccount();
-          }
-          await getEventsList({ account: account });
-          setFirstFetchDone(true);
-        }
-      }
-    } else {
-      if (!firstFetchDone) {
-        if (settings.current_plan.id === 2) {
-          account = await getZoomAccount();
-        }
-        await getEventsList({ account: account });
-
-        setFirstFetchDone(true);
-      }
-    }
-
-    setIsPast(false);
-
-    // setIsLoading(false);
-  };
-
-  useEffect(() => {
-    setLoading(true);
-
-    if (!settings) return;
-    if (firstFetchDone) return;
-
-    const fetchOnce = async () => {
-      setLoading(true);
-      try {
-        await getData();
-        setFirstFetchDone(true);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOnce();
-  }, [filtersList]);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  // }, []);
-
-  useEffect(() => {
-    updateTimeFormat(settings);
-    updateTimezone(settings);
-  }, [settings]);
-
-  const setActive = (id) => {
-    if (active === id) setActiveDropdown(null);
-    else setActiveDropdown(id);
-  };
-  const handleMultipleEventsDelete = async () => {
-    const eventsIDs = selectedEvents.map((event) => {
-      return { id: event.post_id, occurrenceId: event.occurrence_id };
-    });
-    // console.log(selectedEvents)
-
-    try {
-      await Promise.all(
-        eventsIDs.map(({ id, occurrenceId }) =>
-          handleEventDelete(id, occurrenceId)
-        )
-      );
-
-      await getEventsList();
-
-      console.log(
-        "All selected events have been deleted, and the events list has been updated."
-      );
-    } catch (error) {
-      console.error(
-        "Error deleting events or updating the events list:",
-        error
-      );
-    }
-  };
-  const [confirmationModalData, setConfirmationModalData] = useState({});
-
-  const handleEventDelete = async (postID, occurrenceID) => {
-    let url = `/wp-json/servv-plugin/v1/event/${postID}`;
-    if (occurrenceID) {
-      url += `?occurrence_id=${occurrenceID}`;
-    }
-    const res = await axios({
-      url: url,
-      method: "DELETE",
-      headers: { "X-WP-Nonce": servvData.nonce },
-    });
-    getEventsList();
-  };
   const handleSelectEvent = (selected) => {
     let newSelection = [...selectedEvents];
     const isSelected = newSelection.filter((event) => {
@@ -858,6 +401,7 @@ const EventsPage = ({
         ) {
           return { ...event };
         }
+        return false;
       });
     } else {
       newSelection.push(selected);
@@ -865,60 +409,21 @@ const EventsPage = ({
 
     setSelectedEvents(newSelection);
   };
-  const [timeFormat, setTimeFormat] = useState("hh:mm a");
-  const [timezone, setTimezone] = useState("US/Pacific");
-  const [showError, setShowError] = useState(null);
-  useEffect(() => {
-    toast(showError);
-  }, [showError]);
-  const handleReturnWithError = (error) => {
-    if (error) {
-      setSelectedEvent(null);
-      setSelectedEventForOccurrences(null);
-      setShowError(error);
-    }
-  };
-  const updateTimeFormat = (settings) => {
-    if (!settings) return;
-    else if (
-      settings &&
-      settings.settings &&
-      settings.settings.time_format_24_hours
-    ) {
-      setTimeFormat("HH:mm");
-    }
-  };
-  const updateTimezone = (settings) => {
-    let defaultTimezone = null;
 
-    if (!settings) return;
+  const handleMultipleEventsDelete = async () => {
+    const eventsIDs = selectedEvents.map((event) => {
+      return { id: event.post_id, occurrenceId: event.occurrence_id };
+    });
 
-    if (settings.settings?.admin_dashboard) {
-      const adminSettings = JSON.parse(settings.settings.admin_dashboard);
-      defaultTimezone = adminSettings.default_timezone || moment.tz.guess();
-    } else {
-      defaultTimezone = moment.tz.guess();
-    }
-
-    let findTimezone = timezones.filter((t) => t.id === defaultTimezone);
-
-    if (findTimezone.length > 0) {
-      setTimezone(findTimezone[0]);
-    } else {
-      let timezoneOffset = moment.tz(defaultTimezone).format("Z");
-      let formattedOffset = `(GMT${timezoneOffset})`;
-
-      let availableTimezone = timezonesWithOffset.filter(
-        (t) => t.gmt === formattedOffset
+    try {
+      await Promise.all(
+        eventsIDs.map(({ id, occurrenceId }) =>
+          handleEventDelete(id, occurrenceId)
+        )
       );
 
-      if (availableTimezone.length > 0) {
-        let zone = availableTimezone[0];
-        let newTimezone = timezones.filter((t) => t.id === zone.zone);
-
-        if (newTimezone.length > 0) setTimezone(newTimezone[0]);
-      }
-    }
+      await getEventsList();
+    } catch (error) {}
   };
 
   const renderHeadings = () => {
@@ -928,30 +433,24 @@ const EventsPage = ({
           <CheckboxControl onClick={() => selectAll()} />
         </th>
         {headings.map((heading) => {
-          if (heading.visible) return <th>{heading.label}</th>;
+          if (heading.visible)
+            return <th key={heading.value}>{heading.label}</th>;
+          return null;
         })}
         <th></th>
       </Fragment>
     );
   };
 
-  const handleEventChange = (newAttr) => {
-    setAttributes((prevAttributes) => {
-      const merged = { ...prevAttributes, ...newAttr };
-      // console.log(merged, newAttr);
-      return merged;
-    });
-  };
-  const handleSearchChange = (val) => {
-    setSearchString(val);
-  };
   const renderRows = (events) => {
     return events.map((row) => {
+      const key = row.id + (row.occurrence_id || "");
       return (
-        <tr className="table-row">
+        <tr className="table-row" key={key}>
           <td>
             <CheckboxControl
               checked={
+                selectedAll ||
                 selectedEvents.filter((event) => {
                   if (
                     event.id === row.id &&
@@ -959,143 +458,149 @@ const EventsPage = ({
                   )
                     return true;
                   else return false;
-                }).length > 0 || selectedAll
+                }).length > 0
               }
               size={2}
               onChange={() =>
                 handleSelectEvent({
                   id: row.id,
                   occurrence_id: row.occurrence_id,
+                  post_id: row.post_id,
                 })
               }
             />
           </td>
           {headings.map((heading) => {
-            if (heading.visible) {
-              if (heading.label === "Type")
-                return (
-                  <td>
-                    <Badge
-                      text={row[heading.value]}
-                      type="badge"
-                      color="gray"
-                      size="small"
-                      align="center"
-                    />
-                  </td>
-                );
-              if (heading.label === "Recurrence")
-                return (
-                  <td>
-                    <Badge
-                      text={row[heading.value]}
-                      type="badge"
-                      color={
-                        row[heading.value] === "Recurring" ? "brand" : "gray"
-                      }
-                      size="small"
-                      align="center"
-                    />
-                  </td>
-                );
-              if (heading.label === "Status")
-                return (
-                  <td>
-                    <Badge
-                      text={row[heading.value]}
-                      type="pill-colour"
-                      color={
-                        row[heading.value] === "Past"
-                          ? "blue"
-                          : row[heading.value] === "Unlisted"
-                          ? "warning"
-                          : "success"
-                      }
-                      size="small"
-                      align="center"
-                    />
-                  </td>
-                );
-              if (heading.label === "Date" && !row[heading.value]) {
-                return (
-                  <td>
-                    <Badge
-                      // icon={<CalendarIcon className="dropdown-icon" />}
-                      text="Schedule"
-                      onAction={() => {
-                        setView("occurrences");
-                        getEventOccurrencess(row.post_id);
-                      }}
-                      size="small"
-                      align="center"
-                    />
-                  </td>
-                );
-              }
-              if (heading.label === "Date" && row[heading.value]) {
-                return (
-                  <td>
-                    <Badge text={row[heading.value]} />
-                  </td>
-                );
-              }
-              if (heading.label === "Time" && row[heading.value]) {
-                return (
-                  <td>
-                    <Badge
-                      text={`${moment(row[heading.value], "hh:mm a").format(
-                        timeFormat
-                      )}${
-                        !settings?.settings?.hide_time_zone
-                          ? " " + moment.tz(row.timezone).format("z").toString()
-                          : ""
-                      }`}
-                      size="small"
-                      align="center"
-                      justify="center"
-                    />
-                    {/* {moment(row[heading.value], "hh:mm a").format(timeFormat)}
+            if (!heading.visible) return null;
 
-                    {!settings?.settings?.hide_time_zone &&
-                      " " + moment.tz(row.timezone).format("z")} */}
-                  </td>
-                );
-              }
-              if (heading.label === "Time" && !row[heading.value]) {
-                return (
-                  <td>
-                    <Badge
-                      // icon={<ClockIcon className="dropdown-icon" />}
-                      text={"View times"}
-                      onAction={() => {
-                        setView("occurrences");
-                        getEventOccurrencess(row.post_id);
-                      }}
-                      align="center"
-                      justify="center"
-                      size="small"
-                    />
-                  </td>
-                );
-              }
-              if (heading.label === "Title") {
-                return (
-                  <td>
-                    <a
-                      className="filter-table-link"
-                      href={`${servvData.postUrl}?post=${row.post_id}&action=edit`}
-                    >
-                      {row[heading.value]}
-                    </a>
-                  </td>
-                );
-              } else return <td>{row[heading.value]}</td>;
+            if (heading.label === "Type")
+              return (
+                <td key={heading.value}>
+                  <Badge
+                    text={row[heading.value]}
+                    type="badge"
+                    color="gray"
+                    size="small"
+                    align="center"
+                  />
+                </td>
+              );
+
+            if (heading.label === "Recurrence")
+              return (
+                <td key={heading.value}>
+                  <Badge
+                    text={row[heading.value]}
+                    type="badge"
+                    color={
+                      row[heading.value] === "Recurring" ? "brand" : "gray"
+                    }
+                    size="small"
+                    align="center"
+                  />
+                </td>
+              );
+
+            if (heading.label === "Status")
+              return (
+                <td key={heading.value}>
+                  <Badge
+                    text={row[heading.value]}
+                    type="pill-colour"
+                    color={
+                      row[heading.value] === "Past"
+                        ? "blue"
+                        : row[heading.value] === "Unlisted"
+                        ? "warning"
+                        : "success"
+                    }
+                    size="small"
+                    align="center"
+                  />
+                </td>
+              );
+
+            if (heading.label === "Date" && !row[heading.value]) {
+              return (
+                <td key={heading.value}>
+                  <Badge
+                    text="Schedule"
+                    onAction={() => {
+                      setView("occurrences");
+                      getEventOccurrencess(row.post_id);
+                    }}
+                    size="small"
+                    align="center"
+                  />
+                </td>
+              );
             }
+
+            if (heading.label === "Date" && row[heading.value]) {
+              return (
+                <td key={heading.value}>
+                  <Badge text={row[heading.value]} />
+                </td>
+              );
+            }
+
+            if (heading.label === "Time" && row[heading.value]) {
+              return (
+                <td key={heading.value}>
+                  <Badge
+                    text={`${moment(row[heading.value], "hh:mm a").format(
+                      timeFormat
+                    )}${
+                      !settings?.settings?.hide_time_zone
+                        ? " " + moment.tz(row.timezone).format("z").toString()
+                        : ""
+                    }`}
+                    size="small"
+                    align="center"
+                    justify="center"
+                  />
+                </td>
+              );
+            }
+
+            if (heading.label === "Time" && !row[heading.value]) {
+              return (
+                <td key={heading.value}>
+                  <Badge
+                    text={"View times"}
+                    onAction={() => {
+                      setView("occurrences");
+                      getEventOccurrencess(row.post_id);
+                    }}
+                    align="center"
+                    justify="center"
+                    size="small"
+                  />
+                </td>
+              );
+            }
+
+            if (heading.label === "Title") {
+              return (
+                <td key={heading.value}>
+                  <a
+                    className="filter-table-link"
+                    href={`${servvData.postUrl}?post=${row.post_id}&action=edit`}
+                  >
+                    {row[heading.value]}
+                  </a>
+                </td>
+              );
+            }
+
+            return <td key={heading.value}>{row[heading.value]}</td>;
           })}
           <td className="filter-table-dropdown-container">
             <button
               onClick={() =>
-                setActive(!row.occurrence_id ? row.id : row.occurrence_id)
+                setActiveDropdown(
+                  !row.occurrence_id ? row.id : row.occurrence_id
+                )
               }
             >
               <Bars4Icon className="dropdown-icon" />
@@ -1107,7 +612,6 @@ const EventsPage = ({
                 ref={dropdownRefs}
               >
                 <span className="dropdown-header">
-                  {/* {`${row.title} ${row.occurrence_id ? "*" : ""}`} */}
                   {`${row.title}`}
                   <span className="dropdown-description flex flex-row">
                     {row.date}
@@ -1115,22 +619,20 @@ const EventsPage = ({
                 </span>
                 <div className="dropdown-actions">
                   <BlockStack gap={4}>
-                    {/* {row.occurrence_id && (
-                      <span className="dropdown-description pb-2">
-                        {t("* This is recurring event")}
-                      </span>
-                    )} */}
                     {row.occurrence_id && row.time && (
                       <button
                         className="dropdown-action"
                         onClick={() => {
-                          setSelectedOccurrence(row.occurrence_id),
-                            setSelectedEvent(row.post_id);
-                          setActive(false);
+                          handleOpenEvent({
+                            id: row.post_id,
+                            occurrence_id: row.occurrence_id,
+                          });
+                          // setSelectedOccurrence(row.occurrence_id);
+                          // setSelectedEvent(row.post_id);
+                          setActiveDropdown(null);
                         }}
                       >
                         <PencilSquareIcon className="dropdown-icon" />
-                        {/* {t("View occurrence")} */}
                         Occurrence details
                       </button>
                     )}
@@ -1141,10 +643,10 @@ const EventsPage = ({
                           onClick={() => {
                             setView("occurrences");
                             getEventOccurrencess(row.post_id);
+                            setActiveDropdown(null);
                           }}
                         >
                           <PencilSquareIcon className="dropdown-icon" />
-                          {/* {t("View occurrence")} */}
                           View occurrences
                         </button>
                       )}
@@ -1152,12 +654,11 @@ const EventsPage = ({
                       <button
                         className="dropdown-action"
                         onClick={() => {
-                          setSelectedEvent(row.post_id);
-                          setActive(false);
+                          handleOpenEvent({ id: row.post_id });
+                          setActiveDropdown(null);
                         }}
                       >
                         <PencilSquareIcon className="dropdown-icon" />
-                        {/* {t("View event")} */}
                         Event details
                       </button>
                     )}
@@ -1186,7 +687,7 @@ const EventsPage = ({
                                 text: "",
                               }),
                           });
-                          setActive(false);
+                          setActiveDropdown(null);
                         }}
                       >
                         <TrashIcon className="dropdown-icon-critical" />
@@ -1196,9 +697,6 @@ const EventsPage = ({
                     {row.occurrence_id && view === "occurrences" && (
                       <button
                         className="dropdown-action"
-                        // onClick={() =>
-                        //   handleEventDelete(row.post_id, row.occurrence_id)
-                        // }
                         onClick={() => {
                           setConfirmationModalData({
                             open: true,
@@ -1221,7 +719,7 @@ const EventsPage = ({
                                 text: "",
                               }),
                           });
-                          setActive(false);
+                          setActiveDropdown(null);
                         }}
                       >
                         <TrashIcon className="dropdown-icon-critical" />
@@ -1237,41 +735,37 @@ const EventsPage = ({
       );
     });
   };
-  const handleSetDates = (dates) => {
-    let startDate = null;
 
-    if (dates.startDate)
-      startDate = moment.tz(
-        {
-          year: dates.startDate.getFullYear(),
-          month: dates.startDate.getMonth(),
-          day: dates.startDate.getDate(),
-          hour: 0,
-          minute: 0,
-          second: 0,
-        },
-        timezone.id
-      );
-    let endDate = null;
-    if (dates.endDate)
-      endDate = moment.tz(
-        {
-          year: dates.endDate.getFullYear(),
-          month: dates.endDate.getMonth(),
-          day: dates.endDate.getDate(),
-          hour: 23,
-          minute: 59,
-          second: 0,
-        },
-        timezone.id
-      );
+  const getDatesForModal = () => {
+    let datesValue = { startDate: null, endDate: null };
 
-    setDates({
-      startDate: startDate ? startDate : null,
-      endDate: endDate ? endDate : null,
-    });
+    if (dates.startDate) {
+      const d = dates.startDate;
+      datesValue.startDate = new Date(
+        d.year(),
+        d.month(),
+        d.date(),
+        d.hour(),
+        d.minute(),
+        d.second()
+      );
+    }
+
+    if (dates.endDate) {
+      const d = dates.endDate;
+      datesValue.endDate = new Date(
+        d.year(),
+        d.month(),
+        d.date(),
+        d.hour(),
+        d.minute(),
+        d.second()
+      );
+    }
+
+    return datesValue;
   };
-  // Mobile event card renderer (for <768px)
+
   const renderMobileCards = (events) =>
     events.map((row) => (
       <div
@@ -1316,9 +810,8 @@ const EventsPage = ({
           <Guideline showGuide={setShowGuide} redirect={redirect} />
         )}
       {!selectedEvent && (!showGuide || (zoomAccount && zoomAccount.id)) && (
-        <PageWrapper loading={loading}>
+        <PageWrapper loading={false}>
           <div className="w-full max-w-full px-0">
-            {/* --- DESKTOP HEADER --- */}
             <div className="hidden md:flex items-center justify-between mt-6 mb-2">
               <h1 className="text-display-sm">Events</h1>
               <div className="flex gap-3">
@@ -1327,7 +820,6 @@ const EventsPage = ({
                   onClick={() => setShowCustomizeModal(true)}
                 >
                   <AdjustmentsVerticalIcon className="w-5 h-5" />
-                  {/* {t("Customise")} */}
                 </button>
                 <button
                   className="flex items-center px-5 py-2 rounded-lg bg-purple-600 text-white font-medium text-base hover:bg-purple-700 transition"
@@ -1338,7 +830,7 @@ const EventsPage = ({
                 </button>
               </div>
             </div>
-            {/* --- MOBILE HEADER (Events title + Create/Customise icons) --- */}
+
             <div className="md:hidden px-4 pt-4 pb-2">
               <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-gray-900">
@@ -1366,6 +858,7 @@ const EventsPage = ({
                 </div>
               </div>
             </div>
+
             <InlineStack gap={4} align="left">
               <ButtonGroupConnected>
                 <ConnectedButton
@@ -1390,17 +883,15 @@ const EventsPage = ({
                     />
                     <ConnectedButton
                       text={"Zoom"}
-                      // text={t("Zoom Events")}
                       selected={eventType === "zoom"}
                       onAction={() => handleTypeChange("zoom")}
                     />
                   </ButtonGroupConnected>
                 )}
             </InlineStack>
+
             <Card className="w-full max-w-none px-0 mt-4">
-              {/* --- MOBILE: Search, Date, Filter icons under "Your Events" --- */}
               <div className="md:hidden flex items-center px-4 pt-4 pb-2">
-                {/* Search icon left */}
                 <button
                   aria-label={t("Search")}
                   title={t("Search")}
@@ -1425,9 +916,7 @@ const EventsPage = ({
                     />
                   </svg>
                 </button>
-                {/* Spacer */}
                 <div className="flex-1"></div>
-                {/* Date and Filter icons right, spaced from edge */}
                 <div className="flex gap-2 pr-1">
                   <button
                     aria-label={t("Date")}
@@ -1469,7 +958,7 @@ const EventsPage = ({
                   </button>
                 </div>
               </div>
-              {/* --- MOBILE: Inline search bar --- */}
+
               {showMobileSearch && (
                 <div className="md:hidden px-4 pb-2">
                   <input
@@ -1478,7 +967,7 @@ const EventsPage = ({
                     placeholder={t("Enter search")}
                     value={searchString}
                     autoFocus
-                    onChange={(e) => setSearchString(e.target.value)}
+                    onChange={(e) => handleSearchChange(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && getEventsList()}
                   />
                   <button
@@ -1489,6 +978,7 @@ const EventsPage = ({
                   </button>
                 </div>
               )}
+
               <EventsCardHeader
                 eventsCount={
                   view === "events"
@@ -1501,36 +991,40 @@ const EventsPage = ({
                 onChange={handleSearchChange}
                 filtersList={filtersList}
                 onFiltering={getEventsList}
+                handleSearchSubmit={handleSearchSubmit}
                 selectedFilters={selectedFilters}
                 handleFilterSelect={handleFilterSelect}
                 dates={dates}
                 setDates={handleSetDates}
-                isFiltersApplyed={isFiltersApplyed()}
+                isFiltersApplied={isFiltersApplied()}
                 resetFilters={resetFilters}
                 isPast={isPast}
                 timezone={timezone}
               />
-              {/* Desktop Table */}
+
               <div className="hidden md:block w-full">
                 {view === "events" && (
                   <FilterTable
                     headings={renderHeadings()}
                     rows={renderRows(meetingsList)}
+                    loading={loading}
                   />
                 )}
                 {view === "occurrences" && (
                   <FilterTable
                     headings={renderHeadings()}
                     rows={renderRows(eventOccurrencess)}
+                    loading={loading}
                   />
                 )}
               </div>
-              {/* Mobile Cards */}
+
               <div className="mobile-cards-container">
                 {renderMobileCards(
                   view === "events" ? meetingsList : eventOccurrencess
                 )}
               </div>
+
               {view === "events" && pagination.pageCount > 1 && (
                 <ListPagination
                   hasPrev={pagination.pageNumber > 1}
@@ -1554,10 +1048,11 @@ const EventsPage = ({
           </div>
         </PageWrapper>
       )}
+
       {selectedEvent && (
         <SingleEventPage
           attributes={attributes}
-          setAttributes={handleEventChange}
+          setAttributes={setAttributes}
           postID={selectedEvent}
           occurrenceId={selectedOccurrence}
           adminSection={true}
@@ -1567,6 +1062,7 @@ const EventsPage = ({
           settings={settings}
         />
       )}
+
       {showSearchModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm search-modal">
@@ -1586,7 +1082,7 @@ const EventsPage = ({
               className="w-full border border-gray-300 rounded px-3 py-2"
               placeholder={t("Enter search")}
               value={searchString}
-              onChange={(e) => setSearchString(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && getEventsList()}
             />
             <button
@@ -1601,6 +1097,7 @@ const EventsPage = ({
           </div>
         </div>
       )}
+
       {showCustomizeModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm max-h-[90vh] overflow-y-auto customize-modal">
@@ -1625,11 +1122,12 @@ const EventsPage = ({
           </div>
         </div>
       )}
+
       {showFiltersModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm max-h-[90vh] overflow-y-auto filters-modal">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold text-lg">{t("Filters")}</span>
+              <span className="font-semibold mb-1">{t("Filters")}</span>
               <button
                 onClick={() => setShowFiltersModal(false)}
                 aria-label="Close"
@@ -1637,6 +1135,7 @@ const EventsPage = ({
                 {t("×")}
               </button>
             </div>
+
             {Object.keys(filtersList).map((filter) =>
               filtersList[filter].length > 0 ? (
                 <div key={filter} className="mb-3">
@@ -1661,6 +1160,7 @@ const EventsPage = ({
                 </div>
               ) : null
             )}
+
             <div className="flex gap-2 mt-4">
               <button
                 className="flex-1 py-2 px-4 bg-gray-100 rounded-lg text-gray-700"
@@ -1681,6 +1181,7 @@ const EventsPage = ({
           </div>
         </div>
       )}
+
       {showDateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm date-modal">
@@ -1695,7 +1196,7 @@ const EventsPage = ({
             </div>
             <Datepicker
               displayFormat={"MMM DD, YYYY"}
-              value={getDates()}
+              value={getDatesForModal()}
               inputClassName="w-full border border-gray-300 rounded px-3 py-2"
               onChange={handleSetDates}
             />
@@ -1711,8 +1212,10 @@ const EventsPage = ({
           </div>
         </div>
       )}
+
       <ConfirmationModal data={confirmationModalData} />
     </Fragment>
   );
 };
+
 export default EventsPage;

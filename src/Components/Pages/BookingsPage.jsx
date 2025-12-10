@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import moment from "moment-timezone";
 import PageWrapper from "./PageWrapper";
 import PageHeader from "../Containers/PageHeader";
-// import PageContent from "../Containers/PageContent";
 import BlockStack from "../Containers/BlockStack";
 import FilterTable from "../Containers/FilterTable";
 import Card from "../Containers/Card";
@@ -30,7 +29,11 @@ import {
   AdjustmentsVerticalIcon,
   ArrowDownOnSquareStackIcon,
 } from "@heroicons/react/16/solid";
-const BookingsPage = ({ settings }) => {
+import { useServvStore } from "../../store/useServvStore";
+
+const BookingsPage = () => {
+  const { settings, timezone, timeFormat } = useServvStore();
+
   const [loading, setLoading] = useState(false);
   const [headings, setHeadings] = useState([
     { label: "Order ID", value: "order", visible: true },
@@ -52,10 +55,7 @@ const BookingsPage = ({ settings }) => {
     startDate: null,
     endDate: null,
   });
-  const [timezone, setTimezone] = useState("US/Pacific");
-  const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const [price, setPrice] = useState({ from: null, to: null });
-  const [provider, setProvider] = useState("");
   const [filterDropdown, setFilterDropdown] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState({
     offline: true,
@@ -64,12 +64,13 @@ const BookingsPage = ({ settings }) => {
   const [showBulkAction, setShowBulkActions] = useState(false);
   const firstFetch = useRef(false);
 
-  // --- Dropdown refs and click outside handlers ---
   const customizeDropdownRef = useRef(null);
   const filterDropdownRef = useRef(null);
+
   const timezones = Object.keys(timezonesList).map((zone) => {
     return { id: zone, name: timezonesList[zone] };
   });
+
   useEffect(() => {
     if (!customizeDropdown) return;
     const handleClickOutside = (event) => {
@@ -99,7 +100,6 @@ const BookingsPage = ({ settings }) => {
   }, [filterDropdown]);
 
   const getPostId = (variant) => {
-    // console.log(variant.indexOf("0"), variant.length - 1);
     if (variant.indexOf("0") < variant.length - 1) {
       return {
         id: variant.slice(0, variant.indexOf("0")),
@@ -120,6 +120,7 @@ const BookingsPage = ({ settings }) => {
       setSelectedOrder(newOrders);
     }
   };
+
   const handleSelectAll = () => {
     if (!bookings || bookings.bookings.length === 0) return;
 
@@ -156,7 +157,6 @@ const BookingsPage = ({ settings }) => {
 
       toast("Emails successfully resent to all registrants");
     } catch (error) {
-      console.error(error);
       toast("Failed to resend emails");
     } finally {
       setActiveDropdown(null);
@@ -205,60 +205,12 @@ const BookingsPage = ({ settings }) => {
       setActiveDropdown(null);
     } else setActiveDropdown(id);
   };
-  const updateTimeFormat = (settings) => {
-    if (!settings) return;
-    else if (
-      settings &&
-      settings.settings &&
-      settings.settings.time_format_24_hours
-    ) {
-      setTimeFormat("HH:mm");
-    }
-  };
 
-  const updateTimezone = (settings) => {
-    let defaultTimezone = null;
-
-    if (!settings) return;
-
-    if (settings.settings?.admin_dashboard) {
-      const adminSettings = JSON.parse(settings.settings.admin_dashboard);
-      defaultTimezone = adminSettings.default_timezone || moment.tz.guess();
-    } else {
-      defaultTimezone = moment.tz.guess();
-    }
-
-    let findTimezone = timezones.filter((t) => t.id === defaultTimezone);
-
-    if (findTimezone.length > 0) {
-      setTimezone(findTimezone[0]);
-    } else {
-      let timezoneOffset = moment.tz(defaultTimezone).format("Z");
-      let formattedOffset = `(GMT${timezoneOffset})`;
-
-      let availableTimezone = timezonesWithOffset.filter(
-        (t) => t.gmt === formattedOffset
-      );
-
-      if (availableTimezone.length > 0) {
-        let zone = availableTimezone[0];
-        let newTimezone = timezones.filter((t) => t.id === zone.zone);
-
-        if (newTimezone.length > 0) setTimezone(newTimezone[0]);
-      }
-    }
-  };
-
-  useEffect(() => {
-    updateTimeFormat(settings);
-    updateTimezone(settings);
-  }, [settings]);
-
-  const getDates = (tz = timezone.id) => {
+  const getDates = () => {
     let datesValue = { startDate: null, endDate: null };
 
     if (dates.startDate) {
-      const d = dates.startDate; // Moment object
+      const d = dates.startDate;
       datesValue.startDate = new Date(
         d.year(),
         d.month(),
@@ -286,7 +238,7 @@ const BookingsPage = ({ settings }) => {
 
   const handleSetDates = (dates) => {
     let startDate = null;
-    console.log(timezone);
+
     if (dates.startDate)
       startDate = moment.tz(
         {
@@ -318,6 +270,7 @@ const BookingsPage = ({ settings }) => {
       endDate: endDate ? endDate : null,
     });
   };
+
   const fetchBookings = async ({ page = 1 } = {}) => {
     setLoading(true);
     let url = "/wp-json/servv-plugin/v1/bookings";
@@ -358,20 +311,17 @@ const BookingsPage = ({ settings }) => {
       params.push(`to_price=${price.to}`);
     }
 
-    // Validate selected event types
     if (!selectedProvider.offline && !selectedProvider.zoom) {
       setLoading(false);
       toast("Please select at least one event type to apply the filter.");
       return;
     }
 
-    // Handle provider filter
     if (selectedProvider.offline !== selectedProvider.zoom) {
       const provider = selectedProvider.offline ? "offline" : "zoom";
       params.push(`event_provider=${provider}`);
     }
 
-    // Pagination
     params.push(`page=${page}`, `page_size=10`);
 
     try {
@@ -392,16 +342,17 @@ const BookingsPage = ({ settings }) => {
   const onFiltering = async () => {
     await fetchBookings();
   };
+
   const changeFilterDropdown = () => {
     setFilterDropdown(!filterDropdown);
   };
+
   useEffect(() => {
     fetchBookings();
   }, [dates, selectedInterval]);
 
-  const handleChangeTimeInterval = async (newVal) => {
+  const handleChangeTimeInterval = (newVal) => {
     setSelectedTimeInterval(newVal);
-    // await fetchBookings(newVal);
   };
 
   const renderHeadings = () => {
@@ -424,6 +375,7 @@ const BookingsPage = ({ settings }) => {
       </Fragment>
     );
   };
+
   const isRefundAvailable = () => {
     let selectedBookings = bookings.bookings.map(
       (booking) => selectedOrder.indexOf(booking.id) >= 0
@@ -444,98 +396,105 @@ const BookingsPage = ({ settings }) => {
               onChange={() => handleOrderSelect(row.id)}
             />
           </td>
-          {headings.map((heading) => {
-            if (heading.visible) {
-              const start_date = moment(row.start_datetime).tz(row.timezone);
-              const order_date = moment(row.created_datetime).tz(row.timezone);
-              if (heading.value === "order") {
-                return (
-                  <td>
-                    <span className="font-semibold text-sm max-sm: text-sm">
-                      {t("#")}
-                      {row.id}
-                    </span>
-                  </td>
-                );
-              }
-              if (heading.value === "date") {
-                return (
-                  <td>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold">
-                        {order_date.format("MMM DD YYYY")}
-                      </span>
-                      <span className="text-xs font-regular">
-                        {order_date.format(timeFormat)}
-                      </span>
-                    </div>
-                  </td>
-                );
-              }
-              if (heading.value === "registrant") {
-                return <td>{row.email}</td>;
-              }
-              if (heading.value === "title") {
-                return (
-                  <td>
-                    <span className="font-semibold text-sm">
-                      {row.product_name.length > 24
-                        ? row.product_name.slice(0, 24) + "..."
-                        : row.product_name}
-                    </span>
-                  </td>
-                );
-              }
-              if (heading.value === "occurrence") {
-                return (
-                  <td>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold">
-                        {start_date.format("MMM DD YYYY")}
-                      </span>
-                      <span className="text-xs font-regular">
-                        {start_date.format(timeFormat)}
-                      </span>
-                    </div>
-                  </td>
-                );
-              }
-              if (heading.value === "paid") {
-                return (
-                  <td>
-                    {Number.parseFloat(row.price) > 0
-                      ? Number.parseFloat(row.price)
-                      : "Free"}
-                  </td>
-                );
-              }
-              if (heading.value === "status") {
-                return (
-                  <td>
-                    <Badge
-                      text={
-                        row.active_registrants === 0
-                          ? "Canceled"
-                          : row.reunded_quantity >= row.quantity
-                          ? "Refunded"
-                          : "Active"
-                      }
-                      color={
-                        row.active_registrants === 0
-                          ? "error"
-                          : row.reunded_quantity >= row.quantity
-                          ? "warning"
-                          : "success"
-                      }
-                      size="small"
-                      align="center"
-                      type="pill-colour"
-                    />
-                  </td>
-                );
-              }
-            }
-          })}
+          {headings.map((heading) =>
+            heading.visible
+              ? (() => {
+                  const start_date = moment(row.start_datetime).tz(
+                    row.timezone
+                  );
+                  const order_date = moment(row.created_datetime).tz(
+                    row.timezone
+                  );
+                  if (heading.value === "order") {
+                    return (
+                      <td>
+                        <span className="font-semibold text-sm max-sm: text-sm">
+                          {t("#")}
+                          {row.id}
+                        </span>
+                      </td>
+                    );
+                  }
+                  if (heading.value === "date") {
+                    return (
+                      <td>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold">
+                            {order_date.format("MMM DD YYYY")}
+                          </span>
+                          <span className="text-xs font-regular">
+                            {order_date.format(timeFormat)}
+                          </span>
+                        </div>
+                      </td>
+                    );
+                  }
+                  if (heading.value === "registrant") {
+                    return <td>{row.email}</td>;
+                  }
+                  if (heading.value === "title") {
+                    return (
+                      <td>
+                        <span className="font-semibold text-sm">
+                          {row.product_name.length > 24
+                            ? row.product_name.slice(0, 24) + "..."
+                            : row.product_name}
+                        </span>
+                      </td>
+                    );
+                  }
+                  if (heading.value === "occurrence") {
+                    return (
+                      <td>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold">
+                            {start_date.format("MMM DD YYYY")}
+                          </span>
+                          <span className="text-xs font-regular">
+                            {start_date.format(timeFormat)}
+                          </span>
+                        </div>
+                      </td>
+                    );
+                  }
+                  if (heading.value === "paid") {
+                    return (
+                      <td>
+                        {Number.parseFloat(row.price) > 0
+                          ? Number.parseFloat(row.price)
+                          : "Free"}
+                      </td>
+                    );
+                  }
+                  if (heading.value === "status") {
+                    return (
+                      <td>
+                        <Badge
+                          text={
+                            row.active_registrants === 0
+                              ? "Canceled"
+                              : row.reunded_quantity >= row.quantity
+                              ? "Refunded"
+                              : "Active"
+                          }
+                          color={
+                            row.active_registrants === 0
+                              ? "error"
+                              : row.reunded_quantity >= row.quantity
+                              ? "warning"
+                              : "success"
+                          }
+                          size="small"
+                          align="center"
+                          type="pill-colour"
+                        />
+                      </td>
+                    );
+                  }
+                  return null;
+                })()
+              : null
+          )}
           <td className="filter-table-dropdown-container">
             <button onClick={() => setActive(row.id)}>
               <Bars4Icon className="dropdown-icon" />
@@ -616,16 +575,14 @@ const BookingsPage = ({ settings }) => {
   };
 
   const renderHeadingsCustomization = () => {
-    return headings.map((heading) => {
-      return (
-        <CheckboxControl
-          label={heading.label}
-          name={heading.label}
-          checked={heading.visible}
-          onChange={() => customizeHeading(heading.value)}
-        />
-      );
-    });
+    return headings.map((heading) => (
+      <CheckboxControl
+        label={heading.label}
+        name={heading.label}
+        checked={heading.visible}
+        onChange={() => customizeHeading(heading.value)}
+      />
+    ));
   };
 
   const handlePriceChange = (newVal, attribute) => {
@@ -638,6 +595,7 @@ const BookingsPage = ({ settings }) => {
     }
     setPrice({ ...newPrice });
   };
+
   const handleSelectProvider = (provider) => {
     let newProvidersSelection = { ...selectedProvider };
 
@@ -674,18 +632,6 @@ const BookingsPage = ({ settings }) => {
             type="number"
             step="any"
           />
-          {/* <CheckboxControl
-            label="Event"
-            name="offline"
-            checked={selectedProvider.offline}
-            onChange={() => handleSelectProvider("offline")}
-          />
-          <CheckboxControl
-            label="Zoom meeting"
-            name="zoom"
-            checked={selectedProvider.zoom}
-            onChange={() => handleSelectProvider("zoom")}
-          /> */}
         </BlockStack>
       </Fragment>
     );
@@ -694,6 +640,7 @@ const BookingsPage = ({ settings }) => {
   const handleGetPrevPage = () => {
     fetchBookings({ page: bookings.page_number - 1 });
   };
+
   const handleGetNextPage = () => {
     fetchBookings({ page: bookings.page_number + 1 });
   };
@@ -726,7 +673,6 @@ const BookingsPage = ({ settings }) => {
 
         ({ id, occurrence } = getPostId(variantData.variant_id));
 
-        // Make sure registrants is an array
         const registrants = variantData.registrants_ids.includes(",")
           ? variantData.registrants_ids.split(",")
           : [variantData.registrants_ids];
@@ -738,7 +684,6 @@ const BookingsPage = ({ settings }) => {
         switch (actionType) {
           case "resend":
             url = `/wp-json/servv-plugin/v1/event/${id}/registrants/`;
-
             successMessage = "Emails resent successfully.";
             errorMessage = "Some emails failed to resend.";
             break;
@@ -768,7 +713,6 @@ const BookingsPage = ({ settings }) => {
             if (res.status === 200) successCount++;
             else failureCount++;
           } catch (error) {
-            console.error(error);
             failureCount++;
           }
         } else {
@@ -790,11 +734,10 @@ const BookingsPage = ({ settings }) => {
                 succeeded++;
               else failed++;
             });
-            console.log(succeeded, registrants.length);
+
             if (succeeded === registrants.length) successCount++;
             else failureCount++;
           } catch (error) {
-            console.error(error);
             failureCount++;
           }
         }
@@ -821,7 +764,6 @@ const BookingsPage = ({ settings }) => {
 
       allBookings = allBookings.concat(bookings);
     }
-    console.log(allBookings);
     exportToCSV(allBookings);
   };
 
@@ -935,6 +877,7 @@ const BookingsPage = ({ settings }) => {
       </div>
     );
   };
+
   const renderBookingsHeader = () => {
     return (
       <div className="card-header">
@@ -964,7 +907,6 @@ const BookingsPage = ({ settings }) => {
               {t("Clear filters")}
             </a>
           )}
-          {/* <span>{t("Review and manage all your event bookings here.")}</span> */}
         </div>
 
         <InlineStack align={"left"} gap={4} cardsLayout={false}>
@@ -1023,7 +965,6 @@ const BookingsPage = ({ settings }) => {
           <BlockStack gap={4}>
             <h1 className="text-display-sm mt-6">{t("Bookings")}</h1>
             <p className="page-header-description">
-              {/* {t("Review and manage all your event bookings here.")} */}
               View and manage all event bookings in one place
             </p>
           </BlockStack>
@@ -1035,9 +976,7 @@ const BookingsPage = ({ settings }) => {
                     text="Customize"
                     icon={<AdjustmentsVerticalIcon className="button-icon" />}
                     type="secondary"
-                    onAction={() => {
-                      setCustomizeDropdown(!customizeDropdown);
-                    }}
+                    onAction={() => setCustomizeDropdown(!customizeDropdown)}
                   />
                 }
                 status={customizeDropdown}
@@ -1051,9 +990,7 @@ const BookingsPage = ({ settings }) => {
               icon={<ArrowDownOnSquareStackIcon className="button-icon" />}
               type="secondary"
               disabled={!bookings || bookings.bookings.length === 0}
-              onAction={() => {
-                exportToCSV(bookings.bookings);
-              }}
+              onAction={() => exportToCSV(bookings.bookings)}
             />
           </InlineStack>
         </PageHeader>
@@ -1086,11 +1023,13 @@ const BookingsPage = ({ settings }) => {
 
           <Card>
             {renderBookingsHeader()}
+
             {bookings && bookings.bookings.length > 0 && (
               <Fragment>
                 <FilterTable headings={renderHeadings()} rows={renderRows()} />
               </Fragment>
             )}
+
             {selectedOrder.length > 1 && (
               <div className="filter-table-dropdown-container py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm flex flex-row">
                 <button
@@ -1103,6 +1042,7 @@ const BookingsPage = ({ settings }) => {
                 {showBulkAction && renderBulkActions()}
               </div>
             )}
+
             {bookings.page_count > 1 && (
               <ListPagination
                 hasPrev={bookings.page_number > 1}
@@ -1117,4 +1057,5 @@ const BookingsPage = ({ settings }) => {
     </PageWrapper>
   );
 };
+
 export default BookingsPage;

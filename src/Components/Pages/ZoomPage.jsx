@@ -7,7 +7,9 @@ import Badge from "../Containers/Badge";
 import Card from "../Containers/Card";
 import BreadCrumbs from "../Menu/BreadCrumbs";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const ZoomPage = (props) => {
+  const navigate = useNavigate();
   const [account, setAccount] = useState(null);
   const [isAccountFetched, setAccountFetched] = useState(false);
   const getZoomAccount = async () => {
@@ -78,9 +80,9 @@ const ZoomPage = (props) => {
             breadcrumbs={[
               {
                 label: "Integrations",
-                action: () => props.onPageSelect("main"),
+                action: () => navigate("../integrations"),
               },
-              { label: "Calendar", action: () => {} },
+              { label: "Zoom", action: () => {} },
             ]}
           />
           {/* <p className="page-header-description">
@@ -143,7 +145,7 @@ const ZoomPage = (props) => {
                   className="servv-button-link"
                   onClick={(e) => {
                     e.preventDefault();
-                    props.onPageSelect("settings");
+                    navigate("settings");
                   }}
                 >
                   {t("Manage")}

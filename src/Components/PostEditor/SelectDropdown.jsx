@@ -3,42 +3,45 @@ import Badge from "../Containers/Badge";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import CloseIcon from "@mui/icons-material/Close";
 
-/**
- * @param {string} title
- * @param {Array} options [{id, name}]
- * @param {number|Array} selected
- * @param {function} onSelect
- * @param {boolean} multi
- */
 const SelectDropdown = ({
   title,
   options,
   selected,
   onSelect,
   multi = false,
+  id,
+  activeId,
+  setActiveId,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  // console.log(options, selected);
-  // Robust outside click handler using pointerdown and composedPath
+
+  const isOpen = activeId === id;
+
   useEffect(() => {
     if (!isOpen) return;
-    const handleClickOutside = (event) => {
-      const path = event.composedPath ? event.composedPath() : [];
-      if (
-        dropdownRef.current &&
-        !path.includes(dropdownRef.current) &&
-        !dropdownRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
+
+    const handleClickOutside = (e) => {
+      console.log("doc pointerdown", e.target);
+      if (!dropdownRef.current) return;
+
+      const path = e.composedPath ? e.composedPath() : [];
+      const clickedInside =
+        path.length > 0
+          ? path.includes(dropdownRef.current)
+          : dropdownRef.current.contains(e.target);
+
+      if (!clickedInside) {
+        setActiveId(null);
       }
     };
-    document.addEventListener("pointerdown", handleClickOutside);
-    return () =>
-      document.removeEventListener("pointerdown", handleClickOutside);
-  }, [isOpen]);
 
-  // Multi-select logic
+    document.addEventListener("pointerdown", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleClickOutside, true);
+    };
+  }, [isOpen, setActiveId]);
+
   const handleMultiSelect = (optionId) => {
     let newSelected = Array.isArray(selected) ? [...selected] : [];
     if (newSelected.includes(optionId)) {
@@ -47,16 +50,14 @@ const SelectDropdown = ({
       newSelected.push(optionId);
     }
     onSelect(newSelected);
-    setIsOpen(false);
+    setActiveId(null);
   };
 
-  // Single-select logic
   const handleSingleSelect = (optionId) => {
     onSelect(optionId);
-    setIsOpen(false);
+    setActiveId(null);
   };
 
-  // Remove badge for multi-select
   const handleRemoveBadge = (optionId, e) => {
     e.stopPropagation();
     let newSelected = Array.isArray(selected) ? [...selected] : [];
@@ -74,13 +75,13 @@ const SelectDropdown = ({
       </label>
       <div
         className="border border-gray-300 rounded-lg p-2 flex justify-between items-center cursor-pointer bg-white"
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={() => setActiveId(isOpen ? null : id)}
       >
         <span className="flex flex-row text-sm flex-wrap gap-1">
           {multi && Array.isArray(selected) && selected.length > 0 ? (
             selected.map((selectedId) => {
               const option = options.find((opt) => opt.id === selectedId);
-              // console.log("option", option);
+
               return (
                 <Badge
                   key={selectedId}
@@ -151,44 +152,49 @@ const SelectDropdown = ({
         </svg>
       </div>
       {isOpen && (
-        <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
-          {options.map((option, index) => (
-            <li
-              key={index}
-              className={`w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center ${
-                multi && selected && selected.includes(option.id)
-                  ? "font-semibold text-purple-700"
-                  : ""
-              }`}
-              onClick={() =>
-                multi
-                  ? handleMultiSelect(option.id)
-                  : handleSingleSelect(option.id)
-              }
-            >
-              <div className="w-full flex items-center">
-                <Badge
-                  text={option.name}
-                  icon={
-                    <FiberManualRecordIcon
-                      style={{ width: "10px", fill: "#17B26A" }}
-                    />
-                  }
-                  color="gray"
-                  type="badge-pill-outline"
-                  size="small"
-                  fullWidth={true}
-                  align="center"
-                />
-                {multi && selected && selected.includes(option.id) && (
-                  <span className="ml-auto text-xs text-purple-600">
-                    {t("✓")}
-                  </span>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
+        <>
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setActiveId(null)}
+          />
+
+          <ul className="absolute z-20 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+            {options.map((option, index) => (
+              <li
+                key={index}
+                className={`w-full p-2 hover:bg-gray-100 cursor-pointer flex items-center ${
+                  multi && selected && selected.includes(option.id)
+                    ? "font-semibold text-purple-700"
+                    : ""
+                }`}
+                onClick={() =>
+                  multi
+                    ? handleMultiSelect(option.id)
+                    : handleSingleSelect(option.id)
+                }
+              >
+                <div className="w-full flex items-center">
+                  <Badge
+                    text={option.name}
+                    icon={
+                      <FiberManualRecordIcon
+                        style={{ width: "10px", fill: "#17B26A" }}
+                      />
+                    }
+                    color="gray"
+                    type="badge-pill-outline"
+                    size="small"
+                    fullWidth={true}
+                    align="center"
+                  />
+                  {multi && selected && selected.includes(option.id) && (
+                    <span className="ml-auto text-xs text-purple-600">✓</span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </div>
   );

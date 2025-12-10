@@ -49,6 +49,7 @@
 		"moment-timezone": "^0.5.47",
 		"openai": "^5.10.1",
 		"quill": "^2.0.3",
+		"react-router-dom": "^7.9.6",
 		"react-spinners": "^0.15.0",
 		"react-tailwindcss-datepicker": "^1.7.3",
 		"react-toastify": "^11.0.5",
@@ -57,7 +58,8 @@
 		"styled-components": "^6.1.15",
 		"tailwind-datepicker-react": "^1.4.3",
 		"tiny-i18n": "^2.0.4",
-		"uuid": "^11.0.5"
+		"uuid": "^11.0.5",
+		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
 		"@emotion/babel-plugin": "^11.13.5",

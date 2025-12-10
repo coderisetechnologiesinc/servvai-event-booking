@@ -19,7 +19,11 @@ const LocationSection = ({
   const { custom_field_1_name, custom_field_1_value } = customFields;
   const [onlineType, setOnlineType] = useState(false);
   const { location } = eventDetails;
+
+  const [activeDropdownId, setActiveDropdownId] = useState(null);
+
   const eventTypes = ["In-person", "Online or Hybrid"];
+
   const handleLocationChange = (newVal) => {
     if (newVal === eventTypes[0]) {
       onChange("location", "offline");
@@ -31,24 +35,20 @@ const LocationSection = ({
       handleCustomFieldChange("custom_field_1_value", "");
     }
   };
+
   const handleSelectLocation = (location) => {
     onFilterChange("location_id", location);
   };
+
   const handleSelectOnlineType = (type) => {
     setOnlineType(type);
-    if (!type) {
-      onChange("location", "offline");
-    } else {
-      onChange("location", "zoom");
-    }
+    onChange("location", type ? "zoom" : "offline");
+
     handleCustomFieldChange("custom_field_1_name", "Link");
     handleCustomFieldChange("custom_field_1_value", "");
   };
-  useEffect(() => {
-    // if (disabled) {
-    //   handleLocationChange("offline");
-    // }
 
+  useEffect(() => {
     if (
       (location === "zoom" || location === "online") &&
       !custom_field_1_name
@@ -56,12 +56,12 @@ const LocationSection = ({
       handleCustomFieldChange("custom_field_1_name", "Link");
     }
   }, [disabled, location, customFields]);
+
   useEffect(() => {
     if (
       location === "online" &&
       (disabled || !zoomAccount || !zoomAccount.id)
     ) {
-      // console.log("change location");
       handleLocationChange(eventTypes[0]);
     }
   }, [disabled, location, zoomAccount]);
@@ -69,117 +69,34 @@ const LocationSection = ({
   return (
     <div className="section-container">
       <div className="section-heading">Venue & access</div>
-      {settings && zoomAccount && (
-        <ButtonGroup
-          title=""
-          buttons={eventTypes}
-          active={
-            location === "offline" && custom_field_1_name !== "Link"
-              ? eventTypes[0]
-              : eventTypes[1]
-          }
-          onChange={handleLocationChange}
-          // disabled={disabled}
-        />
-      )}
-      {settings &&
-        settings.current_plan &&
-        settings.current_plan.id === 2 &&
-        (!zoomAccount || !zoomAccount.id) &&
-        location === "zoom" && (
-          <div className="section-description text-brand-600">
-            Note: To use the Integrations feature, you need to connect your Zoom
-            account.
-          </div>
-        )}
-      {meetingType === "offline" && custom_field_1_name !== "Link" && (
-        <div className="input-container-row items-center">
-          <div className="input-container-col w-full">
-            <div className="section-description">
-              Add parking or venue access details, such as directions or a link
-              to a map
-            </div>
-
-            {/* Custom field */}
-            <InputFieldControl
-              value={custom_field_1_value}
-              onChange={(val) =>
-                handleCustomFieldChange("custom_field_1_value", val)
-              }
-              fullWidth={true}
-              type="text"
-              align="left"
-            />
-          </div>
-        </div>
-      )}
-
-      {(meetingType !== "offline" || custom_field_1_name === "Link") && (
-        <Fragment>
-          {/* Tabs */}
-          <div className="section-description">Choose a meeting method:</div>
-          <div className="tabs-group-container">
-            <ul className="flex flex-row">
-              <li className="me-2">
-                <button
-                  onClick={() => handleSelectOnlineType(false)}
-                  className={`tab-element ${!onlineType ? "tab-active" : ""}`}
-                >
-                  Meeting URL
-                </button>
-              </li>
-              <li className="me-2">
-                <button
-                  onClick={() => handleSelectOnlineType(true)}
-                  className={`tab-element ${onlineType ? "tab-active" : ""}`}
-                  disabled={!zoomAccount || (zoomAccount && !zoomAccount.email)}
-                >
-                  Zoom API integration
-                </button>
-              </li>
-            </ul>
-          </div>
-          {!onlineType && custom_field_1_name === "Link" && (
-            <div className="input-container-col w-full">
-              <div className="section-description">
-                Meeting link (e.g., Google Meet, Microsoft Teams, Zoom)
-              </div>
-              <InputFieldControl
-                value={custom_field_1_value}
-                onChange={(val) =>
-                  handleCustomFieldChange("custom_field_1_value", val)
-                }
-                fullWidth={true}
-                type="text"
-                align="left"
-              />
-            </div>
-          )}
-          {onlineType && zoomAccount && zoomAccount.email && (
-            <div className="input-container-col w-full">
-              {/* <div className="section-description">Select an integration</div> */}
-              <SelectDropdown
-                title="Select Zoom account"
-                options={[{ ...zoomAccount }].map((acc) => {
-                  return { name: acc.email, id: acc.id };
-                })}
-                selected={zoomAccount.id || null}
-                onSelect={() => {}}
-              />
-            </div>
-          )}
-        </Fragment>
-      )}
 
       {filtersList.locations && filtersList.locations.length > 0 && (
         <SelectDropdown
+          id="location-filter"
           title="Location"
           options={filtersList.locations}
           selected={types.location_id || null}
           onSelect={handleSelectLocation}
+          activeId={activeDropdownId}
+          setActiveId={setActiveDropdownId}
         />
+      )}
+
+      {onlineType && zoomAccount && zoomAccount.email && (
+        <div className="input-container-col w-full">
+          <SelectDropdown
+            id="zoom-account"
+            title="Select Zoom account"
+            options={[{ name: zoomAccount.email, id: zoomAccount.id }]}
+            selected={zoomAccount.id || null}
+            onSelect={() => {}}
+            activeId={activeDropdownId}
+            setActiveId={setActiveDropdownId}
+          />
+        </div>
       )}
     </div>
   );
 };
+
 export default LocationSection;

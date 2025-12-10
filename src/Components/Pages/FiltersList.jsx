@@ -4,10 +4,10 @@ import PageActionButton from "../Controls/PageActionButton";
 import { Fragment } from "react";
 import InlineStack from "../Containers/InlineStack";
 import BlockStack from "../Containers/BlockStack";
-import PageContentPlaceholder from "../Containers/PageContentPlaceholder";
+
 import CheckboxControl from "../Controls/CheckboxControl";
 import { PencilIcon, TrashIcon } from "@heroicons/react/16/solid";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const FiltersList = ({
   title,
   filters,
@@ -19,7 +19,8 @@ const FiltersList = ({
   handleSingleDelete,
   setLoading,
 }) => {
-  // Improved headings logic for all filter types
+  const navigate = useNavigate();
+
   const headings = () => {
     if (title === "Languages") {
       return [
@@ -85,28 +86,32 @@ const FiltersList = ({
             onChange={() => onSelect(row.id)}
           />
         </td>
+
         {headings().map((heading) => (
           <td key={heading.value} className="max-w-[150px]">
             {heading.value === "name" ? (
-              <div class="truncate w-full">
+              <div className="truncate w-full">
                 <a
                   href="#"
                   className="filter-table-link"
-                  onClick={(e) => onEdit(e, row)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/filters/new/${title}?id=${row.id}`);
+                  }}
                 >
                   {row[heading.value]}
                 </a>
               </div>
             ) : (
-              <div class="truncate w-full">
+              <div className="truncate w-full">
                 <span className="break-all">{row[heading.value]}</span>
               </div>
             )}
           </td>
         ))}
+
         <td>
           <div className="flex flex-row gap-4">
-            {/* Single row delete with confirm */}
             <TrashIcon
               className="button-icon"
               onClick={() => {
@@ -121,19 +126,23 @@ const FiltersList = ({
                 }
               }}
             />
+
             <PencilIcon
               className="button-icon"
-              onClick={(e) => onEdit(e, row)}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/filters/new/${title}?id=${row.id}`);
+              }}
             />
           </div>
         </td>
       </tr>
     ));
+
   return (
     <Fragment>
       <BlockStack gap={4}>
         <InlineStack>
-          {/* Bulk delete with confirm */}
           <PageActionButton
             text="Delete"
             icon={null}
@@ -159,22 +168,6 @@ const FiltersList = ({
             />
           </Card>
         )}
-        {/* Uncomment for placeholder if needed:
-        {(filters.length === 0 || !filters) && (
-          <PageContentPlaceholder
-            icon={<MagnifyingGlassIcon className="placeholder-icon" />}
-            title="No filters found"
-            description="Filters allow your attendees to better search for and find events that apply to them."
-          >
-            <PageActionButton text="See examples" type="secondary" />
-            <PageActionButton
-              text="Create"
-              icon={<PlusIcon className="button-icon" />}
-              type="primary"
-              onAction={() => { }}
-            />
-          </PageContentPlaceholder>
-        )} */}
       </BlockStack>
     </Fragment>
   );

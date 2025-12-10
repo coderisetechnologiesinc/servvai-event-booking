@@ -1,14 +1,17 @@
 import { Fragment, useEffect, useState } from "react";
-import ButtonGroup from "../Controls/ButtonGroup";
+// import ButtonGroup from "../Controls/ButtonGroup";
 import SelectDropdown from "./SelectDropdown";
-import CustomDropdown from "../Controls/CustomDropdown";
-import SelectControl from "../Controls/SelectControl";
+// import CustomDropdown from "../Controls/CustomDropdown";
+// import SelectControl from "../Controls/SelectControl";
+
 const FiltersSection = ({
   types = {},
   filtersList = [],
   onChange = () => {},
 }) => {
   const filtersTabs = ["Your filters", "Create new"];
+
+  const [activeDropdownId, setActiveDropdownId] = useState(null);
 
   const handleSelectLocation = (location) => {
     onChange("location_id", location);
@@ -22,53 +25,67 @@ const FiltersSection = ({
   const handleSelectMember = (member) => {
     onChange("members", member);
   };
+
   return (
     <Fragment>
-      {
-        <div className="section-container">
-          <div className="section-heading">{t("Filters")}</div>
-          {/* <ButtonGroup
-          title="Choose an existing set of Filters or a create new filter category."
-          buttons={filtersTabs}
-          active={"Your filters"}
-          onChange={() => {}}
-        /> */}
-          {/* {filtersList.locations && filtersList.locations.length > 0 && (
+      <div className="section-container">
+        <div className="section-heading">{t("Filters")}</div>
+
+        {/* Location */}
+        {/* {filtersList.locations && filtersList.locations.length > 0 && (
           <SelectDropdown
+            id="location"
             title="Location"
             options={filtersList.locations}
             selected={types.location_id || null}
             onSelect={handleSelectLocation}
+            activeId={activeDropdownId}
+            setActiveId={setActiveDropdownId}
           />
         )} */}
-          {filtersList.categories && filtersList.categories.length > 0 && (
-            <SelectDropdown
-              title="Category"
-              options={filtersList.categories}
-              selected={types.category_id || null}
-              onSelect={handleSelectCategory}
-            />
-          )}
-          {filtersList.languages && filtersList.languages.length > 0 && (
-            <SelectDropdown
-              title="Language"
-              options={filtersList.languages}
-              selected={types.language_id || null}
-              onSelect={handleSelectLanguage}
-            />
-          )}
-          {filtersList.members && filtersList.members.length > 0 && (
-            <SelectDropdown
-              title="Members"
-              options={filtersList.members}
-              selected={types.members || []}
-              onSelect={handleSelectMember}
-              multi={true}
-            />
-          )}
-        </div>
-      }
+
+        {/* Category */}
+        {filtersList.categories && filtersList.categories.length > 0 && (
+          <SelectDropdown
+            id="category"
+            title="Category"
+            options={filtersList.categories}
+            selected={types.category_id || null}
+            onSelect={handleSelectCategory}
+            activeId={activeDropdownId}
+            setActiveId={setActiveDropdownId}
+          />
+        )}
+
+        {/* Language */}
+        {filtersList.languages && filtersList.languages.length > 0 && (
+          <SelectDropdown
+            id="language"
+            title="Language"
+            options={filtersList.languages}
+            selected={types.language_id || null}
+            onSelect={handleSelectLanguage}
+            activeId={activeDropdownId}
+            setActiveId={setActiveDropdownId}
+          />
+        )}
+
+        {/* Members (multi-select) */}
+        {filtersList.members && filtersList.members.length > 0 && (
+          <SelectDropdown
+            id="members"
+            title="Members"
+            options={filtersList.members}
+            selected={types.members || []}
+            onSelect={handleSelectMember}
+            multi={true}
+            activeId={activeDropdownId}
+            setActiveId={setActiveDropdownId}
+          />
+        )}
+      </div>
     </Fragment>
   );
 };
+
 export default FiltersSection;

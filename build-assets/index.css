@@ -2627,6 +2627,10 @@ svg.breadcrumbs-icon {
   margin-bottom: 1rem;
 }
 
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -2895,10 +2899,6 @@ svg.breadcrumbs-icon {
 
 .w-8 {
   width: 2rem;
-}
-
-.w-96 {
-  width: 24rem;
 }
 
 .w-\[0\.875rem\] {
@@ -3209,14 +3209,6 @@ svg.breadcrumbs-icon {
 
 .grid-cols-7 {
   grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.grid-cols-\[auto_auto_150px\] {
-  grid-template-columns: auto auto 150px;
-}
-
-.grid-cols-\[auto_auto_100px\] {
-  grid-template-columns: auto auto 100px;
 }
 
 .grid-cols-\[max-content_1fr_150px\] {
