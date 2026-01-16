@@ -18,7 +18,7 @@ export const getFilterType = async (type) => {
 
 export const getFilters = async (current_plan) => {
   const filterTypes = ["locations", "languages", "categories"];
-  if (current_plan === 2) {
+  if (current_plan !== 1) {
     filterTypes.push("members");
   }
 

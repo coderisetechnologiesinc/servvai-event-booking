@@ -149,3 +149,79 @@ function servv_js_redirect($redirectUrl) {
 function servv_decode_speshial_characters($value) {
     return is_string($value) ? wp_specialchars_decode($value, ENT_QUOTES) : $value;
 }
+
+function servv_attach_existing_media(int $post_id, string $image_url): bool {
+    $attachment_id = attachment_url_to_postid($image_url);
+
+    if (!$attachment_id) {
+        return false;
+    }
+
+    set_post_thumbnail($post_id, $attachment_id);
+    return true;
+}
+
+
+function servv_attach_image_from_base64(int $post_id, string $imageContent) {
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+
+    if (preg_match('#^data:([^;]+);base64,#', $imageContent)) {
+        $imageContent = preg_replace('#^data:[^;]+;base64,#', '', $imageContent);
+    }
+
+    $bytes = base64_decode($imageContent, true);
+    if ($bytes === false) {
+        return new WP_Error('invalid_base64', 'Invalid base64 image_content', ['status' => 400]);
+    }
+
+    $tmp = wp_tempnam('servv-image');
+    if (!$tmp) {
+        return new WP_Error('tmp_failed', 'Could not create temp file', ['status' => 500]);
+    }
+
+    if (file_put_contents($tmp, $bytes) === false) {
+        @unlink($tmp);
+        return new WP_Error('write_failed', 'Could not write temp image', ['status' => 500]);
+    }
+
+    $mime = wp_get_image_mime($tmp);
+    if (!$mime) {
+        @unlink($tmp);
+        return new WP_Error('invalid_image', 'Unsupported or invalid image data', ['status' => 415]);
+    }
+
+    $mime_to_ext = [
+        'image/jpeg' => 'jpg',
+        'image/png'  => 'png',
+        'image/gif'  => 'gif',
+        'image/webp' => 'webp',
+    ];
+
+    if (!isset($mime_to_ext[$mime])) {
+        @unlink($tmp);
+        return new WP_Error('unsupported_type', 'Only JPG/PNG/GIF/WEBP are allowed', ['status' => 415]);
+    }
+
+    $filename = 'servv-' . wp_generate_password(12, false) . '.' . $mime_to_ext[$mime];
+
+    $file = [
+        'name'     => $filename,
+        'type'     => $mime,
+        'tmp_name' => $tmp,
+        'error'    => 0,
+        'size'     => filesize($tmp),
+    ];
+
+    $attachment_id = media_handle_sideload($file, $post_id);
+
+    if (is_wp_error($attachment_id)) {
+        @unlink($tmp);
+        return $attachment_id;
+    }
+
+    set_post_thumbnail($post_id, $attachment_id);
+
+    return (int) $attachment_id;
+}

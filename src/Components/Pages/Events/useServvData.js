@@ -106,7 +106,7 @@ export const useServvData = () => {
     result.languages = await fetchFiltersByType("languages");
     result.categories = await fetchFiltersByType("categories");
 
-    if (settings && settings.current_plan?.id === 2) {
+    if (settings && settings.current_plan?.id !== 1) {
       result.members = await fetchFiltersByType("members");
     }
 

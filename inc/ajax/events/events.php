@@ -132,6 +132,56 @@ function servv_delete_event_in_servv($request)
     return $responseBody;
 }
 
+function servv_create_event($request)
+{
+    $event = $request['meeting'] ?? [];
+    $product = $request['product'] ?? [];
+    $types = $request['types'] ?? [];
+    $customFields = $request['custom_fields'] ?? [];
+    $notifications = $request['notifications'] ?? [];
+    $tickets =  $request['tickets'] ?? [];
+    $eventLocationType = $request['type'] ?? '';
+    $imageUrl = $request['image_url'] ?? '';
+    $imageContent = $request['image_content'] ?? '';
+    if(empty($event['startTime'] ?? '') || empty($event['duration'] ?? '')) {
+        return new WP_Error(400, 'Invalid start time or duration.', array('status' => 400));
+    }
+
+    $postaData = [
+        'post_title'   => $event['topic'] ?? '',
+        'post_content' => $event['agenda'] ?? '',
+        'post_status'  => 'publish',
+        'post_type'    => 'post',
+        'post_author'  => get_current_user_id(),
+    ];
+
+    $postId = wp_insert_post($postaData, true);
+
+    if ( is_wp_error($postId) ) {
+        return $postId;
+    }
+
+    if(!empty($imageUrl)){
+        servv_attach_existing_media($postId, $imageUrl);
+    } else if(!empty($imageContent)) {
+        $attachmentId = servv_attach_image_from_base64($postId, $imageContent);
+        if (is_wp_error($attachmentId)) {
+            wp_delete_post($postId);
+            return $attachmentId;
+        }
+    }
+
+    try {
+        $resultData = servvCreateEventSendRequest($postId, $postaData['post_title'], $event, $product, $types, $customFields,
+            $notifications, $tickets, $eventLocationType);
+    } catch (Exception $e) {
+        return new WP_Error(400, 'Bad create post api response. '.$e->getMessage(), ['status' => 400]);
+    }
+    $resultData['wp_post_id'] = $postId;
+    return $resultData;
+}
+
+
 
 function servv_update_event($request)
 {
@@ -149,6 +199,17 @@ function servv_update_event($request)
     }
     $requestBody = $request->get_json_params();
     $requestBody['shop_post_object_id'] = (int)$postId;
+    $imageUrl = $requestBody['image_url'] ?? '';
+    $imageContent = $requestBody['image_content'] ?? '';
+    if(!empty($imageUrl)){
+        servv_attach_existing_media($postId, $imageUrl);
+    } else if(!empty($imageContent)) {
+        $attachmentId = servv_attach_image_from_base64($postId, $imageContent);
+        if (is_wp_error($attachmentId)) {
+            return $attachmentId;
+        }
+    }
+    unset($requestBody['image_url'], $requestBody['image_content']);
     try {
         $responseBody = servvSendApiRequest($apiRoute, $requestBody, 'PATCH');
     } catch(\Exception $e) {
@@ -164,7 +225,11 @@ function servv_update_event($request)
         $quantities[$occurrenceId] = $quantity;
         update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
     } else {
-        servvUpdateQuantityWithRequest($postId, $servvEventId, $servvLocationType, $quantity);
+        try {
+            servvUpdateQuantityWithRequest($postId, $servvEventId, $servvLocationType, $quantity);
+        } catch(Exception $e) {
+            return new WP_Error($e->getCode(), 'Bad api response. '.$e->getMessage(), ['status' => $e->getCode()]);
+        }
     }
     return $responseBody;
 }

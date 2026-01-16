@@ -882,15 +882,17 @@ const BookingsPage = () => {
     return (
       <div className="card-header">
         <div className="card-heading">
-          <span>{t("Bookings")}</span>
-          <Badge
-            text={`${bookings?.bookings?.length || 0} item${
-              bookings && bookings.bookings.length > 1 ? "s" : ""
-            }`}
-            color="secondary"
-            size="small"
-            align="center"
-          />
+          {/* <span>{t("Bookings")}</span> */}
+          {bookings?.total_records > 0 && (
+            <Badge
+              text={`${bookings?.bookings?.length || 0} item${
+                bookings && bookings?.bookings?.length > 1 ? "s" : ""
+              }`}
+              color="secondary"
+              size="small"
+              align="center"
+            />
+          )}
         </div>
         <div className="card-description">
           {(searchString.length > 0 ||
@@ -989,7 +991,7 @@ const BookingsPage = () => {
               text="Export"
               icon={<ArrowDownOnSquareStackIcon className="button-icon" />}
               type="secondary"
-              disabled={!bookings || bookings.bookings.length === 0}
+              disabled={!bookings || bookings?.bookings?.length === 0}
               onAction={() => exportToCSV(bookings.bookings)}
             />
           </InlineStack>
@@ -1024,7 +1026,7 @@ const BookingsPage = () => {
           <Card>
             {renderBookingsHeader()}
 
-            {bookings && bookings.bookings.length > 0 && (
+            {bookings && bookings?.bookings?.length > 0 && (
               <Fragment>
                 <FilterTable headings={renderHeadings()} rows={renderRows()} />
               </Fragment>

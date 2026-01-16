@@ -2,7 +2,7 @@ import "./bootstrap-i18n.js";
 import domReady from "@wordpress/dom-ready";
 import { createRoot } from "@wordpress/element";
 import React, { useEffect, Suspense } from "react";
-import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 import Layout from "./Components/Layout/Layout.jsx";
 import "./Components/Layout/Layout.css";
@@ -28,7 +28,12 @@ const BookingsPage = React.lazy(() =>
   import("./Components/Pages/BookingsPage")
 );
 const SupportPage = React.lazy(() => import("./Components/Pages/SupportPage"));
-
+const BrandingPage = React.lazy(() =>
+  import("./Components/Pages/BrandingPage.jsx")
+);
+const ScrollManager = React.lazy(() =>
+  import("./Components/Layout/ScrollManager.jsx")
+);
 import { initI18n, translateAll, t } from "./utilities/textResolver.js";
 window.t = t;
 initI18n("en_US");
@@ -37,6 +42,10 @@ import { useServvStore } from "./store/useServvStore";
 import "quill/dist/quill.core.css";
 
 import ValidationScreen from "./Components/Pages/ValidationScreen.jsx";
+const CreateEventForm = React.lazy(() =>
+  import("./Components/Pages/CreateEventForm.jsx")
+);
+const Dashboard = React.lazy(() => import("./Components/Pages/Dashboard.jsx"));
 const CreateFilterPage = React.lazy(() =>
   import("./Components/Pages/CreateFilterPage.jsx")
 );
@@ -61,23 +70,27 @@ const EmailsPage = React.lazy(() =>
 const CalendarsPage = React.lazy(() =>
   import("./Components/Pages/CalendarsPage.jsx")
 );
+const LayoutWrapper = () => (
+  <Layout>
+    <Suspense fallback={null}>
+      <Outlet />
+    </Suspense>
+  </Layout>
+);
 
 const AppRouter = ({ restAPIAvailable }) => {
-  const { fetchSettings, settings } = useServvStore();
+  const { fetchSettings } = useServvStore();
 
   useEffect(() => {
     fetchSettings();
   }, []);
 
-  // VALIDATION HANDLING
   if (!restAPIAvailable) {
     return <ValidationScreen message="REST API not accessible." />;
   }
 
   if (servvData.install_status === "failed") {
-    return (
-      <ValidationScreen message="⚠️ Activation failed." troubleshoot={true} />
-    );
+    return <ValidationScreen message="⚠️ Activation failed." troubleshoot />;
   }
 
   if (
@@ -88,43 +101,45 @@ const AppRouter = ({ restAPIAvailable }) => {
   }
 
   return (
-    <Layout>
-      <Suspense fallback={null}>
-        <Routes>
-          <Route path="/" element={<Navigate to="events" replace />} />
+    <Suspense fallback={null}>
+      <ScrollManager />
+      <Routes>
+        <Route path="events/new" element={<CreateEventForm />} />
+        <Route path="events/offline/:id" element={<CreateEventForm />} />
+        <Route path="events/zoom/:id" element={<CreateEventForm />} />
+
+        <Route element={<LayoutWrapper />}>
+          <Route path="/" element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="events" element={<EventsPage />} />
-          <Route
+          {/* <Route
             path="events/:type/:id"
             element={<SingleEventPageRouterShell />}
-          />
-          <Route
-            path="events/:type/:id/occ/:occurrenceId"
-            element={<SingleEventPageRouterShell />}
-          />
+          /> */}
           <Route path="bookings" element={<BookingsPage />} />
+          <Route path="filters" element={<FiltersPage />} />
+          <Route path="filters/list/:type" element={<FiltersListPage />} />
+          <Route path="filters/new/:type" element={<CreateFilterPage />} />
           <Route path="integrations" element={<IntegrationsPage />} />
+          <Route
+            path="integrations/stripe"
+            element={<StripeIntegrationsPage />}
+          />
+          <Route path="integrations/gmail" element={<EmailsPage />} />
+          <Route path="integrations/calendars" element={<CalendarsPage />} />
           <Route path="integrations/zoom" element={<ZoomPage />} />
           <Route
             path="integrations/zoom/settings"
             element={<ZoomSettingsPage />}
           />
-          <Route path="integrations/gmail" element={<EmailsPage />} />
-          <Route path="integrations/calendars" element={<CalendarsPage />} />
-          <Route
-            path="integrations/stripe"
-            element={<StripeIntegrationsPage />}
-          />
-          <Route path="event" element={<EventDetails />} />
-          <Route path="filters" element={<FiltersPage />} />
-          <Route path="filters/list/:type" element={<FiltersListPage />} />
-          <Route path="filters/new/:type" element={<CreateFilterPage />} />
-          <Route path="settings" element={<SettingsPage />} />
           <Route path="notifications" element={<EmailTemplates />} />
+          <Route path="settings" element={<SettingsPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="branding" element={<BrandingPage />} />
           <Route path="support" element={<SupportPage />} />
-        </Routes>
-      </Suspense>
-    </Layout>
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
 

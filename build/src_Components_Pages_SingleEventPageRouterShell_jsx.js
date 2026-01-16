@@ -336,6 +336,64 @@ const CheckboxControl = ({
 
 /***/ }),
 
+/***/ "./src/Components/Controls/CheckboxItem.jsx":
+/*!**************************************************!*\
+  !*** ./src/Components/Controls/CheckboxItem.jsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const CheckboxItem = ({
+  label = "",
+  name,
+  checked = false,
+  disabled = false,
+  onChange = () => {}
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("label", {
+    className: `checkbox-item ${disabled ? "is-disabled" : ""}`,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: "checkbox",
+      name: name,
+      checked: checked,
+      disabled: disabled,
+      onChange: onChange,
+      className: "checkbox-item__input"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "checkbox-item__box",
+      children: checked && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+        className: "checkbox-item__check",
+        width: "12",
+        height: "12",
+        viewBox: "0 0 12 12",
+        fill: "none",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+          d: "M2.5 6.5L5 9L9.5 3",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        })
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "checkbox-item__label",
+      children: label
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CheckboxItem);
+
+/***/ }),
+
 /***/ "./src/Components/Controls/EndDateControl.jsx":
 /*!****************************************************!*\
   !*** ./src/Components/Controls/EndDateControl.jsx ***!
@@ -1067,7 +1125,7 @@ const RecurringSection = ({
   recurrence,
   onChange = () => {},
   disabled = false,
-  meetingType = "offline" // <-- Accept meetingType
+  meetingType = "offline"
 }) => {
   const eventTypes = ["One-time", "Recurring"];
   const handleTypeChange = val => {
@@ -1520,7 +1578,7 @@ const useServvData = () => {
     result.locations = await fetchFiltersByType("locations");
     result.languages = await fetchFiltersByType("languages");
     result.categories = await fetchFiltersByType("categories");
-    if (settings && settings.current_plan?.id === 2) {
+    if (settings && settings.current_plan?.id !== 1) {
       result.members = await fetchFiltersByType("members");
     }
     return result;
@@ -1769,25 +1827,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
 const PageWrapper = props => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "w-full relative",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-      children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        loading: true
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: `flex flex-col flex-1 h-full w-full pl-4 md:pl-6 lg:pl-8 pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
-        position: "bottom-right"
-      }), props.children]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "fixed inset-0 bg-[#F5F5F5]"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "w-full relative pl-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          loading: true
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
+          position: "bottom-right"
+        }), props.children]
+      })]
     })]
   });
 };
@@ -2619,7 +2684,7 @@ const DateTimeSection = ({
     }), !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
       recurrence: recurrence,
       onChange: handleRecurrenceChange,
-      disabled: settings && settings.current_plan.id !== 2
+      disabled: settings && settings.current_plan.id === 1
     })]
   });
 };
@@ -2727,7 +2792,7 @@ const EventDetails = ({
   };
   const getAccountsInfo = async () => {
     setLoading(true);
-    const isPro = settings?.current_plan?.id === 2;
+    const isPro = settings?.current_plan?.id === 2 || settings?.current_plan?.id === 3;
     const {
       stripeAccount,
       zoomAccount,
@@ -3223,7 +3288,7 @@ const EventDetails = ({
           handleDetailsChange: handleProductChange,
           settings: settings,
           postId: postId,
-          disabled: settings?.current_plan.id !== 2,
+          disabled: settings?.current_plan.id !== 2 && settings?.current_plan.id !== 3,
           handleSetLoading: handleSetLoading,
           stripeAccount: stripeAccount,
           occurrenceId: occurrenceId,
@@ -3261,7 +3326,7 @@ const EventDetails = ({
         onPrev: handlePrevRegistrantsPage,
         handleResendNotifications: handleResendNotifications,
         handleResendNotificationsToAll: handleResendNotificationsToAll,
-        disabled: settings?.current_plan.id !== 2
+        disabled: settings?.current_plan.id !== 2 && settings?.current_plan.id !== 3
       }), selectedTab === 0 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
         className: "section-container border-b-2 border-gray-200",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
@@ -3751,7 +3816,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
-/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
+/* harmony import */ var _Controls_CheckboxItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/CheckboxItem */ "./src/Components/Controls/CheckboxItem.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
 
@@ -3768,19 +3833,23 @@ const Registrant = ({
   onSelect,
   selected
 }) => {
-  console.log(id, selected);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "registrant group",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
       gap: 2,
-      align: "left",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        onChange: () => onSelect(id),
-        checked: selected
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
-        children: firstName + " " + lastName
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        children: email
+      align: "center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_CheckboxItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        checked: selected,
+        onChange: () => onSelect(id)
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "flex flex-col gap-[6px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("strong", {
+          className: "whitespace-nowrap",
+          children: [firstName, " ", lastName]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          className: "text-gray-600 truncate max-w-[220px]",
+          children: email
+        })]
       }), status === "create" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
         text: "Draft",
         size: "medium",
@@ -3792,7 +3861,8 @@ const Registrant = ({
         color: "error",
         type: "pill-colour"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-        className: "flex-row items-center px-2 rounded-lg border-solid border border-error-700 bg-error-600 text-gray-50 text-sm ml-auto hidden group-hover:flex",
+        type: "button",
+        className: "servv_button servv_button--danger servv_button--sm ml-auto opacity-0 pointer-events-none transition-opacity duration-150 group-hover:opacity-100 group-hover:pointer-events-auto",
         onClick: () => onStatusChange(id),
         children: !status || status === "create" ? "Delete" : "Revert"
       })]
@@ -4439,23 +4509,13 @@ const TicketsSection = ({
     const type = ticketsAvailability.indexOf(val);
     const currentTickets = [...tickets];
     if (type === 0) {
-      if (currentTickets[selectedTicket].start_datetime) {
-        delete currentTickets[selectedTicket].start_datetime;
-        delete currentTickets[selectedTicket].end_datetime;
-      }
+      delete currentTickets[selectedTicket].start_datetime;
+      delete currentTickets[selectedTicket].end_datetime;
     }
     if (type === 1) {
-      // let currentStartTime = eventDetails.startTime
-      //   ? eventDetails.timezone
-      //     ? moment(eventDetails.startTime).tz(eventDetails.timezone)
-      //     : moment(eventDetails.startTime)
-      //   : eventDetails.timezone
-      //   ? moment().tz(eventDetails.timezone)
-      //   : moment();
-      // currentTickets[selectedTicket].start_datetime = currentStartTime.format();
-      // currentTickets[selectedTicket].end_datetime = moment(currentStartTime)
-      //   .add(1, "d")
-      //   .format();
+      const base = getEventBaseTime();
+      currentTickets[selectedTicket].start_datetime = base.toISOString();
+      currentTickets[selectedTicket].end_datetime = base.toISOString();
     }
     setTicketAvailability(type);
     onTicketsChange(currentTickets);
@@ -4498,6 +4558,7 @@ const TicketsSection = ({
   const handleTicketCancel = () => {
     setSelectedTicket(null);
   };
+  const getEventBaseTime = () => moment__WEBPACK_IMPORTED_MODULE_9___default()(attributes?.meeting?.startTime || eventDetails.startTime).tz(eventDetails.timezone);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (!tickets || tickets.length === 0 || selectedTicket === null || tickets.length - 1 < selectedTicket) return;
     if (tickets[selectedTicket].name) {
@@ -4529,32 +4590,26 @@ const TicketsSection = ({
   }, [selectedTicket]);
   const handleSaleStartDateChange = date => {
     const currentTickets = [...tickets];
-    // console.log("newDate", date);
-    // console.log("time", currentTickets[selectedTicket].start_datetime);
-    const currentTime = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
-    // console.log("currentTime", currentTime);
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).startOf("day");
-    // console.log("selectedDate", selectedDate);
-    currentTime.set({
-      year: selectedDate.year(),
-      month: selectedDate.month(),
-      date: selectedDate.date()
-    }, true);
-    // console.log("selectedDate+time", currentTime);
-
-    currentTickets[selectedTicket].start_datetime = currentTime.toISOString();
+    const current = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime).tz(eventDetails.timezone) : getEventBaseTime();
+    const selected = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone);
+    current.set({
+      year: selected.year(),
+      month: selected.month(),
+      date: selected.date()
+    });
+    currentTickets[selectedTicket].start_datetime = current.toISOString();
     onTicketsChange(currentTickets);
   };
   const handleSaleEndDateChange = date => {
     const currentTickets = [...tickets];
-    const currentTime = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).add(1, "d").tz(eventDetails.timezone || "US/Pacific");
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone || "US/Pacific");
-    selectedDate.set({
-      hour: currentTime.get("hour"),
-      minute: currentTime.get("minute"),
-      second: currentTime.get("second")
+    const current = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime).tz(eventDetails.timezone) : getEventBaseTime();
+    const selected = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone);
+    current.set({
+      year: selected.year(),
+      month: selected.month(),
+      date: selected.date()
     });
-    currentTickets[selectedTicket].end_datetime = selectedDate.toISOString();
+    currentTickets[selectedTicket].end_datetime = current.toISOString();
     onTicketsChange(currentTickets);
   };
   const getStartDate = () => {
@@ -4627,13 +4682,10 @@ const TicketsSection = ({
     onTicketsChange(currentTickets);
   };
   const checkTimeDiff = () => {
-    const startDate = tickets[selectedTicket].start_datetime;
-    const endDate = tickets[selectedTicket].end_datetime;
-    if (startDate && endDate) {
-      let start = moment__WEBPACK_IMPORTED_MODULE_9___default()(startDate);
-      let end = moment__WEBPACK_IMPORTED_MODULE_9___default()(endDate);
-      return start.isAfter(end);
-    } else return false;
+    const start = tickets[selectedTicket]?.start_datetime;
+    const end = tickets[selectedTicket]?.end_datetime;
+    if (!start || !end) return false;
+    return moment__WEBPACK_IMPORTED_MODULE_9___default()(start).isSameOrAfter(moment__WEBPACK_IMPORTED_MODULE_9___default()(end));
   };
   const ticketsMods = ["Single", "Multiple"];
   const [selectedTicketsMode, setSelectedTicketMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(ticketsMods[0]);
@@ -5595,4 +5647,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SingleEventPageRouterShell_jsx.js.map?ver=cb45080d160580bdc42d
+//# sourceMappingURL=src_Components_Pages_SingleEventPageRouterShell_jsx.js.map?ver=b2e1a8ed9c2a1b6bea0b

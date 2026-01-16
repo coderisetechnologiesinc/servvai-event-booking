@@ -70,41 +70,60 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
       navigate(`/events/${eventType}/${id}`);
     }
   };
+  const normalizeDate = (d) => {
+    if (!d) return null;
+    if (moment.isMoment(d)) return d;
+    if (d instanceof Date) return moment(d);
+    return null;
+  };
 
   const handleSetDates = (dates) => {
-    let startDate = null;
+    const start = normalizeDate(dates.startDate);
+    const end = normalizeDate(dates.endDate);
 
-    if (dates.startDate)
-      startDate = moment.tz(
-        {
-          year: dates.startDate.getFullYear(),
-          month: dates.startDate.getMonth(),
-          day: dates.startDate.getDate(),
-          hour: 0,
-          minute: 0,
-          second: 0,
-        },
-        timezone.id
-      );
+    const startDate = start
+      ? moment.tz(
+          {
+            year: start.year(),
+            month: start.month(),
+            day: start.date(),
+            hour: 0,
+            minute: 0,
+            second: 0,
+          },
+          timezone.id
+        )
+      : null;
 
-    let endDate = null;
+    const endDate = end
+      ? moment.tz(
+          {
+            year: end.year(),
+            month: end.month(),
+            day: end.date(),
+            hour: 23,
+            minute: 59,
+            second: 0,
+          },
+          timezone.id
+        )
+      : null;
 
-    if (dates.endDate)
-      endDate = moment.tz(
-        {
-          year: dates.endDate.getFullYear(),
-          month: dates.endDate.getMonth(),
-          day: dates.endDate.getDate(),
-          hour: 23,
-          minute: 59,
-          second: 0,
-        },
-        timezone.id
-      );
+    setDates({ startDate, endDate });
+  };
+  const applyDatePreset = (dates) => {
+    handleSetDates(dates);
 
-    setDates({
-      startDate: startDate ? startDate : null,
-      endDate: endDate ? endDate : null,
+    getEventsList({
+      type: eventType,
+      is_Past: isPast,
+      search: searchString,
+      datesObj: {
+        startDate: dates.startDate,
+        endDate: dates.endDate,
+      },
+      filtersObj: selectedFilters,
+      page: 1,
     });
   };
 
@@ -200,7 +219,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
       setLoading(true);
 
       try {
-        let url = `/wp-json/servv-plugin/v1/events/${type}?page_size=10&page=${page}&without_occurrences=true`;
+        let url = `/wp-json/servv-plugin/v1/events/${type}?page_size=12&page=${page}&without_occurrences=true`;
 
         if (!is_Past && search) url += `&search=${search}`;
 
@@ -251,7 +270,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
         });
 
         setMeetingsList(rows);
-
+        setFirstFetchDone(true);
         setPagination({
           pageNumber: res.data.page_number,
           pageCount: res.data.page_count,
@@ -260,6 +279,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
         console.error(e);
         toast("Error fetching events");
       } finally {
+        setFirstFetchDone(true);
         setLoading(false);
       }
       if (!syncedAfterEventsRef.current) {
@@ -443,7 +463,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
     attributes,
     timezone,
     timeFormat,
-
+    firstFetchDone,
     setSelectedEvent,
     setSelectedOccurrence,
     setView,
@@ -452,6 +472,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
     handleIsPastChange: () => setIsPast((p) => !p),
     handleTypeChange: (t) => setEventType(t),
     handleSetDates,
+    applyDatePreset,
     handleSearchChange: setSearchString,
     handleSearchSubmit,
     handleFilterSelect,

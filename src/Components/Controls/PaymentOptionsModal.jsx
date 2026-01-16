@@ -4,6 +4,7 @@ const PaymentOptionsModal = ({
   text = "Select a payment option (monthly or annual)",
   price = 0,
   priceAnnual = 0,
+  fee = 0,
   onAcceptMonthly = () => {},
   onAcceptAnnual = () => {},
   onCancel = () => {},
@@ -23,6 +24,7 @@ const PaymentOptionsModal = ({
         <p className="text-gray-600 font-semibold">
           Price annual: ${priceAnnual}
         </p>
+        <p className="text-gray-600 font-semibold">Application Fee: ${fee} %</p>
         <div className="flex flex-row justify-end gap-3">
           <button
             onClick={onCancel}

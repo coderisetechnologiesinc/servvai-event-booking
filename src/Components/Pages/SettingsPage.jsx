@@ -66,8 +66,8 @@ const SettingsPage = () => {
     { label: "General", value: 0 },
     { label: "Reminders", value: 1 },
     { label: "Billing", value: 7 },
-    { label: "Widget", value: 5 },
-    { label: "Translations", value: 6 },
+    // { label: "Widget", value: 5 },
+    // { label: "Translations", value: 6 },
     // { label: "Workflow", value: 8 },
   ]);
 
@@ -212,7 +212,7 @@ const SettingsPage = () => {
       validatedSettings.settings.admin_dashboard.default_price = 10.0;
     }
 
-    if (!newSettings.stetings) {
+    if (!newSettings.settings) {
       validatedSettings.settings.time_format_24_hours = false;
     }
     if (
@@ -246,25 +246,35 @@ const SettingsPage = () => {
     validatedSettings.settings.widget_style_settings = validateWidgetSettings(
       validatedSettings.settings.widget_style_settings
     );
-    setTabsList(
-      validatedSettings.current_plan
-        ? [
-            { label: "General", value: 0 },
-            { label: "Reminders", value: 1 },
-            { label: "Billing", value: 7 },
-            { label: "Widget", value: 5 },
-            { label: "Translations", value: 6 },
-            // { label: "Workflow", value: 8 },
-          ]
-        : [
-            { label: "General", value: 0 },
-            { label: "Reminders", value: 1 },
-            { label: "Widget", value: 5 },
-            { label: "Translations", value: 6 },
-            { label: "Billing", value: 7 },
-            // { label: "Workflow", value: 8 },
-          ]
-    );
+    const baseTabs = [
+      { label: "General", value: 0 },
+      { label: "Reminders", value: 1 },
+    ];
+
+    const widgetTabs = [
+      { label: "Widget", value: 5 },
+      { label: "Translations", value: 6 },
+    ];
+
+    const billingTab = { label: "Billing", value: 7 };
+
+    const planId = validatedSettings?.current_plan?.id;
+
+    let tabs = [...baseTabs];
+
+    if (planId) {
+      // Paid plans
+      if (planId !== 3) {
+        tabs.push(...widgetTabs);
+      }
+      tabs.push(billingTab);
+    } else {
+      // No plan (free / not validated)
+      tabs.push(...widgetTabs, billingTab);
+    }
+
+    setTabsList(tabs);
+
     setSettings({ ...validatedSettings }, () => {});
   };
 
@@ -428,7 +438,7 @@ const SettingsPage = () => {
       await getSettings();
       await getBillingPlans();
       await getN8nSettings();
-      if (settings && settings.current_plan.id === 2) {
+      if (settings && settings.current_plan.id !== 1) {
         await getZoomAccount();
         await getStripeAccount();
       }
@@ -436,7 +446,7 @@ const SettingsPage = () => {
       getSettings();
       getBillingPlans();
       getN8nSettings();
-      if (settings && settings.current_plan.id === 2) {
+      if (settings && settings.current_plan.id !== 1) {
         getZoomAccount();
         getStripeAccount();
       }
@@ -847,6 +857,16 @@ const SettingsPage = () => {
       const checkout = await stripe.initEmbeddedCheckout({
         clientSecret: client_secret,
         onComplete: handleComplete,
+        //      onError: (error) => {
+        //   console.error("Stripe Embedded Checkout error:", error);
+
+        //   toast.error(
+        //     error?.message ||
+        //       "Payment failed. Please try again or contact support."
+        //   );
+
+        //   setShowPaymentForm(false);
+        // },
       });
       setShowPaymentForm(true);
 
@@ -858,70 +878,97 @@ const SettingsPage = () => {
 
   const renderBillingPlans = () => {
     if (!settings || !settings.current_plan || !billingPlans) return null;
-    return billingPlans.map((plan) => (
-      <BlockStack
-        gap={2}
-        cardsLayout={true}
-        className={`${responsiveBlockStack} h-full`}
-      >
-        <div
-          className={`flex flex-col gap-2 border border-gray-200 bg-white rounded-lg p-lg ${responsiveBlockStack} h-full`}
-        >
-          <div className="flex flex-row justify-between items center">
-            <h2 className="card-section-heading">{plan.name}</h2>
-          </div>
-          {plan.features.map((feature) => (
-            <div className="flex flex-row justify-start align-center gap-2">
-              {feature.value === "true" ? (
-                <CheckCircleIcon className="w-6 fill-success-700" />
-              ) : (
-                <XCircleIcon className="w-6 fill-error-700" />
-              )}
-              <span>{feature.title}</span>
-            </div>
-          ))}
 
-          {settings && plan.id >= settings.current_plan.id && (
-            <Fragment>
-              {settings.current_plan.id !== plan.id ? (
-                <button
-                  disabled={
-                    settings &&
-                    (settings.current_plan.id === plan.id ||
-                      plan.id < settings.current_plan.id)
-                  }
-                  className="rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-combined-gray"
-                  onClick={() => showPaymentOptions(plan)}
-                >
-                  {settings.current_plan.id === plan.id
-                    ? "Activated"
-                    : "Activate"}
-                </button>
-              ) : (
-                <Fragment>
-                  {(plan.price > 0 || plan.price_annual > 0) &&
-                    settings.current_plan.id === plan.id && (
-                      <button
-                        className="rounded-lg border border-brand-300 text-sm text-brand-700 font-semibold px-lg py-md bg-white shadow-combined-brand disabled:border-gray-300 disabled:text-gray-300 disabled:shadow-combined-gray"
-                        onClick={() => {
-                          handleOpenPortal();
-                        }}
-                      >
-                        Manage
-                      </button>
-                    )}
-                </Fragment>
-              )}
-            </Fragment>
-          )}
+    return billingPlans.map((plan) => {
+      const isCurrent = settings.current_plan.id === plan.id;
+      const isUpgradeable = plan.id > settings.current_plan.id;
+
+      return (
+        <div
+          key={plan.id}
+          className={`
+          flex flex-col h-full rounded-lg border
+          ${
+            isCurrent
+              ? "border-brand-500 bg-brand-50"
+              : "border-gray-200 bg-white"
+          }
+          p-lg
+        `}
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                {plan.name}
+              </h2>
+
+              <div className="mt-1 min-h-[1.25rem] flex flex-wrap items-center gap-2 text-sm text-gray-600">
+                {(plan.price > 0 || plan.price_annual > 0) && (
+                  <span>
+                    {plan.price > 0
+                      ? `$${plan.price}/mo`
+                      : `$${plan.price_annual}/yr`}
+                  </span>
+                )}
+
+                {plan.application_fee_percent > 0 && (
+                  <span>· {plan.application_fee_percent}% fee</span>
+                )}
+              </div>
+            </div>
+
+            {isCurrent && (
+              <span className="text-xs font-semibold text-brand-700 bg-brand-100 px-2 py-1 rounded-full">
+                Current
+              </span>
+            )}
+          </div>
+
+          {/* Features */}
+          <ul className="mt-4 space-y-2">
+            {plan.features.map((feature) => (
+              <li key={feature.title} className="flex items-start gap-2">
+                {feature.value === "true" ? (
+                  <CheckCircleIcon className="w-5 h-5 text-success-600 shrink-0" />
+                ) : (
+                  <XCircleIcon className="w-5 h-5 text-error-600 shrink-0" />
+                )}
+                <span className="text-sm text-gray-700">{feature.title}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* CTA — pinned to bottom */}
+          <div className="mt-auto pt-6">
+            {isCurrent
+              ? (plan.price > 0 || plan.price_annual > 0) && (
+                  <button
+                    className="w-full rounded-lg border border-brand-300 text-sm font-semibold text-brand-700 bg-white px-lg py-md shadow-combined-brand"
+                    onClick={handleOpenPortal}
+                  >
+                    Manage plan
+                  </button>
+                )
+              : isUpgradeable && (
+                  <button
+                    className="w-full rounded-lg px-lg py-md text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700"
+                    onClick={() => showPaymentOptions(plan)}
+                  >
+                    Activate
+                  </button>
+                )}
+          </div>
         </div>
-      </BlockStack>
-    ));
+      );
+    });
   };
 
   const isBillingPlanRestriction =
     settings && settings.current_plan && settings.current_plan.id === 1;
-  console.log(selectedTab);
+  console.log(
+    settings?.settings,
+    settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
+  );
   return (
     <PageWrapper loading={loading}>
       <PageHeader>
@@ -1084,8 +1131,7 @@ const SettingsPage = () => {
                       minValue={0}
                       maxValue={12}
                       timeFormat={
-                        settings?.seetings?.admin_dashboard
-                          ?.time_format_24_hours
+                        settings?.settings?.time_format_24_hours
                           ? "HH:mm"
                           : "hh:mm a"
                       }
@@ -1099,8 +1145,7 @@ const SettingsPage = () => {
                       maxValue={60}
                       disabled={true}
                       timeFormat={
-                        settings?.seetings?.admin_dashboard
-                          ?.time_format_24_hours
+                        settings?.settings?.time_format_24_hours
                           ? "HH:mm"
                           : "hh:mm a"
                       }
@@ -1751,13 +1796,9 @@ const SettingsPage = () => {
           {selectedTab === 7 && (
             <BlockStack gap={8} className={responsiveBlockStack}>
               {!showPaymentForm && (
-                <InlineStack
-                  gap={4}
-                  cardsLayout={true}
-                  className={responsiveInlineStack}
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
                   {renderBillingPlans()}
-                </InlineStack>
+                </div>
               )}
               <div id="servv-payment-element"></div>
             </BlockStack>
@@ -1783,6 +1824,7 @@ const SettingsPage = () => {
             setShowPaymentOptionsModal(false);
             setSelectedPlan(null);
           }}
+          fee={selectedPlan?.application_fee_percent}
           onAcceptMonthly={() => activateBillingPlan(selectedPlan.id)}
           onAcceptAnnual={() => activateBillingPlan(selectedPlan.id, true)}
           price={selectedPlan?.price || 0}

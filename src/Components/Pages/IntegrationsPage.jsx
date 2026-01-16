@@ -65,9 +65,9 @@ const IntegrationsPage = ({
             </BlockStack>
           </PageHeader>
           <PageContent>
-            <div className="flex flex-wrap gap-4 max-md:flex-col max-md:flex-nowrap">
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch">
               <div
-                className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem]`}
+                className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`}
               >
                 <BlockStack
                   gap={2}
@@ -100,7 +100,7 @@ const IntegrationsPage = ({
                 </BlockStack>
               </div>
               <div
-                className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] ${
+                className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${
                   !isFeatureAvailable ? "opacity-[0.5]" : ""
                 }`}
               >
@@ -138,7 +138,7 @@ const IntegrationsPage = ({
 
               {settings && (
                 <div
-                  className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] ${
+                  className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${
                     !isFeatureAvailable ? "opacity-[0.5]" : ""
                   }`}
                 >
@@ -181,7 +181,7 @@ const IntegrationsPage = ({
                 </div>
               )}
               <div
-                className={`flex-grow flex-shrink basis-[30%] max-w-[30%] max-md:max-w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem]  ${
+                className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${
                   !isFeatureAvailable ? "opacity-[0.5]" : ""
                 }`}
               >

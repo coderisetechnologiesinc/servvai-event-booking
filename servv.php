@@ -208,21 +208,56 @@ function servv_localize_view_script() {
     }
 }
 
+add_action('wp_enqueue_scripts', function () {
+
+    if (!is_singular()) return;
+
+    $event_id = get_post_meta(get_the_ID(), 'servv_event_id', true);
+    if (!$event_id) return;
+
+    $asset = require plugin_dir_path(__FILE__) . 'build/checkout.asset.php';
+
+    wp_enqueue_style(
+        'servv-checkout-styles',
+        plugin_dir_url(__FILE__) . 'build-assets/index.css',
+        [],
+        $asset['version']
+    );
+
+    wp_enqueue_script(
+        'servv-checkout',
+        plugin_dir_url(__FILE__) . 'build/checkout.js',
+        $asset['dependencies'], 
+        $asset['version'],
+        true
+    );
+
+    wp_localize_script('servv-checkout', 'servvCheckoutData', [
+        'postId'  => get_the_ID(),
+        'eventId' => $event_id,
+        'ajaxUrl' => admin_url('admin-ajax.php'),
+        'restUrl' => rest_url(),
+        'nonce'   => wp_create_nonce('payment_nonce'),
+    ]);
+});
+
+
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Stripe Script
 // ─────────────────────────────────────────────────────────────────────────────
 
-function servv_enqueue_stripe_scripts() {
-    wp_register_script('servv-plugin-frontend', '', [],   SERVV_PLUGIN_VERSION, true);
-    wp_enqueue_script('servv-plugin-frontend');
+// function servv_enqueue_stripe_scripts() {
+//     wp_register_script('servv-plugin-frontend', '', [],   SERVV_PLUGIN_VERSION, true);
+//     wp_enqueue_script('servv-plugin-frontend');
 
-    wp_localize_script('servv-plugin-frontend', 'servvData', [
-        'ajaxUrl'  => admin_url('admin-ajax.php'),
-        'security' => wp_create_nonce('payment_nonce'),
-    ]);
-}
-add_action('wp_enqueue_scripts', 'servv_enqueue_stripe_scripts');
+//     wp_localize_script('servv-plugin-frontend', 'servvData', [
+//         'ajaxUrl'  => admin_url('admin-ajax.php'),
+//         'security' => wp_create_nonce('payment_nonce'),
+//     ]);
+// }
+// add_action('wp_enqueue_scripts', 'servv_enqueue_stripe_scripts');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Frontend Shortcode Rendering
@@ -239,11 +274,12 @@ function servv_add_event_purchase_form($content) {
     return $content;
 }
 
+
 function servv_render_event_purchase_form($atts) {
     $atts = shortcode_atts(['id' => 0], $atts);
     ob_start();
     ?>
-    <div id="checkout-element"></div>
+    <div id="servv-on-product-widget"></div>
     <input type="hidden" id="post-id" value="<?php echo esc_attr($atts['id']); ?>">
     <?php
     return ob_get_clean();
@@ -257,12 +293,29 @@ add_action('admin_menu', 'servv_add_admin_page');
 add_action('admin_enqueue_scripts', 'servv_admin_enqueue_scripts');
 
 function servv_add_admin_page() {
-    add_menu_page('ServvAI', 'Servv AI Events', 'manage_options', SERVV_PLUGIN_SLUG, 'servv_render_admin_page','dashicons-calendar-alt');
+    add_menu_page('ServvAI', 'ServvAI Events', 'manage_options', SERVV_PLUGIN_SLUG, 'servv_render_admin_page','dashicons-calendar-alt');
     
-    add_submenu_page(SERVV_PLUGIN_SLUG, 'Zoom Integration', '.', 'manage_options', 'servv-plugin-zoom-confirm-page', 'servv_plugin_zoom_confirm');
-    add_submenu_page(SERVV_PLUGIN_SLUG, 'Calendar Integration', '.', 'manage_options', 'servv-plugin-calendar-confirm-page', 'servv_plugin_calendar_confirm');
-    add_submenu_page(SERVV_PLUGIN_SLUG, 'Gmail Integration', '.', 'manage_options', 'servv-plugin-gmail-confirm-page', 'servv_plugin_gmail_confirm');
-    add_submenu_page(SERVV_PLUGIN_SLUG, 'Stripe Integration', '.', 'manage_options', 'servv-plugin-stripe-confirm-page', 'servv_plugin_stripe_confirm');
+    add_submenu_page(
+        SERVV_PLUGIN_SLUG,
+        'Dashboard',
+        'Dashboard',
+        'manage_options',
+        SERVV_PLUGIN_SLUG,
+        'servv_render_admin_page'
+    );
+
+    add_submenu_page(SERVV_PLUGIN_SLUG, 'Zoom Integration', 'Zoom Integration', 'manage_options', 'servv-plugin-zoom-confirm-page', 'servv_plugin_zoom_confirm');
+    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-zoom-confirm-page');
+
+    add_submenu_page(SERVV_PLUGIN_SLUG, 'Calendar Integration', 'Calendar Integration', 'manage_options', 'servv-plugin-calendar-confirm-page', 'servv_plugin_calendar_confirm');
+    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-calendar-confirm-page');
+
+    add_submenu_page(SERVV_PLUGIN_SLUG, 'Gmail Integration', 'Gmail Integration', 'manage_options', 'servv-plugin-gmail-confirm-page', 'servv_plugin_gmail_confirm');
+    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-gmail-confirm-page');
+
+    add_submenu_page(SERVV_PLUGIN_SLUG, 'Stripe Integration', 'Stripe Integration', 'manage_options', 'servv-plugin-stripe-confirm-page', 'servv_plugin_stripe_confirm');
+    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-stripe-confirm-page');
+   
     wp_enqueue_style(
     'servv-admin-style',
     plugins_url('admin.css', __FILE__), // directly in same folder as this PHP file
@@ -284,6 +337,20 @@ function servv_admin_enqueue_scripts() {
 
     $asset_file = include plugin_dir_path(__FILE__) . 'build/admin.asset.php';
 
+
+    wp_enqueue_style(
+    'servv-inter-font',
+    'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900&display=swap',
+    [],
+    null
+    );
+
+     wp_enqueue_style(
+        'servv-styles',
+        plugins_url('build-assets/index.css', __FILE__),
+        ['servv-inter-font'],
+        SERVV_PLUGIN_VERSION
+    );
     wp_enqueue_script(
         SERVV_PLUGIN_SLUG,
         plugins_url('build/admin.js', __FILE__),
@@ -291,16 +358,9 @@ function servv_admin_enqueue_scripts() {
         SERVV_PLUGIN_VERSION,
         true
     );
-
-    wp_enqueue_style(
-        'servv-styles',
-        plugins_url('build-assets/index.css', __FILE__),
-        [],
-        SERVV_PLUGIN_VERSION
-    );
-
     wp_localize_script(SERVV_PLUGIN_SLUG, 'servvData', [
         'page'              => $page,
+        'pluginUrl'         => plugin_dir_url(__FILE__),
         'nonce'             => wp_create_nonce("wp_rest"),
         'stripePublicKey'   => get_option('servv_stripe_public_key'),
         'stripeAccountId'   => get_option('servv_stripe_account_id'),
@@ -662,4 +722,95 @@ function servv_widget_shortcode($atts) {
     return $output;
     
 }
-// add_filter( 'use_block_editor_for_post', '__return_false' );
+
+/**
+ * --------------------------------------------------------------------------
+ * Load Platform Widget Assets (Vue build)
+ * --------------------------------------------------------------------------
+ */
+function servv_load_platformwidget_scripts() {
+
+    $plugin_root_path = plugin_dir_path(__FILE__);
+    $plugin_root_url  = plugin_dir_url(__FILE__);
+
+
+    $assets_path = $plugin_root_path . 'platformWidget/dist/assets/';
+    $assets_url  = $plugin_root_url  . 'platformWidget/dist/assets/';
+
+
+    $js_file  = glob($assets_path . 'index-*.js');
+    $css_file = glob($assets_path . 'index-*.css');
+
+
+    if (empty($js_file)) {
+        error_log('SERVV: JS entry file not found in ' . $assets_path);
+        return;
+    }
+
+    $js_file  = basename($js_file[0]);
+    $css_file = !empty($css_file) ? basename($css_file[0]) : null;
+
+
+    $handle = 'servv-platform-widget';
+
+    wp_enqueue_script(
+        $handle,
+        $assets_url . $js_file,
+        [],
+        null,
+        true
+    );
+
+    if ($css_file) {
+        wp_enqueue_style(
+            $handle,
+            $assets_url . $css_file,
+            [],
+            null
+        );
+    }
+
+    wp_add_inline_script(
+        $handle,
+        'window.servvPlatformAjax = ' . wp_json_encode([
+            'ajax_url'   => admin_url('admin-ajax.php'),
+            'nonce'      => wp_create_nonce('servv_platform_nonce'),
+            'assets_url' => $assets_url,
+            'base_url'   => $plugin_root_url . 'platformWidget/dist/',
+        ]) . ';',
+        'before'
+    );
+}
+
+
+/**
+ * --------------------------------------------------------------------------
+ * Shortcode Renderer
+ * --------------------------------------------------------------------------
+ */
+add_shortcode('servvplatformwidget', 'servv_platformwidget_shortcode');
+function servv_platformwidget_shortcode($atts) {
+    servv_load_platformwidget_scripts();
+    $atts = shortcode_atts([
+        'preset'   => 'light',
+        'style'    => 'blue',
+        'location' => '',
+        'category' => '',
+        'member'   => '',
+        'language' => '',
+    ], $atts);
+
+    ob_start();
+    ?>
+    <div id="platformwidget-wrapper"
+         data-widget-location="<?php echo esc_attr($atts['location']); ?>"
+         data-widget-category="<?php echo esc_attr($atts['category']); ?>"
+         data-widget-member="<?php echo esc_attr($atts['member']); ?>"
+         data-widget-language="<?php echo esc_attr($atts['language']); ?>">
+
+        <div id="servv-platform-widget"></div>
+    </div>
+    <?php
+
+    return ob_get_clean();
+}

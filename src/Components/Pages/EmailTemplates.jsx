@@ -34,7 +34,7 @@ const EmailTemplates = ({ settings }) => {
   const disabled =
     !templates.length ||
     !settings ||
-    (settings && settings.current_plan.id !== 2);
+    (settings && settings.current_plan.id === 1);
 
   // Store form values to persist across view changes
   const [formValues, setFormValues] = useState({
@@ -290,7 +290,7 @@ const EmailTemplates = ({ settings }) => {
                 options={templates.map((t) => t.description)}
                 selected={selectedTemplate?.description || ""}
                 onSelectChange={handleSelectTemplate}
-                disabled={disabled}
+                // disabled={disabled}
                 className="w-full"
               />
             </div>
@@ -506,7 +506,7 @@ const EmailTemplates = ({ settings }) => {
                       options={templates.map((t) => t.description)}
                       selected={selectedTemplate?.description || ""}
                       onSelectChange={handleSelectTemplate}
-                      disabled={disabled}
+                      // disabled={disabled}
                       className="w-full"
                     />
                   </div>

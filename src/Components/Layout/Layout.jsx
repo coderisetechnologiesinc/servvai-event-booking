@@ -24,7 +24,7 @@ const Layout = ({ children, selectedPage, onPageChange }) => {
       />
 
       {/* Main content will sit to the right of that sidebar */}
-      <main className="flex-1 w-full max-w-full p-0 min-w-0 h-full overflow-visible pl-4 md:pl-6 lg:pl-8">
+      <main className="flex-1 w-full max-w-full p-0 min-w-0 h-full overflow-visible">
         {children}
       </main>
     </div>

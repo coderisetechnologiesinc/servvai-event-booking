@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+#servv-platform-widget {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+#servv-platform-widget,
+#servv-platform-widget * {
+  box-sizing: border-box;
+}
+
+#servv-platform-widget h1,
+#servv-platform-widget h2,
+#servv-platform-widget h3,
+#servv-platform-widget h4,
+#servv-platform-widget h5,
+#servv-platform-widget h6,
+#servv-platform-widget p,
+#servv-platform-widget span,
+#servv-platform-widget label,
+#servv-platform-widget button,
+#servv-platform-widget input,
+#servv-platform-widget select,
+#servv-platform-widget textarea {
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+}
+
+#servv-platform-widget p {
+  margin: 0;
+}

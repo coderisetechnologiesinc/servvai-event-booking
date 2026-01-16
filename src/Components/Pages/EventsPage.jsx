@@ -18,6 +18,7 @@ import InputFieldControl from "../Controls/InputFieldControl";
 import CollapsibleSection from "../Containers/CollapsibleSection";
 import Datepicker from "react-tailwindcss-datepicker";
 import ConfirmationModal from "../Controls/ConfirmationModal";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   AdjustmentsVerticalIcon,
@@ -52,7 +53,7 @@ const EventsCardHeader = ({
   const filterDropdownRef = useRef(null);
 
   const [localSearch, setLocalSearch] = useState(search);
-
+  const navigate = useNavigate();
   const handleEnterButton = (e) => {
     if (e.key === "Enter") {
       handleSearchSubmit(localSearch);
@@ -116,15 +117,15 @@ const EventsCardHeader = ({
   return (
     <div className="card-header">
       <div className="card-heading">
-        <span>
-          {view === "events" ? t("Your Events") : t("Event Occurrences")}
-        </span>
-        <Badge
-          text={`${eventsCount} ${t("item")}${eventsCount > 1 ? "s" : ""}`}
-          color="secondary"
-          size="small"
-          align="center"
-        />
+        {view !== "events" && <span> {t("Event Occurrences")}</span>}
+        {eventsCount > 0 && (
+          <Badge
+            text={`${eventsCount} ${t("item")}${eventsCount > 1 ? "s" : ""}`}
+            color="secondary"
+            size="small"
+            align="center"
+          />
+        )}
 
         {view === "occurrences" && (
           <button
@@ -327,7 +328,7 @@ const EventsPage = ({
   const [confirmationModalData, setConfirmationModalData] = useState({});
 
   const dropdownRefs = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (active === null) return;
     const handleClickOutside = (event) => {
@@ -585,7 +586,13 @@ const EventsPage = ({
                 <td key={heading.value}>
                   <a
                     className="filter-table-link"
-                    href={`${servvData.postUrl}?post=${row.post_id}&action=edit`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleOpenEvent({
+                        id: row.post_id,
+                        occurrence_id: row.occurrence_id,
+                      });
+                    }}
                   >
                     {row[heading.value]}
                   </a>
@@ -796,8 +803,7 @@ const EventsPage = ({
     ));
 
   const handleCreateNewEvent = () => {
-    if (servvData.gutenberg_active)
-      open("post-new.php?servv_plugin=true", "_top");
+    if (servvData.gutenberg_active) navigate("/events/new", "_top");
     else
       toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
   };
@@ -874,7 +880,8 @@ const EventsPage = ({
               </ButtonGroupConnected>
               {settings &&
                 settings.current_plan &&
-                settings.current_plan.id === 2 && (
+                settings.current_plan.id !== 1 &&
+                zoomAccount !== null && (
                   <ButtonGroupConnected>
                     <ConnectedButton
                       text={t("Events")}
