@@ -1,0 +1,321 @@
+import { CalendarIcon } from "../../assets/icons";
+import { useEffect, useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+
+import CalendarInline from "./CalendarInline";
+import NewSelectControl from "../Controls/NewSelectControl";
+import NewTimeInputControl from "../Controls/NewTimeInputControl";
+
+import moment from "moment-timezone";
+import { timezonesList } from "../../utilities/timezones";
+import RadioGroup from "../Controls/RecurrenceRadioGroup";
+import NewRecurringControl from "../Controls/NewRecurringControl";
+import NewEndDateControl from "./NewEndDateControl";
+import { useNavigate } from "react-router-dom";
+import timezonesWithOffset from "../../utilities/timezones";
+
+const DateStep = ({
+  attributes,
+  setAttributes,
+  settings,
+  changeStep,
+  isOccurrence,
+}) => {
+  const navigate = useNavigate();
+
+  const { startTime, duration, timezone, recurrence } =
+    attributes.meeting || {};
+
+  const [timeFormat, setTimeFormat] = useState("hh:mm a");
+  const [userTimezone, setUserTimezone] = useState(null);
+
+  /* ---------- moments ---------- */
+
+  const startMoment = startTime ? moment(startTime) : moment();
+
+  const endMoment = startMoment.clone().add(duration ?? 0, "minutes");
+
+  /* ---------- timezone options ---------- */
+
+  const timezones = Object.keys(timezonesList).map((zone) => ({
+    value: zone,
+    label: timezonesList[zone],
+  }));
+
+  /* ---------- timezone init from settings ---------- */
+
+  const getDefaultTimezoneFromSettings = () => {
+    const raw = settings?.settings?.admin_dashboard;
+
+    if (!raw) return moment.tz.guess();
+
+    const adminSettings = typeof raw === "string" ? JSON.parse(raw) : raw;
+
+    return adminSettings.default_timezone || moment.tz.guess();
+  };
+
+  useEffect(() => {
+    if (!settings) return;
+
+    if (timezone) {
+      setUserTimezone(timezone);
+      return;
+    }
+
+    const tzFromSettings = getDefaultTimezoneFromSettings();
+
+    setUserTimezone(tzFromSettings);
+
+    setAttributes({
+      meeting: {
+        ...(attributes.meeting || {}),
+        timezone: tzFromSettings,
+      },
+    });
+  }, [settings?.settings]);
+
+  useEffect(() => {
+    if (!userTimezone) return;
+    if (userTimezone === timezone) return;
+
+    setAttributes({
+      meeting: {
+        ...(attributes.meeting || {}),
+        timezone: userTimezone,
+      },
+    });
+  }, [userTimezone]);
+
+  /* ---------- handlers ---------- */
+
+  const handleDateChange = (selectedDate) => {
+    if (!selectedDate) return;
+
+    const updated = moment(selectedDate)
+      .hour(startMoment.hour())
+      .minute(startMoment.minute());
+
+    setAttributes({
+      meeting: {
+        ...(attributes.meeting || {}),
+        startTime: updated.toISOString(),
+      },
+    });
+  };
+
+  const handleStartTimeChange = (newMoment) => {
+    if (!newMoment) return;
+
+    const updated = startMoment
+      .clone()
+      .hour(newMoment.hour())
+      .minute(newMoment.minute())
+      .second(0);
+
+    setAttributes({
+      meeting: {
+        ...(attributes.meeting || {}),
+        startTime: updated.format("YYYY-MM-DDTHH:mm:ss"),
+      },
+    });
+  };
+
+  const handleEndTimeChange = (newEndMoment) => {
+    if (!newEndMoment) return;
+
+    const fixedEndMoment = startMoment
+      .clone()
+      .hour(newEndMoment.hour())
+      .minute(newEndMoment.minute())
+      .second(0);
+
+    const newDuration = fixedEndMoment.diff(startMoment, "minutes");
+
+    setAttributes({
+      meeting: {
+        ...(attributes.meeting || {}),
+        duration: Math.max(0, newDuration),
+      },
+    });
+  };
+
+  const handleTimezoneChange = (zone) => {
+    const tz = typeof zone === "string" ? zone : zone?.value;
+
+    if (!tz) return;
+
+    setUserTimezone(tz);
+  };
+
+  const handleRecurrenceModeChange = (mode) => {
+    setAttributes({
+      meeting: {
+        ...(attributes.meeting || {}),
+        recurrence:
+          mode === "recurring"
+            ? {
+                type: 1,
+                repeat_interval: 1,
+                end_times: 1,
+              }
+            : null,
+      },
+    });
+  };
+
+  /* ---------- time format ---------- */
+
+  useEffect(() => {
+    setTimeFormat(
+      settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
+    );
+  }, [settings]);
+
+  /* ---------- initial start ---------- */
+
+  useEffect(() => {
+    if (!startTime) {
+      setAttributes({
+        meeting: {
+          ...(attributes.meeting || {}),
+          startTime: moment().toISOString(),
+          duration: duration ?? 60,
+        },
+      });
+    }
+  }, []);
+
+  return (
+    <div className="step__wrapper">
+      {/* Header */}
+      <div className="step__header">
+        <CalendarIcon className="step__header_icon" />
+        <div className="step__heading">
+          <h4 className="step__header_title">Date and Time</h4>
+          <p className="step__description">
+            Select the event's date, time, and frequency.
+          </p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="step__content_date">
+        <div className="flex flex-col gap-y-[24px]">
+          {/* Calendar */}
+          <div className="step__content_block">
+            <span className="step__content_title">Calendar</span>
+            <CalendarInline
+              value={startMoment.toDate()}
+              onChange={handleDateChange}
+            />
+          </div>
+
+          {/* Timezone */}
+          <div className="step__content_block">
+            <span className="step__content_title">Timezone</span>
+
+            <NewSelectControl
+              helpText="Select timezone"
+              value={timezone || ""}
+              options={timezones}
+              onChange={handleTimezoneChange}
+              iconRight={<ChevronDownIcon />}
+            />
+          </div>
+        </div>
+
+        {/* Time */}
+        <div className="step__content_block">
+          <span className="step__content_title">Time</span>
+
+          <div className="step__time_control">
+            <NewTimeInputControl
+              time={startMoment}
+              timeFormat={timeFormat}
+              onChange={handleStartTimeChange}
+              align="start"
+            />
+
+            <div className="self-center">to</div>
+
+            <NewTimeInputControl
+              time={endMoment}
+              timeFormat={timeFormat}
+              onChange={handleEndTimeChange}
+              align="end"
+            />
+          </div>
+
+          {/* Recurrence */}
+          {!isOccurrence && (
+            <div className="mt-8">
+              <span className="step__content_title">Recurrence</span>
+
+              <RadioGroup
+                name="recurrence-mode"
+                value={recurrence ? "recurring" : "one-time"}
+                options={[
+                  { value: "one-time", label: "One-time" },
+                  { value: "recurring", label: "Recurring" },
+                ]}
+                onChange={handleRecurrenceModeChange}
+              />
+
+              {recurrence && (
+                <NewRecurringControl
+                  recurrence={recurrence}
+                  onChange={(updatedRecurrence) => {
+                    setAttributes({
+                      meeting: {
+                        ...(attributes.meeting || {}),
+                        recurrence: updatedRecurrence,
+                      },
+                    });
+                  }}
+                  meetingType="offline"
+                />
+              )}
+
+              {recurrence && (
+                <div className="my-8">
+                  <NewEndDateControl
+                    recurrence={recurrence}
+                    onChange={(updatedRecurrence) =>
+                      setAttributes({
+                        meeting: {
+                          ...(attributes.meeting || {}),
+                          recurrence: updatedRecurrence,
+                        },
+                      })
+                    }
+                    meetingType="offline"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="servv_actions">
+            <button
+              type="button"
+              className="servv_button servv_button--secondary"
+              onClick={() => navigate("/dashboard")}
+            >
+              Back to Home
+            </button>
+
+            <button
+              type="button"
+              className="servv_button servv_button--primary"
+              onClick={() => changeStep("venue")}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DateStep;

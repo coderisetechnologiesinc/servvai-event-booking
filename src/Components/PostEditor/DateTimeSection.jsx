@@ -405,7 +405,7 @@ const DateTimeSection = ({
         <RecurringSection
           recurrence={recurrence}
           onChange={handleRecurrenceChange}
-          disabled={settings && settings.current_plan.id !== 2}
+          disabled={settings && settings.current_plan.id === 1}
         />
       )}
     </div>

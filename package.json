@@ -10,8 +10,8 @@
 		"translate:labels": "python scripts/translate_labels.py",
 		"tailwind:build": "npx tailwindcss -i ./src/input.css -o ./build-assets/index.css",
 		"tailwind:watch": "npm run tailwind:build -- --watch",
-		"start": "wp-scripts start src/index.js src/view.js src/admin.js --experimental-modules --webpack-copy-php & npm run tailwind:watch",
-		"build": "wp-scripts build src/index.js src/view.js src/admin.js --experimental-modules --webpack-copy-php && npm run tailwind:build",
+		"start": "wp-scripts start src/index.js src/checkout.js src/view.js src/admin.js --experimental-modules --webpack-copy-php & npm run tailwind:watch",
+		"build": "wp-scripts build src/index.js src/checkout.js src/view.js src/admin.js --experimental-modules --webpack-copy-php && npm run tailwind:build",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
@@ -22,6 +22,9 @@
 		"[^.]*"
 	],
 	"dependencies": {
+		"@dnd-kit/core": "^6.3.1",
+		"@dnd-kit/sortable": "^10.0.0",
+		"@dnd-kit/utilities": "^3.2.2",
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
 		"@heroicons/react": "^2.2.0",
@@ -49,6 +52,7 @@
 		"moment-timezone": "^0.5.47",
 		"openai": "^5.10.1",
 		"quill": "^2.0.3",
+		"react-day-picker": "^9.13.0",
 		"react-router-dom": "^7.9.6",
 		"react-spinners": "^0.15.0",
 		"react-tailwindcss-datepicker": "^1.7.3",
@@ -58,11 +62,12 @@
 		"styled-components": "^6.1.15",
 		"tailwind-datepicker-react": "^1.4.3",
 		"tiny-i18n": "^2.0.4",
-		"uuid": "^11.0.5",
+		"uuid": "^11.1.0",
 		"zustand": "^5.0.8"
 	},
 	"devDependencies": {
 		"@emotion/babel-plugin": "^11.13.5",
+		"@svgr/webpack": "^8.1.0",
 		"@wordpress/scripts": "^30.19.0",
 		"autoprefixer": "^10.4.20",
 		"babel-plugin-wrap-jsx-text": "file:babel-plugins/wrap-jsx-text",

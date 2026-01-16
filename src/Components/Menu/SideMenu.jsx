@@ -1,132 +1,163 @@
-import React from "react";
-import {
-  ListBulletIcon,
-  Cog6ToothIcon,
-  Square3Stack3DIcon,
-  AdjustmentsHorizontalIcon,
-  EnvelopeIcon,
-  ChartBarIcon,
-  ClipboardDocumentCheckIcon,
-  XMarkIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/16/solid";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+
 import MenuItem from "./MenuItem";
+import {
+  Events,
+  Sales,
+  Filters,
+  Analytics,
+  Contacts,
+  Emails,
+  Settings,
+  Support,
+  Widgets,
+  Dashboard,
+} from "../../assets/icons";
+import { useServvStore } from "../../store/useServvStore";
+/* ---------------------------------------------------------
+   Menu configuration
+--------------------------------------------------------- */
 
-const SideBar = ({ page, onChange, collapsed, onToggle }) => {
+/* ---------------------------------------------------------
+   Helpers
+--------------------------------------------------------- */
+
+const MenuSectionLabel = ({ children }) => (
+  <div className="px-3 pt-4 pb-2 text-[16px] font-semibold tracking-widest text-gray-400">
+    {children}
+  </div>
+);
+
+/* ---------------------------------------------------------
+   Component
+--------------------------------------------------------- */
+
+const SideBar = ({ page, onChange, collapsed = false, onToggle, t }) => {
   const navigate = useNavigate();
-
+  const translate = (label) => (typeof t === "function" ? t(label) : label);
+  const settings = useServvStore((s) => s.settings);
   const handleSelect = (link) => {
-    if (typeof onChange === "function") {
-      onChange(link);
-    }
-
+    onChange?.(link);
     navigate(`/${link}`);
   };
 
+  const [manuSections, setMenuSections] = useState([
+    {
+      id: "main",
+      // label: "GENERAL",
+      items: [
+        { title: "Dashboard", link: "dashboard", icon: Dashboard },
+        { title: "Events", link: "events", icon: Events },
+        { title: "Sales", link: "bookings", icon: Sales },
+        { title: "Integrations", link: "integrations", icon: Contacts },
+        // { title: "Branding", link: "branding", icon: Widgets },
+        { title: "Notifications", link: "notifications", icon: Emails },
+        { title: "Analytics", link: "analytics", icon: Analytics },
+        { title: "Filters", link: "filters", icon: Filters },
+      ],
+    },
+    // {
+    //   id: "marketing",
+    //   label: "MARKETING",
+    //   items: [],
+    // },
+    {
+      id: "system",
+      // label: "SYSTEM",
+      bottom: true,
+      items: [
+        { title: "Support", link: "support", icon: Support },
+        { title: "Settings", link: "settings", icon: Settings },
+      ],
+    },
+  ]);
+  useEffect(() => {
+    if (settings && settings.is_wp_marketplace) {
+      setMenuSections([
+        {
+          id: "main",
+          // label: "GENERAL",
+          items: [
+            { title: "Dashboard", link: "dashboard", icon: Dashboard },
+            { title: "Events", link: "events", icon: Events },
+            { title: "Sales", link: "bookings", icon: Sales },
+            { title: "Integrations", link: "integrations", icon: Contacts },
+            { title: "Branding", link: "branding", icon: Widgets },
+            { title: "Notifications", link: "notifications", icon: Emails },
+            { title: "Analytics", link: "analytics", icon: Analytics },
+            { title: "Filters", link: "filters", icon: Filters },
+          ],
+        },
+        // {
+        //   id: "marketing",
+        //   label: "MARKETING",
+        //   items: [],
+        // },
+        {
+          id: "system",
+          // label: "SYSTEM",
+          bottom: true,
+          items: [
+            { title: "Support", link: "support", icon: Support },
+            { title: "Settings", link: "settings", icon: Settings },
+          ],
+        },
+      ]);
+    }
+  }, [settings]);
+
   return (
-    <div
-      className={`sidebar ${collapsed ? "collapsed-sidebar" : ""}`}
-      aria-expanded={!collapsed}
-    >
+    <aside className={`servv-sidebar ${collapsed ? "collapsed-sidebar" : ""}`}>
+      {/* Mobile close button */}
       {!collapsed && onToggle && (
         <button
+          type="button"
           onClick={onToggle}
-          className="md:hidden absolute top-4 right-4 p-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 z-10"
           aria-label="Close menu"
+          className="md:hidden absolute top-4 right-4 z-10
+                     p-1 rounded-full bg-gray-100
+                     hover:bg-gray-200 text-gray-600"
         >
           <XMarkIcon className="h-5 w-5" />
         </button>
       )}
 
-      <div className="flex flex-col gap-[24px]">
+      <div className="flex flex-col h-full">
+        {/* Logo */}
         <div
-          className={!collapsed ? `servv-logo-png` : `servv-logo-collapsed`}
+          className={`mb-6 ${
+            collapsed ? "servv-logo-collapsed" : "servv-logo-png"
+          }`}
         />
 
-        <div className="flex flex-col gap-2">
-          <MenuItem
-            title={typeof t === "function" ? t("Events") : "Events"}
-            link="events"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <ListBulletIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
+        {/* Sections */}
+        <nav className="flex flex-col flex-1 gap-[2px]" role="navigation">
+          {manuSections.map(({ id, label, items, bottom }) => (
+            <div key={id} className={bottom ? "mt-auto" : ""}>
+              {label && !collapsed && (
+                <MenuSectionLabel>{label}</MenuSectionLabel>
+              )}
 
-          <MenuItem
-            title={typeof t === "function" ? t("Bookings") : "Bookings"}
-            link="bookings"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <ClipboardDocumentCheckIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
-
-          <MenuItem
-            title={typeof t === "function" ? t("Filters") : "Filters"}
-            link="filters"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <AdjustmentsHorizontalIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
-
-          <MenuItem
-            title={typeof t === "function" ? t("Integrations") : "Integrations"}
-            link="integrations"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <Square3Stack3DIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
-
-          <MenuItem
-            title={"Notifications"}
-            link="notifications"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <EnvelopeIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
-
-          <MenuItem
-            title={typeof t === "function" ? t("Analytics") : "Analytics"}
-            link="analytics"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <ChartBarIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
-
-          <MenuItem
-            title={typeof t === "function" ? t("Settings") : "Settings"}
-            link="settings"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <Cog6ToothIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
-
-          <MenuItem
-            title={"Support"}
-            link="support"
-            onSelect={handleSelect}
-            collapsed={collapsed}
-            icon={
-              <QuestionMarkCircleIcon className="menu-icon fill-gray-700 group-hover:fill-primary-button-bg" />
-            }
-          />
-        </div>
+              <div className="flex flex-col gap-2">
+                {items.map(({ title, link, icon: Icon }) => (
+                  <MenuItem
+                    key={link}
+                    title={translate(title)}
+                    link={link}
+                    active={page === link}
+                    collapsed={collapsed}
+                    onSelect={handleSelect}
+                    icon={<Icon className="menu-icon" aria-hidden />}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
       </div>
-    </div>
+    </aside>
   );
 };
 

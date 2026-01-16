@@ -306,24 +306,17 @@ const TicketsSection = ({
     const currentTickets = [...tickets];
 
     if (type === 0) {
-      if (currentTickets[selectedTicket].start_datetime) {
-        delete currentTickets[selectedTicket].start_datetime;
-        delete currentTickets[selectedTicket].end_datetime;
-      }
+      delete currentTickets[selectedTicket].start_datetime;
+      delete currentTickets[selectedTicket].end_datetime;
     }
+
     if (type === 1) {
-      // let currentStartTime = eventDetails.startTime
-      //   ? eventDetails.timezone
-      //     ? moment(eventDetails.startTime).tz(eventDetails.timezone)
-      //     : moment(eventDetails.startTime)
-      //   : eventDetails.timezone
-      //   ? moment().tz(eventDetails.timezone)
-      //   : moment();
-      // currentTickets[selectedTicket].start_datetime = currentStartTime.format();
-      // currentTickets[selectedTicket].end_datetime = moment(currentStartTime)
-      //   .add(1, "d")
-      //   .format();
+      const base = getEventBaseTime();
+
+      currentTickets[selectedTicket].start_datetime = base.toISOString();
+      currentTickets[selectedTicket].end_datetime = base.toISOString();
     }
+
     setTicketAvailability(type);
     onTicketsChange(currentTickets);
   };
@@ -380,6 +373,10 @@ const TicketsSection = ({
   const handleTicketCancel = () => {
     setSelectedTicket(null);
   };
+  const getEventBaseTime = () =>
+    moment(attributes?.meeting?.startTime || eventDetails.startTime).tz(
+      eventDetails.timezone
+    );
 
   useEffect(() => {
     if (
@@ -425,54 +422,43 @@ const TicketsSection = ({
 
   const handleSaleStartDateChange = (date) => {
     const currentTickets = [...tickets];
-    // console.log("newDate", date);
-    // console.log("time", currentTickets[selectedTicket].start_datetime);
-    const currentTime = currentTickets[selectedTicket].start_datetime
+
+    const current = currentTickets[selectedTicket].start_datetime
       ? moment(currentTickets[selectedTicket].start_datetime).tz(
-          eventDetails.timezone || "US/Pacific"
+          eventDetails.timezone
         )
-      : moment(eventDetails.startTime).tz(
-          eventDetails.timezone || "US/Pacific"
-        );
-    // console.log("currentTime", currentTime);
-    const selectedDate = moment(date).startOf("day");
-    // console.log("selectedDate", selectedDate);
-    currentTime.set(
-      {
-        year: selectedDate.year(),
-        month: selectedDate.month(),
-        date: selectedDate.date(),
-      },
-      true
-    );
-    // console.log("selectedDate+time", currentTime);
+      : getEventBaseTime();
 
-    currentTickets[selectedTicket].start_datetime = currentTime.toISOString();
+    const selected = moment(date).tz(eventDetails.timezone);
 
+    current.set({
+      year: selected.year(),
+      month: selected.month(),
+      date: selected.date(),
+    });
+
+    currentTickets[selectedTicket].start_datetime = current.toISOString();
     onTicketsChange(currentTickets);
   };
 
   const handleSaleEndDateChange = (date) => {
     const currentTickets = [...tickets];
 
-    const currentTime = currentTickets[selectedTicket].end_datetime
+    const current = currentTickets[selectedTicket].end_datetime
       ? moment(currentTickets[selectedTicket].end_datetime).tz(
-          eventDetails.timezone || "US/Pacific"
+          eventDetails.timezone
         )
-      : moment(eventDetails.startTime)
-          .add(1, "d")
-          .tz(eventDetails.timezone || "US/Pacific");
+      : getEventBaseTime();
 
-    const selectedDate = moment(date).tz(eventDetails.timezone || "US/Pacific");
+    const selected = moment(date).tz(eventDetails.timezone);
 
-    selectedDate.set({
-      hour: currentTime.get("hour"),
-      minute: currentTime.get("minute"),
-      second: currentTime.get("second"),
+    current.set({
+      year: selected.year(),
+      month: selected.month(),
+      date: selected.date(),
     });
 
-    currentTickets[selectedTicket].end_datetime = selectedDate.toISOString();
-
+    currentTickets[selectedTicket].end_datetime = current.toISOString();
     onTicketsChange(currentTickets);
   };
 
@@ -573,15 +559,13 @@ const TicketsSection = ({
 
     onTicketsChange(currentTickets);
   };
-
   const checkTimeDiff = () => {
-    const startDate = tickets[selectedTicket].start_datetime;
-    const endDate = tickets[selectedTicket].end_datetime;
-    if (startDate && endDate) {
-      let start = moment(startDate);
-      let end = moment(endDate);
-      return start.isAfter(end);
-    } else return false;
+    const start = tickets[selectedTicket]?.start_datetime;
+    const end = tickets[selectedTicket]?.end_datetime;
+
+    if (!start || !end) return false;
+
+    return moment(start).isSameOrAfter(moment(end));
   };
 
   const ticketsMods = ["Single", "Multiple"];

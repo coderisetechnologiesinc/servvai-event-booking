@@ -2,7 +2,9 @@ import domReady from "@wordpress/dom-ready";
 import { createRoot } from "@wordpress/element";
 import { useEffect, useState, Fragment, useRef } from "@wordpress/element";
 import axios from "axios";
+
 import moment from "moment-timezone";
+
 import BlockStack from "./Components/Containers/BlockStack";
 import InputFieldControl from "./Components/Controls/InputFieldControl";
 import InlineStack from "./Components/Containers/InlineStack";
@@ -108,7 +110,7 @@ const PaymentForm = () => {
       const params = new URLSearchParams();
       params.append("action", "servv_create_checkout_session");
       params.append("security", servvData.security);
-      params.append("post_id", document.getElementById("post-id").value);
+      params.append("post_id", servvData.postId);
       if (selectedOccurrence) {
         params.append("occurrence_id", selectedOccurrence.id);
       }
@@ -291,7 +293,7 @@ const PaymentForm = () => {
     const price = getEventPrice();
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex flex-row gap-4 max-sm:flex-col">
+        <div className="flex flex-col gap-4 md:flex-row">
           <div className="flex flex-col w-full gap-4">
             {/* Render registrants start */}
             {additionalRegistrants.map((registrant, index) => {
@@ -489,7 +491,7 @@ const PaymentForm = () => {
       const params = new URLSearchParams();
       params.append("action", "servv_get_event_info");
       params.append("security", servvData.security);
-      params.append("post_id", document.getElementById("post-id").value);
+      params.append("post_id", servvData.postId);
 
       const response = await axios.post(servvData.ajaxUrl, params);
 
@@ -978,7 +980,7 @@ const PaymentForm = () => {
       const params = new URLSearchParams();
       params.append("action", "servv_process_free_order");
       params.append("security", servvData.security);
-      params.append("post_id", document.getElementById("post-id").value);
+      params.append("post_id", servvData.postId);
 
       if (selectedOccurrence) {
         params.append("occurrence_id", selectedOccurrence.id);

@@ -6925,7 +6925,7 @@ const PaymentForm = () => {
       const params = new URLSearchParams();
       params.append("action", "servv_create_checkout_session");
       params.append("security", servvData.security);
-      params.append("post_id", document.getElementById("post-id").value);
+      params.append("post_id", servvData.postId);
       if (selectedOccurrence) {
         params.append("occurrence_id", selectedOccurrence.id);
       }
@@ -7080,7 +7080,7 @@ const PaymentForm = () => {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
       className: "flex flex-col gap-4",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-        className: "flex flex-row gap-4 max-sm:flex-col",
+        className: "flex flex-col gap-4 md:flex-row",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "flex flex-col w-full gap-4",
           children: [additionalRegistrants.map((registrant, index) => {
@@ -7263,7 +7263,7 @@ const PaymentForm = () => {
       const params = new URLSearchParams();
       params.append("action", "servv_get_event_info");
       params.append("security", servvData.security);
-      params.append("post_id", document.getElementById("post-id").value);
+      params.append("post_id", servvData.postId);
       const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvData.ajaxUrl, params);
       if (response && response.status === 200) {
         setMeetingData(response.data);
@@ -7645,7 +7645,7 @@ const PaymentForm = () => {
       const params = new URLSearchParams();
       params.append("action", "servv_process_free_order");
       params.append("security", servvData.security);
-      params.append("post_id", document.getElementById("post-id").value);
+      params.append("post_id", servvData.postId);
       if (selectedOccurrence) {
         params.append("occurrence_id", selectedOccurrence.id);
       }

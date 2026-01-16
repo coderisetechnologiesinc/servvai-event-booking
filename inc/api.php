@@ -183,130 +183,144 @@ function servv_process_custom_block_on_save($post_id, $post, $update) {
                 $types = $block['attrs']['types'] ?? [];
                 $customFields = $block['attrs']['custom_fields'] ?? [];
                 $notifications = $block['attrs']['notifications'] ?? [];
+                $tickets =  $block['attrs']['tickets'] ?? [];
                 $eventLocationType = $event['location'] ?? ' ';
                 if(empty($event['startTime'] ?? '') || empty($event['duration'] ?? '')) {
                     continue;
                 }
-                $requestBody = [
-                    'meeting'   => [
-                        'topic'   =>   servv_decode_speshial_characters($post->post_title),
-                        'start_time'  => $event['startTime'] ?? '',
-                        'duration'  => $event['duration'] ?? '',
-                        'agenda'  => servv_decode_speshial_characters($event['agenda'] ?? ''),
-                        'timezone'  => $event['timezone'] ?? '',
-                        'type'  => $event['eventType'] ?? '',
-                    ],
-                    'shop_post_object_id'   => (int)$post_id
-                ];
-                if(!empty($event['recurrence'] ?? [])){
-                    $recurrence = [];
-                    if(!empty($event['recurrence']['weekly_days'])) {
-                        $recurrence['weekly_days'] =
-                            implode(',', $event['recurrence']['weekly_days']);
-                    }
-                    if(!empty($event['recurrence']['repeat_interval'])) {
-                        $recurrence['repeat_interval'] = (int)$event['recurrence']['repeat_interval'];
-                    }
-                    if(!empty($event['recurrence']['monthly_day'])) {
-                        $recurrence['monthly_day'] = (int)$event['recurrence']['monthly_day'];
-                    }
-                    if(!empty($event['recurrence']['monthly_week'])) {
-                        $recurrence['monthly_week'] = (int)$event['recurrence']['monthly_week'];
-                    }
-                    if(!empty($event['recurrence']['monthly_week_day'])) {
-                        $recurrence['monthly_week_day'] = (int)$event['recurrence']['monthly_week_day'];
-                    }
-                    if(!empty($event['recurrence']['type'])) {
-                        $recurrence['type'] = (int)$event['recurrence']['type'];
-                    }
-                    if(!empty($event['recurrence']['end_times'])) {
-                        $recurrence['end_times'] = (int)$event['recurrence']['end_times'];
-                    }
-                    if(!empty($event['recurrence']['end_date_time'])) {
-                        $recurrence['end_date_time'] = $event['recurrence']['end_date_time'];
-                    }
-                    $requestBody['meeting']['recurrence'] = $recurrence;
-                }
-                if(!empty($types)) {
-                    $requestBody['types'] = $types;
-                }
-                if(!empty($customFields)) {
-                    $requestBody['custom_fields'] = $customFields;
-                }
-                if(!empty($notifications)) {
-                    $requestBody['notifications'] = $notifications;
-                }
-                $requestProduct = [];
-                $quantity = isset($product['quantity']) ? (int)$product['quantity'] : null;
-                $requestProduct['quantity'] = $quantity;
-                $requestProduct['price'] =  isset($product['price']) ? (float)$product['price'] : 0.00;
-
-                if(!empty($requestProduct)){
-                    $requestBody['product'] = $requestProduct;
-                }
-
-                $method = 'POST';
-                $servvEventId = get_post_meta($post_id, 'servv_event_id', true);
-                if(!empty($servvEventId)) {
-                    $eventLocationType = get_post_meta($post_id, 'servv_event_location_type', true);
-                }
-                $apiRoute = $eventLocationType == 'offline' ? '/offline/meetings' : '/zoom/meetings';
-                if(!empty($servvEventId)) {
-                    $apiRoute .= '/'.$servvEventId;
-                    $method = 'PATCH';
-                }
-
                 try {
-                    $responseBody = servvSendApiRequest($apiRoute, $requestBody, $method);
-                } catch(\Exception $e) {
-                    wp_die( 'Error: Invalid save response. '.esc_html($e->getMessage()));
-                }
-                if(empty($servvEventId)){
-                    $servvEventId = $responseBody['id'] ?? 0;
-                    if(empty($servvEventId)) {
-                        wp_die( 'Error: Invalid save response.');
-                    }
-                    update_post_meta($post_id, 'servv_event_id', $servvEventId);
-                    update_post_meta($post_id, 'servv_event_location_type', $eventLocationType);
-                    update_post_meta($post_id, 'servv_event_type', 'meeting');
-
-                    $tickets =  $block['attrs']['tickets'] ?? [];
-                    $currency = get_option('servv_currency', 'USD');
-                    $eventProvider = $eventLocationType == 'offline' ? 'offline' : 'zoom';
-                    $ticketsAPIRoute = '/types/tickets/'.$servvEventId.'?event_type=meeting&event_provider='.$eventProvider;
-                    foreach($tickets as $ticket) {
-                        try {
-                            $ticket['currency'] = $currency;
-                            $ticket['price'] =  (float)($ticket['price'] ?? 0);
-                            $ticket['quantity'] =  !is_null($ticket['quantity']) ? (int)$ticket['quantity'] : null;
-                            $ticket['price_units'] = servv_format_amount_for_stripe($ticket['price'], $currency);
-                            $ticketResponseBody = servvSendApiRequest($ticketsAPIRoute, $ticket, 'POST');
-                        } catch(\Exception $e) {
-                            wp_die( 'Error: Invalid save ticket response. '.esc_html($e->getMessage()));
-                        }
-                    }
-                    $n8nData = $responseBody;
-
-                    $apiRoute = $eventLocationType == 'offline' ? '/offline/meetings/'.$servvEventId
-                        : '/zoom/meetings/'.$servvEventId;
-                    try {
-                        $responseBody = servvSendApiRequest($apiRoute);
-                        $respTypes = $responseBody['types'] ?? [];
-                        $n8nData['location_name'] = $respTypes['location_name'] ?? '';
-                        $n8nData['language_name'] = $respTypes['language_name'] ?? '';
-                        $n8nData['category_name'] = $respTypes['category_name'] ?? '';
-                    } catch(\Exception $e) {}
-
-                    $n8nData['wp_post_id'] = $post_id;
-                    $n8nData['wp_post_url'] = get_permalink($post_id);
-                    servv_n8n_event_created_trigger($n8nData);
-
+                    servvCreateEventSendRequest($post_id, $post->post_title, $event, $product, $types, $customFields,
+                        $notifications, $tickets, $eventLocationType);
+                } catch (Exception $e) {
+                    wp_die($e->getMessage());
                 }
 
-                servvUpdateQuantityWithRequest($post_id, $servvEventId, $eventLocationType, $quantity);
             }
         }
     }
+}
+
+function servvCreateEventSendRequest($postId, $postTitle, $event, $product, $types, $customFields, $notifications,
+                                 $tickets, $eventLocationType)
+{
+    $requestBody = [
+        'meeting'   => [
+            'topic'   =>   servv_decode_speshial_characters($postTitle),
+            'start_time'  => $event['startTime'] ?? '',
+            'duration'  => $event['duration'] ?? '',
+            'agenda'  => servv_decode_speshial_characters($event['agenda'] ?? ''),
+            'timezone'  => $event['timezone'] ?? '',
+            'type'  => $event['eventType'] ?? '',
+        ],
+        'shop_post_object_id'   => (int)$postId
+    ];
+    if(!empty($event['recurrence'] ?? [])){
+        $recurrence = [];
+        if(!empty($event['recurrence']['weekly_days'])) {
+            $recurrence['weekly_days'] =
+                implode(',', $event['recurrence']['weekly_days']);
+        }
+        if(!empty($event['recurrence']['repeat_interval'])) {
+            $recurrence['repeat_interval'] = (int)$event['recurrence']['repeat_interval'];
+        }
+        if(!empty($event['recurrence']['monthly_day'])) {
+            $recurrence['monthly_day'] = (int)$event['recurrence']['monthly_day'];
+        }
+        if(!empty($event['recurrence']['monthly_week'])) {
+            $recurrence['monthly_week'] = (int)$event['recurrence']['monthly_week'];
+        }
+        if(!empty($event['recurrence']['monthly_week_day'])) {
+            $recurrence['monthly_week_day'] = (int)$event['recurrence']['monthly_week_day'];
+        }
+        if(!empty($event['recurrence']['type'])) {
+            $recurrence['type'] = (int)$event['recurrence']['type'];
+        }
+        if(!empty($event['recurrence']['end_times'])) {
+            $recurrence['end_times'] = (int)$event['recurrence']['end_times'];
+        }
+        if(!empty($event['recurrence']['end_date_time'])) {
+            $recurrence['end_date_time'] = $event['recurrence']['end_date_time'];
+        }
+        $requestBody['meeting']['recurrence'] = $recurrence;
+    }
+    if(!empty($types)) {
+        $requestBody['types'] = $types;
+    }
+    if(!empty($customFields)) {
+        $requestBody['custom_fields'] = $customFields;
+    }
+    if(!empty($notifications)) {
+        $requestBody['notifications'] = $notifications;
+    }
+    $requestProduct = [];
+    $quantity = isset($product['quantity']) ? (int)$product['quantity'] : null;
+    $requestProduct['quantity'] = $quantity;
+    $requestProduct['price'] =  isset($product['price']) ? (float)$product['price'] : 0.00;
+
+    if(!empty($requestProduct)){
+        $requestBody['product'] = $requestProduct;
+    }
+
+    $method = 'POST';
+    $servvEventId = get_post_meta($postId, 'servv_event_id', true);
+    if(!empty($servvEventId)) {
+        $eventLocationType = get_post_meta($postId, 'servv_event_location_type', true);
+    }
+    $apiRoute = $eventLocationType == 'offline' ? '/offline/meetings' : '/zoom/meetings';
+    if(!empty($servvEventId)) {
+        $apiRoute .= '/'.$servvEventId;
+        $method = 'PATCH';
+    }
+
+    try {
+        $responseBody = servvSendApiRequest($apiRoute, $requestBody, $method);
+    } catch(\Exception $e) {
+        throw new Exception('Error: Invalid save response. '.esc_html($e->getMessage()));
+    }
+    $resultData = $responseBody;
+    if(empty($servvEventId)){
+        $servvEventId = $responseBody['id'] ?? 0;
+        if(empty($servvEventId)) {
+            throw new Exception('Error: Invalid save response.');
+        }
+        update_post_meta($postId, 'servv_event_id', $servvEventId);
+        update_post_meta($postId, 'servv_event_location_type', $eventLocationType);
+        update_post_meta($postId, 'servv_event_type', 'meeting');
+
+        $currency = get_option('servv_currency', 'USD');
+        $eventProvider = $eventLocationType == 'offline' ? 'offline' : 'zoom';
+        $ticketsAPIRoute = '/types/tickets/'.$servvEventId.'?event_type=meeting&event_provider='.$eventProvider;
+        foreach($tickets as $ticket) {
+            try {
+                $ticket['currency'] = $currency;
+                $ticket['price'] =  (float)($ticket['price'] ?? 0);
+                $ticket['quantity'] =  !is_null($ticket['quantity']) ? (int)$ticket['quantity'] : null;
+                $ticket['price_units'] = servv_format_amount_for_stripe($ticket['price'], $currency);
+                $ticketResponseBody = servvSendApiRequest($ticketsAPIRoute, $ticket, 'POST');
+            } catch(\Exception $e) {
+                throw new Exception('Error: Invalid save ticket response. '.esc_html($e->getMessage()));
+            }
+        }
+        $n8nData = $responseBody;
+
+        $apiRoute = $eventLocationType == 'offline' ? '/offline/meetings/'.$servvEventId
+            : '/zoom/meetings/'.$servvEventId;
+        try {
+            $responseBody = servvSendApiRequest($apiRoute);
+            $respTypes = $responseBody['types'] ?? [];
+            $n8nData['location_name'] = $respTypes['location_name'] ?? '';
+            $n8nData['language_name'] = $respTypes['language_name'] ?? '';
+            $n8nData['category_name'] = $respTypes['category_name'] ?? '';
+        } catch(\Exception $e) {}
+
+        $n8nData['wp_post_id'] = $postId;
+        $n8nData['wp_post_url'] = get_permalink($postId);
+        servv_n8n_event_created_trigger($n8nData);
+    }
+
+    servvUpdateQuantityWithRequest($postId, $servvEventId, $eventLocationType, $quantity);
+
+    return $resultData;
 }
 
 function servvUpdateQuantityWithRequest($post_id, $servvEventId, $eventLocationType, $quantity)
@@ -318,7 +332,7 @@ function servvUpdateQuantityWithRequest($post_id, $servvEventId, $eventLocationT
     try {
         $getEventResponse = servvSendApiRequest($apiRoute);
     } catch(\Exception $e) {
-        wp_die( 'Error: Invalid get event response. '.esc_html($e->getMessage()));
+        throw new Exception('Error: Invalid get event response. '.esc_html($e->getMessage()));
     }
     $eventData = $getEventResponse['meeting'] ?? [];
     $occurrences = $eventData['occurrences'] ?? [];

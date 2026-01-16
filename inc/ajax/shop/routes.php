@@ -15,6 +15,16 @@ add_action('rest_api_init', function () {
         'callback' => 'servv_update_shop_settings',
         'permission_callback' => 'servv_validate_ajax_permissions',
     ]);
+    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/shop/cards/settings', [
+        'methods'  => 'GET',
+        'callback' => 'servv_get_shop_cards_settings',
+        'permission_callback' => 'servv_validate_ajax_permissions',
+    ]);
+    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/shop/cards/settings', [
+        'methods'  => 'PUT',
+        'callback' => 'servv_update_shop_cards_settings',
+        'permission_callback' => 'servv_validate_ajax_permissions',
+    ]);
     register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/shop/paymentplans', [
         'methods'  => 'GET',
         'callback' => 'servv_get_payment_plans',

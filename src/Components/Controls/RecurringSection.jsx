@@ -6,7 +6,7 @@ const RecurringSection = ({
   recurrence,
   onChange = () => {},
   disabled = false,
-  meetingType = "offline", // <-- Accept meetingType
+  meetingType = "offline",
 }) => {
   const eventTypes = ["One-time", "Recurring"];
 

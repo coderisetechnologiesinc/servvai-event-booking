@@ -9137,6 +9137,65 @@ const CheckboxControl = ({
 
 /***/ }),
 
+/***/ "./src/Components/Controls/CheckboxItem.jsx":
+/*!**************************************************!*\
+  !*** ./src/Components/Controls/CheckboxItem.jsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const CheckboxItem = ({
+  label = "",
+  name,
+  checked = false,
+  disabled = false,
+  onChange = () => {}
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("label", {
+    className: `checkbox-item ${disabled ? "is-disabled" : ""}`,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: "checkbox",
+      name: name,
+      checked: checked,
+      disabled: disabled,
+      onChange: onChange,
+      className: "checkbox-item__input"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "checkbox-item__box",
+      children: checked && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+        className: "checkbox-item__check",
+        width: "12",
+        height: "12",
+        viewBox: "0 0 12 12",
+        fill: "none",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+          d: "M2.5 6.5L5 9L9.5 3",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round"
+        })
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "checkbox-item__label",
+      children: label
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CheckboxItem);
+
+/***/ }),
+
 /***/ "./src/Components/Controls/EndDateControl.jsx":
 /*!****************************************************!*\
   !*** ./src/Components/Controls/EndDateControl.jsx ***!
@@ -9515,6 +9574,83 @@ const ListPagination = ({
 
 /***/ }),
 
+/***/ "./src/Components/Controls/OccurrencessDropdown.jsx":
+/*!**********************************************************!*\
+  !*** ./src/Components/Controls/OccurrencessDropdown.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CheckIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CalendarDaysIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const OccurrencessDropdown = ({
+  options,
+  selected,
+  onSelectChange
+}) => {
+  const [active, setActive] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const handleOptionSelect = (e, option) => {
+    e.preventDefault();
+    onSelectChange(option);
+  };
+  const renderOptions = () => {
+    if (options.length > 0) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 p-4",
+        children: options.map(option => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("a", {
+          className: `flex items-center px-2 py-1 no-underline cursor-pointer`,
+          onClick: e => {
+            handleOptionSelect(e, option);
+            setActive(false);
+          },
+          children: [selected === option ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            className: "w-4 mr-2"
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            className: "w-4 mr-2"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            children: option
+          })]
+        }, option))
+      });
+    }
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    class: "relative inline-block text-left",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+      id: "dropdownButton",
+      className: "flex h-[2.25rem] px-[0.8125rem] pt-[0.46875rem] pb-[0.53125rem] justify-center items-center gap-[0.5rem] rounded-[0.425rem] border border-[#E5E5E5] bg-white text-gray-900",
+      onClick: () => {
+        setActive(!active);
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        className: "w-4 fill-gray-900"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        children: selected
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "w-6 fill-gray-900"
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "text-[14px] text-gray-500 font-regular absolute top-[-21px]",
+      children: "Click here to select date"
+    }), active && renderOptions()]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OccurrencessDropdown);
+
+/***/ }),
+
 /***/ "./src/Components/Controls/RecurringControl.jsx":
 /*!******************************************************!*\
   !*** ./src/Components/Controls/RecurringControl.jsx ***!
@@ -9824,7 +9960,7 @@ const RecurringSection = ({
   recurrence,
   onChange = () => {},
   disabled = false,
-  meetingType = "offline" // <-- Accept meetingType
+  meetingType = "offline"
 }) => {
   const eventTypes = ["One-time", "Recurring"];
   const handleTypeChange = val => {
@@ -10282,7 +10418,7 @@ const useServvData = () => {
     result.locations = await fetchFiltersByType("locations");
     result.languages = await fetchFiltersByType("languages");
     result.categories = await fetchFiltersByType("categories");
-    if (settings && settings.current_plan?.id === 2) {
+    if (settings && settings.current_plan?.id !== 1) {
       result.members = await fetchFiltersByType("members");
     }
     return result;
@@ -11095,7 +11231,7 @@ const DateTimeSection = ({
     }), !occurrenceId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_RecurringSection__WEBPACK_IMPORTED_MODULE_3__["default"], {
       recurrence: recurrence,
       onChange: handleRecurrenceChange,
-      disabled: settings && settings.current_plan.id !== 2
+      disabled: settings && settings.current_plan.id === 1
     })]
   });
 };
@@ -11204,7 +11340,7 @@ const EventDetails = ({
   };
   const getAccountsInfo = async () => {
     setLoading(true);
-    const isPro = settings?.current_plan?.id === 2;
+    const isPro = settings?.current_plan?.id === 2 || settings?.current_plan?.id === 3;
     const {
       stripeAccount,
       zoomAccount,
@@ -11700,7 +11836,7 @@ const EventDetails = ({
           handleDetailsChange: handleProductChange,
           settings: settings,
           postId: postId,
-          disabled: settings?.current_plan.id !== 2,
+          disabled: settings?.current_plan.id !== 2 && settings?.current_plan.id !== 3,
           handleSetLoading: handleSetLoading,
           stripeAccount: stripeAccount,
           occurrenceId: occurrenceId,
@@ -11738,7 +11874,7 @@ const EventDetails = ({
         onPrev: handlePrevRegistrantsPage,
         handleResendNotifications: handleResendNotifications,
         handleResendNotificationsToAll: handleResendNotificationsToAll,
-        disabled: settings?.current_plan.id !== 2
+        disabled: settings?.current_plan.id !== 2 && settings?.current_plan.id !== 3
       }), selectedTab === 0 && !activationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
         className: "section-container border-b-2 border-gray-200",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
@@ -12234,7 +12370,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
-/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
+/* harmony import */ var _Controls_CheckboxItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/CheckboxItem */ "./src/Components/Controls/CheckboxItem.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
 
@@ -12251,19 +12387,23 @@ const Registrant = ({
   onSelect,
   selected
 }) => {
-  console.log(id, selected);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "registrant group",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
       gap: 2,
-      align: "left",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        onChange: () => onSelect(id),
-        checked: selected
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
-        children: firstName + " " + lastName
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        children: email
+      align: "center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_CheckboxItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        checked: selected,
+        onChange: () => onSelect(id)
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "flex flex-col gap-[6px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("strong", {
+          className: "whitespace-nowrap",
+          children: [firstName, " ", lastName]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          className: "text-gray-600 truncate max-w-[220px]",
+          children: email
+        })]
       }), status === "create" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_1__["default"], {
         text: "Draft",
         size: "medium",
@@ -12275,7 +12415,8 @@ const Registrant = ({
         color: "error",
         type: "pill-colour"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-        className: "flex-row items-center px-2 rounded-lg border-solid border border-error-700 bg-error-600 text-gray-50 text-sm ml-auto hidden group-hover:flex",
+        type: "button",
+        className: "servv_button servv_button--danger servv_button--sm ml-auto opacity-0 pointer-events-none transition-opacity duration-150 group-hover:opacity-100 group-hover:pointer-events-auto",
         onClick: () => onStatusChange(id),
         children: !status || status === "create" ? "Delete" : "Revert"
       })]
@@ -12925,23 +13066,13 @@ const TicketsSection = ({
     const type = ticketsAvailability.indexOf(val);
     const currentTickets = [...tickets];
     if (type === 0) {
-      if (currentTickets[selectedTicket].start_datetime) {
-        delete currentTickets[selectedTicket].start_datetime;
-        delete currentTickets[selectedTicket].end_datetime;
-      }
+      delete currentTickets[selectedTicket].start_datetime;
+      delete currentTickets[selectedTicket].end_datetime;
     }
     if (type === 1) {
-      // let currentStartTime = eventDetails.startTime
-      //   ? eventDetails.timezone
-      //     ? moment(eventDetails.startTime).tz(eventDetails.timezone)
-      //     : moment(eventDetails.startTime)
-      //   : eventDetails.timezone
-      //   ? moment().tz(eventDetails.timezone)
-      //   : moment();
-      // currentTickets[selectedTicket].start_datetime = currentStartTime.format();
-      // currentTickets[selectedTicket].end_datetime = moment(currentStartTime)
-      //   .add(1, "d")
-      //   .format();
+      const base = getEventBaseTime();
+      currentTickets[selectedTicket].start_datetime = base.toISOString();
+      currentTickets[selectedTicket].end_datetime = base.toISOString();
     }
     setTicketAvailability(type);
     onTicketsChange(currentTickets);
@@ -12984,6 +13115,7 @@ const TicketsSection = ({
   const handleTicketCancel = () => {
     setSelectedTicket(null);
   };
+  const getEventBaseTime = () => moment__WEBPACK_IMPORTED_MODULE_9___default()(attributes?.meeting?.startTime || eventDetails.startTime).tz(eventDetails.timezone);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (!tickets || tickets.length === 0 || selectedTicket === null || tickets.length - 1 < selectedTicket) return;
     if (tickets[selectedTicket].name) {
@@ -13015,32 +13147,26 @@ const TicketsSection = ({
   }, [selectedTicket]);
   const handleSaleStartDateChange = date => {
     const currentTickets = [...tickets];
-    // console.log("newDate", date);
-    // console.log("time", currentTickets[selectedTicket].start_datetime);
-    const currentTime = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).tz(eventDetails.timezone || "US/Pacific");
-    // console.log("currentTime", currentTime);
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).startOf("day");
-    // console.log("selectedDate", selectedDate);
-    currentTime.set({
-      year: selectedDate.year(),
-      month: selectedDate.month(),
-      date: selectedDate.date()
-    }, true);
-    // console.log("selectedDate+time", currentTime);
-
-    currentTickets[selectedTicket].start_datetime = currentTime.toISOString();
+    const current = currentTickets[selectedTicket].start_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].start_datetime).tz(eventDetails.timezone) : getEventBaseTime();
+    const selected = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone);
+    current.set({
+      year: selected.year(),
+      month: selected.month(),
+      date: selected.date()
+    });
+    currentTickets[selectedTicket].start_datetime = current.toISOString();
     onTicketsChange(currentTickets);
   };
   const handleSaleEndDateChange = date => {
     const currentTickets = [...tickets];
-    const currentTime = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime).tz(eventDetails.timezone || "US/Pacific") : moment__WEBPACK_IMPORTED_MODULE_9___default()(eventDetails.startTime).add(1, "d").tz(eventDetails.timezone || "US/Pacific");
-    const selectedDate = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone || "US/Pacific");
-    selectedDate.set({
-      hour: currentTime.get("hour"),
-      minute: currentTime.get("minute"),
-      second: currentTime.get("second")
+    const current = currentTickets[selectedTicket].end_datetime ? moment__WEBPACK_IMPORTED_MODULE_9___default()(currentTickets[selectedTicket].end_datetime).tz(eventDetails.timezone) : getEventBaseTime();
+    const selected = moment__WEBPACK_IMPORTED_MODULE_9___default()(date).tz(eventDetails.timezone);
+    current.set({
+      year: selected.year(),
+      month: selected.month(),
+      date: selected.date()
     });
-    currentTickets[selectedTicket].end_datetime = selectedDate.toISOString();
+    currentTickets[selectedTicket].end_datetime = current.toISOString();
     onTicketsChange(currentTickets);
   };
   const getStartDate = () => {
@@ -13113,13 +13239,10 @@ const TicketsSection = ({
     onTicketsChange(currentTickets);
   };
   const checkTimeDiff = () => {
-    const startDate = tickets[selectedTicket].start_datetime;
-    const endDate = tickets[selectedTicket].end_datetime;
-    if (startDate && endDate) {
-      let start = moment__WEBPACK_IMPORTED_MODULE_9___default()(startDate);
-      let end = moment__WEBPACK_IMPORTED_MODULE_9___default()(endDate);
-      return start.isAfter(end);
-    } else return false;
+    const start = tickets[selectedTicket]?.start_datetime;
+    const end = tickets[selectedTicket]?.end_datetime;
+    if (!start || !end) return false;
+    return moment__WEBPACK_IMPORTED_MODULE_9___default()(start).isSameOrAfter(moment__WEBPACK_IMPORTED_MODULE_9___default()(end));
   };
   const ticketsMods = ["Single", "Multiple"];
   const [selectedTicketsMode, setSelectedTicketMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(ticketsMods[0]);
@@ -13340,6 +13463,1885 @@ const browserLang = (navigator.language || navigator.userLanguage || "en_US").re
 
 /***/ }),
 
+/***/ "./src/checkout.js":
+/*!*************************!*\
+  !*** ./src/checkout.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Components/Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Components/Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var _Components_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Components/Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var _Components_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Components/Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
+/* harmony import */ var _Components_Menu_Spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Components/Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/MinusIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PlusIcon.js");
+/* harmony import */ var _Components_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Components/Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var _stripe_stripe_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @stripe/stripe-js */ "./node_modules/@stripe/stripe-js/lib/index.mjs");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ArrowLeftIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ArrowRightIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CheckIcon.js");
+/* harmony import */ var _Components_Controls_OccurrencessDropdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Components/Controls/OccurrencessDropdown */ "./src/Components/Controls/OccurrencessDropdown.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const PaymentForm = () => {
+  const [meetingData, setMeetingData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [email, setEmail] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
+  const [firstName, setFirstName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
+  const [lastName, setLastName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
+  const [secret, setClientSecret] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [stripeElement, setStripeElement] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [paymentElement, setPaymentElement] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [step, setStep] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
+  const [errorMessage, setErrorMessage] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [showPaymentForm, setShowPaymentform] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [confirmMessage, setConfirmMessage] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [additionalRegistrants, setAdditionalRegistrants] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [additionalRegistrantsQuantity, setAdditionalRegistrantsQuantity] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const [selectedOccurrence, setSelectedOccurrence] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [selectedTicket, setSelectedTicket] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [donation, setDonation] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const [tickets, setTickets] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [initialTickets, setInitialTickets] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [registrationError, setRegistrationError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
+  const [showRegistrationError, setShowRegistrationError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [sameForAll, setSameForAll] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+  const isEmailValid = email => {
+    if (!email && email.length === 0) {
+      return false;
+    }
+    return email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  };
+  const validateRegistrants = () => {
+    if (additionalRegistrants.length === 0) return true;
+    if (additionalRegistrants.length > 0) {
+      let flag = true;
+      if (!sameForAll) {
+        additionalRegistrants.forEach(registrant => {
+          if (isEmailValid(registrant.email) === null || registrant.firstName.length === 0 || registrant.lastName.length === 0) {
+            flag = false;
+          }
+          if (isTicketsAvailable() && registrant.ticket.is_donation && registrant.donation === 0) {
+            flag = false;
+          }
+        });
+        return flag;
+      } else if (isEmailValid(additionalRegistrants[0].email) === null || additionalRegistrants[0].firstName.length === 0 || additionalRegistrants[0].lastName.length === 0) {
+        return false;
+      }
+      if (isTicketsAvailable() && additionalRegistrants[0].ticket.is_donation && additionalRegistrants[0].donation === 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+  const fetchClientSecret = async () => {
+    const registrantsValidation = validateRegistrants();
+    if (
+    // isEmailValid(email) === null ||
+    // firstName.length === 0 ||
+    // lastName.length === 0 ||
+    !registrantsValidation) {
+      setErrorMessage(true);
+      return;
+    }
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      params.append("action", "servv_create_checkout_session");
+      params.append("security", servvCheckoutData.nonce);
+      params.append("post_id", servvCheckoutData.postId);
+      if (selectedOccurrence) {
+        params.append("occurrence_id", selectedOccurrence.id);
+      }
+      // if (isTicketsAvailable()) {
+      //   params.append("ticket_id", selectedTicket.id);
+      // }
+
+      // if (isDonation()) {
+      //   params.append("donation_amount", donation);
+      // }
+      if (additionalRegistrants.length > 0) {
+        let preparedAdditionalRegistrants = additionalRegistrants.slice(1);
+        if (isTicketsAvailable()) {
+          preparedAdditionalRegistrants = preparedAdditionalRegistrants.map(registrant => {
+            return {
+              ...registrant,
+              ticket: registrant.ticket
+            };
+          });
+        }
+        let additionalRegistrantsData = preparedAdditionalRegistrants.map(registrant => {
+          let registrantData = null;
+          if (!sameForAll) {
+            registrantData = `${registrant.email},${registrant.firstName},${registrant.lastName}`;
+          } else {
+            registrantData = `${additionalRegistrants[0].email},${additionalRegistrants[0].firstName},${additionalRegistrants[0].lastName}`;
+          }
+          if (isTicketsAvailable()) {
+            registrantData += `,${registrant.ticket.id}`;
+          }
+          if (registrant.ticket && registrant.ticket.is_donation) {
+            if (!sameForAll) registrantData += `,${registrant.donation ? registrant.donation : 0}`;else registrantData += `,${additionalRegistrants[0].donation ? additionalRegistrants[0].donation : 0}`;
+          }
+          return registrantData;
+        });
+        console.log(additionalRegistrantsData.join(";"));
+        params.append("additional_registrants", additionalRegistrantsData.join(";"));
+        // // Get the value of "additional_registrants"
+        // const additionalRegistrantsD = params.get("additional_registrants");
+
+        // // If it was URL-encoded, decode it
+        // const decodedValue = additionalRegistrantsD
+        //   ? decodeURIComponent(additionalRegistrantsD)
+        //   : null;
+
+        // // Log it
+        // console.log(decodedValue.split(";"));
+      }
+      // if (isDonation()) {
+      //   params.append("donation_amount", donation);
+      // }
+      if (sameForAll) {
+        params.append("same_for_all", true);
+      }
+      if (!isTicketsAvailable()) {
+        params.append("email", email);
+        params.append("first_name", firstName);
+        params.append("last_name", lastName);
+      } else {
+        let firstRegistrant = additionalRegistrants[0];
+        params.append("email", firstRegistrant.email);
+        params.append("first_name", firstRegistrant.firstName);
+        params.append("last_name", firstRegistrant.lastName);
+        params.append("ticket_id", firstRegistrant.ticket.id);
+        if (firstRegistrant.ticket.is_donation) {
+          params.append("donation_amount", firstRegistrant.donation || 0);
+        }
+      }
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvCheckoutData.ajaxUrl, params);
+      if (response && response.status === 200 && response.data.success) {
+        if (response.data.success) {
+          const clientSecret = response.data.data.client_secret;
+          const stripePublicKey = response.data.data.public_key;
+          setClientSecret(clientSecret);
+          const stripe = await (0,_stripe_stripe_js__WEBPACK_IMPORTED_MODULE_9__.loadStripe)(stripePublicKey, {
+            stripeAccount: servvCheckoutData.stripeAccountId
+          });
+          const handleComplete = async function () {
+            checkout.destroy();
+            setConfirmMessage(true);
+          };
+          const checkout = await stripe.initEmbeddedCheckout({
+            clientSecret,
+            onComplete: handleComplete
+          });
+          setStep(step + 1);
+          setShowPaymentform(true);
+          checkout.mount("#servv-payment-element");
+        }
+      } else if (response && response.status === 200 && !response.data.success) {
+        setRegistrationError(response.data.message);
+        setShowRegistrationError(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setRegistrationError("Sorry, we're facing some issues, please try again later");
+      setShowRegistrationError(true);
+      console.error("Error fetching event info:", error);
+    }
+  };
+  const handleRegistrantEmailChange = (index, email) => {
+    let registrants = [...additionalRegistrants];
+    registrants[index].email = email;
+    setAdditionalRegistrants(registrants);
+    if (validateRegistrants()) {
+      setErrorMessage(false);
+    }
+  };
+  const handleRegistrantFirstNameChange = (index, firstName) => {
+    let registrants = [...additionalRegistrants];
+    registrants[index].firstName = firstName;
+    setAdditionalRegistrants(registrants);
+    if (validateRegistrants()) {
+      setErrorMessage(false);
+    }
+  };
+  const handleRegistrantLastNameChange = (index, lastName) => {
+    let registrants = [...additionalRegistrants];
+    registrants[index].lastName = lastName;
+    setAdditionalRegistrants(registrants);
+    if (validateRegistrants()) {
+      setErrorMessage(false);
+    }
+  };
+  const handleRegistrantDonation = (index, val) => {
+    let registrants = [...additionalRegistrants];
+    registrants[index].donation = Number.parseFloat(val);
+    setAdditionalRegistrants(registrants);
+    // if (validateRegistrants()) {
+    //   setErrorMessage(false);
+    // }
+  };
+
+  // const handleRegistrantTicketSelect = (index, newVal) => {
+  //   let updatedRegistrants = [...additionalRegistrants];
+  //   let newTickets = [...tickets];
+  //   let ticket =
+  //     newTickets[tickets.findIndex((ticket) => ticket.name === newVal)];
+
+  //   if (
+  //     ticket &&
+  //     (ticket.current_quantity === null || ticket.current_quantity - 2 >= 0)
+  //   )
+  //     updatedRegistrants[index].ticket = ticket;
+  //   else return;
+  //   setAdditionalRegistrants(updatedRegistrants);
+  // };
+
+  const renderAdditionalRegistrantsForm = () => {
+    const price = getEventPrice();
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      className: "flex flex-col gap-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        id: "1",
+        className: "flex flex-row gap-4 max-sm:flex-col",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-col w-full gap-4",
+          children: [additionalRegistrants.map((registrant, index) => {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+              children: (registrant.first_registrant || !registrant.first_registrant && !sameForAll) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                className: "flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-full",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                  className: "flex flex-col w-full flex-1 gap-2",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                    className: "flex flex-row items-center justify-between",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                      id: "2",
+                      className: "flex flex-row gap-4 items-center",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                        className: "font-semibold text-[16px]",
+                        children: "Attendee " + (index + 1)
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                        className: "text-[12px] md:text-[16px] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white",
+                        children: "Standard ticket"
+                      })]
+                    }), registrant.canBeAdded === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                      children: "Registrant can't be added"
+                    }), additionalRegistrants.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+                      className: "font-semibold text-black border-none text-[12px]",
+                      onClick: () => removeRegistrant(index),
+                      children: "Remove"
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                    className: "text-[16px] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
+                    children: price > 0 ? price + " " + meetingData.currency.toUpperCase() : "Free"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                    className: "flex flex-col gap-2",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                      className: "text-[16px] flex flex-col font-semibold",
+                      children: "Email *"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                      value: registrant.email,
+                      align: "left",
+                      type: "text",
+                      width: "100%",
+                      onChange: val => handleRegistrantEmailChange(index, val)
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                      className: "flex flex-row justify-evenly items-baseline w-full gap-4",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                        className: "flex flex-col gap-2 flex-1",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                          className: "text-[16px] flex flex-col font-semibold",
+                          children: "First Name *"
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                          value: registrant.firstName,
+                          align: "left",
+                          type: "text",
+                          width: "100%",
+                          onChange: val => handleRegistrantFirstNameChange(index, val)
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                        className: "flex flex-col gap-2 flex-1",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                          className: "text-[16px] flex flex-col font-semibold",
+                          children: "Last Name *"
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                          value: registrant.lastName,
+                          align: "left",
+                          type: "text",
+                          width: "100%",
+                          onChange: val => handleRegistrantLastNameChange(index, val)
+                        })]
+                      })]
+                    })]
+                  })]
+                }), additionalRegistrants.length > 1 && registrant.first_registrant && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                  className: "mt-4",
+                  children: registrant.first_registrant && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                    label: "Same for all",
+                    checked: sameForAll,
+                    onChange: () => setSameForAll(!sameForAll)
+                  })
+                })]
+              })
+            });
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-row justify-between pt-8",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
+              onClick: () => handlePrevStep(),
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem] max-sm:p-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_13__["default"], {
+                className: "w-[1rem]"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                children: "Back to tickets"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
+              onClick: handleCheckout,
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
+                className: "w-[1rem]"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                children: "Continue to checkout"
+              })]
+            })]
+          })]
+        }), renderSummary()]
+      })
+    });
+  };
+
+  // const renderAdditionalRegistrantsForm = () => {
+  //   return additionalRegistrants.map((registrant, index) => {
+  //     return (
+  //       <BlockStack gap={2} cardsLayout={true}>
+  //         <div className="section-description font-semibold border-b mt-2 flex flex-row justify-between">
+  //           <span>Additional registrant</span>{" "}
+  //           {registrant.canBeAdded === false && (
+  //             <span>Registrant can't be added</span>
+  //           )}
+  //           <button className="" onClick={() => removeRegistrant(index)}>
+  //             Remove
+  //           </button>
+  //         </div>
+  //         {isTicketsAvailable() && (
+  //           <BlockStack gap={4} cardsLayout={true}>
+  //             <div className="flex flex-row items-center">Tickets</div>
+  //             <SelectControl
+  //               options={ticketsOptions()}
+  //               selected={additionalRegistrants[index]?.ticket?.name}
+  //               onSelectChange={(newVal) =>
+  //                 handleRegistrantTicketSelect(index, newVal)
+  //               }
+  //             />
+  //           </BlockStack>
+  //         )}
+  //         <div className="section-description font-regular">Email</div>
+  //         <InputFieldControl
+  //           value={registrant.email}
+  //           align="left"
+  //           type="text"
+  //           width={"100%"}
+  //           onChange={(val) => handleRegistrantEmailChange(index, val)}
+  //         />
+  //         <InlineStack gap={4}>
+  //           <BlockStack cardsLayout={true}>
+  //             <div className="section-description font-regular">First Name</div>
+  //             <InputFieldControl
+  //               value={registrant.firstName}
+  //               align="left"
+  //               type="text"
+  //               width={"100%"}
+  //               onChange={(val) => handleRegistrantFirstNameChange(index, val)}
+  //             />
+  //           </BlockStack>
+  //           <BlockStack cardsLayout={true}>
+  //             <div className="section-description font-regular">Last Name</div>
+  //             <InputFieldControl
+  //               value={registrant.lastName}
+  //               align="left"
+  //               type="text"
+  //               width={"100%"}
+  //               onChange={(val) => handleRegistrantLastNameChange(index, val)}
+  //             />
+  //           </BlockStack>
+  //         </InlineStack>
+  //         {registrant.ticket && registrant.ticket?.is_donation && (
+  //           <BlockStack cardsLayout={true}>
+  //             <div className="section-description font-regular">Donation</div>
+  //             <InputFieldControl
+  //               value={registrant.donation}
+  //               align="left"
+  //               type="number"
+  //               width={"100%"}
+  //               onChange={(val) => handleRegistrantDonation(index, val)}
+  //             />
+  //           </BlockStack>
+  //         )}
+  //       </BlockStack>
+  //     );
+  //   });
+  // };
+
+  const fetchEventInfo = async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      params.append("action", "servv_get_event_info");
+      params.append("security", servvCheckoutData.nonce);
+      params.append("post_id", servvCheckoutData.postId);
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvCheckoutData.ajaxUrl, params);
+      if (response && response.status === 200) {
+        setMeetingData(response.data);
+      }
+
+      // if (response && response.status === 200) {
+      // }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching event info:", error);
+    }
+  };
+  const getData = async () => {
+    await fetchEventInfo();
+  };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    getData();
+  }, []);
+  const handleEmailChange = val => {
+    setEmail(val);
+    checkForErrors();
+  };
+  const handleFirstNameChange = val => {
+    setFirstName(val);
+    checkForErrors();
+  };
+  const handleLastNameChange = val => {
+    setLastName(val);
+    checkForErrors();
+  };
+  const findFirstAvailableTicket = (occurrenceTickets = null) => {
+    let availableTickets = null;
+    if (occurrenceTickets) {
+      availableTickets = [...occurrenceTickets];
+    } else {
+      availableTickets = [...tickets];
+    }
+    if (!availableTickets) return null;
+    let firstAvailableTicket = availableTickets.filter(ticket => {
+      if (selectedTicket && selectedTicket.id === ticket.id) {
+        if (ticket.current_quantity - 1 > 0 || ticket.current_quantity === null) {
+          return {
+            ...ticket
+          };
+        }
+      } else if (ticket.current_quantity > 0 || ticket.current_quantity === null) {
+        return {
+          ...ticket
+        };
+      }
+    });
+    // console.log(
+    //   "first available",
+    //   firstAvailableTicket.filter(
+    //     (t) => t.current_quantity > 0 || t.current_quantity === null
+    //   )[0]
+    // );
+    if (firstAvailableTicket.length > 0) {
+      return firstAvailableTicket.filter(t => t.current_quantity > 0 || t.current_quantity === null)[0];
+    } else return null;
+  };
+  const checkForErrors = newVal => {
+    if (errorMessage && isEmailValid(email) !== null && firstName.length > 0 && lastName.length > 0) {
+      setErrorMessage(false);
+    }
+  };
+  const addRegistrant = () => {
+    const registrants = [...additionalRegistrants];
+    let newRegistrant = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      canBeAdded: true
+    };
+    if (registrants.length === 0) {
+      newRegistrant.first_registrant = true;
+    }
+    let firstAvailableTicket = null;
+    if (isTicketsAvailable()) {
+      firstAvailableTicket = findFirstAvailableTicket();
+      newRegistrant.ticket = firstAvailableTicket;
+      if (findFirstAvailableTicket) {
+        let ticketsUpdated = [...tickets];
+        let ticketIndex = ticketsUpdated.findIndex(ticket => ticket.id === firstAvailableTicket.id);
+        let ticketToUpdate = ticketsUpdated[ticketIndex];
+        if (ticketToUpdate.current_quantity !== null) {
+          ticketToUpdate.current_quantity = ticketToUpdate.current_quantity - 1;
+        }
+        if (isTicketsAvailable() && firstAvailableTicket.is_donation) {
+          newRegistrant.donation = 0;
+        }
+        ticketsUpdated[ticketIndex] = ticketToUpdate;
+        setTickets(ticketsUpdated);
+      }
+    }
+    if (isTicketsAvailable() && firstAvailableTicket || !isTicketsAvailable()) {
+      registrants.push(newRegistrant);
+      setAdditionalRegistrants(registrants);
+      setAdditionalRegistrantsQuantity(additionalRegistrants.length + 1);
+    }
+  };
+  const addRegistrantWithTicket = id => {
+    const newRegistrants = [...additionalRegistrants];
+    let newRegistrant = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      canBeAdded: true
+    };
+    if (newRegistrants.length === 0) {
+      newRegistrant.first_registrant = true;
+    }
+    let updatedTickets = [...tickets];
+    let selectedTicketIndex = tickets.findIndex(t => t.id === id);
+    newRegistrant.ticket = updatedTickets[selectedTicketIndex];
+    newRegistrants.push(newRegistrant);
+    setAdditionalRegistrants(newRegistrants);
+    if (updatedTickets[selectedTicketIndex].current_quantity) {
+      updatedTickets[selectedTicketIndex].current_quantity = updatedTickets[selectedTicketIndex].current_quantity - 1;
+      setTickets(updatedTickets);
+    }
+  };
+  const occurrencesList = meetingData?.meeting?.occurrences?.map(occurrence => {
+    return {
+      ...occurrence,
+      label: moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(occurrence.start_time).tz(meetingData.meeting.timezone).format("MMM DD, YYYY")
+    };
+  });
+
+  // useEffect(() => {
+  //   console.log("tickets change", tickets);
+  // }, [tickets]);
+
+  const handleSelectOccurrenceChange = val => {
+    const selectedOccurrence = occurrencesList.filter(occurrence => occurrence.label === val);
+    if (selectedOccurrence.length > 0) setSelectedOccurrence(selectedOccurrence[0]);
+  };
+  const validateAdditionalRegistrants = (occurrenceTickets, currentTicket) => {
+    if (additionalRegistrants.length === 0) {
+      return;
+    }
+    // console.log("validate tickets", occurrenceTickets);
+    let updatedRegistrants = [...additionalRegistrants];
+    let workingTickets = occurrenceTickets.map(ticket => ({
+      ...ticket
+    }));
+    updatedRegistrants = updatedRegistrants.map(registrant => {
+      let registrantTicket = workingTickets.find(ticket => ticket.name === registrant.ticket?.name);
+      let ticketIndex = workingTickets.findIndex(ticket => ticket.name === registrant.ticket?.name);
+      if (registrantTicket) {
+        const isQuantityTracked = workingTickets[ticketIndex].current_quantity !== null;
+        if (isQuantityTracked) {
+          if (registrantTicket.current_quantity > 0) {
+            workingTickets[ticketIndex].current_quantity = workingTickets[ticketIndex].current_quantity - 1;
+            if (currentTicket && currentTicket.name === registrantTicket.name) {
+              if (registrantTicket.current_quantity - 1 >= 0) {
+                return {
+                  ...registrant,
+                  ticket: {
+                    ...registrantTicket
+                  },
+                  canBeAdded: true
+                };
+              } else {
+                return {
+                  ...registrant,
+                  ticket: {
+                    ...registrantTicket
+                  },
+                  canBeAdded: false
+                };
+              }
+            } else return {
+              ...registrant,
+              ticket: {
+                ...registrantTicket
+              },
+              canBeAdded: true
+            };
+          } else {
+            return {
+              ...registrant,
+              ticket: registrantTicket,
+              canBeAdded: false
+            };
+          }
+        } else {
+          return {
+            ...registrant,
+            ticket: registrantTicket,
+            canBeAdded: true
+          };
+        }
+      } else {
+        return {
+          ...registrant,
+          canBeAdded: false
+        };
+      }
+    });
+    setTickets(workingTickets);
+    setAdditionalRegistrants(updatedRegistrants);
+  };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (occurrencesList && occurrencesList.length > 0 && !selectedOccurrence) {
+      setSelectedOccurrence(occurrencesList[0]);
+    }
+  }, [occurrencesList]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (selectedOccurrence?.tickets?.length > 0) {
+      // Always start with a fresh copy of the tickets for the selected occurrence
+      const initialOccurrenceTickets = selectedOccurrence.tickets.map(ticket => ({
+        ...ticket
+      }));
+      const copied = JSON.parse(JSON.stringify(initialOccurrenceTickets));
+      setInitialTickets(copied);
+      setTickets([...initialOccurrenceTickets]);
+      let availableTicket = findFirstAvailableTicket(initialOccurrenceTickets);
+      setSelectedTicket(availableTicket);
+      if (isTicketsAvailable()) {
+        // Pass a copy of the *initial* tickets to validate against
+        validateAdditionalRegistrants([...initialOccurrenceTickets], availableTicket);
+      }
+    } else {
+      // If no tickets for the selected occurrence, clear the tickets state
+      setTickets([]);
+      setSelectedTicket(null);
+      // Also ensure additional registrants are cleared or flagged appropriately if no tickets are available
+      setAdditionalRegistrants(prev => prev.map(reg => ({
+        ...reg,
+        canBeAdded: false,
+        ticket: null
+      })));
+    }
+  }, [selectedOccurrence]);
+  const checkEndTime = () => {
+    if (additionalRegistrants.length === 0) {
+      return;
+    }
+    // else if (
+    //   additionalRegistrants.filter((reg) => reg.ticket.end_datetime !== null)
+    //     .length === 0
+    // ) {
+    //   return;
+    // }
+    else {
+      let currentRegistrants = [...additionalRegistrants];
+      currentRegistrants = currentRegistrants.map(reg => {
+        if (reg.ticket && reg.ticket.end_datetime) {
+          const currentTime = moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()().utc();
+          const ticketSalesStart = moment_timezone__WEBPACK_IMPORTED_MODULE_2___default().utc(reg.ticket.end_datetime);
+          if (currentTime.isSameOrAfter(ticketSalesStart)) {
+            return {
+              ...reg,
+              canBeAdded: false
+            };
+          } else {
+            return {
+              ...reg,
+              canBeAdded: true
+            };
+          }
+        } else return {
+          ...reg
+        };
+      });
+      setAdditionalRegistrants(currentRegistrants);
+    }
+  };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (meetingData && meetingData.meeting && meetingData.meeting.tickets && meetingData.meeting.tickets.length > 0) {
+      let availableTicket = findFirstAvailableTicket(meetingData.meeting.tickets);
+      setSelectedTicket(availableTicket);
+    }
+    if (meetingData && meetingData.meeting && meetingData.meeting.tickets && meetingData.meeting.tickets.length > 0) {
+      const copied = JSON.parse(JSON.stringify(meetingData.meeting.tickets));
+      setInitialTickets(copied);
+      // const isEndTime =
+      //   copied.filter((ticket) => ticket.end_datetime).length > 0;
+      // if (isEndTime) {
+      //   setInterval(() => {
+      //     checkEndTime();
+      //   }, 1000);
+      // }
+      setTickets([...meetingData.meeting.tickets]);
+    }
+  }, [meetingData]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const isEndTime = initialTickets.filter(ticket => ticket.end_datetime).length > 0;
+    if (!isEndTime || additionalRegistrants.length === 0) return;
+    const intervalId = setInterval(() => {
+      checkEndTime();
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [additionalRegistrants]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (selectedOccurrence && selectedOccurrence.tickets && selectedOccurrence.tickets.length > 0 && !selectedTicket) {
+      let availableTicket = findFirstAvailableTicket([...selectedOccurrence.tickets]);
+      setSelectedTicket(availableTicket);
+      // setSelectedTicket(selectedOccurrence.tickets[0]);
+    }
+  }, [selectedOccurrence]);
+  const removeRegistrant = (index = null) => {
+    let registrantsList = [...additionalRegistrants];
+    if (tickets.length > 0) {
+      let registrantTicket;
+      if (index) {
+        registrantTicket = additionalRegistrants[index].ticket;
+      } else {
+        registrantTicket = additionalRegistrants[additionalRegistrants.length - 1].ticket;
+      }
+      if (registrantTicket && registrantTicket.current_quantity !== null) {
+        let updatedTickets = [...tickets];
+        let ticketToUpdate = updatedTickets.findIndex(ticket => ticket.id === registrantTicket.id);
+        updatedTickets[ticketToUpdate].current_quantity = updatedTickets[ticketToUpdate].current_quantity + 1;
+        if (index === 0) {
+          updatedTickets[0].first_registrant = true;
+        }
+        setTickets(updatedTickets);
+      }
+    }
+    if (index === null) {
+      registrantsList.pop();
+    } else {
+      registrantsList = registrantsList.filter((_, i) => i !== index);
+      if (index === 0 && registrantsList.length > 0) {
+        registrantsList[0].first_registrant = true;
+      }
+    }
+    setAdditionalRegistrants(registrantsList);
+    // console.log(registrantsList.length);
+    if (registrantsList.length === 0 && step !== 1) {
+      handlePrevStep();
+    }
+  };
+  const isFreeRegistrationPossible = () => {
+    if (!meetingData) return;
+    if (!tickets || tickets.length === 0) {
+      if (isRecurringEvent()) {
+        if (selectedOccurrence) {
+          if (selectedOccurrence.product && selectedOccurrence.product.price && selectedOccurrence.product.price > 0) {
+            return false;
+          } else return true;
+        } else if (!selectedOccurrence && occurrencesList) {
+          if (occurrencesList.length > 0 && occurrencesList[0].product && occurrencesList[0].product.price && occurrencesList[0].product.price > 0) return false;else return true;
+        } else return true;
+      } else {
+        if (meetingData && meetingData.product && meetingData.product.price && meetingData.product.price > 0) {
+          return false;
+        } else return true;
+      }
+    } else {
+      let registrantsTicketsFree = true;
+      additionalRegistrants.forEach(registrant => {
+        if (registrant.ticket && registrant.ticket.price && registrant.ticket.price !== 0 || registrant.ticket && registrant.ticket.is_donation) {
+          registrantsTicketsFree = false;
+        }
+      });
+      if (registrantsTicketsFree && (selectedTicket.price === null || selectedTicket.price === 0) && !selectedTicket.is_donation) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+  const freeRegistration = async () => {
+    const registrantsValidation = validateRegistrants();
+    if (
+    // isEmailValid(email) === null ||
+    // firstName.length === 0 ||
+    // lastName.length === 0 ||
+    !registrantsValidation) {
+      setErrorMessage(true);
+      return;
+    }
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+      params.append("action", "servv_process_free_order");
+      params.append("security", servvCheckoutData.nonce);
+      params.append("post_id", servvCheckoutData.postId);
+      if (selectedOccurrence) {
+        params.append("occurrence_id", selectedOccurrence.id);
+      }
+
+      // if (isTicketsAvailable()) {
+      //   params.append("ticket_id", selectedTicket.id);
+      // }
+
+      // if (isDonation()) {
+      //   params.append("donation_amount", donation);
+      // }
+
+      if (additionalRegistrants.length > 0) {
+        let preparedAdditionalRegistrants = additionalRegistrants.slice(1);
+        if (isTicketsAvailable()) {
+          preparedAdditionalRegistrants = preparedAdditionalRegistrants.map(registrant => {
+            return {
+              ...registrant,
+              ticket: registrant.ticket
+            };
+          });
+        }
+        let additionalRegistrantsData = preparedAdditionalRegistrants.map(registrant => {
+          let registrantData = null;
+          if (!sameForAll) {
+            registrantData = `${registrant.email},${registrant.firstName},${registrant.lastName}`;
+          } else {
+            registrantData = `${additionalRegistrants[0].email},${additionalRegistrants[0].firstName},${additionalRegistrants[0].lastName}`;
+          }
+          if (isTicketsAvailable()) {
+            registrantData += `,${registrant.ticket.id}`;
+          }
+          if (registrant.ticket && registrant.ticket.is_donation) {
+            registrantData += `,${registrant.donation}`;
+          }
+          return registrantData;
+        });
+        params.append("additional_registrants", additionalRegistrantsData.join(";"));
+      }
+      if (sameForAll) {
+        params.append("same_for_all", true);
+      }
+      if (!isTicketsAvailable()) {
+        params.append("email", additionalRegistrants[0].email);
+        params.append("first_name", additionalRegistrants[0].firstName);
+        params.append("last_name", additionalRegistrants[0].lastName);
+      } else {
+        let firstRegistrant = additionalRegistrants[0];
+        params.append("email", firstRegistrant.email);
+        params.append("first_name", firstRegistrant.firstName);
+        params.append("last_name", firstRegistrant.lastName);
+        params.append("ticket_id", firstRegistrant.ticket.id);
+        if (firstRegistrant.donation) {
+          params.append("donation_amount", firstRegistrant.donation);
+        }
+      }
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvCheckoutData.ajaxUrl, params);
+      if (response && response.status === 200 && response.data.success) {
+        setLoading(false);
+        setStep(step + 1);
+        setConfirmMessage(true);
+      } else if (response && response.status === 200 && !response.data.success) {
+        setLoading(false);
+        setRegistrationError(response.data.message);
+        setShowRegistrationError(true);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching event info:", error);
+      setRegistrationError("We're facing some issues please try again later.");
+      setShowRegistrationError(true);
+    }
+  };
+  const isAvailableTickets = tickets => {
+    let isTicketsAvailable = -1;
+    tickets.forEach(ticket => {
+      if (ticket.current_quantity) {
+        isTicketsAvailable += ticket.current_quantity;
+      }
+    });
+    if (isTicketsAvailable < 0 || isTicketsAvailable > 0) {
+      return true;
+    } else return false;
+  };
+  const isAddingRegistrationAvailable = () => {
+    if (!meetingData) return false;
+    const {
+      meeting,
+      product
+    } = meetingData;
+    let isRecurringEvent = meeting?.occurrences && meeting?.occurrences?.length > 0;
+    if (!isRecurringEvent) {
+      let isTicketsAvailable = meeting.tickets && meeting.tickets.length > 0 && isAvailableTickets(meetingData.meeting.tickets);
+      if (isTicketsAvailable || product && (!product.current_quantity || product.current_quantity && product.current_quantity > 0)) {
+        let numberOfAvailableRegistrants = -1;
+        if (!isTicketsAvailable && product.current_quantity) {
+          numberOfAvailableRegistrants = product.current_quantity - 1 - additionalRegistrants.length;
+        } else if (isTicketsAvailable && selectedTicket && meeting.tickets[selectedTicket].current_quantity) {
+          isTicketsAvailable = meeting.tickets[selectedTicket].current_quantity - 1 - additionalRegistrants.length;
+        }
+        return {
+          isRegistrationAvialable: true,
+          numberOfAvailableRegistrants: numberOfAvailableRegistrants
+        };
+      } else {
+        return {
+          isRegistrationAvialable: false
+        };
+      }
+    }
+  };
+
+  // const ticketsOptions = () => {
+  //   return tickets.map((ticket) => {
+  //     if (ticket.price) {
+  //       if (ticket.current_quantity !== null)
+  //         if (ticket.current_quantity > 0)
+  //           if (selectedTicket && ticket.id !== selectedTicket.id)
+  //             return (
+  //               ticket.name +
+  //               " " +
+  //               ticket.price +
+  //               " " +
+  //               ticket.currency +
+  //               `   (${ticket.current_quantity} left)`
+  //             );
+  //           else
+  //             return (
+  //               ticket.name +
+  //               " " +
+  //               ticket.price +
+  //               " " +
+  //               ticket.currency +
+  //               `   (${ticket.current_quantity - 1} left)`
+  //             );
+  //         else
+  //           return (
+  //             ticket.name +
+  //             " " +
+  //             ticket.price +
+  //             " " +
+  //             ticket.currency +
+  //             `   (No available tickets)`
+  //           );
+  //       else return ticket.name + " " + ticket.price + " " + ticket.currency;
+  //     } else {
+  //       if (ticket.current_quantity !== null) {
+  //         if (ticket.current_quantity > 0)
+  //           if (selectedTicket && ticket.id !== selectedTicket.id)
+  //             return ticket.name + `   (${ticket.current_quantity} left)`;
+  //           else
+  //             return ticket.name + `   (${ticket.current_quantity - 1} left)`;
+  //         else return ticket.name + `   (No available tickets)`;
+  //       } else {
+  //         return ticket.name;
+  //       }
+  //     }
+  //   });
+  // };
+  const ticketsOptions = () => {
+    return tickets.map(ticket => {
+      let ticketDescription = ticket.name;
+      if (ticket.price !== null) {
+        ticket.ticketDescription += ticket.price;
+      }
+      return ticketDescription;
+    });
+  };
+  const handleTicketSelect = newVal => {
+    const selected = tickets.filter(ticket => ticket.name === newVal);
+    let ticketsUpdated = [...tickets];
+    if (selected.length > 0 && (selected[0].current_quantity === null || selected[0].current_quantity - 1 >= 0)) {
+      setSelectedTicket(selected[0]);
+      let updatedTicketIndex = ticketsUpdated.findIndex(t => t.id === selected[0].id);
+      if (updatedTicketIndex >= 0) {
+        ticketsUpdated[updatedTicketIndex].current_quantity = ticketsUpdated[updatedTicketIndex].current_quantity - 1;
+        setTickets(ticketsUpdated);
+      }
+    } else setSelectedTicket(null);
+  };
+
+  // const isDonation = () => {
+  //   if (
+  //     !meetingData.meeting.tickets ||
+  //     meetingData.meeting.tickets.length === 0
+  //   )
+  //     return false;
+  //   else if (
+  //     meetingData.meeting.tickets[
+  //       meetingData.meeting.findIndex(
+  //         (ticket) => ticket.name === selectedTicket
+  //       )
+  //     ].is_donation
+  //   ) {
+  //     return true;
+  //   } else return false;
+  // };
+
+  const isRecurringEvent = () => {
+    if (!meetingData) return false;
+    if (meetingData.meeting && meetingData.meeting.occurrences && meetingData.meeting.occurrences.length > 0) {
+      return true;
+    } else return false;
+  };
+  const isTicketsAvailable = () => {
+    if (!meetingData) return false;
+    if (!isRecurringEvent()) {
+      if (meetingData.meeting && meetingData.meeting.tickets) {
+        return true;
+      } else return false;
+    } else if (selectedOccurrence || occurrencesList && occurrencesList.length > 0 && occurrencesList[0].tickets && occurrencesList[0].tickets.length > 0) {
+      if (selectedOccurrence && selectedOccurrence.tickets && selectedOccurrence.tickets.length > 0 || occurrencesList && occurrencesList.length > 0 && occurrencesList.tickets && occurrencesList[0].tickets.length > 0) return true;else return false;
+    } else return false;
+  };
+  const isFreeEvent = () => {
+    if (!isRecurringEvent()) {
+      if (meetingData.product) {
+        if (isTicketsAvailable()) {
+          if (selectedTicket && selectedTicket.price === 0 && !selectedTicket.price) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          if (meetingData.product && (meetingData.product.price === 0 || !meetingData.product.price)) {
+            return true;
+          } else return false;
+        }
+      }
+    } else {
+      if (isTicketsAvailable()) {
+        if (selectedTicket.price && (selectedTicket.price === 0 || !selectedTicket.proice)) {
+          return true;
+        } else return false;
+      } else if (selectedOccurrence && selectedOccurrence.product && (selectedOccurrence.product.price === 0 || !selectedOccurrence.product.price)) {
+        return true;
+      } else return false;
+    }
+  };
+  const isDonation = () => {
+    if (isTicketsAvailable() && selectedTicket && selectedTicket.is_donation) {
+      return true;
+    } else return false;
+  };
+  const avaialbleRegistrantsCount = () => {
+    const currentRegistrants = additionalRegistrants.length + 1;
+    if (!meetingData) return;
+    if (isTicketsAvailable()) {
+      let haveUnlimitedTickets = false;
+      let ticketsCount = 0;
+      tickets.forEach(ticket => {
+        if (ticket.current_quantity !== null) {
+          ticketsCount += ticket.current_quantity;
+        } else if (ticket.current_quantity === null) {
+          haveUnlimitedTickets = true;
+        }
+      });
+      if (!haveUnlimitedTickets) {
+        return ticketsCount;
+      } else if (haveUnlimitedTickets) {
+        return -1;
+      } else if (!haveUnlimitedTickets && ticketsCount - 1 === 0) {
+        return null;
+      }
+    } else {
+      if (!isRecurringEvent()) {
+        if (meetingData && meetingData.product.current_quantity) {
+          return meetingData.product.current_quantity - currentRegistrants;
+        } else return -1;
+      } else {
+        if (selectedOccurrence?.product?.current_quantity || occurrencesList && occurrencesList.length > 0) {
+          if (selectedOccurrence) {
+            return selectedOccurrence.product.current_quantity - currentRegistrants;
+          } else if (occurrencesList) {
+            return occurrencesList[0].product.current_quantity - currentRegistrants;
+          }
+        } else return -1;
+      }
+    }
+  };
+  const getEventPrice = () => {
+    if (!meetingData) return;
+    // console.log(meetingData);
+    if (isTicketsAvailable()) {
+      if (selectedTicket && selectedTicket.price) {
+        return selectedTicket.price + " " + selectedTicket.currency.toUpperCase();
+      } else return false;
+    } else {
+      if (isRecurringEvent()) {
+        if (selectedOccurrence && selectedOccurrence.product && selectedOccurrence.product.price) {
+          return selectedOccurrence.product.price + " " + meetingData.currency.toUpperCase();
+        } else {
+          return false;
+        }
+      } else {
+        if (meetingData && meetingData.product && meetingData.product.price) {
+          return meetingData.product.price + " " + meetingData.currency.toUpperCase();
+        } else return false;
+      }
+    }
+  };
+  const handleDonationChange = newVal => {
+    setDonation(newVal);
+  };
+  const renderRegistrantsFormByTicket = id => {
+    // console.log(additionalRegistrants);
+
+    return additionalRegistrants.map((registrant, index) => {
+      if (registrant.ticket && registrant.ticket.id === id) {
+        attendeeCounter.current += 1;
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+          children: (registrant.first_registrant || !registrant.first_registrant && !sameForAll) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-full",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col w-full flex-1 gap-2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                className: "flex flex-row items-center justify-between",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                  className: "flex flex-col gap-1 items-start md:flex-row md:items-center md:gap-4",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                    className: "font-semibold text-[16px]",
+                    children: registrant.first_registrant ? "Attendee " + attendeeCounter.current + " (Main contact)" : "Attendee " + attendeeCounter.current
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                    className: "text-[12px] md:text-[16px] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white",
+                    children: registrant.ticket.name
+                  })]
+                }), registrant.canBeAdded === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                  children: "Registrant can't be added"
+                }), additionalRegistrants.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+                  className: "font-semibold text-[12px]",
+                  onClick: () => removeRegistrant(index),
+                  children: "Remove"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                className: "text-[16px] leading-[1.4] font-normal not-italic text-[#4A5565] mb-8",
+                children: registrant.ticket.price > 0 ? registrant.ticket.price + " " + registrant.ticket.currency.toUpperCase() : registrant.ticket.is_donation ? "Donation" : "Free"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                className: "flex flex-col gap-2",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                  className: "text-[16px] flex flex-col font-semibold",
+                  children: "Email *"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  value: registrant.email,
+                  align: "left",
+                  type: "text",
+                  width: "100%",
+                  onChange: val => handleRegistrantEmailChange(index, val)
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                  className: "flex flex-row justify-evenly items-baseline w-full gap-4",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                    className: "flex flex-col gap-2 flex-1",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                      className: "text-[16px] flex flex-col font-semibold",
+                      children: "First Name *"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                      value: registrant.firstName,
+                      align: "left",
+                      type: "text",
+                      width: "100%",
+                      onChange: val => handleRegistrantFirstNameChange(index, val)
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                    className: "flex flex-col gap-2 flex-1",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                      className: "text-[16px] flex flex-col font-semibold",
+                      children: "Last Name *"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                      value: registrant.lastName,
+                      align: "left",
+                      type: "text",
+                      width: "100%",
+                      onChange: val => handleRegistrantLastNameChange(index, val)
+                    })]
+                  })]
+                }), registrant.ticket && registrant.ticket?.is_donation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                  className: "flex flex-col gap-2 flex-1",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                    className: "text-[16px] flex flex-col font-semibold",
+                    children: "Donation *"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                    value: registrant.donation,
+                    align: "left",
+                    type: "number",
+                    width: "100%",
+                    onChange: val => handleRegistrantDonation(index, val)
+                  })]
+                })]
+              })]
+            }), additionalRegistrants.length > 1 && registrant.first_registrant && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "mt-4",
+              children: registrant.first_registrant && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                label: "Same for all",
+                checked: sameForAll,
+                onChange: () => setSameForAll(!sameForAll)
+              })
+            })]
+          })
+        });
+      }
+    });
+  };
+  const getNumberOfTicketsById = id => {
+    return additionalRegistrants.filter(registrant => registrant.ticket && registrant.ticket.id === id).length;
+  };
+  function removeLastRegistrantByTicketId(id) {
+    let newRegistrants = [...additionalRegistrants];
+    const index = [...newRegistrants].reverse().findIndex(registrant => registrant.ticket && registrant.ticket.id === id);
+    if (index === -1) {
+      return;
+    }
+    const actualIndex = newRegistrants.length - 1 - index;
+    removeRegistrant(actualIndex);
+  }
+  const renderTickets = () => {
+    if (!tickets || tickets.length === 0) return;else if (tickets && tickets.length >= 1) {
+      return tickets.map(ticket => {
+        const initialTicket = initialTickets[initialTickets.findIndex(t => t.id === ticket.id)];
+        const currentTime = moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()();
+        let ticketSalesStart = initialTicket.start_datetime ? moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(initialTicket.start_datetime) : null;
+        let ticketSalesEnd = initialTicket.end_datetime ? moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(initialTicket.end_datetime) : null;
+        const isWithinSalesWindow = (!ticketSalesStart || currentTime.isSameOrAfter(ticketSalesStart)) && (!ticketSalesEnd || currentTime.isSameOrBefore(ticketSalesEnd));
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "flex flex-col",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: `flex flex-row gap-[1rem] p-[17px] items-start border rounded-[17px] bg-white ${initialTicket.current_quantity > 0 || initialTicket.current_quantity === null ? "opacity-100" : "opacity-40"} max-sm:flex-col max-sm:grow-0 max-sm:items-center`,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px] max-sm:basis-auto",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                className: "flex flex-row gap-2",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                  className: "font-regular text-[1rem]",
+                  children: ticket.name
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                  className: "text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] bg-[#171717] text-white",
+                  children: (initialTicket.current_quantity > 0 || initialTicket.current_quantity === null) && isWithinSalesWindow ? "Available" : !isWithinSalesWindow ? "Not available" : "Sold out"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col items-start basis-[332px] grow shrink min-w-[250px] max-sm:basis-auto max-sm:items-center",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "font-regular text-[1.125rem]",
+                children: ticket.price > 0 ? ticket.price + ` ${meetingData.currency.toUpperCase()}` : "Free"
+              }), (initialTicket.current_quantity > 0 || initialTicket.current_quantity === null) && isWithinSalesWindow ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+                className: "flex flex-row gap-2 border border-[#E5E5E5] rounded-[4px] px-4 py-1",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+                  className: "font-semibold text-lg self-align-en text-black rounded transition-all duration-200 ease-in-out justify-self-center hover:contrast-115 disabled:opacity-50 disabled:cursor-default border-none focus:outline-none",
+                  onClick: () => removeLastRegistrantByTicketId(ticket.id),
+                  disabled: getNumberOfTicketsById(ticket.id) === 0,
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                    className: "w-4 justify-self-center"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                  children: getNumberOfTicketsById(ticket.id)
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+                  className: "font-semibold text-lg self-align-end text-black rounded transition-all duration-200 ease-in-out justify-self-center hover:contrast-115 disabled:opacity-50 disabled:cursor-default border-none focus:outline-none",
+                  onClick: () => addRegistrantWithTicket(ticket.id),
+                  disabled: ticket.current_quantity === 0,
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_16__["default"], {
+                    className: "w-4 justify-self-center"
+                  })
+                })]
+              }) : !isWithinSalesWindow && (ticketSalesStart || ticketSalesEnd) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                className: "flex flex-col items-start self-stretch  px-[1.0625rem] py-[0.8125rem]  rounded-[0.625rem] border border-[#E5E5E5]  bg-white text-[0.875rem]",
+                children: ticketSalesStart && (!ticketSalesEnd || ticketSalesEnd && currentTime.isSameOrBefore(ticketSalesEnd)) ? "Available · " + ticketSalesStart.tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a") : ticketSalesEnd ? "Ticket sale ended on · " + ticketSalesEnd.tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a") : ""
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                className: "flex flex-row gap-2 h-[1.5rem]"
+              })]
+            })]
+          })
+        });
+      });
+    }
+  };
+  const renderSummary = () => {
+    const ticketStats = tickets.map(ticket => {
+      const count = additionalRegistrants.filter(r => r.ticket.id === ticket.id && r.canBeAdded === true).length;
+      let total = count * ticket.price;
+      return {
+        ...ticket,
+        count,
+        total
+      };
+    });
+    const {
+      total,
+      ticketsCount
+    } = getTotal();
+    let counter = 0;
+    const isDonation = isTicketsAvailable() ? additionalRegistrants.filter(reg => reg.ticket.is_donation).length > 0 : false;
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      className: "flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-1/3 h-fit max-sm:w-full",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "font-semibold",
+        children: "Order summary"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "flex flex-col gap-4 border-b w-full pb-[13px]",
+        children: ticketStats.filter(t => t.count > 0).map(ticket => {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-row justify-between items-center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col items-start",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[0.875rem]",
+                children: ticket.name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: `Qty: ${ticket.count}`
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[0.875rem]",
+                children: ticket.total > 0 ? ticket.total + " " + ticket.currency.toUpperCase() : ticket.is_donation ? "Donation" : "Free"
+              })
+            })]
+          });
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "flex flex-row justify-between items-center w-full pb-[24px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          className: "font-semibold",
+          children: "Total"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          className: "font-semibold",
+          children: total
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "pt-[24px] border-t w-full",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          className: "font-semibold",
+          children: "Attendees"
+        }), isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          children: tickets.map(t => additionalRegistrants.filter(reg => reg.ticket.id === t.id).map((r, index) => {
+            counter += 1;
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-row items-center gap-2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                className: `w-[8px] h-[8px] rounded-full ${r.first_registrant ? "bg-[#0ED300]" : "bg-[#BCBCBC]"}`
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: r.canBeAdded ? r.ticket.name : "Ticket closed"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: "-"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: `Attendee ${counter}`
+              })]
+            }, `${t.id}-${index}`);
+          }))
+        }), !isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          children: additionalRegistrants.map((r, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-row items-center gap-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: `w-[8px] h-[8px] rounded-full ${r.first_registrant ? "bg-[#0ED300]" : "bg-[#BCBCBC]"}`
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[#4A5565] text-[0.875rem]",
+              children: "Standard"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[#4A5565] text-[0.875rem]",
+              children: "-"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[#4A5565] text-[0.875rem]",
+              children: `Attendee ${index + 1}`
+            })]
+          }, `${"Attendee"}-${index}`))
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        class: "self-stretch rounded-[0.425rem] bg-[#F9FAFB] pt-[0.75rem] pr-[0.65rem] pb-[0.75rem] pl-[0.65rem] text-[0.875rem]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          className: "font-semibold",
+          children: "Required fields:"
+        }), " ", `First name,
+          last name,${isDonation ? " donation" : ""} and email address are required for all attendees.`]
+      })]
+    });
+  };
+  const handleCheckout = () => {
+    if (getEventPrice() > 0) {
+      fetchClientSecret();
+    } else if (isFreeRegistrationPossible()) {
+      freeRegistration();
+    } else fetchClientSecret();
+  };
+  const attendeeCounter = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)(0);
+  const renderAttendees = () => {
+    if (!tickets || tickets.length === 0) return;
+    const disabled = additionalRegistrants.filter(reg => reg.ticket.canBeAdded === false).length > 0;
+    attendeeCounter.current = 0;
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      className: "flex flex-col gap-4",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        id: "3",
+        className: "flex flex-col gap-4 md:flex-row",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-col w-full gap-4",
+          children: [tickets.map(ticket => {
+            return renderRegistrantsFormByTicket(ticket.id);
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-row justify-between pt-8",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
+              onClick: () => {
+                handlePrevStep();
+                setErrorMessage(false);
+              },
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px] text-[#171717] rounded-[0.425rem] border border-[#E5E5E5] bg-[rgba(229,229,229,0.3)] text-[0.875rem] max-sm:p-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_13__["default"], {
+                className: "w-[1rem]"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                children: "Back to tickets"
+              })]
+            }), additionalRegistrants.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
+              onClick: handleCheckout,
+              disabled: disabled,
+              className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
+                className: "w-[1rem]"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                children: "Continue to checkout"
+              })]
+            })]
+          })]
+        }), renderSummary()]
+      })
+    });
+  };
+  const handleNextStep = () => {
+    setStep(step + 1);
+  };
+  const handlePrevStep = () => {
+    setStep(step - 1);
+  };
+  const getTotal = () => {
+    let total = 0;
+    let ticketsCount = 0;
+    let currency = additionalRegistrants.length > 0 ? additionalRegistrants[0].ticket ? additionalRegistrants[0].ticket.currency.toUpperCase() : "" : "";
+    additionalRegistrants.forEach(reg => {
+      if (reg.ticket && reg.ticket.id) {
+        ticketsCount += 1;
+        total += reg.ticket.price;
+        if (reg.ticket.is_donation) {
+          if (!sameForAll) total += reg.donation || 0;else total += additionalRegistrants[0].donation || 0;
+        }
+      }
+    });
+    if (isTicketsAvailable()) return {
+      total: total + " " + currency.toUpperCase(),
+      ticketsCount: ticketsCount
+    };else return {
+      total: total + " " + currency.toUpperCase(),
+      ticketsCount: additionalRegistrants.length
+    };
+  };
+  const renderConfirmMessage = () => {
+    const start = selectedOccurrence ? moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(selectedOccurrence.start_time).tz(meetingData.meeting.timezone) : moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(meetingData.meeting.start_time).tz(meetingData.meeting.timezone);
+    const {
+      total,
+      ticketsCount
+    } = getTotal();
+    const price = getEventPrice;
+    const mainRegistrant = sameForAll ? additionalRegistrants.find(reg => reg.first_registrant) : null;
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      className: "flex flex-col gap-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "flex flex-col items-center gap-[24px] p-[17px] border rounded-[17px] bg-white",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "w-[80px] h-[80px] rounded-full bg-[#DCFCE7] flex items-center justify-center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_17__["default"], {
+            className: "fill-[#00A63E]"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          className: "text-[#016630] text-[1rem]",
+          children: "Registration Complete!"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+          className: "text-[1rem] text-[#4A5565]",
+          children: "You will receive confirmation emails shortly for each attendee."
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-col items-start self-stretch p-[1.5rem] gap-[1rem] rounded-[0.625rem] bg-[#F9FAFB]",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+            className: "font-semibold text-[18px] self-center",
+            children: meetingData.meeting.topic
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-row gap-[16px] w-full",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-center w-1/2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[0.875rem] text-[#4A5565]",
+                children: "Date"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[0.875rem] text-[#0A0A0A]",
+                children: start.format("MMM DD, YYYY")
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-center w-1/2",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[0.875rem] text-[#4A5565]",
+                children: "Time"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[0.875rem] text-[#0A0A0A]",
+                children: start.format("hh:mm a")
+              })]
+            })]
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "flex flex-col items-center gap-[24px] p-[17px] border rounded-[17px] bg-white",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          className: "font-semibold text-[18px] self-stretch pb-[24px]",
+          children: "Booking summary"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-row w-full justify-evenly items-center pb-[24px] border-b",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-col gap-[4px] items-start",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[0.875rem] text-[#4A5565]",
+              children: "Total paid"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "font-semibold text-[1rem] text-[#0A0A0A]",
+              children: total
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-col gap-[4px] items-start",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[0.875rem] text-[#4A5565]",
+              children: "Tickets"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "font-semibold text-[1rem] text-[#0A0A0A]",
+              children: ticketsCount > 1 ? ticketsCount + " tickets" : "1 ticket"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-col gap-[4px] items-start",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[0.875rem] text-[#4A5565]",
+              children: "Attendees"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "font-semibold text-[1rem] text-[#0A0A0A]",
+              children: additionalRegistrants.length + " people"
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          className: "font-semibold self-stretch pt-[25px] text-[1rem] text-[#0A0A0A]",
+          children: "Attendee details"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-col gap-[0.75rem] w-full",
+          children: [mainRegistrant && additionalRegistrants.map((registrant, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-start",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "font-semibold text-[0.875rem]",
+                children: `${mainRegistrant.firstName} ${mainRegistrant.lastName}`
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: mainRegistrant.email
+              })]
+            }), isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-start",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "font-semibold text-[0.875rem]",
+                children: registrant.ticket.name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: registrant.ticket.price > 0 ? `${registrant.ticket.price} ${registrant.ticket.currency.toUpperCase()}` : registrant.ticket.is_donation ? `${registrant.ticket.donation} ${registrant.ticket.currency.toUpperCase()}` : "Free"
+              })]
+            }), !isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-start",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "font-semibold text-[0.875rem]",
+                children: "Standard ticket"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: "Free"
+              })]
+            })]
+          }, registrant.id || index)), !mainRegistrant && additionalRegistrants.map((registrant, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-start",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "font-semibold text-[0.875rem]",
+                children: `${registrant.firstName} ${registrant.lastName}`
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: registrant.email
+              })]
+            }), isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-start",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "font-semibold text-[0.875rem]",
+                children: registrant.ticket.name
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: registrant.ticket.price > 0 ? `${registrant.ticket.price} ${registrant.ticket.currency}` : registrant.ticket.is_donation ? `${registrant.ticket.donation} ${registrant.ticket.currency}` : "Free"
+              })]
+            }), !isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+              className: "flex flex-col gap-[4px] items-start",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "font-semibold text-[0.875rem]",
+                children: "Standard ticket"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-[#4A5565] text-[0.875rem]",
+                children: "Free"
+              })]
+            })]
+          }, registrant.id || index))]
+        })]
+      })]
+    });
+  };
+  const {
+    total,
+    ticketsCount
+  } = getTotal();
+  const renderStandardTicket = () => {
+    if (!meetingData || !meetingData.meeting) return null;
+    if (meetingData.occurrences && !selectedOccurrence) return;
+    const {
+      product,
+      meeting
+    } = meetingData;
+    const occurrence = selectedOccurrence ? selectedOccurrence : null;
+    const isAvailable = !occurrence ? product.current_quantity === null || product.current_quantity > 0 : occurrence.product.current_quantity === null || occurrence.product.current_quantity > 0;
+    const isSoldOut = !isAvailable;
+    const price = getEventPrice();
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      className: "flex flex-col",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: `flex flex-row gap-[1rem] p-[17px] items-start border rounded-[17px] bg-white ${isAvailable ? "opacity-100" : "opacity-40"} max-sm:flex-col max-sm:grow-0 max-sm:items-center`,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px] max-sm:basis-auto",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-row gap-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "font-regular text-[1rem]",
+              children: "Standard ticket"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              className: "text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] bg-[#171717] text-white",
+              children: isAvailable ? "Available" : "Sold out"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-col items-start basis-[332px] grow shrink min-w-[250px] max-sm:basis-auto max-sm:items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+            className: "font-regular text-[1.125rem]",
+            children: price > 0 ? price + meetingData.currency.toUpperCase() : "Free"
+          }), isAvailable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-row gap-2 border border-[#E5E5E5] rounded-[4px] px-4 py-1",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+              className: "font-semibold text-lg self-align-end rounded transition-all duration-200 ease-in-out justify-self-center hover:contrast-115 disabled:opacity-50 disabled:cursor-default border-none focus:outline-none",
+              onClick: () => removeRegistrant(),
+              disabled: additionalRegistrants.length === 0,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                className: "w-4 justify-self-center"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              children: additionalRegistrants.length
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+              className: "font-semibold text-lg self-align-end rounded transition-all duration-200 ease-in-out justify-self-center hover:contrast-115 disabled:opacity-50 disabled:cursor-default border-none focus:outline-none",
+              onClick: () => addRegistrant(),
+              disabled: !occurrence ? product.current_quantity !== null && product.current_quantity - additionalRegistrants.length === 0 : selectedOccurrence.product.current_quantity !== null && selectedOccurrence.product.current_quantity - additionalRegistrants.length === 0,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_16__["default"], {
+                className: "w-4 justify-self-center"
+              })
+            })]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            className: "flex flex-row gap-2 h-[1.5rem]"
+          })]
+        })]
+      })
+    });
+  };
+  const getStartTime = () => {
+    if (meetingData && meetingData.meeting) {
+      return moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(meetingData.meeting.start_time).tz(meetingData.meeting.timezone).format("MMM DD, YYYY hh:mm a");
+    }
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+      className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]",
+      children: loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Menu_Spinner__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        loading: true
+      })
+    }), !isRecurringEvent() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      gap: 4,
+      cardsLayout: true,
+      children: [step === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "flex flex-row justify-between items-end",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
+          children: "Select your tickets"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "flex flex-row gap-2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+            className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]",
+            children: getStartTime()
+          })
+        })]
+      }), step === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "flex flex-row justify-between items-end",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
+          className: "font-normal",
+          children: "Registrant Details"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "flex flex-row gap-2",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+            className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]",
+            children: additionalRegistrants.length > 1 ? additionalRegistrants.length + " attendees" : additionalRegistrants.length + " attendee"
+          })
+        })]
+      }), !isTicketsAvailable() && step === 1 && renderStandardTicket(), !isTicketsAvailable() && step === 2 && renderAdditionalRegistrantsForm(), !confirmMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        gap: 2,
+        cardsLayout: true,
+        children: [errorMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "section-description font-semibold text-error-700",
+          children: "Please fill in all required fields."
+        }), !confirmMessage && isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          gap: 4,
+          cardsLayout: true,
+          children: [step === 1 && renderTickets(), step === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            children: renderAttendees()
+          })]
+        })]
+      }), !confirmMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("form", {
+        id: "servv-payment-form",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          id: "servv-payment-element"
+        }), showPaymentForm && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+          id: "submit",
+          className: "font-semibold text-lg px-4 py-3 mt-4 rounded shadow-md w-full transition-all duration-200 ease-in-out hover:contrast-115 disabled:opacity-50 disabled:cursor-default",
+          onClick: e => confirmPayment(e),
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            class: "spinner hidden",
+            id: "spinner"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          id: "payment-message",
+          class: "hidden"
+        })]
+      }), confirmMessage && !showRegistrationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+        children: renderConfirmMessage()
+      }), showRegistrationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "flex flex-row justify-between text-display-md pb-2 items-center",
+        children: registrationError
+      })]
+    }), isRecurringEvent() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      gap: 4,
+      cardsLayout: true,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+        children: [step === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-row justify-between items-end",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
+            children: "Select your tickets"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            className: "flex flex-row gap-2",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Controls_OccurrencessDropdown__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              options: occurrencesList.map(occurrence => occurrence.label),
+              selected: selectedOccurrence?.label,
+              onSelectChange: handleSelectOccurrenceChange
+            })
+          })]
+        }), step === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "flex flex-row justify-between items-end",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
+            children: "Registrant Details"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+            className: "flex flex-col gap-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]",
+              children: selectedOccurrence && selectedOccurrence?.label
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              className: "text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]",
+              children: additionalRegistrants.length > 1 ? additionalRegistrants.length + " attendees" : additionalRegistrants.length + " attendee"
+            })]
+          })]
+        })]
+      }), selectedOccurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "flex flex-col items-center"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          gap: 2,
+          cardsLayout: true,
+          children: [errorMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            className: "section-description font-semibold text-error-700",
+            children: "Please fill all requierd fields."
+          }), !isTicketsAvailable() && step === 1 && renderStandardTicket(), !isTicketsAvailable() && step === 2 && renderAdditionalRegistrantsForm(), !confirmMessage && isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Components_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            gap: 4,
+            cardsLayout: true,
+            children: [step === 1 && renderTickets(), step === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              children: renderAttendees()
+            })]
+          }), !confirmMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("form", {
+            id: "servv-payment-form",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              id: "servv-payment-element"
+            }), showPaymentForm && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+              id: "submit",
+              className: "font-sans font-semibold text-lg px-4 py-3 mt-4 rounded shadow-md w-full transition-all duration-200 ease-in-out hover:contrast-115 disabled:opacity-50 disabled:cursor-default",
+              onClick: e => confirmPayment(e),
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+                class: "spinner hidden",
+                id: "spinner"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+              id: "payment-message",
+              class: "hidden"
+            })]
+          }), confirmMessage && !showRegistrationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+            children: renderConfirmMessage()
+          }), showRegistrationError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+            className: "flex flex-row justify-between text-display-md pb-2 items-center",
+            children: registrationError
+          })]
+        })]
+      })]
+    }), additionalRegistrants.length > 0 && step === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      className: "flex flex-row justify-between w-full mt-4 items-center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "flex flex-row gap-1 text-[13px] md: text-[16px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          children: ticketsCount > 1 ? ticketsCount + " tickets" : ticketsCount + " ticket"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          children: "\xB7"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+          children: "Total " + total
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
+        onClick: () => handleNextStep(),
+        className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem]",
+        children: "Proceed to checkout"
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("br", {})]
+  });
+};
+_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_0___default()(() => {
+  const element = document.getElementById("servv-on-product-widget");
+  if (element) {
+    const root = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createRoot)(element);
+    root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(PaymentForm, {}));
+  } else {
+    console.error("Element #servv-on-product-widget not found.");
+  }
+});
+
+/***/ }),
+
 /***/ "./src/edit.jsx":
 /*!**********************!*\
   !*** ./src/edit.jsx ***!
@@ -13522,15 +15524,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _input_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./input.css */ "./src/input.css");
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
-/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _edit_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./edit.jsx */ "./src/edit.jsx");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
-/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
+/* harmony import */ var _checkout_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./checkout.js */ "./src/checkout.js");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _edit_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./edit.jsx */ "./src/edit.jsx");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
+/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
 /**
  * File: src/index.js
  *
@@ -13556,14 +15559,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // 1. Expose helper to `window` so any `{t("…")}` calls injected by transforms or manual calls work:
-window.t = _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__.t;
+window.t = _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_10__.t;
 
 // 2. Initialize default locale. Pass “de” for German as requested:
-(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__.initI18n)("en_US");
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_10__.initI18n)("en_US");
 
 // ---------------------------------------------------
 
-const BLOCK_NAME = _block_json__WEBPACK_IMPORTED_MODULE_8__.name;
+const BLOCK_NAME = _block_json__WEBPACK_IMPORTED_MODULE_9__.name;
 if (typeof wp === "undefined" || !wp.blocks) {
   const el = document.getElementById("servv-wrap");
   if (el) {
@@ -13571,8 +15574,8 @@ if (typeof wp === "undefined" || !wp.blocks) {
   }
 } else {
   // Register your block exactly as you had it before:
-  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.registerBlockType)(BLOCK_NAME, {
-    edit: _edit_jsx__WEBPACK_IMPORTED_MODULE_7__["default"],
+  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__.registerBlockType)(BLOCK_NAME, {
+    edit: _edit_jsx__WEBPACK_IMPORTED_MODULE_8__["default"],
     blockHooks: {
       "core/post-content": "after"
     },
@@ -13709,12 +15712,12 @@ if (typeof wp === "undefined" || !wp.blocks) {
   });
 }
 const isBlockInserted = () => {
-  const blocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.select)("core/block-editor").getBlocks();
+  const blocks = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_6__.select)("core/block-editor").getBlocks();
   return blocks.some(block => block.name === BLOCK_NAME);
 };
 wp.domReady(() => {
   const searchParams = new URLSearchParams(window.location.search);
-  const block = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__.createBlock)(BLOCK_NAME);
+  const block = (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__.createBlock)(BLOCK_NAME);
   const checkEditorLoaded = setInterval(() => {
     const blocks = wp.data.select("core/block-editor").getBlocks();
     if (blocks !== undefined) {
@@ -13732,7 +15735,7 @@ wp.domReady(() => {
     // If you know your block’s wrapper element, you can pass it in:
     // e.g. translateAll(document.querySelector('.wp-block-servv-your-block'));
     // Here we simply translate the entire document so any data‑i18n‑key tags also update:
-    (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_9__.translateAll)();
+    (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_10__.translateAll)();
   }, 0);
 });
 
@@ -13967,7 +15970,7 @@ const getFilterType = async type => {
 };
 const getFilters = async current_plan => {
   const filterTypes = ["locations", "languages", "categories"];
-  if (current_plan === 2) {
+  if (current_plan !== 1) {
     filterTypes.push("members");
   }
   const isDev = servvData.servv_plugin_mode === "development";
@@ -22145,6 +24148,86 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(A
 
 /***/ }),
 
+/***/ "./node_modules/@heroicons/react/16/solid/esm/CalendarDaysIcon.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/CalendarDaysIcon.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function CalendarDaysIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M5.75 7.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM5 10.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0ZM10.25 7.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM7.25 8.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0ZM8 9.5A.75.75 0 1 0 8 11a.75.75 0 0 0 0-1.5Z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fillRule: "evenodd",
+    d: "M4.75 1a.75.75 0 0 0-.75.75V3a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2V1.75a.75.75 0 0 0-1.5 0V3h-5V1.75A.75.75 0 0 0 4.75 1ZM3.5 7a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v4.5a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1V7Z",
+    clipRule: "evenodd"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(CalendarDaysIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/16/solid/esm/CheckIcon.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/CheckIcon.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function CheckIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fillRule: "evenodd",
+    d: "M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z",
+    clipRule: "evenodd"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(CheckIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
 /***/ "./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js":
 /*!***********************************************************************!*\
   !*** ./node_modules/@heroicons/react/16/solid/esm/ChevronDownIcon.js ***!
@@ -22260,6 +24343,43 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(E
 
 /***/ }),
 
+/***/ "./node_modules/@heroicons/react/16/solid/esm/MinusIcon.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/MinusIcon.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function MinusIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M3.75 7.25a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(MinusIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
 /***/ "./node_modules/@heroicons/react/16/solid/esm/PencilSquareIcon.js":
 /*!************************************************************************!*\
   !*** ./node_modules/@heroicons/react/16/solid/esm/PencilSquareIcon.js ***!
@@ -22334,6 +24454,43 @@ function PlusCircleIcon({
   }));
 }
 const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(PlusCircleIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/16/solid/esm/PlusIcon.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/PlusIcon.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function PlusIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(PlusIcon);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
 /***/ }),
@@ -22413,6 +24570,234 @@ function XCircleIcon({
 }
 const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(XCircleIcon);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
+/***/ "./node_modules/@stripe/stripe-js/dist/index.mjs":
+/*!*******************************************************!*\
+  !*** ./node_modules/@stripe/stripe-js/dist/index.mjs ***!
+  \*******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   loadStripe: () => (/* binding */ loadStripe)
+/* harmony export */ });
+var RELEASE_TRAIN = 'acacia';
+
+var runtimeVersionToUrlVersion = function runtimeVersionToUrlVersion(version) {
+  return version === 3 ? 'v3' : version;
+};
+
+var ORIGIN = 'https://js.stripe.com';
+var STRIPE_JS_URL = "".concat(ORIGIN, "/").concat(RELEASE_TRAIN, "/stripe.js");
+var V3_URL_REGEX = /^https:\/\/js\.stripe\.com\/v3\/?(\?.*)?$/;
+var STRIPE_JS_URL_REGEX = /^https:\/\/js\.stripe\.com\/(v3|[a-z]+)\/stripe\.js(\?.*)?$/;
+var EXISTING_SCRIPT_MESSAGE = 'loadStripe.setLoadParameters was called but an existing Stripe.js script already exists in the document; existing script parameters will be used';
+
+var isStripeJSURL = function isStripeJSURL(url) {
+  return V3_URL_REGEX.test(url) || STRIPE_JS_URL_REGEX.test(url);
+};
+
+var findScript = function findScript() {
+  var scripts = document.querySelectorAll("script[src^=\"".concat(ORIGIN, "\"]"));
+
+  for (var i = 0; i < scripts.length; i++) {
+    var script = scripts[i];
+
+    if (!isStripeJSURL(script.src)) {
+      continue;
+    }
+
+    return script;
+  }
+
+  return null;
+};
+
+var injectScript = function injectScript(params) {
+  var queryString = params && !params.advancedFraudSignals ? '?advancedFraudSignals=false' : '';
+  var script = document.createElement('script');
+  script.src = "".concat(STRIPE_JS_URL).concat(queryString);
+  var headOrBody = document.head || document.body;
+
+  if (!headOrBody) {
+    throw new Error('Expected document.body not to be null. Stripe.js requires a <body> element.');
+  }
+
+  headOrBody.appendChild(script);
+  return script;
+};
+
+var registerWrapper = function registerWrapper(stripe, startTime) {
+  if (!stripe || !stripe._registerWrapper) {
+    return;
+  }
+
+  stripe._registerWrapper({
+    name: 'stripe-js',
+    version: "6.1.0",
+    startTime: startTime
+  });
+};
+
+var stripePromise$1 = null;
+var onErrorListener = null;
+var onLoadListener = null;
+
+var onError = function onError(reject) {
+  return function (cause) {
+    reject(new Error('Failed to load Stripe.js', {
+      cause: cause
+    }));
+  };
+};
+
+var onLoad = function onLoad(resolve, reject) {
+  return function () {
+    if (window.Stripe) {
+      resolve(window.Stripe);
+    } else {
+      reject(new Error('Stripe.js not available'));
+    }
+  };
+};
+
+var loadScript = function loadScript(params) {
+  // Ensure that we only attempt to load Stripe.js at most once
+  if (stripePromise$1 !== null) {
+    return stripePromise$1;
+  }
+
+  stripePromise$1 = new Promise(function (resolve, reject) {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      // Resolve to null when imported server side. This makes the module
+      // safe to import in an isomorphic code base.
+      resolve(null);
+      return;
+    }
+
+    if (window.Stripe && params) {
+      console.warn(EXISTING_SCRIPT_MESSAGE);
+    }
+
+    if (window.Stripe) {
+      resolve(window.Stripe);
+      return;
+    }
+
+    try {
+      var script = findScript();
+
+      if (script && params) {
+        console.warn(EXISTING_SCRIPT_MESSAGE);
+      } else if (!script) {
+        script = injectScript(params);
+      } else if (script && onLoadListener !== null && onErrorListener !== null) {
+        var _script$parentNode;
+
+        // remove event listeners
+        script.removeEventListener('load', onLoadListener);
+        script.removeEventListener('error', onErrorListener); // if script exists, but we are reloading due to an error,
+        // reload script to trigger 'load' event
+
+        (_script$parentNode = script.parentNode) === null || _script$parentNode === void 0 ? void 0 : _script$parentNode.removeChild(script);
+        script = injectScript(params);
+      }
+
+      onLoadListener = onLoad(resolve, reject);
+      onErrorListener = onError(reject);
+      script.addEventListener('load', onLoadListener);
+      script.addEventListener('error', onErrorListener);
+    } catch (error) {
+      reject(error);
+      return;
+    }
+  }); // Resets stripePromise on error
+
+  return stripePromise$1["catch"](function (error) {
+    stripePromise$1 = null;
+    return Promise.reject(error);
+  });
+};
+var initStripe = function initStripe(maybeStripe, args, startTime) {
+  if (maybeStripe === null) {
+    return null;
+  }
+
+  var pk = args[0];
+  var isTestKey = pk.match(/^pk_test/); // @ts-expect-error this is not publicly typed
+
+  var version = runtimeVersionToUrlVersion(maybeStripe.version);
+  var expectedVersion = RELEASE_TRAIN;
+
+  if (isTestKey && version !== expectedVersion) {
+    console.warn("Stripe.js@".concat(version, " was loaded on the page, but @stripe/stripe-js@").concat("6.1.0", " expected Stripe.js@").concat(expectedVersion, ". This may result in unexpected behavior. For more information, see https://docs.stripe.com/sdks/stripejs-versioning"));
+  }
+
+  var stripe = maybeStripe.apply(undefined, args);
+  registerWrapper(stripe, startTime);
+  return stripe;
+}; // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
+var stripePromise;
+var loadCalled = false;
+
+var getStripePromise = function getStripePromise() {
+  if (stripePromise) {
+    return stripePromise;
+  }
+
+  stripePromise = loadScript(null)["catch"](function (error) {
+    // clear cache on error
+    stripePromise = null;
+    return Promise.reject(error);
+  });
+  return stripePromise;
+}; // Execute our own script injection after a tick to give users time to do their
+// own script injection.
+
+
+Promise.resolve().then(function () {
+  return getStripePromise();
+})["catch"](function (error) {
+  if (!loadCalled) {
+    console.warn(error);
+  }
+});
+var loadStripe = function loadStripe() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  loadCalled = true;
+  var startTime = Date.now(); // if previous attempts are unsuccessful, will re-load script
+
+  return getStripePromise().then(function (maybeStripe) {
+    return initStripe(maybeStripe, args, startTime);
+  });
+};
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@stripe/stripe-js/lib/index.mjs":
+/*!******************************************************!*\
+  !*** ./node_modules/@stripe/stripe-js/lib/index.mjs ***!
+  \******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   loadStripe: () => (/* reexport safe */ _dist_index_mjs__WEBPACK_IMPORTED_MODULE_0__.loadStripe)
+/* harmony export */ });
+/* harmony import */ var _dist_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dist/index.mjs */ "./node_modules/@stripe/stripe-js/dist/index.mjs");
+
+
 
 /***/ }),
 

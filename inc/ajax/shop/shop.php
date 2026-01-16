@@ -24,6 +24,27 @@ function servv_update_shop_settings($request)
     }
     return $responseBody;
 }
+
+function servv_get_shop_cards_settings($request)
+{
+    $settings = get_option('servv_shop_cards_settings', []);
+    return $settings;
+}
+
+function servv_update_shop_cards_settings($request)
+{
+    $data = $request->get_json_params();
+    if (!is_array($data)) {
+        return new WP_Error(
+            'invalid_payload',
+            'Settings must be a JSON object',
+            ['status' => 400]
+        );
+    }
+    update_option('servv_shop_cards_settings', $data, false);
+    return ['success' => true];
+}
+
 function servv_get_wordpress_settings($request)
 {
     $name = $request->get_param('name');

@@ -859,6 +859,9 @@ function servv_get_events_filtered_list()
     if(!empty($_POST['team_id'])) {
         $params['team_id'] = array_map( 'absint', (array)$_POST['team_id']);
     }
+    if(!empty($_POST['without_occurrences'])) {
+        $params['without_occurrences'] = (bool)$_POST['without_occurrences'];
+    }
     $queryString = servv_build_api_query($params);
     if (!empty($queryString)) {
         $apiRoute .= '?' . $queryString;

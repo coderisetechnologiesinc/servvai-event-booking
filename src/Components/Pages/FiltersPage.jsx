@@ -68,7 +68,7 @@ const FiltersPage = () => {
         <td>{filterDescriptions[filter] ?? "Description"}</td>
         <td>
           <PageActionButton
-            text="Create"
+            text="Create filter"
             type="secondary"
             icon={<PlusIcon className="button-icon" />}
             slim
@@ -82,7 +82,7 @@ const FiltersPage = () => {
     { label: "Location", value: "Locations" },
     { label: "Language", value: "Languages" },
     { label: "Category", value: "Categories" },
-    ...(settings?.current_plan?.id === 2
+    ...(settings?.current_plan?.id !== 1
       ? [{ label: "Member", value: "Members" }]
       : []),
   ];
@@ -139,7 +139,7 @@ const FiltersPage = () => {
               title="No filters found"
               description="Filters allow your attendees to better search for relevant events."
             >
-              <Dropdown
+              {/* <Dropdown
                 activator={
                   <PageActionButton
                     text="Create"
@@ -153,7 +153,7 @@ const FiltersPage = () => {
                 status={secondCreateDropdown}
               >
                 <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
-              </Dropdown>
+              </Dropdown> */}
             </PageContentPlaceholder>
           ) : (
             <Card>

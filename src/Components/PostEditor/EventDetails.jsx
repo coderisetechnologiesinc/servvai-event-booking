@@ -71,7 +71,8 @@ const EventDetails = ({
   const getAccountsInfo = async () => {
     setLoading(true);
 
-    const isPro = settings?.current_plan?.id === 2;
+    const isPro =
+      settings?.current_plan?.id === 2 || settings?.current_plan?.id === 3;
 
     const { stripeAccount, zoomAccount, googleCalendar, mailAccount } =
       useServvStore.getState();
@@ -589,7 +590,10 @@ const EventDetails = ({
               handleDetailsChange={handleProductChange}
               settings={settings}
               postId={postId}
-              disabled={settings?.current_plan.id !== 2}
+              disabled={
+                settings?.current_plan.id !== 2 &&
+                settings?.current_plan.id !== 3
+              }
               handleSetLoading={handleSetLoading}
               stripeAccount={stripeAccount}
               occurrenceId={occurrenceId}
@@ -647,7 +651,9 @@ const EventDetails = ({
             onPrev={handlePrevRegistrantsPage}
             handleResendNotifications={handleResendNotifications}
             handleResendNotificationsToAll={handleResendNotificationsToAll}
-            disabled={settings?.current_plan.id !== 2}
+            disabled={
+              settings?.current_plan.id !== 2 && settings?.current_plan.id !== 3
+            }
           />
         )}
         {selectedTab === 0 && !activationError && (

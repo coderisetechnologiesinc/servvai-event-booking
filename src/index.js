@@ -11,7 +11,7 @@ import "./bootstrap-i18n.js"; // if you have code to load WP translations
 import "./input.css"; // block’s editor styles
 import "./style.scss"; // both frontend & editor styles
 import "./editor.scss"; // editor‑only styles
-
+import "./checkout.js";
 import { registerBlockType, createBlock } from "@wordpress/blocks";
 import { select, dispatch } from "@wordpress/data";
 import { domReady } from "@wordpress/dom-ready";

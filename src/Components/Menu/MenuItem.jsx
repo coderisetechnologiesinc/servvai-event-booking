@@ -9,9 +9,7 @@ const MenuItem = ({ title, link, onSelect, collapsed, icon }) => {
     >
       <InlineStack gap={2} className="items-center">
         {icon}
-        {!collapsed && (
-          <span className="text-md text-gray-700 font-semibold">{title}</span>
-        )}
+        {!collapsed && <span className="menu-item">{title}</span>}
       </InlineStack>
     </button>
   );
