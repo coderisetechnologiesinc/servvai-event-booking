@@ -3,7 +3,8 @@
 1.0.12 (2026-01-16)
 
 Hotfix Release
-
+- Servv SaaS product support
+- Design and Performance improvements
 
 
 # v1.0.11
