@@ -3,7 +3,8 @@
 1.0.13 (2026-01-19)
 
 Maintenance Release
-
+- Updated onboarding flow
+- Refactored UI elements 
 
 
 # v1.0.12
