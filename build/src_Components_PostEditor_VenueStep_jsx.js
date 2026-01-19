@@ -138,7 +138,8 @@ const VenueStep = ({
   attributes,
   setAttributes,
   changeStep,
-  zoomConnected
+  zoomConnected,
+  isNew
 }) => {
   const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_3__.useServvStore)(s => s.filtersList);
   const locationId = attributes?.filters?.location_id || "";
@@ -218,7 +219,7 @@ const VenueStep = ({
           }
           // { value: "hybrid", label: "Hybrid" },
           ],
-          disabled: !zoomConnected,
+          disabled: !zoomConnected || !isNew,
           onChange: handleVenueChange
         })]
       })
@@ -301,4 +302,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_VenueStep_jsx.js.map?ver=2f11f19b3aed8a055c32
+//# sourceMappingURL=src_Components_PostEditor_VenueStep_jsx.js.map?ver=2e096865732de7292b63

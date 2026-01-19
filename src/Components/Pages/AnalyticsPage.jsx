@@ -127,7 +127,7 @@ const AnalyticsPage = () => {
       let url = "/wp-json/servv-plugin/v1/analytics/registrants";
       if (isMonthSelected || month) {
         url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(
-          selectedMonth
+          selectedMonth,
         )}`;
       }
       const resp = await axios.get(url, {
@@ -165,7 +165,7 @@ const AnalyticsPage = () => {
           acc.total += curr.total;
           return acc;
         },
-        { unique: 0, total: 0 }
+        { unique: 0, total: 0 },
       );
     }
     return total;
@@ -202,7 +202,7 @@ const AnalyticsPage = () => {
     let url = "/wp-json/servv-plugin/v1/analytics/types";
     if (isMonthSelected || month) {
       url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(
-        selectedMonth
+        selectedMonth,
       )}`;
     }
     const types = await axios
@@ -227,14 +227,14 @@ const AnalyticsPage = () => {
     try {
       const resp1 = await axios.get(
         "/wp-json/servv-plugin/v1/analytics/happened",
-        { headers: { "X-WP-Nonce": servvData.nonce } }
+        { headers: { "X-WP-Nonce": servvData.nonce } },
       );
       if (resp1 && resp1.data) {
         statistic = { ...statistic, happened: resp1.data };
       }
       const resp2 = await axios.get(
         "/wp-json/servv-plugin/v1/analytics/cancelled",
-        { headers: { "X-WP-Nonce": servvData.nonce } }
+        { headers: { "X-WP-Nonce": servvData.nonce } },
       );
       if (resp2 && resp2.data) {
         statistic = {
@@ -244,7 +244,7 @@ const AnalyticsPage = () => {
       }
       const resp3 = await axios.get(
         "/wp-json/servv-plugin/v1/analytics/active",
-        { headers: { "X-WP-Nonce": servvData.nonce } }
+        { headers: { "X-WP-Nonce": servvData.nonce } },
       );
       if (resp3 && resp3.data) {
         statistic = {
@@ -307,10 +307,10 @@ const AnalyticsPage = () => {
 
     const categoriesStatistic = categoryNames.map((categoryName) => {
       const offlineCategory = filtersData.offline.categories.find(
-        (cat) => cat.name === categoryName
+        (cat) => cat.name === categoryName,
       );
       const onlineCategory = filtersData.online_zoom.categories.find(
-        (cat) => cat.name === categoryName
+        (cat) => cat.name === categoryName,
       );
 
       return {
@@ -334,15 +334,15 @@ const AnalyticsPage = () => {
       return null;
 
     const languageNames = filtersData.offline.languages.map(
-      (lang) => lang.name
+      (lang) => lang.name,
     );
 
     const languagesStatistic = languageNames.map((languageName) => {
       const offlineLang = filtersData.offline.languages.find(
-        (lang) => lang.name === languageName
+        (lang) => lang.name === languageName,
       );
       const onlineLang = filtersData.online_zoom.languages.find(
-        (lang) => lang.name === languageName
+        (lang) => lang.name === languageName,
       );
 
       return {
@@ -369,10 +369,10 @@ const AnalyticsPage = () => {
 
     const membersStatistic = memberNames.map((memberName) => {
       const offlineMem = filtersData.offline.members.find(
-        (mem) => mem.name === memberName
+        (mem) => mem.name === memberName,
       );
       const onlineMem = filtersData.online_zoom.members.find(
-        (mem) => mem.name === memberName
+        (mem) => mem.name === memberName,
       );
 
       return {
@@ -399,10 +399,10 @@ const AnalyticsPage = () => {
 
     const locationsStatistic = locationNames.map((locationName) => {
       const offlineLoc = filtersData.offline.locations.find(
-        (loc) => loc.name === locationName
+        (loc) => loc.name === locationName,
       );
       const onlineLoc = filtersData.online_zoom.locations.find(
-        (loc) => loc.name === locationName
+        (loc) => loc.name === locationName,
       );
 
       return {
@@ -481,7 +481,7 @@ const AnalyticsPage = () => {
     if (revenueDates.startDate && revenueDates.endDate) {
       fetchTotalRevenue(
         moment(revenueDates.startDate).format("YYYY-MM-DD"),
-        moment(revenueDates.endDate).format("YYYY-MM-DD")
+        moment(revenueDates.endDate).format("YYYY-MM-DD"),
       );
     }
   }, [revenueDates]);
@@ -510,209 +510,211 @@ const AnalyticsPage = () => {
     "November",
     "December",
   ];
-  const yearOptions = ["", 2025, 2026, 2027];
+  const yearOptions = ["", 2025, 2026];
 
   const { unique, total } = getRegistrantsTotal();
 
   return (
-    <PageWrapper loading={loading}>
-      <PageHeader>
-        <BlockStack>
-          <h1 className="text-display-sm mt-6">{t("Analytics")}</h1>
-          <p className="page-header-description">
-            {/* {t("View your Revenue, Registrants, Events, and Filter analytics.")} */}
-            Access analytics for your revenue, registrants, events, and filters
-          </p>
-        </BlockStack>
-      </PageHeader>
-      <PageContent>
-        <BlockStack gap={8} cardsLayout={true} className="w-full min-w-0">
-          {/* Tabs: always horizontally scrollable on mobile */}
-          <div className="w-full min-w-0 overflow-x-auto">
-            <TabsComponent
-              tabsList={tabsList}
-              selected={selectedTab}
-              handleSelectChange={handleSelectTabChange}
-              fullWidth={true}
-            />
+    <PageWrapper loading={loading} withBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title">{`Analytics`}</h1>
+            <p className="dashboard-description mt-4">
+              Access analytics for your revenue, registrants, events, and
+              filters
+            </p>
           </div>
-          {/* Responsive content blocks */}
-          {selectedTab === 0 && (
-            <BlockStack gap={8} className="w-full min-w-0">
-              <div className="flex flex-col md:flex-row justify-end items-end min-w-0 w-full">
-                <div className="w-full md:w-72">
-                  <Datepicker
-                    displayFormat={"MMM DD, YYYY"}
-                    value={revenueDates}
-                    placeholder="Select Dates"
-                    inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
-                    onChange={(newValue) => setRevenueDates(newValue)}
-                  />
+        </div>
+        <PageContent>
+          <BlockStack gap={8} cardsLayout={true} className="w-full min-w-0">
+            {/* Tabs: always horizontally scrollable on mobile */}
+            <div className="w-full min-w-0 overflow-x-auto">
+              <TabsComponent
+                tabsList={tabsList}
+                selected={selectedTab}
+                handleSelectChange={handleSelectTabChange}
+                fullWidth={true}
+              />
+            </div>
+            {/* Responsive content blocks */}
+            {selectedTab === 0 && (
+              <BlockStack gap={8} className="w-full min-w-0">
+                <div className="flex flex-col md:flex-row justify-end items-end min-w-0 w-full">
+                  <div className="w-full md:w-72">
+                    <Datepicker
+                      displayFormat={"MMM DD, YYYY"}
+                      value={revenueDates}
+                      placeholder="Select Dates"
+                      inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
+                      onChange={(newValue) => setRevenueDates(newValue)}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
-                <div className="flex flex-col items-center justify-start">
-                  <h2 className="font-semibold text-brand-700 text-display-md">
+                <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
+                  <div className="flex flex-col items-center justify-start">
+                    <h2 className="font-semibold text-brand-700 text-display-md">
+                      <Count
+                        from={0}
+                        to={
+                          !revenueDates.startDate
+                            ? totalRevenue || 0
+                            : filteredByDateRevenue || 0
+                        }
+                        className="font-semibold text-brand-700 text-display-md"
+                      />
+                    </h2>
+                    {totalRevenue === 0 && (
+                      <p>{t("You haven’t made any Sales yet.")}</p>
+                    )}
+                  </div>
+                </div>
+              </BlockStack>
+            )}
+
+            {selectedTab === 1 && (
+              <BlockStack gap={8} className="w-full min-w-0">
+                <InlineStack
+                  gap={4}
+                  className="flex-col sm:flex-row w-full items-start min-w-0"
+                >
+                  <div className="w-full sm:w-48">
+                    <SelectControl
+                      options={monthOptions}
+                      selected={selectedMonth}
+                      onSelectChange={(val) => {
+                        handleMonthSelect(val);
+                        setIsMonthSelected(true);
+                      }}
+                    />
+                  </div>
+                  <div className="w-full sm:w-48">
+                    <SelectControl
+                      options={yearOptions}
+                      selected={selectedYear}
+                      onSelectChange={(val) => {
+                        handleYearSelect(val);
+                        setIsMonthSelected(true);
+                      }}
+                    />
+                  </div>
+                  <PageActionButton
+                    text="Reset"
+                    icon={null}
+                    type="primary"
+                    className="p-3 self-center w-full sm:w-auto"
+                    onAction={() => {
+                      setIsMonthSelected(false);
+                      setSelectedMonth("");
+                      setSelectedYear("");
+                    }}
+                  />
+                </InlineStack>
+                <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
+                  <h2 className="font-semibold text-brand-700 text-3xl">
                     <Count
                       from={0}
-                      to={
-                        !revenueDates.startDate
-                          ? totalRevenue || 0
-                          : filteredByDateRevenue || 0
-                      }
-                      className="font-semibold text-brand-700 text-display-md"
+                      to={unique + total}
+                      className="font-semibold"
                     />
+                    {` Registrants`}
                   </h2>
-                  {totalRevenue === 0 && (
-                    <p>{t("You haven’t made any Sales yet.")}</p>
+                  {unique + total === 0 && (
+                    <p className="text-gray-500 mt-2">
+                      {t("You don’t have any Registrants yet.")}
+                    </p>
                   )}
                 </div>
-              </div>
-            </BlockStack>
-          )}
+              </BlockStack>
+            )}
 
-          {selectedTab === 1 && (
-            <BlockStack gap={8} className="w-full min-w-0">
-              <InlineStack
-                gap={4}
-                className="flex-col sm:flex-row w-full items-start min-w-0"
-              >
-                <div className="w-full sm:w-48">
-                  <SelectControl
-                    options={monthOptions}
-                    selected={selectedMonth}
-                    onSelectChange={(val) => {
-                      handleMonthSelect(val);
-                      setIsMonthSelected(true);
-                    }}
-                  />
-                </div>
-                <div className="w-full sm:w-48">
-                  <SelectControl
-                    options={yearOptions}
-                    selected={selectedYear}
-                    onSelectChange={(val) => {
-                      handleYearSelect(val);
-                      setIsMonthSelected(true);
-                    }}
-                  />
-                </div>
-                <PageActionButton
-                  text="Reset"
-                  icon={null}
-                  type="primary"
-                  className="p-3 self-center w-full sm:w-auto"
-                  onAction={() => {
-                    setIsMonthSelected(false);
-                    setSelectedMonth("");
-                    setSelectedYear("");
-                  }}
-                />
-              </InlineStack>
-              <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
-                <h2 className="font-semibold text-brand-700 text-3xl">
-                  <Count
-                    from={0}
-                    to={unique + total}
-                    className="font-semibold"
-                  />
-                  {` Registrants`}
-                </h2>
-                {unique + total === 0 && (
-                  <p className="text-gray-500 mt-2">
-                    {t("You don’t have any Registrants yet.")}
-                  </p>
+            {selectedTab === 2 && (
+              <>
+                {eventsStatistic ? (
+                  <div className="w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-8 gap-4 min-w-0">
+                    <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                      <h2 className="font-semibold text-brand-700 text-lg">
+                        {t("Active Events")}
+                      </h2>
+                      <Count
+                        from={0}
+                        to={getActiveEvents()}
+                        className="font-semibold text-brand-700 text-3xl"
+                      />
+                    </div>
+                    <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                      <h2 className="font-semibold text-brand-700 text-lg">
+                        {t("Events Happened")}
+                      </h2>
+                      <Count
+                        from={0}
+                        to={getHappenedEvents()}
+                        className="font-semibold text-brand-700 text-3xl"
+                      />
+                    </div>
+                    <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                      <h2 className="font-semibold text-brand-700 text-lg">
+                        {t("Events Cancelled")}
+                      </h2>
+                      <Count
+                        from={0}
+                        to={getCanceledEvents()}
+                        className="font-semibold text-brand-700 text-3xl"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-64 flex items-center justify-center text-gray-500 min-w-0">
+                    {t("No event analytics to display.")}
+                  </div>
                 )}
-              </div>
-            </BlockStack>
-          )}
+              </>
+            )}
 
-          {selectedTab === 2 && (
-            <>
-              {eventsStatistic ? (
-                <div className="w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-8 gap-4 min-w-0">
-                  <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
-                    <h2 className="font-semibold text-brand-700 text-lg">
-                      {t("Active Events")}
-                    </h2>
-                    <Count
-                      from={0}
-                      to={getActiveEvents()}
-                      className="font-semibold text-brand-700 text-3xl"
+            {selectedTab === 3 && (
+              <BlockStack gap={8} className="w-full min-w-0">
+                <InlineStack
+                  gap={4}
+                  className="flex-col sm:flex-row w-full min-w-0"
+                >
+                  <div className="w-full sm:w-48">
+                    <SelectControl
+                      options={monthOptions}
+                      selected={selectedMonth}
+                      onSelectChange={(val) => {
+                        handleMonthSelect(val);
+                        setIsMonthSelected(true);
+                      }}
                     />
                   </div>
-                  <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
-                    <h2 className="font-semibold text-brand-700 text-lg">
-                      {t("Events Happened")}
-                    </h2>
-                    <Count
-                      from={0}
-                      to={getHappenedEvents()}
-                      className="font-semibold text-brand-700 text-3xl"
+                  <div className="w-full sm:w-48">
+                    <SelectControl
+                      options={yearOptions}
+                      selected={selectedYear}
+                      onSelectChange={(val) => {
+                        handleYearSelect(val);
+                        setIsMonthSelected(true);
+                      }}
                     />
                   </div>
-                  <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
-                    <h2 className="font-semibold text-brand-700 text-lg">
-                      {t("Events Cancelled")}
-                    </h2>
-                    <Count
-                      from={0}
-                      to={getCanceledEvents()}
-                      className="font-semibold text-brand-700 text-3xl"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="w-full h-64 flex items-center justify-center text-gray-500 min-w-0">
-                  {t("No event analytics to display.")}
-                </div>
-              )}
-            </>
-          )}
-
-          {selectedTab === 3 && (
-            <BlockStack gap={8} className="w-full min-w-0">
-              <InlineStack
-                gap={4}
-                className="flex-col sm:flex-row w-full min-w-0"
-              >
-                <div className="w-full sm:w-48">
-                  <SelectControl
-                    options={monthOptions}
-                    selected={selectedMonth}
-                    onSelectChange={(val) => {
-                      handleMonthSelect(val);
-                      setIsMonthSelected(true);
+                  <PageActionButton
+                    text="Reset"
+                    icon={null}
+                    type="primary"
+                    className="p-[0.75rem] self-end w-full sm:w-auto"
+                    onAction={() => {
+                      setIsMonthSelected(false);
+                      setSelectedMonth("");
+                      setSelectedYear("");
                     }}
                   />
-                </div>
-                <div className="w-full sm:w-48">
-                  <SelectControl
-                    options={yearOptions}
-                    selected={selectedYear}
-                    onSelectChange={(val) => {
-                      handleYearSelect(val);
-                      setIsMonthSelected(true);
-                    }}
-                  />
-                </div>
-                <PageActionButton
-                  text="Reset"
-                  icon={null}
-                  type="primary"
-                  className="p-[0.75rem] self-end w-full sm:w-auto"
-                  onAction={() => {
-                    setIsMonthSelected(false);
-                    setSelectedMonth("");
-                    setSelectedYear("");
-                  }}
-                />
-              </InlineStack>
-              {filtersStatistic && renderFiltersStatistic()}
-            </BlockStack>
-          )}
-        </BlockStack>
-      </PageContent>
+                </InlineStack>
+                {filtersStatistic && renderFiltersStatistic()}
+              </BlockStack>
+            )}
+          </BlockStack>
+        </PageContent>
+      </div>
     </PageWrapper>
   );
 };

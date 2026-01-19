@@ -8,44 +8,82 @@ import {
   ArrowTopRightOnSquareIcon,
   InformationCircleIcon,
 } from "@heroicons/react/16/solid";
-
-const SupportPage = ({ settings }) => {
+import { useServvStore } from "../../store/useServvStore";
+const SupportPage = () => {
+  const settings = useServvStore((s) => s.settings);
   const [intercomLaded, setIntercomLoaded] = useState(false);
   const FAQs = [
-    { title: "How do I create my first event?", url: "https://support.servv.ai/getting-started/event/createevent/" },
-    { title: "Can I customise the booking form fields?", url: "https://support.servv.ai/getting-started/booking/#table-customization" },
-    { title: "How do I set booking limits or max capacity?", url: "https://support.servv.ai/getting-started/event/ticket/" },
-    { title: "How do I configure event categories or tags?", url: "https://support.servv.ai/getting-started/filter/categoryfilter/" },
-    { title: "This is an example question with external link?", url: "https://support.servv.ai/getting-started/filter/categoryfilter/#related-links" },
+    {
+      title: "How do I create my first event?",
+      url: "https://support.servv.ai/getting-started/event/createevent/",
+    },
+    {
+      title: "Can I customise the booking form fields?",
+      url: "https://support.servv.ai/getting-started/booking/#table-customization",
+    },
+    {
+      title: "How do I set booking limits or max capacity?",
+      url: "https://support.servv.ai/getting-started/event/ticket/",
+    },
+    {
+      title: "How do I configure event categories or tags?",
+      url: "https://support.servv.ai/getting-started/filter/categoryfilter/",
+    },
+    {
+      title: "This is an example question with external link?",
+      url: "https://support.servv.ai/getting-started/filter/categoryfilter/#related-links",
+    },
   ];
 
-  const mainLinks = [
+  const [mainLinks, setMetaLinks] = useState([
     {
       title: "Documentation",
       description: "Step-by-step guides & API docs",
       url: "https://support.servv.ai",
     },
-    {
-      title: "Support forum",
-      description: "Real-time answers from power users",
-      url: "https://wordpress.org/support/plugin/servvai-event-booking",
-    },
+
     {
       title: "Submit ticket",
       description: "One-to-one help",
       url: "https://servv.ai/contact/",
     },
     {
-      title: "Raise a bug",
-      description: "Log an issue on GitHub",
-      url: "https://github.com/coderisetechnologiesinc/servvai-event-booking/issues",
-    },
-    {
       title: "Feature request",
       description: "Have an idea for us?",
-      url: "https://github.com/coderisetechnologiesinc/servvai-event-booking/discussions/new?category=ideas",
+      url: "https://servv.ai/contact/",
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    if (settings?.current_plan?.id && !settings?.is_wp_marketplace)
+      setMetaLinks([
+        {
+          title: "Documentation",
+          description: "Step-by-step guides & API docs",
+          url: "https://support.servv.ai",
+        },
+        {
+          title: "Support forum",
+          description: "Real-time answers from power users",
+          url: "https://wordpress.org/support/plugin/servvai-event-booking",
+        },
+        {
+          title: "Submit ticket",
+          description: "One-to-one help",
+          url: "https://servv.ai/contact/",
+        },
+        {
+          title: "Raise a bug",
+          description: "Log an issue on GitHub",
+          url: "https://github.com/coderisetechnologiesinc/servvai-event-booking/issues",
+        },
+        {
+          title: "Feature request",
+          description: "Have an idea for us?",
+          url: "https://servv.ai/contact/",
+        },
+      ]);
+  }, [settings]);
 
   const additionalLinks = [
     {
@@ -240,8 +278,8 @@ const SupportPage = ({ settings }) => {
   }, []);
 
   return (
-    <PageWrapper loading={false}>
-      <div className="mt-[2rem] mx-auto">
+    <PageWrapper loading={false} withBackground={true}>
+      <div className="dashboard-card">
         <BlockStack gap={4}>
           <div className="flex flex-col justify-center items-center ">
             <h2 className="text-gray-900 text-display-sm">Help & Support</h2>
@@ -284,7 +322,9 @@ const SupportPage = ({ settings }) => {
 
         {renderFAQ()}
 
-        {renderLinks(additionalLinks)}
+        {settings?.current_plan?.id &&
+          !settings?.is_wp_marketplace &&
+          renderLinks(additionalLinks)}
         <p className="text-regular text-sm text-gray-[#0A0A0A] mt-4xl">
           Version Information : 1.0
         </p>

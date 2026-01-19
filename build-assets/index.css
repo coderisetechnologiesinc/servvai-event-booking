@@ -1989,6 +1989,7 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   border-radius: 0.5rem;
   border-width: 1px;
   --tw-border-opacity: 1;
@@ -2012,6 +2013,7 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
 
 .badge-small span {
   display: inline-flex;
+  white-space: nowrap;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.125rem;
@@ -2035,6 +2037,7 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
 
 .servv-card .card-header .card-heading .badge-small span {
   display: inline-flex;
+  white-space: nowrap;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.125rem;
@@ -2058,6 +2061,7 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
 
 .badge-medium span {
   display: inline-flex;
+  white-space: nowrap;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.125rem;
@@ -2080,6 +2084,7 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
 }
 
 .badge-large small {
+  white-space: nowrap;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.25rem;
@@ -2169,14 +2174,63 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
+input.input-control.section-description.filter-table-headings th {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.section-description.filter-table-headings th:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+input.input-control.section-description.filter-table-headings th.w-full {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.section-description.filter-table-headings th.w-full:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
 .filter-table-headings th {
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(228 231 236 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
-  padding: 0.5rem;
-  text-align: left;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
   font-size: 0.75rem;
   line-height: 1.125rem;
   font-weight: 500;
@@ -2185,30 +2239,103 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
 }
 
 .filter-table-headings th:first-child {
-  flex-shrink: 1;
+  flex-shrink: 0;
   border-left-width: 1px;
+  text-align: left;
 }
 
 .filter-table-headings th:last-child {
   border-right-width: 1px;
+  text-align: right;
+}
+
+inputtable.input-control.section-description.text-center {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+inputtable.input-control.section-description.text-center:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+}
+
+input.input-control.section-description.table-row td {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.section-description.table-row td:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+input.input-control.section-description.table-row td.w-full {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.section-description.table-row td.w-full:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .table-row td {
-  justify-content: flex-start;
   border-bottom-width: 1px;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(228 231 236 / var(--tw-border-opacity, 1));
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  font-weight: 400;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   --tw-text-opacity: 1;
-  color: rgb(71 84 103 / var(--tw-text-opacity, 1));
-}
-
-.table-row td:first-child {
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(16 24 40 / var(--tw-text-opacity, 1));
+  color: rgb(52 64 84 / var(--tw-text-opacity, 1));
 }
 
 @media not all and (min-width: 768px) {
@@ -2223,8 +2350,32 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
   }
 }
 
+.table-row {
+  max-width: 100%;
+}
+
+.table-row td:first-child {
+  width: 0rem;
+  white-space: nowrap;
+  text-align: left;
+  font-weight: 500;
+  --tw-text-opacity: 1;
+  color: rgb(16 24 40 / var(--tw-text-opacity, 1));
+}
+
+.table-row td:last-child {
+  width: 0rem;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.table-row td:nth-child(2) {
+  text-align: left;
+}
+
 .table-row .filter-table-link {
   cursor: pointer;
+  text-align: left;
   font-weight: 600;
   text-decoration-line: underline;
 }
@@ -2233,6 +2384,177 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
   --tw-text-opacity: 1;
   color: rgb(130 23 229 / var(--tw-text-opacity, 1));
 }
+
+.table-row td:first-child > *,
+  .table-row td:last-child > * {
+  display: inline-flex;
+}
+
+/* Table should size columns by content */
+
+input.input-control.section-description.text-center.filters-page-table {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.section-description.text-center.filters-page-table:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.filters-page-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+/* FIRST COLUMN: auto / minimum width */
+
+.filters-page-table th:first-child,
+  .filters-page-table td:first-child {
+  width: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-align: left;
+}
+
+/* SECOND COLUMN: force NOT centered */
+
+.filters-page-table th:nth-child(2),
+  .filters-page-table td:nth-child(2) {
+  text-align: left;
+}
+
+/* Table base */
+
+input.input-control.section-description.text-center.bookings-table {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.section-description.text-center.bookings-table:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.bookings-table {
+  width: 100%;
+  table-layout: auto;
+}
+
+/* Default cells: no tooltip, normal overflow */
+
+.bookings-table td {
+  position: relative;
+  overflow: visible;
+  text-align: left;
+}
+
+/* Truncated text wrapper */
+
+.bookings-table .cell-truncate {
+  display: block;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tooltip ONLY when explicitly enabled */
+
+.bookings-table td[data-tooltip]::after {
+  content: attr(data-full);
+  position: absolute;
+  z-index: 50;
+  display: none;
+  max-width: 20rem;
+  white-space: normal;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(16 24 40 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  top: 100%;
+  left: 0;
+}
+
+/* Show tooltip on hover */
+
+.bookings-table td[data-tooltip]:hover::after {
+  display: block;
+}
+
+.bookings-table th:first-child,
+  .bookings-table td:first-child {
+  width: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* table mobile */
+
+/* @media (max-width: 640px) {
+    table,
+    thead,
+    tbody,
+    th,
+    tr,
+    td {
+      display: block;
+    }
+
+    thead {
+      display: none;
+    }
+
+    .table-row {
+      @apply mb-3 rounded-lg border border-gray-200 p-2;
+    }
+
+    .table-row td {
+      @apply flex justify-between items-center
+      border-none py-1 px-0;
+    }
+
+    .table-row td::before {
+      content: attr(data-label);
+      @apply font-medium text-gray-500;
+    }
+  } */
 
 .wp-admin #servv-wrap > .\!registrant > main {
   margin-left: 280px;
@@ -2501,32 +2823,32 @@ input.input-control.section-description.text-center.page-content:hover {
   background-repeat: no-repeat !important;
 }
 
-.wp-admin #servv-wrap > .service-image > main {
+.wp-admin #servv-wrap > .servv-service-image > main {
   margin-left: 280px;
 }
 
 @media (max-width: 782px) {
-  .wp-admin #servv-wrap > .service-image > main {
+  .wp-admin #servv-wrap > .servv-service-image > main {
     margin-left: 52px;
   }
 }
 
-.service-image {
-  aspect-ratio: 10/3;
+.servv-service-image {
   border-radius: 0.5rem;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-div .service-image {
+div .servv-service-image {
   background-size: cover !important;
   background-repeat: no-repeat !important;
 }
 
-.service-image {
+.servv-service-image {
   margin: 0rem;
   display: flex;
+  min-height: 250px;
   flex-direction: column;
   justify-content: flex-end;
   border-radius: 0.5rem;
@@ -2890,6 +3212,10 @@ svg.breadcrumbs-icon {
   flex-direction: column;
   gap: 40px;
   border-radius: 16px;
+  flex: 1;
+  /* min-height: calc(100vh - 64px); */
+  height: -moz-max-content;
+  height: max-content;
 }
 
 .servv-dashboard-header {
@@ -3396,6 +3722,12 @@ svg.breadcrumbs-icon {
   align-items: center;
   margin: 200px auto;
   width: 100%;
+}
+
+.dashboard-empty-state-title {
+  font-family: "Inter", sans-serif;
+  font-size: 30px;
+  line-height: 38px;
 }
 
 .events-pagination-wrapper {
@@ -4898,6 +5230,25 @@ svg.breadcrumbs-icon {
   background: #6b4ce6;
 }
 
+.servv_button--md {
+  height: 40px;
+  padding: 8px 24px;
+  font-size: 14px;
+  line-height: 20px;
+  border-radius: 8px;
+}
+
+.servv_button--primary {
+  background: #7a5af8;
+  box-shadow: 0px 1px 2px rgba(10, 13, 18, 0.05);
+  color: #ffffff;
+  border: none;
+}
+
+.servv_button--primary:hover {
+  background: #6b4ce6;
+}
+
 /* remove focus outline */
 
 .servv_input__native:focus,
@@ -5204,6 +5555,12 @@ input.servv-input__native.servv-input__native--center {
   pointer-events: none;
 }
 
+.customize-list .section-description {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 24px !important;
+}
+
 .pointer-events-none {
   pointer-events: none;
 }
@@ -5332,6 +5689,11 @@ input.servv-input__native.servv-input__native--center {
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.my-0 {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
 }
 
 .my-1 {
@@ -5598,8 +5960,16 @@ input.servv-input__native.servv-input__native--center {
   max-height: 15rem;
 }
 
+.max-h-\[90\%\] {
+  max-height: 90%;
+}
+
 .max-h-\[90vh\] {
   max-height: 90vh;
+}
+
+.min-h-0 {
+  min-height: 0rem;
 }
 
 .min-h-\[1\.25rem\] {
@@ -5694,6 +6064,10 @@ input.servv-input__native.servv-input__native--center {
   width: 8px;
 }
 
+.w-auto {
+  width: auto;
+}
+
 .w-fit {
   width: -moz-fit-content;
   width: fit-content;
@@ -5770,6 +6144,10 @@ input.servv-input__native.servv-input__native--center {
 
 .max-w-\[220px\] {
   max-width: 220px;
+}
+
+.max-w-\[65\%\] {
+  max-width: 65%;
 }
 
 .max-w-\[720px\] {
@@ -6259,6 +6637,10 @@ input.servv-input__native.servv-input__native--center {
   white-space: nowrap;
 }
 
+.break-words {
+  overflow-wrap: break-word;
+}
+
 .break-all {
   word-break: break-all;
 }
@@ -6277,6 +6659,10 @@ input.servv-input__native.servv-input__native--center {
 
 .rounded-\[0\.625rem\] {
   border-radius: 0.625rem;
+}
+
+.rounded-\[15px\] {
+  border-radius: 15px;
 }
 
 .rounded-\[17px\] {
@@ -6573,6 +6959,10 @@ input.servv-input__native.servv-input__native--center {
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+
+.bg-black\/40 {
+  background-color: rgb(0 0 0 / 0.4);
 }
 
 .bg-black\/50 {
@@ -7131,6 +7521,11 @@ input.servv-input__native.servv-input__native--center {
 .px-lg {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+.py-0 {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
 }
 
 .py-0\.5 {
@@ -9277,10 +9672,6 @@ input.servv-input__native.servv-input__native--center {
 }
 
 @media not all and (min-width: 768px) {
-  .max-md\:max-w-full {
-    max-width: 100%;
-  }
-
   .max-md\:flex-col {
     flex-direction: column;
   }
@@ -9344,11 +9735,6 @@ input.servv-input__native.servv-input__native--center {
   .sm\:px-2 {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-  }
-
-  .sm\:px-6 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
   }
 }
 
@@ -9514,11 +9900,6 @@ input.servv-input__native.servv-input__native--center {
 
   .lg\:border-r {
     border-right-width: 1px;
-  }
-
-  .lg\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
   }
 
   .lg\:pb-0 {

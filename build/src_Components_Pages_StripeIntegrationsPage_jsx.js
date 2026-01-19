@@ -163,19 +163,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
 
-const Card = props => {
-  const {
-    className = "",
-    padding,
-    align,
-    background,
-    maxWidth,
-    children,
-    ...rest
-  } = props;
+const Card = ({
+  className = "",
+  padding = "p-0",
+  align,
+  background = "bg-white",
+  maxWidth,
+  children,
+  ...rest
+}) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     ...rest,
-    className: `servv-card ${padding || "p-0"} ${align === "center" ? "mx-auto" : ""} ${background || "bg-white"} max-md:max-w-full w-full ${maxWidth ? `md:max-w-[${maxWidth}]` : ""} ${className}`,
+    className: `
+        servv-card
+        ${padding}
+        ${background}
+        w-full
+        ${align === "center" ? "mx-auto" : ""}
+        ${className}
+      `,
+    style: {
+      maxWidth: maxWidth ? maxWidth : "100%"
+    },
     children: children
   });
 };
@@ -267,28 +276,26 @@ __webpack_require__.r(__webpack_exports__);
 const PageActionButton = ({
   text,
   icon,
-  type,
+  type = "primary",
+  // primary | secondary | danger
+  size = "md",
+  // md | sm
   onAction,
   disabled = false,
   className = "",
   style = {}
 }) => {
+  const baseClass = "servv_button";
+  const typeClass = `servv_button--${type}`;
+  const sizeClass = size === "sm" ? "servv_button--sm" : "servv_button--md";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+    type: "button",
     onClick: onAction,
     disabled: disabled,
-    className: `
-        flex items-center justify-center px-4 py-2 rounded-lg
-        font-medium text-sm transition-colors duration-200
-        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-        ${className}
-      `,
-    style: {
-      fontFamily: "'Inter', sans-serif",
-      ...style
-    },
+    className: `${baseClass} ${typeClass} ${sizeClass} ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+    style: style,
     children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      className: "mr-2",
+      className: "mr-2 flex items-center",
       children: icon
     }), text]
   });
@@ -378,6 +385,53 @@ const SelectControl = ({
 
 /***/ }),
 
+/***/ "./src/Components/Menu/BreadCrumbs.jsx":
+/*!*********************************************!*\
+  !*** ./src/Components/Menu/BreadCrumbs.jsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/ChevronRightIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const BreadCrumbs = ({
+  breadcrumbs = [],
+  onBreadCrumbClick = () => {}
+}) => {
+  const handleNavigate = (e, item) => {
+    e.preventDefault();
+    item.action();
+    onBreadCrumbClick(item.label);
+  };
+  const renderBreadCrumbs = () => {
+    return breadcrumbs.map((item, index) => {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "flex flex-row gap-4 items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
+          href: "",
+          onClick: e => handleNavigate(e, item),
+          children: item.label
+        }), index < breadcrumbs.length - 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          className: "breadcrumbs-icon"
+        })]
+      });
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+    className: `breadcrumbs flex flex-row items-center gap-4 ${breadcrumbs.length > 1 ? "opacity-100" : "opacity-0"}`,
+    children: renderBreadCrumbs()
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BreadCrumbs);
+
+/***/ }),
+
 /***/ "./src/Components/Menu/Spinner.jsx":
 /*!*****************************************!*\
   !*** ./src/Components/Menu/Spinner.jsx ***!
@@ -443,14 +497,14 @@ const PageWrapper = props => {
     children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "fixed inset-0 bg-[#F5F5F5]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4",
+      className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
         children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-hidden ${props.loading ? "loading" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
           position: "bottom-right"
         }), props.children]
@@ -480,16 +534,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
 /* harmony import */ var _Containers_Card__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/Card */ "./src/Components/Containers/Card.jsx");
-/* harmony import */ var _utilities_stripe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utilities/stripe */ "./src/utilities/stripe.js");
-/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
-/* harmony import */ var _utilities_currencies__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../utilities/currencies */ "./src/utilities/currencies.js");
-/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
-/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! he */ "./node_modules/he/he.js");
-/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(he__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menu/BreadCrumbs */ "./src/Components/Menu/BreadCrumbs.jsx");
+/* harmony import */ var _utilities_stripe__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utilities/stripe */ "./src/utilities/stripe.js");
+/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var _utilities_currencies__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../utilities/currencies */ "./src/utilities/currencies.js");
+/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
+/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! he */ "./node_modules/he/he.js");
+/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(he__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
+
 
 
 
@@ -507,7 +563,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const StripeIntegrationsPage = props => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
   const [account, setAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [isAccountFetched, setAccountFetched] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -516,18 +572,18 @@ const StripeIntegrationsPage = props => {
   const [connectUrl, setConnectUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [selectedCurrency, setSelectedCurrency] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const fetchAccount = async () => {
-    const account = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeAccount)(servvData.nonce);
+    const account = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeAccount)(servvData.nonce);
     if (account && account.id) {
       setAccount(account);
     }
     setAccountFetched(true);
-    const settings = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeSettings)(servvData.nonce);
+    const settings = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeSettings)(servvData.nonce);
     if (settings) {
       setSelectedCurrency(settings.currency);
     }
   };
   const handleConnectExistingAccount = async account_id => {
-    const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeConnectURL)(servvData.nonce, account_id);
+    const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeConnectURL)(servvData.nonce, account_id);
     if (url) {
       const returnURL = encodeURIComponent(window.location.origin);
       const connectURL = encodeURIComponent(url.auth_url);
@@ -536,32 +592,32 @@ const StripeIntegrationsPage = props => {
     }
   };
   const connectNewAccount = async () => {
-    const connectUrl = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeConnectURL)(servvData.nonce);
+    const connectUrl = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeConnectURL)(servvData.nonce);
     const returnURL = encodeURIComponent(window.location.origin);
     const connectURL = encodeURIComponent(connectUrl.auth_url);
     open(`${servvData.shopify_app}/payments/stripe/connect?wordpress_url=${encodeURIComponent(connectURL)}&wordpress_return_url=${returnURL}`, "_top");
   };
   const renderExistingAccounts = () => {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
       className: "flex flex-col gap-1",
       children: connectedAccounts.map(account => {
-        const accountText = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        const accountText = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "flex flex-row justify-start items-center gap-2",
-          children: [account.account_id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          children: [account.account_id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
             text: account.account_id,
             align: "start",
             color: "success"
-          }), account.email && account.email.trim().length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), account.email && account.email.trim().length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
             text: account.email,
             align: "start",
             color: "success"
-          }), account.name && account.name.trim.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), account.name && account.name.trim.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
             text: account.name,
             align: "start",
             color: "brand"
           })]
         });
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
           className: "w-full flex flex-row gap-2 border border-gray-25 shadow-sm rounded-lg p-2",
           onClick: () => {
             handleConnectExistingAccount(account.account_id);
@@ -573,7 +629,7 @@ const StripeIntegrationsPage = props => {
   };
   const handleGetConnectURL = async () => {
     setLoading(true);
-    const existingAccounts = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getDisconnectedStripeAccounts)(servvData.nonce);
+    const existingAccounts = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getDisconnectedStripeAccounts)(servvData.nonce);
     // const url = await getStripeConnectURL(servvData.nonce);
     // setConnectUrl(url.auth_url);
     setLoading(false);
@@ -582,14 +638,14 @@ const StripeIntegrationsPage = props => {
       setConnectedAccountsFetched(true);
     } else {
       setLoading(true);
-      const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeConnectURL)(servvData.nonce);
+      const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeConnectURL)(servvData.nonce);
       setConnectUrl(url.auth_url);
       if (url) open(`${servvData.shopify_app}/stripe/connect?wordpress_url=${encodeURIComponent(url.auth_url)}&wordpress_return_url=${encodeURIComponent(window.location.origin)}`, "_top");
     }
   };
   const handleRemoveAccount = async () => {
     setLoading(true);
-    const res = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.disconnectStripeAccount)(servvData.nonce);
+    const res = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.disconnectStripeAccount)(servvData.nonce);
     if (res === 200) {
       setAccount(null);
     }
@@ -598,17 +654,17 @@ const StripeIntegrationsPage = props => {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchAccount();
   }, []);
-  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
     className: "flex flex-row gap-2 items-center",
-    children: [account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: [account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
       background: "gray",
       text: account ? "Connected" : "Not connected",
       icon: ""
-    }), account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }), account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
       background: "gray",
       text: "Connection is not completed",
       icon: ""
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
       children: account ? account.email : "Please connect your account"
     })]
   });
@@ -618,13 +674,13 @@ const StripeIntegrationsPage = props => {
   };
   const currencySelect = () => {
     let currencies = [];
-    if (_utilities_currencies__WEBPACK_IMPORTED_MODULE_9__.currenciesList) {
-      currencies = _utilities_currencies__WEBPACK_IMPORTED_MODULE_9__.currenciesList.map(currency => {
+    if (_utilities_currencies__WEBPACK_IMPORTED_MODULE_10__.currenciesList) {
+      currencies = _utilities_currencies__WEBPACK_IMPORTED_MODULE_10__.currenciesList.map(currency => {
         let sequence = currency.symbol;
-        return currency.abbreviation + " - " + he__WEBPACK_IMPORTED_MODULE_11___default().decode(sequence);
+        return currency.abbreviation + " - " + he__WEBPACK_IMPORTED_MODULE_12___default().decode(sequence);
       });
     }
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
       options: currencies,
       selected: currencies.filter(currency => currency.indexOf(selectedCurrency) >= 0)[0],
       onSelectChange: handleSelectChange
@@ -633,97 +689,105 @@ const StripeIntegrationsPage = props => {
   const handleCurrencySave = async () => {
     if (selectedCurrency) {
       setLoading(true);
-      await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.updateStripeSettings)(servvData.nonce, selectedCurrency);
+      await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.updateStripeSettings)(servvData.nonce, selectedCurrency);
       setLoading(false);
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_12__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_13__["default"], {
     loading: loading,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: t("Stripe")
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        gap: 2,
-        align: "right",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
-          text: "Save"
-          // icon={<InboxArrowDownIcon className="button-icon" />}
-          ,
-          type: "primary",
-          onAction: () => handleCurrencySave()
-        })
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          padding: 0,
-          maxWidth: "65%",
-          align: "center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-            className: "service-image",
-            style: {
-              background: `linear-gradient(135deg, #008CDD, #00C6FF)`
-            },
-            children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-              className: "connected-account bg-gradient-to-b from-transparent to-black/40",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
-                children: t("Account")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                text: badge(),
-                color: "gray",
-                justify: "start"
-              })]
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h1", {
+            className: "dashboard-title",
+            children: "Stripe"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+            className: "dashboard-description",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              breadcrumbs: [{
+                label: "Integrations",
+                action: () => navigate("../integrations")
+              }, {
+                label: "Stripe",
+                action: () => {}
+              }],
+              onBreadCrumbClick: () => {}
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-            className: "card-content",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-              className: "card-section-heading",
-              children: t("Stripe")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-              className: "section-description",
-              children: "Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
-            }), account && account.charges_enabled && currencySelect(), connectedAccountsFetched && connectedAccounts.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-                className: "servv-button-link text-gray-700",
-                children: t("Connect existing account")
-              }), renderExistingAccounts()]
-            }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: connectedAccountsFetched && connectedAccounts.length > 0 ? e => {
-                e.preventDefault();
-                connectNewAccount();
-              } : e => {
-                e.preventDefault();
-                handleGetConnectURL();
-              },
-              children: connectedAccountsFetched && connectedAccounts.length > 0 ? "Connect new account" : "Connect"
-            }), isAccountFetched && account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleConnectExistingAccount(account.account_id);
-              },
-              children: t("Resume integration")
-            }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleRemoveAccount();
-              },
-              children: t("Disconnect")
-            })]
           })]
         })
-      })
-    })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          gap: 8,
+          cardsLayout: true,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            padding: 0,
+            maxWidth: "85%",
+            align: "center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+              className: "servv-service-image",
+              style: {
+                background: `linear-gradient(to bottom, transparent, #ECE4F6)`
+              },
+              children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+                className: "connected-account bg-gradient-to-b from-transparent to-black/40",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
+                  children: t("Account")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  text: badge(),
+                  color: "gray",
+                  justify: "start"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+              className: "card-content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
+                className: "card-section-heading",
+                children: t("Stripe")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+                className: "section-description",
+                children: "Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
+              }), account && account.charges_enabled && currencySelect(), connectedAccountsFetched && connectedAccounts.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+                  className: "servv-button-link text-gray-700",
+                  children: t("Connect existing account")
+                }), renderExistingAccounts()]
+              }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: connectedAccountsFetched && connectedAccounts.length > 0 ? e => {
+                  e.preventDefault();
+                  connectNewAccount();
+                } : e => {
+                  e.preventDefault();
+                  handleGetConnectURL();
+                },
+                children: connectedAccountsFetched && connectedAccounts.length > 0 ? "Connect new account" : "Connect"
+              }), isAccountFetched && account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleConnectExistingAccount(account.account_id);
+                },
+                children: t("Resume integration")
+              }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleRemoveAccount();
+                },
+                children: t("Disconnect")
+              })]
+            })]
+          })
+        })
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StripeIntegrationsPage);
@@ -1517,7 +1581,45 @@ function cssValue(value) {
 }
 
 
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/16/solid/esm/ChevronRightIcon.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/16/solid/esm/ChevronRightIcon.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function ChevronRightIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 16 16",
+    fill: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    fillRule: "evenodd",
+    d: "M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z",
+    clipRule: "evenodd"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ChevronRightIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_StripeIntegrationsPage_jsx.js.map?ver=47557d4779dc7c718dcd
+//# sourceMappingURL=src_Components_Pages_StripeIntegrationsPage_jsx.js.map?ver=317683bdf456f971b64f

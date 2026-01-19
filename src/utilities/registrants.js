@@ -54,6 +54,64 @@ export const fetchRegistrants = async ({
   }
 };
 
+export const fetchRegistrantsWithToken = async ({
+  postID,
+  next_page_token = null,
+  occurrenceId = null,
+  pageSize = 20,
+}) => {
+  let url = `/servv-plugin/v1/event/${postID}/registrants?page_size=${pageSize}`;
+
+  if (next_page_token) {
+    url += `&next_page_token=${encodeURIComponent(next_page_token)}`;
+  }
+
+  if (occurrenceId) {
+    url += `&occurrence_id=${occurrenceId}`;
+  }
+
+  try {
+    const res = await apiFetch({ path: url });
+
+    const registrants =
+      res.registrants
+        ?.map((registrant) => {
+          if (!registrant) return null;
+
+          return {
+            id: registrant.id,
+            firstName: registrant.first_name,
+            lastName: registrant.last_name,
+            email: registrant.email,
+            status: registrant.status,
+            joinUrl: registrant.join_url,
+            createdAt: registrant.created_datetime,
+          };
+        })
+        .filter(Boolean) || [];
+
+    return {
+      registrants,
+      pagination: {
+        nextPageToken: res.next_page_token || null,
+        totalRecords: res.total_records ?? registrants.length,
+        pageSize: res.page_size ?? pageSize,
+      },
+    };
+  } catch (e) {
+    console.error("fetchRegistrantsWithToken failed", e);
+
+    return {
+      registrants: [],
+      pagination: {
+        nextPageToken: null,
+        totalRecords: 0,
+        pageSize,
+      },
+    };
+  }
+};
+
 /* ------------------ delete registrant ------------------ */
 
 export const deleteRegistrant = async ({

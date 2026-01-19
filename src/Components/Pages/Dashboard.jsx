@@ -97,7 +97,7 @@ const Dashboard = () => {
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -109,7 +109,7 @@ const Dashboard = () => {
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -157,7 +157,7 @@ const Dashboard = () => {
           pathname: location.pathname,
           search: params.toString(),
         },
-        { replace: true }
+        { replace: true },
       );
     }
   }, [location.search]);
@@ -296,8 +296,8 @@ const Dashboard = () => {
               pw_title ? ", " + pw_title : ""
             }`}</h1>
             <p className="dashboard-description">
-              Manage events, add contacts, customize materials, and more — all
-              in one platform.
+              Create, sell, and manage paid events, bookings, and customers from
+              one revenue platform
             </p>
           </div>
           {pw_title && (
@@ -323,7 +323,7 @@ const Dashboard = () => {
           <Fragment>
             {firstFetchDone && meetingsList.length === 0 ? (
               <div className="dashboard-empty-state">
-                <h1 className="dashboard-title">
+                <h1 className="dashboard-empty-state-title">
                   You don't have any events yet
                 </h1>
               </div>
