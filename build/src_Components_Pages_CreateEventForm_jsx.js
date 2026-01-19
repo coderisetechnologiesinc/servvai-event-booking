@@ -252,7 +252,13 @@ const CreateEventForm = () => {
     if (value.startsWith("data:image")) {
       return value.split(",")[1];
     }
-    return value;
+    return null;
+  };
+  const hasValue = value => {
+    if (value === null || value === undefined) return false;
+    if (Array.isArray(value)) return value.length > 0;
+    if (typeof value === "object") return Object.keys(value).length > 0;
+    return true;
   };
   const fetchEventInfo = async (postId, occurrenceId) => {
     setLoadingEvent(true);
@@ -281,8 +287,8 @@ const CreateEventForm = () => {
         const firstOccurrence = data.meeting.occurrences[0];
         startTime = moment.tz(firstOccurrence.start_time, data.meeting.timezone);
       }
-      mergeAttributes({
-        image_content: imageUrl || "",
+      let payload = {
+        image_content: imageUrl || null,
         meeting: {
           ...data.meeting,
           startTime: startTime
@@ -299,11 +305,19 @@ const CreateEventForm = () => {
         branding: data.branding || {},
         notifications: data.notifications || {},
         custom_fields: data.custom_fields || {}
-      });
+      };
+      delete payload.meeting.recurrence;
+      if (hasValue(data.meeting?.recurrence)) {
+        payload.meeting.recurrence = data.meeting.recurrence;
+      }
+      if (eventType === "offline") {
+        payload.location = "offline";
+      } else {
+        payload.location = "zoom";
+      }
+      mergeAttributes(payload);
       let newSteps = [...steps];
-      console.log(data.meeting.occurrences.length === 0 || occurrenceIdFromQuery);
-      if (data.meeting.occurrences.length === 0 || occurrenceIdFromQuery) {
-        console.log("push step");
+      if (data.meeting.occurrences === undefined || data.meeting.occurrences === null || data.meeting.occurrences.length === 0 || occurrenceIdFromQuery) {
         newSteps.push({
           key: "registrants",
           title: "Registrants",
@@ -329,6 +343,7 @@ const CreateEventForm = () => {
       }
       setEventLoaded(true);
     } catch (error) {
+      console.log(error);
       if (error?.response?.status === 404) {
         react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Event not found or has been deleted.");
       } else if (error?.response?.status === 403) {
@@ -523,8 +538,8 @@ const CreateEventForm = () => {
     if (occurrenceIdFromQuery) {
       requestURL += `?occurrence_id=${occurrenceIdFromQuery}`;
     }
-    // console.log(attributes.tickets);
-
+    const isRecurring = Array.isArray(attributes.meeting?.recurrence) && attributes.meeting.recurrence.length > 0;
+    const isOffline = attributes.location === "offline";
     let data = {
       meeting: {
         topic: attributes.meeting.topic,
@@ -552,15 +567,19 @@ const CreateEventForm = () => {
       custom_fields: {
         ...attributes.custom_fields
       },
-      image_content: stripMime(attributes.image_content) || ""
+      image_content: stripMime(attributes.image_content)
     };
     if (!isNew) {
       data.product = {
         ...attributes.product
       };
       data.meeting = {
-        ...attributes.meeting,
-        type: attributes.meeting.recurrence && attributes.meeting.recurrence !== null ? attributes.location === "offline" ? 2 : 8 : attributes.location === "offline" ? 1 : 2
+        topic: attributes.meeting.topic,
+        agenda: attributes.meeting.agenda,
+        start_time: attributes.meeting.startTime,
+        timezone: attributes.meeting.timezone,
+        duration: attributes.meeting.duration,
+        type: isRecurring ? isOffline ? 2 : 8 : isOffline ? 1 : 2
       };
       if (attributes.registrants && attributes.registrants.length > 0) {
         data.registrants = attributes.registrants.filter(reg => reg.status && reg.status === "create").map(reg => {
@@ -574,7 +593,7 @@ const CreateEventForm = () => {
     } else {
       data.meeting = {
         ...attributes.meeting,
-        eventType: attributes.meeting.recurrence && attributes.meeting.recurrence !== null ? attributes.location === "offline" ? 2 : 8 : attributes.location === "offline" ? 1 : 2
+        eventType: isRecurring ? isOffline ? 2 : 8 : isOffline ? 1 : 2
       };
       data.tickets = attributes.tickets.map(ticket => {
         const payload = {
@@ -1091,14 +1110,14 @@ const PageWrapper = props => {
     children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "fixed inset-0 bg-[#F5F5F5]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4",
+      className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
         children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-hidden ${props.loading ? "loading" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
           position: "bottom-right"
         }), props.children]
@@ -1283,4 +1302,4 @@ module.exports = __webpack_require__.p + "images/logo.b4e524fb.png";
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=10752a685abe2984dedf
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=812fa4d6117960920077

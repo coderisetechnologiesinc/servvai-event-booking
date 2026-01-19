@@ -349,22 +349,22 @@
     @apply text-primary-button-bg underline font-semibold;
   }
   .badge {
-    @apply flex flex-row flex-nowrap border border-gray-300 text-gray-700 rounded-lg py-0.5 px-[0.125rem] text-xs grow-0 items-center justify-center md:text-sm md:text-[0.65rem];
+    @apply flex flex-row flex-nowrap border border-gray-300 text-gray-700 rounded-lg py-0.5 px-[0.125rem] text-xs grow-0 items-center justify-center whitespace-nowrap md:text-sm md:text-[0.65rem];
   }
   .badge-icon {
     @apply w-4;
   }
   .badge-small span {
-    @apply text-xs font-medium px-md py-xxs inline-flex sm:text-[0.5rem] md:text-[0.65rem];
+    @apply text-xs font-medium px-md py-xxs inline-flex whitespace-nowrap sm:text-[0.5rem] md:text-[0.65rem];
   }
   .servv-card .card-header .card-heading .badge-small span {
-    @apply text-xs font-medium px-md py-xxs inline-flex sm:text-[0.5rem] md:text-[0.65rem];
+    @apply text-xs font-medium px-md py-xxs inline-flex whitespace-nowrap sm:text-[0.5rem] md:text-[0.65rem];
   }
   .badge-medium span {
-    @apply text-sm font-medium px-md py-xxs inline-flex sm:text-[0.5rem] md:text-[0.65rem];
+    @apply text-sm font-medium px-md py-xxs inline-flex whitespace-nowrap sm:text-[0.5rem] md:text-[0.65rem];
   }
   .badge-large small {
-    @apply text-sm font-medium px-lg py-xs sm:text-[0.5rem] md:text-[0.65rem];
+    @apply text-sm font-medium px-lg py-xs whitespace-nowrap sm:text-[0.5rem] md:text-[0.65rem];
   }
   .badge-gray {
     @apply bg-utility-gray-50 border-utility-gray-200 text-utility-gray-700;
@@ -400,16 +400,127 @@
   .badge-modern {
     @apply rounded-lg bg-white;
   }
-
   .filter-table-headings th {
-    @apply p-2 font-medium text-xs text-gray-600 bg-gray-50 border-b border-gray-200 text-left first:border-l last:border-r first:shrink;
+    @apply px-2 py-2 font-medium text-xs text-gray-600 bg-gray-50 border-b border-gray-200 text-center first:text-left last:text-right first:border-l last:border-r first:shrink-0;
   }
+
+  table {
+    @apply w-full table-auto;
+  }
+
   .table-row td {
-    @apply py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 max-md:text-[0.65rem] max-sm:text-[0.5rem];
+    @apply px-2 py-2 text-sm text-gray-700 border-b border-gray-200 text-center max-md:text-[0.65rem] max-sm:text-[0.5rem];
   }
+
+  .table-row {
+    @apply max-w-full;
+  }
+
+  .table-row td:first-child {
+    @apply w-0 whitespace-nowrap text-left font-medium text-gray-900;
+  }
+
+  .table-row td:last-child {
+    @apply w-0 whitespace-nowrap text-right;
+  }
+
+  .table-row td:nth-child(2) {
+    @apply text-left;
+  }
+
   .table-row .filter-table-link {
-    @apply font-semibold underline cursor-pointer hover:text-primary-button-bg;
+    @apply font-semibold underline cursor-pointer hover:text-primary-button-bg text-left;
   }
+
+  .table-row td:first-child > *,
+  .table-row td:last-child > * {
+    @apply inline-flex;
+  }
+  /* Table should size columns by content */
+  .filters-page-table {
+    @apply w-full table-auto;
+  }
+
+  /* FIRST COLUMN: auto / minimum width */
+  .filters-page-table th:first-child,
+  .filters-page-table td:first-child {
+    @apply w-auto whitespace-nowrap shrink-0 text-left;
+  }
+
+  /* SECOND COLUMN: force NOT centered */
+  .filters-page-table th:nth-child(2),
+  .filters-page-table td:nth-child(2) {
+    @apply text-left;
+  }
+
+  /* Table base */
+  .bookings-table {
+    @apply w-full table-auto;
+  }
+
+  /* Default cells: no tooltip, normal overflow */
+  .bookings-table td {
+    @apply relative overflow-visible text-left;
+  }
+
+  /* Truncated text wrapper */
+  .bookings-table .cell-truncate {
+    @apply truncate max-w-[170px] block whitespace-nowrap;
+  }
+
+  /* Tooltip ONLY when explicitly enabled */
+  .bookings-table td[data-tooltip]::after {
+    content: attr(data-full);
+    @apply absolute z-50 hidden
+         bg-gray-900 text-white text-xs
+         px-2 py-1 rounded
+         whitespace-normal
+         max-w-xs
+         shadow-lg;
+    top: 100%;
+    left: 0;
+  }
+
+  /* Show tooltip on hover */
+  .bookings-table td[data-tooltip]:hover::after {
+    @apply block;
+  }
+
+  .bookings-table th:first-child,
+  .bookings-table td:first-child {
+    @apply w-auto whitespace-nowrap shrink-0;
+  }
+
+  /* table mobile */
+  /* @media (max-width: 640px) {
+    table,
+    thead,
+    tbody,
+    th,
+    tr,
+    td {
+      display: block;
+    }
+
+    thead {
+      display: none;
+    }
+
+    .table-row {
+      @apply mb-3 rounded-lg border border-gray-200 p-2;
+    }
+
+    .table-row td {
+      @apply flex justify-between items-center
+      border-none py-1 px-0;
+    }
+
+    .table-row td::before {
+      content: attr(data-label);
+      @apply font-medium text-gray-500;
+    }
+  } */
+
   .registrant {
     @apply py-3 px-1 hover:bg-utility-gray-200 flex flex-row items-center;
   }
@@ -450,7 +561,7 @@
     @apply text-sm font-regular text-gray-600;
   }
   .card-image {
-    @apply aspect-[10/3] bg-cover bg-no-repeat bg-center rounded-lg;
+    @apply bg-cover bg-no-repeat bg-center rounded-lg;
   }
   div .card-image {
     @apply bg-no-repeat bg-cover !important;
@@ -461,8 +572,8 @@
   .badge-image {
     @apply size-4 mr-1 ml-2 mb-[2px] bg-no-repeat bg-contain !important;
   }
-  .service-image {
-    @apply card-image p-0 m-0 rounded-lg flex flex-col justify-end;
+  .servv-service-image {
+    @apply card-image p-0 m-0 rounded-lg flex flex-col justify-end min-h-[250px];
   }
   .card-content {
     @apply flex flex-col p-4 gap-2;
@@ -581,6 +692,9 @@
     flex-direction: column;
     gap: 40px;
     border-radius: 16px;
+    flex: 1;
+    /* min-height: calc(100vh - 64px); */
+    height: max-content;
   }
   .servv-dashboard-header {
     display: flex;
@@ -608,6 +722,7 @@
     font-weight: 600;
     line-height: 38px;
   }
+
   .dashboard-description {
     font-size: 16px;
     font-weight: 400;
@@ -1053,6 +1168,11 @@
     align-items: center;
     margin: 200px auto;
     width: 100%;
+  }
+  .dashboard-empty-state-title {
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+    line-height: 38px;
   }
   .events-pagination-wrapper {
     display: flex;
@@ -2599,6 +2719,24 @@
   .servv_button--primary:hover {
     background: #6b4ce6;
   }
+  .servv_button--md {
+    height: 40px;
+    padding: 8px 24px;
+    font-size: 14px;
+    line-height: 20px;
+    border-radius: 8px;
+  }
+  .servv_button--primary {
+    background: #7a5af8;
+    box-shadow: 0px 1px 2px rgba(10, 13, 18, 0.05);
+    color: #ffffff;
+    border: none;
+  }
+
+  .servv_button--primary:hover {
+    background: #6b4ce6;
+  }
+
   /* remove focus outline */
   .servv_input__native:focus,
   .servv_input__native:focus-visible {
@@ -2905,6 +3043,12 @@
 
   .servv-create-form-close-icon {
     pointer-events: none;
+  }
+
+  .customize-list .section-description {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
   }
 }
 #servv-on-product-widget {

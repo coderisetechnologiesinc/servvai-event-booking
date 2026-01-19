@@ -2,8 +2,9 @@ import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useEventsLogic } from "./Events/useEventsLogic";
 import PageActionButton from "../Controls/PageActionButton";
 import InlineStack from "../Containers/InlineStack";
-import ButtonGroupConnected from "../Controls/ButtonGroupConnected";
-import ConnectedButton from "../Controls/ConnectedButton";
+import NewButtonGroup from "../Controls/NewButtonGroup";
+// import ButtonGroupConnected from "../Controls/ButtonGroupConnected";
+// import ConnectedButton from "../Controls/ConnectedButton";
 import BlockStack from "../Containers/BlockStack";
 import Badge from "../Containers/Badge";
 import Card from "../Containers/Card";
@@ -20,6 +21,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import ConfirmationModal from "../Controls/ConfirmationModal";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CloseIcon } from "../../assets/icons";
 import {
   AdjustmentsVerticalIcon,
   PlusIcon,
@@ -79,7 +81,7 @@ const EventsCardHeader = ({
   }, [filterDropdown]);
 
   const isFiltersEmpty = Object.values(filtersList).every(
-    (value) => Array.isArray(value) && value.length === 0
+    (value) => Array.isArray(value) && value.length === 0,
   );
 
   const changeFilterDropdown = () => setFilterDropdown(!filterDropdown);
@@ -95,7 +97,7 @@ const EventsCardHeader = ({
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -107,7 +109,7 @@ const EventsCardHeader = ({
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -120,7 +122,7 @@ const EventsCardHeader = ({
         {view !== "events" && <span> {t("Event Occurrences")}</span>}
         {eventsCount > 0 && (
           <Badge
-            text={`${eventsCount} ${t("item")}${eventsCount > 1 ? "s" : ""}`}
+            text={`${eventsCount} ${"event"}${eventsCount > 1 ? "s" : ""}`}
             color="secondary"
             size="small"
             align="center"
@@ -244,6 +246,7 @@ const EventsPage = ({
   const filtersList = useServvStore((s) => s.filtersList);
 
   const zoomAccount = useServvStore((s) => s.zoomAccount);
+
   const gmailAccount = useServvStore((s) => s.gmailAccount);
   const stripeAccount = useServvStore((s) => s.stripeAccount);
   const calendarAccount = useServvStore((s) => s.calendarAccount);
@@ -419,8 +422,8 @@ const EventsPage = ({
     try {
       await Promise.all(
         eventsIDs.map(({ id, occurrenceId }) =>
-          handleEventDelete(id, occurrenceId)
-        )
+          handleEventDelete(id, occurrenceId),
+        ),
       );
 
       await getEventsList();
@@ -550,7 +553,7 @@ const EventsPage = ({
                 <td key={heading.value}>
                   <Badge
                     text={`${moment(row[heading.value], "hh:mm a").format(
-                      timeFormat
+                      timeFormat,
                     )}${
                       !settings?.settings?.hide_time_zone
                         ? " " + moment.tz(row.timezone).format("z").toString()
@@ -606,7 +609,7 @@ const EventsPage = ({
             <button
               onClick={() =>
                 setActiveDropdown(
-                  !row.occurrence_id ? row.id : row.occurrence_id
+                  !row.occurrence_id ? row.id : row.occurrence_id,
                 )
               }
             >
@@ -754,7 +757,7 @@ const EventsPage = ({
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -766,7 +769,7 @@ const EventsPage = ({
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -816,242 +819,292 @@ const EventsPage = ({
           <Guideline showGuide={setShowGuide} redirect={redirect} />
         )}
       {!selectedEvent && (!showGuide || (zoomAccount && zoomAccount.id)) && (
-        <PageWrapper loading={false}>
-          <div className="w-full max-w-full px-0">
-            <div className="hidden md:flex items-center justify-between mt-6 mb-2">
-              <h1 className="text-display-sm">Events</h1>
-              <div className="flex gap-3">
-                <button
-                  className="flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition"
-                  onClick={() => setShowCustomizeModal(true)}
-                >
-                  <AdjustmentsVerticalIcon className="w-5 h-5" />
-                </button>
-                <button
-                  className="flex items-center px-5 py-2 rounded-lg bg-purple-600 text-white font-medium text-base hover:bg-purple-700 transition"
-                  onClick={() => handleCreateNewEvent()}
-                >
-                  <PlusIcon className="w-5 h-5 mr-2" />
-                  {t("Create event")}
-                </button>
+        <PageWrapper loading={false} withBackground={true}>
+          <div className="dashboard-card relative">
+            <div className="servv-dashboard-header">
+              <div className="dashboard-heading">
+                <h1 className="dashboard-title">Events</h1>
+                <p className="dashboard-description">
+                  {/* Create, sell, and manage paid events, bookings, and customers
+                  from one revenue platform */}
+                </p>
               </div>
-            </div>
 
-            <div className="md:hidden px-4 pt-4 pb-2">
-              <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-900">
-                  {t("Events")}
-                </h1>
-                <div className="flex gap-2">
-                  <button
-                    aria-label={t("Customize")}
-                    title={t("Customize")}
-                    className="p-2 rounded-full bg-white shadow"
-                    onClick={() => setShowCustomizeModal(true)}
-                  >
-                    <AdjustmentsVerticalIcon className="w-5 h-5" />
-                  </button>
-                  <button
-                    aria-label={t("Create Event")}
-                    title={t("Create Event")}
-                    className="p-2 rounded-full bg-purple-600 text-white shadow"
-                    onClick={() =>
-                      open("post-new.php?servv_plugin=true", "_top")
-                    }
-                  >
-                    <PlusIcon className="w-5 h-5" />
-                  </button>
+              <div className="header-line"></div>
+
+              <div className="md:hidden px-4 pt-4 pb-2">
+                <div className="flex items-center justify-between">
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    {t("Events")}
+                  </h1>
+
+                  <div className="flex gap-2">
+                    <button
+                      aria-label={t("Customize")}
+                      title={t("Customize")}
+                      className="p-2 rounded-full bg-white shadow"
+                      onClick={() => setShowCustomizeModal(true)}
+                    >
+                      <AdjustmentsVerticalIcon className="w-5 h-5" />
+                    </button>
+                    <button
+                      aria-label={t("Create Event")}
+                      title={t("Create Event")}
+                      className="p-2 rounded-full bg-purple-600 text-white shadow"
+                      onClick={() =>
+                        open("post-new.php?servv_plugin=true", "_top")
+                      }
+                    >
+                      <PlusIcon className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div className="events-actions">
+                <div className="events-actions-bar">
+                  <InlineStack
+                    gap={4}
+                    align="left"
+                    className="mt-4 justify-between"
+                  >
+                    <div className="flex flex row gap-3">
+                      <NewButtonGroup
+                        buttons={[t("Upcoming"), "Previous"]}
+                        active={isPast ? t("Previous") : t("Upcoming")}
+                        onChange={(label) => {
+                          handleIsPastChange(label === t("Past"));
+                        }}
+                      />
 
-            <InlineStack gap={4} align="left">
-              <ButtonGroupConnected>
-                <ConnectedButton
-                  text={t("Upcoming")}
-                  selected={!isPast}
-                  onAction={handleIsPastChange}
-                />
-                <ConnectedButton
-                  text={t("Past")}
-                  selected={isPast}
-                  onAction={handleIsPastChange}
-                />
-              </ButtonGroupConnected>
-              {settings &&
-                settings.current_plan &&
-                settings.current_plan.id !== 1 &&
-                zoomAccount !== null && (
-                  <ButtonGroupConnected>
-                    <ConnectedButton
-                      text={t("Events")}
-                      selected={eventType === "offline"}
-                      onAction={() => handleTypeChange("offline")}
-                    />
-                    <ConnectedButton
-                      text={"Zoom"}
-                      selected={eventType === "zoom"}
-                      onAction={() => handleTypeChange("zoom")}
-                    />
-                  </ButtonGroupConnected>
-                )}
-            </InlineStack>
+                      {settings?.current_plan?.id !== 1 &&
+                        zoomAccount !== null &&
+                        zoomAccount !== undefined && (
+                          <NewButtonGroup
+                            buttons={[t("Events"), "Zoom"]}
+                            active={
+                              eventType === "offline" ? t("Events") : "Zoom"
+                            }
+                            onChange={(label) => {
+                              handleTypeChange(
+                                label === "Zoom" ? "zoom" : "offline",
+                              );
+                            }}
+                          />
+                        )}
+                    </div>
+                    <div className="flex gap-3 justify-self-end">
+                      <button
+                        className="flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition"
+                        onClick={() => setShowCustomizeModal(true)}
+                      >
+                        <AdjustmentsVerticalIcon className="w-5 h-5" />
+                      </button>
 
-            <Card className="w-full max-w-none px-0 mt-4">
-              <div className="md:hidden flex items-center px-4 pt-4 pb-2">
-                <button
-                  aria-label={t("Search")}
-                  title={t("Search")}
-                  className={`p-2 rounded-full bg-white shadow ${
-                    showMobileSearch ? "ring-2 ring-purple-400" : ""
-                  }`}
-                  onClick={() => setShowMobileSearch((prev) => !prev)}
-                >
-                  <svg width="22" height="22" fill="none" viewBox="0 0 22 22">
-                    <circle
-                      cx="10"
-                      cy="10"
-                      r="7"
-                      stroke="#7c3aed"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M16 16l4 4"
-                      stroke="#7c3aed"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </button>
-                <div className="flex-1"></div>
-                <div className="flex gap-2 pr-1">
+                      <PageActionButton
+                        type="primary"
+                        size="md"
+                        icon={<PlusIcon className="w-5 h-5" />}
+                        text={t("Create event")}
+                        onAction={handleCreateNewEvent}
+                      />
+                    </div>
+                  </InlineStack>
+                </div>
+              </div>
+
+              <Card className="w-full max-w-none px-0 mt-4">
+                <div className="md:hidden flex items-center px-4 pt-4 pb-2">
                   <button
-                    aria-label={t("Date")}
-                    title={t("Pick date")}
-                    className="p-2 rounded-full bg-white shadow"
-                    onClick={() => setShowDateModal(true)}
+                    aria-label={t("Search")}
+                    title={t("Search")}
+                    className={`p-2 rounded-full bg-white shadow ${
+                      showMobileSearch ? "ring-2 ring-purple-400" : ""
+                    }`}
+                    onClick={() => setShowMobileSearch((prev) => !prev)}
                   >
                     <svg width="22" height="22" fill="none" viewBox="0 0 22 22">
-                      <rect
-                        x="3"
-                        y="5"
-                        width="16"
-                        height="14"
-                        rx="2"
+                      <circle
+                        cx="10"
+                        cy="10"
+                        r="7"
                         stroke="#7c3aed"
                         strokeWidth="2"
                       />
                       <path
-                        d="M7 3v4M15 3v4"
-                        stroke="#7c3aed"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    aria-label={t("Filters")}
-                    title={t("Filters")}
-                    className="p-2 rounded-full bg-white shadow"
-                    onClick={() => setShowFiltersModal(true)}
-                  >
-                    <svg width="22" height="22" fill="none" viewBox="0 0 22 22">
-                      <path
-                        d="M3 5h16M6 10h10M9 15h4"
+                        d="M16 16l4 4"
                         stroke="#7c3aed"
                         strokeWidth="2"
                         strokeLinecap="round"
                       />
                     </svg>
                   </button>
+                  <div className="flex-1"></div>
+                  <div className="flex gap-2 pr-1">
+                    <button
+                      aria-label={t("Date")}
+                      title={t("Pick date")}
+                      className="p-2 rounded-full bg-white shadow"
+                      onClick={() => setShowDateModal(true)}
+                    >
+                      <svg
+                        width="22"
+                        height="22"
+                        fill="none"
+                        viewBox="0 0 22 22"
+                      >
+                        <rect
+                          x="3"
+                          y="5"
+                          width="16"
+                          height="14"
+                          rx="2"
+                          stroke="#7c3aed"
+                          strokeWidth="2"
+                        />
+                        <path
+                          d="M7 3v4M15 3v4"
+                          stroke="#7c3aed"
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      aria-label={t("Filters")}
+                      title={t("Filters")}
+                      className="p-2 rounded-full bg-white shadow"
+                      onClick={() => setShowFiltersModal(true)}
+                    >
+                      <svg
+                        width="22"
+                        height="22"
+                        fill="none"
+                        viewBox="0 0 22 22"
+                      >
+                        <path
+                          d="M3 5h16M6 10h10M9 15h4"
+                          stroke="#7c3aed"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              {showMobileSearch && (
-                <div className="md:hidden px-4 pb-2">
-                  <input
-                    type="text"
-                    className="w-full border border-gray-300 rounded px-3 py-2 mb-2"
-                    placeholder={t("Enter search")}
-                    value={searchString}
-                    autoFocus
-                    onChange={(e) => handleSearchChange(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && getEventsList()}
-                  />
-                  <button
-                    className="w-full bg-purple-600 text-white rounded py-2"
-                    onClick={() => getEventsList()}
-                  >
-                    {t("Search")}
-                  </button>
+                {showMobileSearch && (
+                  <div className="md:hidden px-4 pb-2">
+                    <input
+                      type="text"
+                      className="w-full border border-gray-300 rounded px-3 py-2 mb-2"
+                      placeholder={t("Enter search")}
+                      value={searchString}
+                      autoFocus
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && getEventsList()}
+                    />
+                    <button
+                      className="w-full bg-purple-600 text-white rounded py-2"
+                      onClick={() => getEventsList()}
+                    >
+                      {t("Search")}
+                    </button>
+                  </div>
+                )}
+
+                <EventsCardHeader
+                  eventsCount={
+                    view === "events"
+                      ? meetingsList.length
+                      : eventOccurrencess.length
+                  }
+                  view={view}
+                  backToEventsList={() => setView("events")}
+                  search={searchString}
+                  onChange={handleSearchChange}
+                  filtersList={filtersList}
+                  onFiltering={getEventsList}
+                  handleSearchSubmit={handleSearchSubmit}
+                  selectedFilters={selectedFilters}
+                  handleFilterSelect={handleFilterSelect}
+                  dates={dates}
+                  setDates={handleSetDates}
+                  isFiltersApplied={isFiltersApplied()}
+                  resetFilters={resetFilters}
+                  isPast={isPast}
+                  timezone={timezone}
+                />
+
+                <div className="hidden md:block w-full">
+                  {view === "events" && (
+                    <FilterTable
+                      headings={renderHeadings()}
+                      rows={renderRows(meetingsList)}
+                      loading={loading}
+                    />
+                  )}
+                  {view === "occurrences" && (
+                    <FilterTable
+                      headings={renderHeadings()}
+                      rows={renderRows(eventOccurrencess)}
+                      loading={loading}
+                    />
+                  )}
                 </div>
-              )}
 
-              <EventsCardHeader
-                eventsCount={
-                  view === "events"
-                    ? meetingsList.length
-                    : eventOccurrencess.length
-                }
-                view={view}
-                backToEventsList={() => setView("events")}
-                search={searchString}
-                onChange={handleSearchChange}
-                filtersList={filtersList}
-                onFiltering={getEventsList}
-                handleSearchSubmit={handleSearchSubmit}
-                selectedFilters={selectedFilters}
-                handleFilterSelect={handleFilterSelect}
-                dates={dates}
-                setDates={handleSetDates}
-                isFiltersApplied={isFiltersApplied()}
-                resetFilters={resetFilters}
-                isPast={isPast}
-                timezone={timezone}
-              />
+                <div className="mobile-cards-container">
+                  {renderMobileCards(
+                    view === "events" ? meetingsList : eventOccurrencess,
+                  )}
+                </div>
 
-              <div className="hidden md:block w-full">
-                {view === "events" && (
-                  <FilterTable
-                    headings={renderHeadings()}
-                    rows={renderRows(meetingsList)}
-                    loading={loading}
+                {view === "events" && pagination.pageCount > 1 && (
+                  <ListPagination
+                    hasPrev={pagination.pageNumber > 1}
+                    hasNext={pagination.pageNumber < pagination.pageCount}
+                    onPrev={() => handleGetPrevPage()}
+                    onNext={() => handleGetNextPage()}
                   />
                 )}
                 {view === "occurrences" && (
-                  <FilterTable
-                    headings={renderHeadings()}
-                    rows={renderRows(eventOccurrencess)}
-                    loading={loading}
+                  <ListPagination
+                    hasPrev={occurrencesPagination.pageNumber > 1}
+                    hasNext={
+                      occurrencesPagination.pageNumber <
+                      occurrencesPagination.pageCount
+                    }
+                    onPrev={() => handleGetPrevOccurrencessPage()}
+                    onNext={() => handleGetNextOccurrencessPage()}
                   />
                 )}
-              </div>
+              </Card>
+            </div>
+            {showCustomizeModal && (
+              <div className="absolute inset-0 bg-black/40 rounded-[15px] z-50 flex items-center justify-center">
+                <div className="bg-white rounded-lg p-4 w-11/12 max-w-[65%] max-h-[90%] overflow-y-auto customize-modal">
+                  <div className="flex justify-between items-center mb-2 relative">
+                    <span className="dashboard-title">Customize Columns</span>
+                    <div
+                      className="servv-create-form-close "
+                      onClick={() => setShowCustomizeModal(false)}
+                    >
+                      <CloseIcon className="servv-create-form-close-icon top-0" />
+                    </div>
+                  </div>
 
-              <div className="mobile-cards-container">
-                {renderMobileCards(
-                  view === "events" ? meetingsList : eventOccurrencess
-                )}
-              </div>
+                  <ul className="flex flex-col gap-1 customize-list">
+                    {renderHeadingsCustomization()}
+                  </ul>
 
-              {view === "events" && pagination.pageCount > 1 && (
-                <ListPagination
-                  hasPrev={pagination.pageNumber > 1}
-                  hasNext={pagination.pageNumber < pagination.pageCount}
-                  onPrev={() => handleGetPrevPage()}
-                  onNext={() => handleGetNextPage()}
-                />
-              )}
-              {view === "occurrences" && (
-                <ListPagination
-                  hasPrev={occurrencesPagination.pageNumber > 1}
-                  hasNext={
-                    occurrencesPagination.pageNumber <
-                    occurrencesPagination.pageCount
-                  }
-                  onPrev={() => handleGetPrevOccurrencessPage()}
-                  onNext={() => handleGetNextOccurrencessPage()}
-                />
-              )}
-            </Card>
+                  <button
+                    className="mt-3 w-full new-event-button"
+                    onClick={() => setShowCustomizeModal(false)}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            )}
+            <ConfirmationModal data={confirmationModalData} />
           </div>
         </PageWrapper>
       )}
@@ -1105,31 +1158,6 @@ const EventsPage = ({
         </div>
       )}
 
-      {showCustomizeModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm max-h-[90vh] overflow-y-auto customize-modal">
-            <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold text-lg">
-                {t("Customize Columns")}
-              </span>
-              <button
-                onClick={() => setShowCustomizeModal(false)}
-                aria-label="Close"
-              >
-                {t("×")}
-              </button>
-            </div>
-            <ul>{renderHeadingsCustomization()}</ul>
-            <button
-              className="mt-3 w-full bg-purple-600 text-white rounded py-2"
-              onClick={() => setShowCustomizeModal(false)}
-            >
-              {t("Done")}
-            </button>
-          </div>
-        </div>
-      )}
-
       {showFiltersModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm max-h-[90vh] overflow-y-auto filters-modal">
@@ -1165,7 +1193,7 @@ const EventsPage = ({
                     />
                   ))}
                 </div>
-              ) : null
+              ) : null,
             )}
 
             <div className="flex gap-2 mt-4">
@@ -1219,8 +1247,6 @@ const EventsPage = ({
           </div>
         </div>
       )}
-
-      <ConfirmationModal data={confirmationModalData} />
     </Fragment>
   );
 };

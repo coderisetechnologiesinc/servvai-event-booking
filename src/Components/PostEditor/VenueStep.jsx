@@ -8,6 +8,7 @@ const VenueStep = ({
   setAttributes,
   changeStep,
   zoomConnected,
+  isNew,
 }) => {
   const filtersList = useServvStore((s) => s.filtersList);
   const locationId = attributes?.filters?.location_id || "";
@@ -76,7 +77,7 @@ const VenueStep = ({
                 { value: "zoom", label: "Zoom" },
                 // { value: "hybrid", label: "Hybrid" },
               ]}
-              disabled={!zoomConnected}
+              disabled={!zoomConnected || !isNew}
               onChange={handleVenueChange}
             />
           </div>

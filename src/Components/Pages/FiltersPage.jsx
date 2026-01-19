@@ -41,7 +41,7 @@ const FiltersPage = () => {
     setFilterCategories(
       Object.keys(filtersList)
         .filter((key) => filtersList[key]?.length > 0)
-        .map((key) => key.charAt(0).toUpperCase() + key.slice(1))
+        .map((key) => key.charAt(0).toUpperCase() + key.slice(1)),
     );
   }, [filtersList]);
 
@@ -103,43 +103,50 @@ const FiltersPage = () => {
     ));
 
   return (
-    <PageWrapper loading={loading}>
+    <PageWrapper loading={loading} withBackground={true}>
       <Fragment>
-        <PageHeader>
-          <BlockStack>
-            <h1 className="text-display-sm mt-6">Filters</h1>
-            <p className="page-header-description">
-              Easily view, create, and modify filters to streamline your event
-              management process.
-            </p>
-          </BlockStack>
+        <div className="dashboard-card">
+          <div className="servv-dashboard-header">
+            {/* LEFT */}
+            <div className="dashboard-heading">
+              <div className="flex flex-row items-center justify-between w-full">
+                <h1 className="dashboard-title">Filters</h1>
+                <div className="dashboard-actions flex flex-row items-center gap-2 flex-nowrap">
+                  <Dropdown
+                    activator={
+                      <PageActionButton
+                        text="Create filter"
+                        type="primary"
+                        icon={<PlusIcon className="button-icon primary" />}
+                        onAction={() => setCreateDropdown(!createDropdown)}
+                      />
+                    }
+                    status={createDropdown}
+                    onClose={() => setCreateDropdown(false)}
+                  >
+                    <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
+                  </Dropdown>
+                </div>
+              </div>
+              <p className="dashboard-description mt-6">
+                Easily view, create, and modify filters to streamline your event
+                management process.
+              </p>
+            </div>
 
-          <InlineStack align="right">
-            <Dropdown
-              activator={
-                <PageActionButton
-                  text="New filter"
-                  type="primary"
-                  icon={<PlusIcon className="button-icon primary" />}
-                  onAction={() => setCreateDropdown(!createDropdown)}
-                />
-              }
-              status={createDropdown}
-              onClose={() => setCreateDropdown(false)}
-            >
-              <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
-            </Dropdown>
-          </InlineStack>
-        </PageHeader>
+            {/* RIGHT – actions stay on the same row */}
+          </div>
 
-        <PageContent>
-          {filterCategories.length === 0 ? (
-            <PageContentPlaceholder
-              icon={<MagnifyingGlassIcon className="placeholder-icon" />}
-              title="No filters found"
-              description="Filters allow your attendees to better search for relevant events."
-            >
-              {/* <Dropdown
+          <div className="header-line" />
+
+          <PageContent>
+            {filterCategories.length === 0 ? (
+              <PageContentPlaceholder
+                icon={<MagnifyingGlassIcon className="placeholder-icon" />}
+                title="No filters found"
+                description="Filters allow your attendees to better search for relevant events."
+              >
+                {/* <Dropdown
                 activator={
                   <PageActionButton
                     text="Create"
@@ -154,13 +161,18 @@ const FiltersPage = () => {
               >
                 <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
               </Dropdown> */}
-            </PageContentPlaceholder>
-          ) : (
-            <Card>
-              <FilterTable headings={renderHeadings()} rows={renderRows()} />
-            </Card>
-          )}
-        </PageContent>
+              </PageContentPlaceholder>
+            ) : (
+              <Card>
+                <FilterTable
+                  headings={renderHeadings()}
+                  tableClassName="filters-page-table"
+                  rows={renderRows()}
+                />
+              </Card>
+            )}
+          </PageContent>
+        </div>
       </Fragment>
     </PageWrapper>
   );

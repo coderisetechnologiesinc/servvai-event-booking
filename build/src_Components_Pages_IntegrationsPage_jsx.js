@@ -214,19 +214,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
 
-const Card = props => {
-  const {
-    className = "",
-    padding,
-    align,
-    background,
-    maxWidth,
-    children,
-    ...rest
-  } = props;
+const Card = ({
+  className = "",
+  padding = "p-0",
+  align,
+  background = "bg-white",
+  maxWidth,
+  children,
+  ...rest
+}) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     ...rest,
-    className: `servv-card ${padding || "p-0"} ${align === "center" ? "mx-auto" : ""} ${background || "bg-white"} max-md:max-w-full w-full ${maxWidth ? `md:max-w-[${maxWidth}]` : ""} ${className}`,
+    className: `
+        servv-card
+        ${padding}
+        ${background}
+        w-full
+        ${align === "center" ? "mx-auto" : ""}
+        ${className}
+      `,
+    style: {
+      maxWidth: maxWidth ? maxWidth : "100%"
+    },
     children: children
   });
 };
@@ -550,28 +559,26 @@ __webpack_require__.r(__webpack_exports__);
 const PageActionButton = ({
   text,
   icon,
-  type,
+  type = "primary",
+  // primary | secondary | danger
+  size = "md",
+  // md | sm
   onAction,
   disabled = false,
   className = "",
   style = {}
 }) => {
+  const baseClass = "servv_button";
+  const typeClass = `servv_button--${type}`;
+  const sizeClass = size === "sm" ? "servv_button--sm" : "servv_button--md";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+    type: "button",
     onClick: onAction,
     disabled: disabled,
-    className: `
-        flex items-center justify-center px-4 py-2 rounded-lg
-        font-medium text-sm transition-colors duration-200
-        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-        ${className}
-      `,
-    style: {
-      fontFamily: "'Inter', sans-serif",
-      ...style
-    },
+    className: `${baseClass} ${typeClass} ${sizeClass} ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+    style: style,
     children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      className: "mr-2",
+      className: "mr-2 flex items-center",
       children: icon
     }), text]
   });
@@ -806,10 +813,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
 /* harmony import */ var _Containers_Card__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/Card */ "./src/Components/Containers/Card.jsx");
 /* harmony import */ var _Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menu/BreadCrumbs */ "./src/Components/Menu/BreadCrumbs.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -825,11 +834,11 @@ __webpack_require__.r(__webpack_exports__);
 const CalendarsPage = ({
   onPageSelect
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.useNavigate)();
   const [account, setAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [isAccountFetched, setAccountFetched] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const getCalendarAccount = async () => {
-    const getCalendarAccountResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    const getCalendarAccountResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "GET",
       url: "/wp-json/servv-plugin/v1/calendar/account",
       headers: {
@@ -842,7 +851,7 @@ const CalendarsPage = ({
     setAccountFetched(true);
   };
   const handleRemoveAccount = async () => {
-    const removeCalendarAccount = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    const removeCalendarAccount = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "DELETE",
       url: "/wp-json/servv-plugin/v1/calendar/account",
       headers: {
@@ -852,7 +861,7 @@ const CalendarsPage = ({
     setAccount(null);
   };
   const handleGetConnectURL = async () => {
-    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])("/wp-json/servv-plugin/v1/calendar/url", {
+    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])("/wp-json/servv-plugin/v1/calendar/url", {
       method: "GET",
       headers: {
         "X-WP-Nonce": servvData.nonce
@@ -868,88 +877,97 @@ const CalendarsPage = ({
     const CalendarAuthResponse = getCalendarAccount();
   }, []);
   const handleBreadCrumbsClick = () => {};
-  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
     className: "flex flex-row gap-2 items-start",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
       background: "gray",
       text: account ? "Connected" : "Not connected",
       icon: "",
       align: "left",
       justify: "start"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
       className: "self-center",
       children: account ? account.google_calendar_email : "Please connect your account"
     })]
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: t("Calendars")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
-          breadcrumbs: [{
-            label: "Integrations",
-            action: () => navigate("../integrations")
-          }, {
-            label: "Calendar",
-            action: () => {}
-          }],
-          onBreadCrumbClick: handleBreadCrumbsClick
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          padding: 0,
-          maxWidth: "65%",
-          align: "center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-            className: "service-image",
-            style: {
-              background: `linear-gradient(135deg, #0F9D58, #34A853)`
-            },
-            children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-              className: "connected-account bg-gradient-to-b from-transparent to-black/40",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-                children: t("Account")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                text: badge(),
-                justify: "start",
-                color: "gray"
-              })]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h1", {
+            className: "dashboard-title",
+            children: t("Calendars")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            className: "dashboard-description",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              breadcrumbs: [{
+                label: "Integrations",
+                action: () => navigate("../integrations")
+              }, {
+                label: "Calendar",
+                action: () => {}
+              }],
+              onBreadCrumbClick: handleBreadCrumbsClick
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-            className: "card-content",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h2", {
-              className: "card-section-heading",
-              children: t("Google Calendar")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
-              className: "section-description",
-              children: "Keep your team and attendees aligned by syncing events directly with Google Calendar"
-            }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleGetConnectURL();
-              },
-              children: t("Connect")
-            }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleRemoveAccount();
-              },
-              children: t("Disconnect")
-            })]
           })]
         })
-      })
-    })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          gap: 8,
+          cardsLayout: true,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            padding: 0,
+            maxWidth: "85%",
+            align: "center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              className: "servv-service-image",
+              style: {
+                background: `linear-gradient(to bottom, transparent, #ECE4F6)`
+              },
+              children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+                className: "connected-account bg-gradient-to-b from-transparent to-black/40",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: t("Account")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  text: badge(),
+                  justify: "start",
+                  color: "gray"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+              className: "card-content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h2", {
+                className: "card-section-heading",
+                children: t("Google Calendar")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
+                className: "section-description",
+                children: "Keep your team and attendees aligned by syncing events directly with Google Calendar"
+              }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleGetConnectURL();
+                },
+                children: t("Connect")
+              }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleRemoveAccount();
+                },
+                children: t("Disconnect")
+              })]
+            })]
+          })
+        })
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CalendarsPage);
@@ -975,10 +993,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
 /* harmony import */ var _Containers_Card__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/Card */ "./src/Components/Containers/Card.jsx");
 /* harmony import */ var _Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menu/BreadCrumbs */ "./src/Components/Menu/BreadCrumbs.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -994,11 +1014,11 @@ __webpack_require__.r(__webpack_exports__);
 const EmailsPage = ({
   onPageSelect = () => {}
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.useNavigate)();
   const [account, setAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [isAccountFetched, setAccountFetched] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const getGmailAccount = async () => {
-    const getGmailAccountResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    const getGmailAccountResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "GET",
       url: "/wp-json/servv-plugin/v1/gmail/account",
       headers: {
@@ -1011,7 +1031,7 @@ const EmailsPage = ({
     }
   };
   const handleRemoveAccount = async () => {
-    const removeGmailAccount = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    const removeGmailAccount = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "DELETE",
       url: "/wp-json/servv-plugin/v1/gmail/account",
       headers: {
@@ -1021,7 +1041,7 @@ const EmailsPage = ({
     setAccount(null);
   };
   const handleGetConnectURL = async () => {
-    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])("/wp-json/servv-plugin/v1/gmail/url", {
+    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])("/wp-json/servv-plugin/v1/gmail/url", {
       method: "GET",
       headers: {
         "X-WP-Nonce": servvData.nonce
@@ -1035,85 +1055,96 @@ const EmailsPage = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     getGmailAccount();
   }, []);
-  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
     className: "flex flex-row gap-2 items-center",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
       background: "gray",
       text: account ? "Connected" : "Not connected",
       icon: "",
       justify: "start"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
       children: account ? account.email : "Please connect your account"
     })]
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: t("Emails")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
-          breadcrumbs: [{
-            label: "Integrations",
-            action: () => navigate("../integrations")
-          }, {
-            label: "Calendar",
-            action: () => {}
-          }]
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          padding: 0,
-          maxWidth: "65%",
-          align: "center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-            className: "service-image",
-            style: {
-              background: `linear-gradient(135deg, #D93025, #EA4335)`
-            },
-            children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-              className: "connected-account bg-gradient-to-b from-transparent to-black/40",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-                children: t("Account")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                text: badge(),
-                justify: "start",
-                color: "gray"
-              })]
+  const handleBreadCrumbsClick = () => {};
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h1", {
+            className: "dashboard-title",
+            children: "Email"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            className: "dashboard-description",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              breadcrumbs: [{
+                label: "Integrations",
+                action: () => navigate("../integrations")
+              }, {
+                label: "Emails",
+                action: () => {}
+              }],
+              onBreadCrumbClick: handleBreadCrumbsClick
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-            className: "card-content",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h2", {
-              className: "card-section-heading",
-              children: t("Gmail")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
-              className: "section-description",
-              children: "Automate email notifications and reminders through your Gmail account to ensure smooth event communication"
-            }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleGetConnectURL();
-              },
-              children: t("Connect")
-            }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleRemoveAccount();
-              },
-              children: t("Disconnect")
-            })]
           })]
         })
-      })
-    })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          gap: 8,
+          cardsLayout: true,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            padding: 0,
+            maxWidth: "85%",
+            align: "center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              className: "servv-service-image",
+              style: {
+                background: `linear-gradient(to bottom, transparent, #ECE4F6)`
+              },
+              children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+                className: "connected-account bg-gradient-to-b from-transparent to-black/40",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: t("Account")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  text: badge(),
+                  justify: "start",
+                  color: "gray"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+              className: "card-content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h2", {
+                className: "card-section-heading",
+                children: t("Gmail")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
+                className: "section-description",
+                children: "Automate email notifications and reminders through your Gmail account to ensure smooth event communication"
+              }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleGetConnectURL();
+                },
+                children: t("Connect")
+              }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleRemoveAccount();
+                },
+                children: t("Disconnect")
+              })]
+            })]
+          })
+        })
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EmailsPage);
@@ -1197,180 +1228,186 @@ const IntegrationsPage = ({
 
   // const isFeatureAvailable = true;
   // console.log(isFeatureAvailable);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
     loading: loading || !settings,
-    children: [selectedPage === "main" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          className: "dashboard-heading",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
-            className: "text-display-sm mt-6",
+            className: "dashboard-title",
             children: "Integrations"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-            className: "page-header-description",
+            className: "dashboard-description",
             children: "Connect and manage your integrations to enhance your event management"
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-          className: "grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-            className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              action: true,
-              onAction: () => handleSelectPage("calendars"),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-                href: "",
-                className: "servv-button-link",
-                onClick: e => e.preventDefault(),
-                children: "Calendars"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                justify: "space",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-                  className: "card-section-heading",
+      }), selectedPage === "main" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            className: "grid h-full gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                action: true,
+                onAction: () => handleSelectPage("calendars"),
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                  href: "",
+                  className: "servv-button-link",
+                  onClick: e => e.preventDefault(),
                   children: "Calendars"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
-                  className: "size-6"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  justify: "space",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+                    className: "card-section-heading",
+                    children: "Calendars"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                    className: "size-6"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+                  className: "section-description mb-2",
+                  children: "Keep your team and attendees aligned by syncing events directly with Google Calendar"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                    text: "Google Calendar",
+                    type: "pill-outline",
+                    size: "medium"
+                  })
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-                className: "section-description mb-2",
-                children: "Keep your team and attendees aligned by syncing events directly with Google Calendar"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                  text: "Google Calendar",
-                  type: "pill-outline",
-                  size: "medium"
-                })
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-            className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${!isFeatureAvailable ? "opacity-[0.5]" : ""}`,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              action: true,
-              cardsLayout: true,
-              onAction: isFeatureAvailable ? () => handleSelectPage("gmail") : () => {},
-              disabled: !isFeatureAvailable,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-                href: "",
-                className: "servv-button-link",
-                onClick: e => e.preventDefault(),
-                children: "Emails"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                justify: "space",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-                  className: "card-section-heading",
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${!isFeatureAvailable ? "opacity-[0.5]" : ""}`,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                action: true,
+                cardsLayout: true,
+                onAction: isFeatureAvailable ? () => handleSelectPage("gmail") : () => {},
+                disabled: !isFeatureAvailable,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                  href: "",
+                  className: "servv-button-link",
+                  onClick: e => e.preventDefault(),
                   children: "Emails"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
-                  className: "size-6"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  justify: "space",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+                    className: "card-section-heading",
+                    children: "Emails"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                    className: "size-6"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+                  className: "section-description mb-2",
+                  children: "Automate email notifications and reminders through your Gmail account to ensure smooth event communication"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                    text: "Gmail",
+                    type: "pill-outline",
+                    size: "medium"
+                  })
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-                className: "section-description mb-2",
-                children: "Automate email notifications and reminders through your Gmail account to ensure smooth event communication"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                  text: "Gmail",
-                  type: "pill-outline",
-                  size: "medium"
-                })
-              })]
-            })
-          }), settings && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-            className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${!isFeatureAvailable ? "opacity-[0.5]" : ""}`,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              onAction: isFeatureAvailable ? () => handleSelectPage("zoom") : () => {},
-              disabled: !isFeatureAvailable,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-                href: "",
-                className: "servv-button-link",
-                onClick: e => e.preventDefault(),
-                children: "Video Conferencing"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                justify: "space",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-                  className: "card-section-heading",
+              })
+            }), settings && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${!isFeatureAvailable ? "opacity-[0.5]" : ""}`,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                onAction: isFeatureAvailable ? () => handleSelectPage("zoom") : () => {},
+                disabled: !isFeatureAvailable,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                  href: "",
+                  className: "servv-button-link",
+                  onClick: e => e.preventDefault(),
                   children: "Video Conferencing"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
-                  className: "size-6"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  justify: "space",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+                    className: "card-section-heading",
+                    children: "Video Conferencing"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                    className: "size-6"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+                  className: "section-description mb-2",
+                  children: "Host and manage Zoom events effortlessly by integrating Zoom"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                    text: "Zoom",
+                    type: "pill-outline",
+                    size: "medium",
+                    align: "center"
+                  })
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-                className: "section-description mb-2",
-                children: "Host and manage Zoom events effortlessly by integrating Zoom"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                  text: "Zoom",
-                  type: "pill-outline",
-                  size: "medium",
-                  align: "center"
-                })
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-            className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${!isFeatureAvailable ? "opacity-[0.5]" : ""}`,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              action: true,
-              gap: 2,
-              cardsLayout: true,
-              disabled: !isFeatureAvailable,
-              onAction: isFeatureAvailable ? () => handleSelectPage("stripe") : () => {},
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-                href: "",
-                className: "servv-button-link",
-                onClick: e => e.preventDefault(),
-                children: "Stripe"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                justify: "space",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-                  className: "card-section-heading",
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${!isFeatureAvailable ? "opacity-[0.5]" : ""}`,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                action: true,
+                gap: 2,
+                cardsLayout: true,
+                disabled: !isFeatureAvailable,
+                onAction: isFeatureAvailable ? () => handleSelectPage("stripe") : () => {},
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                  href: "",
+                  className: "servv-button-link",
+                  onClick: e => e.preventDefault(),
                   children: "Stripe"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
-                  className: "size-6"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  justify: "space",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+                    className: "card-section-heading",
+                    children: "Stripe"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_15__["default"], {
+                    className: "size-6"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+                  className: "section-description mb-2"
+                  // style={{
+                  //   maxWidth:
+                  //     settings && settings.current_plan
+                  //       ? "calc(33% - 1rem)"
+                  //       : "calc(50% - 1rem)",
+                  // }}
+                  ,
+                  children: "Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                    text: "Stripe",
+                    type: "pill-outline",
+                    size: "medium"
+                  })
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-                className: "section-description mb-2"
-                // style={{
-                //   maxWidth:
-                //     settings && settings.current_plan
-                //       ? "calc(33% - 1rem)"
-                //       : "calc(50% - 1rem)",
-                // }}
-                ,
-                children: "Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                align: "left",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                  text: "Stripe",
-                  type: "pill-outline",
-                  size: "medium"
-                })
-              })]
-            })
-          })]
+              })
+            })]
+          })
         })
+      }), selectedPage === "calendars" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_CalendarsPage__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        onPageSelect: handleSelectPage
+      }), selectedPage === "gmail" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_EmailsPage__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        onPageSelect: handleSelectPage
+      }), selectedPage === "stripe" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_StripeIntegrationsPage__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        loading: loading,
+        setLoading: setLoading,
+        onPageSelect: setSelectedPage
+      }), selectedPage === "zoom" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_ZoomPage__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        onPageSelect: setSelectedPage
+      }), selectedPage === "settings" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_ZoomSettingsPage__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        onPageSelect: handleSelectPage
       })]
-    }), selectedPage === "calendars" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_CalendarsPage__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      onPageSelect: handleSelectPage
-    }), selectedPage === "gmail" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_EmailsPage__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      onPageSelect: handleSelectPage
-    }), selectedPage === "stripe" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_StripeIntegrationsPage__WEBPACK_IMPORTED_MODULE_10__["default"], {
-      loading: loading,
-      setLoading: setLoading,
-      onPageSelect: setSelectedPage
-    }), selectedPage === "zoom" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_ZoomPage__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      onPageSelect: setSelectedPage
-    }), selectedPage === "settings" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_ZoomSettingsPage__WEBPACK_IMPORTED_MODULE_9__["default"], {
-      onPageSelect: handleSelectPage
-    })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (IntegrationsPage);
@@ -1402,14 +1439,14 @@ const PageWrapper = props => {
     children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "fixed inset-0 bg-[#F5F5F5]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4",
+      className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
         children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-hidden ${props.loading ? "loading" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
           position: "bottom-right"
         }), props.children]
@@ -1439,16 +1476,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
 /* harmony import */ var _Containers_Card__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/Card */ "./src/Components/Containers/Card.jsx");
-/* harmony import */ var _utilities_stripe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utilities/stripe */ "./src/utilities/stripe.js");
-/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
-/* harmony import */ var _utilities_currencies__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../utilities/currencies */ "./src/utilities/currencies.js");
-/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
-/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! he */ "./node_modules/he/he.js");
-/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(he__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menu/BreadCrumbs */ "./src/Components/Menu/BreadCrumbs.jsx");
+/* harmony import */ var _utilities_stripe__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utilities/stripe */ "./src/utilities/stripe.js");
+/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var _utilities_currencies__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../utilities/currencies */ "./src/utilities/currencies.js");
+/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
+/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! he */ "./node_modules/he/he.js");
+/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(he__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
+
 
 
 
@@ -1466,7 +1505,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const StripeIntegrationsPage = props => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
   const [account, setAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [isAccountFetched, setAccountFetched] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
@@ -1475,18 +1514,18 @@ const StripeIntegrationsPage = props => {
   const [connectUrl, setConnectUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [selectedCurrency, setSelectedCurrency] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const fetchAccount = async () => {
-    const account = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeAccount)(servvData.nonce);
+    const account = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeAccount)(servvData.nonce);
     if (account && account.id) {
       setAccount(account);
     }
     setAccountFetched(true);
-    const settings = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeSettings)(servvData.nonce);
+    const settings = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeSettings)(servvData.nonce);
     if (settings) {
       setSelectedCurrency(settings.currency);
     }
   };
   const handleConnectExistingAccount = async account_id => {
-    const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeConnectURL)(servvData.nonce, account_id);
+    const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeConnectURL)(servvData.nonce, account_id);
     if (url) {
       const returnURL = encodeURIComponent(window.location.origin);
       const connectURL = encodeURIComponent(url.auth_url);
@@ -1495,32 +1534,32 @@ const StripeIntegrationsPage = props => {
     }
   };
   const connectNewAccount = async () => {
-    const connectUrl = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeConnectURL)(servvData.nonce);
+    const connectUrl = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeConnectURL)(servvData.nonce);
     const returnURL = encodeURIComponent(window.location.origin);
     const connectURL = encodeURIComponent(connectUrl.auth_url);
     open(`${servvData.shopify_app}/payments/stripe/connect?wordpress_url=${encodeURIComponent(connectURL)}&wordpress_return_url=${returnURL}`, "_top");
   };
   const renderExistingAccounts = () => {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
       className: "flex flex-col gap-1",
       children: connectedAccounts.map(account => {
-        const accountText = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        const accountText = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "flex flex-row justify-start items-center gap-2",
-          children: [account.account_id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          children: [account.account_id && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
             text: account.account_id,
             align: "start",
             color: "success"
-          }), account.email && account.email.trim().length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), account.email && account.email.trim().length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
             text: account.email,
             align: "start",
             color: "success"
-          }), account.name && account.name.trim.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), account.name && account.name.trim.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
             text: account.name,
             align: "start",
             color: "brand"
           })]
         });
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
           className: "w-full flex flex-row gap-2 border border-gray-25 shadow-sm rounded-lg p-2",
           onClick: () => {
             handleConnectExistingAccount(account.account_id);
@@ -1532,7 +1571,7 @@ const StripeIntegrationsPage = props => {
   };
   const handleGetConnectURL = async () => {
     setLoading(true);
-    const existingAccounts = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getDisconnectedStripeAccounts)(servvData.nonce);
+    const existingAccounts = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getDisconnectedStripeAccounts)(servvData.nonce);
     // const url = await getStripeConnectURL(servvData.nonce);
     // setConnectUrl(url.auth_url);
     setLoading(false);
@@ -1541,14 +1580,14 @@ const StripeIntegrationsPage = props => {
       setConnectedAccountsFetched(true);
     } else {
       setLoading(true);
-      const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.getStripeConnectURL)(servvData.nonce);
+      const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeConnectURL)(servvData.nonce);
       setConnectUrl(url.auth_url);
       if (url) open(`${servvData.shopify_app}/stripe/connect?wordpress_url=${encodeURIComponent(url.auth_url)}&wordpress_return_url=${encodeURIComponent(window.location.origin)}`, "_top");
     }
   };
   const handleRemoveAccount = async () => {
     setLoading(true);
-    const res = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.disconnectStripeAccount)(servvData.nonce);
+    const res = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.disconnectStripeAccount)(servvData.nonce);
     if (res === 200) {
       setAccount(null);
     }
@@ -1557,17 +1596,17 @@ const StripeIntegrationsPage = props => {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchAccount();
   }, []);
-  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
     className: "flex flex-row gap-2 items-center",
-    children: [account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: [account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
       background: "gray",
       text: account ? "Connected" : "Not connected",
       icon: ""
-    }), account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }), account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
       background: "gray",
       text: "Connection is not completed",
       icon: ""
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
       children: account ? account.email : "Please connect your account"
     })]
   });
@@ -1577,13 +1616,13 @@ const StripeIntegrationsPage = props => {
   };
   const currencySelect = () => {
     let currencies = [];
-    if (_utilities_currencies__WEBPACK_IMPORTED_MODULE_9__.currenciesList) {
-      currencies = _utilities_currencies__WEBPACK_IMPORTED_MODULE_9__.currenciesList.map(currency => {
+    if (_utilities_currencies__WEBPACK_IMPORTED_MODULE_10__.currenciesList) {
+      currencies = _utilities_currencies__WEBPACK_IMPORTED_MODULE_10__.currenciesList.map(currency => {
         let sequence = currency.symbol;
-        return currency.abbreviation + " - " + he__WEBPACK_IMPORTED_MODULE_11___default().decode(sequence);
+        return currency.abbreviation + " - " + he__WEBPACK_IMPORTED_MODULE_12___default().decode(sequence);
       });
     }
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
       options: currencies,
       selected: currencies.filter(currency => currency.indexOf(selectedCurrency) >= 0)[0],
       onSelectChange: handleSelectChange
@@ -1592,97 +1631,105 @@ const StripeIntegrationsPage = props => {
   const handleCurrencySave = async () => {
     if (selectedCurrency) {
       setLoading(true);
-      await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_7__.updateStripeSettings)(servvData.nonce, selectedCurrency);
+      await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.updateStripeSettings)(servvData.nonce, selectedCurrency);
       setLoading(false);
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_12__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_13__["default"], {
     loading: loading,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: t("Stripe")
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        gap: 2,
-        align: "right",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
-          text: "Save"
-          // icon={<InboxArrowDownIcon className="button-icon" />}
-          ,
-          type: "primary",
-          onAction: () => handleCurrencySave()
-        })
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          padding: 0,
-          maxWidth: "65%",
-          align: "center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-            className: "service-image",
-            style: {
-              background: `linear-gradient(135deg, #008CDD, #00C6FF)`
-            },
-            children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-              className: "connected-account bg-gradient-to-b from-transparent to-black/40",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
-                children: t("Account")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                text: badge(),
-                color: "gray",
-                justify: "start"
-              })]
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h1", {
+            className: "dashboard-title",
+            children: "Stripe"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+            className: "dashboard-description",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              breadcrumbs: [{
+                label: "Integrations",
+                action: () => navigate("../integrations")
+              }, {
+                label: "Stripe",
+                action: () => {}
+              }],
+              onBreadCrumbClick: () => {}
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-            className: "card-content",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-              className: "card-section-heading",
-              children: t("Stripe")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-              className: "section-description",
-              children: "Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
-            }), account && account.charges_enabled && currencySelect(), connectedAccountsFetched && connectedAccounts.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-                className: "servv-button-link text-gray-700",
-                children: t("Connect existing account")
-              }), renderExistingAccounts()]
-            }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: connectedAccountsFetched && connectedAccounts.length > 0 ? e => {
-                e.preventDefault();
-                connectNewAccount();
-              } : e => {
-                e.preventDefault();
-                handleGetConnectURL();
-              },
-              children: connectedAccountsFetched && connectedAccounts.length > 0 ? "Connect new account" : "Connect"
-            }), isAccountFetched && account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleConnectExistingAccount(account.account_id);
-              },
-              children: t("Resume integration")
-            }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleRemoveAccount();
-              },
-              children: t("Disconnect")
-            })]
           })]
         })
-      })
-    })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          gap: 8,
+          cardsLayout: true,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            padding: 0,
+            maxWidth: "85%",
+            align: "center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+              className: "servv-service-image",
+              style: {
+                background: `linear-gradient(to bottom, transparent, #ECE4F6)`
+              },
+              children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+                className: "connected-account bg-gradient-to-b from-transparent to-black/40",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
+                  children: t("Account")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  text: badge(),
+                  color: "gray",
+                  justify: "start"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+              className: "card-content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
+                className: "card-section-heading",
+                children: t("Stripe")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+                className: "section-description",
+                children: "Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
+              }), account && account.charges_enabled && currencySelect(), connectedAccountsFetched && connectedAccounts.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+                  className: "servv-button-link text-gray-700",
+                  children: t("Connect existing account")
+                }), renderExistingAccounts()]
+              }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: connectedAccountsFetched && connectedAccounts.length > 0 ? e => {
+                  e.preventDefault();
+                  connectNewAccount();
+                } : e => {
+                  e.preventDefault();
+                  handleGetConnectURL();
+                },
+                children: connectedAccountsFetched && connectedAccounts.length > 0 ? "Connect new account" : "Connect"
+              }), isAccountFetched && account && !account.charges_enabled && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleConnectExistingAccount(account.account_id);
+                },
+                children: t("Resume integration")
+              }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleRemoveAccount();
+                },
+                children: t("Disconnect")
+              })]
+            })]
+          })
+        })
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StripeIntegrationsPage);
@@ -1708,10 +1755,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_Badge__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/Badge */ "./src/Components/Containers/Badge.jsx");
 /* harmony import */ var _Containers_Card__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/Card */ "./src/Components/Containers/Card.jsx");
 /* harmony import */ var _Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menu/BreadCrumbs */ "./src/Components/Menu/BreadCrumbs.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -1724,11 +1773,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ZoomPage = props => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.useNavigate)();
   const [account, setAccount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [isAccountFetched, setAccountFetched] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    const getZoomAccountResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "GET",
       url: "/wp-json/servv-plugin/v1/zoom/account",
       headers: {
@@ -1741,7 +1790,7 @@ const ZoomPage = props => {
     }
   };
   const handleRemoveAccount = async () => {
-    const removeZoomAccount = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])({
+    const removeZoomAccount = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])({
       method: "DELETE",
       url: "/wp-json/servv-plugin/v1/zoom/account",
       headers: {
@@ -1751,7 +1800,7 @@ const ZoomPage = props => {
     setAccount(null);
   };
   const handleGetConnectURL = async () => {
-    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_10__["default"])("/wp-json/servv-plugin/v1/zoom/url", {
+    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_11__["default"])("/wp-json/servv-plugin/v1/zoom/url", {
       method: "GET",
       headers: {
         "X-WP-Nonce": servvData.nonce
@@ -1766,92 +1815,103 @@ const ZoomPage = props => {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     getZoomAccount();
   }, []);
-  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+  const badge = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
     className: "flex flex-row gap-2 items-center",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
       background: "gray",
       text: account ? "Connected" : "Not connected",
       icon: ""
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
       children: account ? account.email : "Please connect your account"
     })]
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: t("Video Conferencing")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
-          breadcrumbs: [{
-            label: "Integrations",
-            action: () => navigate("../integrations")
-          }, {
-            label: "Zoom",
-            action: () => {}
-          }]
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          padding: 0,
-          maxWidth: "65%",
-          align: "center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-            className: "service-image",
-            style: {
-              background: `linear-gradient(135deg, #2D8CFF, #0055FF)`
-            },
-            children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-              className: "connected-account bg-gradient-to-b from-transparent to-black/40",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-                children: t("Account")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                text: badge(),
-                justify: "start",
-                color: "gray"
-              })]
+  const handleBreadCrumbsClick = () => {};
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h1", {
+            className: "dashboard-title",
+            children: "Zoom"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            className: "dashboard-description",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_7__["default"], {
+              breadcrumbs: [{
+                label: "Integrations",
+                action: () => navigate("../integrations")
+              }, {
+                label: "Zoom",
+                action: () => {}
+              }],
+              onBreadCrumbClick: handleBreadCrumbsClick
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-            className: "card-content",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h2", {
-              className: "card-section-heading",
-              children: t("Zoom")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
-              className: "section-description",
-              children: t("Host and manage Zoom events effortlessly by integrating Zoom")
-            }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleGetConnectURL();
-              },
-              children: t("Connect")
-            }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                handleRemoveAccount();
-              },
-              children: t("Disconnect")
-            }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-              href: "#",
-              className: "servv-button-link",
-              onClick: e => {
-                e.preventDefault();
-                navigate("settings");
-              },
-              children: t("Manage")
-            })]
           })]
         })
-      })
-    })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          gap: 8,
+          cardsLayout: true,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_Containers_Card__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            padding: 0,
+            maxWidth: "85%",
+            align: "center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+              className: "servv-service-image",
+              style: {
+                background: `linear-gradient(to bottom, transparent, #ECE4F6)`
+              },
+              children: account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+                className: "connected-account bg-gradient-to-b from-transparent to-black/40",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+                  children: t("Account")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  text: badge(),
+                  justify: "start",
+                  color: "gray"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+              className: "card-content",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h2", {
+                className: "card-section-heading",
+                children: t("Zoom")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
+                className: "section-description",
+                children: t("Host and manage Zoom events effortlessly by integrating Zoom")
+              }), isAccountFetched && !account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleGetConnectURL();
+                },
+                children: t("Connect")
+              }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  handleRemoveAccount();
+                },
+                children: t("Disconnect")
+              }), isAccountFetched && account && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+                href: "#",
+                className: "servv-button-link",
+                onClick: e => {
+                  e.preventDefault();
+                  navigate("settings");
+                },
+                children: t("Manage")
+              })]
+            })]
+          })
+        })
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ZoomPage);
@@ -1974,189 +2034,192 @@ const ZoomSettingsPage = () => {
     getInfo();
   }, []);
   const responsiveBlockStack = "w-full min-w-0";
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
     loading: loading,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      bottomLine: true,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: t("Zoom Settings")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_10__["default"], {
-          breadcrumbs: [{
-            label: "Integrations",
-            action: () => navigate("../../integrations")
-          }, {
-            label: "Zoom",
-            action: () => navigate("../integrations/zoom")
-          }, {
-            label: "Zoom Settings",
-            action: () => {}
-          }]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
-          className: "page-header-description",
-          children: t("Connect and manage your Zoom account and settings.")
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        className: "servv-dashboard-header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+            className: "dashboard-title mt-6",
+            children: t("Zoom Settings")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+            className: "dashboard-description",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              breadcrumbs: [{
+                label: "Integrations",
+                action: () => navigate("../../integrations")
+              }, {
+                label: "Zoom",
+                action: () => navigate("../integrations/zoom")
+              }, {
+                label: "Zoom Settings",
+                action: () => {}
+              }]
+            })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+          className: "dashboard-actions",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            text: t("Save"),
+            type: "primary",
+            onAction: updateZoomSettings
+          })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        gap: 2,
-        align: "right",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_9__["default"], {
-          text: "Save",
-          icon: null,
-          type: "primary",
-          onAction: updateZoomSettings
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          gap: 8,
+          cardsLayout: true,
+          className: responsiveBlockStack,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+            className: "text-lg font-semibold border-b pb-4",
+            children: t("Account")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Account details",
+            description: "Account email & name.",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                value: isAccountFetched ? account.email : "",
+                fullWidth: true,
+                type: "text",
+                align: "right",
+                disabled: true,
+                maxLength: 30,
+                image: isAccountFetched ? account.photo : null
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Account name",
+            description: "Set a default time zone.",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                value: isAccountFetched ? account.full_name : "",
+                fullWidth: false,
+                type: "text",
+                align: "right",
+                disabled: true,
+                maxLength: 30
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+            className: "text-lg font-semibold border-b pb-4",
+            children: t("Zoom settings")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Meeting ID",
+            description: "Set a meeting ID",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Generate automatically",
+                name: "meeting_id",
+                checked: !zoomSettings.use_pmi,
+                onChange: () => handleSettingsChange("use_pmi", false)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Personal meeting ID",
+                name: "meeting_id",
+                checked: zoomSettings.use_pmi,
+                onChange: () => handleSettingsChange("use_pmi", true)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Video",
+            description: "Show/hide host and guest video",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                label: "Host video",
+                name: "host_video",
+                checked: zoomSettings.host_video,
+                onChange: () => handleSettingsChange("host_video", !zoomSettings.host_video)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                label: "Guest video",
+                name: "guest_video",
+                checked: zoomSettings.participant_video,
+                onChange: () => handleSettingsChange("participant_video", !zoomSettings.participant_video)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Audio",
+            description: "Set default audio settings",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Telephone",
+                name: "audio",
+                checked: zoomSettings.audio === "telephony",
+                onChange: () => handleSettingsChange("audio", "telephony")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Computer audio",
+                name: "audio",
+                checked: zoomSettings.audio === "voip",
+                onChange: () => handleSettingsChange("audio", "voip")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Both",
+                name: "audio",
+                checked: zoomSettings.audio === "both",
+                onChange: () => handleSettingsChange("audio", "both")
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Enable Join Before Host",
+            description: "Enable or disabled join before host",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Yes",
+                name: "join_before_host",
+                checked: zoomSettings.join_before_host,
+                onChange: () => handleSettingsChange("join_before_host", true)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "No",
+                name: "join_before_host",
+                checked: !zoomSettings.join_before_host,
+                onChange: () => handleSettingsChange("join_before_host", false)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Enable Waiting Room",
+            description: "Enable or disabled waiting room",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Yes",
+                name: "waiting_room",
+                checked: zoomSettings.waiting_room,
+                onChange: () => handleSettingsChange("waiting_room", true)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "No",
+                name: "waiting_room",
+                checked: !zoomSettings.waiting_room,
+                onChange: () => handleSettingsChange("waiting_room", false)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Automatically record meeting",
+            description: "Record meeting on local computer",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Yes",
+                name: "auto_recording",
+                checked: zoomSettings.auto_recording === "local",
+                onChange: () => handleSettingsChange("auto_recording", "local")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "No",
+                name: "auto_recording",
+                checked: zoomSettings.auto_recording === "none",
+                onChange: () => handleSettingsChange("auto_recording", "none")
+              })]
+            })
+          })]
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        className: responsiveBlockStack,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
-          className: "text-lg font-semibold border-b pb-4",
-          children: t("Account")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Account details",
-          description: "Account email & name.",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              value: isAccountFetched ? account.email : "",
-              fullWidth: true,
-              type: "text",
-              align: "right",
-              disabled: true,
-              maxLength: 30,
-              image: isAccountFetched ? account.photo : null
-            })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Account name",
-          description: "Set a default time zone.",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              value: isAccountFetched ? account.full_name : "",
-              fullWidth: false,
-              type: "text",
-              align: "right",
-              disabled: true,
-              maxLength: 30
-            })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
-          className: "text-lg font-semibold border-b pb-4",
-          children: t("Zoom settings")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Meeting ID",
-          description: "Set a meeting ID",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Generate automatically",
-              name: "meeting_id",
-              checked: !zoomSettings.use_pmi,
-              onChange: () => handleSettingsChange("use_pmi", false)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Personal meeting ID",
-              name: "meeting_id",
-              checked: zoomSettings.use_pmi,
-              onChange: () => handleSettingsChange("use_pmi", true)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Video",
-          description: "Show/hide host and guest video",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              label: "Host video",
-              name: "host_video",
-              checked: zoomSettings.host_video,
-              onChange: () => handleSettingsChange("host_video", !zoomSettings.host_video)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              label: "Guest video",
-              name: "guest_video",
-              checked: zoomSettings.participant_video,
-              onChange: () => handleSettingsChange("participant_video", !zoomSettings.participant_video)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Audio",
-          description: "Set default audio settings",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Telephone",
-              name: "audio",
-              checked: zoomSettings.audio === "telephony",
-              onChange: () => handleSettingsChange("audio", "telephony")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Computer audio",
-              name: "audio",
-              checked: zoomSettings.audio === "voip",
-              onChange: () => handleSettingsChange("audio", "voip")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Both",
-              name: "audio",
-              checked: zoomSettings.audio === "both",
-              onChange: () => handleSettingsChange("audio", "both")
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Enable Join Before Host",
-          description: "Enable or disabled join before host",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Yes",
-              name: "join_before_host",
-              checked: zoomSettings.join_before_host,
-              onChange: () => handleSettingsChange("join_before_host", true)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "No",
-              name: "join_before_host",
-              checked: !zoomSettings.join_before_host,
-              onChange: () => handleSettingsChange("join_before_host", false)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Enable Waiting Room",
-          description: "Enable or disabled waiting room",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Yes",
-              name: "waiting_room",
-              checked: zoomSettings.waiting_room,
-              onChange: () => handleSettingsChange("waiting_room", true)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "No",
-              name: "waiting_room",
-              checked: !zoomSettings.waiting_room,
-              onChange: () => handleSettingsChange("waiting_room", false)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Automatically record meeting",
-          description: "Record meeting on local computer",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Yes",
-              name: "auto_recording",
-              checked: zoomSettings.auto_recording === "local",
-              onChange: () => handleSettingsChange("auto_recording", "local")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "No",
-              name: "auto_recording",
-              checked: zoomSettings.auto_recording === "none",
-              onChange: () => handleSettingsChange("auto_recording", "none")
-            })]
-          })
-        })]
-      })
-    })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ZoomSettingsPage);
@@ -3029,4 +3092,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_IntegrationsPage_jsx.js.map?ver=59e522b3fd1a93f95119
+//# sourceMappingURL=src_Components_Pages_IntegrationsPage_jsx.js.map?ver=ea5666f4a55cf48ee1b1

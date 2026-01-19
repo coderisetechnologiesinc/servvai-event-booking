@@ -419,28 +419,26 @@ __webpack_require__.r(__webpack_exports__);
 const PageActionButton = ({
   text,
   icon,
-  type,
+  type = "primary",
+  // primary | secondary | danger
+  size = "md",
+  // md | sm
   onAction,
   disabled = false,
   className = "",
   style = {}
 }) => {
+  const baseClass = "servv_button";
+  const typeClass = `servv_button--${type}`;
+  const sizeClass = size === "sm" ? "servv_button--sm" : "servv_button--md";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+    type: "button",
     onClick: onAction,
     disabled: disabled,
-    className: `
-        flex items-center justify-center px-4 py-2 rounded-lg
-        font-medium text-sm transition-colors duration-200
-        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-        ${className}
-      `,
-    style: {
-      fontFamily: "'Inter', sans-serif",
-      ...style
-    },
+    className: `${baseClass} ${typeClass} ${sizeClass} ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+    style: style,
     children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      className: "mr-2",
+      className: "mr-2 flex items-center",
       children: icon
     }), text]
   });
@@ -684,13 +682,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
 /* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
 /* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+
 
 
 
@@ -707,18 +707,18 @@ __webpack_require__.r(__webpack_exports__);
 const CreateCategoryFilterForm = ({
   setLoading = () => {}
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useSearchParams)();
   const id = searchParams.get("id");
-  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_9__.useServvStore)(s => s.filtersList);
-  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_9__.useServvStore)(s => s.syncSingleFilterFromServer);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.filtersList);
+  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.syncSingleFilterFromServer);
   // Try to find existing category if ID is provided
   const existingCategory = id && filtersList.categories ? filtersList.categories.find(c => String(c.id) === String(id)) : null;
-  const [categoryData, setCategoryData] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(existingCategory || {});
-  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(window.innerWidth < 768);
+  const [categoryData, setCategoryData] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(existingCategory || {});
+  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(window.innerWidth < 768);
 
   // Track window size changes
-  (0,react__WEBPACK_IMPORTED_MODULE_8__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_9__.useEffect)(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -742,7 +742,7 @@ const CreateCategoryFilterForm = ({
       url += `/${existingCategory.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_12__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_13__["default"])({
       method,
       url,
       headers: {
@@ -757,80 +757,86 @@ const CreateCategoryFilterForm = ({
     navigate(-1);
   };
   const isFormValid = categoryData?.name?.length > 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h1", {
-          className: "text-display-sm mt-6 text-gray-900",
-          children: existingCategory ? `Category Filter "${existingCategory.name}"` : "New Category"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
-          className: "page-header-description text-gray-600 mb-6",
-          children: existingCategory ? `Edit details for ${existingCategory.name}` : "Create a new category filter"
-        })]
-      }), !isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        gap: 2,
-        align: "right",
-        className: "hidden md:flex",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Cancel",
-          type: "secondary",
-          onAction: onCancel
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Save",
-          type: "primary",
-          onAction: handleCategorySave,
-          disabled: !isFormValid
-        })]
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-        className: "pb-20 md:pb-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          cardsLayout: true,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Category Name",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: categoryData?.name || "",
-              type: "text",
-              align: "left",
-              maxLength: 100,
-              onChange: val => handleCategroyChange("name", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Category Details",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: categoryData?.details || "",
-              type: "text",
-              align: "left",
-              maxLength: 200,
-              onChange: val => handleCategroyChange("details", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), existingCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Order",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: categoryData.priority || "",
-              type: "text",
-              align: "left",
-              maxLength: 10,
-              onChange: val => handleCategroyChange("priority", val),
-              width: isMobile ? "100%" : "400px"
-            })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    widthBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "servv-dashboard-header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h1", {
+            className: "dashboard-title text-gray-900",
+            children: existingCategory ? `Category Filter "${existingCategory.name}"` : "New Category"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+            className: "dashboard-description mt-4 text-gray-600",
+            children: existingCategory ? `Edit details for ${existingCategory.name}` : "Create a new category filter"
           })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Cancel",
+            type: "secondary",
+            onAction: onCancel
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Save",
+            type: "primary",
+            onAction: handleCategorySave,
+            disabled: !isFormValid
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "header-line"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "pb-20 md:pb-0 py-0 my-0",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            cardsLayout: true,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Category Name",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: categoryData?.name || "",
+                type: "text",
+                align: "left",
+                maxLength: 100,
+                onChange: val => handleCategroyChange("name", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Category Details",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: categoryData?.details || "",
+                type: "text",
+                align: "left",
+                maxLength: 200,
+                onChange: val => handleCategroyChange("details", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), existingCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Order",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: categoryData.priority || "",
+                type: "text",
+                align: "left",
+                maxLength: 10,
+                onChange: val => handleCategroyChange("priority", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            })]
+          })
         })
-      })
-    }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      onSave: handleCategorySave,
-      onCancel: onCancel,
-      saveText: "Save",
-      cancelText: "Cancel",
-      saveDisabled: !isFormValid
-    })]
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        onSave: handleCategorySave,
+        onCancel: onCancel,
+        saveText: "Save",
+        cancelText: "Cancel",
+        saveDisabled: !isFormValid
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateCategoryFilterForm);
@@ -876,6 +882,7 @@ function CreateFilterPage() {
   };
   const Form = map[type];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    withBackground: true,
     children: Form ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Form, {
       onCancel: onCancel
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
@@ -904,13 +911,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
 /* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
 /* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+
 
 
 
@@ -927,19 +936,19 @@ __webpack_require__.r(__webpack_exports__);
 const CreateLanguageFilterForm = ({
   setLoading = () => {}
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useSearchParams)();
   const id = searchParams.get("id");
-  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_9__.useServvStore)(s => s.filtersList);
-  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_9__.useServvStore)(s => s.syncSingleFilterFromServer);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.filtersList);
+  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.syncSingleFilterFromServer);
 
   // Find existing language if editing
   const existingLanguage = id && filtersList.languages ? filtersList.languages.find(l => String(l.id) === String(id)) : null;
-  const [languageData, setLanguageData] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(existingLanguage || {});
-  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(window.innerWidth < 768);
+  const [languageData, setLanguageData] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(existingLanguage || {});
+  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(window.innerWidth < 768);
 
   // Track window size changes
-  (0,react__WEBPACK_IMPORTED_MODULE_8__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_9__.useEffect)(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -963,7 +972,7 @@ const CreateLanguageFilterForm = ({
       url += `/${existingLanguage.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_12__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_13__["default"])({
       method,
       url,
       headers: {
@@ -978,75 +987,76 @@ const CreateLanguageFilterForm = ({
     navigate(-1);
   };
   const isFormValid = languageData?.name?.length > 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h1", {
-          className: "text-display-sm mt-6 text-gray-900",
-          style: {
-            fontFamily: "'Inter', sans-serif"
-          },
-          children: existingLanguage ? `Language Filter "${existingLanguage.name}"` : "New Language"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
-          className: "page-header-description text-gray-600 text-base leading-relaxed mb-6",
-          style: {
-            fontFamily: "'Inter', sans-serif"
-          },
-          children: existingLanguage ? `Edit details for ${existingLanguage.name}` : "Create a new language filter"
-        })]
-      }), !isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        gap: 2,
-        align: "right",
-        className: "hidden md:flex",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Cancel",
-          type: "secondary",
-          onAction: onCancel
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Save",
-          type: "primary",
-          onAction: handleLanguageSave,
-          disabled: !isFormValid
-        })]
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-        className: "pb-20 md:pb-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          cardsLayout: true,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Language Name",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: languageData?.name || "",
-              type: "text",
-              align: "left",
-              maxLength: 100,
-              onChange: val => handleLanguageChange("name", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), existingLanguage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Order",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: languageData.priority || "",
-              type: "text",
-              align: "left",
-              maxLength: 10,
-              onChange: val => handleLanguageChange("priority", val),
-              width: isMobile ? "100%" : "400px"
-            })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "servv-dashboard-header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h1", {
+            className: "dashboard-title text-gray-900",
+            children: existingLanguage ? `Language Filter "${existingLanguage.name}"` : "New Language"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+            className: "dashboard-description text-gray-600 text-base leading-relaxed",
+            children: existingLanguage ? `Edit details for ${existingLanguage.name}` : "Create a new language filter"
           })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Cancel",
+            type: "secondary",
+            onAction: onCancel
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Save",
+            type: "primary",
+            onAction: handleLanguageSave,
+            disabled: !isFormValid
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "header-line"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: "py-0 my-0",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "pb-20 md:pb-0",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            cardsLayout: true,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Language Name",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: languageData?.name || "",
+                type: "text",
+                align: "left",
+                maxLength: 100,
+                onChange: val => handleLanguageChange("name", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), existingLanguage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Order",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: languageData.priority || "",
+                type: "text",
+                align: "left",
+                maxLength: 10,
+                onChange: val => handleLanguageChange("priority", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            })]
+          })
         })
-      })
-    }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      onSave: handleLanguageSave,
-      onCancel: onCancel,
-      saveText: "Save",
-      cancelText: "Cancel",
-      saveDisabled: !isFormValid
-    })]
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        onSave: handleLanguageSave,
+        onCancel: onCancel,
+        saveText: "Save",
+        cancelText: "Cancel",
+        saveDisabled: !isFormValid
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateLanguageFilterForm);
@@ -1072,15 +1082,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
 /* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
 /* harmony import */ var _Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Controls/TimeInputControl */ "./src/Components/Controls/TimeInputControl.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! moment */ "moment");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
+
 
 
 
@@ -1100,15 +1112,15 @@ const CreateLocationFilterForm = ({
   setLoading = () => {},
   timeFormat = "hh:mm a"
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useSearchParams)();
   const id = searchParams.get("id");
-  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.filtersList);
-  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.syncSingleFilterFromServer);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_12__.useServvStore)(s => s.filtersList);
+  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_12__.useServvStore)(s => s.syncSingleFilterFromServer);
   const existingLocation = id && filtersList.locations ? filtersList.locations.find(l => String(l.id) === String(id)) : null;
-  const [locationData, setLocationData] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(existingLocation || {});
-  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(window.innerWidth < 768);
-  (0,react__WEBPACK_IMPORTED_MODULE_9__.useEffect)(() => {
+  const [locationData, setLocationData] = (0,react__WEBPACK_IMPORTED_MODULE_10__.useState)(existingLocation || {});
+  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_10__.useState)(window.innerWidth < 768);
+  (0,react__WEBPACK_IMPORTED_MODULE_10__.useEffect)(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -1129,7 +1141,7 @@ const CreateLocationFilterForm = ({
       url += `/${existingLocation.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_15__["default"])({
       method,
       url,
       headers: {
@@ -1148,124 +1160,131 @@ const CreateLocationFilterForm = ({
   const getStartTime = () => {
     if (locationData?.operational_hours) {
       const [start] = locationData.operational_hours.split(" - ");
-      return moment__WEBPACK_IMPORTED_MODULE_10___default()(start, timeFormat);
+      return moment__WEBPACK_IMPORTED_MODULE_11___default()(start, timeFormat);
     }
-    return moment__WEBPACK_IMPORTED_MODULE_10___default()("09:00", "HH:mm");
+    return moment__WEBPACK_IMPORTED_MODULE_11___default()("09:00", "HH:mm");
   };
   const getEndTime = () => {
     if (locationData?.operational_hours) {
       const parts = locationData.operational_hours.split(" - ");
-      return moment__WEBPACK_IMPORTED_MODULE_10___default()(parts[1], timeFormat);
+      return moment__WEBPACK_IMPORTED_MODULE_11___default()(parts[1], timeFormat);
     }
-    return moment__WEBPACK_IMPORTED_MODULE_10___default()("17:00", "HH:mm");
+    return moment__WEBPACK_IMPORTED_MODULE_11___default()("17:00", "HH:mm");
   };
   const handleStartTimeChange = newVal => {
-    const start = moment__WEBPACK_IMPORTED_MODULE_10___default()(newVal).format(timeFormat);
-    const end = locationData.operational_hours?.split(" - ")[1] || moment__WEBPACK_IMPORTED_MODULE_10___default()("17:00", "HH:mm").format(timeFormat);
+    const start = moment__WEBPACK_IMPORTED_MODULE_11___default()(newVal).format(timeFormat);
+    const end = locationData.operational_hours?.split(" - ")[1] || moment__WEBPACK_IMPORTED_MODULE_11___default()("17:00", "HH:mm").format(timeFormat);
     handleLocationChange("operational_hours", `${start} - ${end}`);
   };
   const handleEndTimeChange = newVal => {
-    const end = moment__WEBPACK_IMPORTED_MODULE_10___default()(newVal).format(timeFormat);
-    const start = locationData.operational_hours?.split(" - ")[0] || moment__WEBPACK_IMPORTED_MODULE_10___default()("09:00", "HH:mm").format(timeFormat);
+    const end = moment__WEBPACK_IMPORTED_MODULE_11___default()(newVal).format(timeFormat);
+    const start = locationData.operational_hours?.split(" - ")[0] || moment__WEBPACK_IMPORTED_MODULE_11___default()("09:00", "HH:mm").format(timeFormat);
     handleLocationChange("operational_hours", `${start} - ${end}`);
   };
   const isFormValid = locationData?.name?.length > 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react__WEBPACK_IMPORTED_MODULE_9__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
-          className: "text-display-sm mt-6 text-gray-900",
-          children: existingLocation ? `Location Filter "${existingLocation.name}"` : "New Location"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
-          className: "page-header-description text-gray-600 text-base leading-relaxed mb-6",
-          children: existingLocation ? `Edit details for ${existingLocation.name}` : "Create a new location filter"
-        })]
-      }), !isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        gap: 2,
-        align: "right",
-        className: "hidden md:flex",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Cancel",
-          type: "secondary",
-          onAction: onCancel
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Save",
-          type: "primary",
-          onAction: handleLocationSave,
-          disabled: !isFormValid
-        })]
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
-        className: "pb-20 md:pb-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          cardsLayout: true,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Location Name",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: locationData?.name || "",
-              type: "text",
-              align: "left",
-              maxLength: 100,
-              onChange: val => handleLocationChange("name", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Location Details",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: locationData?.details || "",
-              type: "text",
-              align: "left",
-              maxLength: 200,
-              onChange: val => handleLocationChange("details", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Operational Hours",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
-              style: {
-                width: isMobile ? "100%" : "400px"
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-                className: `${isMobile ? "flex-col" : "flex-row"} flex gap-4`,
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  label: "Start Time",
-                  time: getStartTime(),
-                  onChange: handleStartTimeChange,
-                  timeFormat: timeFormat
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  label: "End Time",
-                  time: getEndTime(),
-                  onChange: handleEndTimeChange,
-                  timeFormat: timeFormat
-                })]
-              })
-            })
-          }), existingLocation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Order",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: locationData.priority || "",
-              type: "text",
-              align: "left",
-              maxLength: 10,
-              onChange: val => handleLocationChange("priority", val),
-              width: isMobile ? "100%" : "400px"
-            })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        className: "servv-dashboard-header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
+            className: "dashboard-title text-gray-900",
+            children: existingLocation ? `Location Filter "${existingLocation.name}"` : "New Location"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+            className: "dashboard-description text-gray-600 mt-4 text-base leading-relaxed",
+            children: existingLocation ? `Edit details for ${existingLocation.name}` : "Create a new location filter"
           })]
+        }), !isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Cancel",
+            type: "secondary",
+            onAction: onCancel
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Save",
+            type: "primary",
+            onAction: handleLocationSave,
+            disabled: !isFormValid
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "header-line"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: "py-0 my-0",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "pb-20 md:pb-0",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            cardsLayout: true,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Location Name",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: locationData?.name || "",
+                type: "text",
+                align: "left",
+                maxLength: 100,
+                onChange: val => handleLocationChange("name", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Location Details",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: locationData?.details || "",
+                type: "text",
+                align: "left",
+                maxLength: 200,
+                onChange: val => handleLocationChange("details", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Operational Hours",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                style: {
+                  width: isMobile ? "100%" : "400px"
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                  className: `${isMobile ? "flex-col" : "flex-row"} flex gap-4`,
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                    label: "Start Time",
+                    time: getStartTime(),
+                    onChange: handleStartTimeChange,
+                    timeFormat: timeFormat
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                    label: "End Time",
+                    time: getEndTime(),
+                    onChange: handleEndTimeChange,
+                    timeFormat: timeFormat
+                  })]
+                })
+              })
+            }), existingLocation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Order",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: locationData.priority || "",
+                type: "text",
+                align: "left",
+                maxLength: 10,
+                onChange: val => handleLocationChange("priority", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            })]
+          })
         })
-      })
-    }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      onSave: handleLocationSave,
-      onCancel: onCancel,
-      saveText: "Save",
-      cancelText: "Cancel",
-      saveDisabled: !isFormValid
-    })]
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        onSave: handleLocationSave,
+        onCancel: onCancel,
+        saveText: "Save",
+        cancelText: "Cancel",
+        saveDisabled: !isFormValid
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateLocationFilterForm);
@@ -1292,11 +1311,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+
 
 
 
@@ -1313,8 +1334,8 @@ __webpack_require__.r(__webpack_exports__);
 const CreateMemberFilterForm = ({
   setLoading = () => {}
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useSearchParams)();
   const id = searchParams.get("id");
   const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_9__.useServvStore)(s => s.filtersList);
   const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_9__.useServvStore)(s => s.syncSingleFilterFromServer);
@@ -1346,7 +1367,7 @@ const CreateMemberFilterForm = ({
       url += `/${existingMember.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_12__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_13__["default"])({
       method,
       url,
       headers: {
@@ -1361,102 +1382,108 @@ const CreateMemberFilterForm = ({
     navigate(-1);
   };
   const isFormValid = memberData?.name?.length > 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h1", {
-          className: "text-display-sm mt-6 text-gray-900",
-          children: existingMember ? `Member Filter "${existingMember.name}"` : "New Member"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
-          className: "page-header-description text-gray-600 text-base leading-relaxed mb-6",
-          children: existingMember ? `Edit details for ${existingMember.name}` : "Create a new member filter"
-        })]
-      }), !isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        gap: 2,
-        align: "right",
-        className: "hidden md:flex",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Cancel",
-          type: "secondary",
-          onAction: onCancel
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Save",
-          type: "primary",
-          disabled: !isFormValid,
-          onAction: handleMemberSave
-        })]
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
-        className: "pb-20 md:pb-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          cardsLayout: true,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Member Name",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              align: "left",
-              value: memberData?.name || "",
-              type: "text",
-              maxLength: 100,
-              onChange: val => handleMemberChange("name", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Member Email",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: memberData?.email || "",
-              type: "email",
-              align: "left",
-              maxLength: 100,
-              onChange: val => handleMemberChange("email", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Phone",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: memberData?.phone || "",
-              type: "tel",
-              align: "left",
-              maxLength: 50,
-              onChange: val => handleMemberChange("phone", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Description",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: memberData?.description || "",
-              type: "text",
-              align: "left",
-              maxLength: 200,
-              onChange: val => handleMemberChange("description", val),
-              width: isMobile ? "100%" : "400px"
-            })
-          }), existingMember && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            title: "Order",
-            className: "items-start",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
-              value: memberData.priority || "",
-              type: "text",
-              align: "left",
-              maxLength: 10,
-              onChange: val => handleMemberChange("priority", val),
-              width: isMobile ? "100%" : "400px"
-            })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+        className: "servv-dashboard-header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h1", {
+            className: "dashboard-title text-gray-900",
+            children: existingMember ? `Member Filter "${existingMember.name}"` : "New Member"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+            className: "dashboard-description mt-4 text-gray-600 text-base leading-relaxed",
+            children: existingMember ? `Edit details for ${existingMember.name}` : "Create a new member filter"
           })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
+          className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Cancel",
+            type: "secondary",
+            onAction: onCancel
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Save",
+            type: "primary",
+            disabled: !isFormValid,
+            onAction: handleMemberSave
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+        className: "header-line"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: "py-0 my-0",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+          className: "pb-20 md:pb-0",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            cardsLayout: true,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Member Name",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                align: "left",
+                value: memberData?.name || "",
+                type: "text",
+                maxLength: 100,
+                onChange: val => handleMemberChange("name", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Member Email",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: memberData?.email || "",
+                type: "email",
+                align: "left",
+                maxLength: 100,
+                onChange: val => handleMemberChange("email", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Phone",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: memberData?.phone || "",
+                type: "tel",
+                align: "left",
+                maxLength: 50,
+                onChange: val => handleMemberChange("phone", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Description",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: memberData?.description || "",
+                type: "text",
+                align: "left",
+                maxLength: 200,
+                onChange: val => handleMemberChange("description", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            }), existingMember && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              title: "Order",
+              className: "items-start",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                value: memberData.priority || "",
+                type: "text",
+                align: "left",
+                maxLength: 10,
+                onChange: val => handleMemberChange("priority", val),
+                width: isMobile ? "100%" : "400px"
+              })
+            })]
+          })
         })
-      })
-    }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      onSave: handleMemberSave,
-      onCancel: onCancel,
-      saveText: "Save",
-      cancelText: "Cancel",
-      saveDisabled: !isFormValid
-    })]
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        onSave: handleMemberSave,
+        onCancel: onCancel,
+        saveText: "Save",
+        cancelText: "Cancel",
+        saveDisabled: !isFormValid
+      })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateMemberFilterForm);
@@ -1488,14 +1515,14 @@ const PageWrapper = props => {
     children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "fixed inset-0 bg-[#F5F5F5]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4",
+      className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
         children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-hidden ${props.loading ? "loading" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
           position: "bottom-right"
         }), props.children]
@@ -1668,4 +1695,4 @@ function cssValue(value) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateFilterPage_jsx.js.map?ver=7ecad867c07f79144923
+//# sourceMappingURL=src_Components_Pages_CreateFilterPage_jsx.js.map?ver=0c4a109b834a862f9b22

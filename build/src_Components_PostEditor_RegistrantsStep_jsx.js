@@ -463,10 +463,13 @@ const RegistrantsStep = ({
   const [showError, setShowError] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
   const [currentPage, setCurrentPage] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(1);
   const [selectedRegistrants, setSelectedRegistrants] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]);
+  const [zoomPageTokens, setZoomPageTokens] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)({
+    1: null
+  });
   const PAGE_SIZE = 20;
   const visibleRegistrants = registrants.filter(reg => reg.status !== "delete");
   const totalPages = attributes?.regPagination?.pageCount || 1;
-  const totalRecords = totalPages * PAGE_SIZE;
+  const totalRecords = attributes?.regPagination?.total_records || totalPages * PAGE_SIZE;
   const paginatedRegistrants = visibleRegistrants;
   const {
     id
@@ -534,20 +537,50 @@ const RegistrantsStep = ({
     if (!postID) return;
     setLoading(true);
     try {
-      const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrants)({
+      const isZoom = attributes?.location === "zoom";
+
+      // ---------------- NON-ZOOM (page-based) ----------------
+      if (!isZoom) {
+        const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrants)({
+          postID,
+          occurrenceId,
+          page
+        });
+        setAttributes({
+          ...attributes,
+          registrants: res.registrants || [],
+          regPagination: {
+            pageCount: res.pagination?.pageCount || 1,
+            pageNumber: page,
+            total_records: res.pagination?.totalRecords || (res.pagination?.pageCount || 1) * PAGE_SIZE
+          }
+        });
+        return;
+      }
+
+      // ---------------- ZOOM (token-based) ----------------
+      const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrantsWithToken)({
         postID,
         occurrenceId,
-        // null if not present
-        page
+        next_page_token: zoomPageTokens[page] || null,
+        pageSize: PAGE_SIZE
       });
       setAttributes({
         ...attributes,
         registrants: res.registrants || [],
-        regPagination: res.pagination || {
-          pageCount: 1,
-          pageNumber: 1
+        regPagination: {
+          pageCount: res.pagination?.nextPageToken ? page + 1 : page,
+          // fake pages for UI
+          pageNumber: page,
+          total_records: res.pagination?.totalRecords || 0
         }
       });
+      if (res.pagination?.nextPageToken) {
+        setZoomPageTokens(prev => ({
+          ...prev,
+          [page + 1]: res.pagination.nextPageToken
+        }));
+      }
     } catch (e) {
       console.error("Failed to fetch registrants", e);
     } finally {
@@ -661,6 +694,75 @@ const RegistrantsStep = ({
       setLoading(false);
     }
   };
+  const exportToCSV = (rows, filename = "registrants.csv") => {
+    const headers = ["First Name", "Last Name", "Email"];
+    const csvContent = [headers.join(","), ...rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))].join("\n");
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;"
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+  const handleExportRegistrants = async () => {
+    if (!postID) return;
+    setLoading(true);
+    try {
+      const isZoom = attributes?.location === "zoom";
+      let allRegistrants = [];
+
+      /* ---------------- NON-ZOOM (page-based) ---------------- */
+      if (!isZoom) {
+        let page = 1;
+        let pageCount = 1;
+        do {
+          const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrants)({
+            postID,
+            occurrenceId,
+            page
+          });
+          allRegistrants.push(...(res.registrants || []));
+          pageCount = res.pagination?.pageCount || 1;
+          page++;
+        } while (page <= pageCount);
+      }
+
+      /* ---------------- ZOOM (token-based) ---------------- */
+      if (isZoom) {
+        let nextToken = null;
+        do {
+          const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrantsWithToken)({
+            postID,
+            occurrenceId,
+            next_page_token: nextToken,
+            pageSize: PAGE_SIZE
+          });
+          allRegistrants.push(...(res.registrants || []));
+          nextToken = res.pagination?.nextPageToken || null;
+        } while (nextToken);
+      }
+      if (!allRegistrants.length) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.info("No registrants to export.");
+        return;
+      }
+
+      /* ---------------- EXPORT ---------------- */
+      const rows = allRegistrants.map(r => [r.firstName || "", r.lastName || "", r.email || ""]);
+      exportToCSV(rows, "registrants.csv");
+      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success(`Exported ${allRegistrants.length} registrants.`);
+    } catch (e) {
+      console.error("Export registrants failed", e);
+      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to export registrants.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   /* ------------------ UI ------------------ */
 
@@ -747,6 +849,11 @@ const RegistrantsStep = ({
                 className: "servv_button servv_button--secondary servv_button--sm",
                 onClick: () => resendAll(id),
                 children: "Resend notifications"
+              }), registrants.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+                type: "button",
+                className: "servv_button servv_button--secondary servv_button--sm",
+                onClick: () => handleExportRegistrants(),
+                children: "Export"
               })]
             })
           })]
@@ -788,6 +895,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   deleteRegistrant: () => (/* binding */ deleteRegistrant),
 /* harmony export */   fetchRegistrants: () => (/* binding */ fetchRegistrants),
+/* harmony export */   fetchRegistrantsWithToken: () => (/* binding */ fetchRegistrantsWithToken),
 /* harmony export */   resendAllNotifications: () => (/* binding */ resendAllNotifications),
 /* harmony export */   resendRegistrantNotification: () => (/* binding */ resendRegistrantNotification)
 /* harmony export */ });
@@ -845,6 +953,56 @@ const fetchRegistrants = async ({
       pagination: {
         pageNumber: 1,
         pageCount: 1
+      }
+    };
+  }
+};
+const fetchRegistrantsWithToken = async ({
+  postID,
+  next_page_token = null,
+  occurrenceId = null,
+  pageSize = 20
+}) => {
+  let url = `/servv-plugin/v1/event/${postID}/registrants?page_size=${pageSize}`;
+  if (next_page_token) {
+    url += `&next_page_token=${encodeURIComponent(next_page_token)}`;
+  }
+  if (occurrenceId) {
+    url += `&occurrence_id=${occurrenceId}`;
+  }
+  try {
+    var _res$total_records, _res$page_size;
+    const res = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+      path: url
+    });
+    const registrants = res.registrants?.map(registrant => {
+      if (!registrant) return null;
+      return {
+        id: registrant.id,
+        firstName: registrant.first_name,
+        lastName: registrant.last_name,
+        email: registrant.email,
+        status: registrant.status,
+        joinUrl: registrant.join_url,
+        createdAt: registrant.created_datetime
+      };
+    }).filter(Boolean) || [];
+    return {
+      registrants,
+      pagination: {
+        nextPageToken: res.next_page_token || null,
+        totalRecords: (_res$total_records = res.total_records) !== null && _res$total_records !== void 0 ? _res$total_records : registrants.length,
+        pageSize: (_res$page_size = res.page_size) !== null && _res$page_size !== void 0 ? _res$page_size : pageSize
+      }
+    };
+  } catch (e) {
+    console.error("fetchRegistrantsWithToken failed", e);
+    return {
+      registrants: [],
+      pagination: {
+        nextPageToken: null,
+        totalRecords: 0,
+        pageSize
       }
     };
   }
@@ -1075,4 +1233,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=2e39867fc8a1d0fb33ab
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=95a492ec57d30884ab48

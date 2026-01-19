@@ -52,19 +52,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
 
-const Card = props => {
-  const {
-    className = "",
-    padding,
-    align,
-    background,
-    maxWidth,
-    children,
-    ...rest
-  } = props;
+const Card = ({
+  className = "",
+  padding = "p-0",
+  align,
+  background = "bg-white",
+  maxWidth,
+  children,
+  ...rest
+}) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     ...rest,
-    className: `servv-card ${padding || "p-0"} ${align === "center" ? "mx-auto" : ""} ${background || "bg-white"} max-md:max-w-full w-full ${maxWidth ? `md:max-w-[${maxWidth}]` : ""} ${className}`,
+    className: `
+        servv-card
+        ${padding}
+        ${background}
+        w-full
+        ${align === "center" ? "mx-auto" : ""}
+        ${className}
+      `,
+    style: {
+      maxWidth: maxWidth ? maxWidth : "100%"
+    },
     children: children
   });
 };
@@ -217,28 +226,26 @@ __webpack_require__.r(__webpack_exports__);
 const PageActionButton = ({
   text,
   icon,
-  type,
+  type = "primary",
+  // primary | secondary | danger
+  size = "md",
+  // md | sm
   onAction,
   disabled = false,
   className = "",
   style = {}
 }) => {
+  const baseClass = "servv_button";
+  const typeClass = `servv_button--${type}`;
+  const sizeClass = size === "sm" ? "servv_button--sm" : "servv_button--md";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+    type: "button",
     onClick: onAction,
     disabled: disabled,
-    className: `
-        flex items-center justify-center px-4 py-2 rounded-lg
-        font-medium text-sm transition-colors duration-200
-        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-        ${className}
-      `,
-    style: {
-      fontFamily: "'Inter', sans-serif",
-      ...style
-    },
+    className: `${baseClass} ${typeClass} ${sizeClass} ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+    style: style,
     children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      className: "mr-2",
+      className: "mr-2 flex items-center",
       children: icon
     }), text]
   });
@@ -615,24 +622,32 @@ function FiltersListPage() {
   }];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Pages_PageWrapper__WEBPACK_IMPORTED_MODULE_2__["default"], {
     loading: loading,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      gap: 4,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "dashboard-heading",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
-            className: "text-display-sm mt-6",
+            className: "dashboard-title",
             children: type
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            breadcrumbs: breadcrumbs,
-            onBreadCrumbClick: label => {
-              const bc = breadcrumbs.find(b => b.label === label);
-              if (bc?.action) bc.action();
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
-            className: "page-header-description mb-6",
-            children: ["Manage your ", type.toLowerCase(), " \u2014 view, edit, and delete entries."]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "dashboard-description",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_5__["default"], {
+              breadcrumbs: breadcrumbs,
+              onBreadCrumbClick: label => {
+                const bc = breadcrumbs.find(b => b.label === label);
+                if (bc?.action) bc.action();
+              }
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+              className: "dashboard-description mt-2",
+              children: ["Manage your ", type.toLowerCase(), " \u2014 view, edit, and delete entries."]
+            })]
           })]
         })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        className: "header-line"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_FiltersList__WEBPACK_IMPORTED_MODULE_1__["default"], {
         title: type,
         filters: filters,
@@ -672,14 +687,14 @@ const PageWrapper = props => {
     children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "fixed inset-0 bg-[#F5F5F5]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4",
+      className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
         children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-hidden ${props.loading ? "loading" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
           position: "bottom-right"
         }), props.children]
@@ -966,4 +981,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersListPage_jsx.js.map?ver=cf71e6dbd381126f68b7
+//# sourceMappingURL=src_Components_Pages_FiltersListPage_jsx.js.map?ver=87aacc6c2ed3dce6b8c5

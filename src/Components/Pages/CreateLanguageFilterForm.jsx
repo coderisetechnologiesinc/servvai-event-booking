@@ -6,7 +6,7 @@ import PageHeader from "../Containers/PageHeader";
 import PageContent from "../Containers/PageContent";
 import AnnotatedSection from "../Containers/AnnotatedSection";
 import MobileFooterActions from "../Controls/MobileFooterActions";
-
+import PageWrapper from "./PageWrapper";
 import { useState, Fragment, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -21,7 +21,7 @@ const CreateLanguageFilterForm = ({ setLoading = () => {} }) => {
 
   const filtersList = useServvStore((s) => s.filtersList);
   const syncSingleFilterFromServer = useServvStore(
-    (s) => s.syncSingleFilterFromServer
+    (s) => s.syncSingleFilterFromServer,
   );
 
   // Find existing language if editing
@@ -76,31 +76,26 @@ const CreateLanguageFilterForm = ({ setLoading = () => {} }) => {
   const isFormValid = languageData?.name?.length > 0;
 
   return (
-    <Fragment>
-      <PageHeader>
-        <BlockStack>
-          <h1
-            className="text-display-sm mt-6 text-gray-900"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            {existingLanguage
-              ? `Language Filter "${existingLanguage.name}"`
-              : "New Language"}
-          </h1>
+    <PageWrapper withBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          {/* LEFT: title + description */}
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title text-gray-900">
+              {existingLanguage
+                ? `Language Filter "${existingLanguage.name}"`
+                : "New Language"}
+            </h1>
 
-          <p
-            className="page-header-description text-gray-600 text-base leading-relaxed mb-6"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            {existingLanguage
-              ? `Edit details for ${existingLanguage.name}`
-              : "Create a new language filter"}
-          </p>
-        </BlockStack>
+            <p className="dashboard-description text-gray-600 text-base leading-relaxed">
+              {existingLanguage
+                ? `Edit details for ${existingLanguage.name}`
+                : "Create a new language filter"}
+            </p>
+          </div>
 
-        {/* Desktop Actions */}
-        {!isMobile && (
-          <InlineStack gap={2} align="right" className="hidden md:flex">
+          {/* RIGHT: desktop actions */}
+          <div className="dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap">
             <PageActionButton
               text="Cancel"
               type="secondary"
@@ -112,53 +107,55 @@ const CreateLanguageFilterForm = ({ setLoading = () => {} }) => {
               onAction={handleLanguageSave}
               disabled={!isFormValid}
             />
-          </InlineStack>
-        )}
-      </PageHeader>
+          </div>
+        </div>
 
-      <PageContent>
-        <div className="pb-20 md:pb-0">
-          <BlockStack gap={8} cardsLayout>
-            {/* Language Name */}
-            <AnnotatedSection title="Language Name" className="items-start">
-              <InputFieldControl
-                value={languageData?.name || ""}
-                type="text"
-                align="left"
-                maxLength={100}
-                onChange={(val) => handleLanguageChange("name", val)}
-                width={isMobile ? "100%" : "400px"}
-              />
-            </AnnotatedSection>
+        <div className="header-line" />
 
-            {/* Order (only if editing) */}
-            {existingLanguage && (
-              <AnnotatedSection title="Order" className="items-start">
+        <PageContent className="py-0 my-0">
+          <div className="pb-20 md:pb-0">
+            <BlockStack gap={8} cardsLayout>
+              {/* Language Name */}
+              <AnnotatedSection title="Language Name" className="items-start">
                 <InputFieldControl
-                  value={languageData.priority || ""}
+                  value={languageData?.name || ""}
                   type="text"
                   align="left"
-                  maxLength={10}
-                  onChange={(val) => handleLanguageChange("priority", val)}
+                  maxLength={100}
+                  onChange={(val) => handleLanguageChange("name", val)}
                   width={isMobile ? "100%" : "400px"}
                 />
               </AnnotatedSection>
-            )}
-          </BlockStack>
-        </div>
-      </PageContent>
 
-      {/* Mobile Footer */}
-      {isMobile && (
-        <MobileFooterActions
-          onSave={handleLanguageSave}
-          onCancel={onCancel}
-          saveText="Save"
-          cancelText="Cancel"
-          saveDisabled={!isFormValid}
-        />
-      )}
-    </Fragment>
+              {/* Order (only if editing) */}
+              {existingLanguage && (
+                <AnnotatedSection title="Order" className="items-start">
+                  <InputFieldControl
+                    value={languageData.priority || ""}
+                    type="text"
+                    align="left"
+                    maxLength={10}
+                    onChange={(val) => handleLanguageChange("priority", val)}
+                    width={isMobile ? "100%" : "400px"}
+                  />
+                </AnnotatedSection>
+              )}
+            </BlockStack>
+          </div>
+        </PageContent>
+
+        {/* Mobile Footer */}
+        {isMobile && (
+          <MobileFooterActions
+            onSave={handleLanguageSave}
+            onCancel={onCancel}
+            saveText="Save"
+            cancelText="Cancel"
+            saveDisabled={!isFormValid}
+          />
+        )}
+      </div>
+    </PageWrapper>
   );
 };
 
