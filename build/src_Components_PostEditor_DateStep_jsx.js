@@ -1266,9 +1266,9 @@ const NewEndDateControl = ({
       className: "step__content_title",
       children: "End date"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      buttons: ["End on date", "End after occurrences"],
-      active: mode === "date" ? "End on date" : "End after occurrences",
-      onChange: val => handleModeChange(val === "End on date" ? "date" : "number")
+      buttons: ["On a date", "After occurrences"],
+      active: mode === "date" ? "On a date" : "After occurrences",
+      onChange: val => handleModeChange(val === "On a date" ? "date" : "number")
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "mt-[20px]",
       children: [mode === "date" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
@@ -1905,4 +1905,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=e3db7810c1eaf5b29e79
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=af82baecda1c1bb92e56

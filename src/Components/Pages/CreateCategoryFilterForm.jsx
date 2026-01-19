@@ -6,7 +6,7 @@ import PageHeader from "../Containers/PageHeader";
 import PageContent from "../Containers/PageContent";
 import AnnotatedSection from "../Containers/AnnotatedSection";
 import MobileFooterActions from "../Controls/MobileFooterActions";
-
+import PageWrapper from "./PageWrapper";
 import { Fragment, useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -21,7 +21,7 @@ const CreateCategoryFilterForm = ({ setLoading = () => {} }) => {
 
   const filtersList = useServvStore((s) => s.filtersList);
   const syncSingleFilterFromServer = useServvStore(
-    (s) => s.syncSingleFilterFromServer
+    (s) => s.syncSingleFilterFromServer,
   );
   // Try to find existing category if ID is provided
   const existingCategory =
@@ -75,25 +75,26 @@ const CreateCategoryFilterForm = ({ setLoading = () => {} }) => {
   const isFormValid = categoryData?.name?.length > 0;
 
   return (
-    <Fragment>
-      <PageHeader>
-        <BlockStack>
-          <h1 className="text-display-sm mt-6 text-gray-900">
-            {existingCategory
-              ? `Category Filter "${existingCategory.name}"`
-              : "New Category"}
-          </h1>
+    <PageWrapper widthBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          {/* LEFT: title + description */}
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title text-gray-900">
+              {existingCategory
+                ? `Category Filter "${existingCategory.name}"`
+                : "New Category"}
+            </h1>
 
-          <p className="page-header-description text-gray-600 mb-6">
-            {existingCategory
-              ? `Edit details for ${existingCategory.name}`
-              : "Create a new category filter"}
-          </p>
-        </BlockStack>
+            <p className="dashboard-description mt-4 text-gray-600">
+              {existingCategory
+                ? `Edit details for ${existingCategory.name}`
+                : "Create a new category filter"}
+            </p>
+          </div>
 
-        {/* Desktop Actions */}
-        {!isMobile && (
-          <InlineStack gap={2} align="right" className="hidden md:flex">
+          {/* RIGHT: desktop actions */}
+          <div className="dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap">
             <PageActionButton
               text="Cancel"
               type="secondary"
@@ -105,65 +106,70 @@ const CreateCategoryFilterForm = ({ setLoading = () => {} }) => {
               onAction={handleCategorySave}
               disabled={!isFormValid}
             />
-          </InlineStack>
-        )}
-      </PageHeader>
+          </div>
+        </div>
 
-      <PageContent>
-        <div className="pb-20 md:pb-0">
-          <BlockStack gap={8} cardsLayout>
-            {/* Category Name */}
-            <AnnotatedSection title="Category Name" className="items-start">
-              <InputFieldControl
-                value={categoryData?.name || ""}
-                type="text"
-                align="left"
-                maxLength={100}
-                onChange={(val) => handleCategroyChange("name", val)}
-                width={isMobile ? "100%" : "400px"}
-              />
-            </AnnotatedSection>
+        <div className="header-line" />
 
-            {/* Category Details */}
-            <AnnotatedSection title="Category Details" className="items-start">
-              <InputFieldControl
-                value={categoryData?.details || ""}
-                type="text"
-                align="left"
-                maxLength={200}
-                onChange={(val) => handleCategroyChange("details", val)}
-                width={isMobile ? "100%" : "400px"}
-              />
-            </AnnotatedSection>
-
-            {/* Order field - only if editing */}
-            {existingCategory && (
-              <AnnotatedSection title="Order" className="items-start">
+        <PageContent>
+          <div className="pb-20 md:pb-0 py-0 my-0">
+            <BlockStack gap={8} cardsLayout>
+              {/* Category Name */}
+              <AnnotatedSection title="Category Name" className="items-start">
                 <InputFieldControl
-                  value={categoryData.priority || ""}
+                  value={categoryData?.name || ""}
                   type="text"
                   align="left"
-                  maxLength={10}
-                  onChange={(val) => handleCategroyChange("priority", val)}
+                  maxLength={100}
+                  onChange={(val) => handleCategroyChange("name", val)}
                   width={isMobile ? "100%" : "400px"}
                 />
               </AnnotatedSection>
-            )}
-          </BlockStack>
-        </div>
-      </PageContent>
 
-      {/* Mobile Footer */}
-      {isMobile && (
-        <MobileFooterActions
-          onSave={handleCategorySave}
-          onCancel={onCancel}
-          saveText="Save"
-          cancelText="Cancel"
-          saveDisabled={!isFormValid}
-        />
-      )}
-    </Fragment>
+              {/* Category Details */}
+              <AnnotatedSection
+                title="Category Details"
+                className="items-start"
+              >
+                <InputFieldControl
+                  value={categoryData?.details || ""}
+                  type="text"
+                  align="left"
+                  maxLength={200}
+                  onChange={(val) => handleCategroyChange("details", val)}
+                  width={isMobile ? "100%" : "400px"}
+                />
+              </AnnotatedSection>
+
+              {/* Order field - only if editing */}
+              {existingCategory && (
+                <AnnotatedSection title="Order" className="items-start">
+                  <InputFieldControl
+                    value={categoryData.priority || ""}
+                    type="text"
+                    align="left"
+                    maxLength={10}
+                    onChange={(val) => handleCategroyChange("priority", val)}
+                    width={isMobile ? "100%" : "400px"}
+                  />
+                </AnnotatedSection>
+              )}
+            </BlockStack>
+          </div>
+        </PageContent>
+
+        {/* Mobile Footer */}
+        {isMobile && (
+          <MobileFooterActions
+            onSave={handleCategorySave}
+            onCancel={onCancel}
+            saveText="Save"
+            cancelText="Cancel"
+            saveDisabled={!isFormValid}
+          />
+        )}
+      </div>
+    </PageWrapper>
   );
 };
 

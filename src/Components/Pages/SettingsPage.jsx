@@ -45,7 +45,7 @@ const SettingsPage = () => {
       "/wp-json/servv-plugin/v1/zoom/account",
       {
         headers: { "X-WP-Nonce": servvData.nonce },
-      }
+      },
     );
     if (getZoomAccountResponse && getZoomAccountResponse.status === 200) {
       setZoomAccount(getZoomAccountResponse.data);
@@ -55,7 +55,7 @@ const SettingsPage = () => {
   const getStripeAccount = async () => {
     const getStripeAccountResponse = await axios.get(
       "/wp-json/servv-plugin/v1/stripe/account",
-      { headers: { "X-WP-Nonce": servvData.nonce } }
+      { headers: { "X-WP-Nonce": servvData.nonce } },
     );
     if (getStripeAccountResponse && getStripeAccountResponse.status === 200) {
       setStripeAccount(getStripeAccountResponse.data);
@@ -159,7 +159,7 @@ const SettingsPage = () => {
     if (settings.translations === undefined) {
       settings.translations = mergeTranslations(
         getTranslationsTpl(),
-        settings?.settings?.widget_style_settings?.translations || {}
+        settings?.settings?.widget_style_settings?.translations || {},
       );
     }
     return settings;
@@ -200,7 +200,7 @@ const SettingsPage = () => {
     ) {
       validatedSettings.settings.admin_dashboard.default_start_time = moment(
         "10:00 am",
-        "hh:mm a"
+        "hh:mm a",
       ).format("hh:mm a");
     }
     if (
@@ -244,7 +244,7 @@ const SettingsPage = () => {
       validatedSettings.second_reminder_hours = 2;
     }
     validatedSettings.settings.widget_style_settings = validateWidgetSettings(
-      validatedSettings.settings.widget_style_settings
+      validatedSettings.settings.widget_style_settings,
     );
     const baseTabs = [
       { label: "General", value: 0 },
@@ -264,7 +264,7 @@ const SettingsPage = () => {
 
     if (planId) {
       // Paid plans
-      if (planId !== 3) {
+      if (!newSettings.is_wp_marketplace) {
         tabs.push(...widgetTabs);
       }
       tabs.push(billingTab);
@@ -290,7 +290,7 @@ const SettingsPage = () => {
       "/wp-json/servv-plugin/v1/n8n/settings",
       {
         headers: { "X-WP-Nonce": servvData.nonce },
-      }
+      },
     );
     if (getN8nResponse && getN8nResponse.status === 200) {
       setN8nSettings(getN8nResponse.data);
@@ -340,7 +340,7 @@ const SettingsPage = () => {
       "/wp-json/servv-plugin/v1/shop/info",
       {
         headers: { "X-WP-Nonce": servvData.nonce },
-      }
+      },
     ).catch((error) => toast("Servv unable to fetch settings."));
     if (getSettingsResponse && getSettingsResponse.status === 200) {
       validateSettings(getSettingsResponse.data);
@@ -354,7 +354,7 @@ const SettingsPage = () => {
       "/wp-json/servv-plugin/v1/shop/paymentplans",
       {
         headers: { "X-WP-Nonce": servvData.nonce },
-      }
+      },
     ).catch((error) => toast("Servv unable to fetch billing plans."));
     if (getBillingPlansResponse && getBillingPlansResponse.status === 200) {
       setBillingPlans(getBillingPlansResponse.data.plans);
@@ -366,12 +366,12 @@ const SettingsPage = () => {
     settings?.settings?.widget_style_settings?.widgets_default_language || "en";
   const translations = mergeTranslations(
     getTranslationsTpl(),
-    settings?.settings?.widget_style_settings?.translations || {}
+    settings?.settings?.widget_style_settings?.translations || {},
   );
   const getDefaultWidgetLanguageName = () => {
     const fullList = getLanguagesList();
     const langCode = fullList.filter(
-      (lang) => lang.value === defaultWidgetLanguage
+      (lang) => lang.value === defaultWidgetLanguage,
     )[0].label;
     return langCode;
   };
@@ -408,7 +408,7 @@ const SettingsPage = () => {
           ...settings.settings,
           admin_dashboard: JSON.stringify(settings.settings.admin_dashboard),
           widget_style_settings: JSON.stringify(
-            settings.settings.widget_style_settings
+            settings.settings.widget_style_settings,
           ),
         },
       },
@@ -469,7 +469,7 @@ const SettingsPage = () => {
   const handleTimezoneChange = (zone) => {
     let currentSettings = { ...settings };
     let currentSelectedTimezone = timezones.findIndex(
-      (timezone) => timezone.name === zone
+      (timezone) => timezone.name === zone,
     );
 
     if (currentSelectedTimezone >= 0) {
@@ -488,8 +488,8 @@ const SettingsPage = () => {
     setDefaultEndTime(
       newTime.add(
         currentSettings.settings.admin_dashboard.default_duration,
-        "hours"
-      )
+        "hours",
+      ),
     );
     setSettings(currentSettings);
   };
@@ -502,7 +502,7 @@ const SettingsPage = () => {
 
     const newTime = moment(
       currentSettings.settings.admin_dashboard.default_start_time,
-      "hh:mm a"
+      "hh:mm a",
     );
     setDefaultEndTime(newTime.add(duration + 1, "hours"));
     setSettings(currentSettings);
@@ -556,7 +556,7 @@ const SettingsPage = () => {
     ) {
       return moment(
         settings.settings.admin_dashboard.default_start_time,
-        "hh:mm a"
+        "hh:mm a",
       );
     } else return moment("10:00 am", "hh:mm a");
   };
@@ -654,7 +654,7 @@ const SettingsPage = () => {
     ) {
       let newTime = moment(
         settings.settings.admin_dashboard.default_start_time,
-        "hh:mm a"
+        "hh:mm a",
       );
 
       newTime.add(settings.settings.admin_dashboard.default_duration, "hours");
@@ -691,14 +691,15 @@ const SettingsPage = () => {
     pageSizes
       .map((opt) => opt.value)
       .indexOf(
-        settings.settings.widget_style_settings.ew_events_list_page_size_default
+        settings.settings.widget_style_settings
+          .ew_events_list_page_size_default,
       ) >= 0
       ? pageSizes[
           pageSizes
             .map((opt) => opt.value)
             .indexOf(
               settings.settings.widget_style_settings
-                .ew_events_list_page_size_default
+                .ew_events_list_page_size_default,
             )
         ].name
       : "10 items";
@@ -735,7 +736,7 @@ const SettingsPage = () => {
     setSettings(currentSettings);
   };
   const [langForEdit, setLangForEdit] = useState(
-    getDefaultWidgetLanguageName()
+    getDefaultWidgetLanguageName(),
   );
   const handleSelectLanguageforEdit = (newVal) => setLangForEdit(newVal);
 
@@ -749,7 +750,7 @@ const SettingsPage = () => {
         <CheckboxControl
           label={filter}
           checked={selectedFilters.some(
-            (f) => f.toLowerCase() === filter.toLowerCase()
+            (f) => f.toLowerCase() === filter.toLowerCase(),
           )}
           onChange={() => handleSelectedFilterChange(filter.toLowerCase())}
         />
@@ -967,663 +968,682 @@ const SettingsPage = () => {
     settings && settings.current_plan && settings.current_plan.id === 1;
   console.log(
     settings?.settings,
-    settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
+    settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
   );
   return (
-    <PageWrapper loading={loading}>
-      <PageHeader>
-        <BlockStack className={responsiveBlockStack}>
-          <h1 className="text-display-sm mt-6">Settings</h1>
-          <p className="page-header-description">
-            Set default values for new events to save time
-          </p>
-        </BlockStack>
-        <InlineStack gap={2} align="right" className={responsiveInlineStack}>
-          <PageActionButton
-            text="Cancel"
-            icon={null}
-            type="secondary"
-            onAction={getSettingsInfo}
-          />
-          <PageActionButton
-            text="Save"
-            icon={null}
-            type="primary"
-            onAction={() => saveAllSettings()}
-          />
-        </InlineStack>
-      </PageHeader>
-      <PageContent>
-        <BlockStack gap={8} cardsLayout={true} className={responsiveBlockStack}>
-          <div className={responsiveTabsWrapper}>
-            <TabsComponent
-              tabsList={tabsList}
-              selected={selectedTab}
-              handleSelectChange={handleSelectChange}
-              fullWidth={true}
+    <PageWrapper loading={loading} withBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          {/* LEFT: title + description */}
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title">Settings</h1>
+            <p className="dashboard-description mt-4">
+              Set default values for new events to save time
+            </p>
+          </div>
+
+          {/* RIGHT: actions (desktop) */}
+          <div className="dashboard-actions hidden md:flex flex-row items-center gap-2">
+            <PageActionButton
+              text="Cancel"
+              type="secondary"
+              onAction={getSettingsInfo}
+            />
+            <PageActionButton
+              text="Save"
+              type="primary"
+              onAction={saveAllSettings}
             />
           </div>
-          {selectedTab === 0 && (
-            <BlockStack
-              gap={8}
-              cardsLayout={true}
-              className={responsiveBlockStack}
-            >
-              <AnnotatedSection
-                title="Time zone"
-                description="Set a default time zone."
-                className={responsiveBlockStack}
-              >
-                <BlockStack gap={2} className={responsiveBlockStack}>
-                  <SelectControl
-                    label=""
-                    options={timezones.map((t) => t.name)}
-                    selected={
-                      settings?.settings?.admin_dashboard?.default_timezone &&
-                      timezones.findIndex(
-                        (t) =>
-                          t.id ===
-                          settings?.settings?.admin_dashboard?.default_timezone
-                      ) >= 0
-                        ? timezones[
-                            timezones.findIndex(
-                              (t) =>
-                                t.id ===
-                                settings?.settings?.admin_dashboard
-                                  ?.default_timezone
-                            )
-                          ].name
-                        : null
-                    }
-                    onSelectChange={handleTimezoneChange}
-                    className={responsiveInput}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Time format"
-                description="Set a default time format."
-                className={responsiveBlockStack}
-              >
-                <BlockStack gap={4} className={responsiveBlockStack}>
-                  <SelectControl
-                    label=""
-                    options={timeOptions}
-                    selected={
-                      settings?.settings?.time_format_24_hours
-                        ? "24 hours"
-                        : "12 hours"
-                    }
-                    onSelectChange={handleTimeFormatChange}
-                    className={responsiveInput}
-                  />
-                  <CheckboxControl
-                    label="Hide timezone abbreviation in email, widget and dashboard."
-                    checked={settings?.settings?.hide_time_zone}
-                    onChange={handleHideTimezoneChange}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Currency format"
-                description="Set a default currency."
-                className={responsiveBlockStack}
-              >
-                <BlockStack gap={2} className={responsiveBlockStack}>
-                  <SelectControl
-                    label=""
-                    options={currencyOptions}
-                    selected={
-                      settings?.settings?.widget_style_settings
-                        ?.currency_format === "sign"
-                        ? "Currency sign: $ / 元"
-                        : "Alphabets: USD / CAD / CNY"
-                    }
-                    onSelectChange={handleCurrencyChange}
-                    className={responsiveInput}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Duration"
-                description="Set a default event duration."
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={2}
-                  cardsLayout={true}
-                  className={responsiveBlockStack}
-                >
-                  <SelectControl
-                    label=""
-                    options={durationOptions()}
-                    selected={
-                      settings &&
-                      settings.settings &&
-                      settings.settings.admin_dashboard &&
-                      settings.settings.admin_dashboard.default_duration
-                        ? durationOptions()[
-                            settings.settings.admin_dashboard.default_duration -
-                              1
-                          ]
-                        : "1 hour"
-                    }
-                    onSelectChange={(val) => handleDefaultDurationChange(val)}
-                    className={responsiveInput}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Start / end time"
-                description="Set a default start and end time."
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={2}
-                  cardsLayout={true}
-                  className={responsiveBlockStack}
-                >
-                  <div className="flex flex-col md:flex-row gap-5 w-full min-w-0">
-                    <TimeInputControl
-                      label="Start time"
-                      time={getDefaultStartTime()}
-                      onChange={(val) => handleDefaultStartTimeChange(val)}
-                      minValue={0}
-                      maxValue={12}
-                      timeFormat={
-                        settings?.settings?.time_format_24_hours
-                          ? "HH:mm"
-                          : "hh:mm a"
-                      }
-                      className={responsiveInput}
-                    />
-                    <TimeInputControl
-                      label="End time"
-                      time={getDefaultEndTime()}
-                      onChange={() => {}}
-                      minValue={0}
-                      maxValue={60}
-                      disabled={true}
-                      timeFormat={
-                        settings?.settings?.time_format_24_hours
-                          ? "HH:mm"
-                          : "hh:mm a"
-                      }
-                      className={responsiveInput}
-                    />
-                  </div>
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Ticket price"
-                description="Set a default ticket price."
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={2}
-                  cardsLayout={true}
-                  className={responsiveBlockStack}
-                >
-                  <InputFieldControl
-                    value={
-                      settings &&
-                      settings.settings &&
-                      settings.settings.admin_dashboard
-                        ? settings.settings.admin_dashboard.default_price
-                        : 0.0
-                    }
-                    type="number"
-                    align="left"
-                    minValue={0}
-                    disabled={isBillingPlanRestriction || !stripeAccount}
-                    onChange={(newVal) => handleDefaultPriceChange(newVal)}
-                    className={responsiveInput}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Ticket quantity"
-                description="Set a default ticket quantity."
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={2}
-                  cardsLayout={true}
-                  className={responsiveBlockStack}
-                >
-                  <InputFieldControl
-                    value={
-                      settings &&
-                      settings.settings &&
-                      settings.settings.admin_dashboard
-                        ? settings.settings.admin_dashboard.default_quantity
-                        : 0.0
-                    }
-                    type="number"
-                    align="left"
-                    minValue={0}
-                    disabled={isBillingPlanRestriction ? 25 : null}
-                    onChange={(newVal) => handleDefaultQuantityChange(newVal)}
-                    className={responsiveInput}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Location"
-                description="Set a default event location."
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={2}
-                  cardsLayout={true}
-                  className={responsiveBlockStack}
-                >
-                  <ButtonGroup
-                    title=""
-                    buttons={eventTypes.map((type) => type.label)}
-                    active={
-                      settings &&
-                      settings.settings &&
-                      settings.settings.admin_dashboard &&
-                      settings.settings.admin_dashboard.default_event_type
-                        ? eventTypes[
-                            eventTypes
-                              .map((type) => type.value)
-                              .indexOf(
-                                settings.settings.admin_dashboard
-                                  .default_event_type
-                              )
-                          ].label
-                        : "offline"
-                    }
-                    disabled={isBillingPlanRestriction || !zoomAccount}
-                    onChange={(newVal) => handleDefaultTypeChange(newVal)}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-            </BlockStack>
-          )}
+        </div>
 
-          {selectedTab === 1 && (
-            <BlockStack gap={8} className={responsiveBlockStack}>
-              <AnnotatedSection
-                title="Email notifications"
-                description="Enable email notifications"
+        <div className="header-line" />
+
+        {/* page content goes below */}
+
+        <PageContent className="py-0 my-0">
+          <BlockStack
+            gap={8}
+            cardsLayout={true}
+            className={responsiveBlockStack}
+          >
+            <div className={responsiveTabsWrapper}>
+              <TabsComponent
+                tabsList={tabsList}
+                selected={selectedTab}
+                handleSelectChange={handleSelectChange}
+                fullWidth={true}
+              />
+            </div>
+            {selectedTab === 0 && (
+              <BlockStack
+                gap={8}
+                cardsLayout={true}
                 className={responsiveBlockStack}
               >
-                <BlockStack
-                  gap={2}
-                  cardsLayout={true}
+                <AnnotatedSection
+                  title="Time zone"
+                  description="Set a default time zone."
                   className={responsiveBlockStack}
                 >
-                  <CheckboxControl
-                    label="Enable email notifications"
-                    checked={settings?.settings?.disable_emails === false}
-                    onChange={handleEmailRemindersStateChange}
-                    disabled={isBillingPlanRestriction}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="First reminder"
-                description="Enable first reminder and specify time to first reminder"
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={4}
-                  cardsLayout={true}
+                  <BlockStack gap={2} className={responsiveBlockStack}>
+                    <SelectControl
+                      label=""
+                      options={timezones.map((t) => t.name)}
+                      selected={
+                        settings?.settings?.admin_dashboard?.default_timezone &&
+                        timezones.findIndex(
+                          (t) =>
+                            t.id ===
+                            settings?.settings?.admin_dashboard
+                              ?.default_timezone,
+                        ) >= 0
+                          ? timezones[
+                              timezones.findIndex(
+                                (t) =>
+                                  t.id ===
+                                  settings?.settings?.admin_dashboard
+                                    ?.default_timezone,
+                              )
+                            ].name
+                          : null
+                      }
+                      onSelectChange={handleTimezoneChange}
+                      className={responsiveInput}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Time format"
+                  description="Set a default time format."
                   className={responsiveBlockStack}
                 >
-                  <CheckboxControl
-                    label="First reminder"
-                    checked={settings?.settings?.first_reminder}
-                    onChange={handleFirstReminderStateChange}
-                    disabled={isBillingPlanRestriction}
-                  />
-                  <InputFieldControl
-                    value={settings ? settings.first_reminder_hours : 0}
-                    fullWidth={true}
-                    type="number"
-                    align="left"
-                    disabled={isBillingPlanRestriction}
-                    onChange={(newVal) =>
-                      handleFirstReminderHoursChange(newVal)
-                    }
-                    className={responsiveInput}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Second reminder"
-                description="Enable second reminder and specify time to second reminder"
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={4}
-                  cardsLayout={true}
+                  <BlockStack gap={4} className={responsiveBlockStack}>
+                    <SelectControl
+                      label=""
+                      options={timeOptions}
+                      selected={
+                        settings?.settings?.time_format_24_hours
+                          ? "24 hours"
+                          : "12 hours"
+                      }
+                      onSelectChange={handleTimeFormatChange}
+                      className={responsiveInput}
+                    />
+                    <CheckboxControl
+                      label="Hide timezone abbreviation in email, widget and dashboard."
+                      checked={settings?.settings?.hide_time_zone}
+                      onChange={handleHideTimezoneChange}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Currency format"
+                  description="Set a default currency."
                   className={responsiveBlockStack}
                 >
-                  <CheckboxControl
-                    label="Second reminder"
-                    checked={settings?.settings?.second_reminder}
-                    onChange={handleSecondReminderStateChange}
-                    disabled={isBillingPlanRestriction}
-                  />
-                  <InputFieldControl
-                    value={settings ? settings.second_reminder_hours : 0}
-                    fullWidth={true}
-                    type="number"
-                    align="left"
-                    disabled={isBillingPlanRestriction}
-                    onChange={(newVal) =>
-                      handleSecondReminderHoursChange(newVal)
-                    }
-                    className={responsiveInput}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Finished reminder"
-                description="Send notification after the event has ended"
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={4}
-                  cardsLayout={true}
+                  <BlockStack gap={2} className={responsiveBlockStack}>
+                    <SelectControl
+                      label=""
+                      options={currencyOptions}
+                      selected={
+                        settings?.settings?.widget_style_settings
+                          ?.currency_format === "sign"
+                          ? "Currency sign: $ / 元"
+                          : "Alphabets: USD / CAD / CNY"
+                      }
+                      onSelectChange={handleCurrencyChange}
+                      className={responsiveInput}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Duration"
+                  description="Set a default event duration."
                   className={responsiveBlockStack}
                 >
-                  <CheckboxControl
-                    label="Finished reminder"
-                    disabled={isBillingPlanRestriction}
-                    checked={settings?.settings?.finished_reminder || 0}
-                    onChange={handleFinishedReminderStateChange}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Additional Email Notification Settings"
-                description="Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event"
-                className={responsiveBlockStack}
-              >
-                <BlockStack gap={8} className={responsiveBlockStack}>
                   <BlockStack
                     gap={2}
                     cardsLayout={true}
                     className={responsiveBlockStack}
                   >
-                    <div className="input-container-col">
-                      <div className="section-description">
-                        Additional reminder emails list (comma-separated)
-                      </div>
-                      <InputFieldControl
-                        value={
-                          settings ? settings.additional_reminder_emails : ""
-                        }
-                        disabled={isBillingPlanRestriction}
-                        fullWidth={true}
-                        type="text"
-                        align="left"
-                        onChange={(newVal) =>
-                          handleNewAdditionalEmailsChange(newVal)
-                        }
-                        className={responsiveInput}
-                      />
-                    </div>
+                    <SelectControl
+                      label=""
+                      options={durationOptions()}
+                      selected={
+                        settings &&
+                        settings.settings &&
+                        settings.settings.admin_dashboard &&
+                        settings.settings.admin_dashboard.default_duration
+                          ? durationOptions()[
+                              settings.settings.admin_dashboard
+                                .default_duration - 1
+                            ]
+                          : "1 hour"
+                      }
+                      onSelectChange={(val) => handleDefaultDurationChange(val)}
+                      className={responsiveInput}
+                    />
                   </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Start / end time"
+                  description="Set a default start and end time."
+                  className={responsiveBlockStack}
+                >
                   <BlockStack
                     gap={2}
                     cardsLayout={true}
                     className={responsiveBlockStack}
                   >
-                    <div className="input-container-col">
-                      <div className="section-description">
-                        Additional reminder hours
-                      </div>
-                      <InputFieldControl
-                        value={settings ? settings.members_reminder_hours : 0}
-                        fullWidth={true}
-                        type="number"
-                        align="left"
-                        disabled={isBillingPlanRestriction}
-                        onChange={(newVal) =>
-                          handleAdditionalRemindersHoursChange(newVal)
+                    <div className="flex flex-col md:flex-row gap-5 w-full min-w-0">
+                      <TimeInputControl
+                        label="Start time"
+                        time={getDefaultStartTime()}
+                        onChange={(val) => handleDefaultStartTimeChange(val)}
+                        minValue={0}
+                        maxValue={12}
+                        timeFormat={
+                          settings?.settings?.time_format_24_hours
+                            ? "HH:mm"
+                            : "hh:mm a"
+                        }
+                        className={responsiveInput}
+                      />
+                      <TimeInputControl
+                        label="End time"
+                        time={getDefaultEndTime()}
+                        onChange={() => {}}
+                        minValue={0}
+                        maxValue={60}
+                        disabled={true}
+                        timeFormat={
+                          settings?.settings?.time_format_24_hours
+                            ? "HH:mm"
+                            : "hh:mm a"
                         }
                         className={responsiveInput}
                       />
                     </div>
                   </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Ticket price"
+                  description="Set a default ticket price."
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack
+                    gap={2}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <InputFieldControl
+                      value={
+                        settings &&
+                        settings.settings &&
+                        settings.settings.admin_dashboard
+                          ? settings.settings.admin_dashboard.default_price
+                          : 0.0
+                      }
+                      type="number"
+                      align="left"
+                      minValue={0}
+                      disabled={isBillingPlanRestriction || !stripeAccount}
+                      onChange={(newVal) => handleDefaultPriceChange(newVal)}
+                      className={responsiveInput}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Ticket quantity"
+                  description="Set a default ticket quantity."
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack
+                    gap={2}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <InputFieldControl
+                      value={
+                        settings &&
+                        settings.settings &&
+                        settings.settings.admin_dashboard
+                          ? settings.settings.admin_dashboard.default_quantity
+                          : 0.0
+                      }
+                      type="number"
+                      align="left"
+                      minValue={0}
+                      disabled={isBillingPlanRestriction ? 25 : null}
+                      onChange={(newVal) => handleDefaultQuantityChange(newVal)}
+                      className={responsiveInput}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Location"
+                  description="Set a default event location."
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack
+                    gap={2}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <ButtonGroup
+                      title=""
+                      buttons={eventTypes.map((type) => type.label)}
+                      active={
+                        settings &&
+                        settings.settings &&
+                        settings.settings.admin_dashboard &&
+                        settings.settings.admin_dashboard.default_event_type
+                          ? eventTypes[
+                              eventTypes
+                                .map((type) => type.value)
+                                .indexOf(
+                                  settings.settings.admin_dashboard
+                                    .default_event_type,
+                                )
+                            ].label
+                          : "offline"
+                      }
+                      disabled={isBillingPlanRestriction || !zoomAccount}
+                      onChange={(newVal) => handleDefaultTypeChange(newVal)}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+              </BlockStack>
+            )}
+
+            {selectedTab === 1 && (
+              <BlockStack gap={8} className={responsiveBlockStack}>
+                <AnnotatedSection
+                  title="Email notifications"
+                  description="Enable email notifications"
+                  className={responsiveBlockStack}
+                >
                   <BlockStack
                     gap={2}
                     cardsLayout={true}
                     className={responsiveBlockStack}
                   >
                     <CheckboxControl
-                      label="Skip Staff Email Notification"
+                      label="Enable email notifications"
+                      checked={settings?.settings?.disable_emails === false}
+                      onChange={handleEmailRemindersStateChange}
                       disabled={isBillingPlanRestriction}
-                      checked={
-                        settings?.settings?.skip_members_in_calendar_files || 0
-                      }
-                      onChange={handleStaffMemberEmailChange}
                     />
                   </BlockStack>
-                </BlockStack>
-              </AnnotatedSection>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="First reminder"
+                  description="Enable first reminder and specify time to first reminder"
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack
+                    gap={4}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <CheckboxControl
+                      label="First reminder"
+                      checked={settings?.settings?.first_reminder}
+                      onChange={handleFirstReminderStateChange}
+                      disabled={isBillingPlanRestriction}
+                    />
+                    <InputFieldControl
+                      value={settings ? settings.first_reminder_hours : 0}
+                      fullWidth={true}
+                      type="number"
+                      align="left"
+                      disabled={isBillingPlanRestriction}
+                      onChange={(newVal) =>
+                        handleFirstReminderHoursChange(newVal)
+                      }
+                      className={responsiveInput}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Second reminder"
+                  description="Enable second reminder and specify time to second reminder"
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack
+                    gap={4}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <CheckboxControl
+                      label="Second reminder"
+                      checked={settings?.settings?.second_reminder}
+                      onChange={handleSecondReminderStateChange}
+                      disabled={isBillingPlanRestriction}
+                    />
+                    <InputFieldControl
+                      value={settings ? settings.second_reminder_hours : 0}
+                      fullWidth={true}
+                      type="number"
+                      align="left"
+                      disabled={isBillingPlanRestriction}
+                      onChange={(newVal) =>
+                        handleSecondReminderHoursChange(newVal)
+                      }
+                      className={responsiveInput}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Finished reminder"
+                  description="Send notification after the event has ended"
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack
+                    gap={4}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <CheckboxControl
+                      label="Finished reminder"
+                      disabled={isBillingPlanRestriction}
+                      checked={settings?.settings?.finished_reminder || 0}
+                      onChange={handleFinishedReminderStateChange}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Additional Email Notification Settings"
+                  description="Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event"
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack gap={8} className={responsiveBlockStack}>
+                    <BlockStack
+                      gap={2}
+                      cardsLayout={true}
+                      className={responsiveBlockStack}
+                    >
+                      <div className="input-container-col">
+                        <div className="section-description">
+                          Additional reminder emails list (comma-separated)
+                        </div>
+                        <InputFieldControl
+                          value={
+                            settings ? settings.additional_reminder_emails : ""
+                          }
+                          disabled={isBillingPlanRestriction}
+                          fullWidth={true}
+                          type="text"
+                          align="left"
+                          onChange={(newVal) =>
+                            handleNewAdditionalEmailsChange(newVal)
+                          }
+                          className={responsiveInput}
+                        />
+                      </div>
+                    </BlockStack>
+                    <BlockStack
+                      gap={2}
+                      cardsLayout={true}
+                      className={responsiveBlockStack}
+                    >
+                      <div className="input-container-col">
+                        <div className="section-description">
+                          Additional reminder hours
+                        </div>
+                        <InputFieldControl
+                          value={settings ? settings.members_reminder_hours : 0}
+                          fullWidth={true}
+                          type="number"
+                          align="left"
+                          disabled={isBillingPlanRestriction}
+                          onChange={(newVal) =>
+                            handleAdditionalRemindersHoursChange(newVal)
+                          }
+                          className={responsiveInput}
+                        />
+                      </div>
+                    </BlockStack>
+                    <BlockStack
+                      gap={2}
+                      cardsLayout={true}
+                      className={responsiveBlockStack}
+                    >
+                      <CheckboxControl
+                        label="Skip Staff Email Notification"
+                        disabled={isBillingPlanRestriction}
+                        checked={
+                          settings?.settings?.skip_members_in_calendar_files ||
+                          0
+                        }
+                        onChange={handleStaffMemberEmailChange}
+                      />
+                    </BlockStack>
+                  </BlockStack>
+                </AnnotatedSection>
 
-              {/* <h1 className="text-lg font-semibold border-b pb-4">
+                {/* <h1 className="text-lg font-semibold border-b pb-4">
                 Event settings
               </h1> */}
-            </BlockStack>
-          )}
-          {/* 
+              </BlockStack>
+            )}
+            {/* 
           {selectedTab === 2 && (
             
           )} */}
-          {selectedTab == 3 && settings && settings.current_plan && (
-            <BlockStack gap={8}>
-              {/* <h1 className="text-lg font-semibold border-b pb-4">
+            {selectedTab == 3 && settings && settings.current_plan && (
+              <BlockStack gap={8}>
+                {/* <h1 className="text-lg font-semibold border-b pb-4">
                 Event location
               </h1> */}
-            </BlockStack>
-          )}
-          {selectedTab === 4 && (
-            <BlockStack gap={8}>
-              {/* <h1 className="text-lg font-semibold border-b pb-4">
+              </BlockStack>
+            )}
+            {selectedTab === 4 && (
+              <BlockStack gap={8}>
+                {/* <h1 className="text-lg font-semibold border-b pb-4">
                 Event settings
               </h1> */}
-              <AnnotatedSection
-                title="Enable Fast Checkout for Free Events"
-                description="Activate fast checkout to speed up the booking process for free services"
-              >
-                <BlockStack gap={2} cardsLayout={true}>
-                  <CheckboxControl
-                    label="Enable Fast Checkout"
-                    checked={settings?.settings?.free_events_skip_checkout || 0}
-                    onChange={handleFreeCheckoutChange}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Skip Captcha on Fast Checkout"
-                description="Activate to bypass captcha verification during fast checkout for free services."
-              >
-                <BlockStack gap={2} cardsLayout={true}>
-                  <CheckboxControl
-                    label="Skip Captcha"
-                    checked={settings?.settings?.free_events_skip_captcha || 0}
-                    onChange={handleSkipCaptchaChange}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Marketing Consent Checkbox"
-                description="Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters"
-              >
-                <BlockStack gap={2} cardsLayout={true}>
-                  <CheckboxControl
-                    label="Marketing Consent"
-                    checked={
-                      settings?.settings?.free_checkout_marketing_checkbox || 0
-                    }
-                    onChange={handleMarketingConsentChange}
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-            </BlockStack>
-          )}
-          {selectedTab === 5 && (
-            <BlockStack gap={8} className={responsiveBlockStack}>
-              <AnnotatedSection
-                title="Display mode options"
-                description="These settings let you choose how your widget appears on the page. Each mode offers a unique experience, tailored to your needs."
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={8}
-                  cardsLayout={true}
-                  className={responsiveBlockStack}
+                <AnnotatedSection
+                  title="Enable Fast Checkout for Free Events"
+                  description="Activate fast checkout to speed up the booking process for free services"
                 >
-                  <SelectControl
-                    label=""
-                    options={availableViewMods}
-                    selected={selectedView}
-                    onSelectChange={handleViewModeChange}
-                    className={responsiveInput}
-                  />
-                  {settings?.settings?.widget_style_settings
-                    ?.ew_events_list_view === "grid" && (
+                  <BlockStack gap={2} cardsLayout={true}>
                     <CheckboxControl
-                      label="Fluid grid"
+                      label="Enable Fast Checkout"
                       checked={
-                        settings?.settings?.widget_style_settings
-                          ?.ew_events_grid_fluid_mode || false
+                        settings?.settings?.free_events_skip_checkout || 0
                       }
-                      onChange={handleChangeFluidGrid}
+                      onChange={handleFreeCheckoutChange}
                     />
-                  )}
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Item settings"
-                description="Configure the display limits and default page sizes for various items."
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={8}
-                  cardsLayout={true}
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Skip Captcha on Fast Checkout"
+                  description="Activate to bypass captcha verification during fast checkout for free services."
+                >
+                  <BlockStack gap={2} cardsLayout={true}>
+                    <CheckboxControl
+                      label="Skip Captcha"
+                      checked={
+                        settings?.settings?.free_events_skip_captcha || 0
+                      }
+                      onChange={handleSkipCaptchaChange}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Marketing Consent Checkbox"
+                  description="Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters"
+                >
+                  <BlockStack gap={2} cardsLayout={true}>
+                    <CheckboxControl
+                      label="Marketing Consent"
+                      checked={
+                        settings?.settings?.free_checkout_marketing_checkbox ||
+                        0
+                      }
+                      onChange={handleMarketingConsentChange}
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+              </BlockStack>
+            )}
+            {selectedTab === 5 && (
+              <BlockStack gap={8} className={responsiveBlockStack}>
+                <AnnotatedSection
+                  title="Display mode options"
+                  description="These settings let you choose how your widget appears on the page. Each mode offers a unique experience, tailored to your needs."
                   className={responsiveBlockStack}
                 >
-                  <InlineStack
-                    gap={4}
-                    cardsLayout={true}
-                    align={"left"}
-                    className={responsiveInlineStack}
-                  >
-                    <BlockStack
-                      gap={2}
-                      cardsLayout={true}
-                      className={responsiveBlockStack}
-                    >
-                      <span className="font-semibold">
-                        Grid item description display limit
-                      </span>
-                      <InputFieldControl
-                        value={
-                          settings?.settings?.widget_style_settings
-                            ?.ew_card_description_display_words_limit ?? ""
-                        }
-                        fullWidth={true}
-                        type="number"
-                        align="left"
-                        onChange={(newVal) =>
-                          handleDescriptionLengthChange(
-                            "ew_card_description_display_words_limit",
-                            newVal
-                          )
-                        }
-                        suffix="words"
-                        className={responsiveInput}
-                      />
-                    </BlockStack>
-                    <BlockStack
-                      gap={2}
-                      cardsLayout={true}
-                      className={responsiveBlockStack}
-                    >
-                      <span className="font-semibold">
-                        List item description display limit
-                      </span>
-                      <InputFieldControl
-                        value={
-                          settings?.settings?.widget_style_settings
-                            ?.ew_list_item_description_display_words_limit ?? ""
-                        }
-                        fullWidth={true}
-                        type="number"
-                        align="left"
-                        onChange={(newVal) =>
-                          handleDescriptionLengthChange(
-                            "ew_list_item_description_display_words_limit",
-                            newVal
-                          )
-                        }
-                        suffix="words"
-                        className={responsiveInput}
-                      />
-                    </BlockStack>
-                  </InlineStack>
                   <BlockStack
-                    gap={1}
+                    gap={8}
                     cardsLayout={true}
                     className={responsiveBlockStack}
                   >
-                    <span className="font-semibold">Default page size</span>
                     <SelectControl
                       label=""
-                      options={availablePageSizes}
-                      selected={selectedPageSize}
-                      onSelectChange={handlePageSizeChange}
+                      options={availableViewMods}
+                      selected={selectedView}
+                      onSelectChange={handleViewModeChange}
                       className={responsiveInput}
                     />
+                    {settings?.settings?.widget_style_settings
+                      ?.ew_events_list_view === "grid" && (
+                      <CheckboxControl
+                        label="Fluid grid"
+                        checked={
+                          settings?.settings?.widget_style_settings
+                            ?.ew_events_grid_fluid_mode || false
+                        }
+                        onChange={handleChangeFluidGrid}
+                      />
+                    )}
                   </BlockStack>
-                </BlockStack>
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Filter settings"
-                description="Select the filters to be displayed on the event widget."
-                className={responsiveBlockStack}
-              >
-                {settings?.settings?.widget_style_settings && (
-                  <BlockStack gap={8} className={responsiveBlockStack}>
-                    {renderAvailableFilters()}
-                  </BlockStack>
-                )}
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Additional widget display settings"
-                description="Select which parts of the events widget users can see. Also, adjust the visibility of different components"
-                className={responsiveBlockStack}
-              >
-                <BlockStack
-                  gap={8}
-                  cardsLayout={true}
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Item settings"
+                  description="Configure the display limits and default page sizes for various items."
                   className={responsiveBlockStack}
                 >
-                  <span className="font-semibold border-b pb-1">
-                    Widget elements
-                  </span>
-                  <CheckboxControl
-                    label="Show language selector"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.ew_show_language_selector || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange(
-                        "ew_show_language_selector"
-                      )
-                    }
-                  />
-                  {/* <CheckboxControl
+                  <BlockStack
+                    gap={8}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <InlineStack
+                      gap={4}
+                      cardsLayout={true}
+                      align={"left"}
+                      className={responsiveInlineStack}
+                    >
+                      <BlockStack
+                        gap={2}
+                        cardsLayout={true}
+                        className={responsiveBlockStack}
+                      >
+                        <span className="font-semibold">
+                          Grid item description display limit
+                        </span>
+                        <InputFieldControl
+                          value={
+                            settings?.settings?.widget_style_settings
+                              ?.ew_card_description_display_words_limit ?? ""
+                          }
+                          fullWidth={true}
+                          type="number"
+                          align="left"
+                          onChange={(newVal) =>
+                            handleDescriptionLengthChange(
+                              "ew_card_description_display_words_limit",
+                              newVal,
+                            )
+                          }
+                          suffix="words"
+                          className={responsiveInput}
+                        />
+                      </BlockStack>
+                      <BlockStack
+                        gap={2}
+                        cardsLayout={true}
+                        className={responsiveBlockStack}
+                      >
+                        <span className="font-semibold">
+                          List item description display limit
+                        </span>
+                        <InputFieldControl
+                          value={
+                            settings?.settings?.widget_style_settings
+                              ?.ew_list_item_description_display_words_limit ??
+                            ""
+                          }
+                          fullWidth={true}
+                          type="number"
+                          align="left"
+                          onChange={(newVal) =>
+                            handleDescriptionLengthChange(
+                              "ew_list_item_description_display_words_limit",
+                              newVal,
+                            )
+                          }
+                          suffix="words"
+                          className={responsiveInput}
+                        />
+                      </BlockStack>
+                    </InlineStack>
+                    <BlockStack
+                      gap={1}
+                      cardsLayout={true}
+                      className={responsiveBlockStack}
+                    >
+                      <span className="font-semibold">Default page size</span>
+                      <SelectControl
+                        label=""
+                        options={availablePageSizes}
+                        selected={selectedPageSize}
+                        onSelectChange={handlePageSizeChange}
+                        className={responsiveInput}
+                      />
+                    </BlockStack>
+                  </BlockStack>
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Filter settings"
+                  description="Select the filters to be displayed on the event widget."
+                  className={responsiveBlockStack}
+                >
+                  {settings?.settings?.widget_style_settings && (
+                    <BlockStack gap={8} className={responsiveBlockStack}>
+                      {renderAvailableFilters()}
+                    </BlockStack>
+                  )}
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Additional widget display settings"
+                  description="Select which parts of the events widget users can see. Also, adjust the visibility of different components"
+                  className={responsiveBlockStack}
+                >
+                  <BlockStack
+                    gap={8}
+                    cardsLayout={true}
+                    className={responsiveBlockStack}
+                  >
+                    <span className="font-semibold border-b pb-1">
+                      Widget elements
+                    </span>
+                    <CheckboxControl
+                      label="Show language selector"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.ew_show_language_selector || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange(
+                          "ew_show_language_selector",
+                        )
+                      }
+                    />
+                    {/* <CheckboxControl
                     label="Show calendar"
                     checked={
                       settings?.settings?.widget_style_settings
@@ -1633,19 +1653,19 @@ const SettingsPage = () => {
                       handleAdditionalPropertyChange("show_calendar")
                     }
                   /> */}
-                  <CheckboxControl
-                    label="Display calendar permanently"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.permanently_open_calendar || true
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange(
-                        "permanently_open_calendar"
-                      )
-                    }
-                  />
-                  {/* <CheckboxControl
+                    <CheckboxControl
+                      label="Display calendar permanently"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.permanently_open_calendar || true
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange(
+                          "permanently_open_calendar",
+                        )
+                      }
+                    />
+                    {/* <CheckboxControl
                     label="Show widget title"
                     checked={
                       settings?.settings?.widget_style_settings
@@ -1655,62 +1675,64 @@ const SettingsPage = () => {
                       handleAdditionalPropertyChange("show_widget_title")
                     }
                   /> */}
-                  <CheckboxControl
-                    label="Show events counter"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.ew_events_counter || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange("ew_events_counter")
-                    }
-                  />
-                  <CheckboxControl
-                    label="View mode switch"
-                    checked={
-                      !settings?.settings?.widget_style_settings
-                        ?.ew_hide_view_mode_switch || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange("ew_hide_view_mode_switch")
-                    }
-                  />
-                  <span className="font-semibold border-b pb-1">
-                    Item elements
-                  </span>
-                  <CheckboxControl
-                    label="Show event images"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.show_event_images || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange("show_event_images")
-                    }
-                  />
-                  <CheckboxControl
-                    label="Show images as square"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.ew_image_aspect || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange("ew_image_aspect")
-                    }
-                  />
-                  <CheckboxControl
-                    label="Show separator badges"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.show_events_list_separator_badge || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange(
-                        "show_events_list_separator_badge"
-                      )
-                    }
-                  />
-                  {/* <CheckboxControl
+                    <CheckboxControl
+                      label="Show events counter"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.ew_events_counter || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange("ew_events_counter")
+                      }
+                    />
+                    <CheckboxControl
+                      label="View mode switch"
+                      checked={
+                        !settings?.settings?.widget_style_settings
+                          ?.ew_hide_view_mode_switch || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange(
+                          "ew_hide_view_mode_switch",
+                        )
+                      }
+                    />
+                    <span className="font-semibold border-b pb-1">
+                      Item elements
+                    </span>
+                    <CheckboxControl
+                      label="Show event images"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.show_event_images || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange("show_event_images")
+                      }
+                    />
+                    <CheckboxControl
+                      label="Show images as square"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.ew_image_aspect || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange("ew_image_aspect")
+                      }
+                    />
+                    <CheckboxControl
+                      label="Show separator badges"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.show_events_list_separator_badge || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange(
+                          "show_events_list_separator_badge",
+                        )
+                      }
+                    />
+                    {/* <CheckboxControl
                     label="Show quantity"
                     checked={
                       settings?.settings?.widget_style_settings
@@ -1720,117 +1742,120 @@ const SettingsPage = () => {
                       handleAdditionalPropertyChange("ew_show_quantity")
                     }
                   /> */}
-                  <CheckboxControl
-                    label="Share button"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.ew_show_share_button || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange("ew_show_share_button")
-                    }
-                  />
-                  <CheckboxControl
-                    label="Event type badge"
-                    checked={
-                      settings?.settings?.widget_style_settings
-                        ?.ew_show_event_type_badge || false
-                    }
-                    onChange={() =>
-                      handleAdditionalPropertyChange("ew_show_event_type_badge")
-                    }
-                  />
-                </BlockStack>
-              </AnnotatedSection>
-            </BlockStack>
-          )}
+                    <CheckboxControl
+                      label="Share button"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.ew_show_share_button || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange("ew_show_share_button")
+                      }
+                    />
+                    <CheckboxControl
+                      label="Event type badge"
+                      checked={
+                        settings?.settings?.widget_style_settings
+                          ?.ew_show_event_type_badge || false
+                      }
+                      onChange={() =>
+                        handleAdditionalPropertyChange(
+                          "ew_show_event_type_badge",
+                        )
+                      }
+                    />
+                  </BlockStack>
+                </AnnotatedSection>
+              </BlockStack>
+            )}
 
-          {selectedTab === 6 && (
-            <BlockStack
-              gap={8}
-              cardsLayout={true}
-              className={responsiveBlockStack}
-            >
-              <AnnotatedSection
-                title="Default language for widgets"
-                description="Translate text in widgets to any language"
-                className={responsiveBlockStack}
-              >
-                <SelectControl
-                  // label="Languages"
-                  label={"Default language"}
-                  options={getLangsSelectOptions().map((lang) => lang.label)}
-                  onSelectChange={handleDefaultLanguageChange}
-                  selected={getDefaultWidgetLanguageName()}
-                  className={responsiveInput}
-                />
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Language for translate"
-                description="Before choosing the default language, select one from the list. Then, edit the widget fields and save the changes"
-                className={responsiveBlockStack}
-              >
-                <SelectControl
-                  label="Language"
-                  options={getLangsSelectOptions().map((lang) => lang.label)}
-                  onSelectChange={handleSelectLanguageforEdit}
-                  selected={langForEdit}
-                  className={responsiveInput}
-                />
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Global Widgets Translations"
-                className={responsiveBlockStack}
-              >
-                {renderTranslations()}
-              </AnnotatedSection>
-              <AnnotatedSection
-                title="Events Widget Translations"
-                className={responsiveBlockStack}
-              >
-                {renderTranslations("mainWidget")}
-              </AnnotatedSection>
-            </BlockStack>
-          )}
-
-          {selectedTab === 7 && (
-            <BlockStack gap={8} className={responsiveBlockStack}>
-              {!showPaymentForm && (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
-                  {renderBillingPlans()}
-                </div>
-              )}
-              <div id="servv-payment-element"></div>
-            </BlockStack>
-          )}
-          {selectedTab === 8 && (
-            <BlockStack gap={8} className={responsiveBlockStack}>
-              <InlineStack
-                gap={4}
+            {selectedTab === 6 && (
+              <BlockStack
+                gap={8}
                 cardsLayout={true}
-                className={responsiveInlineStack}
+                className={responsiveBlockStack}
               >
-                <N8NSettings
-                  n8nSettingsData={n8nCurentSettings}
-                  settingsUpdate={updateN8NSettings}
-                />
-              </InlineStack>
-            </BlockStack>
-          )}
-        </BlockStack>
-        <PaymentOptionsModal
-          open={showPaymentOptionsModal}
-          onCancel={() => {
-            setShowPaymentOptionsModal(false);
-            setSelectedPlan(null);
-          }}
-          fee={selectedPlan?.application_fee_percent}
-          onAcceptMonthly={() => activateBillingPlan(selectedPlan.id)}
-          onAcceptAnnual={() => activateBillingPlan(selectedPlan.id, true)}
-          price={selectedPlan?.price || 0}
-          priceAnnual={selectedPlan?.price_annual || 0}
-        />
-      </PageContent>
+                <AnnotatedSection
+                  title="Default language for widgets"
+                  description="Translate text in widgets to any language"
+                  className={responsiveBlockStack}
+                >
+                  <SelectControl
+                    // label="Languages"
+                    label={"Default language"}
+                    options={getLangsSelectOptions().map((lang) => lang.label)}
+                    onSelectChange={handleDefaultLanguageChange}
+                    selected={getDefaultWidgetLanguageName()}
+                    className={responsiveInput}
+                  />
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Language for translate"
+                  description="Before choosing the default language, select one from the list. Then, edit the widget fields and save the changes"
+                  className={responsiveBlockStack}
+                >
+                  <SelectControl
+                    label="Language"
+                    options={getLangsSelectOptions().map((lang) => lang.label)}
+                    onSelectChange={handleSelectLanguageforEdit}
+                    selected={langForEdit}
+                    className={responsiveInput}
+                  />
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Global Widgets Translations"
+                  className={responsiveBlockStack}
+                >
+                  {renderTranslations()}
+                </AnnotatedSection>
+                <AnnotatedSection
+                  title="Events Widget Translations"
+                  className={responsiveBlockStack}
+                >
+                  {renderTranslations("mainWidget")}
+                </AnnotatedSection>
+              </BlockStack>
+            )}
+
+            {selectedTab === 7 && (
+              <BlockStack gap={8} className={responsiveBlockStack}>
+                {!showPaymentForm && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
+                    {renderBillingPlans()}
+                  </div>
+                )}
+                <div id="servv-payment-element"></div>
+              </BlockStack>
+            )}
+            {selectedTab === 8 && (
+              <BlockStack gap={8} className={responsiveBlockStack}>
+                <InlineStack
+                  gap={4}
+                  cardsLayout={true}
+                  className={responsiveInlineStack}
+                >
+                  <N8NSettings
+                    n8nSettingsData={n8nCurentSettings}
+                    settingsUpdate={updateN8NSettings}
+                  />
+                </InlineStack>
+              </BlockStack>
+            )}
+          </BlockStack>
+          <PaymentOptionsModal
+            open={showPaymentOptionsModal}
+            onCancel={() => {
+              setShowPaymentOptionsModal(false);
+              setSelectedPlan(null);
+            }}
+            fee={selectedPlan?.application_fee_percent}
+            onAcceptMonthly={() => activateBillingPlan(selectedPlan.id)}
+            onAcceptAnnual={() => activateBillingPlan(selectedPlan.id, true)}
+            price={selectedPlan?.price || 0}
+            priceAnnual={selectedPlan?.price_annual || 0}
+          />
+        </PageContent>
+      </div>
     </PageWrapper>
   );
 };

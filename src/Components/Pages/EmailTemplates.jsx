@@ -59,11 +59,11 @@ const EmailTemplates = ({ settings }) => {
     try {
       const resp = await axios.get(
         "/wp-json/servv-plugin/v1/wordpress/templates",
-        { headers: { "X-WP-Nonce": servvData.nonce } }
+        { headers: { "X-WP-Nonce": servvData.nonce } },
       );
       if (resp.status === 200 && resp.data.templates.length) {
         let templates = resp.data.templates.sort((a, b) =>
-          a.description.localeCompare(b.description)
+          a.description.localeCompare(b.description),
         );
         setTemplates(templates);
         const firstTemplate = templates[0];
@@ -100,7 +100,7 @@ const EmailTemplates = ({ settings }) => {
           subject: formValues.subject,
           text: formValues.text,
         },
-        { headers: { "X-WP-Nonce": servvData.nonce } }
+        { headers: { "X-WP-Nonce": servvData.nonce } },
       );
       if (resp.status === 200) {
         toast.success("Template Saved Successfully");
@@ -251,7 +251,7 @@ const EmailTemplates = ({ settings }) => {
   }, []);
 
   return (
-    <PageWrapper loading={loading}>
+    <PageWrapper loading={loading} withBackground={true}>
       {/* Mobile Layout */}
       {isMobile ? (
         <div
@@ -262,15 +262,14 @@ const EmailTemplates = ({ settings }) => {
           <div className="sticky top-0 bg-white z-20 border-b border-gray-200 px-4 py-4">
             <div className="flex items-center justify-between mb-4">
               <div className="flex-1">
-                <h1 className="text-2xl text-gray-900">
-                  {t("Email Templates")}
-                </h1>
+                <h1 className="text-2xl text-gray-900">Email Notifications</h1>
                 {/* <h1 className="text-2xl font-bold text-gray-900">
                   {t("Email Templates")}
                 </h1> */}
                 <p className="text-sm text-gray-600 mt-1">
                   {/* {t("Easily View, Create, and Modify Email Templates")} */}
-                  Easily view, create, and modify email templates
+                  Customize the emails your attendees receive for bookings,
+                  reminders, and updates
                 </p>
               </div>
             </div>
@@ -459,40 +458,42 @@ const EmailTemplates = ({ settings }) => {
         </div>
       ) : (
         /* Desktop Layout */
-        <div
-          className="w-full bg-white min-h-screen"
-          style={{ fontFamily: "'Inter', sans-serif" }}
-        >
-          {/* Desktop Header */}
-          <PageHeader>
-            <BlockStack>
-              <h1 className="text-3xl text-gray-900 w-full mt-6">
-                {t("Email Templates")}
-              </h1>
-              <p className="text-gray-600 mt-1 w-full">
-                {t("Easily View, Create, and Modify Email Templates")}
-              </p>
-            </BlockStack>
-            <InlineStack gap={2} align="right">
-              <PageActionButton
-                text="Cancel"
-                icon={null}
-                type="secondary"
-                onAction={handleCancel}
-              />
-              <PageActionButton
-                text="Save"
-                icon={null}
-                type="primary"
-                disabled={disabled}
-                onAction={handleTemplateSave}
-              />
-            </InlineStack>
-          </PageHeader>
+        <div className="dashboard-card">
+          <div className="servv-dashboard-header">
+            {/* LEFT: title + description */}
+            <div className="dashboard-heading">
+              <div className="flex flex-row items-center justify-between w-full">
+                <h1 className="dashboard-title">{t("Email Notifications")}</h1>
+                <div className="dashboard-actions flex gap-2">
+                  <PageActionButton
+                    text={t("Cancel")}
+                    type="secondary"
+                    onAction={handleCancel}
+                  />
 
-          <PageContent>
-            <div className="w-full px-4 sm:px-6 lg:px-8">
-              <div className="space-y-8 w-full">
+                  <PageActionButton
+                    text={t("Save")}
+                    type="primary"
+                    disabled={disabled}
+                    onAction={handleTemplateSave}
+                  />
+                </div>
+              </div>
+              <p className="dashboard-description mt-4">
+                {t(
+                  "Customize the emails your attendees receive for bookings, reminders, and updates",
+                )}
+              </p>
+            </div>
+
+            {/* RIGHT: actions */}
+          </div>
+
+          <div className="header-line" />
+
+          <PageContent className="py-0 my-0">
+            <div className="w-full">
+              <div className="space-y-4 w-full">
                 {/* Template Selection */}
                 <div className="space-y-5 w-full">
                   <div className="flex items-center space-x-2 w-full">

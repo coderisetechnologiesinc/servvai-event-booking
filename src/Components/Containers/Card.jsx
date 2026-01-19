@@ -1,15 +1,32 @@
 import React from "react";
 
-const Card = (props) => {
-  const { className = "", padding, align, background, maxWidth, children, ...rest } = props;
-
+const Card = ({
+  className = "",
+  padding = "p-0",
+  align,
+  background = "bg-white",
+  maxWidth,
+  children,
+  ...rest
+}) => {
   return (
     <div
       {...rest}
-      className={`servv-card ${padding || "p-0"} ${align === "center" ? "mx-auto" : ""} ${background || "bg-white"} max-md:max-w-full w-full ${maxWidth ? `md:max-w-[${maxWidth}]` : ""} ${className}`}
+      className={`
+        servv-card
+        ${padding}
+        ${background}
+        w-full
+        ${align === "center" ? "mx-auto" : ""}
+        ${className}
+      `}
+      style={{
+        maxWidth: maxWidth ? maxWidth : "100%",
+      }}
     >
       {children}
     </div>
   );
 };
+
 export default Card;

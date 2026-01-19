@@ -15770,6 +15770,7 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
   stripeConnected: false,
   gmailConnected: false,
   calendarConnected: false,
+  timeFormat: "hh:mm a",
   loading: false,
   errorMessage: null,
   fetchSettings: async () => {

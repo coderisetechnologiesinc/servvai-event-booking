@@ -5,6 +5,7 @@ import BlockStack from "../Containers/BlockStack";
 import InlineStack from "../Containers/InlineStack";
 import Badge from "../Containers/Badge";
 import Card from "../Containers/Card";
+import BreadCrumbs from "../Menu/BreadCrumbs";
 import {
   getStripeAccount,
   getStripeConnectURL,
@@ -51,7 +52,7 @@ const StripeIntegrationsPage = (props) => {
 
       open(
         `${servvData.shopify_app}/payments/stripe/connect?wordpress_url=${connectURL}&wordpress_return_url=${returnURL}`,
-        "_top"
+        "_top",
       );
     }
   };
@@ -64,9 +65,9 @@ const StripeIntegrationsPage = (props) => {
       `${
         servvData.shopify_app
       }/payments/stripe/connect?wordpress_url=${encodeURIComponent(
-        connectURL
+        connectURL,
       )}&wordpress_return_url=${returnURL}`,
-      "_top"
+      "_top",
     );
   };
 
@@ -109,7 +110,7 @@ const StripeIntegrationsPage = (props) => {
   const handleGetConnectURL = async () => {
     setLoading(true);
     const existingAccounts = await getDisconnectedStripeAccounts(
-      servvData.nonce
+      servvData.nonce,
     );
     // const url = await getStripeConnectURL(servvData.nonce);
     // setConnectUrl(url.auth_url);
@@ -126,11 +127,11 @@ const StripeIntegrationsPage = (props) => {
           `${
             servvData.shopify_app
           }/stripe/connect?wordpress_url=${encodeURIComponent(
-            url.auth_url
+            url.auth_url,
           )}&wordpress_return_url=${encodeURIComponent(
-            window.location.origin
+            window.location.origin,
           )}`,
-          "_top"
+          "_top",
         );
     }
   };
@@ -181,7 +182,7 @@ const StripeIntegrationsPage = (props) => {
         options={currencies}
         selected={
           currencies.filter(
-            (currency) => currency.indexOf(selectedCurrency) >= 0
+            (currency) => currency.indexOf(selectedCurrency) >= 0,
           )[0]
         }
         onSelectChange={handleSelectChange}
@@ -196,109 +197,114 @@ const StripeIntegrationsPage = (props) => {
     }
   };
   return (
-    <PageWrapper loading={loading}>
-      <PageHeader>
-        <BlockStack>
-          <h1 className="text-display-sm mt-6">{t("Stripe")}</h1>
-          {/* <p className="page-header-description">
+    <PageWrapper loading={loading} withBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title">Stripe</h1>
+            <div className="dashboard-description">
+              <BreadCrumbs
+                breadcrumbs={[
+                  {
+                    label: "Integrations",
+                    action: () => navigate("../integrations"),
+                  },
+                  { label: "Stripe", action: () => {} },
+                ]}
+                onBreadCrumbClick={() => {}}
+              />
+            </div>
+            {/* <p className="page-header-description">
             {t(
               "Sync your event schedules effortlessly with Google Calendar or\r\n            Outlook to keep everyone informed."
             )}
           </p> */}
-        </BlockStack>
-        <InlineStack gap={2} align="right">
-          <PageActionButton
-            text="Save"
-            // icon={<InboxArrowDownIcon className="button-icon" />}
-            type="primary"
-            onAction={() => handleCurrencySave()}
-          />
-        </InlineStack>
-      </PageHeader>
-      <PageContent>
-        <InlineStack gap={8} cardsLayout={true}>
-          <Card padding={0} maxWidth={"65%"} align="center">
-            <div
-              className="service-image"
-              style={{
-                background: `linear-gradient(135deg, #008CDD, #00C6FF)`,
-              }}
-            >
-              {account && (
-                <div className="connected-account bg-gradient-to-b from-transparent to-black/40">
-                  <span>{t("Account")}</span>
-                  <Badge text={badge()} color="gray" justify={"start"} />
-                </div>
-              )}
-              {/* {<div className="connected-account bg-gradient-to-b from-transparent to-black/40">
+          </div>
+        </div>
+        <PageContent>
+          <InlineStack gap={8} cardsLayout={true}>
+            <Card padding={0} maxWidth={"85%"} align="center">
+              <div
+                className="servv-service-image"
+                style={{
+                  background: `linear-gradient(to bottom, transparent, #ECE4F6)`,
+                }}
+              >
+                {account && (
+                  <div className="connected-account bg-gradient-to-b from-transparent to-black/40">
+                    <span>{t("Account")}</span>
+                    <Badge text={badge()} color="gray" justify={"start"} />
+                  </div>
+                )}
+                {/* {<div className="connected-account bg-gradient-to-b from-transparent to-black/40">
                 <span>Currency</span>
                 <Badge text={currencySelect()} color="gray" justify={"start"} />
               </div>} */}
-            </div>
-            <div className="card-content">
-              <h2 className="card-section-heading">{t("Stripe")}</h2>
-              <p className="section-description">
-                {/* {t(
+              </div>
+              <div className="card-content">
+                <h2 className="card-section-heading">{t("Stripe")}</h2>
+                <p className="section-description">
+                  {/* {t(
                   "Sync and manage your Google Calendar account and settings."
                 )} */}
-                Accept secure payments for your events with Stripe, ensuring a
-                seamless checkout experience for attendees
-              </p>
-              {account && account.charges_enabled && currencySelect()}
-              {connectedAccountsFetched && connectedAccounts.length > 0 && (
-                <Fragment>
-                  <p className="servv-button-link text-gray-700">
-                    {t("Connect existing account")}
-                  </p>
-                  {renderExistingAccounts()}
-                </Fragment>
-              )}
-              {isAccountFetched && !account && (
-                <a
-                  href="#"
-                  className="servv-button-link"
-                  onClick={
-                    connectedAccountsFetched && connectedAccounts.length > 0
-                      ? (e) => {
-                          e.preventDefault();
-                          connectNewAccount();
-                        }
-                      : (e) => {
-                          e.preventDefault();
-                          handleGetConnectURL();
-                        }
-                  }
-                >
-                  {connectedAccountsFetched && connectedAccounts.length > 0
-                    ? "Connect new account"
-                    : "Connect"}
-                </a>
-              )}
-              {isAccountFetched && account && !account.charges_enabled && (
-                <a
-                  href="#"
-                  className="servv-button-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleConnectExistingAccount(account.account_id);
-                  }}
-                >
-                  {t("Resume integration")}
-                </a>
-              )}
-              {isAccountFetched && account && (
-                <a
-                  href="#"
-                  className="servv-button-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleRemoveAccount();
-                  }}
-                >
-                  {t("Disconnect")}
-                </a>
-              )}
-              {/* {isAccountFetched && account && (
+                  Accept secure payments for your events with Stripe, ensuring a
+                  seamless checkout experience for attendees
+                </p>
+                {account && account.charges_enabled && currencySelect()}
+                {connectedAccountsFetched && connectedAccounts.length > 0 && (
+                  <Fragment>
+                    <p className="servv-button-link text-gray-700">
+                      {t("Connect existing account")}
+                    </p>
+                    {renderExistingAccounts()}
+                  </Fragment>
+                )}
+                {isAccountFetched && !account && (
+                  <a
+                    href="#"
+                    className="servv-button-link"
+                    onClick={
+                      connectedAccountsFetched && connectedAccounts.length > 0
+                        ? (e) => {
+                            e.preventDefault();
+                            connectNewAccount();
+                          }
+                        : (e) => {
+                            e.preventDefault();
+                            handleGetConnectURL();
+                          }
+                    }
+                  >
+                    {connectedAccountsFetched && connectedAccounts.length > 0
+                      ? "Connect new account"
+                      : "Connect"}
+                  </a>
+                )}
+                {isAccountFetched && account && !account.charges_enabled && (
+                  <a
+                    href="#"
+                    className="servv-button-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleConnectExistingAccount(account.account_id);
+                    }}
+                  >
+                    {t("Resume integration")}
+                  </a>
+                )}
+                {isAccountFetched && account && (
+                  <a
+                    href="#"
+                    className="servv-button-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleRemoveAccount();
+                    }}
+                  >
+                    {t("Disconnect")}
+                  </a>
+                )}
+                {/* {isAccountFetched && account && (
                 <a
                   href="#"
                   className="servv-button-link"
@@ -310,10 +316,11 @@ const StripeIntegrationsPage = (props) => {
                   Manage
                 </a>
               )} */}
-            </div>
-          </Card>
-        </InlineStack>
-      </PageContent>
+              </div>
+            </Card>
+          </InlineStack>
+        </PageContent>
+      </div>
     </PageWrapper>
   );
 };

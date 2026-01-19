@@ -403,28 +403,26 @@ __webpack_require__.r(__webpack_exports__);
 const PageActionButton = ({
   text,
   icon,
-  type,
+  type = "primary",
+  // primary | secondary | danger
+  size = "md",
+  // md | sm
   onAction,
   disabled = false,
   className = "",
   style = {}
 }) => {
+  const baseClass = "servv_button";
+  const typeClass = `servv_button--${type}`;
+  const sizeClass = size === "sm" ? "servv_button--sm" : "servv_button--md";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+    type: "button",
     onClick: onAction,
     disabled: disabled,
-    className: `
-        flex items-center justify-center px-4 py-2 rounded-lg
-        font-medium text-sm transition-colors duration-200
-        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-        ${className}
-      `,
-    style: {
-      fontFamily: "'Inter', sans-serif",
-      ...style
-    },
+    className: `${baseClass} ${typeClass} ${sizeClass} ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+    style: style,
     children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      className: "mr-2",
+      className: "mr-2 flex items-center",
       children: icon
     }), text]
   });
@@ -584,14 +582,14 @@ const PageWrapper = props => {
     children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "fixed inset-0 bg-[#F5F5F5]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4",
+      className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
         children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-hidden ${props.loading ? "loading" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
           position: "bottom-right"
         }), props.children]
@@ -719,189 +717,192 @@ const ZoomSettingsPage = () => {
     getInfo();
   }, []);
   const responsiveBlockStack = "w-full min-w-0";
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
     loading: loading,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      bottomLine: true,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: t("Zoom Settings")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_10__["default"], {
-          breadcrumbs: [{
-            label: "Integrations",
-            action: () => navigate("../../integrations")
-          }, {
-            label: "Zoom",
-            action: () => navigate("../integrations/zoom")
-          }, {
-            label: "Zoom Settings",
-            action: () => {}
-          }]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
-          className: "page-header-description",
-          children: t("Connect and manage your Zoom account and settings.")
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        className: "servv-dashboard-header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+            className: "dashboard-title mt-6",
+            children: t("Zoom Settings")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+            className: "dashboard-description",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              breadcrumbs: [{
+                label: "Integrations",
+                action: () => navigate("../../integrations")
+              }, {
+                label: "Zoom",
+                action: () => navigate("../integrations/zoom")
+              }, {
+                label: "Zoom Settings",
+                action: () => {}
+              }]
+            })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+          className: "dashboard-actions",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            text: t("Save"),
+            type: "primary",
+            onAction: updateZoomSettings
+          })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        gap: 2,
-        align: "right",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_9__["default"], {
-          text: "Save",
-          icon: null,
-          type: "primary",
-          onAction: updateZoomSettings
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          gap: 8,
+          cardsLayout: true,
+          className: responsiveBlockStack,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+            className: "text-lg font-semibold border-b pb-4",
+            children: t("Account")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Account details",
+            description: "Account email & name.",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                value: isAccountFetched ? account.email : "",
+                fullWidth: true,
+                type: "text",
+                align: "right",
+                disabled: true,
+                maxLength: 30,
+                image: isAccountFetched ? account.photo : null
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Account name",
+            description: "Set a default time zone.",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                value: isAccountFetched ? account.full_name : "",
+                fullWidth: false,
+                type: "text",
+                align: "right",
+                disabled: true,
+                maxLength: 30
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+            className: "text-lg font-semibold border-b pb-4",
+            children: t("Zoom settings")
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Meeting ID",
+            description: "Set a meeting ID",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Generate automatically",
+                name: "meeting_id",
+                checked: !zoomSettings.use_pmi,
+                onChange: () => handleSettingsChange("use_pmi", false)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Personal meeting ID",
+                name: "meeting_id",
+                checked: zoomSettings.use_pmi,
+                onChange: () => handleSettingsChange("use_pmi", true)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Video",
+            description: "Show/hide host and guest video",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                label: "Host video",
+                name: "host_video",
+                checked: zoomSettings.host_video,
+                onChange: () => handleSettingsChange("host_video", !zoomSettings.host_video)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                label: "Guest video",
+                name: "guest_video",
+                checked: zoomSettings.participant_video,
+                onChange: () => handleSettingsChange("participant_video", !zoomSettings.participant_video)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Audio",
+            description: "Set default audio settings",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Telephone",
+                name: "audio",
+                checked: zoomSettings.audio === "telephony",
+                onChange: () => handleSettingsChange("audio", "telephony")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Computer audio",
+                name: "audio",
+                checked: zoomSettings.audio === "voip",
+                onChange: () => handleSettingsChange("audio", "voip")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Both",
+                name: "audio",
+                checked: zoomSettings.audio === "both",
+                onChange: () => handleSettingsChange("audio", "both")
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Enable Join Before Host",
+            description: "Enable or disabled join before host",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Yes",
+                name: "join_before_host",
+                checked: zoomSettings.join_before_host,
+                onChange: () => handleSettingsChange("join_before_host", true)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "No",
+                name: "join_before_host",
+                checked: !zoomSettings.join_before_host,
+                onChange: () => handleSettingsChange("join_before_host", false)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Enable Waiting Room",
+            description: "Enable or disabled waiting room",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Yes",
+                name: "waiting_room",
+                checked: zoomSettings.waiting_room,
+                onChange: () => handleSettingsChange("waiting_room", true)
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "No",
+                name: "waiting_room",
+                checked: !zoomSettings.waiting_room,
+                onChange: () => handleSettingsChange("waiting_room", false)
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            title: "Automatically record meeting",
+            description: "Record meeting on local computer",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "Yes",
+                name: "auto_recording",
+                checked: zoomSettings.auto_recording === "local",
+                onChange: () => handleSettingsChange("auto_recording", "local")
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                label: "No",
+                name: "auto_recording",
+                checked: zoomSettings.auto_recording === "none",
+                onChange: () => handleSettingsChange("auto_recording", "none")
+              })]
+            })
+          })]
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        className: responsiveBlockStack,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
-          className: "text-lg font-semibold border-b pb-4",
-          children: t("Account")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Account details",
-          description: "Account email & name.",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              value: isAccountFetched ? account.email : "",
-              fullWidth: true,
-              type: "text",
-              align: "right",
-              disabled: true,
-              maxLength: 30,
-              image: isAccountFetched ? account.photo : null
-            })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Account name",
-          description: "Set a default time zone.",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              value: isAccountFetched ? account.full_name : "",
-              fullWidth: false,
-              type: "text",
-              align: "right",
-              disabled: true,
-              maxLength: 30
-            })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
-          className: "text-lg font-semibold border-b pb-4",
-          children: t("Zoom settings")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Meeting ID",
-          description: "Set a meeting ID",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Generate automatically",
-              name: "meeting_id",
-              checked: !zoomSettings.use_pmi,
-              onChange: () => handleSettingsChange("use_pmi", false)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Personal meeting ID",
-              name: "meeting_id",
-              checked: zoomSettings.use_pmi,
-              onChange: () => handleSettingsChange("use_pmi", true)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Video",
-          description: "Show/hide host and guest video",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              label: "Host video",
-              name: "host_video",
-              checked: zoomSettings.host_video,
-              onChange: () => handleSettingsChange("host_video", !zoomSettings.host_video)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              label: "Guest video",
-              name: "guest_video",
-              checked: zoomSettings.participant_video,
-              onChange: () => handleSettingsChange("participant_video", !zoomSettings.participant_video)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Audio",
-          description: "Set default audio settings",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Telephone",
-              name: "audio",
-              checked: zoomSettings.audio === "telephony",
-              onChange: () => handleSettingsChange("audio", "telephony")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Computer audio",
-              name: "audio",
-              checked: zoomSettings.audio === "voip",
-              onChange: () => handleSettingsChange("audio", "voip")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Both",
-              name: "audio",
-              checked: zoomSettings.audio === "both",
-              onChange: () => handleSettingsChange("audio", "both")
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Enable Join Before Host",
-          description: "Enable or disabled join before host",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Yes",
-              name: "join_before_host",
-              checked: zoomSettings.join_before_host,
-              onChange: () => handleSettingsChange("join_before_host", true)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "No",
-              name: "join_before_host",
-              checked: !zoomSettings.join_before_host,
-              onChange: () => handleSettingsChange("join_before_host", false)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Enable Waiting Room",
-          description: "Enable or disabled waiting room",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Yes",
-              name: "waiting_room",
-              checked: zoomSettings.waiting_room,
-              onChange: () => handleSettingsChange("waiting_room", true)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "No",
-              name: "waiting_room",
-              checked: !zoomSettings.waiting_room,
-              onChange: () => handleSettingsChange("waiting_room", false)
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          title: "Automatically record meeting",
-          description: "Record meeting on local computer",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "Yes",
-              name: "auto_recording",
-              checked: zoomSettings.auto_recording === "local",
-              onChange: () => handleSettingsChange("auto_recording", "local")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_RadioControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              label: "No",
-              name: "auto_recording",
-              checked: zoomSettings.auto_recording === "none",
-              onChange: () => handleSettingsChange("auto_recording", "none")
-            })]
-          })
-        })]
-      })
-    })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ZoomSettingsPage);
@@ -1107,4 +1108,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_ZoomSettingsPage_jsx.js.map?ver=6702924fbf5257f3be3c
+//# sourceMappingURL=src_Components_Pages_ZoomSettingsPage_jsx.js.map?ver=27868d2a05b318781151

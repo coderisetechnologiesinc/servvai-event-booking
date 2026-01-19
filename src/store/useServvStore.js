@@ -21,7 +21,7 @@ export const useServvStore = create(
       stripeConnected: false,
       gmailConnected: false,
       calendarConnected: false,
-
+      timeFormat: "hh:mm a",
       loading: false,
       errorMessage: null,
 
@@ -125,6 +125,6 @@ export const useServvStore = create(
         gmailConnected: state.gmailConnected,
         calendarConnected: state.calendarConnected,
       }),
-    }
-  )
+    },
+  ),
 );

@@ -515,28 +515,26 @@ __webpack_require__.r(__webpack_exports__);
 const PageActionButton = ({
   text,
   icon,
-  type,
+  type = "primary",
+  // primary | secondary | danger
+  size = "md",
+  // md | sm
   onAction,
   disabled = false,
   className = "",
   style = {}
 }) => {
+  const baseClass = "servv_button";
+  const typeClass = `servv_button--${type}`;
+  const sizeClass = size === "sm" ? "servv_button--sm" : "servv_button--md";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+    type: "button",
     onClick: onAction,
     disabled: disabled,
-    className: `
-        flex items-center justify-center px-4 py-2 rounded-lg
-        font-medium text-sm transition-colors duration-200
-        ${type === "primary" ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-        ${className}
-      `,
-    style: {
-      fontFamily: "'Inter', sans-serif",
-      ...style
-    },
+    className: `${baseClass} ${typeClass} ${sizeClass} ${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`,
+    style: style,
     children: [icon && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      className: "mr-2",
+      className: "mr-2 flex items-center",
       children: icon
     }), text]
   });
@@ -1194,14 +1192,14 @@ const PageWrapper = props => {
     children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "fixed inset-0 bg-[#F5F5F5]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4",
+      className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute top-[50vh] left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
         children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 h-full w-full pr-4 max-w-full min-w-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-hidden ${props.loading ? "loading" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
           position: "bottom-right"
         }), props.children]
@@ -1483,7 +1481,7 @@ const SettingsPage = () => {
     let tabs = [...baseTabs];
     if (planId) {
       // Paid plans
-      if (planId !== 3) {
+      if (!newSettings.is_wp_marketplace) {
         tabs.push(...widgetTabs);
       }
       tabs.push(billingTab);
@@ -2068,596 +2066,600 @@ const SettingsPage = () => {
   };
   const isBillingPlanRestriction = settings && settings.current_plan && settings.current_plan.id === 1;
   console.log(settings?.settings, settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a");
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_16__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_16__["default"], {
     loading: loading,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        className: responsiveBlockStack,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("h1", {
-          className: "text-display-sm mt-6",
-          children: "Settings"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("p", {
-          className: "page-header-description",
-          children: "Set default values for new events to save time"
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+        className: "servv-dashboard-header",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("h1", {
+            className: "dashboard-title",
+            children: "Settings"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("p", {
+            className: "dashboard-description mt-4",
+            children: "Set default values for new events to save time"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+          className: "dashboard-actions hidden md:flex flex-row items-center gap-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Cancel",
+            type: "secondary",
+            onAction: getSettingsInfo
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            text: "Save",
+            type: "primary",
+            onAction: saveAllSettings
+          })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        gap: 2,
-        align: "right",
-        className: responsiveInlineStack,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Cancel",
-          icon: null,
-          type: "secondary",
-          onAction: getSettingsInfo
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Save",
-          icon: null,
-          type: "primary",
-          onAction: () => saveAllSettings()
-        })]
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-        gap: 8,
-        cardsLayout: true,
-        className: responsiveBlockStack,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-          className: responsiveTabsWrapper,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_15__["default"], {
-            tabsList: tabsList,
-            selected: selectedTab,
-            handleSelectChange: handleSelectChange,
-            fullWidth: true
-          })
-        }), selectedTab === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+        className: "header-line"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: "py-0 my-0",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
           gap: 8,
           cardsLayout: true,
           className: responsiveBlockStack,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Time zone",
-            description: "Set a default time zone.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                label: "",
-                options: timezones.map(t => t.name),
-                selected: settings?.settings?.admin_dashboard?.default_timezone && timezones.findIndex(t => t.id === settings?.settings?.admin_dashboard?.default_timezone) >= 0 ? timezones[timezones.findIndex(t => t.id === settings?.settings?.admin_dashboard?.default_timezone)].name : null,
-                onSelectChange: handleTimezoneChange,
-                className: responsiveInput
-              })
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+            className: responsiveTabsWrapper,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_15__["default"], {
+              tabsList: tabsList,
+              selected: selectedTab,
+              handleSelectChange: handleSelectChange,
+              fullWidth: true
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Time format",
-            description: "Set a default time format.",
+          }), selectedTab === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            cardsLayout: true,
             className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 4,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Time zone",
+              description: "Set a default time zone.",
               className: responsiveBlockStack,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                label: "",
-                options: timeOptions,
-                selected: settings?.settings?.time_format_24_hours ? "24 hours" : "12 hours",
-                onSelectChange: handleTimeFormatChange,
-                className: responsiveInput
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Hide timezone abbreviation in email, widget and dashboard.",
-                checked: settings?.settings?.hide_time_zone,
-                onChange: handleHideTimezoneChange
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Currency format",
-            description: "Set a default currency.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                label: "",
-                options: currencyOptions,
-                selected: settings?.settings?.widget_style_settings?.currency_format === "sign" ? "Currency sign: $ / 元" : "Alphabets: USD / CAD / CNY",
-                onSelectChange: handleCurrencyChange,
-                className: responsiveInput
-              })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Duration",
-            description: "Set a default event duration.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                label: "",
-                options: durationOptions(),
-                selected: settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_duration ? durationOptions()[settings.settings.admin_dashboard.default_duration - 1] : "1 hour",
-                onSelectChange: val => handleDefaultDurationChange(val),
-                className: responsiveInput
-              })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Start / end time",
-            description: "Set a default start and end time.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
-                className: "flex flex-col md:flex-row gap-5 w-full min-w-0",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_11__["default"], {
-                  label: "Start time",
-                  time: getDefaultStartTime(),
-                  onChange: val => handleDefaultStartTimeChange(val),
-                  minValue: 0,
-                  maxValue: 12,
-                  timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                className: responsiveBlockStack,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  label: "",
+                  options: timezones.map(t => t.name),
+                  selected: settings?.settings?.admin_dashboard?.default_timezone && timezones.findIndex(t => t.id === settings?.settings?.admin_dashboard?.default_timezone) >= 0 ? timezones[timezones.findIndex(t => t.id === settings?.settings?.admin_dashboard?.default_timezone)].name : null,
+                  onSelectChange: handleTimezoneChange,
                   className: responsiveInput
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_11__["default"], {
-                  label: "End time",
-                  time: getDefaultEndTime(),
-                  onChange: () => {},
-                  minValue: 0,
-                  maxValue: 60,
-                  disabled: true,
-                  timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Time format",
+              description: "Set a default time format.",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 4,
+                className: responsiveBlockStack,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  label: "",
+                  options: timeOptions,
+                  selected: settings?.settings?.time_format_24_hours ? "24 hours" : "12 hours",
+                  onSelectChange: handleTimeFormatChange,
                   className: responsiveInput
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Hide timezone abbreviation in email, widget and dashboard.",
+                  checked: settings?.settings?.hide_time_zone,
+                  onChange: handleHideTimezoneChange
                 })]
               })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Ticket price",
-            description: "Set a default ticket price.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Currency format",
+              description: "Set a default currency.",
               className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_price : 0.0,
-                type: "number",
-                align: "left",
-                minValue: 0,
-                disabled: isBillingPlanRestriction || !stripeAccount,
-                onChange: newVal => handleDefaultPriceChange(newVal),
-                className: responsiveInput
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                className: responsiveBlockStack,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  label: "",
+                  options: currencyOptions,
+                  selected: settings?.settings?.widget_style_settings?.currency_format === "sign" ? "Currency sign: $ / 元" : "Alphabets: USD / CAD / CNY",
+                  onSelectChange: handleCurrencyChange,
+                  className: responsiveInput
+                })
               })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Ticket quantity",
-            description: "Set a default ticket quantity.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Duration",
+              description: "Set a default event duration.",
               className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_quantity : 0.0,
-                type: "number",
-                align: "left",
-                minValue: 0,
-                disabled: isBillingPlanRestriction ? 25 : null,
-                onChange: newVal => handleDefaultQuantityChange(newVal),
-                className: responsiveInput
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                className: responsiveBlockStack,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  label: "",
+                  options: durationOptions(),
+                  selected: settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_duration ? durationOptions()[settings.settings.admin_dashboard.default_duration - 1] : "1 hour",
+                  onSelectChange: val => handleDefaultDurationChange(val),
+                  className: responsiveInput
+                })
               })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Location",
-            description: "Set a default event location.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Start / end time",
+              description: "Set a default start and end time.",
               className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_12__["default"], {
-                title: "",
-                buttons: eventTypes.map(type => type.label),
-                active: settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_event_type ? eventTypes[eventTypes.map(type => type.value).indexOf(settings.settings.admin_dashboard.default_event_type)].label : "offline",
-                disabled: isBillingPlanRestriction || !zoomAccount,
-                onChange: newVal => handleDefaultTypeChange(newVal)
-              })
-            })
-          })]
-        }), selectedTab === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          className: responsiveBlockStack,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Email notifications",
-            description: "Enable email notifications",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Enable email notifications",
-                checked: settings?.settings?.disable_emails === false,
-                onChange: handleEmailRemindersStateChange,
-                disabled: isBillingPlanRestriction
-              })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "First reminder",
-            description: "Enable first reminder and specify time to first reminder",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 4,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "First reminder",
-                checked: settings?.settings?.first_reminder,
-                onChange: handleFirstReminderStateChange,
-                disabled: isBillingPlanRestriction
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                value: settings ? settings.first_reminder_hours : 0,
-                fullWidth: true,
-                type: "number",
-                align: "left",
-                disabled: isBillingPlanRestriction,
-                onChange: newVal => handleFirstReminderHoursChange(newVal),
-                className: responsiveInput
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Second reminder",
-            description: "Enable second reminder and specify time to second reminder",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 4,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Second reminder",
-                checked: settings?.settings?.second_reminder,
-                onChange: handleSecondReminderStateChange,
-                disabled: isBillingPlanRestriction
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                value: settings ? settings.second_reminder_hours : 0,
-                fullWidth: true,
-                type: "number",
-                align: "left",
-                disabled: isBillingPlanRestriction,
-                onChange: newVal => handleSecondReminderHoursChange(newVal),
-                className: responsiveInput
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Finished reminder",
-            description: "Send notification after the event has ended",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 4,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Finished reminder",
-                disabled: isBillingPlanRestriction,
-                checked: settings?.settings?.finished_reminder || 0,
-                onChange: handleFinishedReminderStateChange
-              })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Additional Email Notification Settings",
-            description: "Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 8,
-              className: responsiveBlockStack,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 2,
                 cardsLayout: true,
                 className: responsiveBlockStack,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
-                  className: "input-container-col",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-                    className: "section-description",
-                    children: "Additional reminder emails list (comma-separated)"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                    value: settings ? settings.additional_reminder_emails : "",
-                    disabled: isBillingPlanRestriction,
-                    fullWidth: true,
-                    type: "text",
-                    align: "left",
-                    onChange: newVal => handleNewAdditionalEmailsChange(newVal),
+                  className: "flex flex-col md:flex-row gap-5 w-full min-w-0",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                    label: "Start time",
+                    time: getDefaultStartTime(),
+                    onChange: val => handleDefaultStartTimeChange(val),
+                    minValue: 0,
+                    maxValue: 12,
+                    timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
+                    className: responsiveInput
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                    label: "End time",
+                    time: getDefaultEndTime(),
+                    onChange: () => {},
+                    minValue: 0,
+                    maxValue: 60,
+                    disabled: true,
+                    timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
                     className: responsiveInput
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Ticket price",
+              description: "Set a default ticket price.",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 2,
                 cardsLayout: true,
                 className: responsiveBlockStack,
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
-                  className: "input-container-col",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-                    className: "section-description",
-                    children: "Additional reminder hours"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                    value: settings ? settings.members_reminder_hours : 0,
-                    fullWidth: true,
-                    type: "number",
-                    align: "left",
-                    disabled: isBillingPlanRestriction,
-                    onChange: newVal => handleAdditionalRemindersHoursChange(newVal),
-                    className: responsiveInput
-                  })]
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_price : 0.0,
+                  type: "number",
+                  align: "left",
+                  minValue: 0,
+                  disabled: isBillingPlanRestriction || !stripeAccount,
+                  onChange: newVal => handleDefaultPriceChange(newVal),
+                  className: responsiveInput
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Ticket quantity",
+              description: "Set a default ticket quantity.",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                className: responsiveBlockStack,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_quantity : 0.0,
+                  type: "number",
+                  align: "left",
+                  minValue: 0,
+                  disabled: isBillingPlanRestriction ? 25 : null,
+                  onChange: newVal => handleDefaultQuantityChange(newVal),
+                  className: responsiveInput
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Location",
+              description: "Set a default event location.",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                className: responsiveBlockStack,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_12__["default"], {
+                  title: "",
+                  buttons: eventTypes.map(type => type.label),
+                  active: settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_event_type ? eventTypes[eventTypes.map(type => type.value).indexOf(settings.settings.admin_dashboard.default_event_type)].label : "offline",
+                  disabled: isBillingPlanRestriction || !zoomAccount,
+                  onChange: newVal => handleDefaultTypeChange(newVal)
+                })
+              })
+            })]
+          }), selectedTab === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            className: responsiveBlockStack,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Email notifications",
+              description: "Enable email notifications",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 2,
                 cardsLayout: true,
                 className: responsiveBlockStack,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                  label: "Skip Staff Email Notification",
-                  disabled: isBillingPlanRestriction,
-                  checked: settings?.settings?.skip_members_in_calendar_files || 0,
-                  onChange: handleStaffMemberEmailChange
+                  label: "Enable email notifications",
+                  checked: settings?.settings?.disable_emails === false,
+                  onChange: handleEmailRemindersStateChange,
+                  disabled: isBillingPlanRestriction
                 })
-              })]
-            })
-          })]
-        }), selectedTab == 3 && settings && settings.current_plan && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8
-        }), selectedTab === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Enable Fast Checkout for Free Events",
-            description: "Activate fast checkout to speed up the booking process for free services",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Enable Fast Checkout",
-                checked: settings?.settings?.free_events_skip_checkout || 0,
-                onChange: handleFreeCheckoutChange
               })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Skip Captcha on Fast Checkout",
-            description: "Activate to bypass captcha verification during fast checkout for free services.",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Skip Captcha",
-                checked: settings?.settings?.free_events_skip_captcha || 0,
-                onChange: handleSkipCaptchaChange
-              })
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Marketing Consent Checkbox",
-            description: "Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 2,
-              cardsLayout: true,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Marketing Consent",
-                checked: settings?.settings?.free_checkout_marketing_checkbox || 0,
-                onChange: handleMarketingConsentChange
-              })
-            })
-          })]
-        }), selectedTab === 5 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          className: responsiveBlockStack,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Display mode options",
-            description: "These settings let you choose how your widget appears on the page. Each mode offers a unique experience, tailored to your needs.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 8,
-              cardsLayout: true,
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "First reminder",
+              description: "Enable first reminder and specify time to first reminder",
               className: responsiveBlockStack,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                label: "",
-                options: availableViewMods,
-                selected: selectedView,
-                onSelectChange: handleViewModeChange,
-                className: responsiveInput
-              }), settings?.settings?.widget_style_settings?.ew_events_list_view === "grid" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Fluid grid",
-                checked: settings?.settings?.widget_style_settings?.ew_events_grid_fluid_mode || false,
-                onChange: handleChangeFluidGrid
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Item settings",
-            description: "Configure the display limits and default page sizes for various items.",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 8,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 4,
                 cardsLayout: true,
-                align: "left",
-                className: responsiveInlineStack,
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                className: responsiveBlockStack,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "First reminder",
+                  checked: settings?.settings?.first_reminder,
+                  onChange: handleFirstReminderStateChange,
+                  disabled: isBillingPlanRestriction
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  value: settings ? settings.first_reminder_hours : 0,
+                  fullWidth: true,
+                  type: "number",
+                  align: "left",
+                  disabled: isBillingPlanRestriction,
+                  onChange: newVal => handleFirstReminderHoursChange(newVal),
+                  className: responsiveInput
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Second reminder",
+              description: "Enable second reminder and specify time to second reminder",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 4,
+                cardsLayout: true,
+                className: responsiveBlockStack,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Second reminder",
+                  checked: settings?.settings?.second_reminder,
+                  onChange: handleSecondReminderStateChange,
+                  disabled: isBillingPlanRestriction
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  value: settings ? settings.second_reminder_hours : 0,
+                  fullWidth: true,
+                  type: "number",
+                  align: "left",
+                  disabled: isBillingPlanRestriction,
+                  onChange: newVal => handleSecondReminderHoursChange(newVal),
+                  className: responsiveInput
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Finished reminder",
+              description: "Send notification after the event has ended",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 4,
+                cardsLayout: true,
+                className: responsiveBlockStack,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Finished reminder",
+                  disabled: isBillingPlanRestriction,
+                  checked: settings?.settings?.finished_reminder || 0,
+                  onChange: handleFinishedReminderStateChange
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Additional Email Notification Settings",
+              description: "Set up extra email alerts and reminders for your events. You can choose to skip staff notifications or add reminder emails at specific times before the event",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 8,
+                className: responsiveBlockStack,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                   gap: 2,
                   cardsLayout: true,
                   className: responsiveBlockStack,
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
-                    className: "font-semibold",
-                    children: "Grid item description display limit"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                    value: (_settings$settings$wi = settings?.settings?.widget_style_settings?.ew_card_description_display_words_limit) !== null && _settings$settings$wi !== void 0 ? _settings$settings$wi : "",
-                    fullWidth: true,
-                    type: "number",
-                    align: "left",
-                    onChange: newVal => handleDescriptionLengthChange("ew_card_description_display_words_limit", newVal),
-                    suffix: "words",
-                    className: responsiveInput
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+                    className: "input-container-col",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+                      className: "section-description",
+                      children: "Additional reminder emails list (comma-separated)"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                      value: settings ? settings.additional_reminder_emails : "",
+                      disabled: isBillingPlanRestriction,
+                      fullWidth: true,
+                      type: "text",
+                      align: "left",
+                      onChange: newVal => handleNewAdditionalEmailsChange(newVal),
+                      className: responsiveInput
+                    })]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                  gap: 2,
+                  cardsLayout: true,
+                  className: responsiveBlockStack,
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+                    className: "input-container-col",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+                      className: "section-description",
+                      children: "Additional reminder hours"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                      value: settings ? settings.members_reminder_hours : 0,
+                      fullWidth: true,
+                      type: "number",
+                      align: "left",
+                      disabled: isBillingPlanRestriction,
+                      onChange: newVal => handleAdditionalRemindersHoursChange(newVal),
+                      className: responsiveInput
+                    })]
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                  gap: 2,
+                  cardsLayout: true,
+                  className: responsiveBlockStack,
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                    label: "Skip Staff Email Notification",
+                    disabled: isBillingPlanRestriction,
+                    checked: settings?.settings?.skip_members_in_calendar_files || 0,
+                    onChange: handleStaffMemberEmailChange
+                  })
+                })]
+              })
+            })]
+          }), selectedTab == 3 && settings && settings.current_plan && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8
+          }), selectedTab === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Enable Fast Checkout for Free Events",
+              description: "Activate fast checkout to speed up the booking process for free services",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Enable Fast Checkout",
+                  checked: settings?.settings?.free_events_skip_checkout || 0,
+                  onChange: handleFreeCheckoutChange
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Skip Captcha on Fast Checkout",
+              description: "Activate to bypass captcha verification during fast checkout for free services.",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Skip Captcha",
+                  checked: settings?.settings?.free_events_skip_captcha || 0,
+                  onChange: handleSkipCaptchaChange
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Marketing Consent Checkbox",
+              description: "Turn on this option to show a checkbox at free checkout, so customers can sign up for marketing emails and newsletters",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Marketing Consent",
+                  checked: settings?.settings?.free_checkout_marketing_checkbox || 0,
+                  onChange: handleMarketingConsentChange
+                })
+              })
+            })]
+          }), selectedTab === 5 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            className: responsiveBlockStack,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Display mode options",
+              description: "These settings let you choose how your widget appears on the page. Each mode offers a unique experience, tailored to your needs.",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 8,
+                cardsLayout: true,
+                className: responsiveBlockStack,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  label: "",
+                  options: availableViewMods,
+                  selected: selectedView,
+                  onSelectChange: handleViewModeChange,
+                  className: responsiveInput
+                }), settings?.settings?.widget_style_settings?.ew_events_list_view === "grid" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Fluid grid",
+                  checked: settings?.settings?.widget_style_settings?.ew_events_grid_fluid_mode || false,
+                  onChange: handleChangeFluidGrid
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Item settings",
+              description: "Configure the display limits and default page sizes for various items.",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 8,
+                cardsLayout: true,
+                className: responsiveBlockStack,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                  gap: 4,
+                  cardsLayout: true,
+                  align: "left",
+                  className: responsiveInlineStack,
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                    gap: 2,
+                    cardsLayout: true,
+                    className: responsiveBlockStack,
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
+                      className: "font-semibold",
+                      children: "Grid item description display limit"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                      value: (_settings$settings$wi = settings?.settings?.widget_style_settings?.ew_card_description_display_words_limit) !== null && _settings$settings$wi !== void 0 ? _settings$settings$wi : "",
+                      fullWidth: true,
+                      type: "number",
+                      align: "left",
+                      onChange: newVal => handleDescriptionLengthChange("ew_card_description_display_words_limit", newVal),
+                      suffix: "words",
+                      className: responsiveInput
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                    gap: 2,
+                    cardsLayout: true,
+                    className: responsiveBlockStack,
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
+                      className: "font-semibold",
+                      children: "List item description display limit"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                      value: (_settings$settings$wi2 = settings?.settings?.widget_style_settings?.ew_list_item_description_display_words_limit) !== null && _settings$settings$wi2 !== void 0 ? _settings$settings$wi2 : "",
+                      fullWidth: true,
+                      type: "number",
+                      align: "left",
+                      onChange: newVal => handleDescriptionLengthChange("ew_list_item_description_display_words_limit", newVal),
+                      suffix: "words",
+                      className: responsiveInput
+                    })]
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-                  gap: 2,
+                  gap: 1,
                   cardsLayout: true,
                   className: responsiveBlockStack,
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
                     className: "font-semibold",
-                    children: "List item description display limit"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                    value: (_settings$settings$wi2 = settings?.settings?.widget_style_settings?.ew_list_item_description_display_words_limit) !== null && _settings$settings$wi2 !== void 0 ? _settings$settings$wi2 : "",
-                    fullWidth: true,
-                    type: "number",
-                    align: "left",
-                    onChange: newVal => handleDescriptionLengthChange("ew_list_item_description_display_words_limit", newVal),
-                    suffix: "words",
+                    children: "Default page size"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                    label: "",
+                    options: availablePageSizes,
+                    selected: selectedPageSize,
+                    onSelectChange: handlePageSizeChange,
                     className: responsiveInput
                   })]
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-                gap: 1,
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Filter settings",
+              description: "Select the filters to be displayed on the event widget.",
+              className: responsiveBlockStack,
+              children: settings?.settings?.widget_style_settings && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 8,
+                className: responsiveBlockStack,
+                children: renderAvailableFilters()
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Additional widget display settings",
+              description: "Select which parts of the events widget users can see. Also, adjust the visibility of different components",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 8,
                 cardsLayout: true,
                 className: responsiveBlockStack,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
-                  className: "font-semibold",
-                  children: "Default page size"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                  label: "",
-                  options: availablePageSizes,
-                  selected: selectedPageSize,
-                  onSelectChange: handlePageSizeChange,
-                  className: responsiveInput
+                  className: "font-semibold border-b pb-1",
+                  children: "Widget elements"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Show language selector",
+                  checked: settings?.settings?.widget_style_settings?.ew_show_language_selector || false,
+                  onChange: () => handleAdditionalPropertyChange("ew_show_language_selector")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Display calendar permanently",
+                  checked: settings?.settings?.widget_style_settings?.permanently_open_calendar || true,
+                  onChange: () => handleAdditionalPropertyChange("permanently_open_calendar")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Show events counter",
+                  checked: settings?.settings?.widget_style_settings?.ew_events_counter || false,
+                  onChange: () => handleAdditionalPropertyChange("ew_events_counter")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "View mode switch",
+                  checked: !settings?.settings?.widget_style_settings?.ew_hide_view_mode_switch || false,
+                  onChange: () => handleAdditionalPropertyChange("ew_hide_view_mode_switch")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
+                  className: "font-semibold border-b pb-1",
+                  children: "Item elements"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Show event images",
+                  checked: settings?.settings?.widget_style_settings?.show_event_images || false,
+                  onChange: () => handleAdditionalPropertyChange("show_event_images")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Show images as square",
+                  checked: settings?.settings?.widget_style_settings?.ew_image_aspect || false,
+                  onChange: () => handleAdditionalPropertyChange("ew_image_aspect")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Show separator badges",
+                  checked: settings?.settings?.widget_style_settings?.show_events_list_separator_badge || false,
+                  onChange: () => handleAdditionalPropertyChange("show_events_list_separator_badge")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Share button",
+                  checked: settings?.settings?.widget_style_settings?.ew_show_share_button || false,
+                  onChange: () => handleAdditionalPropertyChange("ew_show_share_button")
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                  label: "Event type badge",
+                  checked: settings?.settings?.widget_style_settings?.ew_show_event_type_badge || false,
+                  onChange: () => handleAdditionalPropertyChange("ew_show_event_type_badge")
                 })]
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Filter settings",
-            description: "Select the filters to be displayed on the event widget.",
-            className: responsiveBlockStack,
-            children: settings?.settings?.widget_style_settings && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 8,
-              className: responsiveBlockStack,
-              children: renderAvailableFilters()
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Additional widget display settings",
-            description: "Select which parts of the events widget users can see. Also, adjust the visibility of different components",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-              gap: 8,
-              cardsLayout: true,
-              className: responsiveBlockStack,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
-                className: "font-semibold border-b pb-1",
-                children: "Widget elements"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show language selector",
-                checked: settings?.settings?.widget_style_settings?.ew_show_language_selector || false,
-                onChange: () => handleAdditionalPropertyChange("ew_show_language_selector")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Display calendar permanently",
-                checked: settings?.settings?.widget_style_settings?.permanently_open_calendar || true,
-                onChange: () => handleAdditionalPropertyChange("permanently_open_calendar")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show events counter",
-                checked: settings?.settings?.widget_style_settings?.ew_events_counter || false,
-                onChange: () => handleAdditionalPropertyChange("ew_events_counter")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "View mode switch",
-                checked: !settings?.settings?.widget_style_settings?.ew_hide_view_mode_switch || false,
-                onChange: () => handleAdditionalPropertyChange("ew_hide_view_mode_switch")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
-                className: "font-semibold border-b pb-1",
-                children: "Item elements"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show event images",
-                checked: settings?.settings?.widget_style_settings?.show_event_images || false,
-                onChange: () => handleAdditionalPropertyChange("show_event_images")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show images as square",
-                checked: settings?.settings?.widget_style_settings?.ew_image_aspect || false,
-                onChange: () => handleAdditionalPropertyChange("ew_image_aspect")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Show separator badges",
-                checked: settings?.settings?.widget_style_settings?.show_events_list_separator_badge || false,
-                onChange: () => handleAdditionalPropertyChange("show_events_list_separator_badge")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Share button",
-                checked: settings?.settings?.widget_style_settings?.ew_show_share_button || false,
-                onChange: () => handleAdditionalPropertyChange("ew_show_share_button")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                label: "Event type badge",
-                checked: settings?.settings?.widget_style_settings?.ew_show_event_type_badge || false,
-                onChange: () => handleAdditionalPropertyChange("ew_show_event_type_badge")
-              })]
-            })
-          })]
-        }), selectedTab === 6 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          cardsLayout: true,
-          className: responsiveBlockStack,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Default language for widgets",
-            description: "Translate text in widgets to any language",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"]
-            // label="Languages"
-            , {
-              label: "Default language",
-              options: getLangsSelectOptions().map(lang => lang.label),
-              onSelectChange: handleDefaultLanguageChange,
-              selected: getDefaultWidgetLanguageName(),
-              className: responsiveInput
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Language for translate",
-            description: "Before choosing the default language, select one from the list. Then, edit the widget fields and save the changes",
-            className: responsiveBlockStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              label: "Language",
-              options: getLangsSelectOptions().map(lang => lang.label),
-              onSelectChange: handleSelectLanguageforEdit,
-              selected: langForEdit,
-              className: responsiveInput
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Global Widgets Translations",
-            className: responsiveBlockStack,
-            children: renderTranslations()
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            title: "Events Widget Translations",
-            className: responsiveBlockStack,
-            children: renderTranslations("mainWidget")
-          })]
-        }), selectedTab === 7 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          className: responsiveBlockStack,
-          children: [!showPaymentForm && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-            className: "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6",
-            children: renderBillingPlans()
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-            id: "servv-payment-element"
-          })]
-        }), selectedTab === 8 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
-          gap: 8,
-          className: responsiveBlockStack,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            gap: 4,
+              })
+            })]
+          }), selectedTab === 6 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
             cardsLayout: true,
-            className: responsiveInlineStack,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_N8NSettings__WEBPACK_IMPORTED_MODULE_22__["default"], {
-              n8nSettingsData: n8nCurentSettings,
-              settingsUpdate: updateN8NSettings
+            className: responsiveBlockStack,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Default language for widgets",
+              description: "Translate text in widgets to any language",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"]
+              // label="Languages"
+              , {
+                label: "Default language",
+                options: getLangsSelectOptions().map(lang => lang.label),
+                onSelectChange: handleDefaultLanguageChange,
+                selected: getDefaultWidgetLanguageName(),
+                className: responsiveInput
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Language for translate",
+              description: "Before choosing the default language, select one from the list. Then, edit the widget fields and save the changes",
+              className: responsiveBlockStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                label: "Language",
+                options: getLangsSelectOptions().map(lang => lang.label),
+                onSelectChange: handleSelectLanguageforEdit,
+                selected: langForEdit,
+                className: responsiveInput
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Global Widgets Translations",
+              className: responsiveBlockStack,
+              children: renderTranslations()
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              title: "Events Widget Translations",
+              className: responsiveBlockStack,
+              children: renderTranslations("mainWidget")
+            })]
+          }), selectedTab === 7 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            className: responsiveBlockStack,
+            children: [!showPaymentForm && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+              className: "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6",
+              children: renderBillingPlans()
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+              id: "servv-payment-element"
+            })]
+          }), selectedTab === 8 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            gap: 8,
+            className: responsiveBlockStack,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              gap: 4,
+              cardsLayout: true,
+              className: responsiveInlineStack,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_N8NSettings__WEBPACK_IMPORTED_MODULE_22__["default"], {
+                n8nSettingsData: n8nCurentSettings,
+                settingsUpdate: updateN8NSettings
+              })
             })
-          })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_PaymentOptionsModal__WEBPACK_IMPORTED_MODULE_23__["default"], {
+          open: showPaymentOptionsModal,
+          onCancel: () => {
+            setShowPaymentOptionsModal(false);
+            setSelectedPlan(null);
+          },
+          fee: selectedPlan?.application_fee_percent,
+          onAcceptMonthly: () => activateBillingPlan(selectedPlan.id),
+          onAcceptAnnual: () => activateBillingPlan(selectedPlan.id, true),
+          price: selectedPlan?.price || 0,
+          priceAnnual: selectedPlan?.price_annual || 0
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_PaymentOptionsModal__WEBPACK_IMPORTED_MODULE_23__["default"], {
-        open: showPaymentOptionsModal,
-        onCancel: () => {
-          setShowPaymentOptionsModal(false);
-          setSelectedPlan(null);
-        },
-        fee: selectedPlan?.application_fee_percent,
-        onAcceptMonthly: () => activateBillingPlan(selectedPlan.id),
-        onAcceptAnnual: () => activateBillingPlan(selectedPlan.id, true),
-        price: selectedPlan?.price || 0,
-        priceAnnual: selectedPlan?.price_annual || 0
       })]
-    })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SettingsPage);
@@ -4180,4 +4182,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=0e2e946f52019487ae0d
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=1aebde376f1d259c83a0

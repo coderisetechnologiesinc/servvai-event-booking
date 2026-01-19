@@ -213,7 +213,16 @@ const CreateEventForm = () => {
       return value.split(",")[1];
     }
 
-    return value;
+    return null;
+  };
+  const hasValue = (value) => {
+    if (value === null || value === undefined) return false;
+
+    if (Array.isArray(value)) return value.length > 0;
+
+    if (typeof value === "object") return Object.keys(value).length > 0;
+
+    return true;
   };
 
   const fetchEventInfo = async (postId, occurrenceId) => {
@@ -244,8 +253,8 @@ const CreateEventForm = () => {
           data.meeting.timezone
         );
       }
-      mergeAttributes({
-        image_content: imageUrl || "",
+      let payload = {
+        image_content: imageUrl || null,
         meeting: {
           ...data.meeting,
           startTime: startTime,
@@ -268,13 +277,26 @@ const CreateEventForm = () => {
         branding: data.branding || {},
         notifications: data.notifications || {},
         custom_fields: data.custom_fields || {},
-      });
+      };
+      delete payload.meeting.recurrence;
+
+      if (hasValue(data.meeting?.recurrence)) {
+        payload.meeting.recurrence = data.meeting.recurrence;
+      }
+      if (eventType === "offline") {
+        payload.location = "offline";
+      } else {
+        payload.location = "zoom";
+      }
+      mergeAttributes(payload);
       let newSteps = [...steps];
-      console.log(
-        data.meeting.occurrences.length === 0 || occurrenceIdFromQuery
-      );
-      if (data.meeting.occurrences.length === 0 || occurrenceIdFromQuery) {
-        console.log("push step");
+
+      if (
+        data.meeting.occurrences === undefined ||
+        data.meeting.occurrences === null ||
+        data.meeting.occurrences.length === 0 ||
+        occurrenceIdFromQuery
+      ) {
         newSteps.push({
           key: "registrants",
           title: "Registrants",
@@ -295,6 +317,7 @@ const CreateEventForm = () => {
 
       setEventLoaded(true);
     } catch (error) {
+      console.log(error);
       if (error?.response?.status === 404) {
         toast.error("Event not found or has been deleted.");
       } else if (error?.response?.status === 403) {
@@ -514,6 +537,7 @@ const CreateEventForm = () => {
 
   const handleFormSubmit = async () => {
     let requestURL = `/wp-json/servv-plugin/v1/`;
+
     if (isNew) {
       requestURL += `events/${attributes.location}`;
     } else {
@@ -525,7 +549,11 @@ const CreateEventForm = () => {
     if (occurrenceIdFromQuery) {
       requestURL += `?occurrence_id=${occurrenceIdFromQuery}`;
     }
-    // console.log(attributes.tickets);
+    const isRecurring =
+      Array.isArray(attributes.meeting?.recurrence) &&
+      attributes.meeting.recurrence.length > 0;
+
+    const isOffline = attributes.location === "offline";
 
     let data = {
       meeting: {
@@ -557,21 +585,17 @@ const CreateEventForm = () => {
       custom_fields: {
         ...attributes.custom_fields,
       },
-      image_content: stripMime(attributes.image_content) || "",
+      image_content: stripMime(attributes.image_content),
     };
     if (!isNew) {
       data.product = { ...attributes.product };
       data.meeting = {
-        ...attributes.meeting,
-        type:
-          attributes.meeting.recurrence &&
-          attributes.meeting.recurrence !== null
-            ? attributes.location === "offline"
-              ? 2
-              : 8
-            : attributes.location === "offline"
-            ? 1
-            : 2,
+        topic: attributes.meeting.topic,
+        agenda: attributes.meeting.agenda,
+        start_time: attributes.meeting.startTime,
+        timezone: attributes.meeting.timezone,
+        duration: attributes.meeting.duration,
+        type: isRecurring ? (isOffline ? 2 : 8) : isOffline ? 1 : 2,
       };
       if (attributes.registrants && attributes.registrants.length > 0) {
         data.registrants = attributes.registrants
@@ -587,15 +611,7 @@ const CreateEventForm = () => {
     } else {
       data.meeting = {
         ...attributes.meeting,
-        eventType:
-          attributes.meeting.recurrence &&
-          attributes.meeting.recurrence !== null
-            ? attributes.location === "offline"
-              ? 2
-              : 8
-            : attributes.location === "offline"
-            ? 1
-            : 2,
+        eventType: isRecurring ? (isOffline ? 2 : 8) : isOffline ? 1 : 2,
       };
       data.tickets = attributes.tickets.map((ticket) => {
         const payload = {

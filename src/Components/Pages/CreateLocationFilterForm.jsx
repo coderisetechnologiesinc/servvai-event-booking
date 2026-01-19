@@ -7,7 +7,7 @@ import PageContent from "../Containers/PageContent";
 import AnnotatedSection from "../Containers/AnnotatedSection";
 import MobileFooterActions from "../Controls/MobileFooterActions";
 import TimeInputControl from "../Controls/TimeInputControl";
-
+import PageWrapper from "./PageWrapper";
 import { Fragment, useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -25,7 +25,7 @@ const CreateLocationFilterForm = ({
 
   const filtersList = useServvStore((s) => s.filtersList);
   const syncSingleFilterFromServer = useServvStore(
-    (s) => s.syncSingleFilterFromServer
+    (s) => s.syncSingleFilterFromServer,
   );
 
   const existingLocation =
@@ -111,116 +111,131 @@ const CreateLocationFilterForm = ({
   const isFormValid = locationData?.name?.length > 0;
 
   return (
-    <Fragment>
-      <PageHeader>
-        <BlockStack>
-          <h1 className="text-display-sm mt-6 text-gray-900">
-            {existingLocation
-              ? `Location Filter "${existingLocation.name}"`
-              : "New Location"}
-          </h1>
+    <PageWrapper withBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          {/* LEFT: title + description */}
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title text-gray-900">
+              {existingLocation
+                ? `Location Filter "${existingLocation.name}"`
+                : "New Location"}
+            </h1>
 
-          <p className="page-header-description text-gray-600 text-base leading-relaxed mb-6">
-            {existingLocation
-              ? `Edit details for ${existingLocation.name}`
-              : "Create a new location filter"}
-          </p>
-        </BlockStack>
+            <p className="dashboard-description text-gray-600 mt-4 text-base leading-relaxed">
+              {existingLocation
+                ? `Edit details for ${existingLocation.name}`
+                : "Create a new location filter"}
+            </p>
+          </div>
 
-        {!isMobile && (
-          <InlineStack gap={2} align="right" className="hidden md:flex">
-            <PageActionButton
-              text="Cancel"
-              type="secondary"
-              onAction={onCancel}
-            />
-            <PageActionButton
-              text="Save"
-              type="primary"
-              onAction={handleLocationSave}
-              disabled={!isFormValid}
-            />
-          </InlineStack>
-        )}
-      </PageHeader>
-
-      <PageContent>
-        <div className="pb-20 md:pb-0">
-          <BlockStack gap={8} cardsLayout>
-            {/* Location Name */}
-            <AnnotatedSection title="Location Name" className="items-start">
-              <InputFieldControl
-                value={locationData?.name || ""}
-                type="text"
-                align="left"
-                maxLength={100}
-                onChange={(val) => handleLocationChange("name", val)}
-                width={isMobile ? "100%" : "400px"}
+          {/* RIGHT: actions (desktop only) */}
+          {!isMobile && (
+            <div className="dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap">
+              <PageActionButton
+                text="Cancel"
+                type="secondary"
+                onAction={onCancel}
               />
-            </AnnotatedSection>
 
-            {/* Location Details */}
-            <AnnotatedSection title="Location Details" className="items-start">
-              <InputFieldControl
-                value={locationData?.details || ""}
-                type="text"
-                align="left"
-                maxLength={200}
-                onChange={(val) => handleLocationChange("details", val)}
-                width={isMobile ? "100%" : "400px"}
+              <PageActionButton
+                text="Save"
+                type="primary"
+                onAction={handleLocationSave}
+                disabled={!isFormValid}
               />
-            </AnnotatedSection>
+            </div>
+          )}
+        </div>
 
-            {/* Operational Hours */}
-            <AnnotatedSection title="Operational Hours" className="items-start">
-              <div style={{ width: isMobile ? "100%" : "400px" }}>
-                <div
-                  className={`${isMobile ? "flex-col" : "flex-row"} flex gap-4`}
-                >
-                  <TimeInputControl
-                    label="Start Time"
-                    time={getStartTime()}
-                    onChange={handleStartTimeChange}
-                    timeFormat={timeFormat}
-                  />
-                  <TimeInputControl
-                    label="End Time"
-                    time={getEndTime()}
-                    onChange={handleEndTimeChange}
-                    timeFormat={timeFormat}
-                  />
-                </div>
-              </div>
-            </AnnotatedSection>
+        <div className="header-line" />
 
-            {/* Order (edit only) */}
-            {existingLocation && (
-              <AnnotatedSection title="Order" className="items-start">
+        <PageContent className="py-0 my-0">
+          <div className="pb-20 md:pb-0">
+            <BlockStack gap={8} cardsLayout>
+              {/* Location Name */}
+              <AnnotatedSection title="Location Name" className="items-start">
                 <InputFieldControl
-                  value={locationData.priority || ""}
+                  value={locationData?.name || ""}
                   type="text"
                   align="left"
-                  maxLength={10}
-                  onChange={(val) => handleLocationChange("priority", val)}
+                  maxLength={100}
+                  onChange={(val) => handleLocationChange("name", val)}
                   width={isMobile ? "100%" : "400px"}
                 />
               </AnnotatedSection>
-            )}
-          </BlockStack>
-        </div>
-      </PageContent>
 
-      {/* Mobile footer */}
-      {isMobile && (
-        <MobileFooterActions
-          onSave={handleLocationSave}
-          onCancel={onCancel}
-          saveText="Save"
-          cancelText="Cancel"
-          saveDisabled={!isFormValid}
-        />
-      )}
-    </Fragment>
+              {/* Location Details */}
+              <AnnotatedSection
+                title="Location Details"
+                className="items-start"
+              >
+                <InputFieldControl
+                  value={locationData?.details || ""}
+                  type="text"
+                  align="left"
+                  maxLength={200}
+                  onChange={(val) => handleLocationChange("details", val)}
+                  width={isMobile ? "100%" : "400px"}
+                />
+              </AnnotatedSection>
+
+              {/* Operational Hours */}
+              <AnnotatedSection
+                title="Operational Hours"
+                className="items-start"
+              >
+                <div style={{ width: isMobile ? "100%" : "400px" }}>
+                  <div
+                    className={`${
+                      isMobile ? "flex-col" : "flex-row"
+                    } flex gap-4`}
+                  >
+                    <TimeInputControl
+                      label="Start Time"
+                      time={getStartTime()}
+                      onChange={handleStartTimeChange}
+                      timeFormat={timeFormat}
+                    />
+                    <TimeInputControl
+                      label="End Time"
+                      time={getEndTime()}
+                      onChange={handleEndTimeChange}
+                      timeFormat={timeFormat}
+                    />
+                  </div>
+                </div>
+              </AnnotatedSection>
+
+              {/* Order (edit only) */}
+              {existingLocation && (
+                <AnnotatedSection title="Order" className="items-start">
+                  <InputFieldControl
+                    value={locationData.priority || ""}
+                    type="text"
+                    align="left"
+                    maxLength={10}
+                    onChange={(val) => handleLocationChange("priority", val)}
+                    width={isMobile ? "100%" : "400px"}
+                  />
+                </AnnotatedSection>
+              )}
+            </BlockStack>
+          </div>
+        </PageContent>
+
+        {/* Mobile footer */}
+        {isMobile && (
+          <MobileFooterActions
+            onSave={handleLocationSave}
+            onCancel={onCancel}
+            saveText="Save"
+            cancelText="Cancel"
+            saveDisabled={!isFormValid}
+          />
+        )}
+      </div>
+    </PageWrapper>
   );
 };
 

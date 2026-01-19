@@ -8,6 +8,7 @@ import Card from "../Containers/Card";
 import BreadCrumbs from "../Menu/BreadCrumbs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PageWrapper from "./PageWrapper";
 const ZoomPage = (props) => {
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
@@ -42,18 +43,18 @@ const ZoomPage = (props) => {
           "X-WP-Nonce": servvData.nonce,
         },
         redirect: "manual",
-      }
+      },
     );
     if (getAuthURLResponse && getAuthURLResponse.status === 200) {
       open(
         `${
           servvData.shopify_app
         }/zoom/connect?wordpress_url=${encodeURIComponent(
-          getAuthURLResponse.data.auth_url
+          getAuthURLResponse.data.auth_url,
         )}&wordpress_return_url=${encodeURIComponent(
-          window.location.origin
+          window.location.origin,
         )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
-        "_top"
+        "_top",
       );
       // open(getAuthURLResponse.data.auth_url)
     }
@@ -71,91 +72,97 @@ const ZoomPage = (props) => {
       <span>{account ? account.email : "Please connect your account"}</span>
     </div>
   );
+  const handleBreadCrumbsClick = () => {};
   return (
-    <Fragment>
-      <PageHeader>
-        <BlockStack>
-          <h1 className="text-display-sm mt-6">{t("Video Conferencing")}</h1>
-          <BreadCrumbs
-            breadcrumbs={[
-              {
-                label: "Integrations",
-                action: () => navigate("../integrations"),
-              },
-              { label: "Zoom", action: () => {} },
-            ]}
-          />
-          {/* <p className="page-header-description">
+    <PageWrapper withBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title">Zoom</h1>
+            <div className="dashboard-description">
+              <BreadCrumbs
+                breadcrumbs={[
+                  {
+                    label: "Integrations",
+                    action: () => navigate("../integrations"),
+                  },
+                  { label: "Zoom", action: () => {} },
+                ]}
+                onBreadCrumbClick={handleBreadCrumbsClick}
+              />
+            </div>
+            {/* <p className="page-header-description">
             {t(
               "Sync your event schedules effortlessly with Google Calendar or\r\n            Outlook to keep everyone informed."
             )}
           </p> */}
-        </BlockStack>
-      </PageHeader>
-      <PageContent>
-        <InlineStack gap={8} cardsLayout={true}>
-          <Card padding={0} maxWidth="65%" align="center">
-            <div
-              className="service-image"
-              style={{
-                background: `linear-gradient(135deg, #2D8CFF, #0055FF)`,
-              }}
-            >
-              {account && (
-                <div className="connected-account bg-gradient-to-b from-transparent to-black/40">
-                  <span>{t("Account")}</span>
-                  <Badge text={badge()} justify={"start"} color="gray" />
-                </div>
-              )}
-            </div>
-            <div className="card-content">
-              <h2 className="card-section-heading">{t("Zoom")}</h2>
-              <p className="section-description">
-                {t(
-                  "Host and manage Zoom events effortlessly by integrating Zoom"
+          </div>
+        </div>
+        <PageContent>
+          <InlineStack gap={8} cardsLayout={true}>
+            <Card padding={0} maxWidth="85%" align="center">
+              <div
+                className="servv-service-image"
+                style={{
+                  background: `linear-gradient(to bottom, transparent, #ECE4F6)`,
+                }}
+              >
+                {account && (
+                  <div className="connected-account bg-gradient-to-b from-transparent to-black/40">
+                    <span>{t("Account")}</span>
+                    <Badge text={badge()} justify={"start"} color="gray" />
+                  </div>
                 )}
-              </p>
-              {isAccountFetched && !account && (
-                <a
-                  href="#"
-                  className="servv-button-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleGetConnectURL();
-                  }}
-                >
-                  {t("Connect")}
-                </a>
-              )}
-              {isAccountFetched && account && (
-                <a
-                  href="#"
-                  className="servv-button-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleRemoveAccount();
-                  }}
-                >
-                  {t("Disconnect")}
-                </a>
-              )}
-              {isAccountFetched && account && (
-                <a
-                  href="#"
-                  className="servv-button-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("settings");
-                  }}
-                >
-                  {t("Manage")}
-                </a>
-              )}
-            </div>
-          </Card>
-        </InlineStack>
-      </PageContent>
-    </Fragment>
+              </div>
+              <div className="card-content">
+                <h2 className="card-section-heading">{t("Zoom")}</h2>
+                <p className="section-description">
+                  {t(
+                    "Host and manage Zoom events effortlessly by integrating Zoom",
+                  )}
+                </p>
+                {isAccountFetched && !account && (
+                  <a
+                    href="#"
+                    className="servv-button-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleGetConnectURL();
+                    }}
+                  >
+                    {t("Connect")}
+                  </a>
+                )}
+                {isAccountFetched && account && (
+                  <a
+                    href="#"
+                    className="servv-button-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleRemoveAccount();
+                    }}
+                  >
+                    {t("Disconnect")}
+                  </a>
+                )}
+                {isAccountFetched && account && (
+                  <a
+                    href="#"
+                    className="servv-button-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("settings");
+                    }}
+                  >
+                    {t("Manage")}
+                  </a>
+                )}
+              </div>
+            </Card>
+          </InlineStack>
+        </PageContent>
+      </div>
+    </PageWrapper>
   );
 };
 export default ZoomPage;

@@ -21,7 +21,7 @@ export default function CreateFilterPage() {
   const Form = map[type];
 
   return (
-    <PageWrapper>
+    <PageWrapper withBackground={true}>
       {Form ? <Form onCancel={onCancel} /> : <p>Unknown filter type.</p>}
     </PageWrapper>
   );

@@ -8,6 +8,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   fetchRegistrants,
+  fetchRegistrantsWithToken,
   deleteRegistrant,
   resendRegistrantNotification,
   resendAllNotifications,
@@ -27,7 +28,9 @@ const RegistrantsStep = ({
   const [showError, setShowError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRegistrants, setSelectedRegistrants] = useState([]);
-
+  const [zoomPageTokens, setZoomPageTokens] = useState({
+    1: null,
+  });
   const PAGE_SIZE = 20;
 
   const visibleRegistrants = registrants.filter(
@@ -35,7 +38,8 @@ const RegistrantsStep = ({
   );
 
   const totalPages = attributes?.regPagination?.pageCount || 1;
-  const totalRecords = totalPages * PAGE_SIZE;
+  const totalRecords =
+    attributes?.regPagination?.total_records || totalPages * PAGE_SIZE;
 
   const paginatedRegistrants = visibleRegistrants;
 
@@ -119,17 +123,57 @@ const RegistrantsStep = ({
     if (!postID) return;
 
     setLoading(true);
+
     try {
-      const res = await fetchRegistrants({
+      const isZoom = attributes?.location === "zoom";
+
+      // ---------------- NON-ZOOM (page-based) ----------------
+      if (!isZoom) {
+        const res = await fetchRegistrants({
+          postID,
+          occurrenceId,
+          page,
+        });
+
+        setAttributes({
+          ...attributes,
+          registrants: res.registrants || [],
+          regPagination: {
+            pageCount: res.pagination?.pageCount || 1,
+            pageNumber: page,
+            total_records:
+              res.pagination?.totalRecords ||
+              (res.pagination?.pageCount || 1) * PAGE_SIZE,
+          },
+        });
+
+        return;
+      }
+
+      // ---------------- ZOOM (token-based) ----------------
+      const res = await fetchRegistrantsWithToken({
         postID,
-        occurrenceId, // null if not present
-        page,
+        occurrenceId,
+        next_page_token: zoomPageTokens[page] || null,
+        pageSize: PAGE_SIZE,
       });
+
       setAttributes({
         ...attributes,
         registrants: res.registrants || [],
-        regPagination: res.pagination || { pageCount: 1, pageNumber: 1 },
+        regPagination: {
+          pageCount: res.pagination?.nextPageToken ? page + 1 : page, // fake pages for UI
+          pageNumber: page,
+          total_records: res.pagination?.totalRecords || 0,
+        },
       });
+
+      if (res.pagination?.nextPageToken) {
+        setZoomPageTokens((prev) => ({
+          ...prev,
+          [page + 1]: res.pagination.nextPageToken,
+        }));
+      }
     } catch (e) {
       console.error("Failed to fetch registrants", e);
     } finally {
@@ -270,6 +314,100 @@ const RegistrantsStep = ({
       setLoading(false);
     }
   };
+  const exportToCSV = (rows, filename = "registrants.csv") => {
+    const headers = ["First Name", "Last Name", "Email"];
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) =>
+        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportRegistrants = async () => {
+    if (!postID) return;
+
+    setLoading(true);
+
+    try {
+      const isZoom = attributes?.location === "zoom";
+      let allRegistrants = [];
+
+      /* ---------------- NON-ZOOM (page-based) ---------------- */
+      if (!isZoom) {
+        let page = 1;
+        let pageCount = 1;
+
+        do {
+          const res = await fetchRegistrants({
+            postID,
+            occurrenceId,
+            page,
+          });
+
+          allRegistrants.push(...(res.registrants || []));
+          pageCount = res.pagination?.pageCount || 1;
+          page++;
+        } while (page <= pageCount);
+      }
+
+      /* ---------------- ZOOM (token-based) ---------------- */
+      if (isZoom) {
+        let nextToken = null;
+
+        do {
+          const res = await fetchRegistrantsWithToken({
+            postID,
+            occurrenceId,
+            next_page_token: nextToken,
+            pageSize: PAGE_SIZE,
+          });
+
+          allRegistrants.push(...(res.registrants || []));
+          nextToken = res.pagination?.nextPageToken || null;
+        } while (nextToken);
+      }
+
+      if (!allRegistrants.length) {
+        toast.info("No registrants to export.");
+        return;
+      }
+
+      /* ---------------- EXPORT ---------------- */
+      const rows = allRegistrants.map((r) => [
+        r.firstName || "",
+        r.lastName || "",
+        r.email || "",
+      ]);
+
+      exportToCSV(rows, "registrants.csv");
+
+      toast.success(`Exported ${allRegistrants.length} registrants.`);
+    } catch (e) {
+      console.error("Export registrants failed", e);
+      toast.error("Failed to export registrants.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   /* ------------------ UI ------------------ */
 
@@ -360,6 +498,15 @@ const RegistrantsStep = ({
                     onClick={() => resendAll(id)}
                   >
                     Resend notifications
+                  </button>
+                )}
+                {registrants.length > 0 && (
+                  <button
+                    type="button"
+                    className="servv_button servv_button--secondary servv_button--sm"
+                    onClick={() => handleExportRegistrants()}
+                  >
+                    Export
                   </button>
                 )}
               </div>

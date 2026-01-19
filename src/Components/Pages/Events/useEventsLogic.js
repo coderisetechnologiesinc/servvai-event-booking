@@ -9,7 +9,7 @@ import { useServvStore } from "../../../store/useServvStore";
 export const useEventsLogic = (settings, filtersList, zoomAccount) => {
   const navigate = useNavigate();
   const syncAccountsAfterEvents = useServvStore(
-    (s) => s.syncAccountsAfterEvents
+    (s) => s.syncAccountsAfterEvents,
   );
   const syncFiltersFromServer = useServvStore((s) => s.syncFiltersFromServer);
 
@@ -91,7 +91,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
             minute: 0,
             second: 0,
           },
-          timezone.id
+          timezone.id,
         )
       : null;
 
@@ -105,7 +105,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
             minute: 59,
             second: 0,
           },
-          timezone.id
+          timezone.id,
         )
       : null;
 
@@ -133,7 +133,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
         id: zone,
         name: timezonesList[zone],
       })),
-    []
+    [],
   );
 
   // =====================================================================
@@ -226,10 +226,10 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
         if (!is_Past && datesObj.startDate && datesObj.endDate) {
           url +=
             `&start_datetime=${moment(datesObj.startDate).format(
-              "YY-MM-DD HH:mm:ss"
+              "YY-MM-DD HH:mm:ss",
             )}` +
             `&end_datetime=${moment(datesObj.endDate).format(
-              "YY-MM-DD HH:mm:ss"
+              "YY-MM-DD HH:mm:ss",
             )}`;
         }
 
@@ -289,7 +289,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
         await syncFiltersFromServer?.();
       }
     },
-    [settings, eventType, isPast, dates, selectedFilters]
+    [settings, eventType, isPast, dates, selectedFilters],
   );
 
   // =====================================================================
@@ -304,7 +304,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
       try {
         const res = await axios.get(
           `/wp-json/servv-plugin/v1/event/${event}/occurrences?page_size=10&page=${page}`,
-          { headers: { "X-WP-Nonce": servvData.nonce } }
+          { headers: { "X-WP-Nonce": servvData.nonce } },
         );
 
         const rows = res.data.meetings?.map((m) => {
@@ -341,7 +341,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
         setLoading(false);
       }
     },
-    [settings]
+    [settings],
   );
 
   const handleMultipleEventsDelete = async () => {
@@ -352,19 +352,19 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
     try {
       await Promise.all(
         eventsIDs.map(({ id, occurrenceId }) =>
-          handleEventDelete(id, occurrenceId)
-        )
+          handleEventDelete(id, occurrenceId),
+        ),
       );
 
       await getEventsList();
 
       console.log(
-        "All selected events have been deleted, and the events list has been updated."
+        "All selected events have been deleted, and the events list has been updated.",
       );
     } catch (error) {
       console.error(
         "Error deleting events or updating the events list:",
-        error
+        error,
       );
     }
   };
@@ -493,14 +493,14 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
       occurrencesPagination.pageNumber > 1 &&
       getEventOccurrencess(
         selectedEventForOccurrences,
-        occurrencesPagination.pageNumber - 1
+        occurrencesPagination.pageNumber - 1,
       ),
 
     handleGetNextOccurrencessPage: () =>
       occurrencesPagination.pageNumber < occurrencesPagination.pageCount &&
       getEventOccurrencess(
         selectedEventForOccurrences,
-        occurrencesPagination.pageNumber + 1
+        occurrencesPagination.pageNumber + 1,
       ),
     handleEventDelete,
     handleEventChange,

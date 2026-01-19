@@ -22,7 +22,7 @@ export default function FiltersListPage() {
 
   const handleSelect = (id) =>
     setSelected((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
 
   const handleSelectAll = () => {
@@ -41,8 +41,8 @@ export default function FiltersListPage() {
         fetch(`/wp-json/servv-plugin/v1/filters/${type.toLowerCase()}/${id}`, {
           method: "DELETE",
           headers: { "X-WP-Nonce": servvData.nonce },
-        })
-      )
+        }),
+      ),
     );
 
     await getFilters();
@@ -65,24 +65,29 @@ export default function FiltersListPage() {
   ];
 
   return (
-    <PageWrapper loading={loading}>
-      <BlockStack gap={4}>
-        <PageHeader>
-          <BlockStack>
-            <h1 className="text-display-sm mt-6">{type}</h1>
-            <BreadCrumbs
-              breadcrumbs={breadcrumbs}
-              onBreadCrumbClick={(label) => {
-                const bc = breadcrumbs.find((b) => b.label === label);
-                if (bc?.action) bc.action();
-              }}
-            />
+    <PageWrapper loading={loading} withBackground={true}>
+      <div className="dashboard-card">
+        <div className="servv-dashboard-header">
+          {/* LEFT: title + breadcrumbs + description */}
+          <div className="dashboard-heading">
+            <h1 className="dashboard-title">{type}</h1>
+            <div className="dashboard-description">
+              <BreadCrumbs
+                breadcrumbs={breadcrumbs}
+                onBreadCrumbClick={(label) => {
+                  const bc = breadcrumbs.find((b) => b.label === label);
+                  if (bc?.action) bc.action();
+                }}
+              />
+              <p className="dashboard-description mt-2">
+                Manage your {type.toLowerCase()} — view, edit, and delete
+                entries.
+              </p>
+            </div>
+          </div>
+        </div>
 
-            <p className="page-header-description mb-6">
-              Manage your {type.toLowerCase()} — view, edit, and delete entries.
-            </p>
-          </BlockStack>
-        </PageHeader>
+        <div className="header-line" />
 
         <FiltersList
           title={type}
@@ -92,7 +97,7 @@ export default function FiltersListPage() {
           onSelectAll={handleSelectAll}
           onDelete={handleDelete}
         />
-      </BlockStack>
+      </div>
     </PageWrapper>
   );
 }

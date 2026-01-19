@@ -30,6 +30,7 @@ function servv_get_event_data($request)
     $quantities = !empty($quantities) ? json_decode($quantities, true) : [];
     $quantity = !empty($occurrenceId) ? $quantities[$occurrenceId] ?? null : $quantities[0] ?? null;
     $responseBody['product']['current_quantity'] = $quantity;
+    $responseBody['wp_post_url'] = get_permalink($postId);
     return $responseBody;
 }
 

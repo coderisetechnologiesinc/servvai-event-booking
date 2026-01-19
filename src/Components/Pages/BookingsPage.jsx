@@ -11,6 +11,7 @@ import Badge from "../Containers/Badge";
 import InlineStack from "../Containers/InlineStack";
 import ButtonGroupConnected from "../Controls/ButtonGroupConnected";
 import ConnectedButton from "../Controls/ConnectedButton";
+import NewButtonGroup from "../Controls/NewButtonGroup";
 import InputFieldControl from "../Controls/InputFieldControl";
 import Datepicker from "react-tailwindcss-datepicker";
 import ListPagination from "../Controls/ListPagination";
@@ -32,8 +33,8 @@ import {
 import { useServvStore } from "../../store/useServvStore";
 
 const BookingsPage = () => {
-  const { settings, timezone, timeFormat } = useServvStore();
-
+  const { settings, timezone } = useServvStore();
+  const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const [loading, setLoading] = useState(false);
   const [headings, setHeadings] = useState([
     { label: "Order ID", value: "order", visible: true },
@@ -44,6 +45,13 @@ const BookingsPage = () => {
     { label: "Mode", value: "paid", visible: true },
     { label: "Status", value: "status", visible: true },
   ]);
+  const timeIntervals = [
+    { label: "All time", value: "all" },
+    { label: "12 month", value: "12" },
+    { label: "30 days", value: "30" },
+    { label: "7 days", value: "7" },
+  ];
+
   const providers = ["offline", "zoom"];
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [customizeDropdown, setCustomizeDropdown] = useState(false);
@@ -84,6 +92,11 @@ const BookingsPage = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [customizeDropdown]);
+  useEffect(() => {
+    if (settings?.settings) {
+      if (settings.settings.time_format_24_hours) setTimeFormat("HH:mm");
+    }
+  }, [settings]);
 
   useEffect(() => {
     if (!filterDropdown) return;
@@ -217,7 +230,7 @@ const BookingsPage = () => {
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -229,7 +242,7 @@ const BookingsPage = () => {
         d.date(),
         d.hour(),
         d.minute(),
-        d.second()
+        d.second(),
       );
     }
 
@@ -249,7 +262,7 @@ const BookingsPage = () => {
           minute: 0,
           second: 0,
         },
-        timezone.id
+        timezone.id,
       );
     let endDate = null;
     if (dates.endDate)
@@ -262,7 +275,7 @@ const BookingsPage = () => {
           minute: 59,
           second: 0,
         },
-        timezone.id
+        timezone.id,
       );
 
     setDates({
@@ -378,7 +391,7 @@ const BookingsPage = () => {
 
   const isRefundAvailable = () => {
     let selectedBookings = bookings.bookings.map(
-      (booking) => selectedOrder.indexOf(booking.id) >= 0
+      (booking) => selectedOrder.indexOf(booking.id) >= 0,
     );
     if (selectedBookings.length > 0) {
       return selectedBookings.filter((booking) => booking.price > 0).length > 0;
@@ -387,126 +400,134 @@ const BookingsPage = () => {
 
   const renderRows = () => {
     return bookings.bookings.map((row) => {
+      const startDate = moment(row.start_datetime).tz(row.timezone);
+      const orderDate = moment(row.created_datetime).tz(row.timezone);
+
       return (
-        <tr className="table-row">
-          <td>
+        <tr className="table-row" key={row.id}>
+          {/* CHECKBOX */}
+          <td className="w-auto whitespace-nowrap">
             <CheckboxControl
-              checked={selectedOrder.indexOf(row.id) >= 0}
+              checked={selectedOrder.includes(row.id)}
               size={2}
               onChange={() => handleOrderSelect(row.id)}
             />
           </td>
-          {headings.map((heading) =>
-            heading.visible
-              ? (() => {
-                  const start_date = moment(row.start_datetime).tz(
-                    row.timezone
-                  );
-                  const order_date = moment(row.created_datetime).tz(
-                    row.timezone
-                  );
-                  if (heading.value === "order") {
-                    return (
-                      <td>
-                        <span className="font-semibold text-sm max-sm: text-sm">
-                          {t("#")}
-                          {row.id}
-                        </span>
-                      </td>
-                    );
-                  }
-                  if (heading.value === "date") {
-                    return (
-                      <td>
-                        <div className="flex flex-col">
-                          <span className="text-sm font-semibold">
-                            {order_date.format("MMM DD YYYY")}
-                          </span>
-                          <span className="text-xs font-regular">
-                            {order_date.format(timeFormat)}
-                          </span>
-                        </div>
-                      </td>
-                    );
-                  }
-                  if (heading.value === "registrant") {
-                    return <td>{row.email}</td>;
-                  }
-                  if (heading.value === "title") {
-                    return (
-                      <td>
-                        <span className="font-semibold text-sm">
-                          {row.product_name.length > 24
-                            ? row.product_name.slice(0, 24) + "..."
-                            : row.product_name}
-                        </span>
-                      </td>
-                    );
-                  }
-                  if (heading.value === "occurrence") {
-                    return (
-                      <td>
-                        <div className="flex flex-col">
-                          <span className="text-sm font-semibold">
-                            {start_date.format("MMM DD YYYY")}
-                          </span>
-                          <span className="text-xs font-regular">
-                            {start_date.format(timeFormat)}
-                          </span>
-                        </div>
-                      </td>
-                    );
-                  }
-                  if (heading.value === "paid") {
-                    return (
-                      <td>
-                        {Number.parseFloat(row.price) > 0
-                          ? Number.parseFloat(row.price)
-                          : "Free"}
-                      </td>
-                    );
-                  }
-                  if (heading.value === "status") {
-                    return (
-                      <td>
-                        <Badge
-                          text={
-                            row.active_registrants === 0
-                              ? "Canceled"
-                              : row.reunded_quantity >= row.quantity
-                              ? "Refunded"
-                              : "Active"
-                          }
-                          color={
-                            row.active_registrants === 0
-                              ? "error"
-                              : row.reunded_quantity >= row.quantity
-                              ? "warning"
-                              : "success"
-                          }
-                          size="small"
-                          align="center"
-                          type="pill-colour"
-                        />
-                      </td>
-                    );
-                  }
-                  return null;
-                })()
-              : null
-          )}
-          <td className="filter-table-dropdown-container">
+
+          {/* DYNAMIC COLUMNS */}
+          {headings.map((heading) => {
+            if (!heading.visible) return null;
+
+            switch (heading.value) {
+              case "order":
+                return (
+                  <td key="order">
+                    <span className="font-semibold text-sm">
+                      {t("#")}
+                      {row.id}
+                    </span>
+                  </td>
+                );
+
+              case "date":
+                return (
+                  <td key="date">
+                    <div className="flex flex-col">
+                      <span className="text-sm font-semibold">
+                        {orderDate.format("MMM DD YYYY")}
+                      </span>
+                      <span className="text-xs font-regular">
+                        {orderDate.format(timeFormat)}
+                      </span>
+                    </div>
+                  </td>
+                );
+
+              case "registrant":
+                return (
+                  <td data-tooltip data-full={row.email}>
+                    <span className="cell-truncate">{row.email}</span>
+                  </td>
+                );
+
+              case "title":
+                return (
+                  <td data-tooltip data-full={row.product_name}>
+                    <span className="cell-truncate font-semibold text-sm">
+                      {row.product_name}
+                    </span>
+                  </td>
+                );
+
+              case "occurrence":
+                return (
+                  <td key="occurrence">
+                    <div className="flex flex-col">
+                      <span className="text-sm font-semibold">
+                        {startDate.format("MMM DD YYYY")}
+                      </span>
+                      <span className="text-xs font-regular">
+                        {startDate.format(timeFormat)}
+                      </span>
+                    </div>
+                  </td>
+                );
+
+              case "paid":
+                return (
+                  <td key="paid">
+                    {Number(row.price) > 0 ? Number(row.price) : "Free"}
+                  </td>
+                );
+
+              case "status":
+                return (
+                  <td key="status">
+                    <Badge
+                      text={
+                        row.active_registrants === 0
+                          ? "Canceled"
+                          : row.reunded_quantity >= row.quantity
+                          ? "Refunded"
+                          : "Active"
+                      }
+                      color={
+                        row.active_registrants === 0
+                          ? "error"
+                          : row.reunded_quantity >= row.quantity
+                          ? "warning"
+                          : "success"
+                      }
+                      size="small"
+                      align="center"
+                      type="pill-colour"
+                    />
+                  </td>
+                );
+
+              default:
+                return null;
+            }
+          })}
+
+          {/* ACTIONS */}
+          <td className="w-auto shrink-0 whitespace-nowrap text-right">
             <button onClick={() => setActive(row.id)}>
               <Bars4Icon className="dropdown-icon" />
             </button>
+
             {activeDropdown === row.id && (
               <div className="filter-table-dropdown">
                 <span className="dropdown-header">
-                  {`#${row.id}`}{" "}
-                  <p className="dropdown-description wrap-break-word">
+                  #{row.id}
+                  <p
+                    className="dropdown-description wrap-break-word"
+                    data-full={row.email}
+                  >
                     {row.email}
                   </p>
                 </span>
+
                 {row.active_registrants > 0 && (
                   <div className="dropdown-actions">
                     <BlockStack gap={4}>
@@ -525,6 +546,7 @@ const BookingsPage = () => {
                     </BlockStack>
                   </div>
                 )}
+
                 <div className="dropdown-actions border-t w-full">
                   <BlockStack gap={4}>
                     {row.price > 0 && (
@@ -536,6 +558,7 @@ const BookingsPage = () => {
                         {t("Issue refund")}
                       </button>
                     )}
+
                     {row.active_registrants > 0 && (
                       <button
                         className="dropdown-action"
@@ -667,7 +690,7 @@ const BookingsPage = () => {
         let occurrence = null;
 
         const variantData = bookings.bookings.find(
-          (booking) => booking.id === variant
+          (booking) => booking.id === variant,
         );
         if (!variantData) continue;
 
@@ -808,7 +831,7 @@ const BookingsPage = () => {
                 (r) =>
                   `${r.first_name || ""} ${r.last_name || ""} (${
                     r.email || ""
-                  })`
+                  })`,
               )
               .join(" | ");
           } else {
@@ -961,100 +984,100 @@ const BookingsPage = () => {
   };
 
   return (
-    <PageWrapper loading={loading}>
+    <PageWrapper loading={loading} withBackground={true}>
       <BlockStack gap={4}>
-        <PageHeader>
-          <BlockStack gap={4}>
-            <h1 className="text-display-sm mt-6">{t("Bookings")}</h1>
-            <p className="page-header-description">
-              View and manage all event bookings in one place
-            </p>
-          </BlockStack>
-          <InlineStack gap={2} align="right">
-            <div ref={customizeDropdownRef}>
-              <Dropdown
-                activator={
-                  <PageActionButton
-                    text="Customize"
-                    icon={<AdjustmentsVerticalIcon className="button-icon" />}
-                    type="secondary"
-                    onAction={() => setCustomizeDropdown(!customizeDropdown)}
-                  />
-                }
-                status={customizeDropdown}
-                onClose={() => setCustomizeDropdown(false)}
-              >
-                <ul>{renderHeadingsCustomization()}</ul>
-              </Dropdown>
+        <div className="dashboard-card">
+          <div className="servv-dashboard-header">
+            {/* LEFT: title + description */}
+            <div className="dashboard-heading">
+              <h1 className="dashboard-title">Bookings</h1>
+              <p className="dashboard-description">
+                View and manage all event bookings in one place
+              </p>
             </div>
-            <PageActionButton
-              text="Export"
-              icon={<ArrowDownOnSquareStackIcon className="button-icon" />}
-              type="secondary"
-              disabled={!bookings || bookings?.bookings?.length === 0}
-              onAction={() => exportToCSV(bookings.bookings)}
-            />
-          </InlineStack>
-        </PageHeader>
 
-        <BlockStack gap={4}>
-          <InlineStack gap={4} align="left">
-            <ButtonGroupConnected>
-              <ConnectedButton
-                text="All time"
-                selected={selectedInterval === "all"}
-                onAction={() => handleChangeTimeInterval("all")}
-              />
-              <ConnectedButton
-                text="12 month"
-                selected={selectedInterval === "12"}
-                onAction={() => handleChangeTimeInterval("12")}
-              />
-              <ConnectedButton
-                text="30 days"
-                selected={selectedInterval === "30"}
-                onAction={() => handleChangeTimeInterval("30")}
-              />
-              <ConnectedButton
-                text="7 days"
-                selected={selectedInterval === "7"}
-                onAction={() => handleChangeTimeInterval("7")}
-              />
-            </ButtonGroupConnected>
-          </InlineStack>
-
-          <Card>
-            {renderBookingsHeader()}
-
-            {bookings && bookings?.bookings?.length > 0 && (
-              <Fragment>
-                <FilterTable headings={renderHeadings()} rows={renderRows()} />
-              </Fragment>
-            )}
-
-            {selectedOrder.length > 1 && (
-              <div className="filter-table-dropdown-container py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm flex flex-row">
-                <button
-                  onClick={() => setShowBulkActions(!showBulkAction)}
-                  className="ml-auto"
+            {/* RIGHT: actions */}
+            <div className="dashboard-actions flex flex-row items-center gap-2 flex-nowrap">
+              <div ref={customizeDropdownRef}>
+                <Dropdown
+                  activator={
+                    <button
+                      className="flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition"
+                      onClick={() => setCustomizeDropdown(!customizeDropdown)}
+                    >
+                      <AdjustmentsVerticalIcon className="w-5 h-5" />
+                    </button>
+                  }
+                  status={customizeDropdown}
+                  onClose={() => setCustomizeDropdown(false)}
                 >
-                  <Bars4Icon className="dropdown-icon" />
-                </button>
-
-                {showBulkAction && renderBulkActions()}
+                  <ul>{renderHeadingsCustomization()}</ul>
+                </Dropdown>
               </div>
-            )}
 
-            {bookings.page_count > 1 && (
-              <ListPagination
-                hasPrev={bookings.page_number > 1}
-                hasNext={bookings.page_number < bookings.page_count}
-                onPrev={() => handleGetPrevPage()}
-                onNext={() => handleGetNextPage()}
+              <PageActionButton
+                text="Export"
+                icon={<ArrowDownOnSquareStackIcon className="button-icon" />}
+                type="secondary"
+                disabled={!bookings || bookings?.bookings?.length === 0}
+                onAction={() => exportToCSV(bookings.bookings)}
               />
-            )}
-          </Card>
-        </BlockStack>
+            </div>
+          </div>
+
+          <div className="header-line" />
+
+          <BlockStack gap={4}>
+            <div className="inline-flex w-fit mb-4">
+              <NewButtonGroup
+                buttons={timeIntervals.map((i) => i.label)}
+                active={
+                  timeIntervals.find((i) => i.value === selectedInterval)?.label
+                }
+                onChange={(label) => {
+                  const selected = timeIntervals.find((i) => i.label === label);
+                  handleChangeTimeInterval(selected.value);
+                }}
+              />
+            </div>
+
+            <Card>
+              {renderBookingsHeader()}
+
+              {bookings && bookings?.bookings?.length > 0 && (
+                <Fragment>
+                  <FilterTable
+                    tableClassName={"bookings-table"}
+                    headings={renderHeadings()}
+                    rows={renderRows()}
+                  />
+                </Fragment>
+              )}
+
+              {selectedOrder.length > 1 && (
+                <div className="filter-table-dropdown-container py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm flex flex-row">
+                  <button
+                    onClick={() => setShowBulkActions(!showBulkAction)}
+                    className="ml-auto"
+                  >
+                    <Bars4Icon className="dropdown-icon" />
+                  </button>
+
+                  {showBulkAction && renderBulkActions()}
+                </div>
+              )}
+
+              {bookings.page_count > 1 && (
+                <ListPagination
+                  hasPrev={bookings.page_number > 1}
+                  hasNext={bookings.page_number < bookings.page_count}
+                  onPrev={() => handleGetPrevPage()}
+                  onNext={() => handleGetNextPage()}
+                />
+              )}
+            </Card>
+          </BlockStack>
+        </div>
       </BlockStack>
     </PageWrapper>
   );

@@ -71,10 +71,10 @@ const NewEndDateControl = ({
 
       {/* Tabs */}
       <NewButtonGroup
-        buttons={["End on date", "End after occurrences"]}
-        active={mode === "date" ? "End on date" : "End after occurrences"}
+        buttons={["On a date", "After occurrences"]}
+        active={mode === "date" ? "On a date" : "After occurrences"}
         onChange={(val) =>
-          handleModeChange(val === "End on date" ? "date" : "number")
+          handleModeChange(val === "On a date" ? "date" : "number")
         }
       />
 

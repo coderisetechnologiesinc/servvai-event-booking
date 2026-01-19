@@ -1,31 +1,30 @@
 import React from "react";
+
 const PageActionButton = ({
   text,
   icon,
-  type,
+  type = "primary", // primary | secondary | danger
+  size = "md", // md | sm
   onAction,
   disabled = false,
   className = "",
   style = {},
 }) => {
+  const baseClass = "servv_button";
+  const typeClass = `servv_button--${type}`;
+  const sizeClass = size === "sm" ? "servv_button--sm" : "servv_button--md";
+
   return (
     <button
+      type="button"
       onClick={onAction}
       disabled={disabled}
-      className={`
-        flex items-center justify-center px-4 py-2 rounded-lg
-        font-medium text-sm transition-colors duration-200
-        ${
-          type === "primary"
-            ? "bg-purple-600 text-white hover:bg-purple-700 focus:ring-2 focus:ring-purple-200"
-            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200"
-        }
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
-        ${className}
-      `}
-      style={{ fontFamily: "'Inter', sans-serif", ...style }}
+      className={`${baseClass} ${typeClass} ${sizeClass} ${className} ${
+        disabled ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+      style={style}
     >
-      {icon && <span className="mr-2">{icon}</span>}
+      {icon && <span className="mr-2 flex items-center">{icon}</span>}
       {text}
     </button>
   );
