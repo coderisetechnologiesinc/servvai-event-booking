@@ -19,6 +19,7 @@ export const useServvStore = create(
 
       zoomConnected: false,
       stripeConnected: false,
+      stripeCurrency: "CAD",
       gmailConnected: false,
       calendarConnected: false,
       timeFormat: "hh:mm a",
@@ -58,6 +59,7 @@ export const useServvStore = create(
 
           const stripe = await getStripeAccount();
           set({ stripeConnected: !!stripe?.data?.id });
+          set({ stripeCurrency: stripe?.data?.currency });
 
           const gmail = await getGmailAccount();
           set({ gmailConnected: !!gmail?.data?.id });

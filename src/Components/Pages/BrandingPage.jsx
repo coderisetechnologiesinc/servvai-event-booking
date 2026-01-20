@@ -332,7 +332,7 @@ const BrandingPage = () => {
           <div className="dashboard-heading">
             <h1 className="dashboard-title">Branding</h1>
             <p className="dashboard-description">
-              Customize your widget branding and business details
+              Customize your widget branding and store details
             </p>
           </div>
 

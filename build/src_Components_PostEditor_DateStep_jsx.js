@@ -1264,7 +1264,7 @@ const NewEndDateControl = ({
     className: "step__content_block",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
       className: "step__content_title",
-      children: "End date"
+      children: "Recurrence ends"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
       buttons: ["On a date", "After occurrences"],
       active: mode === "date" ? "On a date" : "After occurrences",
@@ -1905,4 +1905,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=af82baecda1c1bb92e56
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=526bbe3b6f9c539ec020

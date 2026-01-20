@@ -67,7 +67,7 @@ const NewEndDateControl = ({
 
   return (
     <div className="step__content_block">
-      <span className="step__content_title">End date</span>
+      <span className="step__content_title">Recurrence ends</span>
 
       {/* Tabs */}
       <NewButtonGroup

@@ -2,6 +2,7 @@ import moment from "moment";
 import { useState, useEffect } from "react";
 import BlockStack from "../Containers/BlockStack";
 import PageWrapper from "./PageWrapper";
+import { useLocation } from "react-router-dom";
 import {
   EnvelopeIcon,
   ChatBubbleLeftRightIcon,
@@ -273,9 +274,22 @@ const SupportPage = () => {
     };
     setIntercomLoaded(true);
   };
+  const location = useLocation();
+
   useEffect(() => {
+    if (location.pathname !== "/support") return;
+
     handleIntercomClick();
-  }, []);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (location.pathname === "/support") {
+      handleIntercomClick();
+    } else if (window.Intercom) {
+      window.Intercom("shutdown");
+      window.IntercomInjected = false;
+    }
+  }, [location.pathname]);
 
   return (
     <PageWrapper loading={false} withBackground={true}>
@@ -291,6 +305,9 @@ const SupportPage = () => {
           <div className="flex flex-row gap-2 justify-center">
             <a
               href="mailto:support@servv.ai"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
               className="rounded-[0.625rem] border no-underline border-gray-300 bg-white shadow-sm flex flex-row gap-2 justify-between px-[14px] py-[10px]"
             >
               <EnvelopeIcon className="w-[20px] fill-gray-700" />

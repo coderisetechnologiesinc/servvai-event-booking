@@ -39,8 +39,8 @@ const AnalyticsPage = () => {
   const [registrantsTotal, setTotalRegistrants] = useState(null);
 
   const tabsList = [
-    { label: "Total Revenue", value: 0 },
-    { label: "Total Registrants", value: 1 },
+    { label: "Revenue", value: 0 },
+    { label: "Registrants", value: 1 },
     { label: "Events", value: 2 },
     { label: "Filters", value: 3 },
   ];

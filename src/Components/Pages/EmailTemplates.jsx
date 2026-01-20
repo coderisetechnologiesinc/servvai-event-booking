@@ -536,7 +536,7 @@ const EmailTemplates = ({ settings }) => {
                   <div className="space-y-5">
                     <button
                       onClick={() => setShowParameters(!showParameters)}
-                      className="flex items-center justify-between w-full max-w-4xl p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-between w-full max-w-full p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
                     >
                       <div className="flex items-center space-x-2">
                         <InformationCircleIcon className="w-5 h-5 text-purple-600" />
@@ -552,7 +552,9 @@ const EmailTemplates = ({ settings }) => {
                     </button>
 
                     {showParameters && (
-                      <div className="max-w-4xl">{renderParametersTable()}</div>
+                      <div className="max-w-full">
+                        {renderParametersTable()}
+                      </div>
                     )}
                   </div>
                 )}
@@ -601,7 +603,7 @@ const EmailTemplates = ({ settings }) => {
                   <label className="text-lg font-semibold text-gray-900">
                     {t("Email Content")}
                   </label>
-                  <div className="border border-gray-200 rounded-xl overflow-hidden bg-white max-w-4xl email-editor-container">
+                  <div className="border border-gray-200 rounded-xl overflow-hidden bg-white max-w-full email-editor-container">
                     {formValues.editMode === "Rich Text" ? (
                       <Editor
                         key={`${selectedTemplate?.id}-${defaultText}`}
@@ -628,7 +630,7 @@ const EmailTemplates = ({ settings }) => {
                         {t("Preview")}
                       </label>
                     </div>
-                    <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 max-w-4xl email-template-preview">
+                    <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 max-w-full email-template-preview">
                       <div className="bg-white rounded-lg p-4 shadow-sm email-template-preview-content">
                         <div className="border-b border-gray-200 pb-3 mb-4">
                           <h4 className="text-sm font-semibold text-gray-900">

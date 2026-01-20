@@ -2390,53 +2390,6 @@ input.input-control.section-description.table-row td.w-full:hover {
   display: inline-flex;
 }
 
-/* Table should size columns by content */
-
-input.input-control.section-description.text-center.filters-page-table {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border-radius: 0.5rem;
-  border-width: 1px;
-  border-style: solid;
-  --tw-border-opacity: 1;
-  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
-input.input-control.section-description.text-center.filters-page-table:hover {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-}
-
-.filters-page-table {
-  width: 100%;
-  table-layout: auto;
-}
-
-/* FIRST COLUMN: auto / minimum width */
-
-.filters-page-table th:first-child,
-  .filters-page-table td:first-child {
-  width: auto;
-  flex-shrink: 0;
-  white-space: nowrap;
-  text-align: left;
-}
-
-/* SECOND COLUMN: force NOT centered */
-
-.filters-page-table th:nth-child(2),
-  .filters-page-table td:nth-child(2) {
-  text-align: left;
-}
-
 /* Table base */
 
 input.input-control.section-description.text-center.bookings-table {
@@ -2479,10 +2432,15 @@ input.input-control.section-description.text-center.bookings-table:hover {
 
 .bookings-table .cell-truncate {
   display: block;
-  max-width: 170px;
+  max-width: 250px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.bookings-table .table-row,
+  .filter-table-headings {
+  max-width: 100%;
 }
 
 /* Tooltip ONLY when explicitly enabled */
@@ -2522,6 +2480,10 @@ input.input-control.section-description.text-center.bookings-table:hover {
   .bookings-table td:first-child {
   width: auto;
   flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.bookings-table .mode {
   white-space: nowrap;
 }
 
@@ -5561,6 +5523,68 @@ input.servv-input__native.servv-input__native--center {
   line-height: 24px !important;
 }
 
+/* Table should size columns by content */
+
+/* HEADER: centered (this already works) */
+
+.filters-page-table thead th {
+  text-align: center;
+}
+
+/* BODY default: left */
+
+.filters-page-table tbody td {
+  text-align: left;
+}
+
+/* FIRST column: left */
+
+.filters-page-table tbody td:first-child > * {
+  justify-content: flex-start;
+}
+
+/* SECOND column: center */
+
+.filters-page-table tbody td:nth-child(2) > * {
+  justify-content: center;
+}
+
+/* LAST column: right (buttons) */
+
+.filters-page-table tbody td:last-child > * {
+  justify-content: flex-end;
+}
+
+/* HEADER */
+
+.filters-page-table thead th {
+  text-align: center !important;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.filters-page-table thead:first {
+  max-width: unset;
+}
+
+.filters-page-table thead th:first-child {
+  white-space: nowrap;
+}
+
+/* BODY */
+
+.filters-page-table tbody td {
+  text-align: left;
+}
+
+.filters-page-table tbody :nth-child(2) {
+  text-align: center;
+}
+
+.filters-page-table tbody td:last-child {
+  text-align: right;
+}
+
 .pointer-events-none {
   pointer-events: none;
 }
@@ -5824,10 +5848,6 @@ input.servv-input__native.servv-input__native--center {
 
 .mt-\[20px\] {
   margin-top: 20px;
-}
-
-.mt-\[2rem\] {
-  margin-top: 2rem;
 }
 
 .mt-auto {
@@ -6124,10 +6144,6 @@ input.servv-input__native.servv-input__native--center {
 
 .min-w-full {
   min-width: 100%;
-}
-
-.max-w-4xl {
-  max-width: 56rem;
 }
 
 .max-w-\[1080px\] {
@@ -8382,12 +8398,6 @@ input.servv-input__native.servv-input__native--center {
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-xl {
-  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 

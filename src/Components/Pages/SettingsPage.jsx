@@ -966,10 +966,7 @@ const SettingsPage = () => {
 
   const isBillingPlanRestriction =
     settings && settings.current_plan && settings.current_plan.id === 1;
-  console.log(
-    settings?.settings,
-    settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
-  );
+  console.log(selectedTab);
   return (
     <PageWrapper loading={loading} withBackground={true}>
       <div className="dashboard-card">
@@ -983,18 +980,20 @@ const SettingsPage = () => {
           </div>
 
           {/* RIGHT: actions (desktop) */}
-          <div className="dashboard-actions hidden md:flex flex-row items-center gap-2">
-            <PageActionButton
-              text="Cancel"
-              type="secondary"
-              onAction={getSettingsInfo}
-            />
-            <PageActionButton
-              text="Save"
-              type="primary"
-              onAction={saveAllSettings}
-            />
-          </div>
+          {selectedTab !== 7 && (
+            <div className="dashboard-actions hidden md:flex flex-row items-center gap-2">
+              <PageActionButton
+                text="Cancel"
+                type="secondary"
+                onAction={getSettingsInfo}
+              />
+              <PageActionButton
+                text="Save"
+                type="primary"
+                onAction={saveAllSettings}
+              />
+            </div>
+          )}
         </div>
 
         <div className="header-line" />
@@ -1221,39 +1220,41 @@ const SettingsPage = () => {
                     />
                   </BlockStack>
                 </AnnotatedSection>
-                <AnnotatedSection
-                  title="Location"
-                  description="Set a default event location."
-                  className={responsiveBlockStack}
-                >
-                  <BlockStack
-                    gap={2}
-                    cardsLayout={true}
+                {zoomAccount && (
+                  <AnnotatedSection
+                    title="Location"
+                    description="Set a default event location."
                     className={responsiveBlockStack}
                   >
-                    <ButtonGroup
-                      title=""
-                      buttons={eventTypes.map((type) => type.label)}
-                      active={
-                        settings &&
-                        settings.settings &&
-                        settings.settings.admin_dashboard &&
-                        settings.settings.admin_dashboard.default_event_type
-                          ? eventTypes[
-                              eventTypes
-                                .map((type) => type.value)
-                                .indexOf(
-                                  settings.settings.admin_dashboard
-                                    .default_event_type,
-                                )
-                            ].label
-                          : "offline"
-                      }
-                      disabled={isBillingPlanRestriction || !zoomAccount}
-                      onChange={(newVal) => handleDefaultTypeChange(newVal)}
-                    />
-                  </BlockStack>
-                </AnnotatedSection>
+                    <BlockStack
+                      gap={2}
+                      cardsLayout={true}
+                      className={responsiveBlockStack}
+                    >
+                      <ButtonGroup
+                        title=""
+                        buttons={eventTypes.map((type) => type.label)}
+                        active={
+                          settings &&
+                          settings.settings &&
+                          settings.settings.admin_dashboard &&
+                          settings.settings.admin_dashboard.default_event_type
+                            ? eventTypes[
+                                eventTypes
+                                  .map((type) => type.value)
+                                  .indexOf(
+                                    settings.settings.admin_dashboard
+                                      .default_event_type,
+                                  )
+                              ].label
+                            : "offline"
+                        }
+                        disabled={isBillingPlanRestriction || !zoomAccount}
+                        onChange={(newVal) => handleDefaultTypeChange(newVal)}
+                      />
+                    </BlockStack>
+                  </AnnotatedSection>
+                )}
               </BlockStack>
             )}
 

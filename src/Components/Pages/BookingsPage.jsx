@@ -33,7 +33,7 @@ import {
 import { useServvStore } from "../../store/useServvStore";
 
 const BookingsPage = () => {
-  const { settings, timezone } = useServvStore();
+  const { settings, timezone, stripeCurrency } = useServvStore();
   const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const [loading, setLoading] = useState(false);
   const [headings, setHeadings] = useState([
@@ -475,8 +475,14 @@ const BookingsPage = () => {
 
               case "paid":
                 return (
-                  <td key="paid">
-                    {Number(row.price) > 0 ? Number(row.price) : "Free"}
+                  <td key="paid" className="mode">
+                    {Number(row.price) > 0
+                      ? `${
+                          Number(row.price) +
+                          " " +
+                          stripeCurrency?.toUpperCase()
+                        }`
+                      : "Free"}
                   </td>
                 );
 
