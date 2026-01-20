@@ -441,22 +441,6 @@
   .table-row td:last-child > * {
     @apply inline-flex;
   }
-  /* Table should size columns by content */
-  .filters-page-table {
-    @apply w-full table-auto;
-  }
-
-  /* FIRST COLUMN: auto / minimum width */
-  .filters-page-table th:first-child,
-  .filters-page-table td:first-child {
-    @apply w-auto whitespace-nowrap shrink-0 text-left;
-  }
-
-  /* SECOND COLUMN: force NOT centered */
-  .filters-page-table th:nth-child(2),
-  .filters-page-table td:nth-child(2) {
-    @apply text-left;
-  }
 
   /* Table base */
   .bookings-table {
@@ -470,9 +454,12 @@
 
   /* Truncated text wrapper */
   .bookings-table .cell-truncate {
-    @apply truncate max-w-[170px] block whitespace-nowrap;
+    @apply truncate max-w-[250px] block whitespace-nowrap;
   }
-
+  .bookings-table .table-row,
+  .filter-table-headings {
+    @apply max-w-full;
+  }
   /* Tooltip ONLY when explicitly enabled */
   .bookings-table td[data-tooltip]::after {
     content: attr(data-full);
@@ -494,6 +481,9 @@
   .bookings-table th:first-child,
   .bookings-table td:first-child {
     @apply w-auto whitespace-nowrap shrink-0;
+  }
+  .bookings-table .mode {
+    @apply whitespace-nowrap;
   }
 
   /* table mobile */
@@ -3075,6 +3065,55 @@
     font-size: 16px !important;
     font-weight: 400 !important;
     line-height: 24px !important;
+  }
+  /* Table should size columns by content */
+  /* HEADER: centered (this already works) */
+  .filters-page-table thead th {
+    text-align: center;
+  }
+
+  /* BODY default: left */
+  .filters-page-table tbody td {
+    text-align: right;
+  }
+
+  /* FIRST column: left */
+  .filters-page-table tbody td:first-child > * {
+    justify-content: flex-start;
+  }
+
+  /* SECOND column: center */
+  .filters-page-table tbody td:nth-child(2) > * {
+    justify-content: center;
+  }
+
+  /* LAST column: right (buttons) */
+  .filters-page-table tbody td:last-child > * {
+    justify-content: flex-end;
+  }
+  /* HEADER */
+  .filters-page-table thead th {
+    text-align: center !important;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+  .filters-page-table thead:first {
+    max-width: unset;
+  }
+  .filters-page-table thead th:first-child {
+    white-space: nowrap;
+  }
+
+  /* BODY */
+  .filters-page-table tbody td {
+    text-align: right;
+  }
+  .filters-page-table tbody :nth-child(2) {
+    text-align: center;
+  }
+
+  .filters-page-table tbody td:last-child {
+    text-align: left;
   }
 }
 #servv-on-product-widget {

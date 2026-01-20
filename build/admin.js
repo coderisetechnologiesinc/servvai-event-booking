@@ -830,7 +830,7 @@ const Layout = ({
       onChange: onPageChange,
       collapsed: collapsed
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("main", {
-      className: "flex-1 w-full max-w-full p-0 min-w-0 min-h-0 overflow-hidden flex flex-col",
+      className: "flex-1 w-full max-w-full p-0 min-w-0 min-h-0 overflow-visible flex flex-col",
       children: children
     })]
   });
@@ -953,6 +953,14 @@ const SideBar = ({
       link: "events",
       icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Events
     }, {
+      title: "Bookings",
+      link: "bookings",
+      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Sales
+    }, {
+      title: "Filters",
+      link: "filters",
+      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Filters
+    }, {
       title: "Integrations",
       link: "integrations",
       icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Contacts
@@ -966,14 +974,6 @@ const SideBar = ({
       title: "Analytics",
       link: "analytics",
       icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Analytics
-    }, {
-      title: "Filters",
-      link: "filters",
-      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Filters
-    }, {
-      title: "Sales",
-      link: "bookings",
-      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Sales
     }]
   },
   // {
@@ -1009,6 +1009,14 @@ const SideBar = ({
           link: "events",
           icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Events
         }, {
+          title: "Bookings",
+          link: "bookings",
+          icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Sales
+        }, {
+          title: "Filters",
+          link: "filters",
+          icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Filters
+        }, {
           title: "Branding",
           link: "branding",
           icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Widgets
@@ -1024,14 +1032,6 @@ const SideBar = ({
           title: "Analytics",
           link: "analytics",
           icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Analytics
-        }, {
-          title: "Filters",
-          link: "filters",
-          icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Filters
-        }, {
-          title: "Sales",
-          link: "bookings",
-          icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Sales
         }]
       },
       // {
@@ -1387,6 +1387,7 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
   filtersHash: null,
   zoomConnected: false,
   stripeConnected: false,
+  stripeCurrency: "CAD",
   gmailConnected: false,
   calendarConnected: false,
   timeFormat: "hh:mm a",
@@ -1427,6 +1428,9 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
       const stripe = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getStripeAccount)();
       set({
         stripeConnected: !!stripe?.data?.id
+      });
+      set({
+        stripeCurrency: stripe?.data?.currency
       });
       const gmail = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getGmailAccount)();
       set({
@@ -18337,7 +18341,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"81b4f97d13fcfccd0710","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"ea5666f4a55cf48ee1b1","src_Components_PostEditor_EventDetails_jsx":"0887d9f6e6bffd209e90","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"1aebde376f1d259c83a0","src_Components_Pages_FiltersPage_jsx":"fcd97bda8f8d8cbd6ca7","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"79cc273d6ccd1419d45f","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"b41e78978bf93a626081","src_Components_Pages_BookingsPage_jsx":"589119a9fd9800c6be52","src_Components_Pages_SupportPage_jsx":"c93649e30ab9c39f0ef4","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-6f5796":"bd6ea38e5e373a0f617e","src_Components_Pages_BrandingPage_jsx":"8edd9b7886377b6e06b7","src_Components_Layout_ScrollManager_jsx":"c4e282f12f2418c28be2","src_Components_Pages_CreateEventForm_jsx":"00fdf4505609e058b474","src_Components_Pages_Dashboard_jsx":"3f1e2bda03bb94428670","src_Components_Pages_CreateFilterPage_jsx":"57101dac897f50d774b1","src_Components_Pages_FiltersListPage_jsx":"87aacc6c2ed3dce6b8c5","src_Components_Pages_SingleEventPageRouterShell_jsx":"c8850bc78c3717f2b99d","src_Components_Pages_ZoomPage_jsx":"1fd4ca48283ab45d4c87","src_Components_Pages_ZoomSettingsPage_jsx":"27868d2a05b318781151","src_Components_Pages_StripeIntegrationsPage_jsx":"3c1f32fb1a1b3f737387","src_Components_Pages_EmailsPage_jsx":"c45b40de4bd3c19073dd","src_Components_Pages_CalendarsPage_jsx":"c00834e040d4ea44287d","vendors-node_modules_heroicons_react_24_outline_esm_ChevronDownIcon_js-node_modules_react-day-bede5a":"5488baffce6e257790e2","src_Components_PostEditor_DateStep_jsx":"af82baecda1c1bb92e56","src_Components_PostEditor_VenueStep_jsx":"2e096865732de7292b63","src_Components_PostEditor_FiltersStep_jsx":"7fc66ea75796f19461d5","src_Components_PostEditor_BrandingStep_jsx":"4d42eacc3fdaa72f93f9","src_Components_PostEditor_TicketsStep_jsx":"4bb0402354b59b7cadff","src_Components_PostEditor_RegistrantsStep_jsx":"a8f7613d0ed630fc0073"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"f56a6e2a8e9f3e8eb7d8","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"2ae01c2b2103951f1ac1","src_Components_PostEditor_EventDetails_jsx":"0887d9f6e6bffd209e90","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"538634fb4bf6fad0ad0b","src_Components_Pages_FiltersPage_jsx":"5abd43cb8dd5552885ad","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"8ef1fb9f0bed2ab3bbf6","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"fafdf790abd5ac25f72e","src_Components_Pages_BookingsPage_jsx":"66f5c980b6308c4396dc","src_Components_Pages_SupportPage_jsx":"2b0141d74720f58c0697","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-6f5796":"bd6ea38e5e373a0f617e","src_Components_Pages_BrandingPage_jsx":"805397650b0a59d29733","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_Pages_CreateEventForm_jsx":"7beb767da116da77f799","src_Components_Pages_Dashboard_jsx":"a98662b244d4369348af","src_Components_Pages_CreateFilterPage_jsx":"3126f9975c4f0632e316","src_Components_Pages_FiltersListPage_jsx":"c064b5af1d4b0517b155","src_Components_Pages_SingleEventPageRouterShell_jsx":"c2531a0cd2ea78e550da","src_Components_Pages_ZoomPage_jsx":"91a6b06416e5f9c589d8","src_Components_Pages_ZoomSettingsPage_jsx":"0cde9a9be89e66246261","src_Components_Pages_StripeIntegrationsPage_jsx":"9b8364c3cf64d7ac7b12","src_Components_Pages_EmailsPage_jsx":"b256b484d9c4f05696a8","src_Components_Pages_CalendarsPage_jsx":"f8304b70f25985cf1990","vendors-node_modules_heroicons_react_24_outline_esm_ChevronDownIcon_js-node_modules_react-day-bede5a":"5488baffce6e257790e2","src_Components_PostEditor_DateStep_jsx":"526bbe3b6f9c539ec020","src_Components_PostEditor_VenueStep_jsx":"2e096865732de7292b63","src_Components_PostEditor_FiltersStep_jsx":"7fc66ea75796f19461d5","src_Components_PostEditor_BrandingStep_jsx":"4d42eacc3fdaa72f93f9","src_Components_PostEditor_TicketsStep_jsx":"fb88235eb4a951f9b87e","src_Components_PostEditor_RegistrantsStep_jsx":"95a492ec57d30884ab48"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

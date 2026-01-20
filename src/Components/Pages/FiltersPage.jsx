@@ -68,7 +68,7 @@ const FiltersPage = () => {
         <td>{filterDescriptions[filter] ?? "Description"}</td>
         <td>
           <PageActionButton
-            text="Create filter"
+            text="Create"
             type="secondary"
             icon={<PlusIcon className="button-icon" />}
             slim

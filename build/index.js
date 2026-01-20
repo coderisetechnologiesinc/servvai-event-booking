@@ -15768,6 +15768,7 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
   filtersHash: null,
   zoomConnected: false,
   stripeConnected: false,
+  stripeCurrency: "CAD",
   gmailConnected: false,
   calendarConnected: false,
   timeFormat: "hh:mm a",
@@ -15808,6 +15809,9 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
       const stripe = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getStripeAccount)();
       set({
         stripeConnected: !!stripe?.data?.id
+      });
+      set({
+        stripeCurrency: stripe?.data?.currency
       });
       const gmail = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getGmailAccount)();
       set({

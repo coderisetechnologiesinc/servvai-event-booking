@@ -50,13 +50,12 @@ const SideBar = ({ page, onChange, collapsed = false, onToggle, t }) => {
       items: [
         { title: "Dashboard", link: "dashboard", icon: Dashboard },
         { title: "Events", link: "events", icon: Events },
-
+        { title: "Bookings", link: "bookings", icon: Sales },
+        { title: "Filters", link: "filters", icon: Filters },
         { title: "Integrations", link: "integrations", icon: Contacts },
         // { title: "Branding", link: "branding", icon: Widgets },
         { title: "Notifications", link: "notifications", icon: Emails },
         { title: "Analytics", link: "analytics", icon: Analytics },
-        { title: "Filters", link: "filters", icon: Filters },
-        { title: "Sales", link: "bookings", icon: Sales },
       ],
     },
     // {
@@ -83,12 +82,12 @@ const SideBar = ({ page, onChange, collapsed = false, onToggle, t }) => {
           items: [
             { title: "Dashboard", link: "dashboard", icon: Dashboard },
             { title: "Events", link: "events", icon: Events },
+            { title: "Bookings", link: "bookings", icon: Sales },
+            { title: "Filters", link: "filters", icon: Filters },
             { title: "Branding", link: "branding", icon: Widgets },
             { title: "Integrations", link: "integrations", icon: Contacts },
             { title: "Notifications", link: "notifications", icon: Emails },
             { title: "Analytics", link: "analytics", icon: Analytics },
-            { title: "Filters", link: "filters", icon: Filters },
-            { title: "Sales", link: "bookings", icon: Sales },
           ],
         },
         // {
