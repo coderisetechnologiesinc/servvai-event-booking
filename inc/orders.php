@@ -451,12 +451,6 @@ function servv_process_free_order() {
         exit();
     }
 
-    if(!is_null($currentQuantity)) {
-        $newQuantity = $currentQuantity - $quantity;
-        !empty($occurrenceId) ? $quantities[$occurrenceId] = $newQuantity : $quantities[0] = $newQuantity;
-        update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
-    }
-
     $apiRoute = '/wordpress/neworder';
     $variantId = $postId.'0';
     if(!empty($occurrenceId)) {
@@ -494,6 +488,12 @@ function servv_process_free_order() {
         wp_send_json_error(['message' => 'Bad api response. '.$e->getMessage(), 'status' => $e->getCode()]);
         exit();
     }
+    if(!is_null($currentQuantity)) {
+        $newQuantity = $currentQuantity - $quantity;
+        !empty($occurrenceId) ? $quantities[$occurrenceId] = $newQuantity : $quantities[0] = $newQuantity;
+        update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
+    }
+
     $n8nData = $data;
     $n8nData['wp_post_id'] = $postId;
     $n8nData['wp_post_url'] = get_permalink($postId);

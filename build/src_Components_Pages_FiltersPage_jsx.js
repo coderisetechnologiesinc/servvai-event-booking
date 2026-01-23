@@ -463,14 +463,20 @@ const FiltersPage = () => {
   const [createDropdown, setCreateDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [secondCreateDropdown, setCreateSecondDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const filterDescriptions = {
-    Locations: "Locations description",
-    Languages: "Languages description",
-    Categories: "Categories description",
-    Members: "Members description"
+    Locations: "Filter events based on where they take place",
+    Languages: "Filter events by the language they’re hosted in",
+    Categories: "Narrow down events by topic or type",
+    Members: "Filter events by the host, instructor, or team member running the event"
   };
   const [filterCategories, setFilterCategories] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [defaultFiltersList, setDefaultFiltersList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["Locations", "Languages", "Categories"]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    setFilterCategories(Object.keys(filtersList).filter(key => filtersList[key]?.length > 0).map(key => key.charAt(0).toUpperCase() + key.slice(1)));
+    // setFilterCategories(
+    //   Object.keys(filtersList)
+    //     .filter((key) => filtersList[key]?.length > 0)
+    //     .map((key) => key.charAt(0).toUpperCase() + key.slice(1)),
+    // );
+    setFilterCategories(defaultFiltersList);
   }, [filtersList]);
   const headings = [{
     label: "Filter categories"
@@ -888,4 +894,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=5abd43cb8dd5552885ad
+//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=3c2357b5bd172392e4c6

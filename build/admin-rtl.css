@@ -21,7 +21,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 220px;       /* desktop width */
+  width: 220px; /* desktop width */
   height: 100vh;
   background: #ffffff;
   z-index: 20;
@@ -38,7 +38,10 @@
 
 .sidebar-overlay {
   position: fixed;
-  top: 0; right: 0; left: 0; bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
 }
@@ -72,7 +75,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.25rem 0.5rem; /* 4px top/bottom, 8px left/right */
-  font-size: 0.75rem;      /* 12px */
+  font-size: 0.75rem; /* 12px */
   font-weight: 500;
   border-radius: 9999px;
   white-space: nowrap;
@@ -193,7 +196,7 @@
 /* Mobile-only filter panel (under funnel icon) */
 
 .filters-dropdown {
-  top: 3.5rem;   /* adjust if header is taller */
+  top: 3.5rem; /* adjust if header is taller */
   left: 1rem;
   padding: 1rem;
 }
@@ -228,6 +231,7 @@
   padding: 0;
   box-sizing: border-box;
   background-color: #ffffff;
+  min-width: 0;
 }
 
 /* CRITICAL FIX: Ensure table takes full width on desktop */
@@ -284,17 +288,35 @@
     width: auto;
     min-width: 0;
   }
-  
+
   /* Specific column widths for better distribution */
-  .table-container thead th:nth-child(1) { width: 50px; } /* Checkbox */
-  .table-container thead th:nth-child(2) { width: 25%; }  /* Title */
-  .table-container thead th:nth-child(3) { width: 15%; }  /* Date */
-  .table-container thead th:nth-child(4) { width: 15%; }  /* Time */
-  .table-container thead th:nth-child(5) { width: 15%; }  /* Location */
-  .table-container thead th:nth-child(6) { width: 10%; }  /* Type */
-  .table-container thead th:nth-child(7) { width: 10%; }  /* Recurrence */
-  .table-container thead th:nth-child(8) { width: 10%; }  /* Status */
-  .table-container thead th:nth-child(9) { width: 50px; } /* Actions */
+  .table-container thead th:nth-child(1) {
+    width: 50px;
+  } /* Checkbox */
+  .table-container thead th:nth-child(2) {
+    width: 25%;
+  } /* Title */
+  .table-container thead th:nth-child(3) {
+    width: 15%;
+  } /* Date */
+  .table-container thead th:nth-child(4) {
+    width: 15%;
+  } /* Time */
+  .table-container thead th:nth-child(5) {
+    width: 15%;
+  } /* Location */
+  .table-container thead th:nth-child(6) {
+    width: 10%;
+  } /* Type */
+  .table-container thead th:nth-child(7) {
+    width: 10%;
+  } /* Recurrence */
+  .table-container thead th:nth-child(8) {
+    width: 10%;
+  } /* Status */
+  .table-container thead th:nth-child(9) {
+    width: 50px;
+  } /* Actions */
 }
 
 /* Ensure the last header cell extends to the edge */
@@ -451,7 +473,7 @@
   border-bottom: 1px solid #e5e7eb;
   background-color: #ffffff;
   transition: background-color 0.2s ease;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .mobile-event-row:hover {
@@ -518,8 +540,14 @@
 ---------------------------------------- */
 
 @media (max-width: 767px) {
-  .filter-table-headings, .table-row th { display: none !important; }
-  .table-row, .filter-table-headings { display: none !important; }
+  .filter-table-headings,
+  .table-row th {
+    display: none !important;
+  }
+  .table-row,
+  .filter-table-headings {
+    display: none !important;
+  }
   .mobile-event-row {
     position: relative;
     display: flex;
@@ -532,12 +560,22 @@
     margin-bottom: 1rem;
     min-height: 64px;
   }
-  .mobile-event-title { font-weight: 600; font-size: 1rem; }
-  .mobile-event-date { color: #7c3aed; font-size: 0.95rem; }
-  .mobile-event-actions { min-width: 44px; min-height: 44px; }
+  .mobile-event-title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .mobile-event-date {
+    color: #7c3aed;
+    font-size: 0.95rem;
+  }
+  .mobile-event-actions {
+    min-width: 44px;
+    min-height: 44px;
+  }
   .mobile-event-details {
     position: absolute;
-    right: 0; left: 0;
+    right: 0;
+    left: 0;
     top: 100%;
     margin-top: 0.5rem;
     background: #f9fafb;
@@ -545,18 +583,24 @@
     padding: 0.75rem;
     font-size: 0.95rem;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(63,61,86,0.07);
+    box-shadow: 0 2px 8px rgba(63, 61, 86, 0.07);
   }
   .mobile-event-details .mobile-event-actions-row button {
     margin-left: 0.5rem;
-    min-width: 44px; min-height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
-  .mobile-header-actions button { min-width: 44px; min-height: 44px; }
+  .mobile-header-actions button {
+    min-width: 44px;
+    min-height: 44px;
+  }
   .mobile-tabs {
     display: flex;
     justify-content: space-around;
     position: fixed;
-    top: 0; right: 0; left: 0;
+    top: 0;
+    right: 0;
+    left: 0;
     background: #fff;
     z-index: 10;
     border-bottom: 1px solid #e5e7eb;
@@ -592,21 +636,21 @@
 ---------------------------------------- */
 
 .event-timeline-label {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: #1f2937;
 }
 
 .event-count-label {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: #6b7280;
 }
 
 .event-timeline-toggle {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
   transition: all 0.2s ease;
 }
@@ -616,19 +660,19 @@
 ---------------------------------------- */
 
 .events-main-heading {
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .events-subheading {
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .events-main-heading-mobile {
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .font-inter {
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 /* ----------------------------------------
@@ -636,7 +680,7 @@
 ---------------------------------------- */
 
 .page-action-button {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 500;
   transition: all 0.2s ease;
   border-radius: 8px;
@@ -659,6 +703,7 @@
   ring-color: #a855f7;
   ring-opacity: 0.5;
 }
+
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/quill/dist/quill.core.css ***!
   \****************************************************************************************************************************************************************************************************************************/

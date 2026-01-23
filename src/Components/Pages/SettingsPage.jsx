@@ -221,7 +221,7 @@ const SettingsPage = () => {
       !newSettings.settings.admin_dashboard ||
       !newSettings.settings.admin_dashboard.default_quantity
     ) {
-      validatedSettings.settings.admin_dashboard.default_quantity = 25;
+      validatedSettings.settings.admin_dashboard.default_quantity = 1;
     }
     if (
       !newSettings ||
@@ -542,7 +542,8 @@ const SettingsPage = () => {
 
   const handleDefaultQuantityChange = (newVal) => {
     let currentSettings = { ...settings };
-    currentSettings.settings.admin_dashboard.default_quantity = newVal;
+    if (newVal <= settings.free_registrants_limit)
+      currentSettings.settings.admin_dashboard.default_quantity = newVal;
     setSettings(currentSettings);
   };
 
@@ -1195,7 +1196,9 @@ const SettingsPage = () => {
                 </AnnotatedSection>
                 <AnnotatedSection
                   title="Ticket quantity"
-                  description="Set a default ticket quantity."
+                  description={`Set a default ticket quantity. The maximum number of tickets for your plan is ${
+                    settings?.free_registrants_limit || 15
+                  }`}
                   className={responsiveBlockStack}
                 >
                   <BlockStack
@@ -1214,7 +1217,7 @@ const SettingsPage = () => {
                       type="number"
                       align="left"
                       minValue={0}
-                      disabled={isBillingPlanRestriction ? 25 : null}
+                      disabled={isBillingPlanRestriction ? 15 : null}
                       onChange={(newVal) => handleDefaultQuantityChange(newVal)}
                       className={responsiveInput}
                     />

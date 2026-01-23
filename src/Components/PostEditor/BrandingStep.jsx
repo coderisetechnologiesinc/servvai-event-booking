@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { BrushIcon, UploadIcon } from "../../assets/icons";
 import NewInputControl from "../Controls/NewInputControl";
 import RadioGroup from "../Controls/RecurrenceRadioGroup";
@@ -23,7 +24,7 @@ const BrandingStep = ({
   calendarConnected,
 }) => {
   const { google_calendar, disable_emails } = attributes.notifications || {};
-
+  const [warning, setWarning] = useState(false);
   const { topic, agenda } = attributes.meeting;
   const fileInputRef = useRef(null);
   const resolveImagePreview = (value) => {
@@ -36,7 +37,7 @@ const BrandingStep = ({
   };
 
   const [imagePreview, setImagePreview] = useState(
-    resolveImagePreview(attributes?.image_content)
+    resolveImagePreview(attributes?.image_content),
   );
 
   const [uploading, setUploading] = useState(false);
@@ -45,6 +46,9 @@ const BrandingStep = ({
   }, [attributes?.image_content]);
 
   const updateField = (key, value) => {
+    if (warning === true && key === "topic") {
+      setWarning(false);
+    }
     if (key === "google_calendar" || key === "disable_emails") {
       setAttributes({
         notifications: {
@@ -131,6 +135,7 @@ const BrandingStep = ({
             placeholder="Enter a title"
             value={topic}
             onChange={(val) => updateField("topic", val)}
+            error={warning}
           />
         </div>
         <div className="step__content_block">
@@ -173,7 +178,12 @@ const BrandingStep = ({
               {/* <span className="servv_upload__hint">or drag and drop</span> */}
             </div>
 
-            <div className="servv_upload__support">PNG, JPG up to 5MB</div>
+            <div className="servv_upload__support">
+              Supports PNG and JPG files up to 5 MB.
+            </div>
+            <div className="servv_upload__support">
+              Recommended resolution: 16 × 11
+            </div>
           </div>
 
           {/* Preview */}
@@ -184,6 +194,7 @@ const BrandingStep = ({
               style={{
                 marginTop: 12,
                 width: "100%",
+                maxWidth: "384px",
                 maxHeight: 180,
                 objectFit: "cover",
                 borderRadius: 8,
@@ -216,7 +227,7 @@ const BrandingStep = ({
 
           <RadioGroup
             name="email_notifications"
-            value={!disable_emails}
+            value={disable_emails}
             options={EMAIL_NOTIFICATION_OPTIONS}
             onChange={() => updateField("disable_emails", !disable_emails)}
           />
@@ -233,7 +244,14 @@ const BrandingStep = ({
           <button
             type="button"
             className="servv_button servv_button--primary"
-            onClick={() => handleFormSubmit()}
+            onClick={() => {
+              if (attributes?.meeting?.topic?.length > 0) {
+                handleFormSubmit();
+              } else {
+                setWarning(true);
+                toast.warning("Please enter the title");
+              }
+            }}
           >
             {isNew ? "Create" : "Save"}
           </button>

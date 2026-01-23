@@ -9,6 +9,7 @@ const NewInputControl = ({
   onChange = () => {},
   textarea = false,
   style = {},
+  error,
 }) => {
   const InputTag = textarea ? "textarea" : "input";
 
@@ -17,20 +18,24 @@ const NewInputControl = ({
       {label && <label className="step__content_title">{label}</label>}
 
       <div
-        className={`servv_input__control ${
-          disabled ? "servv_input--disabled" : ""
-        }`}
+        className={`servv-input ${error ? "servv-input--error" : ""}`}
         style={style}
       >
-        <InputTag
-          className="servv_input__native"
-          value={value}
-          placeholder={placeholder || helpText}
-          disabled={disabled}
-          onChange={(e) => onChange(e.target.value)}
-          rows={textarea ? 4 : undefined}
-        />
+        <div className="servv-input__content">
+          <InputTag
+            className="servv-input__native"
+            value={value}
+            placeholder={placeholder || helpText}
+            disabled={disabled}
+            onChange={(e) => onChange(e.target.value)}
+            rows={textarea ? 4 : undefined}
+          />
+        </div>
       </div>
+
+      {error && typeof error === "string" && (
+        <div className="servv-input__error-text">{error}</div>
+      )}
     </div>
   );
 };

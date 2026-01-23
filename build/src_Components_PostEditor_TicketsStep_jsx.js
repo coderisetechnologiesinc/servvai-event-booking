@@ -25,7 +25,8 @@ const NewInputControl = ({
   disabled = false,
   onChange = () => {},
   textarea = false,
-  style = {}
+  style = {},
+  error
 }) => {
   const InputTag = textarea ? "textarea" : "input";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -37,16 +38,22 @@ const NewInputControl = ({
       className: "step__content_title",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv_input__control ${disabled ? "servv_input--disabled" : ""}`,
+      className: `servv-input ${error ? "servv-input--error" : ""}`,
       style: style,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(InputTag, {
-        className: "servv_input__native",
-        value: value,
-        placeholder: placeholder || helpText,
-        disabled: disabled,
-        onChange: e => onChange(e.target.value),
-        rows: textarea ? 4 : undefined
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "servv-input__content",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(InputTag, {
+          className: "servv-input__native",
+          value: value,
+          placeholder: placeholder || helpText,
+          disabled: disabled,
+          onChange: e => onChange(e.target.value),
+          rows: textarea ? 4 : undefined
+        })
       })
+    }), error && typeof error === "string" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "servv-input__error-text",
+      children: error
     })]
   });
 };
@@ -145,7 +152,8 @@ const NewTimeInputControl = ({
   disabled = false,
   timeFormat = "hh:mm a",
   onChange,
-  align = "start"
+  align = "start",
+  validationError = false
 }) => {
   const [hours, setHours] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [minutes, setMinutes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -155,6 +163,7 @@ const NewTimeInputControl = ({
     const m = moment__WEBPACK_IMPORTED_MODULE_3___default()(time);
     setHours(timeFormat === "hh:mm a" ? m.format("hh") : m.format("HH"));
     setMinutes(m.format("mm"));
+    // setHasError(false);
   }, [time, timeFormat]);
   const validateTime = (h, m) => {
     if (h === "" || m === "") return false;
@@ -204,7 +213,7 @@ const NewTimeInputControl = ({
         disabled: disabled,
         align: "center",
         width: "64px",
-        error: hasError
+        error: hasError || validationError
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         className: "section-description",
         children: ":"
@@ -216,7 +225,7 @@ const NewTimeInputControl = ({
         disabled: disabled,
         align: "center",
         width: "64px",
-        error: hasError
+        error: hasError || validationError
       }), timeFormat === "hh:mm a" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_NewTimePeriodControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
         time: time,
         onChange: val => {
@@ -444,13 +453,15 @@ const TicketsStep = ({
   isNew,
   settings
 }) => {
-  var _activeTicket$quantit, _activeTicket$price2;
+  var _activeTicket$quantit, _activeTicket$price;
   const {
     quantity = 100,
     availability = "open" // "open" | "scheduled"
   } = attributes || {};
   const MIN_QTY = 1;
-  const MAX_QTY = 100;
+  const [MAX_QTY, SET_MAX_QTY] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(settings.free_registrants_limit || 15);
+  const [defaultQty, setDefaultQty] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
+  const [defaultPrice, setDefaultPrice] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
   const isFreePlanRestricted = !stripeConnected || settings?.current_plan?.id === 1;
   const AVAILABILITY_OPTIONS = [{
     value: "open",
@@ -497,6 +508,21 @@ const TicketsStep = ({
     return moment__WEBPACK_IMPORTED_MODULE_6___default()(iso).tz(timezone).format("HH:mm");
   };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const visibleFreeTickets = tickets.filter(t => t.action !== "remove" && t.type === "free");
+    const usedFreeQuantity = visibleFreeTickets.reduce((sum, ticket) => sum + Number(ticket.quantity || 0), 0);
+    const remaining = Math.max(0, (settings.free_registrants_limit || 15) - usedFreeQuantity);
+    SET_MAX_QTY(remaining);
+  }, [tickets, settings.free_registrants_limit]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (settings?.settings?.admin_dashboard) {
+      let adminSettings = JSON.parse(settings.settings.admin_dashboard);
+      let defaultQtyFromSettings = Number.parseInt(adminSettings.default_quantity) || 1;
+      setDefaultQty(defaultQtyFromSettings);
+      let defaultPriceFromSettings = Number.parseFloat(adminSettings.default_price) || 1;
+      setDefaultPrice(defaultPriceFromSettings);
+    }
+  }, [settings]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (!isFreePlanRestricted) return;
     if (!tickets.length) {
       setAttributes({
@@ -504,7 +530,7 @@ const TicketsStep = ({
           id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
           type: "free",
           title: "Standard",
-          quantity: 100,
+          quantity: defaultQty,
           availability: "open"
         }]
       });
@@ -599,15 +625,6 @@ const TicketsStep = ({
       end_datetime: momentObj.toISOString()
     });
   };
-  const addTicket = () => {
-    updateTickets([...tickets, {
-      id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
-      type: "free",
-      title: "Standard",
-      quantity: 1,
-      availability: "open"
-    }]);
-  };
   const [activeTicketId, setActiveTicketId] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(tickets[0]?.id || null);
   const visibleTickets = tickets.filter(t => t.action !== "remove");
   const removeTicket = id => {
@@ -642,6 +659,32 @@ const TicketsStep = ({
     }
   }, [visibleTickets, activeTicket]);
   const qty = (_activeTicket$quantit = activeTicket?.quantity) !== null && _activeTicket$quantit !== void 0 ? _activeTicket$quantit : MIN_QTY;
+  const isFreeTicket = activeTicket?.type === "free";
+  const activeFreeQty = isFreeTicket && typeof activeTicket?.quantity === "number" ? activeTicket.quantity : 0;
+  const MAX_TICKET_QTY = isFreeTicket ? activeFreeQty + MAX_QTY : 500;
+  const freeQuotaExcludingActive = (() => {
+    if (!activeTicket) return MAX_QTY;
+    if (activeTicket.type !== "free") {
+      // active ticket was not consuming free quota
+      return MAX_QTY;
+    }
+
+    // active ticket WAS consuming free quota → add it back
+    return MAX_QTY + Number(activeTicket.quantity || 0);
+  })();
+  const addTicket = () => {
+    const remainingFreeQuota = MAX_QTY;
+    const initialQty = remainingFreeQuota > 0 ? Math.min(defaultQty, remainingFreeQuota) : 0;
+    const newTicket = {
+      id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
+      type: "free",
+      title: "Standard",
+      quantity: initialQty,
+      availability: "open"
+    };
+    updateTickets([...tickets, newTicket]);
+    setActiveTicketId(newTicket.id);
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "step__wrapper servv_tickets",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
@@ -652,10 +695,10 @@ const TicketsStep = ({
         className: "step__heading",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
           className: "step__header_title",
-          children: "Tickets"
+          children: "Ticket Types"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
           className: "step__description",
-          children: "Specify the number of tickets"
+          children: "Set up ticket categories and total quantity"
         })]
       }), !isNew && attributes.meeting?.occurrences && attributes.meeting?.occurrences?.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
         className: "step__description",
@@ -711,11 +754,33 @@ const TicketsStep = ({
             options: TIYCKET_TYPES,
             disabled: !stripeConnected,
             onChange: val => {
-              var _activeTicket$price;
-              return updateTicket(activeTicketId, {
+              const prevType = activeTicket?.type;
+              const prevQty = Number(activeTicket?.quantity || MIN_QTY);
+              let nextQty = prevQty;
+              let nextPrice = activeTicket?.price;
+              if (val === "free") {
+                nextQty = Math.min(prevQty, freeQuotaExcludingActive);
+                nextPrice = undefined;
+              }
+              if (prevType === "free" && val !== "free") {
+                nextQty = Math.min(prevQty, 500);
+              }
+              if (val === "paid") {
+                const currentPrice = Number(activeTicket?.price);
+                if (!currentPrice || currentPrice <= 0) {
+                  nextPrice = String(defaultPrice);
+                }
+              }
+              nextQty = Math.max(MIN_QTY, nextQty);
+              const patch = {
                 type: val,
-                price: val === "paid" ? (_activeTicket$price = activeTicket?.price) !== null && _activeTicket$price !== void 0 ? _activeTicket$price : "" : ""
-              });
+                quantity: nextQty
+              };
+              if (val === "paid" || val === "donation") {
+                var _nextPrice;
+                patch.price = (_nextPrice = nextPrice) !== null && _nextPrice !== void 0 ? _nextPrice : "";
+              }
+              updateTicket(activeTicketId, patch);
             }
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
@@ -739,7 +804,7 @@ const TicketsStep = ({
             type: "text",
             inputMode: "decimal",
             placeholder: "Enter price",
-            value: (_activeTicket$price2 = activeTicket?.price) !== null && _activeTicket$price2 !== void 0 ? _activeTicket$price2 : "",
+            value: (_activeTicket$price = activeTicket?.price) !== null && _activeTicket$price !== void 0 ? _activeTicket$price : "",
             onChange: val => {
               // allow empty
               if (val === "") {
@@ -783,19 +848,15 @@ const TicketsStep = ({
               value: qty === "" ? "" : String(qty),
               onChange: e => {
                 const raw = e.target.value;
-
-                // allow empty while typing
                 if (raw === "") {
                   updateTicket(activeTicketId, {
                     quantity: ""
                   });
                   return;
                 }
-
-                // digits only
                 if (!/^\d+$/.test(raw)) return;
                 const num = Number(raw);
-                if (num >= MIN_QTY && num <= MAX_QTY) {
+                if (num >= MIN_QTY && num <= MAX_TICKET_QTY) {
                   updateTicket(activeTicketId, {
                     quantity: num
                   });
@@ -812,18 +873,18 @@ const TicketsStep = ({
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               type: "button",
               onClick: () => {
-                if (qty < MAX_QTY) {
+                if (qty < MAX_TICKET_QTY) {
                   updateTicket(activeTicketId, {
                     quantity: qty + 1
                   });
                 }
               },
-              disabled: qty >= MAX_QTY,
+              disabled: qty >= MAX_TICKET_QTY,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.PlusIcon, {})
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          }), isFreeTicket && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
             className: "servv_ticket_quantity__hint",
-            children: "Maximum quantity for free plan is 100"
+            children: ["You have ", MAX_QTY, " free tickets remaining for your plan."]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "step__content_block",
@@ -840,7 +901,8 @@ const TicketsStep = ({
                 start_datetime: undefined,
                 end_datetime: undefined
               } : {})
-            })
+            }),
+            disabled: settings?.current_plan?.id === 1
           })]
         }), activeTicket?.availability === "scheduled" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "servv_ticket_sales_block",
@@ -1085,4 +1147,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=fb88235eb4a951f9b87e
+//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=73bcf3aa76ee373ab55b

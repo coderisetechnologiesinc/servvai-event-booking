@@ -28,12 +28,15 @@ const DateStep = ({
 
   const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const [userTimezone, setUserTimezone] = useState(null);
-
+  const [internalEndTime, setInternalEndTime] = useState(null);
+  const [hasInvalidDuration, setHasInvalidDuration] = useState(false);
+  const [hasInvalidStartTime, setHasInvalidStartTime] = useState(false);
   /* ---------- moments ---------- */
 
   const startMoment = startTime ? moment(startTime) : moment();
-
-  const endMoment = startMoment.clone().add(duration ?? 0, "minutes");
+  const endMoment = internalEndTime
+    ? moment(internalEndTime)
+    : startMoment.clone().add(duration ?? 0, "minutes");
 
   /* ---------- timezone options ---------- */
 
@@ -46,12 +49,13 @@ const DateStep = ({
 
   const getDefaultTimezoneFromSettings = () => {
     const raw = settings?.settings?.admin_dashboard;
+    const fallback = moment.tz.guess();
 
-    if (!raw) return moment.tz.guess();
+    if (!raw && timezonesList[fallback] !== undefined) return moment.tz.guess();
 
     const adminSettings = typeof raw === "string" ? JSON.parse(raw) : raw;
 
-    return adminSettings.default_timezone || moment.tz.guess();
+    return adminSettings.default_timezone || fallback;
   };
 
   useEffect(() => {
@@ -86,6 +90,16 @@ const DateStep = ({
     });
   }, [userTimezone]);
 
+  useEffect(() => {
+    if (startTime && duration !== undefined) {
+      setInternalEndTime(
+        moment(startTime)
+          .add(duration, "minutes")
+          .format("YYYY-MM-DDTHH:mm:ss"),
+      );
+    }
+  }, [startTime, duration]);
+
   /* ---------- handlers ---------- */
 
   const handleDateChange = (selectedDate) => {
@@ -111,13 +125,25 @@ const DateStep = ({
       .hour(newMoment.hour())
       .minute(newMoment.minute())
       .second(0);
+    const timezone = attributes?.meeting?.timezone;
 
-    setAttributes({
-      meeting: {
-        ...(attributes.meeting || {}),
-        startTime: updated.format("YYYY-MM-DDTHH:mm:ss"),
-      },
-    });
+    const userSelection = moment.tz(
+      updated.format("YYYY-MM-DD HH:mm"),
+      timezone,
+    );
+
+    const now = moment().tz(timezone);
+
+    setHasInvalidStartTime(userSelection.isBefore(now));
+
+    if (!updated.isSame(startMoment)) {
+      setAttributes({
+        meeting: {
+          ...(attributes.meeting || {}),
+          startTime: updated.format("YYYY-MM-DDTHH:mm:ss"),
+        },
+      });
+    }
   };
 
   const handleEndTimeChange = (newEndMoment) => {
@@ -129,14 +155,20 @@ const DateStep = ({
       .minute(newEndMoment.minute())
       .second(0);
 
+    setInternalEndTime(fixedEndMoment.format("YYYY-MM-DDTHH:mm:ss"));
+
     const newDuration = fixedEndMoment.diff(startMoment, "minutes");
 
-    setAttributes({
-      meeting: {
-        ...(attributes.meeting || {}),
-        duration: Math.max(0, newDuration),
-      },
-    });
+    setHasInvalidDuration(newDuration <= 0);
+
+    if (newDuration !== duration) {
+      setAttributes({
+        meeting: {
+          ...(attributes.meeting || {}),
+          duration: Math.max(0, newDuration),
+        },
+      });
+    }
   };
 
   const handleTimezoneChange = (zone) => {
@@ -167,7 +199,7 @@ const DateStep = ({
 
   useEffect(() => {
     setTimeFormat(
-      settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
+      settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
     );
   }, [settings]);
 
@@ -184,6 +216,9 @@ const DateStep = ({
       });
     }
   }, []);
+  const isRecurringAvailable =
+    settings?.current_plan?.features?.find((f) => f.title === "Recurring")
+      ?.value || false;
 
   return (
     <div className="step__wrapper">
@@ -234,6 +269,7 @@ const DateStep = ({
               timeFormat={timeFormat}
               onChange={handleStartTimeChange}
               align="start"
+              validationError={hasInvalidDuration || hasInvalidStartTime}
             />
 
             <div className="self-center">to</div>
@@ -243,8 +279,19 @@ const DateStep = ({
               timeFormat={timeFormat}
               onChange={handleEndTimeChange}
               align="end"
+              validationError={hasInvalidDuration}
             />
           </div>
+          {hasInvalidStartTime && (
+            <div className="step__description">
+              Start time cannot be in the past
+            </div>
+          )}
+          {hasInvalidDuration && (
+            <div className="step__description">
+              End time must be after start time
+            </div>
+          )}
 
           {/* Recurrence */}
           {!isOccurrence && (
@@ -259,9 +306,10 @@ const DateStep = ({
                   { value: "recurring", label: "Recurring" },
                 ]}
                 onChange={handleRecurrenceModeChange}
+                disabled={!isRecurringAvailable}
               />
 
-              {recurrence && (
+              {recurrence && isRecurringAvailable && (
                 <NewRecurringControl
                   recurrence={recurrence}
                   onChange={(updatedRecurrence) => {
@@ -276,7 +324,7 @@ const DateStep = ({
                 />
               )}
 
-              {recurrence && (
+              {recurrence && isRecurringAvailable && (
                 <div className="my-8">
                   <NewEndDateControl
                     recurrence={recurrence}
@@ -301,7 +349,7 @@ const DateStep = ({
               className="servv_button servv_button--secondary"
               onClick={() => navigate("/dashboard")}
             >
-              Back to Home
+              Previous
             </button>
 
             <button

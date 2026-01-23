@@ -25,7 +25,8 @@ const NewInputControl = ({
   disabled = false,
   onChange = () => {},
   textarea = false,
-  style = {}
+  style = {},
+  error
 }) => {
   const InputTag = textarea ? "textarea" : "input";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -37,16 +38,22 @@ const NewInputControl = ({
       className: "step__content_title",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv_input__control ${disabled ? "servv_input--disabled" : ""}`,
+      className: `servv-input ${error ? "servv-input--error" : ""}`,
       style: style,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(InputTag, {
-        className: "servv_input__native",
-        value: value,
-        placeholder: placeholder || helpText,
-        disabled: disabled,
-        onChange: e => onChange(e.target.value),
-        rows: textarea ? 4 : undefined
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "servv-input__content",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(InputTag, {
+          className: "servv-input__native",
+          value: value,
+          placeholder: placeholder || helpText,
+          disabled: disabled,
+          onChange: e => onChange(e.target.value),
+          rows: textarea ? 4 : undefined
+        })
       })
+    }), error && typeof error === "string" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "servv-input__error-text",
+      children: error
     })]
   });
 };
@@ -192,7 +199,7 @@ const FiltersStep = ({
           children: "Filters and Notes"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "step__description",
-          children: "Set filters and add notes"
+          children: "Set filters and add additional notes"
         })]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -339,4 +346,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=7fc66ea75796f19461d5
+//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=6103e0b4467e9ec6fd2a

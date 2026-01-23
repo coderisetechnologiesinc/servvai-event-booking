@@ -9,6 +9,7 @@ import {
   Contacts,
   CloseIcon,
 } from "../../assets/icons";
+import { EyeIcon } from "@heroicons/react/24/outline";
 
 import { useEffect, useState, useRef } from "react";
 import { useServvStore } from "../../store/useServvStore";
@@ -30,7 +31,7 @@ const FiltersStep = React.lazy(() => import("../PostEditor/FiltersStep"));
 const BrandingStep = React.lazy(() => import("../PostEditor/BrandingStep"));
 const TicketsStep = React.lazy(() => import("../PostEditor/TicketsStep"));
 const RegistrantsStep = React.lazy(() =>
-  import("../PostEditor/RegistrantsStep")
+  import("../PostEditor/RegistrantsStep"),
 );
 import { useNavigate } from "react-router-dom";
 
@@ -58,12 +59,13 @@ const StepperText = ({ title, subtitle, active }) => {
 const CreateEventForm = () => {
   const settings = useServvStore((s) => s.settings);
   const adminDashboardRaw = useServvStore(
-    (s) => s.settings?.settings?.admin_dashboard
+    (s) => s.settings?.settings?.admin_dashboard,
   );
   const zoomConnected = useServvStore((s) => s.zoomConnected);
   const stripeConnected = useServvStore((s) => s.stripeConnected);
   const calendarConnected = useServvStore((s) => s.calendarConnected);
   const gmailConnected = useServvStore((s) => s.gmailConnected);
+  const filtersList = useServvStore((s) => s.filtersList);
   const { fetchEventTickets } = useServvData();
   const navigate = useNavigate();
   const [currentSettings, setCurrentSettings] = useState({});
@@ -250,7 +252,7 @@ const CreateEventForm = () => {
         const firstOccurrence = data.meeting.occurrences[0];
         startTime = moment.tz(
           firstOccurrence.start_time,
-          data.meeting.timezone
+          data.meeting.timezone,
         );
       }
       let payload = {
@@ -304,8 +306,21 @@ const CreateEventForm = () => {
           Icon: Contacts,
           iconClass: "icon--left",
         });
-        setSteps(newSteps);
       }
+
+      if (!isNew && data.wp_post_url) {
+        mergeAttributes({ wp_post_url: data.wp_post_url });
+        newSteps.push({
+          key: "view",
+          title: "View event",
+          subtitle: "View event page",
+          Icon: EyeIcon,
+          iconClass: "icon--left",
+        });
+      }
+
+      setSteps(newSteps);
+
       if (data.meeting.occurrences && data.meeting.occurrences.length > 0) {
         const occurrenceTickets = fetchEventTickets({ postId, occurrenceId });
         if (occurrenceTickets.length > 0) {
@@ -364,7 +379,7 @@ const CreateEventForm = () => {
     const timeMoment = moment(
       defaultStart,
       ["h:mm a", "hh:mm a", "H:mm"],
-      true
+      true,
     );
     if (!timeMoment.isValid()) {
       console.warn("Invalid default_start_time:", defaultStart);
@@ -402,6 +417,17 @@ const CreateEventForm = () => {
       };
     });
   }, [adminDashboardRaw]);
+
+  useEffect(() => {
+    if (
+      !zoomConnected &&
+      (!filtersList?.locations || filtersList?.locations?.length === 0)
+    ) {
+      let newSteps = [...steps];
+      newSteps = newSteps.filter((s) => s.key !== "venue");
+      setSteps(newSteps);
+    }
+  }, [filtersList, zoomConnected]);
 
   useEffect(() => {
     if (isNew) {
@@ -523,8 +549,8 @@ const CreateEventForm = () => {
             token: servvData.nonce,
             ticket: { ...ticket, quantity: 0 },
             occurrenceId: occurrenceIdFromQuery,
-          })
-        )
+          }),
+        ),
       );
     }
     setAttributes((prev) => ({
@@ -549,18 +575,17 @@ const CreateEventForm = () => {
     if (occurrenceIdFromQuery) {
       requestURL += `?occurrence_id=${occurrenceIdFromQuery}`;
     }
-    const isRecurring =
-      Array.isArray(attributes.meeting?.recurrence) &&
-      attributes.meeting.recurrence.length > 0;
+    const isRecurring = attributes.meeting?.recurrence?.type;
 
     const isOffline = attributes.location === "offline";
 
     let data = {
       meeting: {
         topic: attributes.meeting.topic,
-        startTime: moment(attributes.meeting.startTime)
-          .format("YYYY-MM-DDTHH:mm:ss:SSS")
-          .replace(/:\d\d\d$/, ""),
+        startTime: moment
+          .tz(attributes.meeting.startTime, attributes.meeting.timezone)
+          .utc()
+          .format("YYYY-MM-DDTHH:mm:ss"),
         duration: attributes.meeting.duration,
         agenda: attributes.meeting.agenda,
         timezone: attributes.meeting.timezone,
@@ -613,19 +638,21 @@ const CreateEventForm = () => {
         ...attributes.meeting,
         eventType: isRecurring ? (isOffline ? 2 : 8) : isOffline ? 1 : 2,
       };
-      data.tickets = attributes.tickets.map((ticket) => {
-        const payload = {
-          name: ticket.title,
-          quantity: ticket.quantity,
-          is_donation: ticket.is_donation,
-        };
+      data.tickets = attributes.tickets
+        .filter(
+          (ticket) =>
+            Number.isFinite(Number(ticket.quantity)) &&
+            Number(ticket.quantity) > 0,
+        )
+        .map((ticket) => {
+          const payload = {
+            name: ticket.title,
+            quantity: Number(ticket.quantity),
+            is_donation: ticket.type === "donation",
+          };
 
-        if (ticket.price != null) {
-          payload.price = ticket.price;
-        }
-
-        return payload;
-      });
+          return payload;
+        });
     }
     try {
       setLoadingEvent(true);
@@ -648,13 +675,12 @@ const CreateEventForm = () => {
       toast.error(
         isNew
           ? "Event creation failed. Please check the details and try again."
-          : "Event update failed. Please check the details and try again."
+          : "Event update failed. Please check the details and try again.",
       );
       setLoadingEvent(false);
     }
   };
   useEffect(() => {
-    console.log("change step");
     if (contentRef.current) {
       window.scrollTo({
         top: 0,
@@ -686,7 +712,11 @@ const CreateEventForm = () => {
                   <div
                     className="stepper__row"
                     key={step.key}
-                    onClick={() => setCurrentStep(step.key)}
+                    onClick={() =>
+                      step.key !== "view"
+                        ? setCurrentStep(step.key)
+                        : open(attributes.wp_post_url, "_blank")
+                    }
                   >
                     <StepperIcon
                       Icon={step.Icon}

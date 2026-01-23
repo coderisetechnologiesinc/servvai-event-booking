@@ -1,6 +1,10 @@
 <template>
   <div class="event-card" @click="onEventClick">
-    <img :src="image ? image : placeholderImage" alt="Event image" class="event-image" />
+    <img
+      :src="image ? image : placeholderImage"
+      alt="Event image"
+      class="event-image"
+    />
 
     <div class="event-info-container">
       <h3 class="event-title">{{ title }}</h3>
@@ -33,17 +37,17 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import moment from 'moment'
-import { storeToRefs } from 'pinia'
-import CalendarIcon from '@/assets/icons/calendar.svg'
-import TimeIcon from '@/assets/icons/time.svg'
-import MapIcon from '@/assets/icons/map.svg'
-import { useCommonStore } from '@/stores/common'
-const baseUrl = window.servvPlatformAjax?.base_url || ''
-const placeholderImage = `${baseUrl}images/placeholder.png`
-const store = useCommonStore()
-const { settings } = storeToRefs(store)
+import { computed } from "vue";
+import moment from "moment";
+import { storeToRefs } from "pinia";
+import CalendarIcon from "@/assets/icons/calendar.svg";
+import TimeIcon from "@/assets/icons/time.svg";
+import MapIcon from "@/assets/icons/map.svg";
+import { useCommonStore } from "@/stores/common";
+const baseUrl = window.servvPlatformAjax?.base_url || "";
+const placeholderImage = `${baseUrl}images/placeholder.png`;
+const store = useCommonStore();
+const { settings } = storeToRefs(store);
 const props = defineProps({
   title: String,
   image: [String, Boolean, null],
@@ -54,10 +58,10 @@ const props = defineProps({
   location: Number,
   currency: {
     type: String,
-    default: 'CAD',
+    default: "CAD",
   },
   link: String,
-})
+});
 
 // watch(
 //   () => [props.location, props.locations],
@@ -67,26 +71,28 @@ const props = defineProps({
 //   { immediate: true },
 // )
 
-const formattedDate = computed(() => (props.date ? moment(props.date).format('MMM DD, YYYY') : ''))
+const formattedDate = computed(() =>
+  props.date ? moment(props.date).format("MMM DD, YYYY") : "",
+);
 
 const formattedTime = computed(() =>
   props.time
     ? moment(props.time).format(
-        settings.value?.settings?.time_format_24_hours ? 'HH:mm' : 'hh:mm a',
+        settings.value?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
       )
-    : '',
-)
+    : "",
+);
 
 const onEventClick = () => {
-  if (props.link) window.open(props.link, '_blank')
-}
+  if (props.link) window.open(props.link, "_blank");
+};
 const locationName = computed(() => {
-  if (!props.locations?.length || props.location == null) return ''
+  if (!props.locations?.length || props.location == null) return "";
 
-  const locId = Number(props.location)
+  const locId = Number(props.location);
 
-  return props.locations.find((loc) => Number(loc.id) === locId)?.name || ''
-})
+  return props.locations.find((loc) => Number(loc.id) === locId)?.name || "";
+});
 </script>
 
 <style scoped>
@@ -136,7 +142,7 @@ const locationName = computed(() => {
 }
 
 .event-title {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-size: 24px;
   font-weight: 700;
   line-height: 100%;
@@ -153,7 +159,7 @@ const locationName = computed(() => {
   align-items: center;
   justify-content: flex-start;
   gap: 12px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 400;
   font-size: 18px;
   line-height: 100%;

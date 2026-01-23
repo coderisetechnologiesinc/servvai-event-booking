@@ -444,7 +444,7 @@
 
   /* Table base */
   .bookings-table {
-    @apply w-full table-auto;
+    @apply w-full table-auto min-w-0;
   }
 
   /* Default cells: no tooltip, normal overflow */
@@ -928,8 +928,8 @@
     background: (245, 245, 245, 1);
     height: 164px;
     width: 244px;
-    -o-object-fit: cover;
-       object-fit: cover;
+    -o-object-fit: contain;
+       object-fit: contain;
   }
   .event-description {
     display: flex;
@@ -2098,6 +2098,15 @@
     color: #94a3b8;
     cursor: not-allowed;
   }
+  .servv-input--error {
+    border-color: #ef4444; /* red-500 */
+  }
+
+  .servv-input--error:focus-within {
+    border-color: #dc2626; /* red-600 */
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.35);
+  }
+
   /* ===============================
    Step – Time control (inline)
 =============================== */

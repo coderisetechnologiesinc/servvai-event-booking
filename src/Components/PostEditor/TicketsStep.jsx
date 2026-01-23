@@ -19,9 +19,14 @@ const TicketsStep = ({
     availability = "open", // "open" | "scheduled"
   } = attributes || {};
   const MIN_QTY = 1;
-  const MAX_QTY = 100;
+  const [MAX_QTY, SET_MAX_QTY] = useState(
+    settings.free_registrants_limit || 15,
+  );
+  const [defaultQty, setDefaultQty] = useState(1);
+  const [defaultPrice, setDefaultPrice] = useState(1);
   const isFreePlanRestricted =
     !stripeConnected || settings?.current_plan?.id === 1;
+
   const AVAILABILITY_OPTIONS = [
     { value: "open", label: "Open" },
     { value: "scheduled", label: "Sales Start & End" },
@@ -58,6 +63,37 @@ const TicketsStep = ({
     if (!iso) return "";
     return moment(iso).tz(timezone).format("HH:mm");
   };
+
+  useEffect(() => {
+    const visibleFreeTickets = tickets.filter(
+      (t) => t.action !== "remove" && t.type === "free",
+    );
+
+    const usedFreeQuantity = visibleFreeTickets.reduce(
+      (sum, ticket) => sum + Number(ticket.quantity || 0),
+      0,
+    );
+
+    const remaining = Math.max(
+      0,
+      (settings.free_registrants_limit || 15) - usedFreeQuantity,
+    );
+
+    SET_MAX_QTY(remaining);
+  }, [tickets, settings.free_registrants_limit]);
+
+  useEffect(() => {
+    if (settings?.settings?.admin_dashboard) {
+      let adminSettings = JSON.parse(settings.settings.admin_dashboard);
+      let defaultQtyFromSettings =
+        Number.parseInt(adminSettings.default_quantity) || 1;
+      setDefaultQty(defaultQtyFromSettings);
+      let defaultPriceFromSettings =
+        Number.parseFloat(adminSettings.default_price) || 1;
+      setDefaultPrice(defaultPriceFromSettings);
+    }
+  }, [settings]);
+
   useEffect(() => {
     if (!isFreePlanRestricted) return;
 
@@ -68,7 +104,7 @@ const TicketsStep = ({
             id: uuidv4(),
             type: "free",
             title: "Standard",
-            quantity: 100,
+            quantity: defaultQty,
             availability: "open",
           },
         ],
@@ -180,18 +216,6 @@ const TicketsStep = ({
     });
   };
 
-  const addTicket = () => {
-    updateTickets([
-      ...tickets,
-      {
-        id: uuidv4(),
-        type: "free",
-        title: "Standard",
-        quantity: 1,
-        availability: "open",
-      },
-    ]);
-  };
   const [activeTicketId, setActiveTicketId] = useState(tickets[0]?.id || null);
   const visibleTickets = tickets.filter((t) => t.action !== "remove");
 
@@ -234,6 +258,43 @@ const TicketsStep = ({
   }, [visibleTickets, activeTicket]);
 
   const qty = activeTicket?.quantity ?? MIN_QTY;
+  const isFreeTicket = activeTicket?.type === "free";
+
+  const activeFreeQty =
+    isFreeTicket && typeof activeTicket?.quantity === "number"
+      ? activeTicket.quantity
+      : 0;
+
+  const MAX_TICKET_QTY = isFreeTicket ? activeFreeQty + MAX_QTY : 500;
+  const freeQuotaExcludingActive = (() => {
+    if (!activeTicket) return MAX_QTY;
+
+    if (activeTicket.type !== "free") {
+      // active ticket was not consuming free quota
+      return MAX_QTY;
+    }
+
+    // active ticket WAS consuming free quota → add it back
+    return MAX_QTY + Number(activeTicket.quantity || 0);
+  })();
+
+  const addTicket = () => {
+    const remainingFreeQuota = MAX_QTY;
+
+    const initialQty =
+      remainingFreeQuota > 0 ? Math.min(defaultQty, remainingFreeQuota) : 0;
+
+    const newTicket = {
+      id: uuidv4(),
+      type: "free",
+      title: "Standard",
+      quantity: initialQty,
+      availability: "open",
+    };
+
+    updateTickets([...tickets, newTicket]);
+    setActiveTicketId(newTicket.id);
+  };
 
   return (
     <div className="step__wrapper servv_tickets">
@@ -241,8 +302,10 @@ const TicketsStep = ({
       <div className="step__header">
         <TicketIcon className="step__header_icon" />
         <div className="step__heading">
-          <h4 className="step__header_title">Tickets</h4>
-          <p className="step__description">Specify the number of tickets</p>
+          <h4 className="step__header_title">Ticket Types</h4>
+          <p className="step__description">
+            Set up ticket categories and total quantity
+          </p>
         </div>
         {!isNew &&
           attributes.meeting?.occurrences &&
@@ -308,7 +371,6 @@ const TicketsStep = ({
             {stripeConnected && (
               <div className="step__content_block">
                 <span className="step__content_title">Type</span>
-
                 <RadioGroup
                   name="ticket-type"
                   value={
@@ -316,12 +378,43 @@ const TicketsStep = ({
                   }
                   options={TIYCKET_TYPES}
                   disabled={!stripeConnected}
-                  onChange={(val) =>
-                    updateTicket(activeTicketId, {
+                  onChange={(val) => {
+                    const prevType = activeTicket?.type;
+                    const prevQty = Number(activeTicket?.quantity || MIN_QTY);
+
+                    let nextQty = prevQty;
+                    let nextPrice = activeTicket?.price;
+
+                    if (val === "free") {
+                      nextQty = Math.min(prevQty, freeQuotaExcludingActive);
+                      nextPrice = undefined;
+                    }
+
+                    if (prevType === "free" && val !== "free") {
+                      nextQty = Math.min(prevQty, 500);
+                    }
+
+                    if (val === "paid") {
+                      const currentPrice = Number(activeTicket?.price);
+
+                      if (!currentPrice || currentPrice <= 0) {
+                        nextPrice = String(defaultPrice);
+                      }
+                    }
+
+                    nextQty = Math.max(MIN_QTY, nextQty);
+
+                    const patch = {
                       type: val,
-                      price: val === "paid" ? activeTicket?.price ?? "" : "",
-                    })
-                  }
+                      quantity: nextQty,
+                    };
+
+                    if (val === "paid" || val === "donation") {
+                      patch.price = nextPrice ?? "";
+                    }
+
+                    updateTicket(activeTicketId, patch);
+                  }}
                 />
               </div>
             )}
@@ -387,18 +480,16 @@ const TicketsStep = ({
                   onChange={(e) => {
                     const raw = e.target.value;
 
-                    // allow empty while typing
                     if (raw === "") {
                       updateTicket(activeTicketId, { quantity: "" });
                       return;
                     }
 
-                    // digits only
                     if (!/^\d+$/.test(raw)) return;
 
                     const num = Number(raw);
 
-                    if (num >= MIN_QTY && num <= MAX_QTY) {
+                    if (num >= MIN_QTY && num <= MAX_TICKET_QTY) {
                       updateTicket(activeTicketId, { quantity: num });
                     }
                   }}
@@ -414,39 +505,44 @@ const TicketsStep = ({
                 <button
                   type="button"
                   onClick={() => {
-                    if (qty < MAX_QTY) {
+                    if (qty < MAX_TICKET_QTY) {
                       updateTicket(activeTicketId, { quantity: qty + 1 });
                     }
                   }}
-                  disabled={qty >= MAX_QTY}
+                  disabled={qty >= MAX_TICKET_QTY}
                 >
                   <PlusIcon />
                 </button>
               </div>
 
-              <p className="servv_ticket_quantity__hint">
-                Maximum quantity for free plan is 100
-              </p>
+              {isFreeTicket && (
+                <p className="servv_ticket_quantity__hint">
+                  You have {MAX_QTY} free tickets remaining for your plan.
+                </p>
+              )}
             </div>
 
             {/* Availability */}
-            <div className="step__content_block">
-              <span className="step__content_title">Availability</span>
+            {
+              <div className="step__content_block">
+                <span className="step__content_title">Availability</span>
 
-              <RadioGroup
-                name="ticket-availability"
-                value={activeTicket?.availability || "open"}
-                options={AVAILABILITY_OPTIONS}
-                onChange={(val) =>
-                  updateTicket(activeTicketId, {
-                    availability: val,
-                    ...(val === "open"
-                      ? { start_datetime: undefined, end_datetime: undefined }
-                      : {}),
-                  })
-                }
-              />
-            </div>
+                <RadioGroup
+                  name="ticket-availability"
+                  value={activeTicket?.availability || "open"}
+                  options={AVAILABILITY_OPTIONS}
+                  onChange={(val) =>
+                    updateTicket(activeTicketId, {
+                      availability: val,
+                      ...(val === "open"
+                        ? { start_datetime: undefined, end_datetime: undefined }
+                        : {}),
+                    })
+                  }
+                  disabled={settings?.current_plan?.id === 1}
+                />
+              </div>
+            }
 
             {activeTicket?.availability === "scheduled" && (
               <div className="servv_ticket_sales_block">

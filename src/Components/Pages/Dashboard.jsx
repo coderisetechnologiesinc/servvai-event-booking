@@ -292,7 +292,7 @@ const Dashboard = () => {
       <div className="dashboard-card">
         <div className="servv-dashboard-header">
           <div className="dashboard-heading">
-            <h1 className="dashboard-title">{`Welcome back${
+            <h1 className="dashboard-title">{`Welcome${
               pw_title ? ", " + pw_title : ""
             }`}</h1>
             <p className="dashboard-description">

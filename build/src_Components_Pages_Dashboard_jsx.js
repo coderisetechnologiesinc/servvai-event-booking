@@ -820,7 +820,7 @@ const Dashboard = () => {
           className: "dashboard-heading",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h1", {
             className: "dashboard-title",
-            children: `Welcome back${pw_title ? ", " + pw_title : ""}`
+            children: `Welcome${pw_title ? ", " + pw_title : ""}`
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
             className: "dashboard-description",
             children: "Create, sell, and manage paid events, bookings, and customers from one revenue platform"
@@ -904,6 +904,7 @@ const EventCard = ({
   handleOpenEvent
 }) => {
   const postId = meeting?.post_id;
+  // console.log(meeting);
   const [imageSrc, setImageSrc] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(imageCache.get(postId) || PLACEHOLDER_IMAGE);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (!postId) return;
@@ -2224,4 +2225,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=a98662b244d4369348af
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=8cb073b9d4e31e7775fb

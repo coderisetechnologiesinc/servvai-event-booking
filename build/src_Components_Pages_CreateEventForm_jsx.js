@@ -54,6 +54,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/icons */ "./src/assets/icons/index.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
 /* harmony import */ var _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../assets/images/logo.png */ "./src/assets/images/logo.png");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
@@ -64,6 +65,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Events_useServvData__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Events/useServvData */ "./src/Components/Pages/Events/useServvData.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -125,6 +127,7 @@ const CreateEventForm = () => {
   const stripeConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.stripeConnected);
   const calendarConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.calendarConnected);
   const gmailConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.gmailConnected);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.filtersList);
   const {
     fetchEventTickets
   } = (0,_Events_useServvData__WEBPACK_IMPORTED_MODULE_7__.useServvData)();
@@ -325,8 +328,20 @@ const CreateEventForm = () => {
           Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.Contacts,
           iconClass: "icon--left"
         });
-        setSteps(newSteps);
       }
+      if (!isNew && data.wp_post_url) {
+        mergeAttributes({
+          wp_post_url: data.wp_post_url
+        });
+        newSteps.push({
+          key: "view",
+          title: "View event",
+          subtitle: "View event page",
+          Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__["default"],
+          iconClass: "icon--left"
+        });
+      }
+      setSteps(newSteps);
       if (data.meeting.occurrences && data.meeting.occurrences.length > 0) {
         const occurrenceTickets = fetchEventTickets({
           postId,
@@ -402,6 +417,13 @@ const CreateEventForm = () => {
       };
     });
   }, [adminDashboardRaw]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!zoomConnected && (!filtersList?.locations || filtersList?.locations?.length === 0)) {
+      let newSteps = [...steps];
+      newSteps = newSteps.filter(s => s.key !== "venue");
+      setSteps(newSteps);
+    }
+  }, [filtersList, zoomConnected]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (isNew) {
       setEventLoaded(true);
@@ -538,12 +560,12 @@ const CreateEventForm = () => {
     if (occurrenceIdFromQuery) {
       requestURL += `?occurrence_id=${occurrenceIdFromQuery}`;
     }
-    const isRecurring = Array.isArray(attributes.meeting?.recurrence) && attributes.meeting.recurrence.length > 0;
+    const isRecurring = attributes.meeting?.recurrence?.type;
     const isOffline = attributes.location === "offline";
     let data = {
       meeting: {
         topic: attributes.meeting.topic,
-        startTime: moment(attributes.meeting.startTime).format("YYYY-MM-DDTHH:mm:ss:SSS").replace(/:\d\d\d$/, ""),
+        startTime: moment.tz(attributes.meeting.startTime, attributes.meeting.timezone).utc().format("YYYY-MM-DDTHH:mm:ss"),
         duration: attributes.meeting.duration,
         agenda: attributes.meeting.agenda,
         timezone: attributes.meeting.timezone,
@@ -595,15 +617,12 @@ const CreateEventForm = () => {
         ...attributes.meeting,
         eventType: isRecurring ? isOffline ? 2 : 8 : isOffline ? 1 : 2
       };
-      data.tickets = attributes.tickets.map(ticket => {
+      data.tickets = attributes.tickets.filter(ticket => Number.isFinite(Number(ticket.quantity)) && Number(ticket.quantity) > 0).map(ticket => {
         const payload = {
           name: ticket.title,
-          quantity: ticket.quantity,
-          is_donation: ticket.is_donation
+          quantity: Number(ticket.quantity),
+          is_donation: ticket.type === "donation"
         };
-        if (ticket.price != null) {
-          payload.price = ticket.price;
-        }
         return payload;
       });
     }
@@ -630,7 +649,6 @@ const CreateEventForm = () => {
     }
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    console.log("change step");
     if (contentRef.current) {
       window.scrollTo({
         top: 0,
@@ -662,7 +680,7 @@ const CreateEventForm = () => {
               const isActive = step.key === currentStep;
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                 className: "stepper__row",
-                onClick: () => setCurrentStep(step.key),
+                onClick: () => step.key !== "view" ? setCurrentStep(step.key) : open(attributes.wp_post_url, "_blank"),
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperIcon, {
                   Icon: step.Icon,
                   iconClass: step.iconClass,
@@ -1315,7 +1333,51 @@ const multipleTicketsUpdate = async ({
 
 module.exports = __webpack_require__.p + "images/logo.b4e524fb.png";
 
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function EyeIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(EyeIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=7beb767da116da77f799
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=712f64b9dc15bd78aaf9

@@ -1568,4 +1568,4 @@ const PageWrapper = props => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=8ef1fb9f0bed2ab3bbf6
+//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=49d56c2e113a3123e6e2

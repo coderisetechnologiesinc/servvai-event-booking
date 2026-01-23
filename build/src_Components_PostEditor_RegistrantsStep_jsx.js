@@ -194,7 +194,8 @@ const NewInputControl = ({
   disabled = false,
   onChange = () => {},
   textarea = false,
-  style = {}
+  style = {},
+  error
 }) => {
   const InputTag = textarea ? "textarea" : "input";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -206,16 +207,22 @@ const NewInputControl = ({
       className: "step__content_title",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv_input__control ${disabled ? "servv_input--disabled" : ""}`,
+      className: `servv-input ${error ? "servv-input--error" : ""}`,
       style: style,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(InputTag, {
-        className: "servv_input__native",
-        value: value,
-        placeholder: placeholder || helpText,
-        disabled: disabled,
-        onChange: e => onChange(e.target.value),
-        rows: textarea ? 4 : undefined
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "servv-input__content",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(InputTag, {
+          className: "servv-input__native",
+          value: value,
+          placeholder: placeholder || helpText,
+          disabled: disabled,
+          onChange: e => onChange(e.target.value),
+          rows: textarea ? 4 : undefined
+        })
       })
+    }), error && typeof error === "string" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "servv-input__error-text",
+      children: error
     })]
   });
 };
@@ -1233,4 +1240,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=95a492ec57d30884ab48
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=ea368a61c0f327912019

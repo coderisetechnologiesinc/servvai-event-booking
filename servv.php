@@ -305,16 +305,16 @@ function servv_add_admin_page() {
     );
 
     add_submenu_page(SERVV_PLUGIN_SLUG, 'Zoom Integration', 'Zoom Integration', 'manage_options', 'servv-plugin-zoom-confirm-page', 'servv_plugin_zoom_confirm');
-    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-zoom-confirm-page');
+    // remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-zoom-confirm-page');
 
     add_submenu_page(SERVV_PLUGIN_SLUG, 'Calendar Integration', 'Calendar Integration', 'manage_options', 'servv-plugin-calendar-confirm-page', 'servv_plugin_calendar_confirm');
-    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-calendar-confirm-page');
+    // remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-calendar-confirm-page');
 
     add_submenu_page(SERVV_PLUGIN_SLUG, 'Gmail Integration', 'Gmail Integration', 'manage_options', 'servv-plugin-gmail-confirm-page', 'servv_plugin_gmail_confirm');
-    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-gmail-confirm-page');
+    // remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-gmail-confirm-page');
 
     add_submenu_page(SERVV_PLUGIN_SLUG, 'Stripe Integration', 'Stripe Integration', 'manage_options', 'servv-plugin-stripe-confirm-page', 'servv_plugin_stripe_confirm');
-    remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-stripe-confirm-page');
+    // remove_submenu_page(SERVV_PLUGIN_SLUG, 'servv-plugin-stripe-confirm-page');
    
     wp_enqueue_style(
     'servv-admin-style',

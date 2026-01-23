@@ -3438,8 +3438,8 @@ svg.breadcrumbs-icon {
   background: (245, 245, 245, 1);
   height: 164px;
   width: 244px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .event-description {
@@ -4574,6 +4574,17 @@ svg.breadcrumbs-icon {
   cursor: not-allowed;
 }
 
+.servv-input--error {
+  border-color: #ef4444;
+  /* red-500 */
+}
+
+.servv-input--error:focus-within {
+  border-color: #dc2626;
+  /* red-600 */
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.35);
+}
+
 /* ===============================
    Step – Time control (inline)
 =============================== */
@@ -4852,50 +4863,11 @@ svg.breadcrumbs-icon {
 
 /* wrapper */
 
-.servv_input__control {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  padding: 10px 14px;
-  gap: 8px;
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #d5d7da;
-  box-shadow: 0px 1px 2px rgba(10, 13, 18, 0.05);
-  border-radius: 8px;
-}
-
 /* input / textarea */
-
-.servv_input__native {
-  width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: Inter, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  color: #414651;
-  resize: none;
-  /* для textarea */
-}
 
 /* placeholder */
 
-.servv_input__native::-moz-placeholder {
-  color: #717680;
-}
-
-.servv_input__native::placeholder {
-  color: #717680;
-}
-
 /* disabled */
-
-.servv_input--disabled {
-  opacity: 0.6;
-  pointer-events: none;
-}
 
 /* upload */
 
@@ -5213,20 +5185,6 @@ svg.breadcrumbs-icon {
 
 /* remove focus outline */
 
-.servv_input__native:focus,
-  .servv_input__native:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.servv_input__native:focus,
-  .servv_input__native:focus-visible,
-  .servv_input__native textarea:focus,
-  .servv_input__native textarea:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
 .servv-input__native--error {
   border-color: #ef4444 !important;
   outline: none;
@@ -5235,6 +5193,13 @@ svg.breadcrumbs-icon {
 .servv-input__native--error:focus {
   border-color: #ef4444 !important;
   box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.5);
+}
+
+.servv-input__error-text {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #ef4444;
 }
 
 .upload-bars {

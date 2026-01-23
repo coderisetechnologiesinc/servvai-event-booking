@@ -8,9 +8,9 @@ const imageCache = new Map();
 
 const EventCard = ({ meeting, handleOpenEvent }) => {
   const postId = meeting?.post_id;
-
+  // console.log(meeting);
   const [imageSrc, setImageSrc] = useState(
-    imageCache.get(postId) || PLACEHOLDER_IMAGE
+    imageCache.get(postId) || PLACEHOLDER_IMAGE,
   );
 
   useEffect(() => {

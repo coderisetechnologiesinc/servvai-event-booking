@@ -10,6 +10,7 @@ const NewTimeInputControl = ({
   timeFormat = "hh:mm a",
   onChange,
   align = "start",
+  validationError = false,
 }) => {
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
@@ -21,6 +22,7 @@ const NewTimeInputControl = ({
     const m = moment(time);
     setHours(timeFormat === "hh:mm a" ? m.format("hh") : m.format("HH"));
     setMinutes(m.format("mm"));
+    // setHasError(false);
   }, [time, timeFormat]);
   const validateTime = (h, m) => {
     if (h === "" || m === "") return false;
@@ -87,7 +89,7 @@ const NewTimeInputControl = ({
           disabled={disabled}
           align="center"
           width="64px"
-          error={hasError}
+          error={hasError || validationError}
         />
 
         <span className="section-description">:</span>
@@ -100,7 +102,7 @@ const NewTimeInputControl = ({
           disabled={disabled}
           align="center"
           width="64px"
-          error={hasError}
+          error={hasError || validationError}
         />
 
         {timeFormat === "hh:mm a" && (

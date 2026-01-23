@@ -16,23 +16,23 @@ const SupportPage = () => {
   const FAQs = [
     {
       title: "How do I create my first event?",
-      url: "https://support.servv.ai/getting-started/event/createevent/",
+      url: "https://support.servv.ai/pages/getting-started/events/events/#create-an-event",
     },
     {
       title: "Can I customise the booking form fields?",
-      url: "https://support.servv.ai/getting-started/booking/#table-customization",
+      url: "https://support.servv.ai/pages/getting-started/bookings/viewbookings/#table-customization",
     },
     {
       title: "How do I set booking limits or max capacity?",
-      url: "https://support.servv.ai/getting-started/event/ticket/",
+      url: "https://support.servv.ai/pages/getting-started/events/ticket/",
     },
     {
       title: "How do I configure event categories or tags?",
-      url: "https://support.servv.ai/getting-started/filter/categoryfilter/",
+      url: "https://support.servv.ai/pages/getting-started/filters/filters/#category-filter",
     },
     {
       title: "This is an example question with external link?",
-      url: "https://support.servv.ai/getting-started/filter/categoryfilter/#related-links",
+      url: "https://support.servv.ai/pages/getting-started/filters/memberfilter/#related-links",
     },
   ];
 
