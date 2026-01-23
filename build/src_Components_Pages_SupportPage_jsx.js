@@ -173,19 +173,19 @@ const SupportPage = () => {
   const [intercomLaded, setIntercomLoaded] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const FAQs = [{
     title: "How do I create my first event?",
-    url: "https://support.servv.ai/getting-started/event/createevent/"
+    url: "https://support.servv.ai/pages/getting-started/events/events/#create-an-event"
   }, {
     title: "Can I customise the booking form fields?",
-    url: "https://support.servv.ai/getting-started/booking/#table-customization"
+    url: "https://support.servv.ai/pages/getting-started/bookings/viewbookings/#table-customization"
   }, {
     title: "How do I set booking limits or max capacity?",
-    url: "https://support.servv.ai/getting-started/event/ticket/"
+    url: "https://support.servv.ai/pages/getting-started/events/ticket/"
   }, {
     title: "How do I configure event categories or tags?",
-    url: "https://support.servv.ai/getting-started/filter/categoryfilter/"
+    url: "https://support.servv.ai/pages/getting-started/filters/filters/#category-filter"
   }, {
     title: "This is an example question with external link?",
-    url: "https://support.servv.ai/getting-started/filter/categoryfilter/#related-links"
+    url: "https://support.servv.ai/pages/getting-started/filters/memberfilter/#related-links"
   }];
   const [mainLinks, setMetaLinks] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([{
     title: "Documentation",
@@ -695,4 +695,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(I
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SupportPage_jsx.js.map?ver=2b0141d74720f58c0697
+//# sourceMappingURL=src_Components_Pages_SupportPage_jsx.js.map?ver=130bf50b2b822fc67d29

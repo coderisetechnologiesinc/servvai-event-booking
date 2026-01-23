@@ -21,6 +21,7 @@ import { InboxArrowDownIcon } from "@heroicons/react/16/solid";
 import he from "he";
 import { useNavigate } from "react-router-dom";
 import PageWrapper from "./PageWrapper";
+import { useServvStore } from "../../store/useServvStore";
 const StripeIntegrationsPage = (props) => {
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
@@ -31,7 +32,7 @@ const StripeIntegrationsPage = (props) => {
     useState(false);
   const [connectUrl, setConnectUrl] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState(null);
-
+  const storeSettings = useServvStore((s) => s.settings);
   const fetchAccount = async () => {
     const account = await getStripeAccount(servvData.nonce);
     if (account && account.id) {
@@ -247,8 +248,9 @@ const StripeIntegrationsPage = (props) => {
                   {/* {t(
                   "Sync and manage your Google Calendar account and settings."
                 )} */}
-                  Accept secure payments for your events with Stripe, ensuring a
-                  seamless checkout experience for attendees
+                  {storeSettings?.is_wp_marketplace
+                    ? "Accept payments seamlessly through ServvAI, with payouts sent to your connected Stripe account."
+                    : " Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"}
                 </p>
                 {account && account.charges_enabled && currencySelect()}
                 {connectedAccountsFetched && connectedAccounts.length > 0 && (

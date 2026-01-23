@@ -7756,4 +7756,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=f56a6e2a8e9f3e8eb7d8
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=9e622e746bf2b5e7fe21

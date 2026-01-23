@@ -1457,7 +1457,7 @@ const SettingsPage = () => {
       validatedSettings.settings.time_format_24_hours = false;
     }
     if (!newSettings || !newSettings.settings || !newSettings.settings.admin_dashboard || !newSettings.settings.admin_dashboard.default_quantity) {
-      validatedSettings.settings.admin_dashboard.default_quantity = 25;
+      validatedSettings.settings.admin_dashboard.default_quantity = 1;
     }
     if (!newSettings || !newSettings.settings || !newSettings.settings.admin_dashboard || !newSettings.settings.admin_dashboard.default_event_type) {
       validatedSettings.settings.admin_dashboard.default_event_type = "offline";
@@ -1743,7 +1743,7 @@ const SettingsPage = () => {
     let currentSettings = {
       ...settings
     };
-    currentSettings.settings.admin_dashboard.default_quantity = newVal;
+    if (newVal <= settings.free_registrants_limit) currentSettings.settings.admin_dashboard.default_quantity = newVal;
     setSettings(currentSettings);
   };
   const getDefaultStartTime = () => {
@@ -2245,7 +2245,7 @@ const SettingsPage = () => {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_4__["default"], {
               title: "Ticket quantity",
-              description: "Set a default ticket quantity.",
+              description: `Set a default ticket quantity. The maximum number of tickets for your plan is ${settings?.free_registrants_limit || 15}`,
               className: responsiveBlockStack,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
                 gap: 2,
@@ -2256,7 +2256,7 @@ const SettingsPage = () => {
                   type: "number",
                   align: "left",
                   minValue: 0,
-                  disabled: isBillingPlanRestriction ? 25 : null,
+                  disabled: isBillingPlanRestriction ? 15 : null,
                   onChange: newVal => handleDefaultQuantityChange(newVal),
                   className: responsiveInput
                 })
@@ -4198,4 +4198,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=538634fb4bf6fad0ad0b
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=f3d6a85b93af9ac4aab1

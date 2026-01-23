@@ -585,7 +585,8 @@ const NewTimeInputControl = ({
   disabled = false,
   timeFormat = "hh:mm a",
   onChange,
-  align = "start"
+  align = "start",
+  validationError = false
 }) => {
   const [hours, setHours] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [minutes, setMinutes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -595,6 +596,7 @@ const NewTimeInputControl = ({
     const m = moment__WEBPACK_IMPORTED_MODULE_3___default()(time);
     setHours(timeFormat === "hh:mm a" ? m.format("hh") : m.format("HH"));
     setMinutes(m.format("mm"));
+    // setHasError(false);
   }, [time, timeFormat]);
   const validateTime = (h, m) => {
     if (h === "" || m === "") return false;
@@ -644,7 +646,7 @@ const NewTimeInputControl = ({
         disabled: disabled,
         align: "center",
         width: "64px",
-        error: hasError
+        error: hasError || validationError
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         className: "section-description",
         children: ":"
@@ -656,7 +658,7 @@ const NewTimeInputControl = ({
         disabled: disabled,
         align: "center",
         width: "64px",
-        error: hasError
+        error: hasError || validationError
       }), timeFormat === "hh:mm a" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_NewTimePeriodControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
         time: time,
         onChange: val => {
@@ -936,11 +938,13 @@ const DateStep = ({
   } = attributes.meeting || {};
   const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("hh:mm a");
   const [userTimezone, setUserTimezone] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-
+  const [internalEndTime, setInternalEndTime] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [hasInvalidDuration, setHasInvalidDuration] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [hasInvalidStartTime, setHasInvalidStartTime] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   /* ---------- moments ---------- */
 
   const startMoment = startTime ? moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()(startTime) : moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()();
-  const endMoment = startMoment.clone().add(duration !== null && duration !== void 0 ? duration : 0, "minutes");
+  const endMoment = internalEndTime ? moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()(internalEndTime) : startMoment.clone().add(duration !== null && duration !== void 0 ? duration : 0, "minutes");
 
   /* ---------- timezone options ---------- */
 
@@ -953,9 +957,10 @@ const DateStep = ({
 
   const getDefaultTimezoneFromSettings = () => {
     const raw = settings?.settings?.admin_dashboard;
-    if (!raw) return moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
+    const fallback = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
+    if (!raw && _utilities_timezones__WEBPACK_IMPORTED_MODULE_6__.timezonesList[fallback] !== undefined) return moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
     const adminSettings = typeof raw === "string" ? JSON.parse(raw) : raw;
-    return adminSettings.default_timezone || moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
+    return adminSettings.default_timezone || fallback;
   };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (!settings) return;
@@ -982,6 +987,11 @@ const DateStep = ({
       }
     });
   }, [userTimezone]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (startTime && duration !== undefined) {
+      setInternalEndTime(moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()(startTime).add(duration, "minutes").format("YYYY-MM-DDTHH:mm:ss"));
+    }
+  }, [startTime, duration]);
 
   /* ---------- handlers ---------- */
 
@@ -998,23 +1008,33 @@ const DateStep = ({
   const handleStartTimeChange = newMoment => {
     if (!newMoment) return;
     const updated = startMoment.clone().hour(newMoment.hour()).minute(newMoment.minute()).second(0);
-    setAttributes({
-      meeting: {
-        ...(attributes.meeting || {}),
-        startTime: updated.format("YYYY-MM-DDTHH:mm:ss")
-      }
-    });
+    const timezone = attributes?.meeting?.timezone;
+    const userSelection = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz(updated.format("YYYY-MM-DD HH:mm"), timezone);
+    const now = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()().tz(timezone);
+    setHasInvalidStartTime(userSelection.isBefore(now));
+    if (!updated.isSame(startMoment)) {
+      setAttributes({
+        meeting: {
+          ...(attributes.meeting || {}),
+          startTime: updated.format("YYYY-MM-DDTHH:mm:ss")
+        }
+      });
+    }
   };
   const handleEndTimeChange = newEndMoment => {
     if (!newEndMoment) return;
     const fixedEndMoment = startMoment.clone().hour(newEndMoment.hour()).minute(newEndMoment.minute()).second(0);
+    setInternalEndTime(fixedEndMoment.format("YYYY-MM-DDTHH:mm:ss"));
     const newDuration = fixedEndMoment.diff(startMoment, "minutes");
-    setAttributes({
-      meeting: {
-        ...(attributes.meeting || {}),
-        duration: Math.max(0, newDuration)
-      }
-    });
+    setHasInvalidDuration(newDuration <= 0);
+    if (newDuration !== duration) {
+      setAttributes({
+        meeting: {
+          ...(attributes.meeting || {}),
+          duration: Math.max(0, newDuration)
+        }
+      });
+    }
   };
   const handleTimezoneChange = zone => {
     const tz = typeof zone === "string" ? zone : zone?.value;
@@ -1053,6 +1073,7 @@ const DateStep = ({
       });
     }
   }, []);
+  const isRecurringAvailable = settings?.current_plan?.features?.find(f => f.title === "Recurring")?.value || false;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
     className: "step__wrapper",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
@@ -1106,7 +1127,8 @@ const DateStep = ({
             time: startMoment,
             timeFormat: timeFormat,
             onChange: handleStartTimeChange,
-            align: "start"
+            align: "start",
+            validationError: hasInvalidDuration || hasInvalidStartTime
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
             className: "self-center",
             children: "to"
@@ -1114,8 +1136,15 @@ const DateStep = ({
             time: endMoment,
             timeFormat: timeFormat,
             onChange: handleEndTimeChange,
-            align: "end"
+            align: "end",
+            validationError: hasInvalidDuration
           })]
+        }), hasInvalidStartTime && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          className: "step__description",
+          children: "Start time cannot be in the past"
+        }), hasInvalidDuration && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          className: "step__description",
+          children: "End time must be after start time"
         }), !isOccurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
           className: "mt-8",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
@@ -1131,8 +1160,9 @@ const DateStep = ({
               value: "recurring",
               label: "Recurring"
             }],
-            onChange: handleRecurrenceModeChange
-          }), recurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_NewRecurringControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            onChange: handleRecurrenceModeChange,
+            disabled: !isRecurringAvailable
+          }), recurrence && isRecurringAvailable && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_NewRecurringControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
             recurrence: recurrence,
             onChange: updatedRecurrence => {
               setAttributes({
@@ -1143,7 +1173,7 @@ const DateStep = ({
               });
             },
             meetingType: "offline"
-          }), recurrence && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+          }), recurrence && isRecurringAvailable && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
             className: "my-8",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_NewEndDateControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
               recurrence: recurrence,
@@ -1162,7 +1192,7 @@ const DateStep = ({
             type: "button",
             className: "servv_button servv_button--secondary",
             onClick: () => navigate("/dashboard"),
-            children: "Back to Home"
+            children: "Previous"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
             type: "button",
             className: "servv_button servv_button--primary",
@@ -1905,4 +1935,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=526bbe3b6f9c539ec020
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=c9c08b948bf001c87686

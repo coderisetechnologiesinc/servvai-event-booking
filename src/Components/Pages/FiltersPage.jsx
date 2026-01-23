@@ -29,20 +29,26 @@ const FiltersPage = () => {
   const [secondCreateDropdown, setCreateSecondDropdown] = useState(false);
 
   const filterDescriptions = {
-    Locations: "Locations description",
-    Languages: "Languages description",
-    Categories: "Categories description",
-    Members: "Members description",
+    Locations: "Filter events based on where they take place",
+    Languages: "Filter events by the language they’re hosted in",
+    Categories: "Narrow down events by topic or type",
+    Members:
+      "Filter events by the host, instructor, or team member running the event",
   };
 
   const [filterCategories, setFilterCategories] = useState([]);
-
+  const [defaultFiltersList, setDefaultFiltersList] = useState([
+    "Locations",
+    "Languages",
+    "Categories",
+  ]);
   useEffect(() => {
-    setFilterCategories(
-      Object.keys(filtersList)
-        .filter((key) => filtersList[key]?.length > 0)
-        .map((key) => key.charAt(0).toUpperCase() + key.slice(1)),
-    );
+    // setFilterCategories(
+    //   Object.keys(filtersList)
+    //     .filter((key) => filtersList[key]?.length > 0)
+    //     .map((key) => key.charAt(0).toUpperCase() + key.slice(1)),
+    // );
+    setFilterCategories(defaultFiltersList);
   }, [filtersList]);
 
   const headings = [

@@ -52,7 +52,9 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
         <Filter className="step__header_icon" />
         <div className="step__heading">
           <h4 className="step__header_title">Filters and Notes</h4>
-          <p className="step__description">Set filters and add notes</p>
+          <p className="step__description">
+            Set filters and add additional notes
+          </p>
         </div>
       </div>
 

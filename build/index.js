@@ -13532,6 +13532,7 @@ const PaymentForm = () => {
   const [registrationError, setRegistrationError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
   const [showRegistrationError, setShowRegistrationError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [sameForAll, setSameForAll] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+  const [settings, setSettings] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const isEmailValid = email => {
     if (!email && email.length === 0) {
       return false;
@@ -13930,8 +13931,23 @@ const PaymentForm = () => {
       console.error("Error fetching event info:", error);
     }
   };
+  const getSettings = async () => {
+    const params = new URLSearchParams();
+    params.append("security", servvAjax.nonce);
+    params.append("action", "servv_get_shop_settings");
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(servvCheckoutData.ajaxUrl, params);
+      if (response && response.status === 200) {
+        setSettings(response.data);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching store info:", error);
+    }
+  };
   const getData = async () => {
     await fetchEventInfo();
+    await getSettings();
   };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     getData();
@@ -14283,6 +14299,27 @@ const PaymentForm = () => {
       }
     }
   };
+  const getActiveFreeRegistrantsCount = () => {
+    if (!additionalRegistrants || additionalRegistrants.length === 0) return 0;
+    return additionalRegistrants.filter(reg => {
+      // ticket-based
+      if (reg.ticket) {
+        return reg.canBeAdded === true && !reg.ticket.is_donation && (reg.ticket.price === 0 || reg.ticket.price === null);
+      }
+
+      // standard / product-based (no tickets)
+      return reg.canBeAdded === true;
+    }).length;
+  };
+  const canAddMoreFreeRegistrants = () => {
+    if (!meetingData?.meeting) return true;
+    const used = Number(meetingData.meeting.free_registrants_used || 0);
+    console.log(used);
+    const activeFree = getActiveFreeRegistrantsCount();
+    console.log(getActiveFreeRegistrantsCount());
+    // If active free registrants exceed what backend already counted → block
+    return activeFree <= used;
+  };
   const freeRegistration = async () => {
     const registrantsValidation = validateRegistrants();
     if (
@@ -14602,6 +14639,23 @@ const PaymentForm = () => {
   };
   const handleDonationChange = newVal => {
     setDonation(newVal);
+  };
+  const getFreeRegistrantsNumber = () => {
+    if (!isTicketsAvailable()) {
+      if (!isRecurringEvent()) {
+        if (!meetingData?.product?.price > 0) {
+          if (settings?.free_registrants_limit - additionalRegistrantsQuantity - meetingData?.meeting?.free_registrants_used > 0) {
+            return settings?.free_registrants_limit - additionalRegistrantsQuantity - meetingData?.meeting?.free_registrants_used;
+          } else return 0;
+        }
+      } else if (!selectedOccurrence?.product?.price > 0) {
+        console.log("recurring", additionalRegistrantsQuantity);
+      }
+    } else {
+      let quantity = additionalRegistrants.filter(reg => reg?.ticket?.price === 0 && !reg?.ticket?.is_donation);
+      console.log(additionalRegistrants);
+      console.log("tickets", quantity?.length);
+    }
   };
   const renderRegistrantsFormByTicket = id => {
     // console.log(additionalRegistrants);

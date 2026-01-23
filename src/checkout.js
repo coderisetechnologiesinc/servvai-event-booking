@@ -43,13 +43,13 @@ const PaymentForm = () => {
   const [registrationError, setRegistrationError] = useState("");
   const [showRegistrationError, setShowRegistrationError] = useState(false);
   const [sameForAll, setSameForAll] = useState(true);
-
+  const [settings, setSettings] = useState(null);
   const isEmailValid = (email) => {
     if (!email && email.length === 0) {
       return false;
     }
     return email.match(
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     );
   };
   const validateRegistrants = () => {
@@ -127,7 +127,7 @@ const PaymentForm = () => {
           preparedAdditionalRegistrants = preparedAdditionalRegistrants.map(
             (registrant) => {
               return { ...registrant, ticket: registrant.ticket };
-            }
+            },
           );
         }
 
@@ -157,14 +157,14 @@ const PaymentForm = () => {
             }
 
             return registrantData;
-          }
+          },
         );
 
         console.log(additionalRegistrantsData.join(";"));
 
         params.append(
           "additional_registrants",
-          additionalRegistrantsData.join(";")
+          additionalRegistrantsData.join(";"),
         );
         // // Get the value of "additional_registrants"
         // const additionalRegistrantsD = params.get("additional_registrants");
@@ -231,7 +231,7 @@ const PaymentForm = () => {
     } catch (error) {
       setLoading(false);
       setRegistrationError(
-        "Sorry, we're facing some issues, please try again later"
+        "Sorry, we're facing some issues, please try again later",
       );
       setShowRegistrationError(true);
       console.error("Error fetching event info:", error);
@@ -512,8 +512,25 @@ const PaymentForm = () => {
       console.error("Error fetching event info:", error);
     }
   };
+  const getSettings = async () => {
+    const params = new URLSearchParams();
+    params.append("security", servvAjax.nonce);
+    params.append("action", "servv_get_shop_settings");
+
+    try {
+      const response = await axios.post(servvCheckoutData.ajaxUrl, params);
+
+      if (response && response.status === 200) {
+        setSettings(response.data);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching store info:", error);
+    }
+  };
   const getData = async () => {
     await fetchEventInfo();
+    await getSettings();
   };
   useEffect(() => {
     getData();
@@ -563,7 +580,7 @@ const PaymentForm = () => {
     // );
     if (firstAvailableTicket.length > 0) {
       return firstAvailableTicket.filter(
-        (t) => t.current_quantity > 0 || t.current_quantity === null
+        (t) => t.current_quantity > 0 || t.current_quantity === null,
       )[0];
     } else return null;
   };
@@ -597,7 +614,7 @@ const PaymentForm = () => {
       if (findFirstAvailableTicket) {
         let ticketsUpdated = [...tickets];
         let ticketIndex = ticketsUpdated.findIndex(
-          (ticket) => ticket.id === firstAvailableTicket.id
+          (ticket) => ticket.id === firstAvailableTicket.id,
         );
         let ticketToUpdate = ticketsUpdated[ticketIndex];
         if (ticketToUpdate.current_quantity !== null) {
@@ -653,7 +670,7 @@ const PaymentForm = () => {
           .tz(meetingData.meeting.timezone)
           .format("MMM DD, YYYY"),
       };
-    }
+    },
   );
 
   // useEffect(() => {
@@ -662,7 +679,7 @@ const PaymentForm = () => {
 
   const handleSelectOccurrenceChange = (val) => {
     const selectedOccurrence = occurrencesList.filter(
-      (occurrence) => occurrence.label === val
+      (occurrence) => occurrence.label === val,
     );
 
     if (selectedOccurrence.length > 0)
@@ -679,10 +696,10 @@ const PaymentForm = () => {
     let workingTickets = occurrenceTickets.map((ticket) => ({ ...ticket }));
     updatedRegistrants = updatedRegistrants.map((registrant) => {
       let registrantTicket = workingTickets.find(
-        (ticket) => ticket.name === registrant.ticket?.name
+        (ticket) => ticket.name === registrant.ticket?.name,
       );
       let ticketIndex = workingTickets.findIndex(
-        (ticket) => ticket.name === registrant.ticket?.name
+        (ticket) => ticket.name === registrant.ticket?.name,
       );
 
       if (registrantTicket) {
@@ -756,7 +773,7 @@ const PaymentForm = () => {
     if (selectedOccurrence?.tickets?.length > 0) {
       // Always start with a fresh copy of the tickets for the selected occurrence
       const initialOccurrenceTickets = selectedOccurrence.tickets.map(
-        (ticket) => ({ ...ticket })
+        (ticket) => ({ ...ticket }),
       );
       const copied = JSON.parse(JSON.stringify(initialOccurrenceTickets));
       setInitialTickets(copied);
@@ -770,7 +787,7 @@ const PaymentForm = () => {
         // Pass a copy of the *initial* tickets to validate against
         validateAdditionalRegistrants(
           [...initialOccurrenceTickets],
-          availableTicket
+          availableTicket,
         );
       }
     } else {
@@ -779,7 +796,7 @@ const PaymentForm = () => {
       setSelectedTicket(null);
       // Also ensure additional registrants are cleared or flagged appropriately if no tickets are available
       setAdditionalRegistrants((prev) =>
-        prev.map((reg) => ({ ...reg, canBeAdded: false, ticket: null }))
+        prev.map((reg) => ({ ...reg, canBeAdded: false, ticket: null })),
       );
     }
   }, [selectedOccurrence]);
@@ -821,7 +838,7 @@ const PaymentForm = () => {
       meetingData.meeting.tickets.length > 0
     ) {
       let availableTicket = findFirstAvailableTicket(
-        meetingData.meeting.tickets
+        meetingData.meeting.tickets,
       );
 
       setSelectedTicket(availableTicket);
@@ -887,7 +904,7 @@ const PaymentForm = () => {
       if (registrantTicket && registrantTicket.current_quantity !== null) {
         let updatedTickets = [...tickets];
         let ticketToUpdate = updatedTickets.findIndex(
-          (ticket) => ticket.id === registrantTicket.id
+          (ticket) => ticket.id === registrantTicket.id,
         );
         updatedTickets[ticketToUpdate].current_quantity =
           updatedTickets[ticketToUpdate].current_quantity + 1;
@@ -967,6 +984,35 @@ const PaymentForm = () => {
       }
     }
   };
+
+  const getActiveFreeRegistrantsCount = () => {
+    if (!additionalRegistrants || additionalRegistrants.length === 0) return 0;
+
+    return additionalRegistrants.filter((reg) => {
+      // ticket-based
+      if (reg.ticket) {
+        return (
+          reg.canBeAdded === true &&
+          !reg.ticket.is_donation &&
+          (reg.ticket.price === 0 || reg.ticket.price === null)
+        );
+      }
+
+      // standard / product-based (no tickets)
+      return reg.canBeAdded === true;
+    }).length;
+  };
+  const canAddMoreFreeRegistrants = () => {
+    if (!meetingData?.meeting) return true;
+
+    const used = Number(meetingData.meeting.free_registrants_used || 0);
+    console.log(used);
+    const activeFree = getActiveFreeRegistrantsCount();
+    console.log(getActiveFreeRegistrantsCount());
+    // If active free registrants exceed what backend already counted → block
+    return activeFree <= used;
+  };
+
   const freeRegistration = async () => {
     const registrantsValidation = validateRegistrants();
 
@@ -1005,7 +1051,7 @@ const PaymentForm = () => {
           preparedAdditionalRegistrants = preparedAdditionalRegistrants.map(
             (registrant) => {
               return { ...registrant, ticket: registrant.ticket };
-            }
+            },
           );
         }
 
@@ -1024,12 +1070,12 @@ const PaymentForm = () => {
               registrantData += `,${registrant.donation}`;
             }
             return registrantData;
-          }
+          },
         );
 
         params.append(
           "additional_registrants",
-          additionalRegistrantsData.join(";")
+          additionalRegistrantsData.join(";"),
         );
       }
       if (sameForAll) {
@@ -1192,7 +1238,7 @@ const PaymentForm = () => {
     ) {
       setSelectedTicket(selected[0]);
       let updatedTicketIndex = ticketsUpdated.findIndex(
-        (t) => t.id === selected[0].id
+        (t) => t.id === selected[0].id,
       );
       if (updatedTicketIndex >= 0) {
         ticketsUpdated[updatedTicketIndex].current_quantity =
@@ -1388,6 +1434,35 @@ const PaymentForm = () => {
     setDonation(newVal);
   };
 
+  const getFreeRegistrantsNumber = () => {
+    if (!isTicketsAvailable()) {
+      if (!isRecurringEvent()) {
+        if (!meetingData?.product?.price > 0) {
+          if (
+            settings?.free_registrants_limit -
+              additionalRegistrantsQuantity -
+              meetingData?.meeting?.free_registrants_used >
+            0
+          ) {
+            return (
+              settings?.free_registrants_limit -
+              additionalRegistrantsQuantity -
+              meetingData?.meeting?.free_registrants_used
+            );
+          } else return 0;
+        }
+      } else if (!selectedOccurrence?.product?.price > 0) {
+        console.log("recurring", additionalRegistrantsQuantity);
+      }
+    } else {
+      let quantity = additionalRegistrants.filter(
+        (reg) => reg?.ticket?.price === 0 && !reg?.ticket?.is_donation,
+      );
+      console.log(additionalRegistrants);
+      console.log("tickets", quantity?.length);
+    }
+  };
+
   const renderRegistrantsFormByTicket = (id) => {
     // console.log(additionalRegistrants);
 
@@ -1521,7 +1596,7 @@ const PaymentForm = () => {
 
   const getNumberOfTicketsById = (id) => {
     return additionalRegistrants.filter(
-      (registrant) => registrant.ticket && registrant.ticket.id === id
+      (registrant) => registrant.ticket && registrant.ticket.id === id,
     ).length;
   };
 
@@ -1530,7 +1605,7 @@ const PaymentForm = () => {
     const index = [...newRegistrants]
       .reverse()
       .findIndex(
-        (registrant) => registrant.ticket && registrant.ticket.id === id
+        (registrant) => registrant.ticket && registrant.ticket.id === id,
       );
 
     if (index === -1) {
@@ -1651,7 +1726,7 @@ const PaymentForm = () => {
   const renderSummary = () => {
     const ticketStats = tickets.map((ticket) => {
       const count = additionalRegistrants.filter(
-        (r) => r.ticket.id === ticket.id && r.canBeAdded === true
+        (r) => r.ticket.id === ticket.id && r.canBeAdded === true,
       ).length;
       let total = count * ticket.price;
 
@@ -1728,7 +1803,7 @@ const PaymentForm = () => {
                         </span>
                       </div>
                     );
-                  })
+                  }),
               )}
             </div>
           )}
@@ -2385,7 +2460,7 @@ const PaymentForm = () => {
                     {/* <CalendarDaysIcon className="w-4" /> */}
                     <OccurrencessDropdown
                       options={occurrencesList.map(
-                        (occurrence) => occurrence.label
+                        (occurrence) => occurrence.label,
                       )}
                       selected={selectedOccurrence?.label}
                       onSelectChange={handleSelectOccurrenceChange}
