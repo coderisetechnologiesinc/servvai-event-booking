@@ -960,7 +960,7 @@ const DateStep = ({
     const fallback = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
     if (!raw && _utilities_timezones__WEBPACK_IMPORTED_MODULE_6__.timezonesList[fallback] !== undefined) return moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
     const adminSettings = typeof raw === "string" ? JSON.parse(raw) : raw;
-    return adminSettings.default_timezone || fallback;
+    return adminSettings?.default_timezone || fallback;
   };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (!settings) return;
@@ -1935,4 +1935,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=c9c08b948bf001c87686
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=830f5df6d2c10c9fdfa1

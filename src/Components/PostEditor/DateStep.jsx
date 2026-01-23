@@ -55,7 +55,7 @@ const DateStep = ({
 
     const adminSettings = typeof raw === "string" ? JSON.parse(raw) : raw;
 
-    return adminSettings.default_timezone || fallback;
+    return adminSettings?.default_timezone || fallback;
   };
 
   useEffect(() => {
