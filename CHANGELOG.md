@@ -3,7 +3,10 @@
 1.0.15 (2026-01-23)
 
 Hotfix Release
-
+- Added validation for event start time
+- Added validation for event duration
+- Fixed the image aspect ratio to prevent distortion
+- Expanded and clarified descriptive text across the interface
 
 
 # v1.0.14
