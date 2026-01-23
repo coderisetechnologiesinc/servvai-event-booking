@@ -2417,6 +2417,7 @@ input.input-control.section-description.text-center.bookings-table:hover {
 
 .bookings-table {
   width: 100%;
+  min-width: 0rem;
   table-layout: auto;
 }
 
