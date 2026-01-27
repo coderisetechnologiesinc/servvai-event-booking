@@ -869,10 +869,10 @@ const EventsPage = ({
                   >
                     <div className="flex flex row gap-3">
                       <NewButtonGroup
-                        buttons={[t("Upcoming"), "Previous"]}
-                        active={isPast ? t("Previous") : t("Upcoming")}
+                        buttons={[t("Upcoming"), "Past"]}
+                        active={isPast ? "Past" : t("Upcoming")}
                         onChange={(label) => {
-                          handleIsPastChange(label === t("Past"));
+                          handleIsPastChange(label === "Past");
                         }}
                       />
 
@@ -1037,6 +1037,7 @@ const EventsPage = ({
                 <div className="hidden md:block w-full">
                   {view === "events" && (
                     <FilterTable
+                      tableClassName="events-table"
                       headings={renderHeadings()}
                       rows={renderRows(meetingsList)}
                       loading={loading}
@@ -1044,6 +1045,7 @@ const EventsPage = ({
                   )}
                   {view === "occurrences" && (
                     <FilterTable
+                      tableClassName="events-table"
                       headings={renderHeadings()}
                       rows={renderRows(eventOccurrencess)}
                       loading={loading}

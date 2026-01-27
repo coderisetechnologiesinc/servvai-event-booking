@@ -1141,7 +1141,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -3373,10 +3374,10 @@ const EventsPage = ({
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
                   className: "flex flex row gap-3",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                    buttons: [t("Upcoming"), "Previous"],
-                    active: isPast ? t("Previous") : t("Upcoming"),
+                    buttons: [t("Upcoming"), "Past"],
+                    active: isPast ? "Past" : t("Upcoming"),
                     onChange: label => {
-                      handleIsPastChange(label === t("Past"));
+                      handleIsPastChange(label === "Past");
                     }
                   }), settings?.current_plan?.id !== 1 && zoomAccount !== null && zoomAccount !== undefined && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
                     buttons: [t("Events"), "Zoom"],
@@ -3514,10 +3515,12 @@ const EventsPage = ({
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
               className: "hidden md:block w-full",
               children: [view === "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_FilterTable__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                tableClassName: "events-table",
                 headings: renderHeadings(),
                 rows: renderRows(meetingsList),
                 loading: loading
               }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Containers_FilterTable__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                tableClassName: "events-table",
                 headings: renderHeadings(),
                 rows: renderRows(eventOccurrencess),
                 loading: loading
@@ -7756,4 +7759,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=9e622e746bf2b5e7fe21
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=80782b04801523140a59

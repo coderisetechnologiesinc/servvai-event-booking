@@ -22,7 +22,6 @@ const DateStep = ({
   isOccurrence,
 }) => {
   const navigate = useNavigate();
-
   const { startTime, duration, timezone, recurrence } =
     attributes.meeting || {};
 

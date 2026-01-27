@@ -410,7 +410,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -1124,4 +1125,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_ZoomSettingsPage_jsx.js.map?ver=0ba90f28227b509859aa
+//# sourceMappingURL=src_Components_Pages_ZoomSettingsPage_jsx.js.map?ver=54844453620b91caa23f

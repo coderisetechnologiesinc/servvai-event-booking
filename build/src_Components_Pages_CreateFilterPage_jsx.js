@@ -426,7 +426,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -1711,4 +1712,4 @@ function cssValue(value) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateFilterPage_jsx.js.map?ver=e289ee521a098b805606
+//# sourceMappingURL=src_Components_Pages_CreateFilterPage_jsx.js.map?ver=aa7a770bc91ec6b5d783

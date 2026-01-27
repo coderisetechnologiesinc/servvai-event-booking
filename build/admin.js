@@ -1411,12 +1411,14 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
           errorMessage: "We're facing an issue loading the settings."
         });
       }
+      return res;
     } catch (e) {
       console.error("Error loading settings", e);
       set({
         loading: false,
         errorMessage: "We're facing an issue loading the settings."
       });
+      return null;
     }
   },
   syncAccountsAfterEvents: async () => {
@@ -1641,6 +1643,11 @@ const getSettings = async () => {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
+    }).catch(e => {
+      console.log(e);
+      return {
+        error: 401
+      };
     });
     if (getSettingsResponse && getSettingsResponse.data) {
       return getSettingsResponse.data;
@@ -18341,7 +18348,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"9e622e746bf2b5e7fe21","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"e04fd9026ee6ce27afe2","src_Components_PostEditor_EventDetails_jsx":"0887d9f6e6bffd209e90","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"f3d6a85b93af9ac4aab1","src_Components_Pages_FiltersPage_jsx":"3c2357b5bd172392e4c6","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"49d56c2e113a3123e6e2","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"f1b8337c1032bc522739","src_Components_Pages_BookingsPage_jsx":"e46a669b4e3de83568ce","src_Components_Pages_SupportPage_jsx":"130bf50b2b822fc67d29","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-6f5796":"bd6ea38e5e373a0f617e","src_Components_Pages_BrandingPage_jsx":"a8d69ade894b5820fbdc","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_Pages_CreateEventForm_jsx":"712f64b9dc15bd78aaf9","src_Components_Pages_Dashboard_jsx":"8cb073b9d4e31e7775fb","src_Components_Pages_CreateFilterPage_jsx":"e289ee521a098b805606","src_Components_Pages_FiltersListPage_jsx":"b1cb1314674eb3d01e3e","src_Components_Pages_SingleEventPageRouterShell_jsx":"4c8489667850696f7a08","src_Components_Pages_ZoomPage_jsx":"22fa38b219adbf15c596","src_Components_Pages_ZoomSettingsPage_jsx":"0ba90f28227b509859aa","src_Components_Pages_StripeIntegrationsPage_jsx":"fbeeaa49636b803a467a","src_Components_Pages_EmailsPage_jsx":"f8aaa7d24a580ab5f834","src_Components_Pages_CalendarsPage_jsx":"9b23d8f7067a708e14ce","vendors-node_modules_heroicons_react_24_outline_esm_ChevronDownIcon_js-node_modules_react-day-bede5a":"5488baffce6e257790e2","src_Components_PostEditor_DateStep_jsx":"830f5df6d2c10c9fdfa1","src_Components_PostEditor_VenueStep_jsx":"2e096865732de7292b63","src_Components_PostEditor_FiltersStep_jsx":"6103e0b4467e9ec6fd2a","src_Components_PostEditor_BrandingStep_jsx":"d90bef776e3364503b33","src_Components_PostEditor_TicketsStep_jsx":"73bcf3aa76ee373ab55b","src_Components_PostEditor_RegistrantsStep_jsx":"ea368a61c0f327912019"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"80782b04801523140a59","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"1587a89ded45a53f91ee","src_Components_PostEditor_EventDetails_jsx":"0887d9f6e6bffd209e90","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"46ed01fd067285a96b36","src_Components_Pages_FiltersPage_jsx":"26a9dc238660b2b03261","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"9b227bb0397192eb4340","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"5703875fb3b5f9e31dc0","src_Components_Pages_BookingsPage_jsx":"46e849dd70be981322cf","src_Components_Pages_SupportPage_jsx":"130bf50b2b822fc67d29","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-6f5796":"bd6ea38e5e373a0f617e","src_Components_Pages_BrandingPage_jsx":"feaacf6cf83529c8725d","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_Pages_CreateEventForm_jsx":"1b27030345e3e39c6b3f","src_Components_Pages_Dashboard_jsx":"c39d6f8e0029cb06c6e9","src_Components_Pages_CreateFilterPage_jsx":"aa7a770bc91ec6b5d783","src_Components_Pages_FiltersListPage_jsx":"999414b393aa9e5eb41a","src_Components_Pages_SingleEventPageRouterShell_jsx":"a5d26cbf4a88c82aaf68","src_Components_Pages_ZoomPage_jsx":"22fa38b219adbf15c596","src_Components_Pages_ZoomSettingsPage_jsx":"54844453620b91caa23f","src_Components_Pages_StripeIntegrationsPage_jsx":"e6efd27f063aafa83f4a","src_Components_Pages_EmailsPage_jsx":"f8aaa7d24a580ab5f834","src_Components_Pages_CalendarsPage_jsx":"9b23d8f7067a708e14ce","vendors-node_modules_heroicons_react_24_outline_esm_ChevronDownIcon_js-node_modules_react-day-bede5a":"5488baffce6e257790e2","src_Components_PostEditor_DateStep_jsx":"629d35e87dd46691a405","src_Components_PostEditor_VenueStep_jsx":"2e096865732de7292b63","src_Components_PostEditor_FiltersStep_jsx":"6103e0b4467e9ec6fd2a","src_Components_PostEditor_BrandingStep_jsx":"68e30fcc02af2f9933c5","src_Components_PostEditor_TicketsStep_jsx":"2e9387462e0860cac1d6","src_Components_PostEditor_RegistrantsStep_jsx":"ea368a61c0f327912019"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -18710,8 +18717,29 @@ const AppRouter = ({
   const {
     fetchSettings
   } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_7__.useServvStore)();
+  const [statusChecked, setStatusChecked] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
+  const intervalRef = (0,react__WEBPACK_IMPORTED_MODULE_3__.useRef)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
     fetchSettings();
+    intervalRef.current = setInterval(async () => {
+      if (servvData.install_status !== "ok") {
+        let settings = await fetchSettings();
+        if (servvData.install_status === "ok" || settings?.id) {
+          setStatusChecked(true);
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        if (servvData.install_status === "failed") {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+      }
+    }, 5000);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, []);
   if (!restAPIAvailable) {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
@@ -18724,7 +18752,7 @@ const AppRouter = ({
       troubleshoot: true
     });
   }
-  if (servvData.install_status !== "ok" && servvData.install_status !== "failed") {
+  if (servvData.install_status !== "ok" && servvData.install_status !== "failed" && !statusChecked) {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
       message: "Installation in progress..."
     });

@@ -9,6 +9,7 @@ const PageActionButton = ({
   disabled = false,
   className = "",
   style = {},
+  hidden,
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;

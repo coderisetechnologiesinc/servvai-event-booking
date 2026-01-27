@@ -43,12 +43,14 @@ export const useServvStore = create(
               errorMessage: "We're facing an issue loading the settings.",
             });
           }
+          return res;
         } catch (e) {
           console.error("Error loading settings", e);
           set({
             loading: false,
             errorMessage: "We're facing an issue loading the settings.",
           });
+          return null;
         }
       },
 

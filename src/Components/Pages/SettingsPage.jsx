@@ -948,7 +948,7 @@ const SettingsPage = () => {
                     className="w-full rounded-lg border border-brand-300 text-sm font-semibold text-brand-700 bg-white px-lg py-md shadow-combined-brand"
                     onClick={handleOpenPortal}
                   >
-                    Manage plan
+                    Manage
                   </button>
                 )
               : isUpgradeable && (

@@ -283,7 +283,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -1641,4 +1642,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_StripeIntegrationsPage_jsx.js.map?ver=fbeeaa49636b803a467a
+//# sourceMappingURL=src_Components_Pages_StripeIntegrationsPage_jsx.js.map?ver=e6efd27f063aafa83f4a

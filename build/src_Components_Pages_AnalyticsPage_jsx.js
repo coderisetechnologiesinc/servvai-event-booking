@@ -190,7 +190,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -1524,4 +1525,4 @@ const getCurrencySymbol = currencyCode => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=f1b8337c1032bc522739
+//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=5703875fb3b5f9e31dc0

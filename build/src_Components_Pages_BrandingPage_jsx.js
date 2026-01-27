@@ -429,7 +429,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -1548,4 +1549,4 @@ const UploadBars = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=a8d69ade894b5820fbdc
+//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=feaacf6cf83529c8725d

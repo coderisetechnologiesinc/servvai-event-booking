@@ -277,6 +277,12 @@
     padding-left: 28px;
     z-index: 20;
   }
+  @media screen and (max-width: 1280px) {
+    .wp-admin .servv-sidebar {
+      width: 210px;
+      padding-left: 16px;
+    }
+  }
   .wp-admin .collapsed-sidebar {
     position: fixed;
     top: 32px;
@@ -293,6 +299,11 @@
 
   .wp-admin #servv-wrap > .flex > main {
     margin-left: 280px;
+  }
+  @media screen and (max-width: 1280px) {
+    .wp-admin #servv-wrap > .flex > main {
+      margin-left: 210px;
+    }
   }
   @media (max-width: 782px) {
     .wp-admin #servv-wrap > .flex > main {
@@ -401,7 +412,14 @@
     @apply rounded-lg bg-white;
   }
   .filter-table-headings th {
-    @apply px-2 py-2 font-medium text-xs text-gray-600 bg-gray-50 border-b border-gray-200 text-center first:text-left last:text-right first:border-l last:border-r first:shrink-0;
+    @apply px-2 py-2 font-medium text-xs text-gray-600 bg-gray-50
+    border-b border-gray-200 text-center
+    first:text-left last:text-right
+    first:border-l last:border-r
+
+    whitespace-normal break-words
+    max-sm:px-1 max-sm:py-1
+    max-sm:text-[0.6rem];
   }
 
   table {
@@ -414,6 +432,9 @@
 
   .table-row {
     @apply max-w-full;
+  }
+  .filter-table thead {
+    @apply max-w-full min-w-0;
   }
 
   .table-row td:first-child {
@@ -437,48 +458,184 @@
     @apply inline-flex;
   }
 
-  /* Table base */
+  /* ============================= */
+  /* EVENTS TABLE BASE */
+  /* ============================= */
+
+  .events-table {
+    @apply w-full table-fixed min-w-0;
+  }
+
+  /* All cells must be shrinkable */
+  .events-table th,
+  .events-table td {
+    @apply min-w-0 overflow-hidden;
+  }
+
+  /* ============================= */
+  /* HEADINGS */
+  /* ============================= */
+
+  .events-table thead th {
+    @apply px-2 py-2 font-medium text-xs text-gray-600 bg-gray-50
+    border-b border-gray-200 text-center
+    whitespace-normal break-words
+    max-sm:px-1 max-sm:py-1
+    max-sm:text-[0.6rem];
+  }
+
+  /* Align first and last headings */
+  .events-table thead th:first-child {
+    @apply text-left;
+  }
+
+  .events-table thead th:last-child {
+    @apply text-right;
+  }
+
+  /* ============================= */
+  /* ROW CELLS */
+  /* ============================= */
+
+  .events-table tbody td {
+    @apply px-2 py-2 text-sm text-gray-700
+    border-b border-gray-200
+    text-center
+    max-md:text-[0.65rem]
+    max-sm:text-[0.5rem];
+  }
+
+  /* First column = 40px */
+  .events-table th:first-child,
+  .events-table td:first-child {
+    @apply w-[40px] max-w-[40px] whitespace-nowrap text-left font-medium;
+  }
+
+  /* Last column = 40px */
+  .events-table th:last-child,
+  .events-table td:last-child {
+    @apply w-[40px] max-w-[40px] whitespace-nowrap text-right;
+  }
+
+  /* Second column left aligned */
+  .events-table td:nth-child(2) {
+    @apply text-left;
+  }
+
+  /* Links */
+  .events-table .events-table-link {
+    @apply font-semibold underline cursor-pointer hover:text-primary-button-bg;
+  }
+
+  /* Prevent flex items from breaking layout */
+  .events-table td:first-child > *,
+  .events-table td:last-child > * {
+    @apply inline-flex;
+  }
+
+  /* Bookings table */
+
   .bookings-table {
-    @apply w-full table-auto min-w-0;
+    @apply w-full table-fixed min-w-0;
   }
 
-  /* Default cells: no tooltip, normal overflow */
+  .bookings-table th,
   .bookings-table td {
-    @apply relative overflow-visible text-left;
+    @apply min-w-0 overflow-hidden;
   }
 
-  /* Truncated text wrapper */
+  .bookings-table th {
+    @apply text-xs max-sm:text-[0.6rem]
+    whitespace-normal break-words
+    max-sm:px-1 max-sm:py-1;
+  }
+
   .bookings-table .cell-truncate {
-    @apply truncate max-w-[250px] block whitespace-nowrap;
-  }
-  .bookings-table .table-row,
-  .filter-table-headings {
-    @apply max-w-full;
-  }
-  /* Tooltip ONLY when explicitly enabled */
-  .bookings-table td[data-tooltip]::after {
-    content: attr(data-full);
-    @apply absolute z-50 hidden
-         bg-gray-900 text-white text-xs
-         px-2 py-1 rounded
-         whitespace-normal
-         max-w-xs
-         shadow-lg;
-    top: 100%;
-    left: 0;
+    @apply block min-w-0 truncate
+    max-w-[250px]
+    max-sm:max-w-[120px]
+    max-sm:text-[0.65rem];
   }
 
-  /* Show tooltip on hover */
-  .bookings-table td[data-tooltip]:hover::after {
-    @apply block;
-  }
-
+  /* FIRST column = 40px */
   .bookings-table th:first-child,
   .bookings-table td:first-child {
-    @apply w-auto whitespace-nowrap shrink-0;
+    @apply w-[40px] max-w-[40px] whitespace-nowrap overflow-hidden;
   }
-  .bookings-table .mode {
-    @apply whitespace-nowrap;
+
+  /* SECOND column = 40px */
+  .bookings-table th:nth-child(2),
+  .bookings-table td:nth-child(2) {
+    @apply w-[58px] max-w-[58px] whitespace-nowrap overflow-hidden;
+  }
+
+  /* LAST column = 40px */
+  .bookings-table th:last-child,
+  .bookings-table td:last-child {
+    @apply w-[40px] max-w-[40px] whitespace-nowrap overflow-hidden text-right;
+  }
+  .bookings-table th:nth-last-child(2),
+  .bookings-table td:nth-last-child(2) {
+    @apply w-[60px] max-w-[60px] whitespace-nowrap overflow-hidden text-center;
+  }
+  .bookings-table th:nth-last-child(3),
+  .bookings-table td:nth-last-child(3) {
+    @apply w-[80px] max-w-[80px] whitespace-nowrap overflow-hidden text-center;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .bookings-table thead {
+      @apply hidden;
+    }
+
+    .bookings-table tr {
+      @apply block mb-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm;
+    }
+
+    /* Reset ALL width limits on mobile */
+    .bookings-table td,
+    .bookings-table th {
+      @apply w-auto max-w-none overflow-visible whitespace-normal;
+    }
+
+    /* Card cell layout → LEFT aligned */
+    .bookings-table td {
+      @apply flex flex-col items-start gap-1 py-2 text-left;
+    }
+
+    /* Label above value */
+    .bookings-table td::before {
+      content: attr(data-label);
+      @apply font-semibold text-gray-600 text-xs;
+    }
+
+    /* Value text */
+    .bookings-table td {
+      @apply text-sm text-gray-900;
+    }
+
+    /* Actions row stays right if needed */
+    .bookings-table td:last-child {
+      @apply flex-row justify-end items-center;
+    }
+    .bookings-table th:last-child,
+    .bookings-table td:last-child,
+    .bookings-table th:nth-last-child(2),
+    .bookings-table td:nth-last-child(2),
+    .bookings-table th:nth-last-child(3),
+    .bookings-table td:nth-last-child(3) {
+      @apply w-auto max-w-none whitespace-normal overflow-visible text-left;
+    }
+    .bookings-table th:first-child,
+    .bookings-table td:first-child,
+    .bookings-table th:nth-child(2),
+    .bookings-table td:nth-child(2) {
+      @apply w-auto max-w-none whitespace-normal overflow-visible text-left;
+    }
+    .bookings-table .cell-truncate {
+      @apply block whitespace-normal break-all max-w-full w-full;
+    }
   }
 
   /* table mobile */
@@ -1034,6 +1191,43 @@
   .tab-button {
     min-width: 120px;
   }
+  @media screen and (max-width: 1024px) {
+    .tab-button {
+      height: 36px;
+      padding: 6px 10px;
+      gap: 6px;
+
+      /* allow shrinking */
+      min-width: 0;
+    }
+
+    .tab-button-text {
+      font-size: 14px;
+      line-height: 20px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .tab-button {
+      height: 32px;
+      padding: 5px 8px;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .tab-button-text {
+      font-size: 12px;
+      line-height: 16px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
   @media screen and (max-width: 480px) {
     .tab-button {
       padding: 5px;
@@ -3067,7 +3261,7 @@
 
   /* SECOND column: center */
   .filters-page-table tbody td:nth-child(2) > * {
-    justify-content: center;
+    justify-content: left;
   }
 
   /* LAST column: right (buttons) */
@@ -3091,7 +3285,14 @@
     text-align: left;
   }
   .filters-page-table tbody :nth-child(2) {
-    text-align: center;
+    text-align: left;
+    padding-left: 40px;
+  }
+  @media screen and (max-width: 480px) {
+    .filters-page-table tbody :nth-child(2) {
+      text-align: left;
+      padding-left: unset;
+    }
   }
 
   .filters-page-table tbody td:last-child {

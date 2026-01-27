@@ -9,7 +9,11 @@ export const useCommonStore = defineStore("common", () => {
   async function fetchWidgetSettings() {
     const SETTINGS_KEY = "servv_widget_settings";
     const SETTINGS_TTL = 5 * 60 * 1000;
-
+    // if (window.__SERVV_SETTINGS__) {
+    //   settings.value = window.__SERVV_SETTINGS__;
+    //   settingsFetched.value = true;
+    //   return;
+    // }
     try {
       // const cached = localStorage.getItem(SETTINGS_KEY)
       // if (cached) {
