@@ -522,7 +522,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -2070,7 +2071,7 @@ const SettingsPage = () => {
           children: isCurrent ? (plan.price > 0 || plan.price_annual > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("button", {
             className: "w-full rounded-lg border border-brand-300 text-sm font-semibold text-brand-700 bg-white px-lg py-md shadow-combined-brand",
             onClick: handleOpenPortal,
-            children: "Manage plan"
+            children: "Manage"
           }) : isUpgradeable && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("button", {
             className: "w-full rounded-lg px-lg py-md text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700",
             onClick: () => showPaymentOptions(plan),
@@ -4198,4 +4199,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=f3d6a85b93af9ac4aab1
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=46ed01fd067285a96b36

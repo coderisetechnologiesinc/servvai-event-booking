@@ -328,7 +328,122 @@ function servv_render_admin_page() {
     echo '<div id="servv-wrap"></div>';
 }
 
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- no nonce check in servv_admin_enqueue_scripts
+
+// Preview Tags
+add_action("wp_ajax_servv_get_shop_settings", "servv_ajax_get_shop_settings");
+add_action("wp_ajax_nopriv_servv_get_shop_settings", "servv_ajax_get_shop_settings");
+
+function servv_ajax_get_shop_settings() {
+    check_ajax_referer("servv_platform_nonce", "security");
+
+    try {
+        $response = servvSendApiRequest("/wordpress/shop/settings", [], "GET");
+
+        wp_send_json_success([
+            "settings" => $response
+        ]);
+
+    } catch (Exception $e) {
+        wp_send_json_error([
+            "message" => $e->getMessage()
+        ]);
+    }
+}
+
+
+
+function servv_fetch_widget_settings_server() {
+
+    $apiRoute = '/wordpress/widget/shop/settings';
+
+    try {
+        $response = servvSendApiRequest($apiRoute);
+    } catch (\Exception $e) {
+
+        error_log("SERVV SETTINGS API ERROR: " . $e->getMessage());
+
+        return null;
+    }
+
+    return $response ?? null;
+}
+
+function servv_get_branding_from_settings($settings) {
+
+    if (empty($settings)) {
+        return [];
+    }
+
+    $branding = $settings["widget_style_settings"] ?? [];
+
+    if (is_string($branding)) {
+        $decoded = json_decode($branding, true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $branding = $decoded;
+        }
+    }
+
+    return is_array($branding) ? $branding : [];
+}
+
+
+add_action("wp_head", function () {
+
+     if (!is_singular()) return;
+
+    global $post;
+    if (!$post) return;
+
+    if (!has_shortcode($post->post_content, "servvplatformwidget")) {
+        return;
+    }
+
+    $settings = servv_fetch_widget_settings_server();
+
+    $brandingRaw = $settings["widget_style_settings"] ?? [];
+
+    if (is_string($brandingRaw)) {
+        $brandingRaw = json_decode($brandingRaw, true);
+    }
+
+    $branding = is_array($brandingRaw) ? $brandingRaw : [];
+
+    $title = $branding["pw_title"] ?? "Servv Events Widget Preview";
+    $desc  = $branding["pw_description"] ?? "Book events directly from this page.";
+
+    $image = $branding["pw_avatar"] ?? plugin_dir_url(__FILE__) . "assets/default-og.png";
+
+    if ($image && strpos($image, "http") !== 0) {
+        $image = site_url($image);
+    }
+
+    $url = get_permalink();
+
+    echo "\n<!-- ✅ Servv Widget Preview Meta Tags -->\n";
+
+    echo '<meta property="og:type" content="website">' . "\n";
+    echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo("name")) . '">' . "\n";
+    echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
+    echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
+    echo '<meta property="og:image" content="' . esc_url($image) . '">' . "\n";
+
+
+    echo '<meta property="og:image:width" content="1200">' . "\n";
+    echo '<meta property="og:image:height" content="630">' . "\n";
+
+    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr($desc) . '">' . "\n";
+    echo '<meta name="twitter:image" content="' . esc_url($image) . '">' . "\n";
+
+    echo '<meta name="twitter:url" content="' . esc_url($url) . '">' . "\n";
+
+    echo "<!-- ✅ End Servv Preview Tags -->\n\n";
+});
+// End Preview
+
+
 function servv_admin_enqueue_scripts() {
     if (!isset($_GET['page'])) return;
 
@@ -384,14 +499,14 @@ function servv_load_vue_scripts() {
     $plugin_base_url = plugin_dir_url(__FILE__) . 'widget/dist/';
     $plugin_dir = plugin_dir_path(__FILE__) . 'widget/dist/';
 
-    // Define load order: vendors -> common -> chunks -> main widget
+
     $load_order = ['vendors.js', 'common.js'];
     $all_handles = [];
 
-    // --- Load JS files in specific order ---
+
     $js_dir = $plugin_dir . 'js/';
     
-    // 1. Load vendors and common first
+
     foreach ($load_order as $filename) {
         $filepath = $js_dir . $filename;
         if (file_exists($filepath)) {
@@ -409,13 +524,13 @@ function servv_load_vue_scripts() {
         }
     }
 
-    // 2. Load chunk files (excluding vendors, common, and servv-widget)
+
     $js_files = glob($js_dir . '*.js');
     if ($js_files) {
         foreach ($js_files as $js_file) {
             $filename = basename($js_file);
             
-            // Skip already loaded files and main widget
+
             if (in_array($filename, ['vendors.js', 'common.js', 'servv-widget.js']) || 
                 strpos($filename, '.map') !== false) {
                 continue;
@@ -435,13 +550,13 @@ function servv_load_vue_scripts() {
         }
     }
 
-    // 3. Load main widget JS last
+
     $widget_js = $js_dir . 'servv-widget.js';
     if (file_exists($widget_js)) {
         wp_enqueue_script(
             'servv_widget',
             $plugin_base_url . 'js/servv-widget.js',
-            $all_handles, // Depends on all previous scripts
+            $all_handles, 
             defined('SERVV_PLUGIN_VERSION') ? SERVV_PLUGIN_VERSION : false,
             true
         );
@@ -464,9 +579,9 @@ function servv_load_vue_scripts() {
         }
     }
 
-    // --- Localize data for frontend ---
+
     if (!empty($all_handles)) {
-        // Attach to the main widget script, or the last loaded script
+
         $target_handle = in_array('servv_widget', $all_handles) ? 'servv_widget' : end($all_handles);
         
         wp_localize_script($target_handle, 'servvAjax', [
@@ -733,14 +848,11 @@ function servv_load_platformwidget_scripts() {
     $plugin_root_path = plugin_dir_path(__FILE__);
     $plugin_root_url  = plugin_dir_url(__FILE__);
 
-
     $assets_path = $plugin_root_path . 'platformWidget/dist/assets/';
     $assets_url  = $plugin_root_url  . 'platformWidget/dist/assets/';
 
-
     $js_file  = glob($assets_path . 'index-*.js');
     $css_file = glob($assets_path . 'index-*.css');
-
 
     if (empty($js_file)) {
         error_log('SERVV: JS entry file not found in ' . $assets_path);
@@ -749,7 +861,6 @@ function servv_load_platformwidget_scripts() {
 
     $js_file  = basename($js_file[0]);
     $css_file = !empty($css_file) ? basename($css_file[0]) : null;
-
 
     $handle = 'servv-platform-widget';
 
@@ -770,6 +881,10 @@ function servv_load_platformwidget_scripts() {
         );
     }
 
+
+    $settings = servv_fetch_widget_settings_server();
+
+
     wp_add_inline_script(
         $handle,
         'window.servvPlatformAjax = ' . wp_json_encode([
@@ -777,10 +892,14 @@ function servv_load_platformwidget_scripts() {
             'nonce'      => wp_create_nonce('servv_platform_nonce'),
             'assets_url' => $assets_url,
             'base_url'   => $plugin_root_url . 'platformWidget/dist/',
-        ]) . ';',
+        ]) . ';' . "\n" .
+
+
+        'window.__SERVV_SETTINGS__ = ' . wp_json_encode($settings) . ';',
         'before'
     );
 }
+
 
 
 /**

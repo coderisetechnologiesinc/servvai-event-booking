@@ -650,7 +650,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -1568,4 +1569,4 @@ const PageWrapper = props => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=49d56c2e113a3123e6e2
+//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=9b227bb0397192eb4340

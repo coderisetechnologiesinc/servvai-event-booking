@@ -1,7 +1,7 @@
 import "./bootstrap-i18n.js";
 import domReady from "@wordpress/dom-ready";
 import { createRoot } from "@wordpress/element";
-import React, { useEffect, Suspense } from "react";
+import React, { useRef, useEffect, Suspense, useState } from "react";
 import { HashRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 import Layout from "./Components/Layout/Layout.jsx";
@@ -9,30 +9,30 @@ import "./Components/Layout/Layout.css";
 
 const EventsPage = React.lazy(() => import("./Components/Pages/EventsPage"));
 const IntegrationsPage = React.lazy(() =>
-  import("./Components/Pages/IntegrationsPage")
+  import("./Components/Pages/IntegrationsPage"),
 );
 const EventDetails = React.lazy(() =>
-  import("./Components/PostEditor/EventDetails")
+  import("./Components/PostEditor/EventDetails"),
 );
 const SettingsPage = React.lazy(() =>
-  import("./Components/Pages/SettingsPage")
+  import("./Components/Pages/SettingsPage"),
 );
 const FiltersPage = React.lazy(() => import("./Components/Pages/FiltersPage"));
 const EmailTemplates = React.lazy(() =>
-  import("./Components/Pages/EmailTemplates")
+  import("./Components/Pages/EmailTemplates"),
 );
 const AnalyticsPage = React.lazy(() =>
-  import("./Components/Pages/AnalyticsPage")
+  import("./Components/Pages/AnalyticsPage"),
 );
 const BookingsPage = React.lazy(() =>
-  import("./Components/Pages/BookingsPage")
+  import("./Components/Pages/BookingsPage"),
 );
 const SupportPage = React.lazy(() => import("./Components/Pages/SupportPage"));
 const BrandingPage = React.lazy(() =>
-  import("./Components/Pages/BrandingPage.jsx")
+  import("./Components/Pages/BrandingPage.jsx"),
 );
 const ScrollManager = React.lazy(() =>
-  import("./Components/Layout/ScrollManager.jsx")
+  import("./Components/Layout/ScrollManager.jsx"),
 );
 import { initI18n, translateAll, t } from "./utilities/textResolver.js";
 window.t = t;
@@ -43,32 +43,32 @@ import "quill/dist/quill.core.css";
 
 import ValidationScreen from "./Components/Pages/ValidationScreen.jsx";
 const CreateEventForm = React.lazy(() =>
-  import("./Components/Pages/CreateEventForm.jsx")
+  import("./Components/Pages/CreateEventForm.jsx"),
 );
 const Dashboard = React.lazy(() => import("./Components/Pages/Dashboard.jsx"));
 const CreateFilterPage = React.lazy(() =>
-  import("./Components/Pages/CreateFilterPage.jsx")
+  import("./Components/Pages/CreateFilterPage.jsx"),
 );
 const FiltersListPage = React.lazy(() =>
-  import("./Components/Pages/FiltersListPage.jsx")
+  import("./Components/Pages/FiltersListPage.jsx"),
 );
 
 const SingleEventPageRouterShell = React.lazy(() =>
-  import("./Components/Pages/SingleEventPageRouterShell.jsx")
+  import("./Components/Pages/SingleEventPageRouterShell.jsx"),
 );
 
 const ZoomPage = React.lazy(() => import("./Components/Pages/ZoomPage.jsx"));
 const ZoomSettingsPage = React.lazy(() =>
-  import("./Components/Pages/ZoomSettingsPage.jsx")
+  import("./Components/Pages/ZoomSettingsPage.jsx"),
 );
 const StripeIntegrationsPage = React.lazy(() =>
-  import("./Components/Pages/StripeIntegrationsPage.jsx")
+  import("./Components/Pages/StripeIntegrationsPage.jsx"),
 );
 const EmailsPage = React.lazy(() =>
-  import("./Components/Pages/EmailsPage.jsx")
+  import("./Components/Pages/EmailsPage.jsx"),
 );
 const CalendarsPage = React.lazy(() =>
-  import("./Components/Pages/CalendarsPage.jsx")
+  import("./Components/Pages/CalendarsPage.jsx"),
 );
 const LayoutWrapper = () => (
   <Layout>
@@ -80,9 +80,34 @@ const LayoutWrapper = () => (
 
 const AppRouter = ({ restAPIAvailable }) => {
   const { fetchSettings } = useServvStore();
+  const [statusChecked, setStatusChecked] = useState(false);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     fetchSettings();
+
+    intervalRef.current = setInterval(async () => {
+      if (servvData.install_status !== "ok") {
+        let settings = await fetchSettings();
+
+        if (servvData.install_status === "ok" || settings?.id) {
+          setStatusChecked(true);
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+
+        if (servvData.install_status === "failed") {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+      }
+    }, 5000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, []);
 
   if (!restAPIAvailable) {
@@ -95,7 +120,8 @@ const AppRouter = ({ restAPIAvailable }) => {
 
   if (
     servvData.install_status !== "ok" &&
-    servvData.install_status !== "failed"
+    servvData.install_status !== "failed" &&
+    !statusChecked
   ) {
     return <ValidationScreen message="Installation in progress..." />;
   }
@@ -172,7 +198,7 @@ domReady(() => {
         ) : servvData.page === "events" ? (
           <EventPage />
         ) : null}
-      </HashRouter>
+      </HashRouter>,
     );
 
     setTimeout(() => translateAll(), 0);

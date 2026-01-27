@@ -233,7 +233,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -529,6 +530,7 @@ const FiltersList = ({
           text: "Delete",
           icon: null,
           type: "secondary",
+          className: selected.length > 0 ? "" : "invisible",
           onAction: () => {
             if (selected.length > 0 && window.confirm(`Are you sure you want to delete the selected ${title.toLowerCase()}?`)) {
               onDelete(title, selected);
@@ -997,4 +999,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersListPage_jsx.js.map?ver=b1cb1314674eb3d01e3e
+//# sourceMappingURL=src_Components_Pages_FiltersListPage_jsx.js.map?ver=999414b393aa9e5eb41a

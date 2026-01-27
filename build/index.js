@@ -15846,12 +15846,14 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
           errorMessage: "We're facing an issue loading the settings."
         });
       }
+      return res;
     } catch (e) {
       console.error("Error loading settings", e);
       set({
         loading: false,
         errorMessage: "We're facing an issue loading the settings."
       });
+      return null;
     }
   },
   syncAccountsAfterEvents: async () => {
@@ -16076,6 +16078,11 @@ const getSettings = async () => {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
+    }).catch(e => {
+      console.log(e);
+      return {
+        error: 401
+      };
     });
     if (getSettingsResponse && getSettingsResponse.data) {
       return getSettingsResponse.data;

@@ -119,7 +119,7 @@ const FiltersList = ({
                   window.confirm(
                     `Are you sure you want to delete this ${title
                       .slice(0, -1)
-                      .toLowerCase()}?`
+                      .toLowerCase()}?`,
                   )
                 ) {
                   onDelete(title, [row.id]);
@@ -147,11 +147,12 @@ const FiltersList = ({
             text="Delete"
             icon={null}
             type="secondary"
+            className={selected.length > 0 ? "" : "invisible"}
             onAction={() => {
               if (
                 selected.length > 0 &&
                 window.confirm(
-                  `Are you sure you want to delete the selected ${title.toLowerCase()}?`
+                  `Are you sure you want to delete the selected ${title.toLowerCase()}?`,
                 )
               ) {
                 onDelete(title, selected);

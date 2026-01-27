@@ -795,7 +795,8 @@ const PageActionButton = ({
   onAction,
   disabled = false,
   className = "",
-  style = {}
+  style = {},
+  hidden
 }) => {
   const baseClass = "servv_button";
   const typeClass = `servv_button--${type}`;
@@ -5661,4 +5662,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SingleEventPageRouterShell_jsx.js.map?ver=4c8489667850696f7a08
+//# sourceMappingURL=src_Components_Pages_SingleEventPageRouterShell_jsx.js.map?ver=a5d26cbf4a88c82aaf68
