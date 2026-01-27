@@ -3,7 +3,7 @@
 1.0.17 (2026-01-27)
 
 Hotfix Release
-
+- UIUX widget improvements and bug fixes
 
 
 # v1.0.16
@@ -11,8 +11,7 @@ Hotfix Release
 1.0.16 (2026-01-24)
 
 Hotfix Release
-
-
+- Fixed default timezone issue
 
 # v1.0.15
 
