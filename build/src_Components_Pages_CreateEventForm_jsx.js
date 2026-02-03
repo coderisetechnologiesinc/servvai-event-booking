@@ -300,6 +300,9 @@ const CreateEventForm = () => {
           return {
             ...ticket,
             title: ticket.name,
+            ...(ticket.price != null && {
+              price: ticket.price
+            }),
             type: ticket.price === 0 && !ticket.is_donation ? "free" : ticket.is_donation ? "donation" : "paid"
           };
         }) || [],
@@ -468,7 +471,11 @@ const CreateEventForm = () => {
   const updateTickets = async () => {
     const tickets = attributes.tickets?.map(ticket => ({
       ...ticket,
-      name: ticket.title
+      name: ticket.title,
+      ...(ticket.price != null && {
+        price: ticket.price
+      }),
+      is_donation: ticket.type === "donation"
     })) || [];
     if (!tickets.length) return;
     const toCreate = [];
@@ -621,6 +628,9 @@ const CreateEventForm = () => {
         const payload = {
           name: ticket.title,
           quantity: Number(ticket.quantity),
+          ...(ticket.price != null && {
+            price: ticket.price
+          }),
           is_donation: ticket.type === "donation"
         };
         return payload;
@@ -1380,4 +1390,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(E
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=1b27030345e3e39c6b3f
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=323d8d6431b71115361d

@@ -266,6 +266,7 @@ const CreateEventForm = () => {
             return {
               ...ticket,
               title: ticket.name,
+              ...(ticket.price != null && { price: ticket.price }),
               type:
                 ticket.price === 0 && !ticket.is_donation
                   ? "free"
@@ -479,6 +480,8 @@ const CreateEventForm = () => {
       attributes.tickets?.map((ticket) => ({
         ...ticket,
         name: ticket.title,
+        ...(ticket.price != null && { price: ticket.price }),
+        is_donation: ticket.type === "donation",
       })) || [];
 
     if (!tickets.length) return;
@@ -648,6 +651,7 @@ const CreateEventForm = () => {
           const payload = {
             name: ticket.title,
             quantity: Number(ticket.quantity),
+            ...(ticket.price != null && { price: ticket.price }),
             is_donation: ticket.type === "donation",
           };
 

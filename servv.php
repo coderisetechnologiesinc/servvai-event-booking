@@ -368,23 +368,7 @@ function servv_fetch_widget_settings_server() {
     return $response ?? null;
 }
 
-function servv_get_branding_from_settings($settings) {
 
-    if (empty($settings)) {
-        return [];
-    }
-
-    $branding = $settings["widget_style_settings"] ?? [];
-
-    if (is_string($branding)) {
-        $decoded = json_decode($branding, true);
-        if (json_last_error() === JSON_ERROR_NONE) {
-            $branding = $decoded;
-        }
-    }
-
-    return is_array($branding) ? $branding : [];
-}
 
 
 add_action("wp_head", function () {
@@ -398,28 +382,15 @@ add_action("wp_head", function () {
         return;
     }
 
-    $settings = servv_fetch_widget_settings_server();
-
-    $brandingRaw = $settings["widget_style_settings"] ?? [];
-
-    if (is_string($brandingRaw)) {
-        $brandingRaw = json_decode($brandingRaw, true);
-    }
-
-    $branding = is_array($brandingRaw) ? $brandingRaw : [];
-
-    $title = $branding["pw_title"] ?? "Servv Events Widget Preview";
-    $desc  = $branding["pw_description"] ?? "Book events directly from this page.";
-
-    $image = $branding["pw_avatar"] ?? plugin_dir_url(__FILE__) . "assets/default-og.png";
+    $title = get_option('servv_pw_title') ?: 'Servv Events Widget Preview';
+    $desc = get_option('servv_pw_description') ?: 'Book events directly from this page.';
+    $image = get_option('servv_pw_avatar') ?: plugin_dir_url(__FILE__) . 'assets/default-og.png';
 
     if ($image && strpos($image, "http") !== 0) {
         $image = site_url($image);
     }
 
     $url = get_permalink();
-
-    echo "\n<!-- ✅ Servv Widget Preview Meta Tags -->\n";
 
     echo '<meta property="og:type" content="website">' . "\n";
     echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo("name")) . '">' . "\n";
@@ -439,7 +410,6 @@ add_action("wp_head", function () {
 
     echo '<meta name="twitter:url" content="' . esc_url($url) . '">' . "\n";
 
-    echo "<!-- ✅ End Servv Preview Tags -->\n\n";
 });
 // End Preview
 
@@ -484,7 +454,8 @@ function servv_admin_enqueue_scripts() {
         'postUrl'           => admin_url('post.php'),
         'adminUrl'          => admin_url('admin.php'),
         'install_status'    => get_option('servv_install_status', ''),
-        'gutenberg_active'  => (int)function_exists( 'register_block_type' )
+        'gutenberg_active'  => (int)function_exists( 'register_block_type' ),
+        'homepage'          => home_url()
     ]);
 }
 

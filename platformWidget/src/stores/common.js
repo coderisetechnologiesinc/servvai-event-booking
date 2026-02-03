@@ -29,7 +29,6 @@ export const useCommonStore = defineStore("common", () => {
       //     localStorage.removeItem(SETTINGS_KEY)
       //   }
       // }
-
       const root = document.querySelector("#platformwidget-wrapper");
 
       if (!root) return;

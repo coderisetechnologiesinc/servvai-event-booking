@@ -18,3 +18,6 @@ export { ReactComponent as CheckMark } from "./CheckMark.svg";
 export { ReactComponent as PlusIcon } from "./PlusIcon.svg";
 export { ReactComponent as MinusIcon } from "./MinusIcon.svg";
 export { ReactComponent as CloseIcon } from "./CloseIcon.svg";
+export { ReactComponent as Profile } from "./Profile.svg";
+export { ReactComponent as Link } from "./LinkIcon.svg";
+export { ReactComponent as Youtube } from "./Youtube.svg";

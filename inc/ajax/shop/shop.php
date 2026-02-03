@@ -22,6 +22,18 @@ function servv_update_shop_settings($request)
     } catch(\Exception $e) {
         return new WP_Error($e->getCode(), 'Bad api response. '.$e->getMessage(), ['status' => $e->getCode()]);
     }
+    $brandingRaw = $requestBody['widget_style_settings'] ?? [];
+    if (is_string($brandingRaw)) {
+        $brandingRaw = json_decode($brandingRaw, true);
+    }
+    $branding = is_array($brandingRaw) ? $brandingRaw : [];
+    $title = $branding['pw_title'] ?? '';
+    $desc  = $branding['pw_description'] ?? '';
+    $image = $branding['pw_avatar'] ?? '';
+    update_option('servv_pw_title', $title);
+    update_option('servv_pw_description', $desc);
+    update_option('servv_pw_avatar', $image);
+
     return $responseBody;
 }
 

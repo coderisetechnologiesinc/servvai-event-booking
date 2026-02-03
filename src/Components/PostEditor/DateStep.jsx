@@ -47,14 +47,31 @@ const DateStep = ({
   /* ---------- timezone init from settings ---------- */
 
   const getDefaultTimezoneFromSettings = () => {
+    const hardDefault = "America/Los_Angeles";
+
+    const guessed = moment.tz.guess();
+
     const raw = settings?.settings?.admin_dashboard;
-    const fallback = moment.tz.guess();
 
-    if (!raw && timezonesList[fallback] !== undefined) return moment.tz.guess();
+    if (!raw) {
+      return moment.tz.zone(guessed) ? guessed : hardDefault;
+    }
 
-    const adminSettings = typeof raw === "string" ? JSON.parse(raw) : raw;
+    try {
+      const parsed = typeof raw === "string" ? JSON.parse(raw.trim()) : raw;
 
-    return adminSettings?.default_timezone || fallback;
+      const savedTz = parsed?.default_timezone;
+
+      if (savedTz && moment.tz.zone(savedTz)) {
+        return savedTz;
+      }
+
+      return moment.tz.zone(guessed) ? guessed : hardDefault;
+    } catch (err) {
+      console.warn("Invalid admin_dashboard JSON:", err);
+
+      return moment.tz.zone(guessed) ? guessed : hardDefault;
+    }
   };
 
   useEffect(() => {
@@ -217,7 +234,10 @@ const DateStep = ({
   }, []);
   const isRecurringAvailable =
     settings?.current_plan?.features?.find((f) => f.title === "Recurring")
-      ?.value || false;
+      ?.value === "true" || false;
+  console.log(
+    settings?.current_plan?.features?.find((f) => f.title === "Recurring"),
+  );
 
   return (
     <div className="step__wrapper">

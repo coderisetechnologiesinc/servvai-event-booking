@@ -16,14 +16,14 @@ const props = defineProps({
     type: String,
     required: true,
   },
-})
+});
 const handleOpenLink = () => {
   // console.log(props)
   if (props.url) {
     // console.log(props.url)
-    open(props.url, '_blank')
+    open(props.url, "_blank");
   }
-}
+};
 </script>
 
 <style scoped>
@@ -61,13 +61,13 @@ const handleOpenLink = () => {
   width: 360px;
   height: 29px;
 
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
   line-height: 29px;
   text-align: center;
-  color: #9b25f8;
+  color: var(--color-text-primary);
 
   white-space: nowrap;
   overflow: hidden;

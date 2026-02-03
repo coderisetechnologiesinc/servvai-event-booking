@@ -27,7 +27,7 @@ const FiltersPage = () => {
   const [loading, setLoading] = useState(false);
   const [createDropdown, setCreateDropdown] = useState(false);
   const [secondCreateDropdown, setCreateSecondDropdown] = useState(false);
-
+  const [isLimitReached, setIsLimitReached] = useState(false);
   const filterDescriptions = {
     Locations: "Filter events based on where they take place",
     Languages: "Filter events by the language they’re hosted in",
@@ -42,6 +42,24 @@ const FiltersPage = () => {
     "Languages",
     "Categories",
   ]);
+  const [maxFiltersNumber, setMaxFiltersNumber] = useState(2);
+  useEffect(() => {
+    let maxFilters = settings?.current_plan?.filters_limit;
+    if (maxFilters) {
+      setMaxFiltersNumber(maxFilters);
+    } else if (settings?.current_plan?.id !== 1) {
+      setMaxFiltersNumber(25);
+    }
+    const totalFilters = Object.values(filtersList).reduce(
+      (total, filterArray) => (total += filterArray?.length || 0),
+      0,
+    );
+
+    if (totalFilters >= maxFilters) {
+      setIsLimitReached(true);
+    }
+  }, [settings, filtersList]);
+
   useEffect(() => {
     // setFilterCategories(
     //   Object.keys(filtersList)
@@ -61,28 +79,39 @@ const FiltersPage = () => {
     headings.map((h) => <th key={h.label}>{h.label}</th>);
 
   const renderRows = () =>
-    filterCategories.map((filter) => (
-      <tr key={filter} className="table-row">
-        <td>
-          <a
-            className="filter-table-link"
-            onClick={() => navigate(`/filters/list/${filter}`)}
-          >
-            {filter}
-          </a>
-        </td>
-        <td>{filterDescriptions[filter] ?? "Description"}</td>
-        <td>
-          <PageActionButton
-            text="Create"
-            type="secondary"
-            icon={<PlusIcon className="button-icon" />}
-            slim
-            onAction={() => navigate(`/filters/new/${filter}`)}
-          />
-        </td>
-      </tr>
-    ));
+    filterCategories.map((filter) => {
+      return (
+        <tr key={filter} className="table-row">
+          {/* Category link */}
+          <td>
+            <a
+              className="filter-table-link"
+              onClick={() => navigate(`/filters/list/${filter}`)}
+            >
+              {filter}
+            </a>
+          </td>
+
+          {/* Description */}
+          <td>{filterDescriptions[filter] ?? "Description"}</td>
+
+          {/* Action button */}
+          <td>
+            <PageActionButton
+              text={isLimitReached ? "Limit reached" : "Create"}
+              type="secondary"
+              icon={<PlusIcon className="button-icon" />}
+              slim
+              disabled={isLimitReached}
+              onAction={() => {
+                if (isLimitReached) return;
+                navigate(`/filters/new/${filter}`);
+              }}
+            />
+          </td>
+        </tr>
+      );
+    });
 
   const menuItems = [
     { label: "Location", value: "Locations" },
@@ -94,19 +123,30 @@ const FiltersPage = () => {
   ];
 
   const renderDropdownMenu = () =>
-    menuItems.map((item) => (
-      <a
-        key={item.value}
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          setCreateDropdown(false);
-          navigate(`/filters/new/${item.value}`);
-        }}
-      >
-        {item.label}
-      </a>
-    ));
+    menuItems.map((item) => {
+      return (
+        <a
+          key={item.value}
+          href="#"
+          className={`dropdown-item ${
+            isLimitReached ? "dropdown-item-disabled" : ""
+          }`}
+          onClick={(e) => {
+            e.preventDefault();
+
+            if (isLimitReached) return;
+
+            setCreateDropdown(false);
+            navigate(`/filters/new/${item.value}`);
+          }}
+        >
+          {item.label}
+          {/* {isLimitReached && (
+            <span className="ml-2 text-xs text-gray-400">(Limit)</span>
+          )} */}
+        </a>
+      );
+    });
 
   return (
     <PageWrapper loading={loading} withBackground={true}>

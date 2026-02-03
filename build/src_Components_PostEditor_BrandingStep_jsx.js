@@ -385,4 +385,4 @@ const BrandingStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=68e30fcc02af2f9933c5
+//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=8b721288ba4e01847e88

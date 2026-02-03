@@ -20,6 +20,7 @@ const Dashboard = () => {
   const filtersList = useServvStore((s) => s.filtersList);
 
   const zoomAccount = useServvStore((s) => s.zoomAccount);
+  const zoomConnected = useServvStore((s) => s.zoomConnected);
   const {
     meetingsList,
     getEventsList,
@@ -60,6 +61,13 @@ const Dashboard = () => {
     }
     navigate(url);
   };
+
+  useEffect(() => {
+    if (firstFetchDone && meetingsList.length === 0 && !zoomConnected) {
+      navigate("/events/new");
+    }
+  }, [firstFetchDone, zoomConnected]);
+
   const handleCreateNewEvent = () => {
     if (servvData.gutenberg_active) navigate("/events/new", "_top");
     else
@@ -290,7 +298,7 @@ const Dashboard = () => {
   return (
     <PageWrapper withBackground={true}>
       <div className="dashboard-card">
-        <div className="servv-dashboard-header">
+        <div className="servv-dashboard-header main-dashboard">
           <div className="dashboard-heading">
             <h1 className="dashboard-title">{`Welcome${
               pw_title ? ", " + pw_title : ""
@@ -311,6 +319,13 @@ const Dashboard = () => {
               <div className="profile-description">
                 <div className="profile-name">{pw_title}</div>
                 <div className="profile-email">{pw_email}</div>
+                {!settings?.is_wp_is_wp_marketplace && (
+                  <div className="profile-link">
+                    <a className="view-widget" href={servvData.homepage}>
+                      View homepage
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           )}

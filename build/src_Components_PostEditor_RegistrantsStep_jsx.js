@@ -1240,4 +1240,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=ea368a61c0f327912019
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=f68f8ee73302ecec5c97

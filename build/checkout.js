@@ -6962,7 +6962,9 @@ const PaymentForm = () => {
           }
           return registrantData;
         });
-        console.log(additionalRegistrantsData.join(";"));
+
+        // console.log(additionalRegistrantsData.join(";"));
+
         params.append("additional_registrants", additionalRegistrantsData.join(";"));
         // // Get the value of "additional_registrants"
         // const additionalRegistrantsD = params.get("additional_registrants");
@@ -7418,7 +7420,10 @@ const PaymentForm = () => {
 
   const handleSelectOccurrenceChange = val => {
     const selectedOccurrence = occurrencesList.filter(occurrence => occurrence.label === val);
-    if (selectedOccurrence.length > 0) setSelectedOccurrence(selectedOccurrence[0]);
+    if (selectedOccurrence.length > 0) {
+      setSelectedOccurrence(selectedOccurrence[0]);
+      setAdditionalRegistrants([]);
+    }
   };
   const validateAdditionalRegistrants = (occurrenceTickets, currentTicket) => {
     if (additionalRegistrants.length === 0) {
@@ -7663,9 +7668,9 @@ const PaymentForm = () => {
   const canAddMoreFreeRegistrants = () => {
     if (!meetingData?.meeting) return true;
     const used = Number(meetingData.meeting.free_registrants_used || 0);
-    console.log(used);
+    // console.log(used);
     const activeFree = getActiveFreeRegistrantsCount();
-    console.log(getActiveFreeRegistrantsCount());
+    // console.log(getActiveFreeRegistrantsCount());
     // If active free registrants exceed what backend already counted → block
     return activeFree <= used;
   };
@@ -7998,12 +8003,12 @@ const PaymentForm = () => {
           } else return 0;
         }
       } else if (!selectedOccurrence?.product?.price > 0) {
-        console.log("recurring", additionalRegistrantsQuantity);
+        // console.log("recurring", additionalRegistrantsQuantity);
       }
     } else {
       let quantity = additionalRegistrants.filter(reg => reg?.ticket?.price === 0 && !reg?.ticket?.is_donation);
-      console.log(additionalRegistrants);
-      console.log("tickets", quantity?.length);
+      // console.log(additionalRegistrants);
+      // console.log("tickets", quantity?.length);
     }
   };
   const renderRegistrantsFormByTicket = id => {
@@ -8116,13 +8121,23 @@ const PaymentForm = () => {
     removeRegistrant(actualIndex);
   }
   const renderTickets = () => {
-    if (!tickets || tickets.length === 0) return;else if (tickets && tickets.length >= 1) {
+    if (!tickets || tickets.length === 0) return;
+    const usedRegistrants = isRecurringEvent() ? selectedOccurrence ? selectedOccurrence.free_registrants_used || 0 : meetingData.free_registrants_used || 0 : meetingData.free_registrants_used || 0;
+    const registrantsLimit = settings?.free_registrants_limit || 0;
+    const totalCurrentFreeRegistrants = additionalRegistrants.filter(reg => (reg.ticket?.price === 0 || reg.ticket?.price === null) && !reg.ticket?.is_donation).length;
+    if (tickets && tickets.length >= 1) {
       return tickets.map(ticket => {
         const initialTicket = initialTickets[initialTickets.findIndex(t => t.id === ticket.id)];
         const currentTime = moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()();
         let ticketSalesStart = initialTicket.start_datetime ? moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(initialTicket.start_datetime) : null;
         let ticketSalesEnd = initialTicket.end_datetime ? moment_timezone__WEBPACK_IMPORTED_MODULE_2___default()(initialTicket.end_datetime) : null;
         const isWithinSalesWindow = (!ticketSalesStart || currentTime.isSameOrAfter(ticketSalesStart)) && (!ticketSalesEnd || currentTime.isSameOrBefore(ticketSalesEnd));
+
+        // Check if this is a free ticket
+        const isFreeTicket = (ticket.price === 0 || ticket.price === null) && !ticket.is_donation;
+
+        // Check if adding another free ticket would exceed the limit
+        const wouldExceedFreeLimit = isFreeTicket && usedRegistrants + totalCurrentFreeRegistrants + 1 > registrantsLimit;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
           className: "flex flex-col",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
@@ -8158,7 +8173,7 @@ const PaymentForm = () => {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
                   className: "font-semibold text-lg self-align-end text-black rounded transition-all duration-200 ease-in-out justify-self-center hover:contrast-115 disabled:opacity-50 disabled:cursor-default border-none focus:outline-none",
                   onClick: () => addRegistrantWithTicket(ticket.id),
-                  disabled: ticket.current_quantity === 0,
+                  disabled: ticket.current_quantity === 0 || wouldExceedFreeLimit,
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_16__["default"], {
                     className: "w-4 justify-self-center"
                   })
@@ -8525,6 +8540,18 @@ const PaymentForm = () => {
     const isAvailable = !occurrence ? product.current_quantity === null || product.current_quantity > 0 : occurrence.product.current_quantity === null || occurrence.product.current_quantity > 0;
     const isSoldOut = !isAvailable;
     const price = getEventPrice();
+    const usedRegistrants = isRecurringEvent() ? selectedOccurrence ? selectedOccurrence.free_registrants_used || 0 : meetingData.free_registrants_used || 0 : meetingData.free_registrants_used || 0;
+    const registrantsLimit = settings?.free_registrants_limit || 0;
+    const isFreeProduct = !price || price === 0 || price === false;
+    const currentFreeRegistrants = additionalRegistrants.length;
+    const wouldExceedFreeLimit = isFreeProduct && usedRegistrants + currentFreeRegistrants + 1 > registrantsLimit;
+    // console.log(
+    //   currentFreeRegistrants,
+    //   registrantsLimit,
+    //   usedRegistrants,
+    //   wouldExceedFreeLimit,
+    // );
+
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
       className: "flex flex-col",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
@@ -8560,7 +8587,7 @@ const PaymentForm = () => {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("button", {
               className: "font-semibold text-lg self-align-end rounded transition-all duration-200 ease-in-out justify-self-center hover:contrast-115 disabled:opacity-50 disabled:cursor-default border-none focus:outline-none",
               onClick: () => addRegistrant(),
-              disabled: !occurrence ? product.current_quantity !== null && product.current_quantity - additionalRegistrants.length === 0 : selectedOccurrence.product.current_quantity !== null && selectedOccurrence.product.current_quantity - additionalRegistrants.length === 0,
+              disabled: wouldExceedFreeLimit || (!occurrence ? product.current_quantity !== null && product.current_quantity - additionalRegistrants.length === 0 : selectedOccurrence.product.current_quantity !== null && selectedOccurrence.product.current_quantity - additionalRegistrants.length === 0),
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_16__["default"], {
                 className: "w-4 justify-self-center"
               })

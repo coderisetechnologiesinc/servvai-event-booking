@@ -586,6 +586,7 @@ const Dashboard = () => {
   const settings = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.settings);
   const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.filtersList);
   const zoomAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.zoomAccount);
+  const zoomConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.zoomConnected);
   const {
     meetingsList,
     getEventsList,
@@ -629,6 +630,11 @@ const Dashboard = () => {
     }
     navigate(url);
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (firstFetchDone && meetingsList.length === 0 && !zoomConnected) {
+      navigate("/events/new");
+    }
+  }, [firstFetchDone, zoomConnected]);
   const handleCreateNewEvent = () => {
     if (servvData.gutenberg_active) navigate("/events/new", "_top");else react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
   };
@@ -816,7 +822,7 @@ const Dashboard = () => {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
       className: "dashboard-card",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-        className: "servv-dashboard-header",
+        className: "servv-dashboard-header main-dashboard",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
           className: "dashboard-heading",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h1", {
@@ -840,6 +846,13 @@ const Dashboard = () => {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
               className: "profile-email",
               children: pw_email
+            }), !settings?.is_wp_is_wp_marketplace && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+              className: "profile-link",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("a", {
+                className: "view-widget",
+                href: servvData.homepage,
+                children: "View homepage"
+              })
             })]
           })]
         })]
@@ -2226,4 +2239,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=c39d6f8e0029cb06c6e9
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=b77b0a6cdbaab0e93948
