@@ -420,26 +420,44 @@
     @apply px-2 py-2 font-medium text-xs text-gray-600 bg-gray-50
     border-b border-gray-200 text-center
     first:text-left last:text-right
-    first:border-l last:border-r
-
     whitespace-normal break-words
     max-sm:px-1 max-sm:py-1
     max-sm:text-[0.6rem];
   }
 
   table {
-    @apply w-full table-auto;
+    @apply w-full table-auto border-collapse;
+  }
+  /* Rounded top corners (header) */
+  .filter-table-headings th:first-child {
+    @apply rounded-tl-lg;
   }
 
+  .filter-table-headings th:last-child {
+    @apply rounded-tr-lg;
+  }
+
+  /* Rounded bottom corners (last row) */
+  .table-row:last-child td:first-child {
+    @apply rounded-bl-lg;
+  }
+
+  .table-row:last-child td:last-child {
+    @apply rounded-br-lg;
+  }
+
+  /* ONLY row separators */
   .table-row td {
-    @apply px-2 py-2 text-sm text-gray-700 border-b border-gray-200 text-center max-md:text-[0.65rem] max-sm:text-[0.5rem];
+    @apply px-2 py-2 text-sm text-gray-700
+    border-b border-gray-200
+    text-center
+    max-md:text-[0.65rem]
+    max-sm:text-[0.5rem];
   }
 
-  .table-row {
-    @apply max-w-full;
-  }
-  .filter-table thead {
-    @apply max-w-full min-w-0;
+  /* Remove border on last row (optional) */
+  .table-row:last-child td {
+    @apply border-b-0;
   }
 
   .table-row td:first-child {
@@ -682,6 +700,11 @@
   .dropdown-icon {
     @apply w-6 fill-gray-700 align-middle;
   }
+  .dropdown-item-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   .dropdown-icon-critical {
     @apply dropdown-icon fill-error-700;
   }
@@ -858,6 +881,10 @@
     flex-shrink: 0;
   }
 
+  .servv-dashboard-header.main-dashboard {
+    flex-wrap: nowrap;
+  }
+
   .servv-dashboard-header > :last-child {
     margin-right: auto;
   }
@@ -887,6 +914,7 @@
     flex-direction: row;
     gap: 12px;
     min-width: 150px;
+    flex-shrink: 0;
   }
   .profile-description {
     display: flex;
@@ -918,6 +946,16 @@
     font-weight: 400;
     line-height: 20px;
     color: rgba(113, 118, 128, 1);
+  }
+  .profile-link .view-widget {
+    color: rgba(122, 90, 248, 1);
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .profile-link .view-widget:hover .profile-link .view-widget:active,
+  .profile-link .view-widget:focus {
+    color: rgba(122, 90, 248, 1);
+    cursor: pointer;
   }
   .new-event-button {
     display: flex;

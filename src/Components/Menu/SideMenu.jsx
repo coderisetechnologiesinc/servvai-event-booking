@@ -82,9 +82,9 @@ const SideBar = ({ page, onChange, collapsed = false, onToggle, t }) => {
           items: [
             { title: "Dashboard", link: "dashboard", icon: Dashboard },
             { title: "Events", link: "events", icon: Events },
+            { title: "Branding", link: "branding", icon: Widgets },
             { title: "Bookings", link: "bookings", icon: Sales },
             { title: "Filters", link: "filters", icon: Filters },
-            { title: "Branding", link: "branding", icon: Widgets },
             { title: "Integrations", link: "integrations", icon: Contacts },
             { title: "Notifications", link: "notifications", icon: Emails },
             { title: "Analytics", link: "analytics", icon: Analytics },

@@ -956,11 +956,23 @@ const DateStep = ({
   /* ---------- timezone init from settings ---------- */
 
   const getDefaultTimezoneFromSettings = () => {
+    const hardDefault = "America/Los_Angeles";
+    const guessed = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
     const raw = settings?.settings?.admin_dashboard;
-    const fallback = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
-    if (!raw && _utilities_timezones__WEBPACK_IMPORTED_MODULE_6__.timezonesList[fallback] !== undefined) return moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
-    const adminSettings = typeof raw === "string" ? JSON.parse(raw) : raw;
-    return adminSettings?.default_timezone || fallback;
+    if (!raw) {
+      return moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.zone(guessed) ? guessed : hardDefault;
+    }
+    try {
+      const parsed = typeof raw === "string" ? JSON.parse(raw.trim()) : raw;
+      const savedTz = parsed?.default_timezone;
+      if (savedTz && moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.zone(savedTz)) {
+        return savedTz;
+      }
+      return moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.zone(guessed) ? guessed : hardDefault;
+    } catch (err) {
+      console.warn("Invalid admin_dashboard JSON:", err);
+      return moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.zone(guessed) ? guessed : hardDefault;
+    }
   };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (!settings) return;
@@ -1073,7 +1085,8 @@ const DateStep = ({
       });
     }
   }, []);
-  const isRecurringAvailable = settings?.current_plan?.features?.find(f => f.title === "Recurring")?.value || false;
+  const isRecurringAvailable = settings?.current_plan?.features?.find(f => f.title === "Recurring")?.value === "true" || false;
+  console.log(settings?.current_plan?.features?.find(f => f.title === "Recurring"));
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
     className: "step__wrapper",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
@@ -1935,4 +1948,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=629d35e87dd46691a405
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=94427af110ade05bccb5

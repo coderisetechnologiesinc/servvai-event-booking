@@ -1,10 +1,18 @@
 <template>
   <div class="event-card" @click="onEventClick">
-    <img
-      :src="image ? image : placeholderImage"
-      alt="Event image"
-      class="event-image"
-    />
+    <div
+      class="event-image-wrapper"
+      :style="{
+        '--bg': `url(${image ? image : placeholderImage})`,
+      }"
+    >
+      <img
+        :src="image ? image : placeholderImage"
+        alt="Event image"
+        class="event-image"
+        :class="{ 'is-placeholder': !image }"
+      />
+    </div>
 
     <div class="event-info-container">
       <h3 class="event-title">{{ title }}</h3>
@@ -108,11 +116,11 @@ const locationName = computed(() => {
   box-shadow: 0px 24px 48px -12px #0a0d122e;
   /* width: calc(464px); */
 }
-
+/* 
 .event-image {
   width: 464px;
   aspect-ratio: 16/11;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 20px;
 }
 @media screen and (max-width: 480px) {
@@ -120,8 +128,57 @@ const locationName = computed(() => {
     width: 100%;
     min-width: calc(100vw - 20px);
   }
+} */
+.event-image-wrapper {
+  position: relative;
+
+  width: 100%;
+  max-width: 464px;
+  aspect-ratio: 16/11;
+
+  border-radius: 20px;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* .event-image-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: var(--bg);
+  background-size: cover;
+  background-position: center;
+
+  filter: blur(50px);
+  transform: scale(1.5);
+  opacity: 0.75;
+} */
+
+.event-image {
+  position: relative;
+  /* z-index: ; */
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 480px) {
+  .event-image-wrapper {
+    max-width: 100%;
+  }
+
+  .event-image {
+    border-radius: 16px;
+  }
+}
+.event-image.is-placeholder {
+  object-fit: cover;
+}
 .event-info-container {
   cursor: pointer;
   position: absolute;
@@ -147,7 +204,7 @@ const locationName = computed(() => {
   font-weight: 700;
   line-height: 100%;
   letter-spacing: 0%;
-  color: #121633;
+  color: var(--color-text-primary);
   margin: 0;
   margin-bottom: 5px;
   padding-left: 5px;

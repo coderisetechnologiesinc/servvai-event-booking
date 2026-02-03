@@ -1,73 +1,75 @@
 <script setup>
-import { onMounted, ref, watch, computed } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useEventsStore } from '../stores/events'
-import EventCard from './EventCard.vue'
-import BrandingCard from './BrandingCard.vue'
-import LinkCard from './LinkCard.vue'
-import VideoCard from './VideoCard.vue'
-import EventsPagination from './EventsPagination.vue'
+import { onMounted, ref, watch, computed } from "vue";
+import { storeToRefs } from "pinia";
+import { useEventsStore } from "../stores/events";
+import EventCard from "./EventCard.vue";
+import BrandingCard from "./BrandingCard.vue";
+import LinkCard from "./LinkCard.vue";
+import VideoCard from "./VideoCard.vue";
+import EventsPagination from "./EventsPagination.vue";
 // import WidgetEmbed from '@/components/WidgetEmbed.vue'
-import FlagIcon from '@/assets/icons/flag.svg'
-import Logo from '@/assets/icons/logo.svg'
-import LinkIcon from '@/assets/icons/link.svg'
-import VideoIcon from '@/assets/icons/video.svg'
-import { useCommonStore } from '@/stores/common'
-import { useFiltersStore } from '@/stores/filters'
-const eventsStore = useEventsStore()
-const commonStore = useCommonStore()
-const filtersStore = useFiltersStore()
-const { pagination } = storeToRefs(eventsStore)
-const { settingsFetched } = storeToRefs(commonStore)
-const { locations, filtersListFetched } = storeToRefs(filtersStore)
-const eventsList = ref([])
+import FlagIcon from "@/assets/icons/flag.svg";
+import Logo from "@/assets/icons/logo.svg";
+import LinkIcon from "@/assets/icons/link.svg";
+import VideoIcon from "@/assets/icons/video.svg";
+import { useCommonStore } from "@/stores/common";
+import { useFiltersStore } from "@/stores/filters";
+const eventsStore = useEventsStore();
+const commonStore = useCommonStore();
+const filtersStore = useFiltersStore();
+const { pagination } = storeToRefs(eventsStore);
+const { settingsFetched } = storeToRefs(commonStore);
+const { locations, filtersListFetched } = storeToRefs(filtersStore);
+const eventsList = ref([]);
 const widgetSettings = computed(() => {
   try {
-    return JSON.parse(commonStore.settings?.widget_style_settings || '{}')
+    return JSON.parse(commonStore.settings?.widget_style_settings || "{}");
   } catch {
-    return {}
+    return {};
   }
-})
+});
 
 const contentOrder = computed(() =>
   Array.isArray(widgetSettings.value.pw_content_order)
     ? widgetSettings.value.pw_content_order
-    : ['events', 'links', 'videos'],
-)
+    : ["events", "links", "videos"],
+);
 
 const links = computed(() =>
-  Array.isArray(widgetSettings.value.pw_links) ? widgetSettings.value.pw_links : [],
-)
+  Array.isArray(widgetSettings.value.pw_links)
+    ? widgetSettings.value.pw_links
+    : [],
+);
 
 const videos = computed(() =>
   Array.isArray(widgetSettings.value.pw_youtube_videos)
     ? widgetSettings.value.pw_youtube_videos
     : [],
-)
+);
 
 onMounted(async () => {
   if (!eventsStore.meetingsListFetched) {
-    await eventsStore.fetchEventsList({ page: 1 })
+    await eventsStore.fetchEventsList({ page: 1 });
   }
 
   if (!filtersListFetched.value) {
-    await filtersStore.fetchLocations()
+    await filtersStore.fetchLocations();
   }
 
-  eventsList.value = eventsStore.meetingsList.meetings || []
-})
+  eventsList.value = eventsStore.meetingsList.meetings || [];
+});
 
 async function handlePageChange(page) {
-  await eventsStore.fetchEventsList({ page })
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  await eventsStore.fetchEventsList({ page });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 watch(
   () => eventsStore.meetingsList.meetings,
   (newVal) => {
-    eventsList.value = newVal || []
+    eventsList.value = newVal || [];
   },
-)
+);
 </script>
 
 <template>
@@ -120,7 +122,12 @@ watch(
         </div>
 
         <div v-if="links.length" class="events-list">
-          <LinkCard v-for="link in links" :key="link.id" :title="link.text" :url="link.url" />
+          <LinkCard
+            v-for="link in links"
+            :key="link.id"
+            :title="link.text"
+            :url="link.url"
+          />
         </div>
       </template>
 
@@ -133,7 +140,11 @@ watch(
         </div>
 
         <div v-if="videos.length" class="events-list">
-          <VideoCard v-for="video in videos" :key="video.id" :youtube="video.url" />
+          <VideoCard
+            v-for="video in videos"
+            :key="video.id"
+            :youtube="video.url"
+          />
         </div>
       </template>
     </template>
@@ -187,7 +198,7 @@ watch(
   stroke: var(--color-text-primary);
 }
 .section-title {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 400;
   font-size: 18px;
   line-height: 100%;
@@ -195,7 +206,7 @@ watch(
   color: var(--color-text-primary);
 }
 .events-counter {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 600;
   font-size: 14px;
   line-height: 1;
@@ -223,9 +234,11 @@ watch(
   align-items: center;
 }
 .logo-container span {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 500;
   font-size: 20px;
-  color: rgba(18, 22, 51, 1);
+  /* color: rgba(18, 22, 51, 1); */
+  color: var(--color-text-primary);
+  opacity: 0.7;
 }
 </style>

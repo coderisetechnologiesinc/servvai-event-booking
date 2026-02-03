@@ -463,6 +463,7 @@ const FiltersPage = () => {
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [createDropdown, setCreateDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [secondCreateDropdown, setCreateSecondDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isLimitReached, setIsLimitReached] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const filterDescriptions = {
     Locations: "Filter events based on where they take place",
     Languages: "Filter events by the language they’re hosted in",
@@ -471,6 +472,19 @@ const FiltersPage = () => {
   };
   const [filterCategories, setFilterCategories] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [defaultFiltersList, setDefaultFiltersList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["Locations", "Languages", "Categories"]);
+  const [maxFiltersNumber, setMaxFiltersNumber] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(2);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    let maxFilters = settings?.current_plan?.filters_limit;
+    if (maxFilters) {
+      setMaxFiltersNumber(maxFilters);
+    } else if (settings?.current_plan?.id !== 1) {
+      setMaxFiltersNumber(25);
+    }
+    const totalFilters = Object.values(filtersList).reduce((total, filterArray) => total += filterArray?.length || 0, 0);
+    if (totalFilters >= maxFilters) {
+      setIsLimitReached(true);
+    }
+  }, [settings, filtersList]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     // setFilterCategories(
     //   Object.keys(filtersList)
@@ -503,13 +517,17 @@ const FiltersPage = () => {
         children: (_filterDescriptions$f = filterDescriptions[filter]) !== null && _filterDescriptions$f !== void 0 ? _filterDescriptions$f : "Description"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("td", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          text: "Create",
+          text: isLimitReached ? "Limit reached" : "Create",
           type: "secondary",
           icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
             className: "button-icon"
           }),
           slim: true,
-          onAction: () => navigate(`/filters/new/${filter}`)
+          disabled: isLimitReached,
+          onAction: () => {
+            if (isLimitReached) return;
+            navigate(`/filters/new/${filter}`);
+          }
         })
       })]
     }, filter);
@@ -527,15 +545,19 @@ const FiltersPage = () => {
     label: "Member",
     value: "Members"
   }] : [])];
-  const renderDropdownMenu = () => menuItems.map(item => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
-    href: "#",
-    onClick: e => {
-      e.preventDefault();
-      setCreateDropdown(false);
-      navigate(`/filters/new/${item.value}`);
-    },
-    children: item.label
-  }, item.value));
+  const renderDropdownMenu = () => menuItems.map(item => {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
+      href: "#",
+      className: `dropdown-item ${isLimitReached ? "dropdown-item-disabled" : ""}`,
+      onClick: e => {
+        e.preventDefault();
+        if (isLimitReached) return;
+        setCreateDropdown(false);
+        navigate(`/filters/new/${item.value}`);
+      },
+      children: item.label
+    }, item.value);
+  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_10__["default"], {
     loading: loading,
     withBackground: true,
@@ -895,4 +917,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=26a9dc238660b2b03261
+//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=84ef8bc713696fe223ef
