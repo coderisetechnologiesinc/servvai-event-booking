@@ -9,10 +9,14 @@ import BreadCrumbs from "../Menu/BreadCrumbs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PageWrapper from "./PageWrapper";
+import ModalShell from "../ModalShell";
+import ZoomPaidAccountModalContent from "../ZoomPaidAccountModalContent";
 const ZoomPage = (props) => {
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
   const [isAccountFetched, setAccountFetched] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [zoomConfirmed, setZoomConfirmed] = useState(false);
   const getZoomAccount = async () => {
     const getZoomAccountResponse = await axios({
       method: "GET",
@@ -127,7 +131,7 @@ const ZoomPage = (props) => {
                     className="servv-button-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleGetConnectURL();
+                      setShowConfirmationModal(true);
                     }}
                   >
                     {t("Connect")}
@@ -161,6 +165,19 @@ const ZoomPage = (props) => {
             </Card>
           </InlineStack>
         </PageContent>
+        {showConfirmationModal && (
+          <ModalShell
+            title="Connect Zoom"
+            onClose={() => setShowZoomModal(false)}
+          >
+            <ZoomPaidAccountModalContent
+              zoomConfirmed={zoomConfirmed}
+              setZoomConfirmed={setZoomConfirmed}
+              handlerOnZoomAccountAdd={handleGetConnectURL}
+              closeModal={() => setShowConfirmationModal(false)}
+            />
+          </ModalShell>
+        )}
       </div>
     </PageWrapper>
   );

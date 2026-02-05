@@ -630,11 +630,13 @@ const Dashboard = () => {
     }
     navigate(url);
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (firstFetchDone && meetingsList.length === 0 && !zoomConnected) {
-      navigate("/events/new");
-    }
-  }, [firstFetchDone, zoomConnected]);
+
+  // useEffect(() => {
+  //   if (firstFetchDone && meetingsList.length === 0 && !zoomConnected) {
+  //     navigate("/events/new");
+  //   }
+  // }, [firstFetchDone, zoomConnected]);
+
   const handleCreateNewEvent = () => {
     if (servvData.gutenberg_active) navigate("/events/new", "_top");else react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
   };
@@ -2239,4 +2241,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=b77b0a6cdbaab0e93948
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=c42fe9495df1a7f5c51c

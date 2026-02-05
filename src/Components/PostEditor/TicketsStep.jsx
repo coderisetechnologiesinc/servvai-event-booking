@@ -13,6 +13,8 @@ const TicketsStep = ({
   stripeConnected,
   isNew,
   settings,
+  isError,
+  setError = () => {},
 }) => {
   const {
     quantity = 100,
@@ -39,6 +41,7 @@ const TicketsStep = ({
 
   const tickets = attributes?.tickets || [];
   const timezone = attributes?.meeting?.timezone || "UTC";
+
   const updateTickets = (next) => {
     const updated = next.map((ticket) => {
       if (ticket.action === "remove") return ticket;
@@ -436,16 +439,24 @@ const TicketsStep = ({
                   inputMode="decimal"
                   placeholder="Enter price"
                   value={activeTicket?.price ?? ""}
+                  error={isError ? "Please enter valid price" : ""}
                   onChange={(val) => {
                     // allow empty
                     if (val === "") {
                       updateTicket(activeTicketId, { price: "" });
+                      setError(true);
                       return;
+                    } else {
+                      setError(false);
                     }
 
                     // allow numbers + 2 decimals
                     if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
-
+                    if (Number.parseInt(val) === 0) {
+                      setError(true);
+                    } else {
+                      setError(false);
+                    }
                     updateTicket(activeTicketId, { price: val });
                   }}
                 />
@@ -610,6 +621,7 @@ const TicketsStep = ({
           type="button"
           className="servv_button servv_button--primary"
           onClick={() => changeStep("filters")}
+          disabled={isError}
         >
           Continue
         </button>

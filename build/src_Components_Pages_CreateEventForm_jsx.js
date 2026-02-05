@@ -163,6 +163,7 @@ const CreateEventForm = () => {
     branding: BrandingStep,
     registrants: RegistrantsStep
   });
+  const [isError, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [steps, setSteps] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     key: "date",
     title: "Date and Time",
@@ -672,7 +673,7 @@ const CreateEventForm = () => {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "create-event",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("aside", {
-        className: "create-event__sidebar",
+        className: `create-event__sidebar ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "logo-wrapper",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
@@ -690,7 +691,7 @@ const CreateEventForm = () => {
               const isActive = step.key === currentStep;
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                 className: "stepper__row",
-                onClick: () => step.key !== "view" ? setCurrentStep(step.key) : open(attributes.wp_post_url, "_blank"),
+                onClick: () => step.key !== "view" ? !isError ? setCurrentStep(step.key) : () => {} : open(attributes.wp_post_url, "_blank"),
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperIcon, {
                   Icon: step.Icon,
                   iconClass: step.iconClass,
@@ -716,7 +717,7 @@ const CreateEventForm = () => {
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("main", {
-        className: "create-event__content",
+        className: `create-event__content ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
         ref: contentRef,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
           className: "servv-create-form-close",
@@ -743,7 +744,9 @@ const CreateEventForm = () => {
             stripeConnected: stripeConnected,
             calendarConnected: calendarConnected,
             gmailConnected: gmailConnected,
-            isOccurrence: occurrenceIdFromQuery
+            isOccurrence: occurrenceIdFromQuery,
+            isError: isError,
+            setError: setError
           })
         })]
       })]
@@ -1390,4 +1393,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(E
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=323d8d6431b71115361d
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=8e583fdd66f672c18857

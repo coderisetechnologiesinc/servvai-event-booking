@@ -38,7 +38,7 @@ const NewInputControl = ({
       className: "step__content_title",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv-input ${error ? "servv-input--error" : ""}`,
+      className: `servv-input ${textarea ? "textarea" : "input"} ${error ? "servv-input--error" : ""}`,
       style: style,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "servv-input__content",
@@ -385,4 +385,4 @@ const BrandingStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=8b721288ba4e01847e88
+//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=ff656a6bb0cf32df149c

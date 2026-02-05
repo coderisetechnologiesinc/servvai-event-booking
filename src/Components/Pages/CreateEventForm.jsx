@@ -100,7 +100,7 @@ const CreateEventForm = () => {
     branding: BrandingStep,
     registrants: RegistrantsStep,
   });
-
+  const [isError, setError] = useState(false);
   const [steps, setSteps] = useState([
     {
       key: "date",
@@ -698,7 +698,11 @@ const CreateEventForm = () => {
     <PageWrapper loading={loadingEvent}>
       <div className="create-event">
         {/* SIDEBAR */}
-        <aside className="create-event__sidebar">
+        <aside
+          className={`create-event__sidebar ${
+            settings?.is_wp_marketplace ? "marketplace" : ""
+          }`}
+        >
           <div className="logo-wrapper">
             <div
               className="logo-bg"
@@ -718,7 +722,9 @@ const CreateEventForm = () => {
                     key={step.key}
                     onClick={() =>
                       step.key !== "view"
-                        ? setCurrentStep(step.key)
+                        ? !isError
+                          ? setCurrentStep(step.key)
+                          : () => {}
                         : open(attributes.wp_post_url, "_blank")
                     }
                   >
@@ -753,7 +759,12 @@ const CreateEventForm = () => {
 
         {/* CONTENT */}
 
-        <main className="create-event__content" ref={contentRef}>
+        <main
+          className={`create-event__content ${
+            settings?.is_wp_marketplace ? "marketplace" : ""
+          }`}
+          ref={contentRef}
+        >
           <div
             className="servv-create-form-close"
             onClick={() => navigate("/dashboard")}
@@ -779,6 +790,8 @@ const CreateEventForm = () => {
                 calendarConnected={calendarConnected}
                 gmailConnected={gmailConnected}
                 isOccurrence={occurrenceIdFromQuery}
+                isError={isError}
+                setError={setError}
               />
             )}
           </React.Suspense>

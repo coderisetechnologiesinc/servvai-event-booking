@@ -18,7 +18,9 @@ const NewInputControl = ({
       {label && <label className="step__content_title">{label}</label>}
 
       <div
-        className={`servv-input ${error ? "servv-input--error" : ""}`}
+        className={`servv-input ${textarea ? "textarea" : "input"} ${
+          error ? "servv-input--error" : ""
+        }`}
         style={style}
       >
         <div className="servv-input__content">
@@ -32,7 +34,6 @@ const NewInputControl = ({
           />
         </div>
       </div>
-
       {error && typeof error === "string" && (
         <div className="servv-input__error-text">{error}</div>
       )}

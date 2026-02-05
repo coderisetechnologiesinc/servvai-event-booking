@@ -28,7 +28,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import N8NSettings from "./N8NSettings";
 import PaymentOptionsModal from "../Controls/PaymentOptionsModal";
-
+import { useServvStore } from "../../store/useServvStore";
 const SettingsPage = () => {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -40,6 +40,7 @@ const SettingsPage = () => {
   const timezones = Object.keys(timezonesList).map((zone) => {
     return { id: zone, name: timezonesList[zone] };
   });
+  const stripeConnected = useServvStore((s) => s.stripeConnected);
   const getZoomAccount = async () => {
     const getZoomAccountResponse = await axios.get(
       "/wp-json/servv-plugin/v1/zoom/account",
@@ -1188,7 +1189,7 @@ const SettingsPage = () => {
                       type="number"
                       align="left"
                       minValue={0}
-                      disabled={isBillingPlanRestriction || !stripeAccount}
+                      disabled={isBillingPlanRestriction || !stripeConnected}
                       onChange={(newVal) => handleDefaultPriceChange(newVal)}
                       className={responsiveInput}
                     />

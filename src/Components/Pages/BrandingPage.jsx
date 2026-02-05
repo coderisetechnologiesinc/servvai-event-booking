@@ -414,7 +414,7 @@ const BrandingPage = () => {
               title="Profile"
               statusText={profileStatus}
               description="Business name, avatar and widget header branding."
-              buttonText="Edit profile"
+              buttonText="Edit"
               footerActions={(() => {
                 const fileRef = React.useRef(null);
 
@@ -463,9 +463,9 @@ const BrandingPage = () => {
             {/* ✅ Link in Bio */}
             <SettingsCardWithModal
               icon={LinkIcon}
-              title="Link in Bio"
-              description="Social links, custom URLs, YouTube blocks and content order."
-              buttonText="Edit links"
+              title="Social"
+              description="Add and update your social media links."
+              buttonText="Edit"
               statusText={linkBioStatus}
             >
               <LinkInBioModal
@@ -493,7 +493,7 @@ const BrandingPage = () => {
               icon={PaintBrushIcon}
               title="Theme"
               description="Colors, gradients, background and widget styling."
-              buttonText="Edit theme"
+              buttonText="Edit"
               statusText={themeStatus}
               footerActions={
                 <button
@@ -547,10 +547,10 @@ const BrandingPage = () => {
             {/* ✅ Custom Links Card */}
             <SettingsCardWithModal
               icon={LinkIcon}
-              title="Custom Links"
+              title="Links"
               statusText={customLinksStatus}
               description="External links shown in your widget."
-              buttonText="Edit links"
+              buttonText="Edit"
             >
               <CustomLinksModal links={links} setLinks={setLinks} />
             </SettingsCardWithModal>
@@ -558,10 +558,10 @@ const BrandingPage = () => {
             {/* ✅ YouTube Videos Card */}
             <SettingsCardWithModal
               icon={Youtube}
-              title="YouTube Videos"
+              title="Videos"
               description="Add video blocks inside widget."
               statusText={youtubeStatus}
-              buttonText="Edit videos"
+              buttonText="Edit"
             >
               <YoutubeLinksModal
                 youtubeVideos={youtubeVideos}

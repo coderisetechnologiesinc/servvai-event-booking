@@ -10,10 +10,14 @@ import BreadCrumbs from "../Menu/BreadCrumbs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PageWrapper from "./PageWrapper";
+import GmailConnectModalContent from "../Containers/GmailConnectModalContent";
+import ModalShell from "../ModalShell";
 const EmailsPage = ({ onPageSelect = () => {} }) => {
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
   const [isAccountFetched, setAccountFetched] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [gmailConfirmed, setGmailConfirmed] = useState(false);
   const getGmailAccount = async () => {
     const getGmailAccountResponse = await axios({
       method: "GET",
@@ -130,7 +134,8 @@ const EmailsPage = ({ onPageSelect = () => {} }) => {
                     className="servv-button-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleGetConnectURL();
+                      // handleGetConnectURL();
+                      setShowModal(true);
                     }}
                   >
                     {t("Connect")}
@@ -152,6 +157,16 @@ const EmailsPage = ({ onPageSelect = () => {} }) => {
             </Card>
           </InlineStack>
         </PageContent>
+        {showModal && (
+          <ModalShell title="Connect Gmail" onClose={() => setShowModal(false)}>
+            <GmailConnectModalContent
+              gmailConfirmed={gmailConfirmed}
+              setGmailConfirmed={setGmailConfirmed}
+              handlerOnAccountAdd={handleGetConnectURL}
+              closeModal={() => setShowModal(false)}
+            />
+          </ModalShell>
+        )}
       </div>
     </PageWrapper>
   );

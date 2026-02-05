@@ -70,6 +70,9 @@ const EmailsPage = React.lazy(() =>
 const CalendarsPage = React.lazy(() =>
   import("./Components/Pages/CalendarsPage.jsx"),
 );
+const OnboardingFlow = React.lazy(() =>
+  import("./Components/Pages/OnboardingFlow.jsx"),
+);
 const LayoutWrapper = () => (
   <Layout>
     <Suspense fallback={null}>
@@ -133,6 +136,7 @@ const AppRouter = ({ restAPIAvailable }) => {
         <Route path="events/new" element={<CreateEventForm />} />
         <Route path="events/offline/:id" element={<CreateEventForm />} />
         <Route path="events/zoom/:id" element={<CreateEventForm />} />
+        <Route path="onboarding" element={<OnboardingFlow />} />
 
         <Route element={<LayoutWrapper />}>
           <Route path="/" element={<Navigate to="dashboard" replace />} />

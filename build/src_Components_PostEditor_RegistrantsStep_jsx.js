@@ -207,7 +207,7 @@ const NewInputControl = ({
       className: "step__content_title",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv-input ${error ? "servv-input--error" : ""}`,
+      className: `servv-input ${textarea ? "textarea" : "input"} ${error ? "servv-input--error" : ""}`,
       style: style,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "servv-input__content",
@@ -1240,4 +1240,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=f68f8ee73302ecec5c97
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=1d6a0753712fbceb719d
