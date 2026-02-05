@@ -62,11 +62,11 @@ const Dashboard = () => {
     navigate(url);
   };
 
-  useEffect(() => {
-    if (firstFetchDone && meetingsList.length === 0 && !zoomConnected) {
-      navigate("/events/new");
-    }
-  }, [firstFetchDone, zoomConnected]);
+  // useEffect(() => {
+  //   if (firstFetchDone && meetingsList.length === 0 && !zoomConnected) {
+  //     navigate("/events/new");
+  //   }
+  // }, [firstFetchDone, zoomConnected]);
 
   const handleCreateNewEvent = () => {
     if (servvData.gutenberg_active) navigate("/events/new", "_top");

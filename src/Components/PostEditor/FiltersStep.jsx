@@ -130,7 +130,7 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
                 // label="Description"
                 placeholder="Enter a note description"
                 value={custom_field_2_value}
-                textarea
+                textarea={true}
                 onChange={(val) =>
                   updateCustomField("custom_field_2_value", val)
                 }

@@ -101,20 +101,14 @@ const IntegrationsPage = ({
                   </BlockStack>
                 </div>
                 <div
-                  className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col ${
-                    !isFeatureAvailable ? "opacity-[0.5]" : ""
-                  }`}
+                  className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`}
                 >
                   <BlockStack
                     gap={2}
                     action={true}
                     cardsLayout={true}
-                    onAction={
-                      isFeatureAvailable
-                        ? () => handleSelectPage("gmail")
-                        : () => {}
-                    }
-                    disabled={!isFeatureAvailable}
+                    onAction={() => handleSelectPage("gmail")}
+                    // disabled={!isFeatureAvailable}
                   >
                     <a
                       href=""

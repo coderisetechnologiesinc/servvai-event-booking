@@ -38,7 +38,7 @@ const NewInputControl = ({
       className: "step__content_title",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv-input ${error ? "servv-input--error" : ""}`,
+      className: `servv-input ${textarea ? "textarea" : "input"} ${error ? "servv-input--error" : ""}`,
       style: style,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "servv-input__content",
@@ -346,4 +346,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=f2c0ae43129230a53e20
+//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=d3d7c5ee424d4bcedc8e

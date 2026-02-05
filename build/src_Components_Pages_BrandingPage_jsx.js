@@ -1082,7 +1082,7 @@ const BrandingPage = () => {
             title: "Profile",
             statusText: profileStatus,
             description: "Business name, avatar and widget header branding.",
-            buttonText: "Edit profile",
+            buttonText: "Edit",
             footerActions: (() => {
               const fileRef = React.useRef(null);
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.Fragment, {
@@ -1121,9 +1121,9 @@ const BrandingPage = () => {
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
             icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_16__["default"],
-            title: "Link in Bio",
-            description: "Social links, custom URLs, YouTube blocks and content order.",
-            buttonText: "Edit links",
+            title: "Social",
+            description: "Add and update your social media links.",
+            buttonText: "Edit",
             statusText: linkBioStatus,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_LinkInBioModal__WEBPACK_IMPORTED_MODULE_11__["default"], {
               instagram: instagram,
@@ -1147,7 +1147,7 @@ const BrandingPage = () => {
             icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_17__["default"],
             title: "Theme",
             description: "Colors, gradients, background and widget styling.",
-            buttonText: "Edit theme",
+            buttonText: "Edit",
             statusText: themeStatus,
             footerActions: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
               type: "button",
@@ -1192,20 +1192,20 @@ const BrandingPage = () => {
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
             icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_16__["default"],
-            title: "Custom Links",
+            title: "Links",
             statusText: customLinksStatus,
             description: "External links shown in your widget.",
-            buttonText: "Edit links",
+            buttonText: "Edit",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_CustomLinksModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
               links: links,
               setLinks: setLinks
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
             icon: _assets_icons__WEBPACK_IMPORTED_MODULE_13__.Youtube,
-            title: "YouTube Videos",
+            title: "Videos",
             description: "Add video blocks inside widget.",
             statusText: youtubeStatus,
-            buttonText: "Edit videos",
+            buttonText: "Edit",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_YoutubeLinksModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
               youtubeVideos: youtubeVideos,
               setYoutubeVideos: setYoutubeVideos
@@ -2248,4 +2248,4 @@ const YoutubeLinksModal = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=22ddf591250ac3e2786e
+//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=45767e9f6d29a96ea9f8

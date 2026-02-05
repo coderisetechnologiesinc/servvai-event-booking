@@ -38,7 +38,7 @@ const NewInputControl = ({
       className: "step__content_title",
       children: label
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv-input ${error ? "servv-input--error" : ""}`,
+      className: `servv-input ${textarea ? "textarea" : "input"} ${error ? "servv-input--error" : ""}`,
       style: style,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "servv-input__content",
@@ -451,7 +451,9 @@ const TicketsStep = ({
   changeStep,
   stripeConnected,
   isNew,
-  settings
+  settings,
+  isError,
+  setError = () => {}
 }) => {
   var _activeTicket$quantit, _activeTicket$price;
   const {
@@ -805,17 +807,26 @@ const TicketsStep = ({
             inputMode: "decimal",
             placeholder: "Enter price",
             value: (_activeTicket$price = activeTicket?.price) !== null && _activeTicket$price !== void 0 ? _activeTicket$price : "",
+            error: isError ? "Please enter valid price" : "",
             onChange: val => {
               // allow empty
               if (val === "") {
                 updateTicket(activeTicketId, {
                   price: ""
                 });
+                setError(true);
                 return;
+              } else {
+                setError(false);
               }
 
               // allow numbers + 2 decimals
               if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
+              if (Number.parseInt(val) === 0) {
+                setError(true);
+              } else {
+                setError(false);
+              }
               updateTicket(activeTicketId, {
                 price: val
               });
@@ -966,6 +977,7 @@ const TicketsStep = ({
         type: "button",
         className: "servv_button servv_button--primary",
         onClick: () => changeStep("filters"),
+        disabled: isError,
         children: "Continue"
       })]
     })]
@@ -1147,4 +1159,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=0ca98dd7a0781cbbf471
+//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=3fd12f0ef500535b5681
