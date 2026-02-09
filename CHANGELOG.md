@@ -1,3 +1,11 @@
+# v1.0.20
+
+1.0.20 (2026-02-10)
+
+## Hotfix Release
+
+- Onboarding and UIUX fixes (6ba1d58)
+
 # v1.0.19
 
 1.0.19 (2026-02-05)
