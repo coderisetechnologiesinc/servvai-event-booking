@@ -61,12 +61,27 @@ const Dashboard = () => {
     }
     navigate(url);
   };
+  useEffect(() => {
+    const redirectUrl = localStorage.getItem("redirectToOnboarding");
 
-  // useEffect(() => {
-  //   if (firstFetchDone && meetingsList.length === 0 && !zoomConnected) {
-  //     navigate("/events/new");
-  //   }
-  // }, [firstFetchDone, zoomConnected]);
+    if (redirectUrl) {
+      localStorage.removeItem("redirectToOnboarding");
+      window.location.replace(redirectUrl);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onboardingSkipped = localStorage.getItem("onboardingSkipped") === "1";
+
+    if (
+      firstFetchDone &&
+      meetingsList.length === 0 &&
+      !zoomConnected &&
+      !onboardingSkipped
+    ) {
+      navigate("/onboarding");
+    }
+  }, [firstFetchDone, zoomConnected, meetingsList.length]);
 
   const handleCreateNewEvent = () => {
     if (servvData.gutenberg_active) navigate("/events/new", "_top");

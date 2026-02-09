@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useEventsLogic } from "./useEventsLogic";
+import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+
 const PLACEHOLDER_IMAGE = `${window.servvData.pluginUrl}public/assets/images/placeholder.png`;
 
 const WP_API_BASE = "/wp-json/wp/v2/posts";
@@ -12,6 +14,14 @@ const EventCard = ({ meeting, handleOpenEvent }) => {
   const [imageSrc, setImageSrc] = useState(
     imageCache.get(postId) || PLACEHOLDER_IMAGE,
   );
+  const getMeetingURL = () => {
+    fetch(`/wp-json/wp/v2/posts/${postId}`)
+      .then((res) => res.json())
+      .then((post) => {
+        open(post.link, "_blank");
+      })
+      .catch((e) => console.log(e));
+  };
 
   useEffect(() => {
     if (!postId) return;
@@ -53,17 +63,44 @@ const EventCard = ({ meeting, handleOpenEvent }) => {
     <div className="event-card">
       <div className="event-image-wrapper">
         <div className="event-image-container">
+          <div className="event-card-actions">
+            <button
+              className="event-action-btn view"
+              title="View event"
+              onClick={(e) => {
+                e.stopPropagation();
+                getMeetingURL();
+              }}
+            >
+              <EyeIcon className="event-action-icon" />
+            </button>
+
+            <button
+              className="event-action-btn edit"
+              title="Edit event"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenEvent({
+                  id: meeting.post_id,
+                  occurrence_id: meeting.occurrence_id,
+                });
+              }}
+            >
+              <PencilSquareIcon className="event-action-icon" />
+            </button>
+          </div>
+
           <img
             src={imageSrc}
             alt={meeting?.title || "Event image"}
             className="event-image"
             loading="lazy"
-            onClick={() => {
-              handleOpenEvent({
-                id: meeting.post_id,
-                occurrence_id: meeting.occurrence_id,
-              });
-            }}
+            // onClick={() => {
+            //   handleOpenEvent({
+            //     id: meeting.post_id,
+            //     occurrence_id: meeting.occurrence_id,
+            //   });
+            // }}
             onError={(e) => {
               e.currentTarget.src = PLACEHOLDER_IMAGE;
             }}
@@ -73,6 +110,17 @@ const EventCard = ({ meeting, handleOpenEvent }) => {
 
       <div className="event-description">
         <h4 className="event-title">{meeting.title}</h4>
+        {/* <a
+            className="hover-badge"
+            href=""
+            onClick={(e) => {
+              e.preventDefault();
+              getMeetingURL();
+            }}
+          >
+            View
+          </a> */}
+
         {meeting.date ? (
           <p className="event-datetime">
             {meeting.date} | {meeting.time} | {meeting.timezone}

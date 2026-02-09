@@ -1,115 +1,122 @@
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import PageContent from "../Containers/PageContent";
-import PageHeader from "../Containers/PageHeader";
-import BlockStack from "../Containers/BlockStack";
-import InlineStack from "../Containers/InlineStack";
-import PageActionButton from "../Controls/PageActionButton";
-
-import Card from "../Containers/Card";
-import FilterTable from "../Containers/FilterTable";
-import PageContentPlaceholder from "../Containers/PageContentPlaceholder";
-import Dropdown from "../Containers/Dropdown";
-
-import { PlusIcon, MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import PageWrapper from "./PageWrapper";
+import PageContent from "../Containers/PageContent";
+import PageActionButton from "../Controls/PageActionButton";
+import Dropdown from "../Containers/Dropdown";
+import SettingsSection from "./Settings/SettingsSection";
+
+import {
+  PlusIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon,
+  LanguageIcon,
+  TagIcon,
+  UserGroupIcon,
+} from "@heroicons/react/16/solid";
 
 import { useServvStore } from "../../store/useServvStore";
 
 const FiltersPage = () => {
   const filtersList = useServvStore((s) => s.filtersList);
-  const getFilters = useServvStore((s) => s.syncFiltersFromServer);
   const settings = useServvStore((s) => s.settings);
 
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [createDropdown, setCreateDropdown] = useState(false);
-  const [secondCreateDropdown, setCreateSecondDropdown] = useState(false);
   const [isLimitReached, setIsLimitReached] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
+
   const filterDescriptions = {
     Locations: "Filter events based on where they take place",
-    Languages: "Filter events by the language they’re hosted in",
+    Languages: "Filter events by the language they're hosted in",
     Categories: "Narrow down events by topic or type",
     Members:
       "Filter events by the host, instructor, or team member running the event",
   };
 
-  const [filterCategories, setFilterCategories] = useState([]);
+  const filterIcons = {
+    Locations: MapPinIcon,
+    Languages: LanguageIcon,
+    Categories: TagIcon,
+    Members: UserGroupIcon,
+  };
+
   const [defaultFiltersList, setDefaultFiltersList] = useState([
     "Locations",
     "Languages",
     "Categories",
   ]);
+  const [filterCategories, setFilterCategories] = useState(defaultFiltersList);
   const [maxFiltersNumber, setMaxFiltersNumber] = useState(2);
+
   useEffect(() => {
-    let maxFilters = settings?.current_plan?.filters_limit;
-    if (maxFilters) {
-      setMaxFiltersNumber(maxFilters);
-    } else if (settings?.current_plan?.id !== 1) {
-      setMaxFiltersNumber(25);
-    }
+    const maxFilters = settings?.current_plan?.filters_limit || 25;
+    setMaxFiltersNumber(maxFilters);
+
     const totalFilters = Object.values(filtersList).reduce(
-      (total, filterArray) => (total += filterArray?.length || 0),
+      (total, arr) => total + (arr?.length || 0),
       0,
     );
-
-    if (totalFilters >= maxFilters) {
-      setIsLimitReached(true);
+    setIsLimitReached(totalFilters >= maxFilters);
+    if (settings?.current_plan?.id !== 1) {
+      let newFiltersList = defaultFiltersList;
+      newFiltersList.push("Members");
+      setDefaultFiltersList(newFiltersList);
     }
   }, [settings, filtersList]);
 
-  useEffect(() => {
-    // setFilterCategories(
-    //   Object.keys(filtersList)
-    //     .filter((key) => filtersList[key]?.length > 0)
-    //     .map((key) => key.charAt(0).toUpperCase() + key.slice(1)),
-    // );
-    setFilterCategories(defaultFiltersList);
-  }, [filtersList]);
+  const getFilterCount = (filter) => {
+    const filterKey = filter.toLowerCase();
+    return filtersList[filterKey]?.length || 0;
+  };
 
-  const headings = [
-    { label: "Filter categories" },
-    { label: "Description" },
-    { label: "Action" },
-  ];
-
-  const renderHeadings = () =>
-    headings.map((h) => <th key={h.label}>{h.label}</th>);
-
-  const renderRows = () =>
+  const renderFilterSections = () =>
     filterCategories.map((filter) => {
+      const Icon = filterIcons[filter] || TagIcon;
+      const filterCount = getFilterCount(filter);
       return (
-        <tr key={filter} className="table-row">
-          {/* Category link */}
-          <td>
-            <a
-              className="filter-table-link"
-              onClick={() => navigate(`/filters/list/${filter}`)}
-            >
-              {filter}
-            </a>
-          </td>
-
-          {/* Description */}
-          <td>{filterDescriptions[filter] ?? "Description"}</td>
-
-          {/* Action button */}
-          <td>
+        <SettingsSection
+          key={filter}
+          icon={Icon}
+          title={filter}
+          description={filterDescriptions[filter]}
+          statusText={`${filterCount} ${
+            filterCount === 1 ? "filter" : "filters"
+          }`}
+          status={filterCount > 0 ? "available" : "unavailable"}
+          sectionId={filter}
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          showActions={true}
+          direct={true}
+          onView={() => navigate(`/filters/list/${filter}`)} // View button handler
+          onSave={() => navigate(`/filters/list/${filter}`)}
+        >
+          <div className="flex gap-2 mt-4">
+            <PageActionButton
+              text="View"
+              type="secondary"
+              slim
+              onAction={() => navigate(`/filters/list/${filter}`)}
+              className="flex-1"
+            />
             <PageActionButton
               text={isLimitReached ? "Limit reached" : "Create"}
-              type="secondary"
-              icon={<PlusIcon className="button-icon" />}
+              type="primary"
+              icon={<PlusIcon className="button-icon primary" />}
               slim
               disabled={isLimitReached}
               onAction={() => {
                 if (isLimitReached) return;
                 navigate(`/filters/new/${filter}`);
               }}
+              className="flex-1"
             />
-          </td>
-        </tr>
+          </div>
+        </SettingsSection>
       );
     });
 
@@ -123,100 +130,76 @@ const FiltersPage = () => {
   ];
 
   const renderDropdownMenu = () =>
-    menuItems.map((item) => {
-      return (
-        <a
-          key={item.value}
-          href="#"
-          className={`dropdown-item ${
-            isLimitReached ? "dropdown-item-disabled" : ""
-          }`}
-          onClick={(e) => {
-            e.preventDefault();
-
-            if (isLimitReached) return;
-
-            setCreateDropdown(false);
-            navigate(`/filters/new/${item.value}`);
-          }}
-        >
-          {item.label}
-          {/* {isLimitReached && (
-            <span className="ml-2 text-xs text-gray-400">(Limit)</span>
-          )} */}
-        </a>
-      );
-    });
+    menuItems.map((item) => (
+      <a
+        key={item.value}
+        href="#"
+        className={`dropdown-item ${
+          isLimitReached ? "dropdown-item-disabled" : ""
+        }`}
+        onClick={(e) => {
+          e.preventDefault();
+          if (isLimitReached) return;
+          setCreateDropdown(false);
+          navigate(`/filters/new/${item.value}`);
+        }}
+      >
+        {item.label}
+      </a>
+    ));
 
   return (
     <PageWrapper loading={loading} withBackground={true}>
       <Fragment>
         <div className="dashboard-card">
-          <div className="servv-dashboard-header">
-            {/* LEFT */}
+          <div className="servv-dashboard-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="dashboard-heading">
-              <div className="flex flex-row items-center justify-between w-full">
-                <h1 className="dashboard-title">Filters</h1>
-                <div className="dashboard-actions flex flex-row items-center gap-2 flex-nowrap">
-                  <Dropdown
-                    activator={
-                      <PageActionButton
-                        text="Create filter"
-                        type="primary"
-                        icon={<PlusIcon className="button-icon primary" />}
-                        onAction={() => setCreateDropdown(!createDropdown)}
-                      />
-                    }
-                    status={createDropdown}
-                    onClose={() => setCreateDropdown(false)}
-                  >
-                    <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
-                  </Dropdown>
-                </div>
-              </div>
-              <p className="dashboard-description mt-6">
+              <h1 className="dashboard-title">Filters</h1>
+              <p className="dashboard-description mt-2">
                 Easily view, create, and modify filters to streamline your event
                 management process.
               </p>
+              {isLimitReached && (
+                <p className="text-sm text-warning-600 mt-2">
+                  Filter limit reached ({maxFiltersNumber} filters). Upgrade
+                  your plan to add more.
+                </p>
+              )}
             </div>
-
-            {/* RIGHT – actions stay on the same row */}
+            <Dropdown
+              activator={
+                <PageActionButton
+                  text="Create filter"
+                  type="primary"
+                  icon={<PlusIcon className="button-icon primary" />}
+                  onAction={() => setCreateDropdown(!createDropdown)}
+                  disabled={isLimitReached}
+                />
+              }
+              status={createDropdown}
+              onClose={() => setCreateDropdown(false)}
+            >
+              <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
+            </Dropdown>
           </div>
 
-          <div className="header-line" />
+          <div className="header-line mt-4" />
 
-          <PageContent>
-            {filterCategories.length === 0 ? (
-              <PageContentPlaceholder
-                icon={<MagnifyingGlassIcon className="placeholder-icon" />}
-                title="No filters found"
-                description="Filters allow your attendees to better search for relevant events."
-              >
-                {/* <Dropdown
-                activator={
-                  <PageActionButton
-                    text="Create"
-                    type="primary"
-                    icon={<PlusIcon className="button-icon primary" />}
-                    onAction={() =>
-                      setCreateSecondDropdown(!secondCreateDropdown)
-                    }
-                  />
-                }
-                status={secondCreateDropdown}
-              >
-                <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
-              </Dropdown> */}
-              </PageContentPlaceholder>
-            ) : (
-              <Card>
-                <FilterTable
-                  headings={renderHeadings()}
-                  tableClassName="filters-page-table"
-                  rows={renderRows()}
-                />
-              </Card>
-            )}
+          <PageContent className="py-0 my-0">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))] gap-6 items-stretch">
+              {filterCategories.length === 0 ? (
+                <div className="text-center p-8 text-gray-500">
+                  <MagnifyingGlassIcon className="mx-auto w-12 h-12 mb-4" />
+                  <p className="text-lg font-semibold">No filters found</p>
+                  <p className="text-sm">
+                    Filters allow your attendees to better search for relevant
+                    events.
+                  </p>
+                </div>
+              ) : (
+                renderFilterSections()
+              )}
+            </div>
           </PageContent>
         </div>
       </Fragment>

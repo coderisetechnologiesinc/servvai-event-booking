@@ -279,6 +279,7 @@ const BrandingStep = ({
         // label="Subtitle"
         , {
           placeholder: "Enter description",
+          textarea: true,
           value: agenda,
           onChange: val => updateField("agenda", val)
         })]
@@ -316,7 +317,7 @@ const BrandingStep = ({
             children: "Supports PNG and JPG files up to 5 MB."
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             className: "servv_upload__support",
-            children: "Recommended resolution: 16 \xD7 11"
+            children: "Recommended aspect ratio is 16:11"
           })]
         }), imagePreview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
           src: imagePreview,
@@ -385,4 +386,4 @@ const BrandingStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=ff656a6bb0cf32df149c
+//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=1f99692fd9ab16c00863

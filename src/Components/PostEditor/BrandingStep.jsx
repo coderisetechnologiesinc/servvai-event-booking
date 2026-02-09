@@ -144,6 +144,7 @@ const BrandingStep = ({
           <NewInputControl
             // label="Subtitle"
             placeholder="Enter description"
+            textarea={true}
             value={agenda}
             onChange={(val) => updateField("agenda", val)}
           />
@@ -182,7 +183,7 @@ const BrandingStep = ({
               Supports PNG and JPG files up to 5 MB.
             </div>
             <div className="servv_upload__support">
-              Recommended resolution: 16 × 11
+              Recommended aspect ratio is 16:11
             </div>
           </div>
 

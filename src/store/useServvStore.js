@@ -54,6 +54,45 @@ export const useServvStore = create(
         }
       },
 
+      syncZoomAccount: async () => {
+        try {
+          const zoom = await getZoomAccount();
+          set({ zoomConnected: !!zoom?.data?.id });
+        } catch (e) {
+          console.error("Zoom account sync error", e);
+        }
+      },
+
+      syncStripeAccount: async () => {
+        try {
+          const stripe = await getStripeAccount();
+          set({
+            stripeConnected: !!stripe?.data?.id,
+            stripeCurrency: stripe?.data?.currency,
+          });
+        } catch (e) {
+          console.error("Stripe account sync error", e);
+        }
+      },
+
+      syncGmailAccount: async () => {
+        try {
+          const gmail = await getGmailAccount();
+          set({ gmailConnected: !!gmail?.data?.id });
+        } catch (e) {
+          console.error("Gmail account sync error", e);
+        }
+      },
+
+      syncCalendarAccount: async () => {
+        try {
+          const calendar = await getCalendarAccount?.();
+          set({ calendarConnected: !!calendar?.data?.id });
+        } catch (e) {
+          console.error("Calendar account sync error", e);
+        }
+      },
+
       syncAccountsAfterEvents: async () => {
         try {
           const zoom = await getZoomAccount();
@@ -72,6 +111,7 @@ export const useServvStore = create(
           console.error("Account sync error", e);
         }
       },
+
       syncSingleFilterFromServer: async (filterId) => {
         const { settings, filtersList } = get();
         if (!settings?.current_plan?.id || !filterId) return;

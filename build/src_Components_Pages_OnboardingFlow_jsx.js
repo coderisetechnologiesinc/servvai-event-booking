@@ -1,6 +1,41 @@
 "use strict";
 (self["webpackChunkservv_plugin"] = self["webpackChunkservv_plugin"] || []).push([["src_Components_Pages_OnboardingFlow_jsx"],{
 
+/***/ "./src/Components/Containers/BlockStack.jsx":
+/*!**************************************************!*\
+  !*** ./src/Components/Containers/BlockStack.jsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const BlockStack = ({
+  gap = 4,
+  cardsLayout,
+  action,
+  disabled,
+  onAction,
+  className = "",
+  children,
+  ...rest
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  ...rest,
+  onClick: onAction ? () => onAction() : undefined,
+  className: `${className} flex flex-col ${gap ? `space-y-${gap}` : ""} ${cardsLayout ? "flex-[1_1_0]" : ""} ${action ? "cursor-pointer" : ""} ${disabled ? "filter grayscale" : ""}`,
+  children: children
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BlockStack);
+
+/***/ }),
+
 /***/ "./src/Components/Menu/Spinner.jsx":
 /*!*****************************************!*\
   !*** ./src/Components/Menu/Spinner.jsx ***!
@@ -41,6 +76,55 @@ const Spinner = ({
 
 /***/ }),
 
+/***/ "./src/Components/ModalShell.jsx":
+/*!***************************************!*\
+  !*** ./src/Components/ModalShell.jsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XMarkIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const ModalShell = ({
+  title,
+  children,
+  onClose
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "fixed inset-0 z-50 bg-black/40 flex justify-center items-center px-4",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "bg-white w-full max-w-[640px] rounded-2xl shadow-xl p-6 relative",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "flex justify-between items-center mb-4",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+          className: "text-lg font-semibold text-gray-900",
+          children: title
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          onClick: onClose,
+          className: "p-2 rounded-lg hover:bg-gray-100 transition",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            className: "w-5 h-5 text-gray-500"
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: children
+      })]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalShell);
+
+/***/ }),
+
 /***/ "./src/Components/Pages/OnboardingFlow.jsx":
 /*!*************************************************!*\
   !*** ./src/Components/Pages/OnboardingFlow.jsx ***!
@@ -53,17 +137,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/icons */ "./src/assets/icons/index.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/RocketLaunchIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/RocketLaunchIcon.js");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
 /* harmony import */ var _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../assets/images/logo.png */ "./src/assets/images/logo.png");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _ModalShell__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ModalShell */ "./src/Components/ModalShell.jsx");
+/* harmony import */ var _SkipOnboardingModalContent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SkipOnboardingModalContent */ "./src/Components/Pages/SkipOnboardingModalContent.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -77,21 +164,21 @@ __webpack_require__.r(__webpack_exports__);
 // Lazy load step components
 
 const SettingsStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_SettingsStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../SettingsStep */ "./src/Components/SettingsStep.jsx")));
-const FirstEventStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '../Onboarding/FirstEventStep'"); e.code = 'MODULE_NOT_FOUND'; throw e; }));
-const BrandingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '../Onboarding/BrandingStep'"); e.code = 'MODULE_NOT_FOUND'; throw e; }));
+// const FirstEventStep = React.lazy(() => import("../Onboarding/FirstEventStep"));
+const BrandingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_BrandingStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../BrandingStep */ "./src/Components/BrandingStep.jsx")));
 const StepperIcon = ({
   Icon,
   iconClass,
   active,
   showLine
-}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
   className: "stepper-icon",
-  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
     className: `icon-box ${active ? "is-active" : ""}`,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(Icon, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(Icon, {
       className: `icon-box__svg ${iconClass}`
     })
-  }), showLine && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+  }), showLine && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
     className: "icon-line"
   })]
 });
@@ -101,12 +188,12 @@ const StepperText = ({
   active,
   completed
 }) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     className: `stepper-text ${active ? "is-active" : ""} ${completed ? "is-completed" : ""}`,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
       className: "stepper-title",
       children: title
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
       className: "stepper-subtitle",
       children: subtitle
     })]
@@ -114,19 +201,31 @@ const StepperText = ({
 };
 const OnboardingFlow = () => {
   const settings = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.settings);
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
+  const gmailConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.gmailConnected);
+  const zoomConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.zoomConnected);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.filtersList);
+  const fetchSettings = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.fetchSettings);
+  const syncGmailAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.syncGmailAccount);
+  const syncZoomAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.syncZoomAccount);
+  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.syncSingleFilterFromServer);
+  const [synchronization, setSynchronization] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useNavigate)();
   const contentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  const [searchParams, setSearchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useSearchParams)();
+  const [searchParams, setSearchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useSearchParams)();
 
   // Get initial step from URL or default to first step
   const stepFromUrl = searchParams.get("step");
+  const [brandingCompleted, setBrandingCompleted] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [completedSteps, setCompletedSteps] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Set());
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [showSkipModal, setShowSkipModal] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [skipConfirmed, setSkipConfirmed] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [attributes, setAttributes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     // Settings step
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     location: "",
     dateFormat: "MM/DD/YYYY",
+    timeFormat: "12h",
     defaultEventType: "offline",
     // offline | zoom
     emailConnected: false,
@@ -151,13 +250,13 @@ const OnboardingFlow = () => {
     key: "settings",
     title: "Basic Settings",
     subtitle: "Configure your preferences",
-    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__["default"],
+    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__["default"],
     iconClass: ""
   }, {
     key: "first-event",
     title: "Create First Event",
     subtitle: "Set up your initial event",
-    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__["default"],
+    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__["default"],
     iconClass: ""
   }, {
     key: "branding",
@@ -206,10 +305,50 @@ const OnboardingFlow = () => {
         replace: true
       });
     }
+    setSynchronization(true);
+    syncGmailAccount();
+    syncZoomAccount();
+    syncSingleFilterFromServer("locations");
+    setSynchronization(false);
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!attributes.location && Array.isArray(filtersList?.locations) && filtersList.locations.length > 0) {
+      const firstLocationName = filtersList.locations[0]?.name;
+      if (firstLocationName) {
+        setAttributes(prev => ({
+          ...prev,
+          location: firstLocationName
+        }));
+      }
+    }
+  }, [filtersList?.locations]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!settings?.settings) return;
+    let adminDashboard = {};
+    try {
+      adminDashboard = typeof settings.settings.admin_dashboard === "string" ? JSON.parse(settings.settings.admin_dashboard) : settings.settings.admin_dashboard || {};
+    } catch (e) {
+      console.warn("Invalid admin_dashboard JSON", e);
+    }
+    setAttributes(prev => ({
+      ...prev,
+      ...(adminDashboard.default_timezone && {
+        timezone: adminDashboard.default_timezone
+      }),
+      ...(adminDashboard.default_event_type && {
+        defaultEventType: adminDashboard.default_event_type === "zoom" ? "zoom" : "offline"
+      }),
+      ...(typeof settings.settings.time_format_24_hours === "boolean" && {
+        timeFormat: settings.settings.time_format_24_hours ? "24h" : "12h"
+      }),
+      ...(settings.location && {
+        location: settings.location
+      })
+    }));
+  }, [settings]);
   const stepComponents = {
     settings: SettingsStep,
-    "first-event": FirstEventStep,
+    "first-event": null,
     branding: BrandingStep
   };
   const StepComponent = stepComponents[currentStep];
@@ -238,6 +377,10 @@ const OnboardingFlow = () => {
     const currentIndex = steps.findIndex(s => s.key === currentStep);
     if (currentIndex < steps.length - 1) {
       markStepCompleted(currentStep);
+      if (currentIndex === 0) {
+        navigate("/events/new?onboarding_step=2");
+        return;
+      }
       setCurrentStep(steps[currentIndex + 1].key);
     }
   };
@@ -252,31 +395,14 @@ const OnboardingFlow = () => {
     const currentIndex = steps.findIndex(s => s.key === currentStep);
 
     // Allow going back to any previous step or completed step
-    if (clickedIndex <= currentIndex || completedSteps.has(stepKey)) {
+    if (clickedIndex !== 1) {
       setCurrentStep(stepKey);
-    }
-  };
-  const handleSettingsSave = async settingsData => {
-    setLoading(true);
-    try {
-      await axios__WEBPACK_IMPORTED_MODULE_10__["default"].post("/wp-json/servv-plugin/v1/onboarding/settings", settingsData, {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success("Settings saved successfully");
-      goToNextStep();
-    } catch (error) {
-      console.error("Settings save error:", error);
-      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to save settings. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
   const handleFirstEventCreate = async eventData => {
     setLoading(true);
     try {
-      const response = await axios__WEBPACK_IMPORTED_MODULE_10__["default"].post(`/wp-json/servv-plugin/v1/events/${eventData.location}`, {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_12__["default"].post(`/wp-json/servv-plugin/v1/events/${eventData.location}`, {
         meeting: {
           topic: eventData.topic,
           startTime: eventData.startTime,
@@ -304,41 +430,119 @@ const OnboardingFlow = () => {
       setLoading(false);
     }
   };
-  const handleBrandingComplete = async brandingData => {
-    setLoading(true);
+  const handleBrandingComplete = async branding => {
     try {
-      await axios__WEBPACK_IMPORTED_MODULE_10__["default"].post("/wp-json/servv-plugin/v1/onboarding/branding", brandingData, {
+      var _ref, _branding$avatar, _ref2, _branding$banner, _ref3, _branding$backgroundG;
+      setLoading(true);
+      let existing = {};
+      try {
+        existing = JSON.parse(settings?.settings?.widget_style_settings || "{}");
+      } catch {
+        existing = {};
+      }
+      const mergedSettings = {
+        ...existing,
+        /* Profile */
+        pw_title: branding.title || existing.pw_title || "",
+        pw_description: branding.description || existing.pw_description || "",
+        pw_avatar: (_ref = (_branding$avatar = branding.avatar) !== null && _branding$avatar !== void 0 ? _branding$avatar : existing.pw_avatar) !== null && _ref !== void 0 ? _ref : null,
+        pw_banner_image: (_ref2 = (_branding$banner = branding.banner) !== null && _branding$banner !== void 0 ? _branding$banner : existing.pw_banner_image) !== null && _ref2 !== void 0 ? _ref2 : null,
+        /* Theme */
+        pw_bg_type: branding.backgroundType || existing.pw_bg_type || "color",
+        pw_background_color: branding.backgroundColor || existing.pw_background_color || "#ffffff",
+        pw_background_gradient: (_ref3 = (_branding$backgroundG = branding.backgroundGradient) !== null && _branding$backgroundG !== void 0 ? _branding$backgroundG : existing.pw_background_gradient) !== null && _ref3 !== void 0 ? _ref3 : null,
+        pw_text_color: branding.textColor || existing.pw_text_color || "#000000"
+      };
+      await axios__WEBPACK_IMPORTED_MODULE_12__["default"].put("/wp-json/servv-plugin/v1/shop/settings", {
+        ...settings,
+        settings: {
+          ...settings.settings,
+          widget_style_settings: JSON.stringify(mergedSettings)
+        }
+      }, {
         headers: {
           "X-WP-Nonce": servvData.nonce
         }
       });
-
-      // Mark onboarding as complete
-      await axios__WEBPACK_IMPORTED_MODULE_10__["default"].post("/wp-json/servv-plugin/v1/onboarding/complete", {}, {
+      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success("Branding saved successfully");
+      await fetchSettings();
+      setBrandingCompleted(true);
+    } catch (err) {
+      console.error(err);
+      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to save branding");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleLocationSave = async location => {
+    setLoading(true);
+    let url = "/wp-json/servv-plugin/v1/filters/locations";
+    let method = "POST";
+    await (0,axios__WEBPACK_IMPORTED_MODULE_12__["default"])({
+      method,
+      url,
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      },
+      data: {
+        name: location
+      }
+    });
+    // await syncSingleFilterFromServer("locations");
+  };
+  const handleSettingsSave = async ({
+    sync = false
+  }) => {
+    setLoading(true);
+    const adminDashboard = JSON.stringify(settings.admin_dashboard);
+    const payload = {
+      ...settings,
+      settings: {
+        ...settings.settings,
+        time_format_24_hours: attributes.timeFormat === "24h" ? true : false,
+        admin_dashboard: JSON.stringify({
+          ...adminDashboard,
+          default_timezone: attributes.timezone,
+          default_event_type: attributes.defaultEventType
+        })
+      }
+    };
+    try {
+      const saveSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_12__["default"])({
+        method: "PUT",
+        url: "/wp-json/servv-plugin/v1/shop/settings",
         headers: {
           "X-WP-Nonce": servvData.nonce
+        },
+        data: {
+          ...payload
         }
-      });
-      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success("Onboarding completed! Welcome to Servv!");
-
-      // Redirect to dashboard or site preview
-      setTimeout(() => {
-        navigate("/dashboard?onboarding=complete");
-      }, 1500);
+      }).catch(err => console.error(err));
+      if (attributes.location && attributes.location.length > 0) {
+        if (filtersList?.locations?.filter(f => f.name !== attributes.location)?.length === 0) await handleLocationSave(attributes.location);
+      }
+      //   toast.success("Settings saved successfully");
+      if (sync) await fetchSettings();
+      if (!sync) goToNextStep();
     } catch (error) {
-      console.error("Branding save error:", error);
-      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to save branding. Please try again.");
+      console.error("Settings save error:", error);
+      react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to save settings. Please try again.");
     } finally {
       setLoading(false);
     }
   };
   const handleSkipOnboarding = () => {
-    if (window.confirm("Are you sure you want to skip onboarding? You can always configure these settings later.")) {
-      navigate("/dashboard?onboarding=skipped");
+    const isBrandingStep = currentStep === "branding";
+    const brandingCompleted = attributes?.branding?.title?.trim();
+    if (isBrandingStep && brandingCompleted) {
+      localStorage.setItem("onboardingSkipped", "1");
+      navigate("/dashboard", {
+        replace: true
+      });
+      return;
     }
+    setShowSkipModal(true);
   };
-
-  // Scroll to top on step change
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (contentRef.current) {
       window.scrollTo({
@@ -348,38 +552,38 @@ const OnboardingFlow = () => {
       });
     }
   }, [currentStep]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_4__["default"], {
     loading: loading,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "create-event",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("aside", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("aside", {
         className: `create-event__sidebar ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "logo-wrapper",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "logo-bg",
             style: {
               backgroundImage: `url(${_assets_images_logo_png__WEBPACK_IMPORTED_MODULE_3__})`
             }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "sidebar__logo servv-logo-png"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
           className: "sidebar__stepper",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             children: steps.map((step, index) => {
               const isActive = step.key === currentStep;
               const isCompleted = completedSteps.has(step.key);
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                 className: "stepper__row",
                 onClick: () => handleStepClick(step.key),
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(StepperIcon, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperIcon, {
                   Icon: step.Icon,
                   iconClass: step.iconClass,
                   active: isActive,
                   completed: isCompleted,
                   showLine: index < steps.length - 1
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(StepperText, {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperText, {
                   title: step.title,
                   subtitle: step.subtitle,
                   active: isActive,
@@ -388,41 +592,59 @@ const OnboardingFlow = () => {
               }, step.key);
             })
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "sidebar__bottom-link",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_1__.Support, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_1__.Support, {
             className: "bottom-link__icon",
             "aria-hidden": "true"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "bottom-link__text",
             onClick: () => window.open("/support", "_blank"),
             children: "Need Help?"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("main", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("main", {
         className: `create-event__content ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
         ref: contentRef,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
           className: "servv-create-form-close",
           onClick: handleSkipOnboarding,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_1__.CloseIcon, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_1__.CloseIcon, {
             className: "servv-create-form-close-icon"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Suspense), {
-          fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Suspense), {
+          fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "step-loading",
             children: "Loading\u2026"
           }),
-          children: StepComponent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(StepComponent, {
+          children: StepComponent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepComponent, {
             attributes: attributes,
             setAttributes: mergeAttributes,
             currentStep: currentStep,
             goToNextStep: goToNextStep,
             goToPreviousStep: goToPreviousStep,
+            checkingEmail: synchronization,
             loading: loading,
+            zoomConnected: zoomConnected,
+            isGmailConnected: gmailConnected,
+            brandingCompleted: brandingCompleted,
+            settings: settings,
             onSave: currentStep === "settings" ? handleSettingsSave : currentStep === "first-event" ? handleFirstEventCreate : handleBrandingComplete
           })
         })]
+      }), showSkipModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        title: "Skip onboarding",
+        onClose: () => setShowSkipModal(false),
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_SkipOnboardingModalContent__WEBPACK_IMPORTED_MODULE_7__["default"], {
+          confirmed: skipConfirmed,
+          setConfirmed: setSkipConfirmed,
+          closeModal: () => setShowSkipModal(false),
+          onConfirm: () => {
+            setShowSkipModal(false);
+            localStorage.setItem("onboardingSkipped", "1");
+            navigate("/dashboard?onboarding=skipped");
+          }
+        })
       })]
     })
   });
@@ -475,7 +697,7 @@ const PageWrapper = props => {
       className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "absolute inset-0 flex items-center justify-center pointer-events-none",
-        children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: props.loading && !props.withoutSpinner && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -488,6 +710,86 @@ const PageWrapper = props => {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageWrapper);
+
+/***/ }),
+
+/***/ "./src/Components/Pages/SkipOnboardingModalContent.jsx":
+/*!*************************************************************!*\
+  !*** ./src/Components/Pages/SkipOnboardingModalContent.jsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _StepBlock__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../StepBlock */ "./src/Components/StepBlock.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const SkipOnboardingModalContent = ({
+  onConfirm,
+  closeModal
+}) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_StepBlock__WEBPACK_IMPORTED_MODULE_0__["default"], {
+  description: "You can skip onboarding now and configure everything later.",
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    gap: 5,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex justify-end gap-3",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition",
+        onClick: closeModal,
+        children: "Cancel"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition",
+        onClick: onConfirm,
+        children: "Skip onboarding"
+      })]
+    })
+  })
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SkipOnboardingModalContent);
+
+/***/ }),
+
+/***/ "./src/Components/StepBlock.jsx":
+/*!**************************************!*\
+  !*** ./src/Components/StepBlock.jsx ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const StepBlock = ({
+  title,
+  description,
+  children
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "step__content_block",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "step__content_title",
+      children: title
+    }), description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+      className: "text-sm text-gray-500 mb-4",
+      children: description
+    }), children]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StepBlock);
 
 /***/ }),
 
@@ -746,4 +1048,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(R
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=e2a5857c5401fc3bf660
+//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=578c5c38d50cdb753624

@@ -194,10 +194,10 @@ const VenueStep = ({
         className: "step__heading",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
           className: "step__header_title",
-          children: "Venue and Access"
+          children: "Location"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "step__description",
-          children: "Enter the event's address details"
+          children: "Choose the event location"
         })]
       })]
     }), zoomConnected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -302,4 +302,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_VenueStep_jsx.js.map?ver=24cb4e4bc876408c5311
+//# sourceMappingURL=src_Components_PostEditor_VenueStep_jsx.js.map?ver=a407297a3e1271822023

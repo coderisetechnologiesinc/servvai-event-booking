@@ -18,7 +18,6 @@ const RegistrantsStep = ({
   attributes,
   setAttributes,
   changeStep,
-  setLoading,
   handleFormSubmit,
 }) => {
   const registrants = attributes.registrants || [];
@@ -31,10 +30,11 @@ const RegistrantsStep = ({
   const [zoomPageTokens, setZoomPageTokens] = useState({
     1: null,
   });
+  const [registrantsLoading, setRegistrantsLoading] = useState(false);
   const PAGE_SIZE = 20;
 
   const visibleRegistrants = registrants.filter(
-    (reg) => reg.status !== "delete"
+    (reg) => reg.status !== "delete",
   );
 
   const totalPages = attributes?.regPagination?.pageCount || 1;
@@ -55,7 +55,7 @@ const RegistrantsStep = ({
 
   const handleSelectRegistrant = (id) => {
     setSelectedRegistrants((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -69,7 +69,7 @@ const RegistrantsStep = ({
     const visibleIds = visibleRegistrants.map(getRegistrantId);
 
     setSelectedRegistrants((prev) =>
-      prev.filter((id) => visibleIds.includes(id))
+      prev.filter((id) => visibleIds.includes(id)),
     );
   }, [visibleRegistrants.length]);
 
@@ -81,11 +81,11 @@ const RegistrantsStep = ({
 
   const handleRegistransSave = async () => {
     const registrantsForDelete = registrants.filter(
-      (reg) => reg.id && reg.status === "delete"
+      (reg) => reg.id && reg.status === "delete",
     );
 
     try {
-      setLoading(true);
+      setRegistrantsLoading(true);
 
       await Promise.all(
         registrantsForDelete.map((reg) =>
@@ -93,8 +93,8 @@ const RegistrantsStep = ({
             postID,
             occurrenceId,
             registrantID: reg.id,
-          })
-        )
+          }),
+        ),
       );
       await handleFormSubmit();
       const cleanedRegistrants = registrants
@@ -115,14 +115,14 @@ const RegistrantsStep = ({
     } catch (error) {
       console.error("Failed to save registrants", error);
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
 
   const loadRegistrants = async (page = 1) => {
     if (!postID) return;
 
-    setLoading(true);
+    setRegistrantsLoading(true);
 
     try {
       const isZoom = attributes?.location === "zoom";
@@ -177,7 +177,7 @@ const RegistrantsStep = ({
     } catch (e) {
       console.error("Failed to fetch registrants", e);
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
 
@@ -266,7 +266,7 @@ const RegistrantsStep = ({
     if (selectedRegistrants.length === 0) return;
 
     try {
-      setLoading(true);
+      setRegistrantsLoading(true);
 
       await Promise.all(
         selectedRegistrants.map((registrantID) =>
@@ -274,14 +274,14 @@ const RegistrantsStep = ({
             postID,
             registrantID,
             occurrenceId,
-          })
-        )
+          }),
+        ),
       );
 
       toast.success(
         `Notifications resent to ${selectedRegistrants.length} registrant${
           selectedRegistrants.length > 1 ? "s" : ""
-        }.`
+        }.`,
       );
 
       await loadRegistrants(currentPage);
@@ -290,13 +290,13 @@ const RegistrantsStep = ({
 
       toast.error("Failed to resend notifications to selected registrants.");
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
 
   const resendAll = async () => {
     try {
-      setLoading(true);
+      setRegistrantsLoading(true);
 
       await resendAllNotifications({
         postID,
@@ -311,7 +311,7 @@ const RegistrantsStep = ({
 
       toast.error("Failed to resend notifications to all registrants.");
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
   const exportToCSV = (rows, filename = "registrants.csv") => {
@@ -320,7 +320,7 @@ const RegistrantsStep = ({
     const csvContent = [
       headers.join(","),
       ...rows.map((row) =>
-        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
+        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","),
       ),
     ].join("\n");
 
@@ -345,7 +345,7 @@ const RegistrantsStep = ({
   const handleExportRegistrants = async () => {
     if (!postID) return;
 
-    setLoading(true);
+    setRegistrantsLoading(true);
 
     try {
       const isZoom = attributes?.location === "zoom";
@@ -405,14 +405,14 @@ const RegistrantsStep = ({
       console.error("Export registrants failed", e);
       toast.error("Failed to export registrants.");
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
 
   /* ------------------ UI ------------------ */
 
   return (
-    <div className="step__wrapper">
+    <div className={`step__wrapper ${registrantsLoading ? "loading" : ""}`}>
       {/* Header */}
       <div className="step__header">
         <Contacts className="step__header_icon" />

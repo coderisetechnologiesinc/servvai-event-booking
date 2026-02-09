@@ -4,7 +4,7 @@ import {
   CheckIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-
+import AnimatedModal from "../Components/AnimatedModal";
 const SettingsCardWithModal = ({
   icon = Cog6ToothIcon,
   title = "Profile",
@@ -83,18 +83,23 @@ const SettingsCardWithModal = ({
       </div>
 
       {/* ✅ MODAL */}
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="relative w-full max-w-[600px] max-h-[85vh] bg-white rounded-xl shadow-lg flex flex-col">
-            {/* Close button - Fixed position */}
+      <AnimatedModal open={open} onClose={() => setOpen(false)}>
+        {({ close }) => (
+          <div
+            className="relative w-full max-w-[600px] max-h-[85vh]
+      bg-white rounded-xl shadow-lg flex flex-col"
+          >
+            {/* Close button */}
             <button
-              onClick={() => setOpen(false)}
-              className="absolute -top-4 -right-4 w-9 h-9 flex items-center justify-center rounded-full border border-[#D5D7DA] bg-white hover:bg-gray-50 shadow-md z-10"
+              onClick={close}
+              className="absolute -top-4 -right-4 w-9 h-9
+          flex items-center justify-center rounded-full
+          border border-[#D5D7DA] bg-white hover:bg-gray-50 shadow-md"
             >
               <XMarkIcon className="w-5 h-5 text-[#414651]" />
             </button>
 
-            {/* Modal header - Fixed */}
+            {/* Header */}
             <div className="text-center p-8 pb-4 flex-shrink-0">
               <h2 className="text-xl font-semibold text-[#181D27]">
                 Edit {title}
@@ -104,28 +109,29 @@ const SettingsCardWithModal = ({
               </p>
             </div>
 
-            {/* ✅ Scrollable Content Area */}
+            {/* Content */}
             <div className="flex-1 overflow-y-auto px-8 py-4">
               <div className="flex flex-col gap-4">{children}</div>
             </div>
 
-            {/* Actions - Fixed at bottom */}
-            {/* Actions - Fixed at bottom */}
-            <div className="flex justify-between items-center gap-3 p-8 pt-4 border-t border-gray-200 flex-shrink-0">
-              {/* ✅ Left side custom actions (Upload etc) */}
+            {/* Actions */}
+            <div
+              className="flex justify-between items-center gap-3
+        p-8 pt-4 border-t border-gray-200 flex-shrink-0"
+            >
               <div>{footerActions}</div>
 
-              {/* ✅ Right side default close */}
               <button
-                onClick={() => setOpen(false)}
-                className="px-5 py-2 border border-[#D5D7DA] rounded-lg hover:bg-gray-50 font-semibold text-sm"
+                onClick={close}
+                className="px-5 py-2 border border-[#D5D7DA]
+            rounded-lg hover:bg-gray-50 font-semibold text-sm"
               >
                 Close
               </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatedModal>
     </>
   );
 };

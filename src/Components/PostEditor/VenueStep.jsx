@@ -60,8 +60,8 @@ const VenueStep = ({
       <div className="step__header">
         <MapMarkIcon className="step__header_icon" />
         <div className="step__heading">
-          <h4 className="step__header_title">Venue and Access</h4>
-          <p className="step__description">Enter the event's address details</p>
+          <h4 className="step__header_title">Location</h4>
+          <p className="step__description">Choose the event location</p>
         </div>
       </div>
       {zoomConnected && (

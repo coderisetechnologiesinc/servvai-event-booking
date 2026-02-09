@@ -20,7 +20,7 @@ const PageWrapper = (props) => {
       <div className="w-full relative pl-4 flex flex-col min-h-0">
         {/* centered spinner */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {props.loading && <Spinner loading={true} />}
+          {props.loading && !props.withoutSpinner && <Spinner loading={true} />}
         </div>
 
         {/* MAIN CONTENT WINDOW */}

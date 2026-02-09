@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import { Cog6ToothIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import ModalShell from "./ModalShell";
+import GmailConnectModalContent from "./Containers/GmailConnectModalContent";
 
 import NewSelectControl from "./Controls/NewSelectControl";
 import NewInputControl from "./Controls/NewInputControl";
@@ -13,12 +15,17 @@ const SettingsStep = ({
   setAttributes,
   goToNextStep,
   goToPreviousStep,
+  zoomConnected,
+  checkingEmail,
   onSave,
   loading,
+  isGmailConnected,
 }) => {
-  const [checkingEmail, setCheckingEmail] = useState(true);
-  const [emailConnected, setEmailConnected] = useState(false);
+  const [showGmailModal, setShowGmailModal] = useState(false);
+  const [showZoomModal, setShowZoomModal] = useState(false);
 
+  const [gmailConfirmed, setGmailConfirmed] = useState(false);
+  const [zoomConfirmed, setZoomConfirmed] = useState(false);
   /* --------------------------------------------
      Timezone options (reuse existing approach)
   -------------------------------------------- */
@@ -64,39 +71,68 @@ const SettingsStep = ({
      Email connection status
   -------------------------------------------- */
 
-  useEffect(() => {
-    checkEmailStatus();
-  }, []);
-
-  const checkEmailStatus = async () => {
-    setCheckingEmail(true);
-
-    try {
-      const res = await axios.get("/wp-json/servv-plugin/v1/email/status", {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      });
-
-      const connected = res.data?.connected || false;
-
-      setEmailConnected(connected);
-
-      setAttributes({
-        emailConnected: connected,
-      });
-    } catch {
-      setEmailConnected(false);
-    } finally {
-      setCheckingEmail(false);
+  const connectZoom = async () => {
+    const getAuthURLResponse = await axios(
+      "/wp-json/servv-plugin/v1/zoom/url",
+      {
+        method: "GET",
+        headers: {
+          "X-WP-Nonce": servvData.nonce,
+        },
+        redirect: "manual",
+      },
+    );
+    await onSave({ sync: true });
+    localStorage.setItem("redirectToOnboarding", window.location.href);
+    if (getAuthURLResponse && getAuthURLResponse.status === 200) {
+      open(
+        `${
+          servvData.shopify_app
+        }/zoom/connect?wordpress_url=${encodeURIComponent(
+          getAuthURLResponse.data.auth_url,
+        )}&wordpress_return_url=${encodeURIComponent(
+          window.location.origin,
+        )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
+        "_top",
+      );
+      // open(getAuthURLResponse.data.auth_url)
     }
   };
 
   const handleEmailConnect = () => {
-    const returnUrl = `${window.location.origin}/onboarding?step=settings&return_step=settings`;
-    window.location.href =
-      "/wp-json/servv-plugin/v1/email/connect?return_url=" +
-      encodeURIComponent(returnUrl);
+    setShowGmailModal(true);
   };
 
+  const handleConnectZoom = () => {
+    setShowZoomModal(true);
+  };
+
+  const connectGmail = async () => {
+    const getAuthURLResponse = await axios(
+      "/wp-json/servv-plugin/v1/gmail/url",
+      {
+        method: "GET",
+        headers: {
+          "X-WP-Nonce": servvData.nonce,
+        },
+        redirect: "manual",
+      },
+    );
+    await onSave({ sync: true });
+    localStorage.setItem("redirectToOnboarding", window.location.href);
+    if (getAuthURLResponse && getAuthURLResponse.status === 200) {
+      open(
+        `${
+          servvData.shopify_app
+        }/mail/connect?wordpress_url=${encodeURIComponent(
+          getAuthURLResponse.data.auth_url,
+        )}&wordpress_return_url=${encodeURIComponent(
+          window.location.origin,
+        )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
+        "_top",
+      );
+    }
+  };
   /* --------------------------------------------
      Submit
   -------------------------------------------- */
@@ -120,7 +156,7 @@ const SettingsStep = ({
     <div className="step__wrapper">
       {/* Header */}
       <div className="step__header">
-        <Cog6ToothIcon className="step__header_icon" />
+        <Cog6ToothIcon className="step__header_icon settings-icon" />
         <div className="step__heading">
           <h4 className="step__header_title">Basic Settings</h4>
           <p className="step__description">
@@ -131,122 +167,181 @@ const SettingsStep = ({
 
       {/* Content */}
       <div className="step__content">
-        {/* Timezone */}
-        <div className="step__content_block">
-          <span className="step__content_title">Timezone</span>
+        <div className="flex flex-col gap-y-[24px]">
+          {/* Timezone */}
+          <div className="step__content_block">
+            <span className="step__content_title">Timezone</span>
 
-          <NewSelectControl
-            value={attributes.timezone || ""}
-            options={timezoneOptions}
-            helpText="Select timezone"
-            onChange={(val) =>
-              setAttributes({
-                timezone: val,
-              })
-            }
-            iconRight={<ChevronDownIcon />}
-          />
+            <NewSelectControl
+              value={attributes.timezone || ""}
+              options={timezoneOptions}
+              helpText="Select timezone"
+              style={{ width: "100%" }}
+              onChange={(val) =>
+                setAttributes({
+                  timezone: val,
+                })
+              }
+              iconRight={<ChevronDownIcon />}
+            />
 
-          <p className="step__description">
-            Used for scheduling all event start times.
-          </p>
+            {/* <p className="step__description">
+              Used for scheduling all event start times.
+            </p> */}
+          </div>
+
+          {/* Location */}
+          <div className="step__content_block">
+            <span className="step__content_title">Default Location</span>
+
+            <NewInputControl
+              placeholder="Enter default city or venue"
+              value={attributes.location || ""}
+              onChange={(val) =>
+                setAttributes({
+                  location: val,
+                })
+              }
+            />
+          </div>
+
+          {/* Time Format */}
+          <div className="step__content_block">
+            <span className="step__content_title">Time Format</span>
+
+            <NewSelectControl
+              value={attributes.timeFormat || "12h"}
+              options={[
+                { label: "12 hours (AM/PM)", value: "12h" },
+                { label: "24 hours", value: "24h" },
+              ]}
+              helpText="Select time format"
+              style={{ width: "100%" }}
+              onChange={(val) =>
+                setAttributes({
+                  timeFormat: val,
+                })
+              }
+              iconRight={<ChevronDownIcon />}
+            />
+          </div>
+
+          {/* Default Event Type */}
+          <div className="step__content_block">
+            <span className="step__content_title">Default Event Type</span>
+
+            <RadioGroup
+              name="default-event-type"
+              value={attributes.defaultEventType || "offline"}
+              options={[
+                { value: "offline", label: "Offline" },
+                { value: "zoom", label: "Online" },
+              ]}
+              onChange={(val) =>
+                setAttributes({
+                  defaultEventType: val,
+                })
+              }
+            />
+          </div>
+          {attributes.defaultEventType === "zoom" && (
+            <div className="step__content_block">
+              <span className="step__content_title">Connect Zoom Account</span>
+
+              {checkingEmail ? (
+                <p className="step__description">Checking zoom status…</p>
+              ) : zoomConnected ? (
+                <p className="step__description">
+                  Email is connected and ready for notifications.
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  className="servv_button servv_button--secondary"
+                  onClick={handleConnectZoom}
+                >
+                  Connect
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Email */}
+
+          <div className="step__content_block">
+            <span className="step__content_title">Email Connection</span>
+
+            {checkingEmail ? (
+              <p className="step__description">Checking email status…</p>
+            ) : isGmailConnected ? (
+              <p className="step__description">
+                Email is connected and ready for notifications.
+              </p>
+            ) : (
+              <button
+                type="button"
+                className="servv_button servv_button--secondary"
+                onClick={handleEmailConnect}
+              >
+                Connect Email
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Location */}
-        <div className="step__content_block">
-          <span className="step__content_title">
-            Default Location (Optional)
-          </span>
-
-          <NewInputControl
-            placeholder="Enter default city or venue"
-            value={attributes.location || ""}
-            onChange={(val) =>
-              setAttributes({
-                location: val,
-              })
-            }
-          />
-        </div>
-
-        {/* Date Format */}
-        <div className="step__content_block">
-          <span className="step__content_title">Date Format</span>
-
-          <NewSelectControl
-            value={attributes.dateFormat || "MM/DD/YYYY"}
-            options={dateFormatOptions}
-            helpText="Select format"
-            onChange={(val) =>
-              setAttributes({
-                dateFormat: val,
-              })
-            }
-            iconRight={<ChevronDownIcon />}
-          />
-        </div>
-
-        {/* Default Event Type */}
-        <div className="step__content_block">
-          <span className="step__content_title">Default Event Type</span>
-
-          <RadioGroup
-            name="default-event-type"
-            value={attributes.defaultEventType || "offline"}
-            options={[
-              { value: "offline", label: "Offline (in-person)" },
-              { value: "zoom", label: "Online (Zoom)" },
-            ]}
-            onChange={(val) =>
-              setAttributes({
-                defaultEventType: val,
-              })
-            }
-          />
-        </div>
-
-        {/* Email */}
-        <div className="step__content_block">
-          <span className="step__content_title">Email Connection</span>
-
-          {checkingEmail ? (
-            <p className="step__description">Checking email status…</p>
-          ) : emailConnected ? (
-            <p className="step__description">
-              ✅ Email is connected and ready for notifications.
-            </p>
-          ) : (
+        {/* Actions */}
+        <div className="servv_actions mt-auto">
+          {/* {
             <button
               type="button"
               className="servv_button servv_button--secondary"
-              onClick={handleEmailConnect}
+              onClick={goToPreviousStep}
+              disabled={loading}
             >
-              Connect Email
+              Previous
             </button>
-          )}
+          } */}
+
+          <button
+            type="button"
+            className="servv_button servv_button--primary"
+            onClick={handleContinue}
+            disabled={
+              loading ||
+              !isGmailConnected ||
+              (attributes.defaultEventType === "zoom" && !zoomConnected)
+            }
+          >
+            {loading ? "Saving..." : "Continue"}
+          </button>
         </div>
       </div>
-
-      {/* Actions */}
-      <div className="servv_actions mt-auto">
-        <button
-          type="button"
-          className="servv_button servv_button--secondary"
-          onClick={goToPreviousStep}
-          disabled={loading}
+      {showGmailModal && (
+        <ModalShell
+          title="Connect Gmail"
+          onClose={() => setShowGmailModal(false)}
         >
-          Previous
-        </button>
-
-        <button
-          type="button"
-          className="servv_button servv_button--primary"
-          onClick={handleContinue}
-          disabled={loading}
+          <GmailConnectModalContent
+            gmailConfirmed={gmailConfirmed}
+            setGmailConfirmed={setGmailConfirmed}
+            handlerOnAccountAdd={connectGmail}
+            closeModal={() => setShowGmailModal(false)}
+          />
+        </ModalShell>
+      )}
+      {showZoomModal && (
+        <ModalShell
+          title="Connect Zoom"
+          onClose={() => setShowZoomModal(false)}
         >
-          {loading ? "Saving..." : "Continue"}
-        </button>
-      </div>
+          <ZoomPaidAccountModalContent
+            zoomConfirmed={zoomConfirmed}
+            setZoomConfirmed={setZoomConfirmed}
+            handlerOnZoomAccountAdd={connectZoom}
+            closeModal={() => setShowZoomModal(false)}
+          />
+        </ModalShell>
+      )}
     </div>
   );
 };

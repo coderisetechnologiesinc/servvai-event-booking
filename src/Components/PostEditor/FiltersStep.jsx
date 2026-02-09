@@ -51,7 +51,7 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
       <div className="step__header">
         <Filter className="step__header_icon" />
         <div className="step__heading">
-          <h4 className="step__header_title">Filters and Notes</h4>
+          <h4 className="step__header_title">Additional notes</h4>
           <p className="step__description">
             Set filters and add additional notes
           </p>
@@ -114,10 +114,10 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
           <div className="step__content">
             {/* <span className="step__content_title">Additional notes</span> */}
             <div className="step__content_block">
-              <span className="step__content_title">Note Title</span>
+              <span className="step__content_title">Title</span>
               <NewInputControl
                 // label="Title"
-                placeholder="Enter a note title"
+                placeholder="e.g. Parking info, Access instructions, What to bring"
                 value={custom_field_2_name}
                 onChange={(val) =>
                   updateCustomField("custom_field_2_name", val)
@@ -125,10 +125,10 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
               />
             </div>
             <div className="step__content_block">
-              <span className="step__content_title">Note Description</span>
+              <span className="step__content_title">Message</span>
               <NewInputControl
                 // label="Description"
-                placeholder="Enter a note description"
+                placeholder="Add details or paste a link (PDF, Google Drive, etc.) for attendees"
                 value={custom_field_2_value}
                 textarea={true}
                 onChange={(val) =>
