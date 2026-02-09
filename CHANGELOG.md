@@ -3,6 +3,7 @@
 1.0.19 (2026-02-05)
 
 Hotfix Release
+- Bug fixes and improvements
 
 
 
@@ -11,6 +12,7 @@ Hotfix Release
 1.0.18 (2026-02-04)
 
 Hotfix Release
+- Updated branding page
 
 
 
