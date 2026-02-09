@@ -1097,7 +1097,7 @@ const DateStep = ({
         className: "step__heading",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h4", {
           className: "step__header_title",
-          children: "Date and Time"
+          children: "Date and time"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
           className: "step__description",
           children: "Select the event's date, time, and frequency."
@@ -1948,4 +1948,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=94427af110ade05bccb5
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=c7f4e3d67b7ba0dbee59

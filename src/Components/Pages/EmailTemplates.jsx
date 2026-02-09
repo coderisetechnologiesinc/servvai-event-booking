@@ -24,15 +24,18 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 
-const EmailTemplates = ({ settings }) => {
+import { useServvStore } from "../../store/useServvStore";
+
+const EmailTemplates = () => {
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showParameters, setShowParameters] = useState(false);
   const quillRef = useRef();
+  const settings = useServvStore((s) => s.settings);
   const disabled =
-    !templates.length ||
+    templates.length === 0 ||
     !settings ||
     (settings && settings.current_plan.id === 1);
 
@@ -321,7 +324,7 @@ const EmailTemplates = ({ settings }) => {
                   <div className="flex items-center space-x-2">
                     <InformationCircleIcon className="w-5 h-5 text-purple-600" />
                     <span className="text-base font-semibold text-gray-900">
-                      {t("Template Parameters")}
+                      Parameters
                     </span>
                   </div>
                   {showParameters ? (
@@ -438,13 +441,13 @@ const EmailTemplates = ({ settings }) => {
                 className="flex justify-end space-x-4"
                 style={{ marginRight: "24px" }}
               >
-                <PageActionButton
+                {/* <PageActionButton
                   text="Cancel"
                   type="secondary"
                   onAction={handleCancel}
                   disabled={loading}
                   className="min-w-[120px] h-[40px] px-6 py-2 text-base font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                />
+                /> */}
                 <PageActionButton
                   text="Save Template"
                   type="primary"
@@ -465,11 +468,11 @@ const EmailTemplates = ({ settings }) => {
               <div className="flex flex-row items-center justify-between w-full">
                 <h1 className="dashboard-title">{t("Email Notifications")}</h1>
                 <div className="dashboard-actions flex gap-2">
-                  <PageActionButton
+                  {/* <PageActionButton
                     text={t("Cancel")}
                     type="secondary"
                     onAction={handleCancel}
-                  />
+                  /> */}
 
                   <PageActionButton
                     text={t("Save")}
@@ -479,7 +482,7 @@ const EmailTemplates = ({ settings }) => {
                   />
                 </div>
               </div>
-              <p className="dashboard-description mt-4">
+              <p className="dashboard-description">
                 {t(
                   "Customize the emails your attendees receive for bookings, reminders, and updates",
                 )}
@@ -541,7 +544,7 @@ const EmailTemplates = ({ settings }) => {
                       <div className="flex items-center space-x-2">
                         <InformationCircleIcon className="w-5 h-5 text-purple-600" />
                         <span className="text-lg font-semibold text-gray-900">
-                          {t("Template Parameters")}
+                          Parameters
                         </span>
                       </div>
                       {showParameters ? (
@@ -651,7 +654,7 @@ const EmailTemplates = ({ settings }) => {
                 )}
 
                 {/* Desktop Action Buttons - Removed border-t */}
-                <div className="pt-8">
+                {/* <div className="pt-8">
                   <div
                     className="flex justify-end space-x-4"
                     style={{ marginRight: "24px" }}
@@ -671,7 +674,7 @@ const EmailTemplates = ({ settings }) => {
                       className="min-w-[120px] h-[40px] px-6 py-2 text-base font-semibold bg-purple-600 text-white hover:bg-purple-700"
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </PageContent>

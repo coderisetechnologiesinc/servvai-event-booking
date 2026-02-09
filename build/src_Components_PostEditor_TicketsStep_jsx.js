@@ -697,10 +697,10 @@ const TicketsStep = ({
         className: "step__heading",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
           className: "step__header_title",
-          children: "Ticket Types"
+          children: "Tickets"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
           className: "step__description",
-          children: "Set up ticket categories and total quantity"
+          children: "Create ticket types and quantities"
         })]
       }), !isNew && attributes.meeting?.occurrences && attributes.meeting?.occurrences?.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
         className: "step__description",
@@ -895,7 +895,7 @@ const TicketsStep = ({
             })]
           }), isFreeTicket && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
             className: "servv_ticket_quantity__hint",
-            children: ["You have ", MAX_QTY, " free tickets remaining for your plan."]
+            children: ["You have ", MAX_QTY, " tickets remaining for your plan."]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "step__content_block",
@@ -1159,4 +1159,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=3fd12f0ef500535b5681
+//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=75948cf65065573e4433

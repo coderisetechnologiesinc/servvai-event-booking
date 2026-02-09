@@ -1540,6 +1540,47 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
       return null;
     }
   },
+  syncZoomAccount: async () => {
+    try {
+      const zoom = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getZoomAccount)();
+      set({
+        zoomConnected: !!zoom?.data?.id
+      });
+    } catch (e) {
+      console.error("Zoom account sync error", e);
+    }
+  },
+  syncStripeAccount: async () => {
+    try {
+      const stripe = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getStripeAccount)();
+      set({
+        stripeConnected: !!stripe?.data?.id,
+        stripeCurrency: stripe?.data?.currency
+      });
+    } catch (e) {
+      console.error("Stripe account sync error", e);
+    }
+  },
+  syncGmailAccount: async () => {
+    try {
+      const gmail = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getGmailAccount)();
+      set({
+        gmailConnected: !!gmail?.data?.id
+      });
+    } catch (e) {
+      console.error("Gmail account sync error", e);
+    }
+  },
+  syncCalendarAccount: async () => {
+    try {
+      const calendar = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getCalendarAccount)?.();
+      set({
+        calendarConnected: !!calendar?.data?.id
+      });
+    } catch (e) {
+      console.error("Calendar account sync error", e);
+    }
+  },
   syncAccountsAfterEvents: async () => {
     try {
       const zoom = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getZoomAccount)();
@@ -18467,7 +18508,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"4cd388ad60da50860dd8","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"fee304b1a93110820038","src_Components_PostEditor_EventDetails_jsx":"0887d9f6e6bffd209e90","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014":"6ff02321506149c0dee0","src_Components_Pages_SettingsPage_jsx":"3849e290598285c5a403","src_Components_Pages_FiltersPage_jsx":"84ef8bc713696fe223ef","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"9b227bb0397192eb4340","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"5703875fb3b5f9e31dc0","src_Components_Pages_BookingsPage_jsx":"46e849dd70be981322cf","src_Components_Pages_SupportPage_jsx":"130bf50b2b822fc67d29","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-e8d6fb":"56b8f822fb746c9b1980","src_Components_Pages_BrandingPage_jsx":"45767e9f6d29a96ea9f8","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_Pages_CreateEventForm_jsx":"8e583fdd66f672c18857","src_Components_Pages_Dashboard_jsx":"c42fe9495df1a7f5c51c","src_Components_Pages_CreateFilterPage_jsx":"aa7a770bc91ec6b5d783","src_Components_Pages_FiltersListPage_jsx":"999414b393aa9e5eb41a","src_Components_Pages_SingleEventPageRouterShell_jsx":"a5d26cbf4a88c82aaf68","src_Components_Pages_ZoomPage_jsx":"ae276cce1cf2f1069c4d","src_Components_Pages_ZoomSettingsPage_jsx":"54844453620b91caa23f","src_Components_Pages_StripeIntegrationsPage_jsx":"e6efd27f063aafa83f4a","src_Components_Pages_EmailsPage_jsx":"60b0ac4ee9c920b6a59c","src_Components_Pages_CalendarsPage_jsx":"9b23d8f7067a708e14ce","src_Components_Pages_OnboardingFlow_jsx":"e2a5857c5401fc3bf660","vendors-node_modules_heroicons_react_24_outline_esm_ChevronDownIcon_js-node_modules_react-day-bede5a":"5488baffce6e257790e2","src_Components_PostEditor_DateStep_jsx":"94427af110ade05bccb5","src_Components_PostEditor_VenueStep_jsx":"24cb4e4bc876408c5311","src_Components_PostEditor_FiltersStep_jsx":"d3d7c5ee424d4bcedc8e","src_Components_PostEditor_BrandingStep_jsx":"ff656a6bb0cf32df149c","src_Components_PostEditor_TicketsStep_jsx":"3fd12f0ef500535b5681","src_Components_PostEditor_RegistrantsStep_jsx":"1d6a0753712fbceb719d","src_Components_SettingsStep_jsx":"cbd41feb064625378d19"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448":"2cabd7ad504b677dce7d","src_Components_Pages_EventsPage_jsx":"d8f93068b527b1aadf59","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"1dfb41529877eaf574f6","src_Components_PostEditor_EventDetails_jsx":"0887d9f6e6bffd209e90","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-6c3ab8":"6675ab52e951e57f5ff9","src_Components_Pages_SettingsPage_jsx":"aec5dd584bf150d10c6d","vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_heroicons_react_16_solid_e-5c82e2":"c6aff7d0dd45852bde95","src_Components_Pages_FiltersPage_jsx":"cc0758835b13b42a6c7d","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"bc9933433e87387b5dca","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"1cdd916f6b3f85136b26","src_Components_Pages_BookingsPage_jsx":"e9f1c91f4a63004b8b54","src_Components_Pages_SupportPage_jsx":"34a428eb6de3d92e570b","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-e8d6fb":"56b8f822fb746c9b1980","src_Components_Pages_BrandingPage_jsx":"3a0c3ee5d2c61b644dcc","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_Pages_CreateEventForm_jsx":"adf6e704758e16a41981","src_Components_Pages_Dashboard_jsx":"8d993049f23fe92eba5a","src_Components_Pages_CreateFilterPage_jsx":"cf9d50aafd7eb03714da","src_Components_Pages_FiltersListPage_jsx":"0b5d7eb2cc49a62ade7d","src_Components_Pages_SingleEventPageRouterShell_jsx":"ec89107821df0dd0e7a6","src_Components_Pages_ZoomPage_jsx":"0dec58bf441982d95e0e","src_Components_Pages_ZoomSettingsPage_jsx":"9cb1b8f0ee2e39b03fb4","src_Components_Pages_StripeIntegrationsPage_jsx":"5ccdf73ad0e1ea797865","src_Components_Pages_EmailsPage_jsx":"383e2da67e7280cfdb80","src_Components_Pages_CalendarsPage_jsx":"430fe692f154a01af7a2","src_Components_Pages_OnboardingFlow_jsx":"578c5c38d50cdb753624","vendors-node_modules_heroicons_react_24_outline_esm_ChevronDownIcon_js-node_modules_react-day-bede5a":"5488baffce6e257790e2","src_Components_PostEditor_DateStep_jsx":"7e1ea866408967b22a3b","src_Components_PostEditor_VenueStep_jsx":"d06a24eaa64f273a139b","src_Components_PostEditor_FiltersStep_jsx":"b78ad354dba9bd223702","src_Components_PostEditor_BrandingStep_jsx":"f89df86fbe43eb89e640","src_Components_PostEditor_TicketsStep_jsx":"f705019fe2743720ad0b","src_Components_PostEditor_RegistrantsStep_jsx":"0bcd3c0ccf55684c3f79","src_Components_SettingsStep_jsx":"73664c4c3811a374f810","src_Components_BrandingStep_jsx":"57634df5db130e059ce2"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -18799,8 +18840,8 @@ __webpack_require__.r(__webpack_exports__);
 const EventsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448"), __webpack_require__.e("src_Components_Pages_EventsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EventsPage */ "./src/Components/Pages/EventsPage.jsx")));
 const IntegrationsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("src_Components_Pages_IntegrationsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/IntegrationsPage */ "./src/Components/Pages/IntegrationsPage.jsx")));
 const EventDetails = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-b28448"), __webpack_require__.e("src_Components_PostEditor_EventDetails_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/PostEditor/EventDetails */ "./src/Components/PostEditor/EventDetails.jsx")));
-const SettingsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-44a014"), __webpack_require__.e("src_Components_Pages_SettingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/SettingsPage */ "./src/Components/Pages/SettingsPage.jsx")));
-const FiltersPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Pages_FiltersPage_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/FiltersPage */ "./src/Components/Pages/FiltersPage.jsx")));
+const SettingsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-6c3ab8"), __webpack_require__.e("src_Components_Pages_SettingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/SettingsPage */ "./src/Components/Pages/SettingsPage.jsx")));
+const FiltersPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_heroicons_react_16_solid_e-5c82e2"), __webpack_require__.e("src_Components_Pages_FiltersPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/FiltersPage */ "./src/Components/Pages/FiltersPage.jsx")));
 const EmailTemplates = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569"), __webpack_require__.e("src_Components_Pages_EmailTemplates_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EmailTemplates */ "./src/Components/Pages/EmailTemplates.jsx")));
 const AnalyticsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js"), __webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("vendors-node_modules_reaviz_dist_index_js"), __webpack_require__.e("src_Components_Pages_AnalyticsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/AnalyticsPage */ "./src/Components/Pages/AnalyticsPage.jsx")));
 const BookingsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js"), __webpack_require__.e("src_Components_Pages_BookingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/BookingsPage */ "./src/Components/Pages/BookingsPage.jsx")));

@@ -196,7 +196,7 @@ const FiltersStep = ({
         className: "step__heading",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
           className: "step__header_title",
-          children: "Filters and Notes"
+          children: "Additional notes"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           className: "step__description",
           children: "Set filters and add additional notes"
@@ -261,11 +261,11 @@ const FiltersStep = ({
             className: "step__content_block",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
               className: "step__content_title",
-              children: "Note Title"
+              children: "Title"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
             // label="Title"
             , {
-              placeholder: "Enter a note title",
+              placeholder: "e.g. Parking info, Access instructions, What to bring",
               value: custom_field_2_name,
               onChange: val => updateCustomField("custom_field_2_name", val)
             })]
@@ -273,11 +273,11 @@ const FiltersStep = ({
             className: "step__content_block",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
               className: "step__content_title",
-              children: "Note Description"
+              children: "Message"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
             // label="Description"
             , {
-              placeholder: "Enter a note description",
+              placeholder: "Add details or paste a link (PDF, Google Drive, etc.) for attendees",
               value: custom_field_2_value,
               textarea: true,
               onChange: val => updateCustomField("custom_field_2_value", val)
@@ -346,4 +346,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=d3d7c5ee424d4bcedc8e
+//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=33a2623f30ca59520897

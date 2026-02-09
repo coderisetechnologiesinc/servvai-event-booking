@@ -305,9 +305,9 @@ const TicketsStep = ({
       <div className="step__header">
         <TicketIcon className="step__header_icon" />
         <div className="step__heading">
-          <h4 className="step__header_title">Ticket Types</h4>
+          <h4 className="step__header_title">Tickets</h4>
           <p className="step__description">
-            Set up ticket categories and total quantity
+            Create ticket types and quantities
           </p>
         </div>
         {!isNew &&
@@ -528,7 +528,7 @@ const TicketsStep = ({
 
               {isFreeTicket && (
                 <p className="servv_ticket_quantity__hint">
-                  You have {MAX_QTY} free tickets remaining for your plan.
+                  You have {MAX_QTY} tickets remaining for your plan.
                 </p>
               )}
             </div>

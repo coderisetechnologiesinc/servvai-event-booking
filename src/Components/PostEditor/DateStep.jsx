@@ -245,7 +245,7 @@ const DateStep = ({
       <div className="step__header">
         <CalendarIcon className="step__header_icon" />
         <div className="step__heading">
-          <h4 className="step__header_title">Date and Time</h4>
+          <h4 className="step__header_title">Date and time</h4>
           <p className="step__description">
             Select the event's date, time, and frequency.
           </p>

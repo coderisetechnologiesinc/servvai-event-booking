@@ -3923,6 +3923,8 @@ svg.breadcrumbs-icon {
   fill: #D0D5DD;
 }
 
+/* Previous */
+
 .\!loading {
   --tw-blur: blur(16px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -4214,6 +4216,7 @@ svg.breadcrumbs-icon {
   display: flex;
   flex-direction: row;
   gap: 12px;
+  width: 100%;
 }
 
 .event-image-container {
@@ -4255,6 +4258,7 @@ svg.breadcrumbs-icon {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
 }
 
 .event-title {
@@ -4269,6 +4273,75 @@ svg.breadcrumbs-icon {
   font-weight: 400;
   line-height: 24px;
   color: rgba(113, 118, 128, 1);
+}
+
+.event-image-container {
+  position: relative;
+}
+
+.event-card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+  z-index: 2;
+}
+
+.event-card:hover .event-card-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.event-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition:
+      background-color 150ms ease,
+      box-shadow 150ms ease,
+      transform 150ms ease;
+}
+
+.event-action-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+}
+
+.event-action-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+  transform: scale(1.05);
+}
+
+.event-action-btn.view {
+  color: #5f6368;
+  /* neutral gray */
+}
+
+.event-action-btn.view:hover {
+  background: rgba(122, 90, 248, 0.08);
+  color: rgb(122, 90, 248);
+  box-shadow: 0 2px 6px rgba(122, 90, 248, 0.18);
+}
+
+.event-action-btn.edit {
+  color: rgb(122, 90, 248);
+}
+
+.event-action-btn.edit:hover {
+  background: rgba(122, 90, 248, 0.12);
+  box-shadow: 0 2px 8px rgba(122, 90, 248, 0.28);
+  transform: scale(1.05);
 }
 
 .servv-event-badge {
@@ -4827,8 +4900,8 @@ svg.breadcrumbs-icon {
 }
 
 .create-event__content.marketplace {
-  margin: 0 auto;
-  /* 400 sidebar + 32 gap */
+  margin-left: calc(400px + 32px);
+  margin-right: auto;
   padding: 32px 0 32px;
   position: relative;
   display: flex;
@@ -4859,22 +4932,6 @@ svg.breadcrumbs-icon {
 /* ================================
    FOOTER
 ================================ */
-
-.btn-primary {
-  background: #7a5af8;
-  color: #ffffff;
-  padding: 10px 32px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-}
-
-.btn-secondary {
-  background: transparent;
-  color: #535862;
-  border: none;
-  font-weight: 600;
-}
 
 /* Bottom link container */
 
@@ -5461,6 +5518,12 @@ svg.breadcrumbs-icon {
   font-weight: 400;
   line-height: 24px;
   color: #717680;
+}
+
+.servv-input.textarea .servv-input__native {
+  height: auto;
+  min-height: 96px;
+  resize: vertical;
 }
 
 .servv-input:focus-within,
@@ -6414,6 +6477,180 @@ input.servv-input__native.servv-input__native--center {
   color: #027a48;
 }
 
+.settings-icon {
+  width: 24px;
+}
+
+.hover-badge {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #000;
+  box-shadow: 0 1px 4px rgba(122, 90, 248, 0.18);
+  transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease,
+      color 180ms ease;
+  cursor: pointer;
+}
+
+.hover-badge:focus {
+  box-shadow: 0 1px 4px rgba(122, 90, 248, 0.18);
+  outline: none;
+}
+
+.hover-badge:hover {
+  /* background-color: rgba(122, 90, 248, 0.75); */
+  color: rgb(122, 90, 248);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(122, 90, 248, 0.18);
+}
+
+/* Steps changes */
+
+.step-content-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.step-slide {
+  animation: stepSlideIn 280ms ease;
+}
+
+@keyframes stepSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===============================
+   OVERLAY
+================================ */
+
+.servv-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+  opacity: 0;
+  animation: modalFadeIn 180ms ease forwards;
+}
+
+.servv-modal-overlay.closing {
+  animation: modalFadeOut 160ms ease forwards;
+}
+
+/* ===============================
+   MODAL WRAPPER (NO UI!)
+================================ */
+
+.servv-modal {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  animation: modalSlideIn 220ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.servv-modal.closing {
+  animation: modalSlideOut 160ms ease forwards;
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+
+@keyframes modalFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalFadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalSlideOut {
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+
+.settings-slide {
+  position: relative;
+  width: 100%;
+}
+
+.settings-card {
+  transition:
+      transform 0.25s ease,
+      opacity 0.25s ease;
+}
+
+/* ENTER animation */
+
+.settings-edit-enter {
+  animation: slideIn 0.25s ease forwards;
+}
+
+/* EXIT animation */
+
+.settings-edit-exit {
+  animation: slideOut 0.25s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+}
+
 .pointer-events-none {
   pointer-events: none;
 }
@@ -6573,6 +6810,11 @@ input.servv-input__native.servv-input__native--center {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
+}
+
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .mb-1 {
@@ -7117,6 +7359,10 @@ input.servv-input__native.servv-input__native--center {
 
 .shrink-0 {
   flex-shrink: 0;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .grow {
@@ -8171,6 +8417,11 @@ input.servv-input__native.servv-input__native--center {
   background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
+}
+
 .bg-rose-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(255 228 230 / var(--tw-bg-opacity, 1));
@@ -8253,6 +8504,11 @@ input.servv-input__native.servv-input__native--center {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
+}
+
+.bg-\[\#6941C6\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(105 65 198 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-40 {
@@ -8549,6 +8805,11 @@ input.servv-input__native.servv-input__native--center {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .py-\[0\.1875rem\] {
@@ -9302,6 +9563,11 @@ input.servv-input__native.servv-input__native--center {
   color: rgb(202 138 4 / var(--tw-text-opacity, 1));
 }
 
+.text-warning-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 104 3 / var(--tw-text-opacity, 1));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -9810,6 +10076,11 @@ input.servv-input__native.servv-input__native--center {
   background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-red-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-rose-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(225 29 72 / var(--tw-bg-opacity, 1));
@@ -9835,6 +10106,11 @@ input.servv-input__native.servv-input__native--center {
   background-color: rgb(202 138 4 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-\[\#5F35B2\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(95 53 178 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:from-purple-700:hover {
   --tw-gradient-from: #7e22ce var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(126 34 206 / 0) var(--tw-gradient-to-position);
@@ -9848,6 +10124,11 @@ input.servv-input__native.servv-input__native--center {
 
 .hover\:to-indigo-700:hover {
   --tw-gradient-to: #4338ca var(--tw-gradient-to-position);
+}
+
+.hover\:text-\[\#6941C6\]:hover {
+  --tw-text-opacity: 1;
+  color: rgb(105 65 198 / var(--tw-text-opacity, 1));
 }
 
 .hover\:text-amber-700:hover {
@@ -10801,6 +11082,10 @@ input.servv-input__native.servv-input__native--center {
     flex-direction: row;
   }
 
+  .sm\:items-center {
+    align-items: center;
+  }
+
   .sm\:px-2 {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -10808,6 +11093,10 @@ input.servv-input__native.servv-input__native--center {
 }
 
 @media (min-width: 768px) {
+  .md\:mb-0 {
+    margin-bottom: 0rem;
+  }
+
   .md\:block {
     display: block;
   }

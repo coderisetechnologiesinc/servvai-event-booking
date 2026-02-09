@@ -134,6 +134,10 @@ const CreateEventForm = () => {
   const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useNavigate)();
   const [currentSettings, setCurrentSettings] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const contentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const {
+    fetchSettings,
+    syncFiltersFromServer
+  } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)();
   const [attributes, setAttributes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     location: "offline",
     meeting: {},
@@ -166,31 +170,31 @@ const CreateEventForm = () => {
   const [isError, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [steps, setSteps] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     key: "date",
-    title: "Date and Time",
+    title: "Date and time",
     subtitle: "Select the event’s date, time, and frequency",
     Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.CalendarIcon,
     iconClass: "" // symmetric
   }, {
     key: "venue",
-    title: "Venue and Access",
-    subtitle: "Enter the event’s address details",
+    title: "Location",
+    subtitle: "Choose the event location",
     Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.MapMarkIcon,
     iconClass: "icon--tall"
   }, {
     key: "tickets",
     title: "Tickets",
-    subtitle: "Specify the number of tickets.",
+    subtitle: "Create ticket types and quantities",
     Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.TicketIcon,
     iconClass: "icon--wide"
   }, {
     key: "filters",
-    title: "Filters and Notes",
+    title: "Additional notes",
     subtitle: "Set filters and add notes",
     Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.Filter,
-    iconClass: "" // symmetric
+    iconClass: ""
   }, {
     key: "branding",
-    title: "Branding",
+    title: "Event details",
     subtitle: "Add additional information and an image",
     Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.BrushIcon,
     iconClass: "icon--angled"
@@ -203,6 +207,7 @@ const CreateEventForm = () => {
   const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useSearchParams)();
   const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useLocation)();
   const occurrenceIdFromQuery = searchParams.get("occurrence_id") || searchParams.get("occurrenceId") || searchParams.get("occ") || null;
+  const isOnboarding = searchParams.get("onboarding_step");
   const isNew = !routeId;
 
   // Images
@@ -651,7 +656,7 @@ const CreateEventForm = () => {
         }
       }).finally(() => {
         react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.success(`Event ${isNew ? "created" : "updated"} successfully.`);
-        if (isNew) navigate("/dashboard?created=success");
+        if (isNew && !isOnboarding) navigate("/dashboard?created=success");else if (isNew) navigate("/onboarding?step=branding");
       });
       setLoadingEvent(false);
     } catch (e) {
@@ -668,55 +673,46 @@ const CreateEventForm = () => {
       });
     }
   }, [currentStep]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    loading: loadingEvent,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-      className: "create-event",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("aside", {
-        className: `create-event__sidebar ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-          className: "logo-wrapper",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-            className: "logo-bg",
-            style: {
-              backgroundImage: `url(${_assets_images_logo_png__WEBPACK_IMPORTED_MODULE_3__})`
-            }
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-            className: "sidebar__logo servv-logo-png"
-          })]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    className: "create-event",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("aside", {
+      className: `create-event__sidebar ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "logo-wrapper",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "logo-bg",
+          style: {
+            backgroundImage: `url(${_assets_images_logo_png__WEBPACK_IMPORTED_MODULE_3__})`
+          }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-          className: "sidebar__stepper",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-            children: steps.map((step, index) => {
-              const isActive = step.key === currentStep;
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-                className: "stepper__row",
-                onClick: () => step.key !== "view" ? !isError ? setCurrentStep(step.key) : () => {} : open(attributes.wp_post_url, "_blank"),
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperIcon, {
-                  Icon: step.Icon,
-                  iconClass: step.iconClass,
-                  active: isActive,
-                  showLine: index < steps.length - 1
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperText, {
-                  title: step.title,
-                  subtitle: step.subtitle,
-                  active: isActive
-                })]
-              }, step.key);
-            })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-          className: "sidebar__bottom-link",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_1__.Support, {
-            className: "bottom-link__icon",
-            "aria-hidden": "true"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-            className: "bottom-link__text",
-            onClick: () => navigate("/support"),
-            children: "Support"
-          })]
+          className: "sidebar__logo servv-logo-png"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("main", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        className: "sidebar__stepper",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          children: steps.map((step, index) => {
+            const isActive = step.key === currentStep;
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+              className: "stepper__row",
+              onClick: () => step.key !== "view" ? !isError ? setCurrentStep(step.key) : () => {} : open(attributes.wp_post_url, "_blank"),
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperIcon, {
+                Icon: step.Icon,
+                iconClass: step.iconClass,
+                active: isActive,
+                showLine: index < steps.length - 1
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepperText, {
+                title: step.title,
+                subtitle: step.subtitle,
+                active: isActive
+              })]
+            }, step.key);
+          })
+        })
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      loading: loadingEvent,
+      withoutSpinner: true,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("main", {
         className: `create-event__content ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
         ref: contentRef,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
@@ -725,32 +721,38 @@ const CreateEventForm = () => {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_1__.CloseIcon, {
             className: "servv-create-form-close-icon"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Suspense), {
-          fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-            className: "step-loading",
-            children: "Loading\u2026"
-          }),
-          children: StepComponent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepComponent, {
-            attributes: attributes,
-            setAttributes: mergeAttributes,
-            settings: settings,
-            currentStep: currentStep,
-            changeStep: setCurrentStep,
-            handleFormSubmit: handleFormSubmit,
-            isNew: isNew,
-            loading: loadingEvent,
-            setLoading: setLoadingEvent,
-            zoomConnected: zoomConnected,
-            stripeConnected: stripeConnected,
-            calendarConnected: calendarConnected,
-            gmailConnected: gmailConnected,
-            isOccurrence: occurrenceIdFromQuery,
-            isError: isError,
-            setError: setError
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "step-content-wrapper",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Suspense), {
+            fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "step-loading",
+              children: "Loading\u2026"
+            }),
+            children: StepComponent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+              className: "step-slide",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(StepComponent, {
+                attributes: attributes,
+                setAttributes: mergeAttributes,
+                settings: settings,
+                currentStep: currentStep,
+                changeStep: setCurrentStep,
+                handleFormSubmit: handleFormSubmit,
+                isNew: isNew,
+                loading: loadingEvent,
+                setLoading: setLoadingEvent,
+                zoomConnected: zoomConnected,
+                stripeConnected: stripeConnected,
+                calendarConnected: calendarConnected,
+                gmailConnected: gmailConnected,
+                isOccurrence: occurrenceIdFromQuery,
+                isError: isError,
+                setError: setError
+              })
+            }, currentStep)
           })
         })]
-      })]
-    })
+      })
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateEventForm);
@@ -1160,7 +1162,7 @@ const PageWrapper = props => {
       className: "w-full relative pl-4 flex flex-col min-h-0",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "absolute inset-0 flex items-center justify-center pointer-events-none",
-        children: props.loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: props.loading && !props.withoutSpinner && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
           loading: true
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -1393,4 +1395,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(E
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=8e583fdd66f672c18857
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=d51adc1b61ab94ad3fc5

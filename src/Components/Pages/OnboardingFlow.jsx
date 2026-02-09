@@ -17,11 +17,12 @@ import logo from "../../assets/images/logo.png";
 import axios from "axios";
 import PageWrapper from "./PageWrapper";
 import { toast } from "react-toastify";
-
+import ModalShell from "../ModalShell";
+import SkipOnboardingModalContent from "./SkipOnboardingModalContent";
 // Lazy load step components
 const SettingsStep = React.lazy(() => import("../SettingsStep"));
-const FirstEventStep = React.lazy(() => import("../Onboarding/FirstEventStep"));
-const BrandingStep = React.lazy(() => import("../Onboarding/BrandingStep"));
+// const FirstEventStep = React.lazy(() => import("../Onboarding/FirstEventStep"));
+const BrandingStep = React.lazy(() => import("../BrandingStep"));
 
 const StepperIcon = ({ Icon, iconClass, active, showLine }) => (
   <div className="stepper-icon">
@@ -47,21 +48,34 @@ const StepperText = ({ title, subtitle, active, completed }) => {
 
 const OnboardingFlow = () => {
   const settings = useServvStore((s) => s.settings);
+  const gmailConnected = useServvStore((s) => s.gmailConnected);
+  const zoomConnected = useServvStore((s) => s.zoomConnected);
+  const filtersList = useServvStore((s) => s.filtersList);
+  const fetchSettings = useServvStore((s) => s.fetchSettings);
+  const syncGmailAccount = useServvStore((s) => s.syncGmailAccount);
+  const syncZoomAccount = useServvStore((s) => s.syncZoomAccount);
+  const syncSingleFilterFromServer = useServvStore(
+    (s) => s.syncSingleFilterFromServer,
+  );
+  const [synchronization, setSynchronization] = useState(false);
   const navigate = useNavigate();
   const contentRef = useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Get initial step from URL or default to first step
   const stepFromUrl = searchParams.get("step");
-
+  const [brandingCompleted, setBrandingCompleted] = useState(false);
   const [completedSteps, setCompletedSteps] = useState(new Set());
   const [loading, setLoading] = useState(false);
+  const [showSkipModal, setShowSkipModal] = useState(false);
+  const [skipConfirmed, setSkipConfirmed] = useState(false);
 
   const [attributes, setAttributes] = useState({
     // Settings step
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     location: "",
     dateFormat: "MM/DD/YYYY",
+    timeFormat: "12h",
     defaultEventType: "offline", // offline | zoom
     emailConnected: false,
 
@@ -144,11 +158,68 @@ const OnboardingFlow = () => {
       newParams.delete("error");
       setSearchParams(newParams, { replace: true });
     }
+    setSynchronization(true);
+    syncGmailAccount();
+    syncZoomAccount();
+    syncSingleFilterFromServer("locations");
+    setSynchronization(false);
   }, []);
+
+  useEffect(() => {
+    if (
+      !attributes.location &&
+      Array.isArray(filtersList?.locations) &&
+      filtersList.locations.length > 0
+    ) {
+      const firstLocationName = filtersList.locations[0]?.name;
+
+      if (firstLocationName) {
+        setAttributes((prev) => ({
+          ...prev,
+          location: firstLocationName,
+        }));
+      }
+    }
+  }, [filtersList?.locations]);
+
+  useEffect(() => {
+    if (!settings?.settings) return;
+
+    let adminDashboard = {};
+    try {
+      adminDashboard =
+        typeof settings.settings.admin_dashboard === "string"
+          ? JSON.parse(settings.settings.admin_dashboard)
+          : settings.settings.admin_dashboard || {};
+    } catch (e) {
+      console.warn("Invalid admin_dashboard JSON", e);
+    }
+
+    setAttributes((prev) => ({
+      ...prev,
+
+      ...(adminDashboard.default_timezone && {
+        timezone: adminDashboard.default_timezone,
+      }),
+
+      ...(adminDashboard.default_event_type && {
+        defaultEventType:
+          adminDashboard.default_event_type === "zoom" ? "zoom" : "offline",
+      }),
+
+      ...(typeof settings.settings.time_format_24_hours === "boolean" && {
+        timeFormat: settings.settings.time_format_24_hours ? "24h" : "12h",
+      }),
+
+      ...(settings.location && {
+        location: settings.location,
+      }),
+    }));
+  }, [settings]);
 
   const stepComponents = {
     settings: SettingsStep,
-    "first-event": FirstEventStep,
+    "first-event": null,
     branding: BrandingStep,
   };
 
@@ -183,8 +254,15 @@ const OnboardingFlow = () => {
 
   const goToNextStep = () => {
     const currentIndex = steps.findIndex((s) => s.key === currentStep);
+
     if (currentIndex < steps.length - 1) {
       markStepCompleted(currentStep);
+
+      if (currentIndex === 0) {
+        navigate("/events/new?onboarding_step=2");
+        return;
+      }
+
       setCurrentStep(steps[currentIndex + 1].key);
     }
   };
@@ -201,31 +279,8 @@ const OnboardingFlow = () => {
     const currentIndex = steps.findIndex((s) => s.key === currentStep);
 
     // Allow going back to any previous step or completed step
-    if (clickedIndex <= currentIndex || completedSteps.has(stepKey)) {
+    if (clickedIndex !== 1) {
       setCurrentStep(stepKey);
-    }
-  };
-
-  const handleSettingsSave = async (settingsData) => {
-    setLoading(true);
-    try {
-      await axios.post(
-        "/wp-json/servv-plugin/v1/onboarding/settings",
-        settingsData,
-        {
-          headers: {
-            "X-WP-Nonce": servvData.nonce,
-          },
-        },
-      );
-
-      toast.success("Settings saved successfully");
-      goToNextStep();
-    } catch (error) {
-      console.error("Settings save error:", error);
-      toast.error("Failed to save settings. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -264,12 +319,49 @@ const OnboardingFlow = () => {
     }
   };
 
-  const handleBrandingComplete = async (brandingData) => {
-    setLoading(true);
+  const handleBrandingComplete = async (branding) => {
     try {
-      await axios.post(
-        "/wp-json/servv-plugin/v1/onboarding/branding",
-        brandingData,
+      setLoading(true);
+
+      let existing = {};
+      try {
+        existing = JSON.parse(
+          settings?.settings?.widget_style_settings || "{}",
+        );
+      } catch {
+        existing = {};
+      }
+
+      const mergedSettings = {
+        ...existing,
+
+        /* Profile */
+        pw_title: branding.title || existing.pw_title || "",
+        pw_description: branding.description || existing.pw_description || "",
+        pw_avatar: branding.avatar ?? existing.pw_avatar ?? null,
+        pw_banner_image: branding.banner ?? existing.pw_banner_image ?? null,
+
+        /* Theme */
+        pw_bg_type: branding.backgroundType || existing.pw_bg_type || "color",
+        pw_background_color:
+          branding.backgroundColor || existing.pw_background_color || "#ffffff",
+        pw_background_gradient:
+          branding.backgroundGradient ??
+          existing.pw_background_gradient ??
+          null,
+        pw_text_color:
+          branding.textColor || existing.pw_text_color || "#000000",
+      };
+
+      await axios.put(
+        "/wp-json/servv-plugin/v1/shop/settings",
+        {
+          ...settings,
+          settings: {
+            ...settings.settings,
+            widget_style_settings: JSON.stringify(mergedSettings),
+          },
+        },
         {
           headers: {
             "X-WP-Nonce": servvData.nonce,
@@ -277,42 +369,94 @@ const OnboardingFlow = () => {
         },
       );
 
-      // Mark onboarding as complete
-      await axios.post(
-        "/wp-json/servv-plugin/v1/onboarding/complete",
-        {},
-        {
-          headers: {
-            "X-WP-Nonce": servvData.nonce,
-          },
+      toast.success("Branding saved successfully");
+      await fetchSettings();
+      setBrandingCompleted(true);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to save branding");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLocationSave = async (location) => {
+    setLoading(true);
+
+    let url = "/wp-json/servv-plugin/v1/filters/locations";
+    let method = "POST";
+
+    await axios({
+      method,
+      url,
+      headers: { "X-WP-Nonce": servvData.nonce },
+      data: {
+        name: location,
+      },
+    });
+    // await syncSingleFilterFromServer("locations");
+  };
+
+  const handleSettingsSave = async ({ sync = false }) => {
+    setLoading(true);
+
+    const adminDashboard = JSON.stringify(settings.admin_dashboard);
+
+    const payload = {
+      ...settings,
+      settings: {
+        ...settings.settings,
+        time_format_24_hours: attributes.timeFormat === "24h" ? true : false,
+        admin_dashboard: JSON.stringify({
+          ...adminDashboard,
+          default_timezone: attributes.timezone,
+          default_event_type: attributes.defaultEventType,
+        }),
+      },
+    };
+
+    try {
+      const saveSettingsResponse = await axios({
+        method: "PUT",
+        url: "/wp-json/servv-plugin/v1/shop/settings",
+        headers: { "X-WP-Nonce": servvData.nonce },
+        data: {
+          ...payload,
         },
-      );
-
-      toast.success("Onboarding completed! Welcome to Servv!");
-
-      // Redirect to dashboard or site preview
-      setTimeout(() => {
-        navigate("/dashboard?onboarding=complete");
-      }, 1500);
+      }).catch((err) => console.error(err));
+      if (attributes.location && attributes.location.length > 0) {
+        if (
+          filtersList?.locations?.filter((f) => f.name !== attributes.location)
+            ?.length === 0
+        )
+          await handleLocationSave(attributes.location);
+      }
+      //   toast.success("Settings saved successfully");
+      if (sync) await fetchSettings();
+      if (!sync) goToNextStep();
     } catch (error) {
-      console.error("Branding save error:", error);
-      toast.error("Failed to save branding. Please try again.");
+      console.error("Settings save error:", error);
+      toast.error("Failed to save settings. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleSkipOnboarding = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to skip onboarding? You can always configure these settings later.",
-      )
-    ) {
-      navigate("/dashboard?onboarding=skipped");
+    const isBrandingStep = currentStep === "branding";
+
+    const brandingCompleted = attributes?.branding?.title?.trim();
+
+    if (isBrandingStep && brandingCompleted) {
+      localStorage.setItem("onboardingSkipped", "1");
+
+      navigate("/dashboard", { replace: true });
+      return;
     }
+
+    setShowSkipModal(true);
   };
 
-  // Scroll to top on step change
   useEffect(() => {
     if (contentRef.current) {
       window.scrollTo({
@@ -412,7 +556,12 @@ const OnboardingFlow = () => {
                 currentStep={currentStep}
                 goToNextStep={goToNextStep}
                 goToPreviousStep={goToPreviousStep}
+                checkingEmail={synchronization}
                 loading={loading}
+                zoomConnected={zoomConnected}
+                isGmailConnected={gmailConnected}
+                brandingCompleted={brandingCompleted}
+                settings={settings}
                 onSave={
                   currentStep === "settings"
                     ? handleSettingsSave
@@ -424,6 +573,23 @@ const OnboardingFlow = () => {
             )}
           </React.Suspense>
         </main>
+        {showSkipModal && (
+          <ModalShell
+            title="Skip onboarding"
+            onClose={() => setShowSkipModal(false)}
+          >
+            <SkipOnboardingModalContent
+              confirmed={skipConfirmed}
+              setConfirmed={setSkipConfirmed}
+              closeModal={() => setShowSkipModal(false)}
+              onConfirm={() => {
+                setShowSkipModal(false);
+                localStorage.setItem("onboardingSkipped", "1");
+                navigate("/dashboard?onboarding=skipped");
+              }}
+            />
+          </ModalShell>
+        )}
       </div>
     </PageWrapper>
   );

@@ -460,7 +460,6 @@ const RegistrantsStep = ({
   attributes,
   setAttributes,
   changeStep,
-  setLoading,
   handleFormSubmit
 }) => {
   const registrants = attributes.registrants || [];
@@ -473,6 +472,7 @@ const RegistrantsStep = ({
   const [zoomPageTokens, setZoomPageTokens] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)({
     1: null
   });
+  const [registrantsLoading, setRegistrantsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
   const PAGE_SIZE = 20;
   const visibleRegistrants = registrants.filter(reg => reg.status !== "delete");
   const totalPages = attributes?.regPagination?.pageCount || 1;
@@ -510,7 +510,7 @@ const RegistrantsStep = ({
   const handleRegistransSave = async () => {
     const registrantsForDelete = registrants.filter(reg => reg.id && reg.status === "delete");
     try {
-      setLoading(true);
+      setRegistrantsLoading(true);
       await Promise.all(registrantsForDelete.map(reg => (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.deleteRegistrant)({
         postID,
         occurrenceId,
@@ -537,12 +537,12 @@ const RegistrantsStep = ({
     } catch (error) {
       console.error("Failed to save registrants", error);
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
   const loadRegistrants = async (page = 1) => {
     if (!postID) return;
-    setLoading(true);
+    setRegistrantsLoading(true);
     try {
       const isZoom = attributes?.location === "zoom";
 
@@ -591,7 +591,7 @@ const RegistrantsStep = ({
     } catch (e) {
       console.error("Failed to fetch registrants", e);
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
 
@@ -670,7 +670,7 @@ const RegistrantsStep = ({
   const resend = async () => {
     if (selectedRegistrants.length === 0) return;
     try {
-      setLoading(true);
+      setRegistrantsLoading(true);
       await Promise.all(selectedRegistrants.map(registrantID => (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.resendRegistrantNotification)({
         postID,
         registrantID,
@@ -682,12 +682,12 @@ const RegistrantsStep = ({
       console.error("Failed to resend notifications to selected", e);
       react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to resend notifications to selected registrants.");
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
   const resendAll = async () => {
     try {
-      setLoading(true);
+      setRegistrantsLoading(true);
       await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.resendAllNotifications)({
         postID,
         occurrenceId
@@ -698,7 +698,7 @@ const RegistrantsStep = ({
       console.error("Failed to resend notifications to all", e);
       react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to resend notifications to all registrants.");
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
   const exportToCSV = (rows, filename = "registrants.csv") => {
@@ -719,7 +719,7 @@ const RegistrantsStep = ({
   };
   const handleExportRegistrants = async () => {
     if (!postID) return;
-    setLoading(true);
+    setRegistrantsLoading(true);
     try {
       const isZoom = attributes?.location === "zoom";
       let allRegistrants = [];
@@ -767,14 +767,14 @@ const RegistrantsStep = ({
       console.error("Export registrants failed", e);
       react_toastify__WEBPACK_IMPORTED_MODULE_5__.toast.error("Failed to export registrants.");
     } finally {
-      setLoading(false);
+      setRegistrantsLoading(false);
     }
   };
 
   /* ------------------ UI ------------------ */
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: "step__wrapper",
+    className: `step__wrapper ${registrantsLoading ? "loading" : ""}`,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "step__header",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.Contacts, {
@@ -1240,4 +1240,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=1d6a0753712fbceb719d
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=0bcd3c0ccf55684c3f79

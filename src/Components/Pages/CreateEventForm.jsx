@@ -70,7 +70,7 @@ const CreateEventForm = () => {
   const navigate = useNavigate();
   const [currentSettings, setCurrentSettings] = useState({});
   const contentRef = useRef(null);
-
+  const { fetchSettings, syncFiltersFromServer } = useServvStore();
   const [attributes, setAttributes] = useState({
     location: "offline",
     meeting: {},
@@ -104,41 +104,42 @@ const CreateEventForm = () => {
   const [steps, setSteps] = useState([
     {
       key: "date",
-      title: "Date and Time",
+      title: "Date and time",
       subtitle: "Select the event’s date, time, and frequency",
       Icon: CalendarIcon,
       iconClass: "", // symmetric
     },
     {
       key: "venue",
-      title: "Venue and Access",
-      subtitle: "Enter the event’s address details",
+      title: "Location",
+      subtitle: "Choose the event location",
       Icon: MapMarkIcon,
       iconClass: "icon--tall",
     },
     {
       key: "tickets",
       title: "Tickets",
-      subtitle: "Specify the number of tickets.",
+      subtitle: "Create ticket types and quantities",
       Icon: TicketIcon,
       iconClass: "icon--wide",
     },
     {
       key: "filters",
-      title: "Filters and Notes",
+      title: "Additional notes",
       subtitle: "Set filters and add notes",
       Icon: Filter,
-      iconClass: "", // symmetric
+      iconClass: "",
     },
     {
       key: "branding",
-      title: "Branding",
+      title: "Event details",
       subtitle: "Add additional information and an image",
       Icon: BrushIcon,
       iconClass: "icon--angled",
     },
   ]);
   const [currentStep, setCurrentStep] = useState(steps[0].key);
+
   const StepComponent = stepComponents[currentStep];
 
   const { id: routeId } = useParams();
@@ -150,7 +151,7 @@ const CreateEventForm = () => {
     searchParams.get("occurrenceId") ||
     searchParams.get("occ") ||
     null;
-
+  const isOnboarding = searchParams.get("onboarding_step");
   const isNew = !routeId;
 
   // Images
@@ -672,7 +673,8 @@ const CreateEventForm = () => {
         },
       }).finally(() => {
         toast.success(`Event ${isNew ? "created" : "updated"} successfully.`);
-        if (isNew) navigate("/dashboard?created=success");
+        if (isNew && !isOnboarding) navigate("/dashboard?created=success");
+        else if (isNew) navigate("/onboarding?step=branding");
       });
       setLoadingEvent(false);
     } catch (e) {
@@ -695,70 +697,70 @@ const CreateEventForm = () => {
   }, [currentStep]);
 
   return (
-    <PageWrapper loading={loadingEvent}>
-      <div className="create-event">
-        {/* SIDEBAR */}
-        <aside
-          className={`create-event__sidebar ${
-            settings?.is_wp_marketplace ? "marketplace" : ""
-          }`}
-        >
-          <div className="logo-wrapper">
-            <div
-              className="logo-bg"
-              style={{ backgroundImage: `url(${logo})` }}
-            />
-            <div className="sidebar__logo servv-logo-png" />
+    <div className="create-event">
+      {/* SIDEBAR */}
+      <aside
+        className={`create-event__sidebar ${
+          settings?.is_wp_marketplace ? "marketplace" : ""
+        }`}
+      >
+        <div className="logo-wrapper">
+          <div
+            className="logo-bg"
+            style={{ backgroundImage: `url(${logo})` }}
+          />
+          <div className="sidebar__logo servv-logo-png" />
+        </div>
+
+        <div className="sidebar__stepper">
+          <div>
+            {steps.map((step, index) => {
+              const isActive = step.key === currentStep;
+
+              return (
+                <div
+                  className="stepper__row"
+                  key={step.key}
+                  onClick={() =>
+                    step.key !== "view"
+                      ? !isError
+                        ? setCurrentStep(step.key)
+                        : () => {}
+                      : open(attributes.wp_post_url, "_blank")
+                  }
+                >
+                  <StepperIcon
+                    Icon={step.Icon}
+                    iconClass={step.iconClass}
+                    active={isActive}
+                    showLine={index < steps.length - 1}
+                  />
+
+                  <StepperText
+                    title={step.title}
+                    subtitle={step.subtitle}
+                    active={isActive}
+                  />
+                </div>
+              );
+            })}
           </div>
+        </div>
 
-          <div className="sidebar__stepper">
-            <div>
-              {steps.map((step, index) => {
-                const isActive = step.key === currentStep;
+        {/* <div className="sidebar__bottom-link">
+          <Support className="bottom-link__icon" aria-hidden="true" />
+          <span
+            className="bottom-link__text"
+            onClick={() => navigate("/support")}
+          >
+            Support
+          </span>
+        </div> */}
+      </aside>
 
-                return (
-                  <div
-                    className="stepper__row"
-                    key={step.key}
-                    onClick={() =>
-                      step.key !== "view"
-                        ? !isError
-                          ? setCurrentStep(step.key)
-                          : () => {}
-                        : open(attributes.wp_post_url, "_blank")
-                    }
-                  >
-                    <StepperIcon
-                      Icon={step.Icon}
-                      iconClass={step.iconClass}
-                      active={isActive}
-                      showLine={index < steps.length - 1}
-                    />
+      {/* CONTENT */}
 
-                    <StepperText
-                      title={step.title}
-                      subtitle={step.subtitle}
-                      active={isActive}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="sidebar__bottom-link">
-            <Support className="bottom-link__icon" aria-hidden="true" />
-            <span
-              className="bottom-link__text"
-              onClick={() => navigate("/support")}
-            >
-              Support
-            </span>
-          </div>
-        </aside>
-
-        {/* CONTENT */}
-
+      <PageWrapper loading={loadingEvent} withoutSpinner={true}>
         <main
           className={`create-event__content ${
             settings?.is_wp_marketplace ? "marketplace" : ""
@@ -771,33 +773,37 @@ const CreateEventForm = () => {
           >
             <CloseIcon className="servv-create-form-close-icon" />
           </div>
-          <React.Suspense
-            fallback={<div className="step-loading">Loading…</div>}
-          >
-            {StepComponent && (
-              <StepComponent
-                attributes={attributes}
-                setAttributes={mergeAttributes}
-                settings={settings}
-                currentStep={currentStep}
-                changeStep={setCurrentStep}
-                handleFormSubmit={handleFormSubmit}
-                isNew={isNew}
-                loading={loadingEvent}
-                setLoading={setLoadingEvent}
-                zoomConnected={zoomConnected}
-                stripeConnected={stripeConnected}
-                calendarConnected={calendarConnected}
-                gmailConnected={gmailConnected}
-                isOccurrence={occurrenceIdFromQuery}
-                isError={isError}
-                setError={setError}
-              />
-            )}
-          </React.Suspense>
+          <div className="step-content-wrapper">
+            <React.Suspense
+              fallback={<div className="step-loading">Loading…</div>}
+            >
+              {StepComponent && (
+                <div key={currentStep} className="step-slide">
+                  <StepComponent
+                    attributes={attributes}
+                    setAttributes={mergeAttributes}
+                    settings={settings}
+                    currentStep={currentStep}
+                    changeStep={setCurrentStep}
+                    handleFormSubmit={handleFormSubmit}
+                    isNew={isNew}
+                    loading={loadingEvent}
+                    setLoading={setLoadingEvent}
+                    zoomConnected={zoomConnected}
+                    stripeConnected={stripeConnected}
+                    calendarConnected={calendarConnected}
+                    gmailConnected={gmailConnected}
+                    isOccurrence={occurrenceIdFromQuery}
+                    isError={isError}
+                    setError={setError}
+                  />
+                </div>
+              )}
+            </React.Suspense>
+          </div>
         </main>
-      </div>
-    </PageWrapper>
+      </PageWrapper>
+    </div>
   );
 };
 

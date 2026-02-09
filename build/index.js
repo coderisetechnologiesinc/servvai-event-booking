@@ -15883,6 +15883,47 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
       return null;
     }
   },
+  syncZoomAccount: async () => {
+    try {
+      const zoom = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getZoomAccount)();
+      set({
+        zoomConnected: !!zoom?.data?.id
+      });
+    } catch (e) {
+      console.error("Zoom account sync error", e);
+    }
+  },
+  syncStripeAccount: async () => {
+    try {
+      const stripe = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getStripeAccount)();
+      set({
+        stripeConnected: !!stripe?.data?.id,
+        stripeCurrency: stripe?.data?.currency
+      });
+    } catch (e) {
+      console.error("Stripe account sync error", e);
+    }
+  },
+  syncGmailAccount: async () => {
+    try {
+      const gmail = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getGmailAccount)();
+      set({
+        gmailConnected: !!gmail?.data?.id
+      });
+    } catch (e) {
+      console.error("Gmail account sync error", e);
+    }
+  },
+  syncCalendarAccount: async () => {
+    try {
+      const calendar = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getCalendarAccount)?.();
+      set({
+        calendarConnected: !!calendar?.data?.id
+      });
+    } catch (e) {
+      console.error("Calendar account sync error", e);
+    }
+  },
   syncAccountsAfterEvents: async () => {
     try {
       const zoom = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getZoomAccount)();
