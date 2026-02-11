@@ -442,6 +442,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   max-width: 480px;
   height: auto;
   max-height: 512px;
+  min-width: 480px;
   /* background: var(--bg-card); */
   background: transparent;
   border-radius: 24px;
@@ -452,11 +453,11 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   overflow: hidden;
 }
 
-/* @media screen and (max-width: 480px) {
+@media screen and (max-width: 480px) {
   .card-widget {
-    width: calc(100% - 20px);
+    min-width: calc(100% - 20px);
   }
-} */
+}
 
 .cover {
   position: relative;

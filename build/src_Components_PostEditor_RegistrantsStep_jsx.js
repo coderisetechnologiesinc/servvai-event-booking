@@ -195,7 +195,8 @@ const NewInputControl = ({
   onChange = () => {},
   textarea = false,
   style = {},
-  error
+  error,
+  maxValue
 }) => {
   const InputTag = textarea ? "textarea" : "input";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -217,7 +218,8 @@ const NewInputControl = ({
           placeholder: placeholder || helpText,
           disabled: disabled,
           onChange: e => onChange(e.target.value),
-          rows: textarea ? 4 : undefined
+          rows: textarea ? 4 : undefined,
+          max: maxValue ? Number.parseFloat(maxValue) : undefined
         })
       })
     }), error && typeof error === "string" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -1240,4 +1242,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=0bcd3c0ccf55684c3f79
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=85a123520c78ee60bc62

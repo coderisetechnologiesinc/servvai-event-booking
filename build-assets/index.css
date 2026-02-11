@@ -3839,11 +3839,6 @@ button.pagination-control:disabled {
   gap: 1rem;
 }
 
-.placeholder-icon {
-  width: 3rem;
-  height: 3rem;
-}
-
 .dropdown {
   position: relative;
 }
@@ -3985,6 +3980,18 @@ svg.breadcrumbs-icon {
 
 .servv-dashboard-header.main-dashboard {
   flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 480px) {
+  .dashboard-card {
+    max-width: 100%;
+    padding-left: 12px;
+    padding-right: 16px;
+  }
+
+  .servv-dashboard-header.main-dashboard {
+    flex-direction: column;
+  }
 }
 
 .servv-dashboard-header > :last-child {
@@ -4273,6 +4280,12 @@ svg.breadcrumbs-icon {
   font-weight: 400;
   line-height: 24px;
   color: rgba(113, 118, 128, 1);
+}
+
+@media screen and (max-width: 480px) {
+  .event-datetime {
+    max-width: calc(100% - 48px);
+  }
 }
 
 .event-image-container {
@@ -5457,6 +5470,8 @@ svg.breadcrumbs-icon {
   align-items: center;
   padding: 10px 14px;
   gap: 8px;
+  position: relative;
+  overflow: visible;
   height: 44px;
   background: #ffffff;
   border: 1px solid #d5d7da;
@@ -6325,9 +6340,10 @@ svg.breadcrumbs-icon {
 
 .servv_datetime_row {
   display: grid;
-  grid-template-columns: 1fr 180px;
+  grid-template-columns: 204px 180px;
   gap: 16px;
   align-items: end;
+  overflow: visible;
 }
 
 .servv_datetime_col {
@@ -6402,71 +6418,17 @@ input.servv-input__native.servv-input__native--center {
 
 /* HEADER: centered (this already works) */
 
-.filters-page-table thead th {
-  text-align: center;
-}
-
 /* BODY default: left */
-
-.filters-page-table tbody td {
-  text-align: left;
-}
 
 /* FIRST column: left */
 
-.filters-page-table tbody td:first-child > * {
-  justify-content: flex-start;
-}
-
 /* SECOND column: center */
-
-.filters-page-table tbody td:nth-child(2) > * {
-  justify-content: left;
-}
 
 /* LAST column: right (buttons) */
 
-.filters-page-table tbody td:last-child > * {
-  justify-content: flex-end;
-}
-
 /* HEADER */
 
-.filters-page-table thead th {
-  text-align: center !important;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
-.filters-page-table thead:first {
-  max-width: unset;
-}
-
-.filters-page-table thead th:first-child {
-  white-space: nowrap;
-}
-
 /* BODY */
-
-.filters-page-table tbody td {
-  text-align: left;
-}
-
-.filters-page-table tbody :nth-child(2) {
-  text-align: left;
-  padding-left: 40px;
-}
-
-@media screen and (max-width: 480px) {
-  .filters-page-table tbody :nth-child(2) {
-    text-align: left;
-    padding-left: unset;
-  }
-}
-
-.filters-page-table tbody td:last-child {
-  text-align: right;
-}
 
 .icon-box.is-completed {
   background: #12b76a;
@@ -6515,7 +6477,7 @@ input.servv-input__native.servv-input__native--center {
 
 .step-content-wrapper {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .step-slide {
@@ -6810,11 +6772,6 @@ input.servv-input__native.servv-input__native--center {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
-
-.my-3 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
 }
 
 .mb-1 {
@@ -7359,10 +7316,6 @@ input.servv-input__native.servv-input__native--center {
 
 .shrink-0 {
   flex-shrink: 0;
-}
-
-.flex-grow {
-  flex-grow: 1;
 }
 
 .grow {
@@ -8506,11 +8459,6 @@ input.servv-input__native.servv-input__native--center {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
 }
 
-.bg-\[\#6941C6\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(105 65 198 / var(--tw-bg-opacity, 1));
-}
-
 .bg-opacity-40 {
   --tw-bg-opacity: 0.4;
 }
@@ -9543,6 +9491,11 @@ input.servv-input__native.servv-input__native--center {
   color: rgb(124 58 237 / var(--tw-text-opacity, 1));
 }
 
+.text-warning-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 104 3 / var(--tw-text-opacity, 1));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -9561,11 +9514,6 @@ input.servv-input__native.servv-input__native--center {
 .text-yellow-600 {
   --tw-text-opacity: 1;
   color: rgb(202 138 4 / var(--tw-text-opacity, 1));
-}
-
-.text-warning-600 {
-  --tw-text-opacity: 1;
-  color: rgb(220 104 3 / var(--tw-text-opacity, 1));
 }
 
 .underline {
@@ -10104,11 +10052,6 @@ input.servv-input__native.servv-input__native--center {
 .hover\:bg-yellow-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(202 138 4 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-\[\#5F35B2\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(95 53 178 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:from-purple-700:hover {

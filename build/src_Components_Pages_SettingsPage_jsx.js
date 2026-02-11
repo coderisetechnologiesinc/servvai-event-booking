@@ -4644,4 +4644,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=aec5dd584bf150d10c6d
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=756ecc54e3365eb99a4d

@@ -250,7 +250,7 @@ const EventsPage = ({
   const gmailAccount = useServvStore((s) => s.gmailAccount);
   const stripeAccount = useServvStore((s) => s.stripeAccount);
   const calendarAccount = useServvStore((s) => s.calendarAccount);
-
+  const zoomConnected = useServvStore((s) => s.zoomConnected);
   const fetchZoomAccount = useServvStore((s) => s.fetchZoomAccount);
   const fetchStripeAccount = useServvStore((s) => s.fetchStripeAccount);
   const fetchGmailAccount = useServvStore((s) => s.fetchGmailAccount);
@@ -304,7 +304,7 @@ const EventsPage = ({
 
     const planId = settings.current_plan?.id;
 
-    if (planId === 2 && zoomAccount === null) {
+    if (planId === 2 && zoomConnected === null) {
       fetchZoomAccount();
     }
   }, [settings]);
@@ -876,21 +876,19 @@ const EventsPage = ({
                         }}
                       />
 
-                      {settings?.current_plan?.id !== 1 &&
-                        zoomAccount !== null &&
-                        zoomAccount !== undefined && (
-                          <NewButtonGroup
-                            buttons={[t("Events"), "Zoom"]}
-                            active={
-                              eventType === "offline" ? t("Events") : "Zoom"
-                            }
-                            onChange={(label) => {
-                              handleTypeChange(
-                                label === "Zoom" ? "zoom" : "offline",
-                              );
-                            }}
-                          />
-                        )}
+                      {settings?.current_plan?.id !== 1 && zoomConnected && (
+                        <NewButtonGroup
+                          buttons={[t("Events"), "Zoom"]}
+                          active={
+                            eventType === "offline" ? t("Events") : "Zoom"
+                          }
+                          onChange={(label) => {
+                            handleTypeChange(
+                              label === "Zoom" ? "zoom" : "offline",
+                            );
+                          }}
+                        />
+                      )}
                     </div>
                     <div className="flex gap-3 justify-self-end">
                       <button

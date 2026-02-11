@@ -140,6 +140,7 @@ const CreateEventForm = () => {
   } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)();
   const [attributes, setAttributes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     location: "offline",
+    defaultLocationChanged: false,
     meeting: {},
     tickets: [],
     product: {
@@ -303,7 +304,7 @@ const CreateEventForm = () => {
           startTime: startTime
         },
         tickets: data.tickets.map(ticket => {
-          return {
+          const baseTicket = {
             ...ticket,
             title: ticket.name,
             ...(ticket.price != null && {
@@ -311,6 +312,17 @@ const CreateEventForm = () => {
             }),
             type: ticket.price === 0 && !ticket.is_donation ? "free" : ticket.is_donation ? "donation" : "paid"
           };
+          if (ticket.start_datetime && data.meeting.timezone) {
+            const utcMoment = moment.utc(ticket.start_datetime);
+            const converted = utcMoment.tz(data.meeting.timezone).format("YYYY-MM-DDTHH:mm:ss");
+            baseTicket.start_datetime = converted;
+          }
+          if (ticket.end_datetime && data.meeting.timezone) {
+            const utcMoment = moment.utc(ticket.end_datetime);
+            const converted = utcMoment.tz(data.meeting.timezone).format("YYYY-MM-DDTHH:mm:ss");
+            baseTicket.end_datetime = converted;
+          }
+          return baseTicket;
         }) || [],
         product: data.product || {},
         filters: data.types || {},
@@ -471,9 +483,6 @@ const CreateEventForm = () => {
       return next;
     });
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    // console.log(attributes.tickets);
-  }, [attributes]);
   const updateTickets = async () => {
     const tickets = attributes.tickets?.map(ticket => ({
       ...ticket,
@@ -631,6 +640,7 @@ const CreateEventForm = () => {
         eventType: isRecurring ? isOffline ? 2 : 8 : isOffline ? 1 : 2
       };
       data.tickets = attributes.tickets.filter(ticket => Number.isFinite(Number(ticket.quantity)) && Number(ticket.quantity) > 0).map(ticket => {
+        const timezone = attributes.meeting?.timezone;
         const payload = {
           name: ticket.title,
           quantity: Number(ticket.quantity),
@@ -639,6 +649,40 @@ const CreateEventForm = () => {
           }),
           is_donation: ticket.type === "donation"
         };
+        if (ticket.start_datetime && timezone) {
+          try {
+            const inEventTz = moment.tz(ticket.start_datetime, "YYYY-MM-DDTHH:mm:ss", timezone);
+            if (!inEventTz.isValid()) {
+              console.error("Invalid start_datetime:", ticket.start_datetime);
+              throw new Error("Invalid datetime format");
+            }
+            const utcDateTime = inEventTz.clone().utc();
+            // Add 'Z' suffix to explicitly mark as UTC
+            payload.start_datetime = utcDateTime.format("YYYY-MM-DDTHH:mm:ss") + "Z";
+          } catch (error) {
+            console.error("Start datetime conversion error:", error, {
+              input: ticket.start_datetime,
+              timezone
+            });
+          }
+        }
+        if (ticket.end_datetime && timezone) {
+          try {
+            const inEventTz = moment.tz(ticket.end_datetime, "YYYY-MM-DDTHH:mm:ss", timezone);
+            if (!inEventTz.isValid()) {
+              console.error("Invalid end_datetime:", ticket.end_datetime);
+              throw new Error("Invalid datetime format");
+            }
+            const utcDateTime = inEventTz.clone().utc();
+            // Add 'Z' suffix to explicitly mark as UTC
+            payload.end_datetime = utcDateTime.format("YYYY-MM-DDTHH:mm:ss") + "Z";
+          } catch (error) {
+            console.error("End datetime conversion error:", error, {
+              input: ticket.end_datetime,
+              timezone
+            });
+          }
+        }
         return payload;
       });
     }
@@ -1395,4 +1439,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(E
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=d51adc1b61ab94ad3fc5
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=d73647cecf0c7d896670

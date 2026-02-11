@@ -10,6 +10,7 @@ const NewInputControl = ({
   textarea = false,
   style = {},
   error,
+  maxValue,
 }) => {
   const InputTag = textarea ? "textarea" : "input";
 
@@ -31,6 +32,7 @@ const NewInputControl = ({
             disabled={disabled}
             onChange={(e) => onChange(e.target.value)}
             rows={textarea ? 4 : undefined}
+            max={maxValue ? Number.parseFloat(maxValue) : undefined}
           />
         </div>
       </div>

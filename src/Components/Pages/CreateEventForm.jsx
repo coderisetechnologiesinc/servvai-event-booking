@@ -73,6 +73,7 @@ const CreateEventForm = () => {
   const { fetchSettings, syncFiltersFromServer } = useServvStore();
   const [attributes, setAttributes] = useState({
     location: "offline",
+    defaultLocationChanged: false,
     meeting: {},
     tickets: [],
     product: {
@@ -264,7 +265,7 @@ const CreateEventForm = () => {
         },
         tickets:
           data.tickets.map((ticket) => {
-            return {
+            const baseTicket = {
               ...ticket,
               title: ticket.name,
               ...(ticket.price != null && { price: ticket.price }),
@@ -275,6 +276,28 @@ const CreateEventForm = () => {
                   ? "donation"
                   : "paid",
             };
+
+            if (ticket.start_datetime && data.meeting.timezone) {
+              const utcMoment = moment.utc(ticket.start_datetime);
+
+              const converted = utcMoment
+                .tz(data.meeting.timezone)
+                .format("YYYY-MM-DDTHH:mm:ss");
+
+              baseTicket.start_datetime = converted;
+            }
+
+            if (ticket.end_datetime && data.meeting.timezone) {
+              const utcMoment = moment.utc(ticket.end_datetime);
+
+              const converted = utcMoment
+                .tz(data.meeting.timezone)
+                .format("YYYY-MM-DDTHH:mm:ss");
+
+              baseTicket.end_datetime = converted;
+            }
+
+            return baseTicket;
           }) || [],
         product: data.product || {},
         filters: data.types || {},
@@ -472,9 +495,6 @@ const CreateEventForm = () => {
       return next;
     });
   };
-  useEffect(() => {
-    // console.log(attributes.tickets);
-  }, [attributes]);
 
   const updateTickets = async () => {
     const tickets =
@@ -649,12 +669,64 @@ const CreateEventForm = () => {
             Number(ticket.quantity) > 0,
         )
         .map((ticket) => {
+          const timezone = attributes.meeting?.timezone;
+
           const payload = {
             name: ticket.title,
             quantity: Number(ticket.quantity),
             ...(ticket.price != null && { price: ticket.price }),
             is_donation: ticket.type === "donation",
           };
+
+          if (ticket.start_datetime && timezone) {
+            try {
+              const inEventTz = moment.tz(
+                ticket.start_datetime,
+                "YYYY-MM-DDTHH:mm:ss",
+                timezone,
+              );
+
+              if (!inEventTz.isValid()) {
+                console.error("Invalid start_datetime:", ticket.start_datetime);
+                throw new Error("Invalid datetime format");
+              }
+
+              const utcDateTime = inEventTz.clone().utc();
+              // Add 'Z' suffix to explicitly mark as UTC
+              payload.start_datetime =
+                utcDateTime.format("YYYY-MM-DDTHH:mm:ss") + "Z";
+            } catch (error) {
+              console.error("Start datetime conversion error:", error, {
+                input: ticket.start_datetime,
+                timezone,
+              });
+            }
+          }
+
+          if (ticket.end_datetime && timezone) {
+            try {
+              const inEventTz = moment.tz(
+                ticket.end_datetime,
+                "YYYY-MM-DDTHH:mm:ss",
+                timezone,
+              );
+
+              if (!inEventTz.isValid()) {
+                console.error("Invalid end_datetime:", ticket.end_datetime);
+                throw new Error("Invalid datetime format");
+              }
+
+              const utcDateTime = inEventTz.clone().utc();
+              // Add 'Z' suffix to explicitly mark as UTC
+              payload.end_datetime =
+                utcDateTime.format("YYYY-MM-DDTHH:mm:ss") + "Z";
+            } catch (error) {
+              console.error("End datetime conversion error:", error, {
+                input: ticket.end_datetime,
+                timezone,
+              });
+            }
+          }
 
           return payload;
         });

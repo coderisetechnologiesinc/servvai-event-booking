@@ -887,6 +887,16 @@
   .servv-dashboard-header.main-dashboard {
     flex-wrap: nowrap;
   }
+  @media screen and (max-width: 480px) {
+    .dashboard-card {
+      max-width: 100%;
+      padding-left: 12px;
+      padding-right: 16px;
+    }
+    .servv-dashboard-header.main-dashboard {
+      flex-direction: column;
+    }
+  }
 
   .servv-dashboard-header > :last-child {
     margin-left: auto;
@@ -1148,6 +1158,11 @@
     font-weight: 400;
     line-height: 24px;
     color: rgba(113, 118, 128, 1);
+  }
+  @media screen and (max-width: 480px) {
+    .event-datetime {
+      max-width: calc(100% - 48px);
+    }
   }
 
   .event-image-container {
@@ -2358,7 +2373,8 @@
     align-items: center;
     padding: 10px 14px;
     gap: 8px;
-
+    position: relative;
+    overflow: visible;
     height: 44px;
 
     background: #ffffff;
@@ -2383,6 +2399,7 @@
     width: 100%;
     /* height: 24px; */
   }
+
   .servv-input__content.input {
     align-items: center;
     height: 24px;
@@ -3361,9 +3378,10 @@
   /* One row = date + time */
   .servv_datetime_row {
     display: grid;
-    grid-template-columns: 1fr 180px;
+    grid-template-columns: 204px 180px;
     gap: 16px;
     align-items: end;
+    overflow: visible;
   }
   .servv_datetime_col {
     display: flex;
@@ -3544,7 +3562,7 @@
   /* Steps changes */
   .step-content-wrapper {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .step-slide {

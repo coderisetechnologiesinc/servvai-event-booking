@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { MapMarkIcon } from "../../assets/icons";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import NewSelectControl from "../Controls/NewSelectControl";
@@ -9,6 +10,7 @@ const VenueStep = ({
   changeStep,
   zoomConnected,
   isNew,
+  settings,
 }) => {
   const filtersList = useServvStore((s) => s.filtersList);
   const locationId = attributes?.filters?.location_id || "";
@@ -51,9 +53,56 @@ const VenueStep = ({
     }
     setAttributes({
       location: newVal,
+      defaultLocationChanged: true,
       meeting: { ...attributes.meeting, eventType: newEventType },
     });
   };
+  useEffect(() => {
+    if (!settings?.settings?.admin_dashboard) {
+      return;
+    }
+
+    const adminDashboard = settings.settings.admin_dashboard;
+
+    try {
+      if (typeof adminDashboard !== "string") {
+        console.warn("adminDashboard is not a string:", typeof adminDashboard);
+        return;
+      }
+
+      const parsed = JSON.parse(adminDashboard);
+
+      if (!parsed || typeof parsed !== "object") {
+        console.warn("Parsed adminDashboard is not a valid object");
+        return;
+      }
+
+      const { default_event_type } = parsed;
+
+      if (!default_event_type || typeof default_event_type !== "string") {
+        return;
+      }
+
+      const shouldSetZoom =
+        (default_event_type === "zoom" || default_event_type === "online") &&
+        zoomConnected === true &&
+        !attributes.defaultLocationChanged;
+
+      if (shouldSetZoom) {
+        handleVenueChange("zoom");
+      }
+    } catch (error) {
+      console.error("Error parsing adminDashboard settings:", {
+        error: error instanceof Error ? error.message : "Unknown error",
+        rawData: adminDashboard,
+      });
+    }
+  }, [
+    settings,
+    zoomConnected,
+    attributes?.location,
+    attributes.defaultLocationChanged,
+  ]);
 
   return (
     <div className="step__wrapper">

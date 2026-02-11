@@ -134,7 +134,7 @@ const locationName = computed(() => {
 
   width: 100%;
   max-width: 464px;
-  aspect-ratio: 16/11;
+  /* aspect-ratio: 16/11; */
 
   border-radius: 20px;
   overflow: hidden;

@@ -129,20 +129,22 @@ const TicketsStep = ({
       if (time.period === "AM" && hour === 12) hour = 0;
     } else {
       console.warn("Unsupported time format:", time);
-      return base.toISOString();
+      return base.format("YYYY-MM-DDTHH:mm:ss");
     }
 
     base.set({ hour, minute, second: 0 });
-    return base.toISOString();
+    return base.format("YYYY-MM-DDTHH:mm:ss");
   };
 
   const getSaleStartDate = () => {
     if (!activeTicket?.start_datetime) {
       return { date: null, label: "Select date" };
     }
+    const dateMoment = moment.tz(activeTicket.start_datetime, timezone);
+    const dateStr = dateMoment.format("YYYY-MM-DD");
     return {
-      date: activeTicket.start_datetime.split("T")[0],
-      label: activeTicket.start_datetime.split("T")[0],
+      date: dateStr,
+      label: dateStr,
     };
   };
 
@@ -150,78 +152,111 @@ const TicketsStep = ({
     if (!activeTicket?.end_datetime) {
       return { date: null, label: "Select date" };
     }
+    const dateMoment = moment.tz(activeTicket.end_datetime, timezone);
+    const dateStr = dateMoment.format("YYYY-MM-DD");
     return {
-      date: activeTicket.end_datetime.split("T")[0],
-      label: activeTicket.end_datetime.split("T")[0],
+      date: dateStr,
+      label: dateStr,
     };
   };
 
   const getSaleStartTime = () => {
     return activeTicket?.start_datetime
-      ? moment(activeTicket.start_datetime).tz(timezone)
+      ? moment.tz(activeTicket.start_datetime, timezone)
       : moment().tz(timezone);
   };
 
   const getSaleEndTime = () => {
     return activeTicket?.end_datetime
-      ? moment(activeTicket.end_datetime).tz(timezone)
+      ? moment.tz(activeTicket.end_datetime, timezone)
       : moment().add(1, "hour").tz(timezone);
   };
-
   const handleSaleStartDateChange = (date) => {
     const base = activeTicket?.start_datetime
-      ? moment(activeTicket.start_datetime).tz(timezone)
+      ? moment.tz(activeTicket.start_datetime, "YYYY-MM-DDTHH:mm:ss", timezone)
       : moment().tz(timezone);
 
-    const selected = moment(date).tz(timezone);
+    const selectedMoment = moment.isMoment(date) ? date : moment(date);
 
-    base.set({
-      year: selected.year(),
-      month: selected.month(),
-      date: selected.date(),
-    });
+    const newDateTime = moment.tz(
+      {
+        year: selectedMoment.year(),
+        month: selectedMoment.month(),
+        date: selectedMoment.date(),
+        hour: base.hour(),
+        minute: base.minute(),
+        second: 0,
+      },
+      timezone,
+    );
+
+    const formatted = newDateTime.format("YYYY-MM-DDTHH:mm:ss");
 
     updateTicket(activeTicketId, {
-      start_datetime: base.toISOString(),
+      start_datetime: formatted,
     });
   };
 
   const handleSaleEndDateChange = (date) => {
     const base = activeTicket?.end_datetime
-      ? moment(activeTicket.end_datetime).tz(timezone)
+      ? moment.tz(activeTicket.end_datetime, "YYYY-MM-DDTHH:mm:ss", timezone)
       : moment().add(1, "day").tz(timezone);
 
-    const selected = moment(date).tz(timezone);
+    const selectedMoment = moment.isMoment(date) ? date : moment(date);
 
-    base.set({
-      year: selected.year(),
-      month: selected.month(),
-      date: selected.date(),
-    });
+    const newDateTime = moment.tz(
+      {
+        year: selectedMoment.year(),
+        month: selectedMoment.month(),
+        date: selectedMoment.date(),
+        hour: base.hour(),
+        minute: base.minute(),
+        second: 0,
+      },
+      timezone,
+    );
+
+    const formatted = newDateTime.format("YYYY-MM-DDTHH:mm:ss");
 
     updateTicket(activeTicketId, {
-      end_datetime: base.toISOString(),
+      end_datetime: formatted,
     });
   };
+
   const handleSaleStartTimeChange = (momentObj) => {
     if (!momentObj) return;
 
+    const formatted = momentObj.format("YYYY-MM-DDTHH:mm:ss");
+
     updateTicket(activeTicketId, {
-      start_datetime: momentObj.toISOString(),
+      start_datetime: formatted,
     });
   };
 
   const handleSaleEndTimeChange = (momentObj) => {
     if (!momentObj) return;
 
+    const formatted = momentObj.format("YYYY-MM-DDTHH:mm:ss");
+
     updateTicket(activeTicketId, {
-      end_datetime: momentObj.toISOString(),
+      end_datetime: formatted,
     });
   };
 
   const [activeTicketId, setActiveTicketId] = useState(tickets[0]?.id || null);
   const visibleTickets = tickets.filter((t) => t.action !== "remove");
 
+  useEffect(() => {
+    const current = tickets.find((ticket) => ticket.id === activeTicketId);
+
+    if (!current) return;
+
+    if (current.start_datetime || current.end_datetime) {
+      updateTicket(activeTicketId, {
+        availability: "scheduled",
+      });
+    }
+  }, [activeTicketId]);
   const removeTicket = (id) => {
     const ticketIndex = tickets.findIndex((t) => t.id === id);
     if (ticketIndex === -1) return;
@@ -273,11 +308,9 @@ const TicketsStep = ({
     if (!activeTicket) return MAX_QTY;
 
     if (activeTicket.type !== "free") {
-      // active ticket was not consuming free quota
       return MAX_QTY;
     }
 
-    // active ticket WAS consuming free quota → add it back
     return MAX_QTY + Number(activeTicket.quantity || 0);
   })();
 
@@ -437,11 +470,11 @@ const TicketsStep = ({
                 <NewInputControl
                   type="text"
                   inputMode="decimal"
-                  placeholder="Enter price"
+                  placeholder="Enter price, up to 1000"
                   value={activeTicket?.price ?? ""}
                   error={isError ? "Please enter valid price" : ""}
+                  maxValue={1000}
                   onChange={(val) => {
-                    // allow empty
                     if (val === "") {
                       updateTicket(activeTicketId, { price: "" });
                       setError(true);
@@ -450,13 +483,20 @@ const TicketsStep = ({
                       setError(false);
                     }
 
-                    // allow numbers + 2 decimals
                     if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
+
+                    const numVal = Number.parseFloat(val);
+                    if (numVal > 1000) {
+                      // setError(true);
+                      return;
+                    }
+
                     if (Number.parseInt(val) === 0) {
                       setError(true);
                     } else {
                       setError(false);
                     }
+
                     updateTicket(activeTicketId, { price: val });
                   }}
                 />
@@ -577,7 +617,7 @@ const TicketsStep = ({
                   <div className="servv_datetime_col">
                     <label className="step__content_title">Start time</label>
                     <NewTimeInputControl
-                      time={activeTicket?.start_datetime}
+                      time={getSaleStartTime()}
                       onChange={handleSaleStartTimeChange}
                     />
                   </div>
@@ -598,7 +638,7 @@ const TicketsStep = ({
                   <div className="servv_datetime_col">
                     <label className="step__content_title">End time</label>
                     <NewTimeInputControl
-                      time={activeTicket?.end_datetime}
+                      time={getSaleEndTime()}
                       onChange={handleSaleEndTimeChange}
                     />
                   </div>

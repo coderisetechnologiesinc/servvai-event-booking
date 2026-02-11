@@ -2851,6 +2851,7 @@ const EventsPage = ({
   const gmailAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_22__.useServvStore)(s => s.gmailAccount);
   const stripeAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_22__.useServvStore)(s => s.stripeAccount);
   const calendarAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_22__.useServvStore)(s => s.calendarAccount);
+  const zoomConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_22__.useServvStore)(s => s.zoomConnected);
   const fetchZoomAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_22__.useServvStore)(s => s.fetchZoomAccount);
   const fetchStripeAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_22__.useServvStore)(s => s.fetchStripeAccount);
   const fetchGmailAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_22__.useServvStore)(s => s.fetchGmailAccount);
@@ -2900,7 +2901,7 @@ const EventsPage = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (!settings) return;
     const planId = settings.current_plan?.id;
-    if (planId === 2 && zoomAccount === null) {
+    if (planId === 2 && zoomConnected === null) {
       fetchZoomAccount();
     }
   }, [settings]);
@@ -3379,7 +3380,7 @@ const EventsPage = ({
                     onChange: label => {
                       handleIsPastChange(label === "Past");
                     }
-                  }), settings?.current_plan?.id !== 1 && zoomAccount !== null && zoomAccount !== undefined && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  }), settings?.current_plan?.id !== 1 && zoomConnected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
                     buttons: [t("Events"), "Zoom"],
                     active: eventType === "offline" ? t("Events") : "Zoom",
                     onChange: label => {
@@ -7759,4 +7760,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=d8f93068b527b1aadf59
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=8b791bae8818f2883c15
