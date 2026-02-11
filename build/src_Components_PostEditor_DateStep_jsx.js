@@ -1086,7 +1086,6 @@ const DateStep = ({
     }
   }, []);
   const isRecurringAvailable = settings?.current_plan?.features?.find(f => f.title === "Recurring")?.value === "true" || false;
-  console.log(settings?.current_plan?.features?.find(f => f.title === "Recurring"));
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
     className: "step__wrapper",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
@@ -1948,4 +1947,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=c7f4e3d67b7ba0dbee59
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=9e7321403341426a1787

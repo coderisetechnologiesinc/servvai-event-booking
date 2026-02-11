@@ -26,7 +26,8 @@ const NewInputControl = ({
   onChange = () => {},
   textarea = false,
   style = {},
-  error
+  error,
+  maxValue
 }) => {
   const InputTag = textarea ? "textarea" : "input";
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -48,7 +49,8 @@ const NewInputControl = ({
           placeholder: placeholder || helpText,
           disabled: disabled,
           onChange: e => onChange(e.target.value),
-          rows: textarea ? 4 : undefined
+          rows: textarea ? 4 : undefined,
+          max: maxValue ? Number.parseFloat(maxValue) : undefined
         })
       })
     }), error && typeof error === "string" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -552,14 +554,14 @@ const TicketsStep = ({
       if (time.period === "AM" && hour === 12) hour = 0;
     } else {
       console.warn("Unsupported time format:", time);
-      return base.toISOString();
+      return base.format("YYYY-MM-DDTHH:mm:ss");
     }
     base.set({
       hour,
       minute,
       second: 0
     });
-    return base.toISOString();
+    return base.format("YYYY-MM-DDTHH:mm:ss");
   };
   const getSaleStartDate = () => {
     if (!activeTicket?.start_datetime) {
@@ -568,9 +570,11 @@ const TicketsStep = ({
         label: "Select date"
       };
     }
+    const dateMoment = moment__WEBPACK_IMPORTED_MODULE_6___default().tz(activeTicket.start_datetime, timezone);
+    const dateStr = dateMoment.format("YYYY-MM-DD");
     return {
-      date: activeTicket.start_datetime.split("T")[0],
-      label: activeTicket.start_datetime.split("T")[0]
+      date: dateStr,
+      label: dateStr
     };
   };
   const getSaleEndDate = () => {
@@ -580,55 +584,76 @@ const TicketsStep = ({
         label: "Select date"
       };
     }
+    const dateMoment = moment__WEBPACK_IMPORTED_MODULE_6___default().tz(activeTicket.end_datetime, timezone);
+    const dateStr = dateMoment.format("YYYY-MM-DD");
     return {
-      date: activeTicket.end_datetime.split("T")[0],
-      label: activeTicket.end_datetime.split("T")[0]
+      date: dateStr,
+      label: dateStr
     };
   };
   const getSaleStartTime = () => {
-    return activeTicket?.start_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default()(activeTicket.start_datetime).tz(timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().tz(timezone);
+    return activeTicket?.start_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default().tz(activeTicket.start_datetime, timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().tz(timezone);
   };
   const getSaleEndTime = () => {
-    return activeTicket?.end_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default()(activeTicket.end_datetime).tz(timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().add(1, "hour").tz(timezone);
+    return activeTicket?.end_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default().tz(activeTicket.end_datetime, timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().add(1, "hour").tz(timezone);
   };
   const handleSaleStartDateChange = date => {
-    const base = activeTicket?.start_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default()(activeTicket.start_datetime).tz(timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().tz(timezone);
-    const selected = moment__WEBPACK_IMPORTED_MODULE_6___default()(date).tz(timezone);
-    base.set({
-      year: selected.year(),
-      month: selected.month(),
-      date: selected.date()
-    });
+    const base = activeTicket?.start_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default().tz(activeTicket.start_datetime, "YYYY-MM-DDTHH:mm:ss", timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().tz(timezone);
+    const selectedMoment = moment__WEBPACK_IMPORTED_MODULE_6___default().isMoment(date) ? date : moment__WEBPACK_IMPORTED_MODULE_6___default()(date);
+    const newDateTime = moment__WEBPACK_IMPORTED_MODULE_6___default().tz({
+      year: selectedMoment.year(),
+      month: selectedMoment.month(),
+      date: selectedMoment.date(),
+      hour: base.hour(),
+      minute: base.minute(),
+      second: 0
+    }, timezone);
+    const formatted = newDateTime.format("YYYY-MM-DDTHH:mm:ss");
     updateTicket(activeTicketId, {
-      start_datetime: base.toISOString()
+      start_datetime: formatted
     });
   };
   const handleSaleEndDateChange = date => {
-    const base = activeTicket?.end_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default()(activeTicket.end_datetime).tz(timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().add(1, "day").tz(timezone);
-    const selected = moment__WEBPACK_IMPORTED_MODULE_6___default()(date).tz(timezone);
-    base.set({
-      year: selected.year(),
-      month: selected.month(),
-      date: selected.date()
-    });
+    const base = activeTicket?.end_datetime ? moment__WEBPACK_IMPORTED_MODULE_6___default().tz(activeTicket.end_datetime, "YYYY-MM-DDTHH:mm:ss", timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().add(1, "day").tz(timezone);
+    const selectedMoment = moment__WEBPACK_IMPORTED_MODULE_6___default().isMoment(date) ? date : moment__WEBPACK_IMPORTED_MODULE_6___default()(date);
+    const newDateTime = moment__WEBPACK_IMPORTED_MODULE_6___default().tz({
+      year: selectedMoment.year(),
+      month: selectedMoment.month(),
+      date: selectedMoment.date(),
+      hour: base.hour(),
+      minute: base.minute(),
+      second: 0
+    }, timezone);
+    const formatted = newDateTime.format("YYYY-MM-DDTHH:mm:ss");
     updateTicket(activeTicketId, {
-      end_datetime: base.toISOString()
+      end_datetime: formatted
     });
   };
   const handleSaleStartTimeChange = momentObj => {
     if (!momentObj) return;
+    const formatted = momentObj.format("YYYY-MM-DDTHH:mm:ss");
     updateTicket(activeTicketId, {
-      start_datetime: momentObj.toISOString()
+      start_datetime: formatted
     });
   };
   const handleSaleEndTimeChange = momentObj => {
     if (!momentObj) return;
+    const formatted = momentObj.format("YYYY-MM-DDTHH:mm:ss");
     updateTicket(activeTicketId, {
-      end_datetime: momentObj.toISOString()
+      end_datetime: formatted
     });
   };
   const [activeTicketId, setActiveTicketId] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(tickets[0]?.id || null);
   const visibleTickets = tickets.filter(t => t.action !== "remove");
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const current = tickets.find(ticket => ticket.id === activeTicketId);
+    if (!current) return;
+    if (current.start_datetime || current.end_datetime) {
+      updateTicket(activeTicketId, {
+        availability: "scheduled"
+      });
+    }
+  }, [activeTicketId]);
   const removeTicket = id => {
     const ticketIndex = tickets.findIndex(t => t.id === id);
     if (ticketIndex === -1) return;
@@ -667,11 +692,8 @@ const TicketsStep = ({
   const freeQuotaExcludingActive = (() => {
     if (!activeTicket) return MAX_QTY;
     if (activeTicket.type !== "free") {
-      // active ticket was not consuming free quota
       return MAX_QTY;
     }
-
-    // active ticket WAS consuming free quota → add it back
     return MAX_QTY + Number(activeTicket.quantity || 0);
   })();
   const addTicket = () => {
@@ -805,11 +827,11 @@ const TicketsStep = ({
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
             type: "text",
             inputMode: "decimal",
-            placeholder: "Enter price",
+            placeholder: "Enter price, up to 1000",
             value: (_activeTicket$price = activeTicket?.price) !== null && _activeTicket$price !== void 0 ? _activeTicket$price : "",
             error: isError ? "Please enter valid price" : "",
+            maxValue: 1000,
             onChange: val => {
-              // allow empty
               if (val === "") {
                 updateTicket(activeTicketId, {
                   price: ""
@@ -819,9 +841,12 @@ const TicketsStep = ({
               } else {
                 setError(false);
               }
-
-              // allow numbers + 2 decimals
               if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
+              const numVal = Number.parseFloat(val);
+              if (numVal > 1000) {
+                // setError(true);
+                return;
+              }
               if (Number.parseInt(val) === 0) {
                 setError(true);
               } else {
@@ -936,7 +961,7 @@ const TicketsStep = ({
                 className: "step__content_title",
                 children: "Start time"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                time: activeTicket?.start_datetime,
+                time: getSaleStartTime(),
                 onChange: handleSaleStartTimeChange
               })]
             })]
@@ -959,7 +984,7 @@ const TicketsStep = ({
                 className: "step__content_title",
                 children: "End time"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                time: activeTicket?.end_datetime,
+                time: getSaleEndTime(),
                 onChange: handleSaleEndTimeChange
               })]
             })]
@@ -1159,4 +1184,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=75948cf65065573e4433
+//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=c3bfffc44f58574efeed

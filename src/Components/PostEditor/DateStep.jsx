@@ -235,9 +235,6 @@ const DateStep = ({
   const isRecurringAvailable =
     settings?.current_plan?.features?.find((f) => f.title === "Recurring")
       ?.value === "true" || false;
-  console.log(
-    settings?.current_plan?.features?.find((f) => f.title === "Recurring"),
-  );
 
   return (
     <div className="step__wrapper">
