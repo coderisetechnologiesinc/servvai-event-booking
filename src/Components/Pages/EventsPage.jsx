@@ -29,6 +29,7 @@ import {
   PencilSquareIcon,
   TrashIcon,
   ArrowLeftIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/16/solid";
 import Guideline from "./Guideline";
 import { useServvStore } from "../../store/useServvStore";
@@ -163,7 +164,7 @@ const EventsCardHeader = ({
           <InlineStack align={"left"} gap={4} cardsLayout={false}>
             <InputFieldControl
               value={localSearch}
-              placeholder={t("Enter search string")}
+              placeholder={"Search events by name"}
               onChange={setLocalSearch}
               handleKeyPress={handleEnterButton}
               fullWidth={true}
@@ -337,6 +338,10 @@ const EventsPage = ({
     const handleClickOutside = (event) => {
       try {
         const ref = dropdownRefs.current;
+
+        if (event.target.closest(".filter-table-dropdown-container button")) {
+          return;
+        }
         if (active && ref && !ref.contains(event.target)) {
           setActiveDropdown(null);
         }
@@ -607,18 +612,25 @@ const EventsPage = ({
           })}
           <td className="filter-table-dropdown-container">
             <button
-              onClick={() =>
-                setActiveDropdown(
-                  !row.occurrence_id ? row.id : row.occurrence_id,
-                )
-              }
+              onClick={() => {
+                if (
+                  (row.occurrence_id && active === row.occurrence_id) ||
+                  row.id === active
+                ) {
+                  setActiveDropdown(null);
+                } else {
+                  setActiveDropdown(
+                    !row.occurrence_id ? row.id : row.occurrence_id,
+                  );
+                }
+              }}
             >
               <Bars4Icon className="dropdown-icon" />
             </button>
             {((!row.occurrence_id && active === row.id) ||
               (row.occurrence_id && row.occurrence_id === active)) && (
               <div
-                className="filter-table-dropdown absolute right-0 z-50 bg-white border border-gray-200 rounded-xl shadow-lg p-4 mt-2 min-w-[220px]"
+                className="filter-table-dropdown absolute right-0 top-8 z-50 bg-white border border-gray-200 rounded-xl shadow-lg p-4 mt-2 min-w-[220px]"
                 ref={dropdownRefs}
               >
                 <span className="dropdown-header">
@@ -914,7 +926,7 @@ const EventsPage = ({
                 <div className="md:hidden flex items-center px-4 pt-4 pb-2">
                   <button
                     aria-label={t("Search")}
-                    title={t("Search")}
+                    title={"Search events by name"}
                     className={`p-2 rounded-full bg-white shadow ${
                       showMobileSearch ? "ring-2 ring-purple-400" : ""
                     }`}
@@ -994,7 +1006,7 @@ const EventsPage = ({
                     <input
                       type="text"
                       className="w-full border border-gray-300 rounded px-3 py-2 mb-2"
-                      placeholder={t("Enter search")}
+                      placeholder={"Search events by name"}
                       value={searchString}
                       autoFocus
                       onChange={(e) => handleSearchChange(e.target.value)}

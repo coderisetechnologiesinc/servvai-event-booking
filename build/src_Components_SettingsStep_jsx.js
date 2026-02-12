@@ -49,7 +49,7 @@ const GmailConnectModalContent = ({
             }), " ", "permission when connecting Gmail."]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
             alt: "Gmail permission",
-            src: "https://servv-ai.intercom-attachments-1.com/i/o/984345698/5eb5d03c231220e22de523ae/Screen_Shot_2022-06-30_at_8_45_20_AM.png?expires=1770057000&signature=82bc4f838d185ac078528f3d91d17e30214cfb7f652cbb31aa60ef06c50f83fc",
+            src: `${servvData.pluginUrl}/public/assets/images/GmailPermission.png`,
             className: "w-full rounded-lg border object-cover"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -313,17 +313,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js");
 /* harmony import */ var _ModalShell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalShell */ "./src/Components/ModalShell.jsx");
 /* harmony import */ var _Containers_GmailConnectModalContent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Containers/GmailConnectModalContent */ "./src/Components/Containers/GmailConnectModalContent.jsx");
-/* harmony import */ var _Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Controls/NewSelectControl */ "./src/Components/Controls/NewSelectControl.jsx");
-/* harmony import */ var _Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Controls/NewInputControl */ "./src/Components/Controls/NewInputControl.jsx");
-/* harmony import */ var _Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Controls/RecurrenceRadioGroup */ "./src/Components/Controls/RecurrenceRadioGroup.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _ZoomPaidAccountModalContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ZoomPaidAccountModalContent */ "./src/Components/ZoomPaidAccountModalContent.jsx");
+/* harmony import */ var _Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Controls/NewSelectControl */ "./src/Components/Controls/NewSelectControl.jsx");
+/* harmony import */ var _Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Controls/NewInputControl */ "./src/Components/Controls/NewInputControl.jsx");
+/* harmony import */ var _Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Controls/RecurrenceRadioGroup */ "./src/Components/Controls/RecurrenceRadioGroup.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -383,7 +385,7 @@ const SettingsStep = ({
   -------------------------------------------- */
 
   const connectZoom = async () => {
-    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_8__["default"])("/wp-json/servv-plugin/v1/zoom/url", {
+    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_9__["default"])("/wp-json/servv-plugin/v1/zoom/url", {
       method: "GET",
       headers: {
         "X-WP-Nonce": servvData.nonce
@@ -406,7 +408,7 @@ const SettingsStep = ({
     setShowZoomModal(true);
   };
   const connectGmail = async () => {
-    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_8__["default"])("/wp-json/servv-plugin/v1/gmail/url", {
+    const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_9__["default"])("/wp-json/servv-plugin/v1/gmail/url", {
       method: "GET",
       headers: {
         "X-WP-Nonce": servvData.nonce
@@ -438,32 +440,32 @@ const SettingsStep = ({
       emailConnected: attributes.emailConnected
     });
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     className: "step__wrapper",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "step__header",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__["default"], {
         className: "step__header_icon settings-icon"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "step__heading",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h4", {
           className: "step__header_title",
           children: "Basic Settings"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
           className: "step__description",
           children: "Configure your default preferences before creating events."
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "step__content",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "flex flex-col gap-y-[24px]",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
             children: "Timezone"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
             value: attributes.timezone || "",
             options: timezoneOptions,
             helpText: "Select timezone",
@@ -473,26 +475,26 @@ const SettingsStep = ({
             onChange: val => setAttributes({
               timezone: val
             }),
-            iconRight: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__["default"], {})
+            iconRight: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__["default"], {})
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
             children: "Default Location"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
             placeholder: "Enter default city or venue",
             value: attributes.location || "",
             onChange: val => setAttributes({
               location: val
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
             children: "Time Format"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
             value: attributes.timeFormat || "12h",
             options: [{
               label: "12 hours (AM/PM)",
@@ -508,14 +510,14 @@ const SettingsStep = ({
             onChange: val => setAttributes({
               timeFormat: val
             }),
-            iconRight: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__["default"], {})
+            iconRight: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__["default"], {})
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
             children: "Default Event Type"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_7__["default"], {
             name: "default-event-type",
             value: attributes.defaultEventType || "offline",
             options: [{
@@ -529,44 +531,44 @@ const SettingsStep = ({
               defaultEventType: val
             })
           })]
-        }), attributes.defaultEventType === "zoom" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        }), attributes.defaultEventType === "zoom" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
             children: "Connect Zoom Account"
-          }), checkingEmail ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          }), checkingEmail ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
             className: "step__description",
             children: "Checking zoom status\u2026"
-          }) : zoomConnected ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          }) : zoomConnected ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
             className: "step__description",
             children: "Email is connected and ready for notifications."
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
             type: "button",
             className: "servv_button servv_button--secondary",
             onClick: handleConnectZoom,
             children: "Connect"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
             children: "Email Connection"
-          }), checkingEmail ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          }), checkingEmail ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
             className: "step__description",
             children: "Checking email status\u2026"
-          }) : isGmailConnected ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          }) : isGmailConnected ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
             className: "step__description",
             children: "Email is connected and ready for notifications."
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
             type: "button",
             className: "servv_button servv_button--secondary",
             onClick: handleEmailConnect,
             children: "Connect Email"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "servv_actions mt-auto",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
           type: "button",
           className: "servv_button servv_button--primary",
           onClick: handleContinue,
@@ -574,19 +576,19 @@ const SettingsStep = ({
           children: loading ? "Saving..." : "Continue"
         })
       })]
-    }), showGmailModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), showGmailModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_2__["default"], {
       title: "Connect Gmail",
       onClose: () => setShowGmailModal(false),
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_GmailConnectModalContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_GmailConnectModalContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
         gmailConfirmed: gmailConfirmed,
         setGmailConfirmed: setGmailConfirmed,
         handlerOnAccountAdd: connectGmail,
         closeModal: () => setShowGmailModal(false)
       })
-    }), showZoomModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), showZoomModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_2__["default"], {
       title: "Connect Zoom",
       onClose: () => setShowZoomModal(false),
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(ZoomPaidAccountModalContent, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_ZoomPaidAccountModalContent__WEBPACK_IMPORTED_MODULE_4__["default"], {
         zoomConfirmed: zoomConfirmed,
         setZoomConfirmed: setZoomConfirmed,
         handlerOnZoomAccountAdd: connectZoom,
@@ -596,6 +598,96 @@ const SettingsStep = ({
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SettingsStep);
+
+/***/ }),
+
+/***/ "./src/Components/ZoomPaidAccountModalContent.jsx":
+/*!********************************************************!*\
+  !*** ./src/Components/ZoomPaidAccountModalContent.jsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
+/* harmony import */ var _StepBlock__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./StepBlock */ "./src/Components/StepBlock.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+const ZoomPaidAccountModalContent = ({
+  zoomConfirmed,
+  setZoomConfirmed,
+  handlerOnZoomAccountAdd,
+  closeModal
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_StepBlock__WEBPACK_IMPORTED_MODULE_3__["default"]
+    // title="Connect Zoom"
+    // description="Zoom integration requires a paid Zoom account."
+    , {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        gap: 5,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "flex flex-col gap-3 p-4 border border-gray-200 rounded-xl bg-gray-50 shadow-sm",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+            className: "text-sm font-semibold text-gray-900",
+            children: "Paid Zoom account required"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+            className: "text-sm text-gray-600 leading-relaxed",
+            children: ["To connect Zoom, you must use a", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              className: "font-medium text-gray-900",
+              children: "paid Zoom account"
+            }), ". Free Zoom accounts are not supported for this integration."]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+            className: "text-sm text-gray-600 leading-relaxed",
+            children: ["Please make sure that", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              className: "font-medium text-gray-900",
+              children: "shared access permission"
+            }), " ", "is enabled for the Zoom account, as it is required for proper integration and meeting management."]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            alt: "Gmail permission",
+            src: `${servvData.pluginUrl}/public/assets/images/ZoomPermission.png`,
+            className: "w-full rounded-lg border object-cover"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          label: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            className: "text-sm font-medium text-gray-800",
+            children: "I understand and confirm that I am using a paid Zoom account"
+          }),
+          checked: zoomConfirmed,
+          onChange: () => setZoomConfirmed(!zoomConfirmed)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "flex justify-end gap-3 pt-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+            type: "button",
+            onClick: closeModal,
+            className: "px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition",
+            children: "Cancel"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+            type: "button",
+            disabled: !zoomConfirmed,
+            onClick: () => {
+              handlerOnZoomAccountAdd();
+              closeModal();
+            },
+            className: `px-4 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 ${zoomConfirmed ? "bg-[#7a5af8] text-white hover:bg-[#6845f5]" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`,
+            children: "Connect Zoom"
+          })]
+        })]
+      })
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ZoomPaidAccountModalContent);
 
 /***/ }),
 
@@ -640,4 +732,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_SettingsStep_jsx.js.map?ver=ddd9d1356c491d221b73
+//# sourceMappingURL=src_Components_SettingsStep_jsx.js.map?ver=1ad528296fd6fb971511

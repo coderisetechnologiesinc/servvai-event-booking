@@ -776,6 +776,16 @@ const ZoomPaidAccountModalContent = ({
               className: "font-medium text-gray-900",
               children: "paid Zoom account"
             }), ". Free Zoom accounts are not supported for this integration."]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+            className: "text-sm text-gray-600 leading-relaxed",
+            children: ["Please make sure that", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+              className: "font-medium text-gray-900",
+              children: "shared access permission"
+            }), " ", "is enabled for the Zoom account, as it is required for proper integration and meeting management."]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            alt: "Gmail permission",
+            src: `${servvData.pluginUrl}/public/assets/images/ZoomPermission.png`,
+            className: "w-full rounded-lg border object-cover"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           label: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
@@ -1009,4 +1019,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_ZoomPage_jsx.js.map?ver=0dec58bf441982d95e0e
+//# sourceMappingURL=src_Components_Pages_ZoomPage_jsx.js.map?ver=a6961a7d5ba9c16f8e31

@@ -37,7 +37,7 @@ const GmailConnectModalContent = ({
             {/* ✅ Screenshot Preview */}
             <img
               alt="Gmail permission"
-              src="https://servv-ai.intercom-attachments-1.com/i/o/984345698/5eb5d03c231220e22de523ae/Screen_Shot_2022-06-30_at_8_45_20_AM.png?expires=1770057000&signature=82bc4f838d185ac078528f3d91d17e30214cfb7f652cbb31aa60ef06c50f83fc"
+              src={`${servvData.pluginUrl}/public/assets/images/GmailPermission.png`}
               className="w-full rounded-lg border object-cover"
             />
           </div>

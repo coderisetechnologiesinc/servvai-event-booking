@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Cog6ToothIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import ModalShell from "./ModalShell";
 import GmailConnectModalContent from "./Containers/GmailConnectModalContent";
-
+import ZoomPaidAccountModalContent from "./ZoomPaidAccountModalContent";
 import NewSelectControl from "./Controls/NewSelectControl";
 import NewInputControl from "./Controls/NewInputControl";
 import RadioGroup from "./Controls/RecurrenceRadioGroup";

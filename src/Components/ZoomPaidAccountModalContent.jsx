@@ -33,6 +33,20 @@ const ZoomPaidAccountModalContent = ({
               </span>
               . Free Zoom accounts are not supported for this integration.
             </p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Please make sure that{" "}
+              <span className="font-medium text-gray-900">
+                shared access permission
+              </span>{" "}
+              is enabled for the Zoom account, as it is required for proper
+              integration and meeting management.
+            </p>
+
+            <img
+              alt="Gmail permission"
+              src={`${servvData.pluginUrl}/public/assets/images/ZoomPermission.png`}
+              className="w-full rounded-lg border object-cover"
+            />
           </div>
 
           {/* ✅ Confirmation Checkbox */}
