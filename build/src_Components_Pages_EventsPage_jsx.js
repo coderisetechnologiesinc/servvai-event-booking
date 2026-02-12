@@ -2785,7 +2785,7 @@ const EventsCardHeader = ({
         cardsLayout: false,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_15__["default"], {
           value: localSearch,
-          placeholder: t("Enter search string"),
+          placeholder: "Search events by name",
           onChange: setLocalSearch,
           handleKeyPress: handleEnterButton,
           fullWidth: true,
@@ -2950,6 +2950,9 @@ const EventsPage = ({
     const handleClickOutside = event => {
       try {
         const ref = dropdownRefs.current;
+        if (event.target.closest(".filter-table-dropdown-container button")) {
+          return;
+        }
         if (active && ref && !ref.contains(event.target)) {
           setActiveDropdown(null);
         }
@@ -3142,12 +3145,18 @@ const EventsPage = ({
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("td", {
           className: "filter-table-dropdown-container",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
-            onClick: () => setActiveDropdown(!row.occurrence_id ? row.id : row.occurrence_id),
+            onClick: () => {
+              if (row.occurrence_id && active === row.occurrence_id || row.id === active) {
+                setActiveDropdown(null);
+              } else {
+                setActiveDropdown(!row.occurrence_id ? row.id : row.occurrence_id);
+              }
+            },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_27__["default"], {
               className: "dropdown-icon"
             })
           }), (!row.occurrence_id && active === row.id || row.occurrence_id && row.occurrence_id === active) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-            className: "filter-table-dropdown absolute right-0 z-50 bg-white border border-gray-200 rounded-xl shadow-lg p-4 mt-2 min-w-[220px]",
+            className: "filter-table-dropdown absolute right-0 top-8 z-50 bg-white border border-gray-200 rounded-xl shadow-lg p-4 mt-2 min-w-[220px]",
             ref: dropdownRefs,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("span", {
               className: "dropdown-header",
@@ -3413,7 +3422,7 @@ const EventsPage = ({
               className: "md:hidden flex items-center px-4 pt-4 pb-2",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
                 "aria-label": t("Search"),
-                title: t("Search"),
+                title: "Search events by name",
                 className: `p-2 rounded-full bg-white shadow ${showMobileSearch ? "ring-2 ring-purple-400" : ""}`,
                 onClick: () => setShowMobileSearch(prev => !prev),
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("svg", {
@@ -3486,7 +3495,7 @@ const EventsPage = ({
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("input", {
                 type: "text",
                 className: "w-full border border-gray-300 rounded px-3 py-2 mb-2",
-                placeholder: t("Enter search"),
+                placeholder: "Search events by name",
                 value: searchString,
                 autoFocus: true,
                 onChange: e => handleSearchChange(e.target.value),
@@ -7760,4 +7769,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=8b791bae8818f2883c15
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=1f3cd9011546a8abef75

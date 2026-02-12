@@ -7178,10 +7178,10 @@ const PaymentForm = () => {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("button", {
               onClick: handleCheckout,
               className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                children: " Continue to checkout"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 className: "w-[1rem]"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
-                children: "Continue to checkout"
               })]
             })]
           })]
@@ -8331,10 +8331,10 @@ const PaymentForm = () => {
               onClick: handleCheckout,
               disabled: disabled,
               className: "flex flex-row items-center justify-start gap-[8px] px-[12px] py-[8px]  bg-[#171717] text-[#FAFAFA] rounded-[0.425rem] text-[0.875rem] max-sm:p-1",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
-                className: "w-[1rem]"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 children: "Continue to checkout"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
+                className: "w-[1rem]"
               })]
             })]
           })]
@@ -8461,7 +8461,7 @@ const PaymentForm = () => {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
           className: "flex flex-col gap-[0.75rem] w-full",
           children: [mainRegistrant && additionalRegistrants.map((registrant, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-            className: "flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]",
+            className: "flex flex-col-reverse items-start justify-between self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB] md:flex-row md:items-center",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
               className: "flex flex-col gap-[4px] items-start",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -8472,7 +8472,7 @@ const PaymentForm = () => {
                 children: mainRegistrant.email
               })]
             }), isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "flex flex-col gap-[4px] items-start",
+              className: "flex flex-row gap-[24px] md:flex-col md:gap-[4px] items-start",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "font-semibold text-[0.875rem]",
                 children: registrant.ticket.name
@@ -8481,7 +8481,7 @@ const PaymentForm = () => {
                 children: registrant.ticket.price > 0 ? `${registrant.ticket.price} ${registrant.ticket.currency.toUpperCase()}` : registrant.ticket.is_donation ? `${registrant.ticket.donation} ${registrant.ticket.currency.toUpperCase()}` : "Free"
               })]
             }), !isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "flex flex-col gap-[4px] items-start",
+              className: "flex flex-row gap-[24px] md:flex-col md:gap-[4px] items-start",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "font-semibold text-[0.875rem]",
                 children: "Standard ticket"
@@ -8491,7 +8491,7 @@ const PaymentForm = () => {
               })]
             })]
           }, registrant.id || index)), !mainRegistrant && additionalRegistrants.map((registrant, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-            className: "flex justify-between items-center self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB]",
+            className: "flex flex-col-reverse items-start justify-between self-stretch px-[1rem] py-[0.75rem] rounded-[0.625rem] bg-[#F9FAFB] md:flex-row md:items-center",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
               className: "flex flex-col gap-[4px] items-start",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
@@ -8502,7 +8502,7 @@ const PaymentForm = () => {
                 children: registrant.email
               })]
             }), isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "flex flex-col gap-[4px] items-start",
+              className: "flex flex-row gap-[24px] md:gap-[4px] items-start md:flex-col ",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "font-semibold text-[0.875rem]",
                 children: registrant.ticket.name
@@ -8511,7 +8511,7 @@ const PaymentForm = () => {
                 children: registrant.ticket.price > 0 ? `${registrant.ticket.price} ${registrant.ticket.currency}` : registrant.ticket.is_donation ? `${registrant.ticket.donation} ${registrant.ticket.currency}` : "Free"
               })]
             }), !isTicketsAvailable() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
-              className: "flex flex-col gap-[4px] items-start",
+              className: "flex flex-row gap-[24px] md:flex-col md:gap-[4px] items-start",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
                 className: "font-semibold text-[0.875rem]",
                 children: "Standard ticket"
@@ -8545,6 +8545,7 @@ const PaymentForm = () => {
     const isFreeProduct = !price || price === 0 || price === false;
     const currentFreeRegistrants = additionalRegistrants.length;
     const wouldExceedFreeLimit = isFreeProduct && usedRegistrants + currentFreeRegistrants + 1 > registrantsLimit;
+
     // console.log(
     //   currentFreeRegistrants,
     //   registrantsLimit,

@@ -96,7 +96,7 @@ const SettingsSection = ({
                   className="flex items-center gap-2 px-4 py-2.5 h-10 bg-white border border-[#D5D7DA] rounded-lg shadow-sm hover:bg-gray-50"
                 >
                   <span className="text-sm font-semibold text-[#414651]">
-                    Edit settings
+                    Edit
                   </span>
                 </button>
               )}

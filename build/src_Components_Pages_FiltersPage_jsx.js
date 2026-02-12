@@ -583,7 +583,7 @@ const SettingsSection = ({
               className: "flex items-center gap-2 px-4 py-2.5 h-10 bg-white border border-[#D5D7DA] rounded-lg shadow-sm hover:bg-gray-50",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                 className: "text-sm font-semibold text-[#414651]",
-                children: "Edit settings"
+                children: "Edit"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "flex items-center gap-1",
@@ -656,4 +656,4 @@ const SettingsSection = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=972948325e60511cf2b2
+//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=f145328a8b7987e4fd7d

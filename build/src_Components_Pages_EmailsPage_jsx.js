@@ -240,7 +240,7 @@ const GmailConnectModalContent = ({
             }), " ", "permission when connecting Gmail."]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
             alt: "Gmail permission",
-            src: "https://servv-ai.intercom-attachments-1.com/i/o/984345698/5eb5d03c231220e22de523ae/Screen_Shot_2022-06-30_at_8_45_20_AM.png?expires=1770057000&signature=82bc4f838d185ac078528f3d91d17e30214cfb7f652cbb31aa60ef06c50f83fc",
+            src: `${servvData.pluginUrl}/public/assets/images/GmailPermission.png`,
             className: "w-full rounded-lg border object-cover"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -1009,4 +1009,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EmailsPage_jsx.js.map?ver=383e2da67e7280cfdb80
+//# sourceMappingURL=src_Components_Pages_EmailsPage_jsx.js.map?ver=1bb8bcc46a7d876970cc
