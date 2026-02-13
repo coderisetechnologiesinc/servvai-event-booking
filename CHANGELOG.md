@@ -4,7 +4,7 @@
 
 ## Hotfix Release
 
-
+- Layout fixes for admin interface
 
 # v1.0.21
 
@@ -12,7 +12,7 @@
 
 ## Hotfix Release
 
-
+- UIUX and layout related fixes
 
 # v1.0.20
 
