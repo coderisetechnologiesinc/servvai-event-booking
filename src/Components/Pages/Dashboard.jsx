@@ -61,14 +61,14 @@ const Dashboard = () => {
     }
     navigate(url);
   };
-  useEffect(() => {
-    const redirectUrl = localStorage.getItem("redirectToOnboarding");
+  // useEffect(() => {
+  //   const redirectUrl = localStorage.getItem("redirectToOnboarding");
 
-    if (redirectUrl) {
-      localStorage.removeItem("redirectToOnboarding");
-      window.location.replace(redirectUrl);
-    }
-  }, []);
+  //   if (redirectUrl) {
+  //     localStorage.removeItem("redirectToOnboarding");
+  //     window.location.replace(redirectUrl);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const onboardingSkipped = localStorage.getItem("onboardingSkipped") === "1";

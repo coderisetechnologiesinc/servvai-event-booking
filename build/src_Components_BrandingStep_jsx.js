@@ -202,10 +202,11 @@ const BrandingStep = ({
   -------------------------------------------- */
   const handleContinue = () => {
     if (!attributes.branding.title?.trim()) {
-      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error("Please enter a business title");
+      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error("Please enter a store name");
       return;
     }
     onSave(attributes.branding);
+    goToNextStep();
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     className: "step__wrapper",
@@ -217,7 +218,7 @@ const BrandingStep = ({
         className: "step__heading",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h4", {
           className: "step__header_title",
-          children: "Event details"
+          children: "Branding"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
           className: "step__description",
           children: "Personalize your widget appearance and profile information."
@@ -231,9 +232,9 @@ const BrandingStep = ({
           className: "step__content_block",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
-            children: "Business Title"
+            children: "Store Name"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            placeholder: "Enter your business name",
+            placeholder: "Enter your store name",
             value: attributes.branding.title || "",
             onChange: val => setAttributes({
               branding: {
@@ -441,24 +442,15 @@ const BrandingStep = ({
             children: "Choose a color that contrasts well with your background."
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "servv_actions mt-auto",
-        children: [!brandingCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+        children: !brandingCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
           type: "button",
           className: "servv_button servv_button--primary",
           onClick: handleContinue,
           disabled: loading || !attributes.branding.title?.trim(),
-          children: loading ? "Saving..." : "Complete Setup"
-        }), brandingCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
-          type: "button",
-          className: "servv_button servv_button--primary",
-          onClick: () => {
-            const siteUrl = servvData?.siteUrl || servvData?.site_url || servvData?.home_url || window.location.origin;
-            window.location.href = siteUrl;
-          },
-          disabled: loading || avatarUploading || bannerUploading || !attributes.branding.title?.trim(),
-          children: avatarUploading || bannerUploading ? "Uploading..." : loading ? "Loading..." : "View site"
-        })]
+          children: loading ? "Saving..." : "Continue"
+        })
       })]
     })]
   });
@@ -724,4 +716,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_BrandingStep_jsx.js.map?ver=f999ff3aba773e4a0901
+//# sourceMappingURL=src_Components_BrandingStep_jsx.js.map?ver=02114ab458dbb500babd

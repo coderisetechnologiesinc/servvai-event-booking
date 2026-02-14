@@ -457,7 +457,7 @@ const TicketsStep = ({
   isError,
   setError = () => {}
 }) => {
-  var _activeTicket$quantit, _activeTicket$price;
+  var _activeTicket$quantit, _product$quantity, _activeTicket$price;
   const {
     quantity = 100,
     availability = "open" // "open" | "scheduled"
@@ -486,6 +486,17 @@ const TicketsStep = ({
   }];
   const tickets = attributes?.tickets || [];
   const timezone = attributes?.meeting?.timezone || "UTC";
+  const product = attributes?.product;
+  const hasProduct = product?.product_id && product?.product_id !== "0";
+  const isProductMode = !tickets.length && hasProduct;
+  const updateProduct = patch => {
+    setAttributes({
+      product: {
+        ...product,
+        ...patch
+      }
+    });
+  };
   const updateTickets = next => {
     const updated = next.map(ticket => {
       if (ticket.action === "remove") return ticket;
@@ -526,20 +537,25 @@ const TicketsStep = ({
       setDefaultPrice(defaultPriceFromSettings);
     }
   }, [settings]);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (!isFreePlanRestricted) return;
-    if (!tickets.length) {
-      setAttributes({
-        tickets: [{
-          id: (0,uuid__WEBPACK_IMPORTED_MODULE_8__["default"])(),
-          type: "free",
-          title: "Standard",
-          quantity: defaultQty,
-          availability: "open"
-        }]
-      });
-    }
-  }, [isFreePlanRestricted]);
+
+  // useEffect(() => {
+  //   if (!isFreePlanRestricted) return;
+
+  //   if (!tickets.length) {
+  //     setAttributes({
+  //       tickets: [
+  //         {
+  //           id: uuidv4(),
+  //           type: "free",
+  //           title: "Standard",
+  //           quantity: defaultQty,
+  //           availability: "open",
+  //         },
+  //       ],
+  //     });
+  //   }
+  // }, [isFreePlanRestricted]);
+
   const setTimeToISO = (iso, time) => {
     const base = iso ? moment__WEBPACK_IMPORTED_MODULE_6___default()(iso).tz(timezone) : moment__WEBPACK_IMPORTED_MODULE_6___default()().tz(timezone);
     let hour, minute;
@@ -687,6 +703,8 @@ const TicketsStep = ({
   }, [visibleTickets, activeTicket]);
   const qty = (_activeTicket$quantit = activeTicket?.quantity) !== null && _activeTicket$quantit !== void 0 ? _activeTicket$quantit : MIN_QTY;
   const isFreeTicket = activeTicket?.type === "free";
+  const productMaxQty = settings.free_registrants_limit || 15;
+  const productQty = (_product$quantity = product.quantity) !== null && _product$quantity !== void 0 ? _product$quantity : productMaxQty;
   const activeFreeQty = isFreeTicket && typeof activeTicket?.quantity === "number" ? activeTicket.quantity : 0;
   const MAX_TICKET_QTY = isFreeTicket ? activeFreeQty + MAX_QTY : 500;
   const freeQuotaExcludingActive = (() => {
@@ -728,269 +746,350 @@ const TicketsStep = ({
         className: "step__description",
         children: "This is a recurring event. To see tickets for a specific date, please view that occurrence."
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    }), isProductMode ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "step__content",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
-        type: "button",
-        className: "servv_ticket_add",
-        onClick: addTicket,
-        disabled: isFreePlanRestricted,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.PlusIcon, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-          children: "Add ticket"
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "step__content_block",
-        children: tickets.filter(t => t.action !== "remove").map(ticket => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: `servv_ticket_card ${activeTicketId === ticket.id ? "servv_ticket_card--active" : ""}`,
-          onClick: () => setActiveTicketId(ticket.id),
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: `servv_ticket_card servv_ticket_card--active`,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             className: "servv_ticket_card__title",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
-              children: [ticket.title || "Untitled", " (", ticket.type, ")"]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-              type: "button",
-              className: "servv_ticket_card__remove",
-              onClick: e => {
-                e.stopPropagation();
-                removeTicket(ticket.id);
-              },
-              disabled: isFreePlanRestricted,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.MinusIcon, {})
-            })]
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+              children: "Standard (free)"
+            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "servv_ticket_card__count",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("strong", {
-              children: ticket.quantity
+              children: productQty
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-              children: ticket.quantity > 1 ? "tickets" : "ticket"
+              children: productQty !== 1 ? "tickets" : "ticket"
             })]
           })]
-        }, ticket.id))
-      }), tickets.length > 0 && activeTicketId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-        children: [stripeConnected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-            className: "step__content_title",
-            children: "Type"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            name: "ticket-type",
-            value: stripeConnected ? activeTicket?.type || "free" : "free",
-            options: TIYCKET_TYPES,
-            disabled: !stripeConnected,
-            onChange: val => {
-              const prevType = activeTicket?.type;
-              const prevQty = Number(activeTicket?.quantity || MIN_QTY);
-              let nextQty = prevQty;
-              let nextPrice = activeTicket?.price;
-              if (val === "free") {
-                nextQty = Math.min(prevQty, freeQuotaExcludingActive);
-                nextPrice = undefined;
-              }
-              if (prevType === "free" && val !== "free") {
-                nextQty = Math.min(prevQty, 500);
-              }
-              if (val === "paid") {
-                const currentPrice = Number(activeTicket?.price);
-                if (!currentPrice || currentPrice <= 0) {
-                  nextPrice = String(defaultPrice);
-                }
-              }
-              nextQty = Math.max(MIN_QTY, nextQty);
-              const patch = {
-                type: val,
-                quantity: nextQty
-              };
-              if (val === "paid" || val === "donation") {
-                var _nextPrice;
-                patch.price = (_nextPrice = nextPrice) !== null && _nextPrice !== void 0 ? _nextPrice : "";
-              }
-              updateTicket(activeTicketId, patch);
-            }
-          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "servv_ticket_quantity",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+          className: "step__content_title",
+          children: "Quantity"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-            className: "step__content_title",
-            children: "Title"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            placeholder: "Enter title",
-            value: activeTicket?.title || "",
-            onChange: val => updateTicket(activeTicketId, {
-              title: val
-            })
-          })]
-        }), activeTicket?.type === "paid" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-            className: "step__content_title",
-            children: "Price"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          className: "servv_ticket_quantity__input",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            type: "button",
+            onClick: () => {
+              const qty = Number(productQty);
+              if (qty > MIN_QTY) updateProduct({
+                quantity: qty - 1
+              });
+            },
+            disabled: Number(productQty) <= MIN_QTY,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.MinusIcon, {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             type: "text",
-            inputMode: "decimal",
-            placeholder: "Enter price, up to 1000",
-            value: (_activeTicket$price = activeTicket?.price) !== null && _activeTicket$price !== void 0 ? _activeTicket$price : "",
-            error: isError ? "Please enter valid price" : "",
-            maxValue: 1000,
-            onChange: val => {
-              if (val === "") {
-                updateTicket(activeTicketId, {
-                  price: ""
+            inputMode: "numeric",
+            pattern: "[0-9]*",
+            className: "servv_ticket_quantity__field",
+            placeholder: "Enter a quantity",
+            value: productQty === "" ? "" : String(productQty),
+            onChange: e => {
+              const raw = e.target.value;
+              if (raw === "") {
+                updateProduct({
+                  quantity: ""
                 });
-                setError(true);
-                return;
-              } else {
-                setError(false);
-              }
-              if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
-              const numVal = Number.parseFloat(val);
-              if (numVal > 1000) {
-                // setError(true);
                 return;
               }
-              if (Number.parseInt(val) === 0) {
-                setError(true);
-              } else {
-                setError(false);
-              }
-              updateTicket(activeTicketId, {
-                price: val
+              if (!/^\d+$/.test(raw)) return;
+              const num = Number(raw);
+              if (num >= MIN_QTY && num <= productMaxQty) updateProduct({
+                quantity: num
+              });
+            },
+            onBlur: () => {
+              if (!product.quantity) updateProduct({
+                quantity: MIN_QTY
               });
             }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            type: "button",
+            onClick: () => {
+              const qty = Number(productQty);
+              if (qty < productMaxQty) updateProduct({
+                quantity: qty + 1
+              });
+            },
+            disabled: Number(productQty) >= productMaxQty,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.PlusIcon, {})
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "servv_ticket_quantity",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-            className: "step__content_title",
-            children: "Quantity"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "servv_ticket_quantity__input",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-              type: "button",
-              onClick: () => {
-                if (qty > MIN_QTY) {
-                  updateTicket(activeTicketId, {
-                    quantity: qty - 1
-                  });
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+          className: "servv_ticket_quantity__hint",
+          children: ["Maximum number of tickets ", MAX_QTY]
+        })]
+      })]
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "step__content",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
+          type: "button",
+          className: "servv_ticket_add",
+          onClick: addTicket,
+          disabled: isFreePlanRestricted,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.PlusIcon, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+            children: "Add ticket"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          className: "step__content_block",
+          children: tickets.filter(t => t.action !== "remove").map(ticket => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: `servv_ticket_card ${activeTicketId === ticket.id ? "servv_ticket_card--active" : ""}`,
+            onClick: () => setActiveTicketId(ticket.id),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              className: "servv_ticket_card__title",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+                children: [ticket.title || "Untitled", " (", ticket.type, ")"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+                type: "button",
+                className: "servv_ticket_card__remove",
+                onClick: e => {
+                  e.stopPropagation();
+                  removeTicket(ticket.id);
+                },
+                disabled: isFreePlanRestricted,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.MinusIcon, {})
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              className: "servv_ticket_card__count",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("strong", {
+                children: ticket.quantity
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                children: ticket.quantity > 1 ? "tickets" : "ticket"
+              })]
+            })]
+          }, ticket.id))
+        }), tickets.length > 0 && activeTicketId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+          children: [stripeConnected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "step__content_block",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+              className: "step__content_title",
+              children: "Type"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              name: "ticket-type",
+              value: stripeConnected ? activeTicket?.type || "free" : "free",
+              options: TIYCKET_TYPES,
+              disabled: !stripeConnected,
+              onChange: val => {
+                const prevType = activeTicket?.type;
+                const prevQty = Number(activeTicket?.quantity || MIN_QTY);
+                let nextQty = prevQty;
+                let nextPrice = activeTicket?.price;
+                if (val === "free") {
+                  nextQty = Math.min(prevQty, freeQuotaExcludingActive);
+                  nextPrice = undefined;
                 }
-              },
-              disabled: qty <= MIN_QTY,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.MinusIcon, {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+                if (prevType === "free" && val !== "free") {
+                  nextQty = Math.min(prevQty, 500);
+                }
+                if (val === "paid") {
+                  const currentPrice = Number(activeTicket?.price);
+                  if (!currentPrice || currentPrice <= 0) {
+                    nextPrice = String(defaultPrice);
+                  }
+                }
+                nextQty = Math.max(MIN_QTY, nextQty);
+                const patch = {
+                  type: val,
+                  quantity: nextQty
+                };
+                if (val === "paid" || val === "donation") {
+                  var _nextPrice;
+                  patch.price = (_nextPrice = nextPrice) !== null && _nextPrice !== void 0 ? _nextPrice : "";
+                }
+                updateTicket(activeTicketId, patch);
+              }
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "step__content_block",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+              className: "step__content_title",
+              children: "Title"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              placeholder: "Enter title",
+              value: activeTicket?.title || "",
+              onChange: val => updateTicket(activeTicketId, {
+                title: val
+              })
+            })]
+          }), activeTicket?.type === "paid" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "step__content_block",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+              className: "step__content_title",
+              children: "Price"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
               type: "text",
-              inputMode: "numeric",
-              pattern: "[0-9]*",
-              className: "servv_ticket_quantity__field",
-              placeholder: "Enter a quantity",
-              value: qty === "" ? "" : String(qty),
-              onChange: e => {
-                const raw = e.target.value;
-                if (raw === "") {
+              inputMode: "decimal",
+              placeholder: "Enter price, up to 1000",
+              value: (_activeTicket$price = activeTicket?.price) !== null && _activeTicket$price !== void 0 ? _activeTicket$price : "",
+              error: isError ? "Please enter valid price" : "",
+              maxValue: 1000,
+              onChange: val => {
+                if (val === "") {
                   updateTicket(activeTicketId, {
-                    quantity: ""
+                    price: ""
                   });
+                  setError(true);
+                  return;
+                } else {
+                  setError(false);
+                }
+                if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
+                const numVal = Number.parseFloat(val);
+                if (numVal > 1000) {
+                  // setError(true);
                   return;
                 }
-                if (!/^\d+$/.test(raw)) return;
-                const num = Number(raw);
-                if (num >= MIN_QTY && num <= MAX_TICKET_QTY) {
-                  updateTicket(activeTicketId, {
-                    quantity: num
-                  });
+                if (Number.parseInt(val) === 0) {
+                  setError(true);
+                } else {
+                  setError(false);
                 }
-              },
-              onBlur: () => {
-                // normalize empty → MIN_QTY
-                if (activeTicket.quantity === "") {
-                  updateTicket(activeTicketId, {
-                    quantity: MIN_QTY
-                  });
-                }
+                updateTicket(activeTicketId, {
+                  price: val
+                });
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-              type: "button",
-              onClick: () => {
-                if (qty < MAX_TICKET_QTY) {
-                  updateTicket(activeTicketId, {
-                    quantity: qty + 1
-                  });
-                }
-              },
-              disabled: qty >= MAX_TICKET_QTY,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.PlusIcon, {})
-            })]
-          }), isFreeTicket && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
-            className: "servv_ticket_quantity__hint",
-            children: ["You have ", MAX_QTY, " tickets remaining for your plan."]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "step__content_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-            className: "step__content_title",
-            children: "Availability"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            name: "ticket-availability",
-            value: activeTicket?.availability || "open",
-            options: AVAILABILITY_OPTIONS,
-            onChange: val => updateTicket(activeTicketId, {
-              availability: val,
-              ...(val === "open" ? {
-                start_datetime: undefined,
-                end_datetime: undefined
-              } : {})
-            }),
-            disabled: settings?.current_plan?.id === 1
-          })]
-        }), activeTicket?.availability === "scheduled" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "servv_ticket_sales_block",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "servv_datetime_row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-              className: "servv_datetime_col",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-                className: "step__content_title",
-                children: "Start date"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                variant: "field",
-                label: getSaleStartDate().label,
-                date: getSaleStartDate().date,
-                onChange: handleSaleStartDateChange
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-              className: "servv_datetime_col",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-                className: "step__content_title",
-                children: "Start time"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                time: getSaleStartTime(),
-                onChange: handleSaleStartTimeChange
-              })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "servv_datetime_row",
+            className: "servv_ticket_quantity",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+              className: "step__content_title",
+              children: "Quantity"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+              className: "servv_ticket_quantity__input",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+                type: "button",
+                onClick: () => {
+                  if (qty > MIN_QTY) {
+                    updateTicket(activeTicketId, {
+                      quantity: qty - 1
+                    });
+                  }
+                },
+                disabled: qty <= MIN_QTY,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.MinusIcon, {})
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+                type: "text",
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+                className: "servv_ticket_quantity__field",
+                placeholder: "Enter a quantity",
+                value: qty === "" ? "" : String(qty),
+                onChange: e => {
+                  const raw = e.target.value;
+                  if (raw === "") {
+                    updateTicket(activeTicketId, {
+                      quantity: ""
+                    });
+                    return;
+                  }
+                  if (!/^\d+$/.test(raw)) return;
+                  const num = Number(raw);
+                  if (num >= MIN_QTY && num <= MAX_TICKET_QTY) {
+                    updateTicket(activeTicketId, {
+                      quantity: num
+                    });
+                  }
+                },
+                onBlur: () => {
+                  // normalize empty → MIN_QTY
+                  if (activeTicket.quantity === "") {
+                    updateTicket(activeTicketId, {
+                      quantity: MIN_QTY
+                    });
+                  }
+                }
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+                type: "button",
+                onClick: () => {
+                  if (qty < MAX_TICKET_QTY) {
+                    updateTicket(activeTicketId, {
+                      quantity: qty + 1
+                    });
+                  }
+                },
+                disabled: qty >= MAX_TICKET_QTY,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.PlusIcon, {})
+              })]
+            }), isFreeTicket && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+              className: "servv_ticket_quantity__hint",
+              children: ["Maximum number of tickets ", MAX_QTY]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "step__content_block",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+              className: "step__content_title",
+              children: "Availability"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              name: "ticket-availability",
+              value: activeTicket?.availability || "open",
+              options: AVAILABILITY_OPTIONS,
+              onChange: val => updateTicket(activeTicketId, {
+                availability: val,
+                ...(val === "open" ? {
+                  start_datetime: undefined,
+                  end_datetime: undefined
+                } : {})
+              }),
+              disabled: settings?.current_plan?.id === 1
+            })]
+          }), activeTicket?.availability === "scheduled" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "servv_ticket_sales_block",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-              className: "servv_datetime_col",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-                className: "step__content_title",
-                children: "End date"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
-                variant: "field",
-                label: getSaleEndDate().label,
-                date: getSaleEndDate().date,
-                onChange: handleSaleEndDateChange
+              className: "servv_datetime_row",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                className: "servv_datetime_col",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+                  className: "step__content_title",
+                  children: "Start date"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  variant: "field",
+                  label: getSaleStartDate().label,
+                  date: getSaleStartDate().date,
+                  onChange: handleSaleStartDateChange
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                className: "servv_datetime_col",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+                  className: "step__content_title",
+                  children: "Start time"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  time: getSaleStartTime(),
+                  onChange: handleSaleStartTimeChange
+                })]
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-              className: "servv_datetime_col",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-                className: "step__content_title",
-                children: "End time"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                time: getSaleEndTime(),
-                onChange: handleSaleEndTimeChange
+              className: "servv_datetime_row",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                className: "servv_datetime_col",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+                  className: "step__content_title",
+                  children: "End date"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_DatePickerControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                  variant: "field",
+                  label: getSaleEndDate().label,
+                  date: getSaleEndDate().date,
+                  onChange: handleSaleEndDateChange
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                className: "servv_datetime_col",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+                  className: "step__content_title",
+                  children: "End time"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  time: getSaleEndTime(),
+                  onChange: handleSaleEndTimeChange
+                })]
               })]
             })]
           })]
         })]
-      })]
+      })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "servv_actions mt-auto",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
@@ -1184,4 +1283,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=1d72df23eb54228bbdb3
+//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=92ea9e167f9edd5a096e

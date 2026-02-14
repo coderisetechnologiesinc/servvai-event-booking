@@ -442,12 +442,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Registrant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Registrant */ "./src/Components/PostEditor/Registrant.jsx");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _utilities_registrants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utilities/registrants */ "./src/utilities/registrants.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _Pages_SpinnerLoader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Pages/SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var _utilities_registrants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utilities/registrants */ "./src/utilities/registrants.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -459,6 +461,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const RegistrantsStep = ({
+  settings,
   attributes,
   setAttributes,
   changeStep,
@@ -480,10 +483,11 @@ const RegistrantsStep = ({
   const totalPages = attributes?.regPagination?.pageCount || 1;
   const totalRecords = attributes?.regPagination?.total_records || totalPages * PAGE_SIZE;
   const paginatedRegistrants = visibleRegistrants;
+  const isAddRegistrantDisabled = settings?.current_plan?.id === 1;
   const {
     id
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
-  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useLocation)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useParams)();
+  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useLocation)();
   const searchParams = new URLSearchParams(location.search);
   const occurrenceId = searchParams.get("occurrence_id");
   const postID = Number(id);
@@ -513,13 +517,13 @@ const RegistrantsStep = ({
     const registrantsForDelete = registrants.filter(reg => reg.id && reg.status === "delete");
     try {
       setRegistrantsLoading(true);
-      await Promise.all(registrantsForDelete.map(reg => (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.deleteRegistrant)({
+      await Promise.all(registrantsForDelete.map(reg => (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_7__.deleteRegistrant)({
         postID,
         occurrenceId,
         registrantID: reg.id
       })));
       await handleFormSubmit();
-      const cleanedRegistrants = registrants
+      const cleanedRegistrants = registrants.filter(reg => reg.status !== "delete")
       // .filter((reg) => !reg.status)
       .map(reg => {
         const cleaned = {
@@ -529,7 +533,6 @@ const RegistrantsStep = ({
         delete cleaned.tempId;
         return cleaned;
       });
-      console.log(cleanedRegistrants, registrants);
       setAttributes({
         ...attributes,
         registrants: cleanedRegistrants
@@ -550,7 +553,7 @@ const RegistrantsStep = ({
 
       // ---------------- NON-ZOOM (page-based) ----------------
       if (!isZoom) {
-        const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrants)({
+        const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_7__.fetchRegistrants)({
           postID,
           occurrenceId,
           page
@@ -568,7 +571,7 @@ const RegistrantsStep = ({
       }
 
       // ---------------- ZOOM (token-based) ----------------
-      const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrantsWithToken)({
+      const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_7__.fetchRegistrantsWithToken)({
         postID,
         occurrenceId,
         next_page_token: zoomPageTokens[page] || null,
@@ -605,7 +608,7 @@ const RegistrantsStep = ({
       return;
     }
     const newRegistrant = {
-      tempId: (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])(),
+      tempId: (0,uuid__WEBPACK_IMPORTED_MODULE_10__["default"])(),
       firstName: firstNameValue,
       lastName: lastNameValue,
       email,
@@ -649,13 +652,13 @@ const RegistrantsStep = ({
 
   const renderRegistrants = () => {
     if (!paginatedRegistrants.length) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
         children: "This event doesn't have any registrants yet"
       });
     }
     return paginatedRegistrants.map(registrant => {
       const id = getRegistrantId(registrant);
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Registrant__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Registrant__WEBPACK_IMPORTED_MODULE_3__["default"], {
         id: id,
         firstName: registrant.firstName,
         lastName: registrant.lastName,
@@ -673,7 +676,7 @@ const RegistrantsStep = ({
     if (selectedRegistrants.length === 0) return;
     try {
       setRegistrantsLoading(true);
-      await Promise.all(selectedRegistrants.map(registrantID => (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.resendRegistrantNotification)({
+      await Promise.all(selectedRegistrants.map(registrantID => (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_7__.resendRegistrantNotification)({
         postID,
         registrantID,
         occurrenceId
@@ -690,7 +693,7 @@ const RegistrantsStep = ({
   const resendAll = async () => {
     try {
       setRegistrantsLoading(true);
-      await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.resendAllNotifications)({
+      await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_7__.resendAllNotifications)({
         postID,
         occurrenceId
       });
@@ -731,7 +734,7 @@ const RegistrantsStep = ({
         let page = 1;
         let pageCount = 1;
         do {
-          const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrants)({
+          const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_7__.fetchRegistrants)({
             postID,
             occurrenceId,
             page
@@ -746,7 +749,7 @@ const RegistrantsStep = ({
       if (isZoom) {
         let nextToken = null;
         do {
-          const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_6__.fetchRegistrantsWithToken)({
+          const res = await (0,_utilities_registrants__WEBPACK_IMPORTED_MODULE_7__.fetchRegistrantsWithToken)({
             postID,
             occurrenceId,
             next_page_token: nextToken,
@@ -775,90 +778,94 @@ const RegistrantsStep = ({
 
   /* ------------------ UI ------------------ */
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: `step__wrapper ${registrantsLoading ? "loading" : ""}`,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    className: `step__wrapper`,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "step__header",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.Contacts, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.Contacts, {
         className: "step__header_icon"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "step__heading",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h4", {
           className: "step__header_title",
           children: "Registrants"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
           className: "step__description",
           children: "Manage registrants"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "step__content",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "step__content_block",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
           className: "step__content_title",
           children: "First name"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
           placeholder: "Enter first name",
           value: firstNameValue,
+          disabled: isAddRegistrantDisabled,
           onChange: setFirstName
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "step__content_block",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
           className: "step__content_title",
           children: "Last name"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
           placeholder: "Enter last name",
           value: lastNameValue,
+          disabled: isAddRegistrantDisabled,
           onChange: setLastName
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "step__content_block",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
           className: "step__content_title",
           children: "Email"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
           type: "email",
           placeholder: "Enter email address",
           value: email,
+          disabled: isAddRegistrantDisabled,
           onChange: setEmail
-        }), showError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+        }), showError && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
           className: "text-sm text-error-500 mt-2",
           children: "Please fill in all fields"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
           className: "step__content_block",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
             type: "button",
             className: "servv_button servv_button--primary mt-3",
             onClick: handleRegistrantAdd,
+            disabled: email.length === 0 || firstNameValue.length === 0 || lastNameValue.length === 0 || isAddRegistrantDisabled,
             children: "Add registrant"
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "step__content_delimeter"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-        className: "step__content_block",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: `step__content_block`,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "flex flex-row justify-between items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             className: "step__content_title",
             children: "Registrants list"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "servv_actions",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-              className: "servv_actions flex items-center gap-2 ml-auto",
-              children: [registrants.length > 0 && selectedRegistrants.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+              className: `servv_actions flex items-center gap-2 ml-auto `,
+              children: [registrants.length > 0 && selectedRegistrants.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
                 type: "button",
                 className: "servv_button servv_button--secondary servv_button--sm",
                 onClick: () => resend(id),
                 children: "Resend to selected"
-              }), registrants.length > 0 && selectedRegistrants.length === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+              }), registrants.length > 0 && selectedRegistrants.length === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
                 type: "button",
                 className: "servv_button servv_button--secondary servv_button--sm",
                 onClick: () => resendAll(id),
                 children: "Resend notifications"
-              }), registrants.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+              }), registrants.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
                 type: "button",
                 className: "servv_button servv_button--secondary servv_button--sm",
                 onClick: () => handleExportRegistrants(),
@@ -866,7 +873,10 @@ const RegistrantsStep = ({
               })]
             })
           })]
-        }), renderRegistrants(), totalPages > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_DashboardPagination__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pages_SpinnerLoader__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          isLoading: registrantsLoading,
+          children: renderRegistrants()
+        }), totalPages > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_DashboardPagination__WEBPACK_IMPORTED_MODULE_2__["default"], {
           currentPage: currentPage,
           totalPages: totalPages,
           totalRecords: totalRecords,
@@ -874,17 +884,18 @@ const RegistrantsStep = ({
           onPageChange: setCurrentPage
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "servv_actions mt-auto",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
         type: "button",
         className: "servv_button servv_button--secondary",
         onClick: () => changeStep("branding"),
         children: "Previous"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
         type: "button",
         className: "servv_button servv_button--primary",
         onClick: handleRegistransSave,
+        disabled: registrants.filter(reg => reg.status && (reg.status === "create" || reg.status === "delete")).length === 0,
         children: "Save"
       })]
     })]
@@ -1242,4 +1253,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=85a123520c78ee60bc62
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=f47e9694ea4aea5b0c34

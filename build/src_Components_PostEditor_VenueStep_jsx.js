@@ -159,6 +159,11 @@ const VenueStep = ({
       }
     });
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (filtersList?.locations?.length === 1) {
+      handleLocationChange(filtersList.locations[0].id);
+    }
+  }, [filtersList]);
   const handleVenueChange = newVal => {
     let newEventType = 1;
     if (newVal === "offline") {
@@ -339,4 +344,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_VenueStep_jsx.js.map?ver=d111d7bb1889362c09b8
+//# sourceMappingURL=src_Components_PostEditor_VenueStep_jsx.js.map?ver=cfb61175341b74c6cb6b

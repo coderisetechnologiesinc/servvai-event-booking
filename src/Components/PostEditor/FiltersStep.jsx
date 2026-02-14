@@ -117,7 +117,7 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
               <span className="step__content_title">Title</span>
               <NewInputControl
                 // label="Title"
-                placeholder="e.g. Parking info, Access instructions, What to bring"
+                placeholder="e.g. Parking info, What to bring"
                 value={custom_field_2_name}
                 onChange={(val) =>
                   updateCustomField("custom_field_2_name", val)

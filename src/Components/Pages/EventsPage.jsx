@@ -33,6 +33,7 @@ import {
 } from "@heroicons/react/16/solid";
 import Guideline from "./Guideline";
 import { useServvStore } from "../../store/useServvStore";
+import SpinnerLoader from "./SpinnerLoader";
 
 const EventsCardHeader = ({
   eventsCount,
@@ -1046,20 +1047,24 @@ const EventsPage = ({
 
                 <div className="hidden md:block w-full">
                   {view === "events" && (
-                    <FilterTable
-                      tableClassName="events-table"
-                      headings={renderHeadings()}
-                      rows={renderRows(meetingsList)}
-                      loading={loading}
-                    />
+                    <SpinnerLoader isLoading={loading}>
+                      <FilterTable
+                        tableClassName="events-table"
+                        headings={renderHeadings()}
+                        rows={renderRows(meetingsList)}
+                        // loading={loading}
+                      />
+                    </SpinnerLoader>
                   )}
                   {view === "occurrences" && (
-                    <FilterTable
-                      tableClassName="events-table"
-                      headings={renderHeadings()}
-                      rows={renderRows(eventOccurrencess)}
-                      loading={loading}
-                    />
+                    <SpinnerLoader isLoading={loading}>
+                      <FilterTable
+                        tableClassName="events-table"
+                        headings={renderHeadings()}
+                        rows={renderRows(eventOccurrencess)}
+                        // loading={loading}
+                      />
+                    </SpinnerLoader>
                   )}
                 </div>
 

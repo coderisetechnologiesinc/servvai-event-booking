@@ -1,7 +1,7 @@
 import { CalendarIcon } from "../../assets/icons";
 import { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-
+import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import CalendarInline from "./CalendarInline";
 import NewSelectControl from "../Controls/NewSelectControl";
 import NewTimeInputControl from "../Controls/NewTimeInputControl";
@@ -45,10 +45,13 @@ const DateStep = ({
   }));
 
   /* ---------- timezone init from settings ---------- */
-
+  const [searchParams] = useSearchParams();
+  const timezonFromOnboarding = searchParams.get("timezone");
   const getDefaultTimezoneFromSettings = () => {
     const hardDefault = "America/Los_Angeles";
-
+    if (timezonFromOnboarding && timezonFromOnboarding.length > 0) {
+      return timezonFromOnboarding;
+    }
     const guessed = moment.tz.guess();
 
     const raw = settings?.settings?.admin_dashboard;
@@ -88,7 +91,6 @@ const DateStep = ({
 
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
         timezone: tzFromSettings,
       },
     });
@@ -100,7 +102,6 @@ const DateStep = ({
 
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
         timezone: userTimezone,
       },
     });
@@ -121,14 +122,25 @@ const DateStep = ({
   const handleDateChange = (selectedDate) => {
     if (!selectedDate) return;
 
-    const updated = moment(selectedDate)
+    const newDate = moment(selectedDate);
+
+    if (newDate.isSame(startMoment, "day")) return;
+
+    const updated = newDate
       .hour(startMoment.hour())
       .minute(startMoment.minute());
 
+    const timezone = attributes?.meeting?.timezone;
+    const now = moment().tz(timezone);
+    const userSelection = moment.tz(
+      updated.format("YYYY-MM-DD HH:mm"),
+      timezone,
+    );
+    setHasInvalidStartTime(userSelection.isBefore(now));
+
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
-        startTime: updated.toISOString(),
+        startTime: updated.format("YYYY-MM-DDTHH:mm:ss"),
       },
     });
   };
@@ -155,7 +167,6 @@ const DateStep = ({
     if (!updated.isSame(startMoment)) {
       setAttributes({
         meeting: {
-          ...(attributes.meeting || {}),
           startTime: updated.format("YYYY-MM-DDTHH:mm:ss"),
         },
       });
@@ -180,7 +191,6 @@ const DateStep = ({
     if (newDuration !== duration) {
       setAttributes({
         meeting: {
-          ...(attributes.meeting || {}),
           duration: Math.max(0, newDuration),
         },
       });
@@ -198,7 +208,6 @@ const DateStep = ({
   const handleRecurrenceModeChange = (mode) => {
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
         recurrence:
           mode === "recurring"
             ? {
@@ -225,7 +234,6 @@ const DateStep = ({
     if (!startTime) {
       setAttributes({
         meeting: {
-          ...(attributes.meeting || {}),
           startTime: moment().toISOString(),
           duration: duration ?? 60,
         },
@@ -331,7 +339,6 @@ const DateStep = ({
                   onChange={(updatedRecurrence) => {
                     setAttributes({
                       meeting: {
-                        ...(attributes.meeting || {}),
                         recurrence: updatedRecurrence,
                       },
                     });
@@ -347,7 +354,6 @@ const DateStep = ({
                     onChange={(updatedRecurrence) =>
                       setAttributes({
                         meeting: {
-                          ...(attributes.meeting || {}),
                           recurrence: updatedRecurrence,
                         },
                       })
@@ -372,6 +378,7 @@ const DateStep = ({
               type="button"
               className="servv_button servv_button--primary"
               onClick={() => changeStep("venue")}
+              disabled={hasInvalidStartTime}
             >
               Continue
             </button>

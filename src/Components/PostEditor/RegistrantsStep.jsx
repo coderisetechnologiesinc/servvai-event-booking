@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import SpinnerLoader from "../Pages/SpinnerLoader";
 import {
   fetchRegistrants,
   fetchRegistrantsWithToken,
@@ -15,6 +16,7 @@ import {
 } from "../../utilities/registrants";
 
 const RegistrantsStep = ({
+  settings,
   attributes,
   setAttributes,
   changeStep,
@@ -42,7 +44,7 @@ const RegistrantsStep = ({
     attributes?.regPagination?.total_records || totalPages * PAGE_SIZE;
 
   const paginatedRegistrants = visibleRegistrants;
-
+  const isAddRegistrantDisabled = settings?.current_plan?.id === 1;
   const { id } = useParams();
   const location = useLocation();
 
@@ -98,6 +100,7 @@ const RegistrantsStep = ({
       );
       await handleFormSubmit();
       const cleanedRegistrants = registrants
+        .filter((reg) => reg.status !== "delete")
         // .filter((reg) => !reg.status)
         .map((reg) => {
           const cleaned = { ...reg };
@@ -105,7 +108,7 @@ const RegistrantsStep = ({
           delete cleaned.tempId;
           return cleaned;
         });
-      console.log(cleanedRegistrants, registrants);
+
       setAttributes({
         ...attributes,
         registrants: cleanedRegistrants,
@@ -412,7 +415,7 @@ const RegistrantsStep = ({
   /* ------------------ UI ------------------ */
 
   return (
-    <div className={`step__wrapper ${registrantsLoading ? "loading" : ""}`}>
+    <div className={`step__wrapper`}>
       {/* Header */}
       <div className="step__header">
         <Contacts className="step__header_icon" />
@@ -432,6 +435,7 @@ const RegistrantsStep = ({
           <NewInputControl
             placeholder="Enter first name"
             value={firstNameValue}
+            disabled={isAddRegistrantDisabled}
             onChange={setFirstName}
           />
         </div>
@@ -443,6 +447,7 @@ const RegistrantsStep = ({
           <NewInputControl
             placeholder="Enter last name"
             value={lastNameValue}
+            disabled={isAddRegistrantDisabled}
             onChange={setLastName}
           />
         </div>
@@ -455,6 +460,7 @@ const RegistrantsStep = ({
             type="email"
             placeholder="Enter email address"
             value={email}
+            disabled={isAddRegistrantDisabled}
             onChange={setEmail}
           />
 
@@ -468,6 +474,12 @@ const RegistrantsStep = ({
               type="button"
               className="servv_button servv_button--primary mt-3"
               onClick={handleRegistrantAdd}
+              disabled={
+                email.length === 0 ||
+                firstNameValue.length === 0 ||
+                lastNameValue.length === 0 ||
+                isAddRegistrantDisabled
+              }
             >
               Add registrant
             </button>
@@ -476,11 +488,11 @@ const RegistrantsStep = ({
 
         <div className="step__content_delimeter" />
         {/* List */}
-        <div className="step__content_block">
+        <div className={`step__content_block`}>
           <div className="flex flex-row justify-between items-center">
             <span className="step__content_title">Registrants list</span>
             <div className="servv_actions">
-              <div className="servv_actions flex items-center gap-2 ml-auto">
+              <div className={`servv_actions flex items-center gap-2 ml-auto `}>
                 {registrants.length > 0 && selectedRegistrants.length > 0 && (
                   <button
                     type="button"
@@ -512,8 +524,10 @@ const RegistrantsStep = ({
               </div>
             </div>
           </div>
+          <SpinnerLoader isLoading={registrantsLoading}>
+            {renderRegistrants()}
+          </SpinnerLoader>
 
-          {renderRegistrants()}
           {totalPages > 1 && (
             <DashboardPagination
               currentPage={currentPage}
@@ -540,6 +554,13 @@ const RegistrantsStep = ({
           type="button"
           className="servv_button servv_button--primary"
           onClick={handleRegistransSave}
+          disabled={
+            registrants.filter(
+              (reg) =>
+                reg.status &&
+                (reg.status === "create" || reg.status === "delete"),
+            ).length === 0
+          }
         >
           Save
         </button>

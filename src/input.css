@@ -3138,6 +3138,14 @@
     opacity: 0.7;
   }
 
+  .servv_button--primary:disabled:hover {
+    background: #d0d5dd; /* muted gray */
+    color: #98a2b3; /* softer text */
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.85;
+  }
+
   /* Danger button (Delete / Revert) */
   .servv_button--sm {
     height: 32px; /* ↓ from 44px */

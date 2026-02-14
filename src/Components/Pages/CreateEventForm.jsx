@@ -34,6 +34,7 @@ const RegistrantsStep = React.lazy(() =>
   import("../PostEditor/RegistrantsStep"),
 );
 import { useNavigate } from "react-router-dom";
+import SpinnerLoader from "./SpinnerLoader";
 
 const StepperIcon = ({ Icon, iconClass, active, showLine }) => {
   return (
@@ -154,7 +155,11 @@ const CreateEventForm = () => {
     null;
   const isOnboarding = searchParams.get("onboarding_step");
   const isNew = !routeId;
-
+  useEffect(() => {
+    if (isOnboarding) {
+      fetchSettings();
+    }
+  }, [isOnboarding]);
   // Images
   const WP_API_BASE = "/wp-json/wp/v2/posts";
   const PLACEHOLDER_IMAGE = window.servvData?.pluginUrl
@@ -417,24 +422,25 @@ const CreateEventForm = () => {
     setAttributes((prev) => {
       const rawStart = prev?.meeting?.startTime;
 
-      const baseStart = moment.isMoment(rawStart)
-        ? rawStart.clone()
-        : moment(rawStart);
-
-      if (!baseStart.isValid()) {
-        console.warn("Invalid meeting.startTime:", rawStart);
-        return prev;
+      // Extract just the date portion regardless of format
+      let datePart;
+      if (typeof rawStart === "string") {
+        datePart = rawStart.substring(0, 10); // "2026-02-13"
+      } else if (moment.isMoment(rawStart)) {
+        datePart = rawStart.format("YYYY-MM-DD");
+      } else {
+        datePart = moment().format("YYYY-MM-DD");
       }
+
+      const newStart = `${datePart}T${String(hours).padStart(2, "0")}:${String(
+        minutes,
+      ).padStart(2, "0")}:00`;
 
       return {
         ...prev,
         meeting: {
           ...prev.meeting,
-          startTime: baseStart
-            .hours(hours)
-            .minutes(minutes)
-            .seconds(0)
-            .milliseconds(0),
+          startTime: newStart,
           duration: parsed?.default_duration
             ? parsed.default_duration * 60
             : prev.meeting?.duration,
@@ -736,6 +742,7 @@ const CreateEventForm = () => {
       if (!isNew) {
         await updateTickets();
       }
+
       const res = await axios({
         method: isNew ? "POST" : "PATCH",
         url: requestURL,
@@ -746,7 +753,7 @@ const CreateEventForm = () => {
       }).finally(() => {
         toast.success(`Event ${isNew ? "created" : "updated"} successfully.`);
         if (isNew && !isOnboarding) navigate("/dashboard?created=success");
-        else if (isNew) navigate("/onboarding?step=branding");
+        else if (isNew) navigate("/dashboard?created=success");
       });
       setLoadingEvent(false);
     } catch (e) {
@@ -832,7 +839,7 @@ const CreateEventForm = () => {
 
       {/* CONTENT */}
 
-      <PageWrapper loading={loadingEvent} withoutSpinner={true}>
+      <PageWrapper loading={false} withoutSpinner={true}>
         <main
           className={`create-event__content ${
             settings?.is_wp_marketplace ? "marketplace" : ""
@@ -850,26 +857,28 @@ const CreateEventForm = () => {
               fallback={<div className="step-loading">Loading…</div>}
             >
               {StepComponent && (
-                <div key={currentStep} className="step-slide">
-                  <StepComponent
-                    attributes={attributes}
-                    setAttributes={mergeAttributes}
-                    settings={settings}
-                    currentStep={currentStep}
-                    changeStep={setCurrentStep}
-                    handleFormSubmit={handleFormSubmit}
-                    isNew={isNew}
-                    loading={loadingEvent}
-                    setLoading={setLoadingEvent}
-                    zoomConnected={zoomConnected}
-                    stripeConnected={stripeConnected}
-                    calendarConnected={calendarConnected}
-                    gmailConnected={gmailConnected}
-                    isOccurrence={occurrenceIdFromQuery}
-                    isError={isError}
-                    setError={setError}
-                  />
-                </div>
+                <SpinnerLoader isLoading={loadingEvent}>
+                  <div key={currentStep} className="step-slide">
+                    <StepComponent
+                      attributes={attributes}
+                      setAttributes={mergeAttributes}
+                      settings={settings}
+                      currentStep={currentStep}
+                      changeStep={setCurrentStep}
+                      handleFormSubmit={handleFormSubmit}
+                      isNew={isNew}
+                      loading={loadingEvent}
+                      setLoading={setLoadingEvent}
+                      zoomConnected={zoomConnected}
+                      stripeConnected={stripeConnected}
+                      calendarConnected={calendarConnected}
+                      gmailConnected={gmailConnected}
+                      isOccurrence={occurrenceIdFromQuery}
+                      isError={isError}
+                      setError={setError}
+                    />
+                  </div>
+                </SpinnerLoader>
               )}
             </React.Suspense>
           </div>

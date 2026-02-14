@@ -615,6 +615,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 }
 
 .icon-btn:hover {
+  cursor: pointer;
   background-color: rgba(255, 255, 255, 0.92);
   transform: scale(1.125);
   box-shadow: 0 6px 14px -4px rgba(10, 13, 18, 0.25);
@@ -641,6 +642,9 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 }
 .s-icon-btn svg {
   color: var(--color-text-primary);
+}
+.s-icon-btn svg:hover {
+  cursor: pointer;
 }
 
 .icon-btn:active {
