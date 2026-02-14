@@ -1,3 +1,12 @@
+# v1.0.23
+
+1.0.23 (2026-02-14)
+
+## Hotfix Release
+
+- * fix: ui changes, default values (d572ba0)
+- * fix: onboarding and default settings (d572ba0)
+
 # v1.0.22
 
 1.0.22 (2026-02-13)
