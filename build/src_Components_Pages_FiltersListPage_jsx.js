@@ -561,17 +561,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ FiltersListPage)
 /* harmony export */ });
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
 /* harmony import */ var _FiltersList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FiltersList */ "./src/Components/Pages/FiltersList.jsx");
 /* harmony import */ var _Pages_PageWrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Pages/PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var _Containers_PageHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Containers/PageHeader */ "./src/Components/Containers/PageHeader.jsx");
 /* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menu/BreadCrumbs */ "./src/Components/Menu/BreadCrumbs.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
+/* harmony import */ var _Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Menu/BreadCrumbs */ "./src/Components/Menu/BreadCrumbs.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/PlusIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+
+
 
 
 
@@ -583,15 +587,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function FiltersListPage() {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useNavigate)();
   const {
     type
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useParams)();
+  const settings = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_0__.useServvStore)(s => s.settings);
   const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_0__.useServvStore)(s => s.filtersList);
   const getFilters = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_0__.useServvStore)(s => s.syncFiltersFromServer);
-  const [selected, setSelected] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)([]);
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)(false);
+  const [maxFiltersNumber, setMaxFiltersNumber] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(2);
+  const [defaultFiltersList, setDefaultFiltersList] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(["Locations", "Languages", "Categories"]);
+  const [selected, setSelected] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)([]);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
+  const [isLimitReached, setIsLimitReached] = (0,react__WEBPACK_IMPORTED_MODULE_7__.useState)(false);
   const filters = filtersList[type.toLowerCase()] || [];
+  (0,react__WEBPACK_IMPORTED_MODULE_7__.useEffect)(() => {
+    const maxFilters = settings?.current_plan?.filters_limit || 25;
+    setMaxFiltersNumber(maxFilters);
+    const totalFilters = Object.values(filtersList).reduce((total, arr) => total + (arr?.length || 0), 0);
+    setIsLimitReached(totalFilters >= maxFilters);
+    if (settings?.current_plan?.id !== 1) {
+      let newFiltersList = defaultFiltersList;
+      newFiltersList.push("Members");
+      setDefaultFiltersList(newFiltersList);
+    }
+  }, [settings, filtersList]);
   const handleSelect = id => setSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   const handleSelectAll = () => {
     if (selected.length === filters.length) {
@@ -612,7 +631,7 @@ function FiltersListPage() {
     setSelected([]);
     setLoading(false);
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_6__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_7__.useEffect)(() => {
     getFilters();
   }, []);
   const breadcrumbs = [{
@@ -622,35 +641,46 @@ function FiltersListPage() {
     label: type,
     action: () => {}
   }];
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Pages_PageWrapper__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pages_PageWrapper__WEBPACK_IMPORTED_MODULE_2__["default"], {
     loading: loading,
     withBackground: true,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "servv-dashboard-header",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
-            className: "dashboard-title",
-            children: type
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "flex flex-row justify-between",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h1", {
+              className: "dashboard-title",
+              children: type
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+              text: "Create filter",
+              type: "primary",
+              icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                className: "button-icon primary"
+              }),
+              onAction: () => navigate(`/filters/new/${type}`),
+              disabled: isLimitReached
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "dashboard-description",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Menu_BreadCrumbs__WEBPACK_IMPORTED_MODULE_6__["default"], {
               breadcrumbs: breadcrumbs,
               onBreadCrumbClick: label => {
                 const bc = breadcrumbs.find(b => b.label === label);
                 if (bc?.action) bc.action();
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("p", {
               className: "dashboard-description mt-2",
               children: ["Manage your ", type.toLowerCase(), " \u2014 view, edit, and delete entries."]
             })]
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "header-line"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_FiltersList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_FiltersList__WEBPACK_IMPORTED_MODULE_1__["default"], {
         title: type,
         filters: filters,
         selected: selected,
@@ -996,7 +1026,47 @@ function TrashIcon({
 const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(TrashIcon);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/24/outline/esm/PlusIcon.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/PlusIcon.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function PlusIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M12 4.5v15m7.5-7.5h-15"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(PlusIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersListPage_jsx.js.map?ver=0b5d7eb2cc49a62ade7d
+//# sourceMappingURL=src_Components_Pages_FiltersListPage_jsx.js.map?ver=a0ecb0e517b846c6d8aa

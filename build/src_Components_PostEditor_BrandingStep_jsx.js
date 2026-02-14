@@ -251,7 +251,7 @@ const BrandingStep = ({
         className: "step__heading step__heading--centered",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h4", {
           className: "step__header_title",
-          children: "Branding"
+          children: "Event details"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
           className: "step__description",
           children: "Add event information and image"
@@ -388,4 +388,4 @@ const BrandingStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=348318c4c0a2a2094419
+//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=1208bf1e53e7773fc79d

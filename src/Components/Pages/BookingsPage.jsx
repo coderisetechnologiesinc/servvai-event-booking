@@ -31,6 +31,7 @@ import {
   ArrowDownOnSquareStackIcon,
 } from "@heroicons/react/16/solid";
 import { useServvStore } from "../../store/useServvStore";
+import SpinnerLoader from "./SpinnerLoader";
 
 const BookingsPage = () => {
   const { settings, timezone, stripeCurrency } = useServvStore();
@@ -990,7 +991,7 @@ const BookingsPage = () => {
   };
 
   return (
-    <PageWrapper loading={loading} withBackground={true}>
+    <PageWrapper loading={false} withBackground={true}>
       <BlockStack gap={4}>
         <div className="dashboard-card">
           <div className="servv-dashboard-header">
@@ -1051,13 +1052,13 @@ const BookingsPage = () => {
               {renderBookingsHeader()}
 
               {bookings && bookings?.bookings?.length > 0 && (
-                <Fragment>
+                <SpinnerLoader isLoading={loading}>
                   <FilterTable
                     tableClassName={"bookings-table"}
                     headings={renderHeadings()}
                     rows={renderRows()}
                   />
-                </Fragment>
+                </SpinnerLoader>
               )}
 
               {selectedOrder.length > 1 && (

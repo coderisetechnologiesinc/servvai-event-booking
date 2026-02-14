@@ -42,6 +42,19 @@ const TicketsStep = ({
   const tickets = attributes?.tickets || [];
   const timezone = attributes?.meeting?.timezone || "UTC";
 
+  const product = attributes?.product;
+  const hasProduct = product?.product_id && product?.product_id !== "0";
+  const isProductMode = !tickets.length && hasProduct;
+
+  const updateProduct = (patch) => {
+    setAttributes({
+      product: {
+        ...product,
+        ...patch,
+      },
+    });
+  };
+
   const updateTickets = (next) => {
     const updated = next.map((ticket) => {
       if (ticket.action === "remove") return ticket;
@@ -97,23 +110,23 @@ const TicketsStep = ({
     }
   }, [settings]);
 
-  useEffect(() => {
-    if (!isFreePlanRestricted) return;
+  // useEffect(() => {
+  //   if (!isFreePlanRestricted) return;
 
-    if (!tickets.length) {
-      setAttributes({
-        tickets: [
-          {
-            id: uuidv4(),
-            type: "free",
-            title: "Standard",
-            quantity: defaultQty,
-            availability: "open",
-          },
-        ],
-      });
-    }
-  }, [isFreePlanRestricted]);
+  //   if (!tickets.length) {
+  //     setAttributes({
+  //       tickets: [
+  //         {
+  //           id: uuidv4(),
+  //           type: "free",
+  //           title: "Standard",
+  //           quantity: defaultQty,
+  //           availability: "open",
+  //         },
+  //       ],
+  //     });
+  //   }
+  // }, [isFreePlanRestricted]);
 
   const setTimeToISO = (iso, time) => {
     const base = iso ? moment(iso).tz(timezone) : moment().tz(timezone);
@@ -297,13 +310,15 @@ const TicketsStep = ({
 
   const qty = activeTicket?.quantity ?? MIN_QTY;
   const isFreeTicket = activeTicket?.type === "free";
-
+  const productMaxQty = settings.free_registrants_limit || 15;
+  const productQty = product.quantity ?? productMaxQty;
   const activeFreeQty =
     isFreeTicket && typeof activeTicket?.quantity === "number"
       ? activeTicket.quantity
       : 0;
 
   const MAX_TICKET_QTY = isFreeTicket ? activeFreeQty + MAX_QTY : 500;
+
   const freeQuotaExcludingActive = (() => {
     if (!activeTicket) return MAX_QTY;
 
@@ -352,302 +367,384 @@ const TicketsStep = ({
             </p>
           )}
       </div>
-
       {/* Content */}
-      <div className="step__content">
-        <button
-          type="button"
-          className="servv_ticket_add"
-          onClick={addTicket}
-          disabled={isFreePlanRestricted}
-        >
-          <PlusIcon />
-          <span>Add ticket</span>
-        </button>
-        <div className="step__content_block">
-          {tickets
-            .filter((t) => t.action !== "remove")
-            .map((ticket) => (
-              <div
-                key={ticket.id}
-                className={`servv_ticket_card ${
-                  activeTicketId === ticket.id
-                    ? "servv_ticket_card--active"
-                    : ""
-                }`}
-                onClick={() => setActiveTicketId(ticket.id)}
+      {isProductMode ? (
+        <div className="step__content">
+          <div className="step__content_block">
+            <div className={`servv_ticket_card servv_ticket_card--active`}>
+              <div className="servv_ticket_card__title">
+                <span>Standard (free)</span>
+              </div>
+              <div className="servv_ticket_card__count">
+                <strong>{productQty}</strong>
+                <span>{productQty !== 1 ? "tickets" : "ticket"}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="servv_ticket_quantity">
+            <label className="step__content_title">Quantity</label>
+            <div className="servv_ticket_quantity__input">
+              <button
+                type="button"
+                onClick={() => {
+                  const qty = Number(productQty);
+                  if (qty > MIN_QTY) updateProduct({ quantity: qty - 1 });
+                }}
+                disabled={Number(productQty) <= MIN_QTY}
               >
-                <div className="servv_ticket_card__title">
-                  <span>
-                    {ticket.title || "Untitled"} ({ticket.type})
-                  </span>
+                <MinusIcon />
+              </button>
 
-                  <button
-                    type="button"
-                    className="servv_ticket_card__remove"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeTicket(ticket.id);
-                    }}
-                    disabled={isFreePlanRestricted}
-                  >
-                    <MinusIcon />
-                  </button>
-                </div>
-
-                <div className="servv_ticket_card__count">
-                  <strong>{ticket.quantity}</strong>
-                  <span>{ticket.quantity > 1 ? "tickets" : "ticket"}</span>
-                </div>
-              </div>
-            ))}
-        </div>
-        {tickets.length > 0 && activeTicketId && (
-          <Fragment>
-            {stripeConnected && (
-              <div className="step__content_block">
-                <span className="step__content_title">Type</span>
-                <RadioGroup
-                  name="ticket-type"
-                  value={
-                    stripeConnected ? activeTicket?.type || "free" : "free"
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                className="servv_ticket_quantity__field"
+                placeholder="Enter a quantity"
+                value={productQty === "" ? "" : String(productQty)}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  if (raw === "") {
+                    updateProduct({ quantity: "" });
+                    return;
                   }
-                  options={TIYCKET_TYPES}
-                  disabled={!stripeConnected}
-                  onChange={(val) => {
-                    const prevType = activeTicket?.type;
-                    const prevQty = Number(activeTicket?.quantity || MIN_QTY);
-
-                    let nextQty = prevQty;
-                    let nextPrice = activeTicket?.price;
-
-                    if (val === "free") {
-                      nextQty = Math.min(prevQty, freeQuotaExcludingActive);
-                      nextPrice = undefined;
-                    }
-
-                    if (prevType === "free" && val !== "free") {
-                      nextQty = Math.min(prevQty, 500);
-                    }
-
-                    if (val === "paid") {
-                      const currentPrice = Number(activeTicket?.price);
-
-                      if (!currentPrice || currentPrice <= 0) {
-                        nextPrice = String(defaultPrice);
-                      }
-                    }
-
-                    nextQty = Math.max(MIN_QTY, nextQty);
-
-                    const patch = {
-                      type: val,
-                      quantity: nextQty,
-                    };
-
-                    if (val === "paid" || val === "donation") {
-                      patch.price = nextPrice ?? "";
-                    }
-
-                    updateTicket(activeTicketId, patch);
-                  }}
-                />
-              </div>
-            )}
-
-            <div className="step__content_block">
-              <span className="step__content_title">Title</span>
-              <NewInputControl
-                placeholder="Enter title"
-                value={activeTicket?.title || ""}
-                onChange={(val) => updateTicket(activeTicketId, { title: val })}
+                  if (!/^\d+$/.test(raw)) return;
+                  const num = Number(raw);
+                  if (num >= MIN_QTY && num <= productMaxQty)
+                    updateProduct({ quantity: num });
+                }}
+                onBlur={() => {
+                  if (!product.quantity) updateProduct({ quantity: MIN_QTY });
+                }}
               />
+
+              <button
+                type="button"
+                onClick={() => {
+                  const qty = Number(productQty);
+                  if (qty < productMaxQty) updateProduct({ quantity: qty + 1 });
+                }}
+                disabled={Number(productQty) >= productMaxQty}
+              >
+                <PlusIcon />
+              </button>
             </div>
-            {activeTicket?.type === "paid" && (
-              <div className="step__content_block">
-                <span className="step__content_title">Price</span>
+            <p className="servv_ticket_quantity__hint">
+              Maximum number of tickets {MAX_QTY}
+            </p>
+          </div>
+        </div>
+      ) : (
+        <Fragment>
+          <div className="step__content">
+            <button
+              type="button"
+              className="servv_ticket_add"
+              onClick={addTicket}
+              disabled={isFreePlanRestricted}
+            >
+              <PlusIcon />
+              <span>Add ticket</span>
+            </button>
+            <div className="step__content_block">
+              {tickets
+                .filter((t) => t.action !== "remove")
+                .map((ticket) => (
+                  <div
+                    key={ticket.id}
+                    className={`servv_ticket_card ${
+                      activeTicketId === ticket.id
+                        ? "servv_ticket_card--active"
+                        : ""
+                    }`}
+                    onClick={() => setActiveTicketId(ticket.id)}
+                  >
+                    <div className="servv_ticket_card__title">
+                      <span>
+                        {ticket.title || "Untitled"} ({ticket.type})
+                      </span>
 
-                <NewInputControl
-                  type="text"
-                  inputMode="decimal"
-                  placeholder="Enter price, up to 1000"
-                  value={activeTicket?.price ?? ""}
-                  error={isError ? "Please enter valid price" : ""}
-                  maxValue={1000}
-                  onChange={(val) => {
-                    if (val === "") {
-                      updateTicket(activeTicketId, { price: "" });
-                      setError(true);
-                      return;
-                    } else {
-                      setError(false);
-                    }
+                      <button
+                        type="button"
+                        className="servv_ticket_card__remove"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeTicket(ticket.id);
+                        }}
+                        disabled={isFreePlanRestricted}
+                      >
+                        <MinusIcon />
+                      </button>
+                    </div>
 
-                    if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
-
-                    const numVal = Number.parseFloat(val);
-                    if (numVal > 1000) {
-                      // setError(true);
-                      return;
-                    }
-
-                    if (Number.parseInt(val) === 0) {
-                      setError(true);
-                    } else {
-                      setError(false);
-                    }
-
-                    updateTicket(activeTicketId, { price: val });
-                  }}
-                />
-              </div>
-            )}
-            {/* Quantity */}
-            <div className="servv_ticket_quantity">
-              <label className="step__content_title">Quantity</label>
-
-              <div className="servv_ticket_quantity__input">
-                {/* Decrease */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (qty > MIN_QTY) {
-                      updateTicket(activeTicketId, { quantity: qty - 1 });
-                    }
-                  }}
-                  disabled={qty <= MIN_QTY}
-                >
-                  <MinusIcon />
-                </button>
-
-                {/* Input */}
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  className="servv_ticket_quantity__field"
-                  placeholder="Enter a quantity"
-                  value={qty === "" ? "" : String(qty)}
-                  onChange={(e) => {
-                    const raw = e.target.value;
-
-                    if (raw === "") {
-                      updateTicket(activeTicketId, { quantity: "" });
-                      return;
-                    }
-
-                    if (!/^\d+$/.test(raw)) return;
-
-                    const num = Number(raw);
-
-                    if (num >= MIN_QTY && num <= MAX_TICKET_QTY) {
-                      updateTicket(activeTicketId, { quantity: num });
-                    }
-                  }}
-                  onBlur={() => {
-                    // normalize empty → MIN_QTY
-                    if (activeTicket.quantity === "") {
-                      updateTicket(activeTicketId, { quantity: MIN_QTY });
-                    }
-                  }}
-                />
-
-                {/* Increase */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (qty < MAX_TICKET_QTY) {
-                      updateTicket(activeTicketId, { quantity: qty + 1 });
-                    }
-                  }}
-                  disabled={qty >= MAX_TICKET_QTY}
-                >
-                  <PlusIcon />
-                </button>
-              </div>
-
-              {isFreeTicket && (
-                <p className="servv_ticket_quantity__hint">
-                  You have {MAX_QTY} tickets remaining for your plan.
-                </p>
-              )}
+                    <div className="servv_ticket_card__count">
+                      <strong>{ticket.quantity}</strong>
+                      <span>{ticket.quantity > 1 ? "tickets" : "ticket"}</span>
+                    </div>
+                  </div>
+                ))}
             </div>
 
-            {/* Availability */}
-            {
-              <div className="step__content_block">
-                <span className="step__content_title">Availability</span>
+            {tickets.length > 0 && activeTicketId && (
+              <Fragment>
+                {stripeConnected && (
+                  <div className="step__content_block">
+                    <span className="step__content_title">Type</span>
+                    <RadioGroup
+                      name="ticket-type"
+                      value={
+                        stripeConnected ? activeTicket?.type || "free" : "free"
+                      }
+                      options={TIYCKET_TYPES}
+                      disabled={!stripeConnected}
+                      onChange={(val) => {
+                        const prevType = activeTicket?.type;
+                        const prevQty = Number(
+                          activeTicket?.quantity || MIN_QTY,
+                        );
 
-                <RadioGroup
-                  name="ticket-availability"
-                  value={activeTicket?.availability || "open"}
-                  options={AVAILABILITY_OPTIONS}
-                  onChange={(val) =>
-                    updateTicket(activeTicketId, {
-                      availability: val,
-                      ...(val === "open"
-                        ? { start_datetime: undefined, end_datetime: undefined }
-                        : {}),
-                    })
-                  }
-                  disabled={settings?.current_plan?.id === 1}
-                />
-              </div>
-            }
+                        let nextQty = prevQty;
+                        let nextPrice = activeTicket?.price;
 
-            {activeTicket?.availability === "scheduled" && (
-              <div className="servv_ticket_sales_block">
-                {/* <span className="step__content_title">Ticket sales period</span> */}
-                {/* <span className="servv_ticket_quantity__hint text-start">
+                        if (val === "free") {
+                          nextQty = Math.min(prevQty, freeQuotaExcludingActive);
+                          nextPrice = undefined;
+                        }
+
+                        if (prevType === "free" && val !== "free") {
+                          nextQty = Math.min(prevQty, 500);
+                        }
+
+                        if (val === "paid") {
+                          const currentPrice = Number(activeTicket?.price);
+
+                          if (!currentPrice || currentPrice <= 0) {
+                            nextPrice = String(defaultPrice);
+                          }
+                        }
+
+                        nextQty = Math.max(MIN_QTY, nextQty);
+
+                        const patch = {
+                          type: val,
+                          quantity: nextQty,
+                        };
+
+                        if (val === "paid" || val === "donation") {
+                          patch.price = nextPrice ?? "";
+                        }
+
+                        updateTicket(activeTicketId, patch);
+                      }}
+                    />
+                  </div>
+                )}
+
+                <div className="step__content_block">
+                  <span className="step__content_title">Title</span>
+                  <NewInputControl
+                    placeholder="Enter title"
+                    value={activeTicket?.title || ""}
+                    onChange={(val) =>
+                      updateTicket(activeTicketId, { title: val })
+                    }
+                  />
+                </div>
+                {activeTicket?.type === "paid" && (
+                  <div className="step__content_block">
+                    <span className="step__content_title">Price</span>
+
+                    <NewInputControl
+                      type="text"
+                      inputMode="decimal"
+                      placeholder="Enter price, up to 1000"
+                      value={activeTicket?.price ?? ""}
+                      error={isError ? "Please enter valid price" : ""}
+                      maxValue={1000}
+                      onChange={(val) => {
+                        if (val === "") {
+                          updateTicket(activeTicketId, { price: "" });
+                          setError(true);
+                          return;
+                        } else {
+                          setError(false);
+                        }
+
+                        if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
+
+                        const numVal = Number.parseFloat(val);
+                        if (numVal > 1000) {
+                          // setError(true);
+                          return;
+                        }
+
+                        if (Number.parseInt(val) === 0) {
+                          setError(true);
+                        } else {
+                          setError(false);
+                        }
+
+                        updateTicket(activeTicketId, { price: val });
+                      }}
+                    />
+                  </div>
+                )}
+                {/* Quantity */}
+                <div className="servv_ticket_quantity">
+                  <label className="step__content_title">Quantity</label>
+
+                  <div className="servv_ticket_quantity__input">
+                    {/* Decrease */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (qty > MIN_QTY) {
+                          updateTicket(activeTicketId, { quantity: qty - 1 });
+                        }
+                      }}
+                      disabled={qty <= MIN_QTY}
+                    >
+                      <MinusIcon />
+                    </button>
+
+                    {/* Input */}
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      className="servv_ticket_quantity__field"
+                      placeholder="Enter a quantity"
+                      value={qty === "" ? "" : String(qty)}
+                      onChange={(e) => {
+                        const raw = e.target.value;
+
+                        if (raw === "") {
+                          updateTicket(activeTicketId, { quantity: "" });
+                          return;
+                        }
+
+                        if (!/^\d+$/.test(raw)) return;
+
+                        const num = Number(raw);
+
+                        if (num >= MIN_QTY && num <= MAX_TICKET_QTY) {
+                          updateTicket(activeTicketId, { quantity: num });
+                        }
+                      }}
+                      onBlur={() => {
+                        // normalize empty → MIN_QTY
+                        if (activeTicket.quantity === "") {
+                          updateTicket(activeTicketId, { quantity: MIN_QTY });
+                        }
+                      }}
+                    />
+
+                    {/* Increase */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (qty < MAX_TICKET_QTY) {
+                          updateTicket(activeTicketId, { quantity: qty + 1 });
+                        }
+                      }}
+                      disabled={qty >= MAX_TICKET_QTY}
+                    >
+                      <PlusIcon />
+                    </button>
+                  </div>
+
+                  {isFreeTicket && (
+                    <p className="servv_ticket_quantity__hint">
+                      Maximum number of tickets {MAX_QTY}
+                    </p>
+                  )}
+                </div>
+
+                {/* Availability */}
+                {
+                  <div className="step__content_block">
+                    <span className="step__content_title">Availability</span>
+
+                    <RadioGroup
+                      name="ticket-availability"
+                      value={activeTicket?.availability || "open"}
+                      options={AVAILABILITY_OPTIONS}
+                      onChange={(val) =>
+                        updateTicket(activeTicketId, {
+                          availability: val,
+                          ...(val === "open"
+                            ? {
+                                start_datetime: undefined,
+                                end_datetime: undefined,
+                              }
+                            : {}),
+                        })
+                      }
+                      disabled={settings?.current_plan?.id === 1}
+                    />
+                  </div>
+                }
+
+                {activeTicket?.availability === "scheduled" && (
+                  <div className="servv_ticket_sales_block">
+                    {/* <span className="step__content_title">Ticket sales period</span> */}
+                    {/* <span className="servv_ticket_quantity__hint text-start">
                   Timezone: {timezone}
                 </span> */}
 
-                {/* START */}
-                <div className="servv_datetime_row">
-                  <div className="servv_datetime_col">
-                    <label className="step__content_title">Start date</label>
-                    <DatePickerControl
-                      variant="field"
-                      label={getSaleStartDate().label}
-                      date={getSaleStartDate().date}
-                      onChange={handleSaleStartDateChange}
-                    />
-                  </div>
+                    {/* START */}
+                    <div className="servv_datetime_row">
+                      <div className="servv_datetime_col">
+                        <label className="step__content_title">
+                          Start date
+                        </label>
+                        <DatePickerControl
+                          variant="field"
+                          label={getSaleStartDate().label}
+                          date={getSaleStartDate().date}
+                          onChange={handleSaleStartDateChange}
+                        />
+                      </div>
 
-                  <div className="servv_datetime_col">
-                    <label className="step__content_title">Start time</label>
-                    <NewTimeInputControl
-                      time={getSaleStartTime()}
-                      onChange={handleSaleStartTimeChange}
-                    />
-                  </div>
-                </div>
+                      <div className="servv_datetime_col">
+                        <label className="step__content_title">
+                          Start time
+                        </label>
+                        <NewTimeInputControl
+                          time={getSaleStartTime()}
+                          onChange={handleSaleStartTimeChange}
+                        />
+                      </div>
+                    </div>
 
-                {/* END */}
-                <div className="servv_datetime_row">
-                  <div className="servv_datetime_col">
-                    <label className="step__content_title">End date</label>
-                    <DatePickerControl
-                      variant="field"
-                      label={getSaleEndDate().label}
-                      date={getSaleEndDate().date}
-                      onChange={handleSaleEndDateChange}
-                    />
-                  </div>
+                    {/* END */}
+                    <div className="servv_datetime_row">
+                      <div className="servv_datetime_col">
+                        <label className="step__content_title">End date</label>
+                        <DatePickerControl
+                          variant="field"
+                          label={getSaleEndDate().label}
+                          date={getSaleEndDate().date}
+                          onChange={handleSaleEndDateChange}
+                        />
+                      </div>
 
-                  <div className="servv_datetime_col">
-                    <label className="step__content_title">End time</label>
-                    <NewTimeInputControl
-                      time={getSaleEndTime()}
-                      onChange={handleSaleEndTimeChange}
-                    />
+                      <div className="servv_datetime_col">
+                        <label className="step__content_title">End time</label>
+                        <NewTimeInputControl
+                          time={getSaleEndTime()}
+                          onChange={handleSaleEndTimeChange}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                )}
+              </Fragment>
             )}
-          </Fragment>
-        )}
-      </div>
+          </div>
+        </Fragment>
+      )}
       <div className="servv_actions mt-auto">
         <button
           type="button"

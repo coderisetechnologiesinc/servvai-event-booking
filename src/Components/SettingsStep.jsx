@@ -145,7 +145,7 @@ const SettingsStep = ({
 
     onSave({
       timezone: attributes.timezone,
-      location: attributes.location,
+      location: attributes.location.trim(),
       dateFormat: attributes.dateFormat,
       defaultEventType: attributes.defaultEventType,
       emailConnected: attributes.emailConnected,

@@ -254,11 +254,12 @@ const BrandingStep = ({
   -------------------------------------------- */
   const handleContinue = () => {
     if (!attributes.branding.title?.trim()) {
-      toast.error("Please enter a business title");
+      toast.error("Please enter a store name");
       return;
     }
 
     onSave(attributes.branding);
+    goToNextStep();
   };
 
   return (
@@ -267,7 +268,7 @@ const BrandingStep = ({
       <div className="step__header">
         <BrushIcon className="step__header_icon settings-icon" />
         <div className="step__heading">
-          <h4 className="step__header_title">Event details</h4>
+          <h4 className="step__header_title">Branding</h4>
           <p className="step__description">
             Personalize your widget appearance and profile information.
           </p>
@@ -279,10 +280,10 @@ const BrandingStep = ({
         <div className="flex flex-col gap-y-[24px]">
           {/* Business Title */}
           <div className="step__content_block">
-            <span className="step__content_title">Business Title</span>
+            <span className="step__content_title">Store Name</span>
 
             <NewInputControl
-              placeholder="Enter your business name"
+              placeholder="Enter your store name"
               value={attributes.branding.title || ""}
               onChange={(val) =>
                 setAttributes({
@@ -574,11 +575,11 @@ const BrandingStep = ({
               onClick={handleContinue}
               disabled={loading || !attributes.branding.title?.trim()}
             >
-              {loading ? "Saving..." : "Complete Setup"}
+              {loading ? "Saving..." : "Continue"}
             </button>
           )}
 
-          {brandingCompleted && (
+          {/* {brandingCompleted && (
             <button
               type="button"
               className="servv_button servv_button--primary"
@@ -604,7 +605,7 @@ const BrandingStep = ({
                 ? "Loading..."
                 : "View site"}
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>

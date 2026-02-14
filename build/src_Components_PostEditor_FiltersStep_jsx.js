@@ -267,7 +267,7 @@ const FiltersStep = ({
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_2__["default"]
             // label="Title"
             , {
-              placeholder: "e.g. Parking info, Access instructions, What to bring",
+              placeholder: "e.g. Parking info, What to bring",
               value: custom_field_2_name,
               onChange: val => updateCustomField("custom_field_2_name", val)
             })]
@@ -348,4 +348,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=f8ce6bf894f3bdec90e7
+//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=b46148da2b325341d051

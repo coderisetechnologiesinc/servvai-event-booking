@@ -52,6 +52,7 @@ const SettingsPage = () => {
   const [showPaymentOptionsModal, setShowPaymentOptionsModal] = useState(false);
   const [stripeForm, setStripeForm] = useState(null);
   const [defaultEndTime, setDefaultEndTime] = useState(moment());
+
   const [tabsList, setTabsList] = useState([]);
   const [n8nCurentSettings, setN8nSettings] = useState({});
   const [isN8NSettingsUpdated, setIsN8NSettingsUpdated] = useState(false);
@@ -432,15 +433,56 @@ const SettingsPage = () => {
 
   const handleDefaultStartTimeChange = (newVal) => {
     let currentSettings = { ...settings };
-    let newTime = moment(newVal);
     currentSettings.settings.admin_dashboard.default_start_time =
-      newTime.format("hh:mm a");
+      newVal.format("hh:mm a");
     setDefaultEndTime(
-      newTime.add(
-        currentSettings.settings.admin_dashboard.default_duration,
-        "hours",
-      ),
+      newVal
+        .clone()
+        .add(
+          currentSettings.settings.admin_dashboard.default_duration,
+          "hours",
+        ),
     );
+    setSettings(currentSettings);
+  };
+
+  const handleDefaultEndTimeChange = (newVal) => {
+    let currentSettings = { ...settings };
+    let startTime = moment(
+      currentSettings.settings.admin_dashboard.default_start_time,
+      "hh:mm a",
+    );
+
+    const base = moment().startOf("day");
+    const startNormalized = base.clone().set({
+      hour: startTime.hour(),
+      minute: startTime.minute(),
+    });
+    let endNormalized = base.clone().set({
+      hour: newVal.hour(),
+      minute: newVal.minute(),
+    });
+
+    let diffMinutes = endNormalized.diff(startNormalized, "minutes");
+
+    // If negative, end time is next day (crossed midnight)
+    if (diffMinutes < 0) {
+      endNormalized.add(1, "day");
+      diffMinutes = endNormalized.diff(startNormalized, "minutes");
+    }
+
+    console.log(
+      "start:",
+      startNormalized.format("hh:mm a"),
+      "end:",
+      newVal.format("hh:mm a"),
+      "diff:",
+      diffMinutes,
+    );
+
+    currentSettings.settings.admin_dashboard.default_duration =
+      diffMinutes > 0 ? diffMinutes / 60 : 1;
+
     setSettings(currentSettings);
   };
 
@@ -452,7 +494,7 @@ const SettingsPage = () => {
       currentSettings.settings.admin_dashboard.default_start_time,
       "hh:mm a",
     );
-    setDefaultEndTime(newTime.add(duration + 1, "hours"));
+    setDefaultEndTime(newTime.clone().add(duration + 1, "hours"));
     setSettings(currentSettings);
   };
 
@@ -496,6 +538,28 @@ const SettingsPage = () => {
     if (newVal <= settings.free_registrants_limit)
       currentSettings.settings.admin_dashboard.default_quantity = newVal;
     setSettings(currentSettings);
+  };
+  const formatDuration = (duration) => {
+    if (!duration) return "1 hour";
+    const hours = Math.floor(duration);
+    const minutes = Math.round((duration - hours) * 60);
+    if (hours > 0 && minutes > 0)
+      return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${
+        minutes !== 1 ? "s" : ""
+      }`;
+    if (hours > 0) return `${hours} hour${hours !== 1 ? "s" : ""}`;
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
+  };
+  const getDurationOptions = () => {
+    const options = durationOptions();
+    const duration = settings?.settings?.admin_dashboard?.default_duration;
+    if (duration && !Number.isInteger(duration)) {
+      const custom = formatDuration(duration);
+      if (!options.includes(custom)) {
+        options.push(custom);
+      }
+    }
+    return options;
   };
 
   const getDefaultStartTime = () => {
@@ -551,7 +615,7 @@ const SettingsPage = () => {
   const handleDefaultTypeChange = (newVal) => {
     let currentSettings = { ...settings };
     if (newVal === "Zoom Event")
-      currentSettings.settings.admin_dashboard.default_event_type = "online";
+      currentSettings.settings.admin_dashboard.default_event_type = "zoom";
     else
       currentSettings.settings.admin_dashboard.default_event_type = "offline";
     setSettings(currentSettings);
@@ -913,7 +977,7 @@ const SettingsPage = () => {
           <div className="dashboard-heading">
             <h1 className="dashboard-title">Settings</h1>
             <p className="dashboard-description mt-4">
-              Set default values for new events to save time
+              Set default values to save time
             </p>
           </div>
         </div>
@@ -959,6 +1023,9 @@ const SettingsPage = () => {
                   handleDefaultPriceChange={handleDefaultPriceChange}
                   handleDefaultQuantityChange={handleDefaultQuantityChange}
                   handleDefaultTypeChange={handleDefaultTypeChange}
+                  handleDefaultEndTimeChange={handleDefaultEndTimeChange}
+                  getDurationOptions={getDurationOptions}
+                  formatDuration={formatDuration}
                 />
               </SettingsSection>
             )}

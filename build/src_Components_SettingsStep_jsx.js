@@ -434,7 +434,7 @@ const SettingsStep = ({
     }
     onSave({
       timezone: attributes.timezone,
-      location: attributes.location,
+      location: attributes.location.trim(),
       dateFormat: attributes.dateFormat,
       defaultEventType: attributes.defaultEventType,
       emailConnected: attributes.emailConnected
@@ -732,4 +732,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_SettingsStep_jsx.js.map?ver=1ad528296fd6fb971511
+//# sourceMappingURL=src_Components_SettingsStep_jsx.js.map?ver=4be59ac9ed9d62f28273

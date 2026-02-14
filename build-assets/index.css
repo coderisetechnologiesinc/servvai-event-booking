@@ -6204,6 +6204,16 @@ svg.breadcrumbs-icon {
   opacity: 0.7;
 }
 
+.servv_button--primary:disabled:hover {
+  background: #d0d5dd;
+  /* muted gray */
+  color: #98a2b3;
+  /* softer text */
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.85;
+}
+
 /* Danger button (Delete / Revert) */
 
 .servv_button--sm {
@@ -6809,6 +6819,10 @@ input.servv-input__native.servv-input__native--center {
   top: 100%;
 }
 
+.top-\[30px\] {
+  top: 30px;
+}
+
 .-z-10 {
   z-index: -10;
 }
@@ -6971,6 +6985,14 @@ input.servv-input__native.servv-input__native--center {
 
 .mt-auto {
   margin-top: auto;
+}
+
+.mt-\[120px\] {
+  margin-top: 120px;
+}
+
+.mb-\[30px\] {
+  margin-bottom: 30px;
 }
 
 .block {
@@ -7153,6 +7175,10 @@ input.servv-input__native.servv-input__native--center {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-\[300px\] {
+  min-height: 300px;
 }
 
 .w-1 {
@@ -7705,6 +7731,14 @@ input.servv-input__native.servv-input__native--center {
 
 .gap-y-\[24px\] {
   row-gap: 24px;
+}
+
+.gap-y-\[12px\] {
+  row-gap: 12px;
+}
+
+.gap-y-\[16px\] {
+  row-gap: 16px;
 }
 
 .space-x-1 > :not([hidden]) ~ :not([hidden]) {
@@ -8706,6 +8740,10 @@ input.servv-input__native.servv-input__native--center {
 
 .p-lg {
   padding: 0.75rem;
+}
+
+.p-\[24px\] {
+  padding: 24px;
 }
 
 .px-0 {
@@ -9733,6 +9771,11 @@ input.servv-input__native.servv-input__native--center {
 
 .blur {
   --tw-blur: blur(8px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.blur-sm {
+  --tw-blur: blur(4px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 

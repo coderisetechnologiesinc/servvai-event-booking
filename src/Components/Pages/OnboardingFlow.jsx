@@ -11,6 +11,7 @@ import {
   Cog6ToothIcon,
   RocketLaunchIcon,
   EyeIcon,
+  CreditCardIcon,
 } from "@heroicons/react/24/outline";
 import { useServvStore } from "../../store/useServvStore";
 import logo from "../../assets/images/logo.png";
@@ -19,10 +20,12 @@ import PageWrapper from "./PageWrapper";
 import { toast } from "react-toastify";
 import ModalShell from "../ModalShell";
 import SkipOnboardingModalContent from "./SkipOnboardingModalContent";
+import timezones from "../../utilities/timezones";
 // Lazy load step components
 const SettingsStep = React.lazy(() => import("../SettingsStep"));
 // const FirstEventStep = React.lazy(() => import("../Onboarding/FirstEventStep"));
 const BrandingStep = React.lazy(() => import("../BrandingStep"));
+const BillingStep = React.lazy(() => import("../BillingStep"));
 
 const StepperIcon = ({ Icon, iconClass, active, showLine }) => (
   <div className="stepper-icon">
@@ -100,8 +103,22 @@ const OnboardingFlow = () => {
 
   const [steps, setSteps] = useState([
     {
+      key: "billing",
+      title: "Billing Plan",
+      subtitle: "Choose your plan",
+      Icon: CreditCardIcon,
+      iconClass: "icon--angled",
+    },
+    {
+      key: "branding",
+      title: "Store Branding",
+      subtitle: "Personalize your appearance",
+      Icon: BrushIcon,
+      iconClass: "icon--angled",
+    },
+    {
       key: "settings",
-      title: "Basic Settings",
+      title: "Global Settings",
       subtitle: "Configure your preferences",
       Icon: Cog6ToothIcon,
       iconClass: "",
@@ -112,13 +129,6 @@ const OnboardingFlow = () => {
       subtitle: "Set up your initial event",
       Icon: RocketLaunchIcon,
       iconClass: "",
-    },
-    {
-      key: "branding",
-      title: "Customize Branding",
-      subtitle: "Personalize your appearance",
-      Icon: BrushIcon,
-      iconClass: "icon--angled",
     },
   ]);
 
@@ -218,6 +228,7 @@ const OnboardingFlow = () => {
   }, [settings]);
 
   const stepComponents = {
+    billing: BillingStep,
     settings: SettingsStep,
     "first-event": null,
     branding: BrandingStep,
@@ -258,8 +269,10 @@ const OnboardingFlow = () => {
     if (currentIndex < steps.length - 1) {
       markStepCompleted(currentStep);
 
-      if (currentIndex === 0) {
-        navigate("/events/new?onboarding_step=2");
+      if (currentIndex === 2) {
+        navigate(
+          `/events/new?onboarding_step=2&timezone=${attributes.timezone}`,
+        );
         return;
       }
 
@@ -279,7 +292,7 @@ const OnboardingFlow = () => {
     const currentIndex = steps.findIndex((s) => s.key === currentStep);
 
     // Allow going back to any previous step or completed step
-    if (clickedIndex !== 1) {
+    if (clickedIndex !== 3) {
       setCurrentStep(stepKey);
     }
   };
@@ -426,7 +439,7 @@ const OnboardingFlow = () => {
       }).catch((err) => console.error(err));
       if (attributes.location && attributes.location.length > 0) {
         if (
-          filtersList?.locations?.filter((f) => f.name !== attributes.location)
+          filtersList?.locations?.filter((f) => f.name === attributes.location)
             ?.length === 0
         )
           await handleLocationSave(attributes.location);

@@ -400,6 +400,229 @@ const InputFieldControl = ({
 
 /***/ }),
 
+/***/ "./src/Components/Controls/NewInputFieldControl.jsx":
+/*!**********************************************************!*\
+  !*** ./src/Components/Controls/NewInputFieldControl.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const NewInputFieldControl = ({
+  placeholder = "",
+  value = "",
+  type = "text",
+  disabled = false,
+  onChange = () => {},
+  onBlur = () => {},
+  maxLength,
+  minValue,
+  maxValue,
+  align = "left",
+  width,
+  className = "",
+  error = false
+}) => {
+  const handleChange = e => {
+    let val = e.target.value;
+    onChange(val);
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: `servv-input ${className} ${error ? "servv-input__native--error" : ""}`,
+    style: {
+      width: width || "384px"
+    },
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "servv-input__content",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+        type: type,
+        className: `servv-input__native servv-input__native--${align}`,
+        placeholder: placeholder,
+        value: value,
+        disabled: disabled,
+        maxLength: maxLength,
+        min: minValue,
+        max: maxValue,
+        onChange: handleChange,
+        onBlur: onBlur,
+        autoComplete: "off"
+      })
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NewInputFieldControl);
+
+/***/ }),
+
+/***/ "./src/Components/Controls/NewTimeInputControl.jsx":
+/*!*********************************************************!*\
+  !*** ./src/Components/Controls/NewTimeInputControl.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _NewInputFieldControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewInputFieldControl */ "./src/Components/Controls/NewInputFieldControl.jsx");
+/* harmony import */ var _NewTimePeriodControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NewTimePeriodControl */ "./src/Components/Controls/NewTimePeriodControl.jsx");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+const NewTimeInputControl = ({
+  label,
+  time,
+  disabled = false,
+  timeFormat = "hh:mm a",
+  onChange,
+  align = "start",
+  validationError = false
+}) => {
+  const [hours, setHours] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [minutes, setMinutes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [hasError, setHasError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!time) return;
+    const m = moment__WEBPACK_IMPORTED_MODULE_3___default()(time);
+    setHours(timeFormat === "hh:mm a" ? m.format("hh") : m.format("HH"));
+    setMinutes(m.format("mm"));
+    // setHasError(false);
+  }, [time, timeFormat]);
+  const validateTime = (h, m) => {
+    if (h === "" || m === "") return false;
+    const hour = Number(h);
+    const minute = Number(m);
+    if (Number.isNaN(hour) || Number.isNaN(minute)) return false;
+    if (timeFormat === "hh:mm a") {
+      if (hour < 1 || hour > 12) return false;
+    } else {
+      if (hour < 0 || hour > 23) return false;
+    }
+    if (minute < 0 || minute > 59) return false;
+    return true;
+  };
+  const commitTime = (h, m) => {
+    const isValid = validateTime(h, m);
+    setHasError(!isValid);
+    if (!isValid) return;
+    let hour = Number(h);
+    const minute = Number(m);
+    const base = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time) : moment__WEBPACK_IMPORTED_MODULE_3___default()();
+    if (timeFormat === "hh:mm a") {
+      const period = base.format("a");
+      if (period === "pm" && hour !== 12) hour += 12;
+      if (period === "am" && hour === 12) hour = 0;
+    }
+    const newTime = base.clone().set({
+      hour,
+      minute,
+      second: 0
+    });
+    onChange(newTime);
+  };
+  const digitsOnly = v => v.replace(/[^\d]/g, "");
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    className: `input-container-col items-start ${align === "start" ? "grow" : "grow-0"} justify-between`,
+    children: [label && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "section-description",
+      children: label
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "input-container-row items-center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_NewInputFieldControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        value: hours,
+        onChange: v => setHours(digitsOnly(v)),
+        onBlur: () => commitTime(hours, minutes),
+        maxLength: 2,
+        disabled: disabled,
+        align: "center",
+        width: "64px",
+        error: hasError || validationError
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+        className: "section-description",
+        children: ":"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_NewInputFieldControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        value: minutes,
+        onChange: v => setMinutes(digitsOnly(v)),
+        onBlur: () => commitTime(hours, minutes),
+        maxLength: 2,
+        disabled: disabled,
+        align: "center",
+        width: "64px",
+        error: hasError || validationError
+      }), timeFormat === "hh:mm a" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_NewTimePeriodControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        time: time,
+        onChange: val => {
+          const t = time ? moment__WEBPACK_IMPORTED_MODULE_3___default()(time).clone() : moment__WEBPACK_IMPORTED_MODULE_3___default()();
+          const hh = t.hour();
+          if (val === "am" && hh >= 12) t.hour(hh - 12);
+          if (val === "pm" && hh < 12) t.hour(hh + 12);
+          onChange(t);
+        },
+        disabled: disabled
+      })]
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NewTimeInputControl);
+
+/***/ }),
+
+/***/ "./src/Components/Controls/NewTimePeriodControl.jsx":
+/*!**********************************************************!*\
+  !*** ./src/Components/Controls/NewTimePeriodControl.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const NewTimePeriodControl = ({
+  time,
+  disabled = false,
+  onChange = () => {}
+}) => {
+  const period = time ? moment__WEBPACK_IMPORTED_MODULE_1___default()(time).format("a") : "am";
+  const handleToggle = () => {
+    onChange(period === "am" ? "pm" : "am");
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+    type: "button",
+    className: "servv-time-period",
+    onClick: handleToggle,
+    disabled: disabled,
+    children: period
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NewTimePeriodControl);
+
+/***/ }),
+
 /***/ "./src/Components/Controls/PageActionButton.jsx":
 /*!******************************************************!*\
   !*** ./src/Components/Controls/PageActionButton.jsx ***!
@@ -1276,8 +1499,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
 /* harmony import */ var _Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Controls/TimeInputControl */ "./src/Components/Controls/TimeInputControl.jsx");
 /* harmony import */ var _Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Controls/ButtonGroup */ "./src/Components/Controls/ButtonGroup.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Controls/NewTimeInputControl */ "./src/Components/Controls/NewTimeInputControl.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -1308,22 +1533,23 @@ const GeneralSettings = ({
   getDefaultEndTime,
   handleDefaultPriceChange,
   handleDefaultQuantityChange,
-  handleDefaultTypeChange
+  handleDefaultTypeChange,
+  handleDefaultEndTimeChange,
+  getDurationOptions,
+  formatDuration
 }) => {
-  console.log(eventTypes);
-  console.log(settings?.settings?.admin_dashboard?.default_event_type);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
     gap: 8,
     cardsLayout: true,
     className: responsiveBlockStack,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Time zone",
       description: "Set a default time zone.",
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 2,
         className: responsiveBlockStack,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           label: "",
           options: timezones.map(t => t.name),
           selected: settings?.settings?.admin_dashboard?.default_timezone && timezones.findIndex(t => t.id === settings?.settings?.admin_dashboard?.default_timezone) >= 0 ? timezones[timezones.findIndex(t => t.id === settings?.settings?.admin_dashboard?.default_timezone)].name : null,
@@ -1331,33 +1557,33 @@ const GeneralSettings = ({
           className: responsiveInput
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Time format",
       description: "Set a default time format.",
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 4,
         className: responsiveBlockStack,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           label: "",
           options: timeOptions,
           selected: settings?.settings?.time_format_24_hours ? "24 hours" : "12 hours",
           onSelectChange: handleTimeFormatChange,
           className: responsiveInput
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
           label: "Hide timezone abbreviation in email, widget and dashboard.",
           checked: settings?.settings?.hide_time_zone,
           onChange: handleHideTimezoneChange
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Currency format",
       description: "Set a default currency.",
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 2,
         className: responsiveBlockStack,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           label: "",
           options: currencyOptions,
           selected: settings?.settings?.widget_style_settings?.currency_format === "sign" ? "Currency sign: $ / 元" : "Alphabets: USD / CAD / CNY",
@@ -1365,79 +1591,73 @@ const GeneralSettings = ({
           className: responsiveInput
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Duration",
       description: "Set a default event duration.",
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 2,
         cardsLayout: true,
         className: responsiveBlockStack,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
           label: "",
-          options: durationOptions(),
-          selected: settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_duration ? durationOptions()[settings.settings.admin_dashboard.default_duration - 1] : "1 hour",
+          options: getDurationOptions(),
+          selected: settings?.settings?.admin_dashboard?.default_duration ? Number.isInteger(settings.settings.admin_dashboard.default_duration) && settings.settings.admin_dashboard.default_duration <= 12 ? durationOptions()[settings.settings.admin_dashboard.default_duration - 1] : formatDuration(settings.settings.admin_dashboard.default_duration) : "1 hour",
           onSelectChange: val => handleDefaultDurationChange(val),
           className: responsiveInput
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Start / end time",
       description: "Set a default start and end time.",
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 2,
         cardsLayout: true,
         className: responsiveBlockStack,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "flex flex-col md:flex-row gap-5 w-full min-w-0",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          className: "step__time_control",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
             label: "Start time",
             time: getDefaultStartTime(),
             onChange: val => handleDefaultStartTimeChange(val),
-            minValue: 0,
-            maxValue: 12,
-            timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
-            className: responsiveInput
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
             label: "End time",
             time: getDefaultEndTime(),
-            onChange: () => {},
-            minValue: 0,
-            maxValue: 60,
-            disabled: true,
-            timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
-            className: responsiveInput
+            onChange: val => handleDefaultEndTimeChange(val),
+            timeFormat: settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
           })]
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Ticket price",
       description: "Set a default ticket price.",
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 2,
         cardsLayout: true,
         className: responsiveBlockStack,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
           value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_price : 0.0,
           type: "number",
           align: "left",
-          minValue: 0,
-          disabled: isBillingPlanRestriction || !stripeConnected,
+          minValue: 0
+          // disabled={isBillingPlanRestriction || !stripeConnected}
+          ,
           onChange: newVal => handleDefaultPriceChange(newVal),
           className: responsiveInput
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Ticket quantity",
       description: `Set a default ticket quantity. The maximum number of tickets for your plan is ${settings?.free_registrants_limit || 15}`,
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 2,
         cardsLayout: true,
         className: responsiveBlockStack,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
           value: settings && settings.settings && settings.settings.admin_dashboard ? settings.settings.admin_dashboard.default_quantity : 0.0,
           type: "number",
           align: "left",
@@ -1447,15 +1667,15 @@ const GeneralSettings = ({
           className: responsiveInput
         })
       })
-    }), zoomAccount && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), zoomAccount && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
       title: "Location",
       description: "Set a default event location.",
       className: responsiveBlockStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
         gap: 2,
         cardsLayout: true,
         className: responsiveBlockStack,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_ButtonGroup__WEBPACK_IMPORTED_MODULE_6__["default"], {
           title: "",
           buttons: eventTypes.map(type => type.label),
           active: settings && settings.settings && settings.settings.admin_dashboard && settings.settings.admin_dashboard.default_event_type ? eventTypes[eventTypes.map(type => type.value).indexOf(settings.settings.admin_dashboard.default_event_type)].label : "offline",
@@ -1661,9 +1881,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CheckIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XMarkIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ArrowLeftIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CheckIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XMarkIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ArrowLeftIcon.js");
 /* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
@@ -1745,34 +1967,38 @@ const SettingsSection = ({
             className: "w-full h-px bg-[#E6E6EB]"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "flex justify-between items-center w-full h-10",
-            children: [direct && onView ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            children: [direct && onView ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
               onClick: onView,
               className: "flex items-center gap-2 px-4 py-2.5 h-10 bg-white border border-[#D5D7DA] rounded-lg shadow-sm hover:bg-gray-50",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                className: "w-5 h-5 text-[#414651]"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                 className: "text-sm font-semibold text-[#414651]",
                 children: "View"
-              })
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+              })]
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
               onClick: () => {
                 setMode("editing");
                 setActiveSection(sectionId);
               },
               className: "flex items-center gap-2 px-4 py-2.5 h-10 bg-white border border-[#D5D7DA] rounded-lg shadow-sm hover:bg-gray-50",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                className: "w-5 h-5 text-[#414651]"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                 className: "text-sm font-semibold text-[#414651]",
                 children: "Edit"
-              })
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "flex items-center gap-1",
               children: status === "available" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__["default"], {
                   className: "w-5 h-5 text-[#039855]"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                   className: "text-sm text-[#039855]",
                   children: statusText
                 })]
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {
                   className: "w-5 h-5 text-[#717680]"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                   className: "text-sm text-[#717680]",
@@ -1798,7 +2024,7 @@ const SettingsSection = ({
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
             onClick: handleCancel,
             className: "flex items-center gap-2 mb-4 text-[#414651] hover:text-[#6941C6]",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_7__["default"], {
               className: "w-5 h-5"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
               className: "text-sm font-semibold",
@@ -2569,9 +2795,33 @@ const SettingsPage = () => {
     let currentSettings = {
       ...settings
     };
-    let newTime = moment__WEBPACK_IMPORTED_MODULE_1___default()(newVal);
-    currentSettings.settings.admin_dashboard.default_start_time = newTime.format("hh:mm a");
-    setDefaultEndTime(newTime.add(currentSettings.settings.admin_dashboard.default_duration, "hours"));
+    currentSettings.settings.admin_dashboard.default_start_time = newVal.format("hh:mm a");
+    setDefaultEndTime(newVal.clone().add(currentSettings.settings.admin_dashboard.default_duration, "hours"));
+    setSettings(currentSettings);
+  };
+  const handleDefaultEndTimeChange = newVal => {
+    let currentSettings = {
+      ...settings
+    };
+    let startTime = moment__WEBPACK_IMPORTED_MODULE_1___default()(currentSettings.settings.admin_dashboard.default_start_time, "hh:mm a");
+    const base = moment__WEBPACK_IMPORTED_MODULE_1___default()().startOf("day");
+    const startNormalized = base.clone().set({
+      hour: startTime.hour(),
+      minute: startTime.minute()
+    });
+    let endNormalized = base.clone().set({
+      hour: newVal.hour(),
+      minute: newVal.minute()
+    });
+    let diffMinutes = endNormalized.diff(startNormalized, "minutes");
+
+    // If negative, end time is next day (crossed midnight)
+    if (diffMinutes < 0) {
+      endNormalized.add(1, "day");
+      diffMinutes = endNormalized.diff(startNormalized, "minutes");
+    }
+    console.log("start:", startNormalized.format("hh:mm a"), "end:", newVal.format("hh:mm a"), "diff:", diffMinutes);
+    currentSettings.settings.admin_dashboard.default_duration = diffMinutes > 0 ? diffMinutes / 60 : 1;
     setSettings(currentSettings);
   };
   const handleDefaultDurationChange = newVal => {
@@ -2581,7 +2831,7 @@ const SettingsPage = () => {
     let duration = durationOptions().indexOf(newVal);
     currentSettings.settings.admin_dashboard.default_duration = duration + 1;
     const newTime = moment__WEBPACK_IMPORTED_MODULE_1___default()(currentSettings.settings.admin_dashboard.default_start_time, "hh:mm a");
-    setDefaultEndTime(newTime.add(duration + 1, "hours"));
+    setDefaultEndTime(newTime.clone().add(duration + 1, "hours"));
     setSettings(currentSettings);
   };
   const showPaymentOptions = plan => {
@@ -2623,6 +2873,25 @@ const SettingsPage = () => {
     };
     if (newVal <= settings.free_registrants_limit) currentSettings.settings.admin_dashboard.default_quantity = newVal;
     setSettings(currentSettings);
+  };
+  const formatDuration = duration => {
+    if (!duration) return "1 hour";
+    const hours = Math.floor(duration);
+    const minutes = Math.round((duration - hours) * 60);
+    if (hours > 0 && minutes > 0) return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${minutes !== 1 ? "s" : ""}`;
+    if (hours > 0) return `${hours} hour${hours !== 1 ? "s" : ""}`;
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
+  };
+  const getDurationOptions = () => {
+    const options = durationOptions();
+    const duration = settings?.settings?.admin_dashboard?.default_duration;
+    if (duration && !Number.isInteger(duration)) {
+      const custom = formatDuration(duration);
+      if (!options.includes(custom)) {
+        options.push(custom);
+      }
+    }
+    return options;
   };
   const getDefaultStartTime = () => {
     if (settings?.settings?.admin_dashboard?.default_start_time) {
@@ -2676,7 +2945,7 @@ const SettingsPage = () => {
     let currentSettings = {
       ...settings
     };
-    if (newVal === "Zoom Event") currentSettings.settings.admin_dashboard.default_event_type = "online";else currentSettings.settings.admin_dashboard.default_event_type = "offline";
+    if (newVal === "Zoom Event") currentSettings.settings.admin_dashboard.default_event_type = "zoom";else currentSettings.settings.admin_dashboard.default_event_type = "offline";
     setSettings(currentSettings);
   };
   const handleFreeCheckoutChange = () => {
@@ -2961,7 +3230,7 @@ const SettingsPage = () => {
             children: "Settings"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("p", {
             className: "dashboard-description mt-4",
-            children: "Set default values for new events to save time"
+            children: "Set default values to save time"
           })]
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
@@ -3003,7 +3272,10 @@ const SettingsPage = () => {
               getDefaultEndTime: getDefaultEndTime,
               handleDefaultPriceChange: handleDefaultPriceChange,
               handleDefaultQuantityChange: handleDefaultQuantityChange,
-              handleDefaultTypeChange: handleDefaultTypeChange
+              handleDefaultTypeChange: handleDefaultTypeChange,
+              handleDefaultEndTimeChange: handleDefaultEndTimeChange,
+              getDurationOptions: getDurationOptions,
+              formatDuration: formatDuration
             })
           }), (!activeSection || activeSection === "reminders") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_15__["default"], {
             icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_28__["default"],
@@ -4644,4 +4916,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=efa4e0bab9221e67a9a0
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=c6a23c81aa6be034e634

@@ -5,7 +5,7 @@ import CheckboxControl from "../../Controls/CheckboxControl";
 import InputFieldControl from "../../Controls/InputFieldControl";
 import TimeInputControl from "../../Controls/TimeInputControl";
 import ButtonGroup from "../../Controls/ButtonGroup";
-
+import NewTimeInputControl from "../../Controls/NewTimeInputControl";
 const GeneralSettings = ({
   settings,
   timezones,
@@ -29,9 +29,10 @@ const GeneralSettings = ({
   handleDefaultPriceChange,
   handleDefaultQuantityChange,
   handleDefaultTypeChange,
+  handleDefaultEndTimeChange,
+  getDurationOptions,
+  formatDuration,
 }) => {
-  console.log(eventTypes);
-  console.log(settings?.settings?.admin_dashboard?.default_event_type);
   return (
     <BlockStack gap={8} cardsLayout={true} className={responsiveBlockStack}>
       <AnnotatedSection
@@ -117,15 +118,18 @@ const GeneralSettings = ({
         <BlockStack gap={2} cardsLayout={true} className={responsiveBlockStack}>
           <SelectControl
             label=""
-            options={durationOptions()}
+            options={getDurationOptions()}
             selected={
-              settings &&
-              settings.settings &&
-              settings.settings.admin_dashboard &&
-              settings.settings.admin_dashboard.default_duration
-                ? durationOptions()[
-                    settings.settings.admin_dashboard.default_duration - 1
-                  ]
+              settings?.settings?.admin_dashboard?.default_duration
+                ? Number.isInteger(
+                    settings.settings.admin_dashboard.default_duration,
+                  ) && settings.settings.admin_dashboard.default_duration <= 12
+                  ? durationOptions()[
+                      settings.settings.admin_dashboard.default_duration - 1
+                    ]
+                  : formatDuration(
+                      settings.settings.admin_dashboard.default_duration,
+                    )
                 : "1 hour"
             }
             onSelectChange={(val) => handleDefaultDurationChange(val)}
@@ -140,29 +144,22 @@ const GeneralSettings = ({
         className={responsiveBlockStack}
       >
         <BlockStack gap={2} cardsLayout={true} className={responsiveBlockStack}>
-          <div className="flex flex-col md:flex-row gap-5 w-full min-w-0">
-            <TimeInputControl
+          <div className="step__time_control">
+            <NewTimeInputControl
               label="Start time"
               time={getDefaultStartTime()}
               onChange={(val) => handleDefaultStartTimeChange(val)}
-              minValue={0}
-              maxValue={12}
               timeFormat={
                 settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
               }
-              className={responsiveInput}
             />
-            <TimeInputControl
+            <NewTimeInputControl
               label="End time"
               time={getDefaultEndTime()}
-              onChange={() => {}}
-              minValue={0}
-              maxValue={60}
-              disabled={true}
+              onChange={(val) => handleDefaultEndTimeChange(val)}
               timeFormat={
                 settings?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
               }
-              className={responsiveInput}
             />
           </div>
         </BlockStack>
@@ -183,7 +180,7 @@ const GeneralSettings = ({
             type="number"
             align="left"
             minValue={0}
-            disabled={isBillingPlanRestriction || !stripeConnected}
+            // disabled={isBillingPlanRestriction || !stripeConnected}
             onChange={(newVal) => handleDefaultPriceChange(newVal)}
             className={responsiveInput}
           />

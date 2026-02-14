@@ -14,6 +14,7 @@ import {
   LanguageIcon,
   TagIcon,
   UserGroupIcon,
+  EyeIcon,
 } from "@heroicons/react/16/solid";
 
 import { useServvStore } from "../../store/useServvStore";
@@ -96,13 +97,22 @@ const FiltersPage = () => {
           onSave={() => navigate(`/filters/list/${filter}`)}
         >
           <div className="flex gap-2 mt-4">
-            <PageActionButton
+            {/* <PageActionButton
               text="View"
               type="secondary"
               slim
-              onAction={() => navigate(`/filters/list/${filter}`)}
+              
               className="flex-1"
-            />
+            /> */}
+
+            {/* Edit button */}
+            <button
+              onAction={() => navigate(`/filters/list/${filter}`)}
+              className="flex items-center gap-2 px-4 py-2.5 h-10 bg-white border border-[#D5D7DA] rounded-lg shadow-sm hover:bg-gray-50"
+            >
+              <EyeIcon className="w-5 h-5 text-[#414651]" />
+              <span className="text-sm font-semibold text-[#414651]">View</span>
+            </button>
             <PageActionButton
               text={isLimitReached ? "Limit reached" : "Create"}
               type="primary"
@@ -166,6 +176,7 @@ const FiltersPage = () => {
                 </p>
               )}
             </div>
+            <div className="header-line mt-4" />
             <Dropdown
               activator={
                 <PageActionButton
@@ -182,8 +193,6 @@ const FiltersPage = () => {
               <ul className="filters-dropdown">{renderDropdownMenu()}</ul>
             </Dropdown>
           </div>
-
-          <div className="header-line mt-4" />
 
           <PageContent className="py-0 my-0">
             <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))] gap-6 items-stretch">

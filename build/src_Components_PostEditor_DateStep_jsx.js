@@ -896,6 +896,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var _CalendarInline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CalendarInline */ "./src/Components/PostEditor/CalendarInline.jsx");
 /* harmony import */ var _Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/NewSelectControl */ "./src/Components/Controls/NewSelectControl.jsx");
 /* harmony import */ var _Controls_NewTimeInputControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Controls/NewTimeInputControl */ "./src/Components/Controls/NewTimeInputControl.jsx");
@@ -905,9 +906,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Controls/RecurrenceRadioGroup */ "./src/Components/Controls/RecurrenceRadioGroup.jsx");
 /* harmony import */ var _Controls_NewRecurringControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Controls/NewRecurringControl */ "./src/Components/Controls/NewRecurringControl.jsx");
 /* harmony import */ var _NewEndDateControl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./NewEndDateControl */ "./src/Components/PostEditor/NewEndDateControl.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
+
 
 
 
@@ -954,9 +955,13 @@ const DateStep = ({
   }));
 
   /* ---------- timezone init from settings ---------- */
-
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useSearchParams)();
+  const timezonFromOnboarding = searchParams.get("timezone");
   const getDefaultTimezoneFromSettings = () => {
     const hardDefault = "America/Los_Angeles";
+    if (timezonFromOnboarding && timezonFromOnboarding.length > 0) {
+      return timezonFromOnboarding;
+    }
     const guessed = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz.guess();
     const raw = settings?.settings?.admin_dashboard;
     if (!raw) {
@@ -984,7 +989,6 @@ const DateStep = ({
     setUserTimezone(tzFromSettings);
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
         timezone: tzFromSettings
       }
     });
@@ -994,7 +998,6 @@ const DateStep = ({
     if (userTimezone === timezone) return;
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
         timezone: userTimezone
       }
     });
@@ -1009,11 +1012,16 @@ const DateStep = ({
 
   const handleDateChange = selectedDate => {
     if (!selectedDate) return;
-    const updated = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()(selectedDate).hour(startMoment.hour()).minute(startMoment.minute());
+    const newDate = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()(selectedDate);
+    if (newDate.isSame(startMoment, "day")) return;
+    const updated = newDate.hour(startMoment.hour()).minute(startMoment.minute());
+    const timezone = attributes?.meeting?.timezone;
+    const now = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()().tz(timezone);
+    const userSelection = moment_timezone__WEBPACK_IMPORTED_MODULE_5___default().tz(updated.format("YYYY-MM-DD HH:mm"), timezone);
+    setHasInvalidStartTime(userSelection.isBefore(now));
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
-        startTime: updated.toISOString()
+        startTime: updated.format("YYYY-MM-DDTHH:mm:ss")
       }
     });
   };
@@ -1027,7 +1035,6 @@ const DateStep = ({
     if (!updated.isSame(startMoment)) {
       setAttributes({
         meeting: {
-          ...(attributes.meeting || {}),
           startTime: updated.format("YYYY-MM-DDTHH:mm:ss")
         }
       });
@@ -1042,7 +1049,6 @@ const DateStep = ({
     if (newDuration !== duration) {
       setAttributes({
         meeting: {
-          ...(attributes.meeting || {}),
           duration: Math.max(0, newDuration)
         }
       });
@@ -1056,7 +1062,6 @@ const DateStep = ({
   const handleRecurrenceModeChange = mode => {
     setAttributes({
       meeting: {
-        ...(attributes.meeting || {}),
         recurrence: mode === "recurring" ? {
           type: 1,
           repeat_interval: 1,
@@ -1078,7 +1083,6 @@ const DateStep = ({
     if (!startTime) {
       setAttributes({
         meeting: {
-          ...(attributes.meeting || {}),
           startTime: moment_timezone__WEBPACK_IMPORTED_MODULE_5___default()().toISOString(),
           duration: duration !== null && duration !== void 0 ? duration : 60
         }
@@ -1179,7 +1183,6 @@ const DateStep = ({
             onChange: updatedRecurrence => {
               setAttributes({
                 meeting: {
-                  ...(attributes.meeting || {}),
                   recurrence: updatedRecurrence
                 }
               });
@@ -1191,7 +1194,6 @@ const DateStep = ({
               recurrence: recurrence,
               onChange: updatedRecurrence => setAttributes({
                 meeting: {
-                  ...(attributes.meeting || {}),
                   recurrence: updatedRecurrence
                 }
               }),
@@ -1209,6 +1211,7 @@ const DateStep = ({
             type: "button",
             className: "servv_button servv_button--primary",
             onClick: () => changeStep("venue"),
+            disabled: hasInvalidStartTime,
             children: "Continue"
           })]
         })]
@@ -1947,4 +1950,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=262c69d76ee5afd5bf89
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=200a1fe7a2716529bec7

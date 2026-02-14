@@ -630,13 +630,15 @@ const Dashboard = () => {
     }
     navigate(url);
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    const redirectUrl = localStorage.getItem("redirectToOnboarding");
-    if (redirectUrl) {
-      localStorage.removeItem("redirectToOnboarding");
-      window.location.replace(redirectUrl);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const redirectUrl = localStorage.getItem("redirectToOnboarding");
+
+  //   if (redirectUrl) {
+  //     localStorage.removeItem("redirectToOnboarding");
+  //     window.location.replace(redirectUrl);
+  //   }
+  // }, []);
+
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     const onboardingSkipped = localStorage.getItem("onboardingSkipped") === "1";
     if (firstFetchDone && meetingsList.length === 0 && !zoomConnected && !onboardingSkipped) {
@@ -2366,4 +2368,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=020456c44e6fcc2baafb
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=16ce20485888424c631e

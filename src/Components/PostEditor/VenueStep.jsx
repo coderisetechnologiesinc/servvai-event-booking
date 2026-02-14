@@ -29,6 +29,11 @@ const VenueStep = ({
       },
     });
   };
+  useEffect(() => {
+    if (filtersList?.locations?.length === 1) {
+      handleLocationChange(filtersList.locations[0].id);
+    }
+  }, [filtersList]);
 
   const handleVenueChange = (newVal) => {
     let newEventType = 1;

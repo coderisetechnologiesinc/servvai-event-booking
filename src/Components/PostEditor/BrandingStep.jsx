@@ -120,7 +120,7 @@ const BrandingStep = ({
       <div className="step__header step__header--centered">
         <BrushIcon className="step__header_icon" />
         <div className="step__heading step__heading--centered">
-          <h4 className="step__header_title">Branding</h4>
+          <h4 className="step__header_title">Event details</h4>
           <p className="step__description">Add event information and image</p>
         </div>
       </div>
