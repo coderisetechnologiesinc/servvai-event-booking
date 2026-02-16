@@ -81,4 +81,4 @@ Currently, only the Stripe payment gateway is supported.
 
 == Changelog ==
 
-Link: http://support.servv.ai/changelogs/changelog/
+Link: https://support.servv.ai/changelogs/releasenotes/
