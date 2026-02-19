@@ -102,7 +102,7 @@ const NewSelectControl = ({
       style: style,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
         className: "servv-select__native",
-        value: value,
+        value: value !== null && value !== void 0 ? value : "",
         onChange: e => onChange(e.target.value),
         disabled: disabled,
         children: [helpText && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
@@ -150,7 +150,9 @@ __webpack_require__.r(__webpack_exports__);
 const FiltersStep = ({
   attributes,
   setAttributes,
-  changeStep
+  changeStep,
+  isNew,
+  handleFormSubmit
 }) => {
   const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_3__.useServvStore)(s => s.filtersList);
 
@@ -158,7 +160,7 @@ const FiltersStep = ({
   const filters = attributes.filters || {};
   const categoryId = filters.category_id || "";
   const languageId = filters.language_id || "";
-  const memberIds = filters.members || [];
+  const memberIds = filters.members || null;
 
   // custom fields
   const customFields = attributes.custom_fields || {};
@@ -246,6 +248,7 @@ const FiltersStep = ({
               className: "step__content_title",
               children: "Members"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_1__["default"], {
+              helpText: "Select member",
               value: memberIds,
               options: mapOptions(filtersList.members),
               multiple: true,
@@ -289,7 +292,12 @@ const FiltersStep = ({
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "servv_actions mt-auto",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+      children: [!isNew && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+        type: "button",
+        className: "servv_button servv_button--secondary",
+        onClick: () => handleFormSubmit(true),
+        children: "Save and Exit"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
         type: "button",
         className: "servv_button servv_button--secondary",
         onClick: () => changeStep("tickets"),
@@ -348,4 +356,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=b46148da2b325341d051
+//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=0cef83c8c4549d7c6272

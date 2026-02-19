@@ -16,7 +16,7 @@ export const useServvStore = create(
       settings: null,
       filtersList: {},
       filtersHash: null,
-
+      zoomAccount: null,
       zoomConnected: false,
       stripeConnected: false,
       stripeCurrency: "CAD",
@@ -57,7 +57,7 @@ export const useServvStore = create(
       syncZoomAccount: async () => {
         try {
           const zoom = await getZoomAccount();
-          set({ zoomConnected: !!zoom?.data?.id });
+          set({ zoomConnected: !!zoom?.data?.id, zoomAccount: zoom.data });
         } catch (e) {
           console.error("Zoom account sync error", e);
         }

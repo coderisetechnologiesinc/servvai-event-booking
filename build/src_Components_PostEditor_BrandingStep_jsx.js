@@ -98,7 +98,7 @@ const RadioGroup = ({
         value: opt.value,
         checked: value === opt.value,
         onChange: () => onChange(opt.value),
-        disabled: disabled
+        disabled: disabled || opt.disabled
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "servv-radio__control"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
@@ -361,7 +361,12 @@ const BrandingStep = ({
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "servv_actions",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        children: [!isNew && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+          type: "button",
+          className: "servv_button servv_button--secondary",
+          onClick: () => handleFormSubmit(true),
+          children: "Save and Exit"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           type: "button",
           className: "servv_button servv_button--secondary",
           onClick: () => changeStep("venue"),
@@ -388,4 +393,4 @@ const BrandingStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=1208bf1e53e7773fc79d
+//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=78ce0892a1f2fa6a3947

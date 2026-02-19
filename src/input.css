@@ -361,8 +361,9 @@
     @apply text-primary-button-bg underline font-semibold;
   }
   .badge {
-    @apply flex flex-row flex-nowrap border border-gray-300 text-gray-700 rounded-lg py-0.5 px-[0.125rem] text-xs grow-0 items-center justify-center whitespace-nowrap md:text-sm md:text-[0.65rem];
+    @apply min-w-[55px] flex flex-row flex-nowrap border border-gray-300 text-gray-700 rounded-lg py-0.5 px-[0.125rem] text-xs grow-0 items-center justify-center whitespace-nowrap md:text-sm md:text-[0.65rem];
   }
+
   .badge-icon {
     @apply w-4;
   }
@@ -595,7 +596,7 @@
   }
   .bookings-table th:nth-last-child(2),
   .bookings-table td:nth-last-child(2) {
-    @apply w-[60px] max-w-[60px] whitespace-nowrap overflow-hidden text-center;
+    @apply w-[65px] max-w-[70px] whitespace-nowrap overflow-hidden text-center;
   }
   .bookings-table th:nth-last-child(3),
   .bookings-table td:nth-last-child(3) {
@@ -609,7 +610,10 @@
     }
 
     .bookings-table tr {
-      @apply block mb-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm;
+      @apply block mb-3 border-b border-gray-200 bg-white p-3 shadow-sm;
+    }
+    .bookings-table tr:last-child {
+      @apply border-0;
     }
 
     /* Reset ALL width limits on mobile */
@@ -636,7 +640,7 @@
 
     /* Actions row stays right if needed */
     .bookings-table td:last-child {
-      @apply flex-row justify-end items-center;
+      @apply flex-row justify-end items-center border-0;
     }
     .bookings-table th:last-child,
     .bookings-table td:last-child,
@@ -865,9 +869,10 @@
     flex-direction: column;
     gap: 40px;
     border-radius: 16px;
-    flex: 1;
-    /* min-height: calc(100vh - 64px); */
-    height: max-content;
+    min-height: calc(100vh - 64px);
+    height: auto;
+    flex: 1 1 auto;
+    /* height: max-content; */
   }
   .servv-dashboard-header {
     display: flex;
@@ -1029,7 +1034,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    flex: 1;
+    /* flex: 1; */
   }
   .events-actions-panel {
     display: flex;
@@ -2010,7 +2015,7 @@
   .step__description {
     font-family: "Inter", sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     color: rgba(113, 118, 128, 1);
   }
@@ -3002,6 +3007,8 @@
     font-size: 14px;
     color: #717680;
     text-align: center;
+    word-break: break-all;
+    max-width: 375px;
   }
 
   /* availability */

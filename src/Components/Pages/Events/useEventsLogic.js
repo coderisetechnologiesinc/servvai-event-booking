@@ -65,9 +65,13 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
     const { id, occurrence_id } = selected;
 
     if (occurrence_id) {
-      navigate(`/events/${eventType}/${id}?occ=${occurrence_id}`);
+      navigate(`/events/${eventType}/${id}?occ=${occurrence_id}`, {
+        state: { from: location.pathname },
+      });
     } else {
-      navigate(`/events/${eventType}/${id}`);
+      navigate(`/events/${eventType}/${id}`, {
+        state: { from: location.pathname },
+      });
     }
   };
   const normalizeDate = (d) => {

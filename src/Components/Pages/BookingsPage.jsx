@@ -24,28 +24,69 @@ import {
   Bars4Icon,
   PencilSquareIcon,
   EyeIcon,
+  CalendarDaysIcon,
   PaperAirplaneIcon,
   XCircleIcon,
+  XMarkIcon,
   WalletIcon,
   AdjustmentsVerticalIcon,
   ArrowDownOnSquareStackIcon,
 } from "@heroicons/react/16/solid";
 import { useServvStore } from "../../store/useServvStore";
 import SpinnerLoader from "./SpinnerLoader";
+import AnimatedModal from "../AnimatedModal";
+import CalendarInline from "../PostEditor/CalendarInline";
+
+// =====================================================================
+// HEADINGS STORAGE HELPERS
+// =====================================================================
+
+const HEADINGS_STORAGE_KEY = "servv_bookings_headings";
+
+const defaultHeadings = [
+  { label: "Order ID", value: "order", visible: true },
+  { label: "Order Date/Time", value: "date", visible: true },
+  { label: "Registrant", value: "registrant", visible: true },
+  { label: "Title", value: "title", visible: true },
+  { label: "Occurrence", value: "occurrence", visible: true },
+  { label: "Mode", value: "paid", visible: true },
+  { label: "Status", value: "status", visible: true },
+];
+
+const loadHeadings = () => {
+  try {
+    const saved = localStorage.getItem(HEADINGS_STORAGE_KEY);
+    if (!saved) return defaultHeadings;
+    const savedMap = JSON.parse(saved); // { [value]: boolean }
+    return defaultHeadings.map((h) =>
+      h.value in savedMap ? { ...h, visible: savedMap[h.value] } : h,
+    );
+  } catch {
+    return defaultHeadings;
+  }
+};
+
+const saveHeadings = (updated) => {
+  try {
+    const savedMap = Object.fromEntries(
+      updated.map((h) => [h.value, h.visible]),
+    );
+    localStorage.setItem(HEADINGS_STORAGE_KEY, JSON.stringify(savedMap));
+  } catch {}
+};
+
+// =====================================================================
+// COMPONENT
+// =====================================================================
 
 const BookingsPage = () => {
-  const { settings, timezone, stripeCurrency } = useServvStore();
+  const { settings, stripeCurrency } = useServvStore();
   const [timeFormat, setTimeFormat] = useState("hh:mm a");
   const [loading, setLoading] = useState(false);
-  const [headings, setHeadings] = useState([
-    { label: "Order ID", value: "order", visible: true },
-    { label: "Order Date/Time", value: "date", visible: true },
-    { label: "Registrant", value: "registrant", visible: true },
-    { label: "Title", value: "title", visible: true },
-    { label: "Occurrence", value: "occurrence", visible: true },
-    { label: "Mode", value: "paid", visible: true },
-    { label: "Status", value: "status", visible: true },
-  ]);
+  const [timezone, setTimezone] = useState("US/Pacific");
+  // Lazy initializer reads from localStorage once on mount
+  const [headings, setHeadings] = useState(loadHeadings);
+
   const timeIntervals = [
     { label: "All time", value: "all" },
     { label: "12 month", value: "12" },
@@ -54,16 +95,14 @@ const BookingsPage = () => {
   ];
 
   const providers = ["offline", "zoom"];
+  const [calendarModalOpen, setCalendarModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [customizeDropdown, setCustomizeDropdown] = useState(false);
   const [bookings, setBookings] = useState(false);
   const [selectedInterval, setSelectedTimeInterval] = useState("all");
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchString, setSearchString] = useState("");
-  const [dates, setDates] = useState({
-    startDate: null,
-    endDate: null,
-  });
+  const [dates, setDates] = useState({ startDate: null, endDate: null });
   const [price, setPrice] = useState({ from: null, to: null });
   const [filterDropdown, setFilterDropdown] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState({
@@ -80,6 +119,25 @@ const BookingsPage = () => {
     return { id: zone, name: timezonesList[zone] };
   });
 
+  const getTimezoneFromSettings = (settings) => {
+    const hardDefault = "America/Los_Angeles";
+
+    const guessed = moment.tz.guess();
+    const raw = settings?.settings?.admin_dashboard;
+
+    if (!raw) return moment.tz.zone(guessed) ? guessed : hardDefault;
+
+    try {
+      const parsed = typeof raw === "string" ? JSON.parse(raw.trim()) : raw;
+      const savedTz = parsed?.default_timezone;
+      if (savedTz && moment.tz.zone(savedTz)) return savedTz;
+      return moment.tz.zone(guessed) ? guessed : hardDefault;
+    } catch (err) {
+      console.warn("Invalid admin_dashboard JSON:", err);
+      return moment.tz.zone(guessed) ? guessed : hardDefault;
+    }
+  };
+
   useEffect(() => {
     if (!customizeDropdown) return;
     const handleClickOutside = (event) => {
@@ -93,6 +151,7 @@ const BookingsPage = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [customizeDropdown]);
+
   useEffect(() => {
     if (settings?.settings) {
       if (settings.settings.time_format_24_hours) setTimeFormat("HH:mm");
@@ -137,39 +196,28 @@ const BookingsPage = () => {
 
   const handleSelectAll = () => {
     if (!bookings || bookings.bookings.length === 0) return;
-
-    let newOrders = [];
     if (selectedOrder.length === bookings.bookings.length) {
       setSelectedOrder([]);
       return;
     }
-    bookings.bookings.forEach((booking) => {
-      newOrders.push(booking.id);
-    });
-    setSelectedOrder(newOrders);
+    setSelectedOrder(bookings.bookings.map((booking) => booking.id));
   };
 
   const resendConfirmations = async ({ id, occurrence, registrant }) => {
     setLoading(true);
-
     const registrants = registrant.includes(",")
       ? registrant.split(",")
       : [registrant];
-
     try {
       for (const reg of registrants) {
         let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${reg}/resend`;
-        if (occurrence) {
-          url += `?occurrence_id=${occurrence}`;
-        }
-
+        if (occurrence) url += `?occurrence_id=${occurrence}`;
         await axios(url, {
           method: "POST",
           headers: { "X-WP-Nonce": servvData.nonce },
         });
       }
-
-      toast("Emails successfully resent to all registrants");
+      toast("Emails successfully resent to the registrant");
     } catch (error) {
       toast("Failed to resend emails");
     } finally {
@@ -184,7 +232,7 @@ const BookingsPage = () => {
     const refundBookingResponse = await axios(url, {
       method: "POST",
       headers: { "X-WP-Nonce": servvData.nonce },
-    }).catch((error) => {
+    }).catch(() => {
       toast("Failed to refund booking");
       setActiveDropdown(null);
       setLoading(false);
@@ -202,27 +250,39 @@ const BookingsPage = () => {
     const refundBookingResponse = await axios(url, {
       method: "POST",
       headers: { "X-WP-Nonce": servvData.nonce },
-    }).catch((error) => {
+    }).catch(() => {
       toast("Failed to cancel booking");
       setActiveDropdown(null);
       setLoading(false);
     });
     if (refundBookingResponse && refundBookingResponse.status === 200) {
       toast("Booking successfully cancelled");
+
+      let newBookings = { ...bookings };
+      newBookings = {
+        ...newBookings,
+        bookings: newBookings.bookings.map((booking) => {
+          if (booking.id === id) {
+            console.log(booking, id);
+
+            return { ...booking, active_registrants: 0 };
+          }
+          return { ...booking };
+        }),
+      };
+      setBookings(newBookings);
+
+      setActiveDropdown(null);
+      setLoading(false);
     }
-    setActiveDropdown(null);
-    setLoading(false);
   };
 
   const setActive = (id) => {
-    if (activeDropdown === id) {
-      setActiveDropdown(null);
-    } else setActiveDropdown(id);
+    setActiveDropdown(activeDropdown === id ? null : id);
   };
 
   const getDates = () => {
     let datesValue = { startDate: null, endDate: null };
-
     if (dates.startDate) {
       const d = dates.startDate;
       datesValue.startDate = new Date(
@@ -234,7 +294,6 @@ const BookingsPage = () => {
         d.second(),
       );
     }
-
     if (dates.endDate) {
       const d = dates.endDate;
       datesValue.endDate = new Date(
@@ -246,13 +305,16 @@ const BookingsPage = () => {
         d.second(),
       );
     }
-
     return datesValue;
   };
 
+  useEffect(() => {
+    const timezoneFromSettings = getTimezoneFromSettings();
+    setTimezone(timezoneFromSettings);
+  }, [settings]);
+
   const handleSetDates = (dates) => {
     let startDate = null;
-
     if (dates.startDate)
       startDate = moment.tz(
         {
@@ -263,7 +325,7 @@ const BookingsPage = () => {
           minute: 0,
           second: 0,
         },
-        timezone.id,
+        timezone,
       );
     let endDate = null;
     if (dates.endDate)
@@ -276,13 +338,9 @@ const BookingsPage = () => {
           minute: 59,
           second: 0,
         },
-        timezone.id,
+        timezone,
       );
-
-    setDates({
-      startDate: startDate ? startDate : null,
-      endDate: endDate ? endDate : null,
-    });
+    setDates({ startDate: startDate ?? null, endDate: endDate ?? null });
   };
 
   const fetchBookings = async ({ page = 1 } = {}) => {
@@ -301,29 +359,25 @@ const BookingsPage = () => {
       } else if (selectedInterval === "7") {
         startDate = moment(endDate).subtract(7, "days");
       }
-
       if (!firstFetch.current && startDate) {
         params.push(`from_datetime=${startDate.format("YYYY-MM-DD HH:mm:ss")}`);
         params.push(`to_datetime=${endDate.format("YYYY-MM-DD HH:mm:ss")}`);
       }
     } else if (dates.startDate && dates.endDate) {
-      const start = moment(dates.startDate);
-      const end = moment(dates.endDate);
-      params.push(`from_datetime=${start.format("YYYY-MM-DD HH:mm:ss")}`);
-      params.push(`to_datetime=${end.format("YYYY-MM-DD HH:mm:ss")}`);
+      params.push(
+        `from_datetime=${moment(dates.startDate).format(
+          "YYYY-MM-DD HH:mm:ss",
+        )}`,
+      );
+      params.push(
+        `to_datetime=${moment(dates.endDate).format("YYYY-MM-DD HH:mm:ss")}`,
+      );
     }
 
-    if (searchString.length > 0) {
+    if (searchString.length > 0)
       params.push(`search=${encodeURIComponent(searchString)}`);
-    }
-
-    if (price.from) {
-      params.push(`from_price=${price.from}`);
-    }
-
-    if (price.to) {
-      params.push(`to_price=${price.to}`);
-    }
+    if (price.from) params.push(`from_price=${price.from}`);
+    if (price.to) params.push(`to_price=${price.to}`);
 
     if (!selectedProvider.offline && !selectedProvider.zoom) {
       setLoading(false);
@@ -332,8 +386,9 @@ const BookingsPage = () => {
     }
 
     if (selectedProvider.offline !== selectedProvider.zoom) {
-      const provider = selectedProvider.offline ? "offline" : "zoom";
-      params.push(`event_provider=${provider}`);
+      params.push(
+        `event_provider=${selectedProvider.offline ? "offline" : "zoom"}`,
+      );
     }
 
     params.push(`page=${page}`, `page_size=10`);
@@ -342,10 +397,7 @@ const BookingsPage = () => {
       const response = await axios(`${url}?${params.join("&")}`, {
         headers: { "X-WP-Nonce": servvData.nonce },
       });
-
-      if (response.status === 200) {
-        setBookings(response.data);
-      }
+      if (response.status === 200) setBookings(response.data);
     } catch (error) {
       toast("Servv was unable to fetch bookings.");
     }
@@ -356,7 +408,6 @@ const BookingsPage = () => {
   const onFiltering = async () => {
     await fetchBookings();
   };
-
   const changeFilterDropdown = () => {
     setFilterDropdown(!filterDropdown);
   };
@@ -368,27 +419,26 @@ const BookingsPage = () => {
   const handleChangeTimeInterval = (newVal) => {
     setSelectedTimeInterval(newVal);
   };
+  console.log(loading);
 
-  const renderHeadings = () => {
-    return (
-      <Fragment>
-        <th>
-          <CheckboxControl
-            onChange={() => handleSelectAll()}
-            checked={
-              bookings &&
-              bookings.bookings &&
-              selectedOrder.length === bookings.bookings.length
-            }
-          />
-        </th>
-        {headings.map((heading) => {
-          if (heading.visible) return <th>{heading.label}</th>;
-        })}
-        <th></th>
-      </Fragment>
-    );
-  };
+  const renderHeadings = () => (
+    <Fragment>
+      <th>
+        <CheckboxControl
+          onChange={() => handleSelectAll()}
+          checked={
+            bookings &&
+            bookings.bookings &&
+            selectedOrder.length === bookings.bookings.length
+          }
+        />
+      </th>
+      {headings.map((heading) =>
+        heading.visible ? <th key={heading.value}>{heading.label}</th> : null,
+      )}
+      <th></th>
+    </Fragment>
+  );
 
   const isRefundAvailable = () => {
     let selectedBookings = bookings.bookings.map(
@@ -406,7 +456,6 @@ const BookingsPage = () => {
 
       return (
         <tr className="table-row" key={row.id}>
-          {/* CHECKBOX */}
           <td className="w-auto whitespace-nowrap">
             <CheckboxControl
               checked={selectedOrder.includes(row.id)}
@@ -415,7 +464,6 @@ const BookingsPage = () => {
             />
           </td>
 
-          {/* DYNAMIC COLUMNS */}
           {headings.map((heading) => {
             if (!heading.visible) return null;
 
@@ -446,14 +494,14 @@ const BookingsPage = () => {
 
               case "registrant":
                 return (
-                  <td data-tooltip data-full={row.email}>
+                  <td key="registrant" data-tooltip data-full={row.email}>
                     <span className="cell-truncate">{row.email}</span>
                   </td>
                 );
 
               case "title":
                 return (
-                  <td data-tooltip data-full={row.product_name}>
+                  <td key="title" data-tooltip data-full={row.product_name}>
                     <span className="cell-truncate font-semibold text-sm">
                       {row.product_name}
                     </span>
@@ -517,7 +565,6 @@ const BookingsPage = () => {
             }
           })}
 
-          {/* ACTIONS */}
           <td className="w-auto shrink-0 whitespace-nowrap text-right">
             <button onClick={() => setActive(row.id)}>
               <Bars4Icon className="dropdown-icon" />
@@ -528,7 +575,7 @@ const BookingsPage = () => {
                 <span className="dropdown-header">
                   #{row.id}
                   <p
-                    className="dropdown-description wrap-break-word"
+                    className="dropdown-description wrap-break-word truncate max-w-xs"
                     data-full={row.email}
                   >
                     {row.email}
@@ -554,29 +601,30 @@ const BookingsPage = () => {
                   </div>
                 )}
 
-                <div className="dropdown-actions border-t w-full">
-                  <BlockStack gap={4}>
-                    {row.price > 0 && (
-                      <button
-                        className="dropdown-action"
-                        onClick={() => refundBooking(row.id)}
-                      >
-                        <WalletIcon className="dropdown-icon" />
-                        {t("Issue refund")}
-                      </button>
-                    )}
-
-                    {row.active_registrants > 0 && (
-                      <button
-                        className="dropdown-action"
-                        onClick={() => cancelBookings(row.id)}
-                      >
-                        <XCircleIcon className="dropdown-icon" />
-                        {t("Cancel booking")}
-                      </button>
-                    )}
-                  </BlockStack>
-                </div>
+                {row.active_registrants > 0 && (
+                  <div className="dropdown-actions border-t w-full">
+                    <BlockStack gap={4}>
+                      {row.price > 0 && (
+                        <button
+                          className="dropdown-action"
+                          onClick={() => refundBooking(row.id)}
+                        >
+                          <WalletIcon className="dropdown-icon" />
+                          {t("Issue refund")}
+                        </button>
+                      )}
+                      {row.active_registrants > 0 && (
+                        <button
+                          className="dropdown-action"
+                          onClick={() => cancelBookings(row.id)}
+                        >
+                          <XCircleIcon className="dropdown-icon" />
+                          {t("Cancel booking")}
+                        </button>
+                      )}
+                    </BlockStack>
+                  </div>
+                )}
               </div>
             )}
           </td>
@@ -588,89 +636,76 @@ const BookingsPage = () => {
   const onChange = (newValue) => {
     setSearchString(newValue);
   };
-
   const handleEnterButton = (event) => {
-    if (event.key === "Enter") {
-      fetchBookings();
-    }
+    if (event.key === "Enter") fetchBookings();
   };
 
-  const customizeHeading = (heading) => {
-    let newHeadings = [...headings];
-    let selectedHeading = headings
-      .map((heading) => heading.value)
-      .indexOf(heading);
-    newHeadings[selectedHeading].visible = !headings[selectedHeading].visible;
+  // ── column customization ──
+  const customizeHeading = (value) => {
+    const newHeadings = headings.map((h) =>
+      h.value === value ? { ...h, visible: !h.visible } : h,
+    );
     setHeadings(newHeadings);
+    saveHeadings(newHeadings); // persist immediately on every toggle
   };
 
-  const renderHeadingsCustomization = () => {
-    return headings.map((heading) => (
+  const renderHeadingsCustomization = () =>
+    headings.map((heading) => (
       <CheckboxControl
+        key={heading.value}
         label={heading.label}
         name={heading.label}
         checked={heading.visible}
         onChange={() => customizeHeading(heading.value)}
       />
     ));
-  };
 
   const handlePriceChange = (newVal, attribute) => {
     const newPrice = { ...price };
     let newPriceValue = newVal.replace(".", ",");
-    if (attribute === "from") {
-      newPrice.from = Number.parseFloat(newPriceValue);
-    } else {
-      newPrice.to = Number.parseFloat(newPriceValue);
-    }
+    if (attribute === "from") newPrice.from = Number.parseFloat(newPriceValue);
+    else newPrice.to = Number.parseFloat(newPriceValue);
     setPrice({ ...newPrice });
   };
 
   const handleSelectProvider = (provider) => {
     let newProvidersSelection = { ...selectedProvider };
-
-    if (provider === "offline") {
+    if (provider === "offline")
       newProvidersSelection.offline = !newProvidersSelection.offline;
-    } else {
-      newProvidersSelection.zoom = !newProvidersSelection.zoom;
-    }
-
+    else newProvidersSelection.zoom = !newProvidersSelection.zoom;
     setSelectedProvider({ ...newProvidersSelection });
   };
 
-  const renderFilteringWithFilters = () => {
-    return (
-      <Fragment>
-        <BlockStack gap={2}>
-          <InputFieldControl
-            value={price.from}
-            placeholder="Price from"
-            onChange={(val) => handlePriceChange(val, "from")}
-            maxLength={6}
-            width="w-8"
-            align="left"
-            type="number"
-            step="any"
-          />
-          <InputFieldControl
-            value={price.to}
-            placeholder="Price to"
-            onChange={(val) => handlePriceChange(val, "to")}
-            maxLength={6}
-            width="w-8"
-            align="left"
-            type="number"
-            step="any"
-          />
-        </BlockStack>
-      </Fragment>
-    );
-  };
+  const renderFilteringWithFilters = () => (
+    <Fragment>
+      <BlockStack gap={2}>
+        <InputFieldControl
+          value={price.from}
+          placeholder="Price from"
+          onChange={(val) => handlePriceChange(val, "from")}
+          maxLength={6}
+          width="w-8"
+          align="left"
+          type="number"
+          step="any"
+        />
+        <InputFieldControl
+          value={price.to}
+          placeholder="Price to"
+          onChange={(val) => handlePriceChange(val, "to")}
+          maxLength={6}
+          width="w-8"
+          align="left"
+          type="number"
+          step="any"
+        />
+      </BlockStack>
+    </Fragment>
+  );
 
   const handleGetPrevPage = () => {
     fetchBookings({ page: bookings.page_number - 1 });
   };
-
   const handleGetNextPage = () => {
     fetchBookings({ page: bookings.page_number + 1 });
   };
@@ -685,51 +720,33 @@ const BookingsPage = () => {
 
   const performBulkAction = async (actionType) => {
     if (!selectedOrder || selectedOrder.length === 0) return;
-
     setLoading(true);
-
     let successCount = 0;
     let failureCount = 0;
 
     try {
       for (const variant of selectedOrder) {
-        let id = null;
-        let occurrence = null;
-
         const variantData = bookings.bookings.find(
           (booking) => booking.id === variant,
         );
         if (!variantData) continue;
 
-        ({ id, occurrence } = getPostId(variantData.variant_id));
-
+        const { id, occurrence } = getPostId(variantData.variant_id);
         const registrants = variantData.registrants_ids.includes(",")
           ? variantData.registrants_ids.split(",")
           : [variantData.registrants_ids];
 
         let url = "";
-        let successMessage = "";
-        let errorMessage = "";
-
         switch (actionType) {
           case "resend":
             url = `/wp-json/servv-plugin/v1/event/${id}/registrants/`;
-            successMessage = "Emails resent successfully.";
-            errorMessage = "Some emails failed to resend.";
             break;
-
           case "refund":
             url = `/wp-json/servv-plugin/v1/booking/${variant}/refund`;
-            successMessage = "Bookings refunded successfully.";
-            errorMessage = "Some bookings failed to refund.";
             break;
-
           case "cancel":
             url = `/wp-json/servv-plugin/v1/booking/${variant}/cancel`;
-            successMessage = "Bookings cancelled successfully.";
-            errorMessage = "Some bookings failed to cancel.";
             break;
-
           default:
             toast("Unknown action type.");
             return;
@@ -742,7 +759,7 @@ const BookingsPage = () => {
             });
             if (res.status === 200) successCount++;
             else failureCount++;
-          } catch (error) {
+          } catch {
             failureCount++;
           }
         } else {
@@ -754,32 +771,23 @@ const BookingsPage = () => {
                 headers: { "X-WP-Nonce": servvData.nonce },
               });
             });
-
             const responses = await Promise.allSettled(requests);
-            let succeeded = 0;
-            let failed = 0;
-
-            responses.forEach((res) => {
-              if (res.status === "fulfilled" && res.value.status === 200)
-                succeeded++;
-              else failed++;
-            });
-
+            const succeeded = responses.filter(
+              (r) => r.status === "fulfilled" && r.value.status === 200,
+            ).length;
             if (succeeded === registrants.length) successCount++;
             else failureCount++;
-          } catch (error) {
+          } catch {
             failureCount++;
           }
         }
       }
 
-      if (successCount > 0 && failureCount === 0) {
+      if (successCount > 0 && failureCount === 0)
         toast("All actions completed successfully.");
-      } else if (successCount > 0 && failureCount > 0) {
+      else if (successCount > 0 && failureCount > 0)
         toast(`${successCount} succeeded, ${failureCount} failed.`);
-      } else {
-        toast("All actions failed.");
-      }
+      else toast("All actions failed.");
     } finally {
       setActiveDropdown(null);
       setShowBulkActions(false);
@@ -791,7 +799,6 @@ const BookingsPage = () => {
     let allBookings = [];
     for (let i = 1; i < bookings.page_count + 1; i++) {
       const { bookings, page } = await fetchBookings({ page: i });
-
       allBookings = allBookings.concat(bookings);
     }
     exportToCSV(allBookings);
@@ -799,7 +806,6 @@ const BookingsPage = () => {
 
   function exportToCSV(data, filename = "export.csv") {
     if (!data || data.length === 0) return;
-
     const selectedFields = [
       "id",
       "created_datetime",
@@ -813,7 +819,6 @@ const BookingsPage = () => {
       "active_registrants",
       "additional_registrants",
     ];
-
     const headerMap = {
       id: "Booking ID",
       created_datetime: "Created At",
@@ -827,129 +832,118 @@ const BookingsPage = () => {
       active_registrants: "Active Registrants",
       additional_registrants: "Additional Registrants",
     };
-
     const rows = data.map((item) => {
       const row = {};
       for (const field of selectedFields) {
         if (field === "additional_registrants") {
-          if (Array.isArray(item.additional_registrants)) {
-            row[field] = item.additional_registrants
-              .map(
-                (r) =>
-                  `${r.first_name || ""} ${r.last_name || ""} (${
-                    r.email || ""
-                  })`,
-              )
-              .join(" | ");
-          } else {
-            row[field] = "";
-          }
+          row[field] = Array.isArray(item.additional_registrants)
+            ? item.additional_registrants
+                .map(
+                  (r) =>
+                    `${r.first_name || ""} ${r.last_name || ""} (${
+                      r.email || ""
+                    })`,
+                )
+                .join(" | ")
+            : "";
         } else {
           row[field] = item[field] ?? "";
         }
       }
       return row;
     });
-
     const headers = selectedFields.map((field) => headerMap[field]);
     const csvRows = [headers.join(",")];
-
     for (const row of rows) {
       const line = selectedFields
-        .map((field) => {
-          const val = row[field];
-          const escaped = ("" + val).replace(/"/g, '""');
-          return `"${escaped}"`;
-        })
+        .map((field) => `"${("" + row[field]).replace(/"/g, '""')}"`)
         .join(",");
       csvRows.push(line);
     }
-
-    const csvContent = csvRows.join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob([csvRows.join("\n")], {
+      type: "text/csv;charset=utf-8;",
+    });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
   }
 
-  const renderBulkActions = () => {
-    return (
-      <div className="filter-table-dropdown ml-6 mt-6">
-        <div className="dropdown-actions">
-          <BlockStack gap={4}>
+  const renderBulkActions = () => (
+    <div className="filter-table-dropdown left-5 top-9 ml-6 mt-6">
+      <div className="dropdown-actions">
+        <BlockStack gap={4}>
+          <button
+            className="dropdown-action"
+            onClick={() => performBulkAction("resend")}
+          >
+            <PaperAirplaneIcon className="dropdown-icon" />
+            Resend confirmations
+          </button>
+          {isRefundAvailable() && (
             <button
               className="dropdown-action"
-              onClick={() => performBulkAction("resend")}
+              onClick={() => performBulkAction("refund")}
             >
-              <PaperAirplaneIcon className="dropdown-icon" />
-              Resend confirmations
+              <WalletIcon className="dropdown-icon" />
+              {t("Refund bookings")}
             </button>
-
-            {isRefundAvailable() && (
-              <button
-                className="dropdown-action"
-                onClick={() => performBulkAction("refund")}
-              >
-                <WalletIcon className="dropdown-icon" />
-                {t("Refund bookings")}
-              </button>
-            )}
-            <button
-              className="dropdown-action"
-              onClick={() => performBulkAction("cancel")}
-            >
-              <XCircleIcon className="dropdown-icon" />
-              {t("Cancel bookings")}
-            </button>
-          </BlockStack>
-        </div>
+          )}
+          <button
+            className="dropdown-action"
+            onClick={() => performBulkAction("cancel")}
+          >
+            <XCircleIcon className="dropdown-icon" />
+            {t("Cancel bookings")}
+          </button>
+        </BlockStack>
       </div>
-    );
-  };
+    </div>
+  );
 
-  const renderBookingsHeader = () => {
-    return (
-      <div className="card-header">
-        <div className="card-heading">
-          {/* <span>{t("Bookings")}</span> */}
-          {bookings?.total_records > 0 && (
-            <Badge
-              text={`${bookings?.bookings?.length || 0} item${
-                bookings && bookings?.bookings?.length > 1 ? "s" : ""
-              }`}
-              color="secondary"
-              size="small"
-              align="center"
-            />
-          )}
-        </div>
-        <div className="card-description">
-          {(searchString.length > 0 ||
-            dates.startDate ||
-            dates.endDate ||
-            !selectedProvider.offline ||
-            !selectedProvider.zoom ||
-            price.from ||
-            price.to) && (
-            <a
-              className="card-header-description-link"
-              onClick={() => resetFilters()}
-            >
-              {t("Clear filters")}
-            </a>
-          )}
-        </div>
-
-        <InlineStack align={"left"} gap={4} cardsLayout={false}>
-          <InputFieldControl
-            value={searchString}
-            placeholder="Search by event title"
-            onChange={onChange}
-            handleKeyPress={handleEnterButton}
-            fullWidth={true}
-            align="left"
+  const renderBookingsHeader = () => (
+    <div className="card-header">
+      <div className="card-heading">
+        {bookings?.total_records > 0 && (
+          <Badge
+            text={`${bookings?.bookings?.length || 0} item${
+              bookings && bookings?.bookings?.length > 1 ? "s" : ""
+            }`}
+            color="secondary"
+            size="small"
+            align="center"
           />
+        )}
+      </div>
+      <div className="card-description">
+        {(searchString.length > 0 ||
+          dates.startDate ||
+          dates.endDate ||
+          !selectedProvider.offline ||
+          !selectedProvider.zoom ||
+          price.from ||
+          price.to) && (
+          <a
+            className="card-header-description-link"
+            onClick={() => resetFilters()}
+          >
+            {t("Clear filters")}
+          </a>
+        )}
+      </div>
+
+      <InlineStack align={"left"} gap={4} cardsLayout={false}>
+        <InputFieldControl
+          value={searchString}
+          placeholder="Search by event title"
+          onChange={onChange}
+          handleKeyPress={handleEnterButton}
+          fullWidth={true}
+          align="left"
+        />
+
+        {/* Desktop */}
+        <div className="hidden sm:block sm:w-full">
           <Datepicker
             displayFormat={"MMM DD, YYYY"}
             value={getDates()}
@@ -957,45 +951,52 @@ const BookingsPage = () => {
             inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
             onChange={(newValue) => handleSetDates(newValue)}
           />
-          <div ref={filterDropdownRef}>
-            <Dropdown
-              activator={
-                <PageActionButton
-                  text="Filters"
-                  icon={<AdjustmentsVerticalIcon className="button-icon" />}
-                  type="secondary"
-                  onAction={() => changeFilterDropdown()}
-                />
-              }
-              status={filterDropdown}
-              onClose={() => setFilterDropdown(false)}
-            >
-              <BlockStack gap={4}>
-                {renderFilteringWithFilters()}
-                <PageActionButton
-                  text={<span className="text-center">{t("Apply")}</span>}
-                  type="primary"
-                  icon={null}
-                  onAction={() => {
-                    onFiltering();
-                    setFilterDropdown(false);
-                  }}
-                  justify={"justify-center"}
-                />
-              </BlockStack>
-            </Dropdown>
-          </div>
-        </InlineStack>
-      </div>
-    );
-  };
+        </div>
+
+        {/* Mobile: calendar icon button */}
+        <button
+          onClick={() => setCalendarModalOpen(true)}
+          className="flex sm:hidden items-center justify-center px-2.5 py-2.5 bg-white border border-[#D5D7DA] rounded-lg shadow-sm hover:bg-gray-50"
+        >
+          <CalendarDaysIcon className="w-5 h-5 text-[#414651]" />
+        </button>
+        <div ref={filterDropdownRef}>
+          <Dropdown
+            activator={
+              <PageActionButton
+                text="Filters"
+                icon={<AdjustmentsVerticalIcon className="button-icon" />}
+                type="secondary"
+                onAction={() => changeFilterDropdown()}
+              />
+            }
+            status={filterDropdown}
+            onClose={() => setFilterDropdown(false)}
+          >
+            <BlockStack gap={4}>
+              {renderFilteringWithFilters()}
+              <PageActionButton
+                text={<span className="text-center">{t("Apply")}</span>}
+                type="primary"
+                icon={null}
+                onAction={() => {
+                  onFiltering();
+                  setFilterDropdown(false);
+                }}
+                justify={"justify-center"}
+              />
+            </BlockStack>
+          </Dropdown>
+        </div>
+      </InlineStack>
+    </div>
+  );
 
   return (
     <PageWrapper loading={false} withBackground={true}>
       <BlockStack gap={4}>
         <div className="dashboard-card">
           <div className="servv-dashboard-header">
-            {/* LEFT: title + description */}
             <div className="dashboard-heading">
               <h1 className="dashboard-title">Bookings</h1>
               <p className="dashboard-description">
@@ -1003,7 +1004,6 @@ const BookingsPage = () => {
               </p>
             </div>
 
-            {/* RIGHT: actions */}
             <div className="dashboard-actions flex flex-row items-center gap-2 flex-nowrap">
               <div ref={customizeDropdownRef}>
                 <Dropdown
@@ -1051,25 +1051,31 @@ const BookingsPage = () => {
             <Card>
               {renderBookingsHeader()}
 
-              {bookings && bookings?.bookings?.length > 0 && (
-                <SpinnerLoader isLoading={loading}>
+              <SpinnerLoader isLoading={loading} customStyling="h-[50vh]">
+                {bookings && bookings?.bookings?.length > 0 && (
                   <FilterTable
                     tableClassName={"bookings-table"}
                     headings={renderHeadings()}
                     rows={renderRows()}
                   />
-                </SpinnerLoader>
-              )}
+                )}
+              </SpinnerLoader>
 
               {selectedOrder.length > 1 && (
                 <div className="filter-table-dropdown-container py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm flex flex-row">
                   <button
                     onClick={() => setShowBulkActions(!showBulkAction)}
-                    className="ml-auto"
+                    className={`mr-auto flex flex-row items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors
+                            ${
+                              showBulkAction
+                                ? "bg-purple-600 text-white border-purple-600"
+                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                            }`}
                   >
-                    <Bars4Icon className="dropdown-icon" />
+                    <Bars4Icon className="w-4 h-4" />
+                    Bulk actions
                   </button>
-
+                  {showBulkAction && renderBulkActions()}
                   {showBulkAction && renderBulkActions()}
                 </div>
               )}
@@ -1086,6 +1092,63 @@ const BookingsPage = () => {
           </BlockStack>
         </div>
       </BlockStack>
+      <AnimatedModal
+        open={calendarModalOpen}
+        onClose={() => setCalendarModalOpen(false)}
+      >
+        {({ close }) => (
+          <div className="relative w-full max-w-[360px] bg-white rounded-xl shadow-lg flex flex-col">
+            {/* Close button */}
+            <button
+              onClick={close}
+              className="absolute -top-4 -right-4 w-9 h-9 flex items-center justify-center rounded-full border border-[#D5D7DA] bg-white hover:bg-gray-50 shadow-md"
+            >
+              <XMarkIcon className="w-5 h-5 text-[#414651]" />
+            </button>
+
+            {/* Header */}
+            <div className="text-center px-6 pt-6 pb-2">
+              <h2 className="text-xl font-semibold text-[#181D27]">
+                Select Dates
+              </h2>
+            </div>
+
+            {/* Calendar */}
+            <div className="px-4 py-2 flex justify-center">
+              <CalendarInline
+                value={
+                  dates.startDate
+                    ? new Date(dates.startDate.valueOf())
+                    : undefined
+                }
+                onChange={(date) => {
+                  handleSetDates({ startDate: date, endDate: date });
+                  close();
+                }}
+              />
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-between items-center gap-3 p-6 pt-2 border-t border-gray-200">
+              <button
+                onClick={() => {
+                  setDates({ startDate: null, endDate: null });
+                  close();
+                }}
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
+                Clear
+              </button>
+              <button
+                onClick={close}
+                className="px-5 py-2 border border-[#D5D7DA] rounded-lg hover:bg-gray-50 font-semibold text-sm"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </AnimatedModal>
     </PageWrapper>
   );
 };

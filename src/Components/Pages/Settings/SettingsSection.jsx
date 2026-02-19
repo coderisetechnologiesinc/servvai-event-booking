@@ -49,7 +49,7 @@ const SettingsSection = ({
     return (
       <div className="settings-slide h-full">
         <div className="settings-card h-full">
-          <div className="flex flex-col justify-center items-center p-4 gap-3 w-full min-w-[330px] bg-white border-2 border-[#E9EAEB] shadow-[0px_4px_12px_rgba(0,0,0,0.05)] rounded-xl h-full flex-1">
+          <div className="flex flex-col justify-center items-center p-4 gap-3 w-full min-w-0 sm:min-w-[330px]  bg-white border-2 border-[#E9EAEB] shadow-[0px_4px_12px_rgba(0,0,0,0.05)] rounded-xl h-full flex-1">
             {/* TOP PART */}
             <div className="flex flex-col items-start gap-3 w-full">
               {/* ICON ROW */}
@@ -78,7 +78,7 @@ const SettingsSection = ({
             <div className="w-full h-px bg-[#E6E6EB]" />
 
             {/* BOTTOM */}
-            <div className="flex justify-between items-center w-full h-10">
+            <div className="flex justify-between items-center w-full h-10 gap-[10px] mr-auto">
               {/* Button - View (if direct) or Edit settings (if not direct) */}
               {direct && onView ? (
                 <button
@@ -135,7 +135,7 @@ const SettingsSection = ({
         mode === "closing" ? "settings-edit-exit" : "settings-edit-enter"
       }`}
     >
-      <div className="w-full">
+      <div className="w-full max-w-[100%]">
         {/* Header with Back Button */}
         <div className="servv-dashboard-header">
           <div className="dashboard-heading">

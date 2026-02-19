@@ -15848,6 +15848,7 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
   settings: null,
   filtersList: {},
   filtersHash: null,
+  zoomAccount: null,
   zoomConnected: false,
   stripeConnected: false,
   stripeCurrency: "CAD",
@@ -15888,7 +15889,8 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
     try {
       const zoom = await (0,_utilities_accounts__WEBPACK_IMPORTED_MODULE_2__.getZoomAccount)();
       set({
-        zoomConnected: !!zoom?.data?.id
+        zoomConnected: !!zoom?.data?.id,
+        zoomAccount: zoom.data
       });
     } catch (e) {
       console.error("Zoom account sync error", e);

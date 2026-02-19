@@ -534,7 +534,7 @@ const NewSelectControl = ({
       style: style,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
         className: "servv-select__native",
-        value: value,
+        value: value !== null && value !== void 0 ? value : "",
         onChange: e => onChange(e.target.value),
         disabled: disabled,
         children: [helpText && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
@@ -752,7 +752,7 @@ const RadioGroup = ({
         value: opt.value,
         checked: value === opt.value,
         onChange: () => onChange(opt.value),
-        disabled: disabled
+        disabled: disabled || opt.disabled
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "servv-radio__control"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
@@ -928,7 +928,9 @@ const DateStep = ({
   setAttributes,
   settings,
   changeStep,
-  isOccurrence
+  isOccurrence,
+  isNew,
+  handleFormSubmit
 }) => {
   const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_11__.useNavigate)();
   const {
@@ -1202,7 +1204,12 @@ const DateStep = ({
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
           className: "servv_actions",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
+          children: [!isNew && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
+            type: "button",
+            className: "servv_button servv_button--secondary",
+            onClick: () => handleFormSubmit(true),
+            children: "Save and Exit"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
             type: "button",
             className: "servv_button servv_button--secondary",
             onClick: () => navigate("/dashboard"),
@@ -1947,7 +1954,47 @@ const timezonesList = {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timezones);
 
+/***/ }),
+
+/***/ "./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function ChevronDownIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "m19.5 8.25-7.5 7.5-7.5-7.5"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ChevronDownIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=200a1fe7a2716529bec7
+//# sourceMappingURL=src_Components_PostEditor_DateStep_jsx.js.map?ver=5e2d146fbea9c9f178a0

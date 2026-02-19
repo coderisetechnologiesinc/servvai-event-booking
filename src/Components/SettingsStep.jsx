@@ -9,7 +9,11 @@ import ZoomPaidAccountModalContent from "./ZoomPaidAccountModalContent";
 import NewSelectControl from "./Controls/NewSelectControl";
 import NewInputControl from "./Controls/NewInputControl";
 import RadioGroup from "./Controls/RecurrenceRadioGroup";
-
+import {
+  VideoCameraIcon,
+  CheckIcon,
+  EnvelopeIcon,
+} from "@heroicons/react/16/solid";
 const SettingsStep = ({
   attributes,
   setAttributes,
@@ -227,7 +231,7 @@ const SettingsStep = ({
           </div>
 
           {/* Default Event Type */}
-          <div className="step__content_block">
+          {/* <div className="step__content_block">
             <span className="step__content_title">Default Event Type</span>
 
             <RadioGroup
@@ -243,49 +247,80 @@ const SettingsStep = ({
                 })
               }
             />
-          </div>
-          {attributes.defaultEventType === "zoom" && (
-            <div className="step__content_block">
-              <span className="step__content_title">Connect Zoom Account</span>
+          </div> */}
+          {
+            <div className="step__content_block border-b">
+              <div className="flex flex row justify-between items-center">
+                <VideoCameraIcon className="w-16 h-16" />
+                <div className="flex flex-col ml-4 mr-auto">
+                  <span className="step__content_title">Zoom</span>
+                  <span className="step__content_description">
+                    Connect your Zoom account for online events
+                  </span>
+                </div>
+                {checkingEmail ? (
+                  <p className="step__description">Checking Zoom status…</p>
+                ) : zoomConnected ? (
+                  <button
+                    type="button"
+                    className="servv_button servv_button--primary"
+                    onClick={() => {}}
+                  >
+                    <CheckIcon className="w-4 h-4 mr-2" />
+                    Connected
+                  </button>
+                ) : (
+                  // <p className="step__description">
+                  //   Zoom is connected and ready for notifications.
+                  // </p>
+                  <button
+                    type="button"
+                    className="servv_button servv_button--secondary"
+                    onClick={handleConnectZoom}
+                  >
+                    Connect
+                  </button>
+                )}
+              </div>
+            </div>
+          }
+
+          {/* Email */}
+
+          <div className="step__content_block border-b">
+            <div className="flex flex-row justify-between items-center">
+              <EnvelopeIcon className="w-16 h-16 text-gray-600" />
+
+              <div className="flex flex-col ml-4 mr-4 mr-auto">
+                <span className="step__content_title">Gmail</span>
+                <span className="step__content_description">
+                  Connect your Gmail account for notifications and reminders
+                </span>
+              </div>
 
               {checkingEmail ? (
-                <p className="step__description">Checking zoom status…</p>
-              ) : zoomConnected ? (
-                <p className="step__description">
-                  Email is connected and ready for notifications.
-                </p>
+                <p className="step__description">Checking Gmail status…</p>
+              ) : isGmailConnected ? (
+                <button
+                  type="button"
+                  className="servv_button servv_button--primary"
+                  onClick={() => {}}
+                >
+                  <div className="flex flex-row gap-1 items-center">
+                    <CheckIcon className="w-4 h-4 mr-2" />
+                    Connected
+                  </div>
+                </button>
               ) : (
                 <button
                   type="button"
                   className="servv_button servv_button--secondary"
-                  onClick={handleConnectZoom}
+                  onClick={handleEmailConnect}
                 >
                   Connect
                 </button>
               )}
             </div>
-          )}
-
-          {/* Email */}
-
-          <div className="step__content_block">
-            <span className="step__content_title">Email Connection</span>
-
-            {checkingEmail ? (
-              <p className="step__description">Checking email status…</p>
-            ) : isGmailConnected ? (
-              <p className="step__description">
-                Email is connected and ready for notifications.
-              </p>
-            ) : (
-              <button
-                type="button"
-                className="servv_button servv_button--secondary"
-                onClick={handleEmailConnect}
-              >
-                Connect Email
-              </button>
-            )}
           </div>
         </div>
 

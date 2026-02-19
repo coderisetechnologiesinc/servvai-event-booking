@@ -33,6 +33,35 @@ const CreateMemberFilterForm = ({ setLoading = () => {} }) => {
   const [memberData, setMemberData] = useState(existingMember || {});
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  const [errors, setErrors] = useState({});
+  const [showErrors, setShowErrors] = useState(false);
+  const validateEmail = (email) => {
+    if (!email) return ""; // optional field
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      ? ""
+      : "Invalid email address";
+  };
+
+  const validatePhone = (phone) => {
+    if (!phone) return ""; // optional field
+    return /^\+?[\d\s\-().]{7,20}$/.test(phone) ? "" : "Invalid phone number";
+  };
+
+  const handleMemberChange = (field, value) => {
+    setMemberData((prev) => ({ ...prev, [field]: value }));
+
+    if (field === "email") {
+      setShowErrors(false);
+      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+    }
+    if (field === "phone") {
+      setShowErrors(false);
+      setErrors((prev) => ({ ...prev, phone: validatePhone(value) }));
+    }
+  };
+
+  const isFormValid =
+    memberData?.name?.length > 0 && !errors.email && !errors.phone;
   // Track window size changes
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -42,12 +71,15 @@ const CreateMemberFilterForm = ({ setLoading = () => {} }) => {
 
   const onCancel = () => navigate(-1);
 
-  const handleMemberChange = (field, value) => {
-    setMemberData((prev) => ({ ...prev, [field]: value }));
-  };
+  // const handleMemberChange = (field, value) => {
+  //   setMemberData((prev) => ({ ...prev, [field]: value }));
+  // };
 
   const handleMemberSave = async () => {
-    if (!memberData.name) return;
+    if (!memberData.name || !isFormValid) {
+      setShowErrors(true);
+      return;
+    }
 
     setLoading(true);
 
@@ -72,7 +104,7 @@ const CreateMemberFilterForm = ({ setLoading = () => {} }) => {
     navigate(-1);
   };
 
-  const isFormValid = memberData?.name?.length > 0;
+  // const isFormValid = memberData?.name?.length > 0;
 
   return (
     <PageWrapper>
@@ -103,7 +135,7 @@ const CreateMemberFilterForm = ({ setLoading = () => {} }) => {
             <PageActionButton
               text="Save"
               type="primary"
-              disabled={!isFormValid}
+              disabled={memberData?.name?.length === 0 || !memberData.name}
               onAction={handleMemberSave}
             />
           </div>
@@ -136,6 +168,11 @@ const CreateMemberFilterForm = ({ setLoading = () => {} }) => {
                   onChange={(val) => handleMemberChange("email", val)}
                   width={isMobile ? "100%" : "400px"}
                 />
+                {showErrors && errors.email && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.email}
+                  </span>
+                )}
               </AnnotatedSection>
 
               {/* Phone */}
@@ -148,6 +185,11 @@ const CreateMemberFilterForm = ({ setLoading = () => {} }) => {
                   onChange={(val) => handleMemberChange("phone", val)}
                   width={isMobile ? "100%" : "400px"}
                 />
+                {showErrors && errors.phone && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.phone}
+                  </span>
+                )}
               </AnnotatedSection>
 
               {/* Description */}

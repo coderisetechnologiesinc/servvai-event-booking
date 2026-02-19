@@ -567,6 +567,14 @@ const BrandingStep = ({
           >
             Previous
           </button> */}
+          <button
+            type="button"
+            className="servv_button servv_button--secondary"
+            onClick={handleContinue}
+            disabled={loading}
+          >
+            {loading ? "Saving..." : "I'll do this later"}
+          </button>
 
           {!brandingCompleted && (
             <button

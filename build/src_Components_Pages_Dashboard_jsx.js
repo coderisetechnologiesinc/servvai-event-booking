@@ -547,11 +547,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var _Events_useEventsLogic__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Events/useEventsLogic */ "./src/Components/Pages/Events/useEventsLogic.js");
+/* harmony import */ var _Events_useEventsLogicMerged__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Events/useEventsLogicMerged */ "./src/Components/Pages/Events/useEventsLogicMerged.js");
 /* harmony import */ var _Events_EventCard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Events/EventCard */ "./src/Components/Pages/Events/EventCard.jsx");
-/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PlusIcon.js");
+/* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/PlusIcon.js");
 /* harmony import */ var _Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Controls/NewButtonGroup */ "./src/Components/Controls/NewButtonGroup.jsx");
 /* harmony import */ var _Controls_DatePickerInputButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Controls/DatePickerInputButton */ "./src/Components/Controls/DatePickerInputButton.jsx");
 /* harmony import */ var _Containers_Dropdown__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Containers/Dropdown */ "./src/Components/Containers/Dropdown.jsx");
@@ -562,12 +562,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
 /* harmony import */ var _DashboardPagination__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../DashboardPagination */ "./src/Components/DashboardPagination.jsx");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__);
 
 
 
 
+ // ← merged hook
 
 
 
@@ -588,9 +590,12 @@ const Dashboard = () => {
   const zoomAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.zoomAccount);
   const zoomConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.zoomConnected);
   const {
-    meetingsList,
-    getEventsList,
-    // handleOpenEvent,
+    // merged list — used when eventType === "all"
+    mergedList,
+    mergedPagination,
+    mergedLoading,
+    getMergedEventsList,
+    // actions
     handleIsPastChange,
     handleSearchChange,
     handleSetDates,
@@ -601,13 +606,11 @@ const Dashboard = () => {
     handleFilterSelect,
     resetFilters,
     isFiltersApplied,
-    loading,
-    firstFetchDone,
-    pagination,
-    handleGetPrevPage,
-    handleGetNextPage
-  } = (0,_Events_useEventsLogic__WEBPACK_IMPORTED_MODULE_3__.useEventsLogic)(settings, filtersList, zoomAccount);
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_16__.useNavigate)();
+    firstFetchDone
+  } = (0,_Events_useEventsLogicMerged__WEBPACK_IMPORTED_MODULE_3__.useEventsLogic)(settings, filtersList, zoomAccount);
+  // eventType defaults to "all" in the merged hook — no override needed
+
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_17__.useNavigate)();
   const [filtersOpen, setFiltersOpen] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const widgetStyleSettings = (0,react__WEBPACK_IMPORTED_MODULE_1__.useMemo)(() => {
     if (!settings?.settings?.widget_style_settings) return {};
@@ -624,35 +627,42 @@ const Dashboard = () => {
     pw_email
   } = widgetStyleSettings;
   const handleOpenEvent = meeting => {
-    let url = `/events/${"offline"}/${meeting.id}`;
-    if (meeting.occcurrence_id) {
-      url += `?occurrence_id=${meeting.occcurrence_id}`;
+    const pathType = meeting.type === "Zoom" ? "zoom" : "offline";
+    let url = `/events/${pathType}/${meeting.id}`;
+    if (meeting.occurrence_id) {
+      url += `?occurrence_id=${meeting.occurrence_id}`;
     }
-    navigate(url);
+    navigate(url, {
+      state: {
+        from: location.pathname
+      }
+    });
   };
-  // useEffect(() => {
-  //   const redirectUrl = localStorage.getItem("redirectToOnboarding");
-
-  //   if (redirectUrl) {
-  //     localStorage.removeItem("redirectToOnboarding");
-  //     window.location.replace(redirectUrl);
-  //   }
-  // }, []);
-
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    const onboardingRedirect = localStorage.getItem("redirectToOnboarding");
+    if (onboardingRedirect && onboardingRedirect.length > 0) {
+      localStorage.removeItem("redirectToOnboarding");
+      navigate("/onboarding?step=settings");
+    }
+  }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     const onboardingSkipped = localStorage.getItem("onboardingSkipped") === "1";
-    if (firstFetchDone && meetingsList.length === 0 && !zoomConnected && !onboardingSkipped) {
+    if (firstFetchDone && mergedList.length === 0 && !zoomConnected && !onboardingSkipped) {
       navigate("/onboarding");
     }
-  }, [firstFetchDone, zoomConnected, meetingsList.length]);
+  }, [firstFetchDone, zoomConnected, mergedList.length]);
   const handleCreateNewEvent = () => {
-    if (servvData.gutenberg_active) navigate("/events/new", "_top");else react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
+    if (servvData.gutenberg_active) navigate("/events/new", {
+      state: {
+        from: location.pathname
+      }
+    });else react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
   };
   const renderEventsCards = () => {
-    if (meetingsList.length > 0) return meetingsList.map(meeting => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Events_EventCard__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    if (mergedList.length > 0) return mergedList.map(meeting => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Events_EventCard__WEBPACK_IMPORTED_MODULE_4__["default"], {
       meeting: meeting,
       handleOpenEvent: handleOpenEvent
-    }));
+    }, meeting.id + (meeting.occurrence_id || "")));
   };
   const TIME_RANGES = {
     upcoming: "upcoming",
@@ -671,6 +681,7 @@ const Dashboard = () => {
     value: TIME_RANGES.week
   }];
   const getDates = () => {
+    var _out$startDate, _out$endDate;
     let out = {
       startDate: null,
       endDate: null
@@ -685,8 +696,8 @@ const Dashboard = () => {
       out.endDate = new Date(d.year(), d.month(), d.date(), d.hour(), d.minute(), d.second());
     }
     return {
-      startDate: out.startDate ? out.startDate : fallback,
-      endDate: out.endDate ? dates.endDate : fallback
+      startDate: (_out$startDate = out.startDate) !== null && _out$startDate !== void 0 ? _out$startDate : fallback,
+      endDate: (_out$endDate = out.endDate) !== null && _out$endDate !== void 0 ? _out$endDate : fallback
     };
   };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
@@ -696,26 +707,24 @@ const Dashboard = () => {
         startDate: now.clone().startOf("day"),
         endDate: now.clone().endOf("day")
       });
-    }
-    if (timeRange === TIME_RANGES.week) {
+    } else if (timeRange === TIME_RANGES.week) {
       applyDatePreset({
         startDate: now.clone().startOf("week"),
         endDate: now.clone().endOf("week")
       });
-    }
-    if (timeRange === TIME_RANGES.upcoming) {
+    } else if (timeRange === TIME_RANGES.upcoming) {
       applyDatePreset({
         startDate: now,
         endDate: null
       });
     }
   }, [timeRange]);
-  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_16__.useLocation)();
+  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_17__.useLocation)();
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     const params = new URLSearchParams(location.search);
     const createStatus = params.get("created");
     if (createStatus === "success") {
-      react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.success("Event successfully created");
+      react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.success("Event created successfully");
       params.delete("created");
       navigate({
         pathname: location.pathname,
@@ -725,140 +734,136 @@ const Dashboard = () => {
       });
     }
   }, [location.search]);
-  const renderEventsActions = () => {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
-      className: "events-actions",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-        className: "events-actions-bar",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("h1", {
-          className: "events-actions-title",
-          children: ["All events ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
-            className: "event-count"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-          className: "events-actions-panel",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
-            className: "view-mode",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              buttons: eventTypes.map(e => e.label),
-              active: eventTypes.find(e => e.value === timeRange)?.label,
-              onChange: label => {
-                const selected = eventTypes.find(e => e.label === label);
-                setTimeRange(selected.value);
-              }
+  const renderEventsActions = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
+    className: "events-actions",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
+      className: "events-actions-bar",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("h1", {
+        className: "events-actions-title",
+        children: ["All events ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("span", {
+          className: "event-count"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
+        className: "events-actions-panel",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
+          className: "view-mode",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            buttons: eventTypes.map(e => e.label),
+            active: eventTypes.find(e => e.value === timeRange)?.label,
+            onChange: label => {
+              const selected = eventTypes.find(e => e.label === label);
+              setTimeRange(selected.value);
+            }
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
+          className: "events-filters",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Controls_DatePickerInputButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            value: getDates(),
+            onChange: handleSetDates,
+            label: "Select date",
+            asSingle: true,
+            useRange: false,
+            displayFormat: "MMM DD, YYYY",
+            minDate: new Date(),
+            disabled: false
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Containers_Dropdown__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            className: "servv-dahboard-dropdown",
+            activator: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("button", {
+              type: "button",
+              className: "filter-button",
+              onClick: () => setFiltersOpen(p => !p),
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("svg", {
+                width: "24",
+                height: "24",
+                viewBox: "0 0 17 12",
+                fill: "none",
+                xmlns: "http://www.w3.org/2000/svg",
+                className: "filter-icon",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("path", {
+                  d: "M3.33594 5.83502H13.3359M0.835938 0.835022H15.8359M5.83594 10.835H10.8359",
+                  stroke: "currentColor",
+                  strokeWidth: "1.67",
+                  strokeLinecap: "round",
+                  strokeLinejoin: "round"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("span", {
+                children: t("Filters")
+              })]
+            }),
+            status: filtersOpen,
+            onClose: () => setFiltersOpen(false),
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              gap: 4,
+              children: [Object.keys(filtersList).map(filter => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                sectionHeading: filter.charAt(0).toUpperCase() + filter.slice(1),
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  gap: 2,
+                  children: filtersList[filter].map(item => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                    label: item.name,
+                    checked: selectedFilters[filter]?.includes(item.id) || false,
+                    onChange: () => handleFilterSelect(filter, item.id),
+                    font: "text-sm",
+                    color: "text-gray-600"
+                  }, item.id))
+                })
+              }, filter)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                text: t("Apply"),
+                type: "primary",
+                justify: "justify-center",
+                onAction: () => setFiltersOpen(false)
+              }), isFiltersApplied() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                text: t("Clear filters"),
+                type: "secondary",
+                justify: "justify-center",
+                onAction: () => {
+                  resetFilters();
+                  setFiltersOpen(false);
+                }
+              })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-            className: "events-filters",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_DatePickerInputButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              value: getDates(),
-              onChange: handleSetDates,
-              label: "Select date",
-              asSingle: true,
-              useRange: false,
-              displayFormat: "MMM DD, YYYY",
-              minDate: new Date(),
-              disabled: false
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_Dropdown__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              className: "servv-dahboard-dropdown",
-              activator: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("button", {
-                type: "button",
-                className: "filter-button",
-                onClick: () => setFiltersOpen(p => !p),
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("svg", {
-                  width: "24",
-                  height: "24",
-                  viewBox: "0 0 17 12",
-                  fill: "none",
-                  xmlns: "http://www.w3.org/2000/svg",
-                  className: "filter-icon",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("path", {
-                    d: "M3.33594 5.83502H13.3359M0.835938 0.835022H15.8359M5.83594 10.835H10.8359",
-                    stroke: "currentColor",
-                    strokeWidth: "1.67",
-                    strokeLinecap: "round",
-                    strokeLinejoin: "round"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
-                  children: t("Filters")
-                })]
-              }),
-              status: filtersOpen,
-              onClose: () => setFiltersOpen(false),
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                gap: 4,
-                children: [Object.keys(filtersList).map(filter => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_11__["default"], {
-                  sectionHeading: filter.charAt(0).toUpperCase() + filter.slice(1),
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                    gap: 2,
-                    children: filtersList[filter].map(item => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                      label: item.name,
-                      checked: selectedFilters[filter]?.includes(item.id) || false,
-                      onChange: () => handleFilterSelect(filter, item.id),
-                      font: "text-sm",
-                      color: "text-gray-600"
-                    }, item.id))
-                  })
-                }, filter)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  text: t("Apply"),
-                  type: "primary",
-                  justify: "justify-center",
-                  onAction: () => {
-                    setFiltersOpen(false);
-                  }
-                }), isFiltersApplied() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                  text: t("Clear filters"),
-                  type: "secondary",
-                  justify: "justify-center",
-                  onAction: () => {
-                    resetFilters();
-                    setFiltersOpen(false);
-                  }
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("button", {
-              className: "new-event-button",
-              onClick: () => handleCreateNewEvent(),
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_17__["default"], {
-                className: "w-5 h-5 mr-2"
-              }), t("Create event")]
-            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("button", {
+            className: "new-event-button",
+            onClick: handleCreateNewEvent,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_18__["default"], {
+              className: "w-5 h-5 mr-2"
+            }), t("Create event")]
           })]
         })]
-      })
-    });
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_PageWrapper__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      })]
+    })
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_0__["default"], {
     withBackground: true,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
         className: "servv-dashboard-header main-dashboard",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h1", {
             className: "dashboard-title",
             children: `Welcome${pw_title ? ", " + pw_title : ""}`
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("p", {
             className: "dashboard-description",
             children: "Create, sell, and manage paid events, bookings, and customers from one revenue platform"
           })]
-        }), pw_title && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+        }), pw_title && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
           className: "dashbaord-profile",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("img", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("img", {
             className: "profile-image",
-            src: pw_avatar,
+            src: pw_avatar || `${servvData.pluginUrl}/public/assets/images/avatarPlaceholder.png`,
             alt: "Profile image"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
             className: "profile-description",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
               className: "profile-name",
               children: pw_title
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
               className: "profile-email",
               children: pw_email
-            }), !settings?.is_wp_is_wp_marketplace && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+            }), !settings?.is_wp_is_wp_marketplace && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
               className: "profile-link",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("a", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("a", {
                 className: "view-widget",
                 href: servvData.homepage,
                 children: "View homepage"
@@ -866,36 +871,34 @@ const Dashboard = () => {
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
         className: "header-line"
-      }), renderEventsActions(), !loading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-        children: firstFetchDone && meetingsList.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+      }), renderEventsActions(), !mergedLoading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+        children: firstFetchDone && mergedList.length === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
           className: "dashboard-empty-state",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h1", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h1", {
             className: "dashboard-empty-state-title",
             children: "You don't have any events yet"
           })
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
             className: "dashboard-events",
             children: renderEventsCards()
-          }), meetingsList.length > 0 && pagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_DashboardPagination__WEBPACK_IMPORTED_MODULE_13__["default"], {
-            currentPage: pagination.pageNumber,
-            totalPages: pagination.pageCount,
-            totalRecords: pagination.total || meetingsList.length,
+          }), mergedList.length > 0 && mergedPagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_DashboardPagination__WEBPACK_IMPORTED_MODULE_13__["default"], {
+            currentPage: mergedPagination.pageNumber,
+            totalPages: mergedPagination.pageCount,
+            totalRecords: mergedPagination.totalItems || mergedList.length,
             pageSize: 10,
-            onPageChange: page => getEventsList({
+            onPageChange: page => getMergedEventsList({
               page
             })
           })]
         })
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_15__["default"], {
+        isLoading: mergedLoading,
+        customStyling: "h-[50vh]"
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
-      className: "flex flex-1 items-center justify-center",
-      children: (loading && !firstFetchDone || loading) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_12__["default"], {
-        loading: true
-      })
-    })]
+    })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dashboard);
@@ -1133,9 +1136,17 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
       occurrence_id
     } = selected;
     if (occurrence_id) {
-      navigate(`/events/${eventType}/${id}?occ=${occurrence_id}`);
+      navigate(`/events/${eventType}/${id}?occ=${occurrence_id}`, {
+        state: {
+          from: location.pathname
+        }
+      });
     } else {
-      navigate(`/events/${eventType}/${id}`);
+      navigate(`/events/${eventType}/${id}`, {
+        state: {
+          from: location.pathname
+        }
+      });
     }
   };
   const normalizeDate = d => {
@@ -1510,6 +1521,722 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
 
 /***/ }),
 
+/***/ "./src/Components/Pages/Events/useEventsLogicMerged.js":
+/*!*************************************************************!*\
+  !*** ./src/Components/Pages/Events/useEventsLogicMerged.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useEventsLogic: () => (/* binding */ useEventsLogic)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../utilities/timezones */ "./src/utilities/timezones.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
+
+
+
+
+
+
+
+
+const useEventsLogic = (settings, filtersList, zoomAccount) => {
+  const PAGE_SIZE = 10;
+  const isZoomConnected = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_4__.useServvStore)(s => s.zoomConnected);
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
+  const syncAccountsAfterEvents = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_4__.useServvStore)(s => s.syncAccountsAfterEvents);
+  const syncFiltersFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_4__.useServvStore)(s => s.syncFiltersFromServer);
+
+  // =====================================================================
+  // STATE
+  // =====================================================================
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [showGuide, setShowGuide] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [firstFetchDone, setFirstFetchDone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [selectedEvents, setSelectedEvents] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [isPast, setIsPast] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [eventType, setEventType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("all");
+  const [dates, setDates] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    startDate: null,
+    endDate: null
+  });
+  const [searchString, setSearchString] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [selectedFilters, setSelectedFilters] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [meetingsList, setMeetingsList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [eventOccurrencess, setEventOccurrencess] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [pagination, setPagination] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [occurrencesPagination, setOccurrencesPagination] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [selectedEventForOccurrences, setSelectedEventForOccurrences] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [mergedList, setMergedList] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [mergedPagination, setMergedPagination] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+  const [mergedLoading, setMergedLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [view, setView] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("events");
+  const [selectedEvent, setSelectedEvent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [selectedOccurrence, setSelectedOccurrence] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [attributes, setAttributes] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    meeting: {},
+    product: {},
+    notifications: {},
+    tickets: []
+  });
+  const [timeFormat, setTimeFormat] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("hh:mm a");
+  const [timezone, setTimezone] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("US/Pacific");
+  const [showError, setShowError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+
+  // =====================================================================
+  // HELPERS
+  // =====================================================================
+
+  const getFilteringParameterName = type => {
+    switch (type) {
+      case "locations":
+        return "location_id";
+      case "languages":
+        return "language_id";
+      case "categories":
+        return "category_id";
+      case "members":
+        return "member_id";
+      default:
+        return null;
+    }
+  };
+  const timezones = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => Object.keys(_utilities_timezones__WEBPACK_IMPORTED_MODULE_3__.timezonesList).map(zone => ({
+    id: zone,
+    name: _utilities_timezones__WEBPACK_IMPORTED_MODULE_3__.timezonesList[zone]
+  })), []);
+  const normalizeDate = d => {
+    if (!d) return null;
+    if (moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().isMoment(d)) return d;
+    if (d instanceof Date) return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(d);
+    return null;
+  };
+  const resetFilters = () => {
+    setSearchString("");
+    setDates({
+      startDate: null,
+      endDate: null
+    });
+    setSelectedFilters({});
+  };
+  const isFiltersApplied = () => {
+    if (searchString.length > 0) return true;
+    if (dates.startDate) return true;
+    return Object.values(selectedFilters).some(arr => arr.length > 0);
+  };
+  const handleFilterSelect = (filter, id) => {
+    setSelectedFilters(prev => {
+      const updated = {
+        ...prev
+      };
+      if (!updated[filter]) {
+        updated[filter] = [id];
+      } else if (updated[filter].includes(id)) {
+        updated[filter] = updated[filter].filter(i => i !== id);
+      } else {
+        updated[filter].push(id);
+      }
+      return updated;
+    });
+  };
+  const handleEventChange = newAttr => {
+    setAttributes(prev => ({
+      ...prev,
+      ...newAttr
+    }));
+  };
+
+  // =====================================================================
+  // DATE HELPERS
+  // =====================================================================
+
+  const handleSetDates = dates => {
+    const start = normalizeDate(dates.startDate);
+    const end = normalizeDate(dates.endDate);
+    const startDate = start ? moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz({
+      year: start.year(),
+      month: start.month(),
+      day: start.date(),
+      hour: 0,
+      minute: 0,
+      second: 0
+    }, timezone.id) : null;
+    const endDate = end ? moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz({
+      year: end.year(),
+      month: end.month(),
+      day: end.date(),
+      hour: 23,
+      minute: 59,
+      second: 0
+    }, timezone.id) : null;
+    setDates({
+      startDate,
+      endDate
+    });
+  };
+  const applyDatePreset = dates => {
+    handleSetDates(dates);
+    if (eventType === "all") {
+      getMergedEventsList({
+        is_Past: isPast,
+        search: searchString,
+        datesObj: {
+          startDate: dates.startDate,
+          endDate: dates.endDate
+        },
+        filtersObj: selectedFilters,
+        page: 1
+      });
+    } else {
+      getEventsList({
+        type: eventType,
+        is_Past: isPast,
+        search: searchString,
+        datesObj: {
+          startDate: dates.startDate,
+          endDate: dates.endDate
+        },
+        filtersObj: selectedFilters,
+        page: 1
+      });
+    }
+  };
+
+  // =====================================================================
+  // SEARCH
+  // =====================================================================
+
+  const handleSearchSubmit = value => {
+    setSearchString(value);
+    if (eventType === "all") {
+      getMergedEventsList({
+        is_Past: isPast,
+        search: value,
+        datesObj: dates,
+        filtersObj: selectedFilters
+      });
+    } else {
+      getEventsList({
+        type: eventType,
+        is_Past: isPast,
+        search: value,
+        datesObj: dates,
+        filtersObj: selectedFilters
+      });
+    }
+  };
+
+  // =====================================================================
+  // NAVIGATION
+  // =====================================================================
+
+  const handleOpenEvent = selected => {
+    const {
+      id,
+      occurrence_id,
+      type
+    } = selected;
+    const pathType = type === "Zoom" ? "zoom" : eventType === "all" ? "offline" : eventType;
+    if (occurrence_id) {
+      navigate(`/events/${pathType}/${id}?occ=${occurrence_id}`);
+    } else {
+      navigate(`/events/${pathType}/${id}`);
+    }
+  };
+
+  // =====================================================================
+  // URL BUILDER
+  // =====================================================================
+
+  const buildEventsUrl = ({
+    type,
+    page,
+    pageSize = PAGE_SIZE,
+    is_Past,
+    search,
+    datesObj,
+    filtersObj
+  }) => {
+    let url = `/wp-json/servv-plugin/v1/events/${type}?page_size=${pageSize}&page=${page}&without_occurrences=true`;
+    if (!is_Past && search) url += `&search=${search}`;
+    if (!is_Past && datesObj?.startDate && datesObj?.endDate) {
+      url += `&start_datetime=${moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(datesObj.startDate).format("YY-MM-DD HH:mm:ss")}` + `&end_datetime=${moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(datesObj.endDate).format("YY-MM-DD HH:mm:ss")}`;
+    }
+    if (!is_Past && filtersObj) {
+      Object.entries(filtersObj).forEach(([group, ids]) => {
+        const param = getFilteringParameterName(group);
+        if (!param) return;
+        ids.forEach(id => url += `&${param}=${id}`);
+      });
+    }
+    if (is_Past) url += `&is_past=1`;
+    return url;
+  };
+
+  // =====================================================================
+  // ROW MAPPER
+  // =====================================================================
+
+  const mapEventRows = (meetings, type, is_Past) => (meetings || []).map(m => {
+    const dt = m.start_time ? moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz(m.start_time, m.timezone) : null;
+    return {
+      id: m.id,
+      occurrence_id: m.occurrence_id,
+      title: m.topic || "(No title)",
+      post_id: m.shop_post_object_id,
+      date: dt ? dt.format("MMM DD, YYYY") : null,
+      time: dt ? dt.format("hh:mm a") : null,
+      _sortKey: dt ? dt.valueOf() : 0,
+      timezone: m.timezone,
+      location: m.location || "",
+      type: type === "offline" ? "Event" : "Zoom",
+      recurrence: m.type === 2 && type === "offline" || m.type === 8 && type === "zoom" ? "Recurring" : "One-time",
+      status: is_Past ? "Past" : m.is_hidden ? "Unlisted" : "On sale"
+    };
+  });
+
+  // =====================================================================
+  // MAIN FETCH — SINGLE TYPE (offline | zoom)
+  // =====================================================================
+
+  const syncedAfterEventsRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  const stateRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)({});
+  stateRef.current = {
+    eventType,
+    isPast,
+    searchString,
+    dates,
+    selectedFilters,
+    settings,
+    isZoomConnected
+  };
+  const getEventsList = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(async ({
+    page = 1,
+    type,
+    is_Past,
+    search,
+    datesObj,
+    filtersObj
+  } = {}) => {
+    var _type, _is_Past, _search, _datesObj, _filtersObj;
+    const s = stateRef.current;
+    type = (_type = type) !== null && _type !== void 0 ? _type : s.eventType;
+    is_Past = (_is_Past = is_Past) !== null && _is_Past !== void 0 ? _is_Past : s.isPast;
+    search = (_search = search) !== null && _search !== void 0 ? _search : s.searchString;
+    datesObj = (_datesObj = datesObj) !== null && _datesObj !== void 0 ? _datesObj : s.dates;
+    filtersObj = (_filtersObj = filtersObj) !== null && _filtersObj !== void 0 ? _filtersObj : s.selectedFilters;
+    if (!s.settings) return;
+    setLoading(true);
+    try {
+      const url = buildEventsUrl({
+        type,
+        page,
+        is_Past,
+        search,
+        datesObj,
+        filtersObj
+      });
+      const res = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get(url, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
+      });
+      const rows = mapEventRows(res.data.meetings, type, is_Past);
+      setMeetingsList(rows);
+      setFirstFetchDone(true);
+      setPagination({
+        pageNumber: res.data.page_number,
+        pageCount: res.data.page_count
+      });
+    } catch (e) {
+      console.error(e);
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)("Error fetching events");
+    } finally {
+      setFirstFetchDone(true);
+      setLoading(false);
+    }
+    if (!syncedAfterEventsRef.current) {
+      syncedAfterEventsRef.current = true;
+      await syncAccountsAfterEvents?.();
+      await syncFiltersFromServer?.();
+    }
+  }, [] // stable — reads live values via stateRef
+  );
+
+  // =====================================================================
+  // MERGED FETCH — offline always, zoom only if isZoomConnected
+  // =====================================================================
+
+  const getMergedEventsList = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(async ({
+    page = 1,
+    is_Past,
+    search,
+    datesObj,
+    filtersObj
+  } = {}) => {
+    var _is_Past2, _search2, _datesObj2, _filtersObj2;
+    const s = stateRef.current;
+    is_Past = (_is_Past2 = is_Past) !== null && _is_Past2 !== void 0 ? _is_Past2 : s.isPast;
+    search = (_search2 = search) !== null && _search2 !== void 0 ? _search2 : s.searchString;
+    datesObj = (_datesObj2 = datesObj) !== null && _datesObj2 !== void 0 ? _datesObj2 : s.dates;
+    filtersObj = (_filtersObj2 = filtersObj) !== null && _filtersObj2 !== void 0 ? _filtersObj2 : s.selectedFilters;
+    if (!s.settings) return;
+    setMergedLoading(true);
+    const headers = {
+      "X-WP-Nonce": servvData.nonce
+    };
+    const ITEMS_PER_TYPE = 5;
+    const TARGET = PAGE_SIZE; // 10 total
+
+    try {
+      var _offlineRes$data$meet, _zoomRes$data$meeting, _offlineRes$data$tota, _zoomRes$data$total_r;
+      // ── STEP 1: fetch from both endpoints ─────────────────────────────────
+      // if zoom not connected, fetch full TARGET from offline right away
+      const offlinePageSize = s.isZoomConnected ? ITEMS_PER_TYPE : TARGET;
+      const [offlineRes, zoomRes] = await Promise.all([axios__WEBPACK_IMPORTED_MODULE_6__["default"].get(buildEventsUrl({
+        type: "offline",
+        page,
+        pageSize: offlinePageSize,
+        is_Past,
+        search,
+        datesObj,
+        filtersObj
+      }), {
+        headers
+      }), s.isZoomConnected ? axios__WEBPACK_IMPORTED_MODULE_6__["default"].get(buildEventsUrl({
+        type: "zoom",
+        page,
+        pageSize: ITEMS_PER_TYPE,
+        is_Past,
+        search,
+        datesObj,
+        filtersObj
+      }), {
+        headers
+      }) : Promise.resolve(null)]);
+      let offlineMeetings = (_offlineRes$data$meet = offlineRes.data.meetings) !== null && _offlineRes$data$meet !== void 0 ? _offlineRes$data$meet : [];
+      let zoomMeetings = zoomRes ? (_zoomRes$data$meeting = zoomRes.data.meetings) !== null && _zoomRes$data$meeting !== void 0 ? _zoomRes$data$meeting : [] : [];
+      const offlineTotal = (_offlineRes$data$tota = offlineRes.data.total_records) !== null && _offlineRes$data$tota !== void 0 ? _offlineRes$data$tota : 0;
+      const zoomTotal = zoomRes ? (_zoomRes$data$total_r = zoomRes.data.total_records) !== null && _zoomRes$data$total_r !== void 0 ? _zoomRes$data$total_r : 0 : 0;
+
+      // ── STEP 2: balance — only needed when zoom is connected ───────────────
+      if (s.isZoomConnected) {
+        const offlineGot = offlineMeetings.length;
+        const zoomGot = zoomMeetings.length;
+        const deficit = TARGET - (offlineGot + zoomGot);
+        if (deficit > 0) {
+          if (offlineGot < ITEMS_PER_TYPE && zoomGot >= ITEMS_PER_TYPE) {
+            var _extraZoomRes$data$me;
+            // offline ran short, top up from zoom
+            const extraZoomRes = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get(buildEventsUrl({
+              type: "zoom",
+              page,
+              pageSize: ITEMS_PER_TYPE + deficit,
+              is_Past,
+              search,
+              datesObj,
+              filtersObj
+            }), {
+              headers
+            });
+            zoomMeetings = (_extraZoomRes$data$me = extraZoomRes.data.meetings) !== null && _extraZoomRes$data$me !== void 0 ? _extraZoomRes$data$me : [];
+          } else if (zoomGot < ITEMS_PER_TYPE && offlineGot >= ITEMS_PER_TYPE) {
+            var _extraOfflineRes$data;
+            // zoom ran short, top up from offline
+            const extraOfflineRes = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get(buildEventsUrl({
+              type: "offline",
+              page,
+              pageSize: ITEMS_PER_TYPE + deficit,
+              is_Past,
+              search,
+              datesObj,
+              filtersObj
+            }), {
+              headers
+            });
+            offlineMeetings = (_extraOfflineRes$data = extraOfflineRes.data.meetings) !== null && _extraOfflineRes$data !== void 0 ? _extraOfflineRes$data : [];
+          }
+        }
+      }
+
+      // ── STEP 3: map, merge, sort ───────────────────────────────────────────
+      const allOffline = mapEventRows(offlineMeetings, "offline", is_Past);
+      const allZoom = mapEventRows(zoomMeetings, "zoom", is_Past);
+      const merged = [...allOffline, ...allZoom].sort((a, b) => is_Past ? b._sortKey - a._sortKey : a._sortKey - b._sortKey);
+
+      // ── STEP 4: pagination — based on server totals ────────────────────────
+      const totalItems = offlineTotal + zoomTotal;
+      const totalPages = Math.max(1, Math.ceil(totalItems / TARGET));
+      const safePage = Math.min(Math.max(1, page), totalPages);
+      setMergedList(merged);
+      setMergedPagination({
+        pageNumber: safePage,
+        pageCount: totalPages,
+        totalItems
+      });
+      setFirstFetchDone(true);
+    } catch (e) {
+      console.error(e);
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)("Error fetching merged events");
+    } finally {
+      setMergedLoading(false);
+    }
+    if (!syncedAfterEventsRef.current) {
+      syncedAfterEventsRef.current = true;
+      await syncAccountsAfterEvents?.();
+      await syncFiltersFromServer?.();
+    }
+  }, []);
+
+  // =====================================================================
+  // OCCURRENCES
+  // =====================================================================
+
+  const getEventOccurrencess = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(async (event, page = 1) => {
+    const s = stateRef.current;
+    if (!s.settings) return;
+    setLoading(true);
+    try {
+      var _res$data$meetings;
+      const res = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get(`/wp-json/servv-plugin/v1/event/${event}/occurrences?page_size=10&page=${page}`, {
+        headers: {
+          "X-WP-Nonce": servvData.nonce
+        }
+      });
+      const rows = ((_res$data$meetings = res.data.meetings) !== null && _res$data$meetings !== void 0 ? _res$data$meetings : []).map(m => {
+        const dt = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz(m.start_time, m.timezone);
+        return {
+          id: m.id,
+          occurrence_id: m.occurrence_id,
+          title: m.topic || "(No title)",
+          post_id: m.shop_post_object_id,
+          timezone: m.timezone,
+          date: dt.format("MMM DD, YYYY"),
+          time: dt.format("hh:mm a"),
+          location: m.location || "",
+          type: eventType === "offline" ? "Event" : "Zoom",
+          recurrence: m.type === 2 && eventType === "offline" ? "One-time" : "Recurring",
+          status: isPast ? "Past" : m.is_hidden ? "Unlisted" : "On sale",
+          tickets: "0/0"
+        };
+      });
+      setEventOccurrencess(rows || []);
+      setSelectedEventForOccurrences(event);
+      setView("occurrences");
+      setOccurrencesPagination({
+        pageNumber: res.data.page_number,
+        pageCount: res.data.page_count
+      });
+    } catch {
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)("Error fetching occurrences.");
+    } finally {
+      setLoading(false);
+    }
+  }, [] // stable — reads live values via stateRef
+  );
+
+  // =====================================================================
+  // DELETE
+  // =====================================================================
+
+  const handleEventDelete = async (postID, occurrenceID) => {
+    let url = `/wp-json/servv-plugin/v1/event/${postID}`;
+    if (occurrenceID) url += `?occurrence_id=${occurrenceID}`;
+    await (0,axios__WEBPACK_IMPORTED_MODULE_6__["default"])({
+      url,
+      method: "DELETE",
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
+    });
+    if (occurrenceID) {
+      setEventOccurrencess(prev => prev.filter(o => o.occurrence_id !== occurrenceID));
+      if (selectedEventForOccurrences) {
+        var _occurrencesPaginatio;
+        await getEventOccurrencess(selectedEventForOccurrences, (_occurrencesPaginatio = occurrencesPagination.pageNumber) !== null && _occurrencesPaginatio !== void 0 ? _occurrencesPaginatio : 1);
+      }
+    } else {
+      if (eventType === "all") getMergedEventsList();else getEventsList();
+    }
+  };
+  const handleMultipleEventsDelete = async () => {
+    const eventsIDs = selectedEvents.map(event => ({
+      id: event.post_id,
+      occurrenceId: event.occurrence_id
+    }));
+    try {
+      await Promise.all(eventsIDs.map(({
+        id,
+        occurrenceId
+      }) => handleEventDelete(id, occurrenceId)));
+    } catch (error) {
+      console.error("Error deleting events:", error);
+    }
+  };
+
+  // =====================================================================
+  // EFFECTS
+  // =====================================================================
+
+  const lastFetchedRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const shouldFetch = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
+    var _s$dates$startDate$va, _s$dates$endDate$valu;
+    const s = stateRef.current;
+    if (!s.settings) return false;
+    const next = {
+      eventType: s.eventType,
+      isPast: s.isPast,
+      startDate: (_s$dates$startDate$va = s.dates.startDate?.valueOf()) !== null && _s$dates$startDate$va !== void 0 ? _s$dates$startDate$va : null,
+      endDate: (_s$dates$endDate$valu = s.dates.endDate?.valueOf()) !== null && _s$dates$endDate$valu !== void 0 ? _s$dates$endDate$valu : null,
+      filters: JSON.stringify(s.selectedFilters),
+      isZoomConnected: s.isZoomConnected // re-fetch if zoom connection changes
+    };
+    const prev = lastFetchedRef.current;
+    if (prev && prev.eventType === next.eventType && prev.isPast === next.isPast && prev.startDate === next.startDate && prev.endDate === next.endDate && prev.filters === next.filters && prev.isZoomConnected === next.isZoomConnected) return false;
+    lastFetchedRef.current = next;
+    return true;
+  }, []);
+  const doFetch = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
+    const s = stateRef.current;
+    if (s.eventType === "all") {
+      getMergedEventsList({
+        is_Past: s.isPast,
+        search: s.searchString,
+        datesObj: s.dates,
+        filtersObj: s.selectedFilters
+      });
+    } else {
+      getEventsList({
+        type: s.eventType,
+        is_Past: s.isPast,
+        search: s.searchString,
+        datesObj: s.dates,
+        filtersObj: s.selectedFilters
+      });
+    }
+  }, [getMergedEventsList, getEventsList]);
+
+  // 1) INITIAL LOAD
+  const initialLoadDoneRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!settings || initialLoadDoneRef.current) return;
+    initialLoadDoneRef.current = true;
+    shouldFetch();
+    doFetch();
+  }, [settings]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 2) FILTER / TYPE / ZOOM CONNECTION CHANGES
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!initialLoadDoneRef.current) return;
+    if (!shouldFetch()) return;
+    doFetch();
+  }, [isPast, eventType, dates.startDate?.valueOf(), dates.endDate?.valueOf(),
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  JSON.stringify(selectedFilters), isZoomConnected // re-fetch when zoom connects/disconnects
+  ]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 3) TOAST ERRORS
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (showError) (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)(showError);
+  }, [showError]);
+
+  // 4) TIME FORMAT & TIMEZONE — runs once
+  const settingsAppliedRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!settings || settingsAppliedRef.current) return;
+    settingsAppliedRef.current = true;
+    if (settings.settings?.time_format_24_hours) setTimeFormat("HH:mm");else setTimeFormat("hh:mm a");
+    let tzGuess = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz.guess();
+    if (settings.settings?.admin_dashboard) {
+      const dash = JSON.parse(settings.settings.admin_dashboard);
+      tzGuess = dash.default_timezone || tzGuess;
+    }
+    const found = timezones.find(z => z.id === tzGuess);
+    if (found) setTimezone(found);
+  }, [settings]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // =====================================================================
+  // EXPOSE
+  // =====================================================================
+
+  return {
+    loading,
+    mergedLoading,
+    showGuide,
+    isPast,
+    eventType,
+    dates,
+    view,
+    searchString,
+    selectedFilters,
+    selectedEvent,
+    selectedOccurrence,
+    attributes,
+    timezone,
+    timeFormat,
+    firstFetchDone,
+    meetingsList,
+    pagination,
+    mergedList,
+    mergedPagination,
+    eventOccurrencess,
+    occurrencesPagination,
+    setSelectedEvent,
+    setSelectedOccurrence,
+    setView,
+    setAttributes,
+    setShowGuide,
+    handleOpenEvent,
+    handleIsPastChange: () => setIsPast(p => !p),
+    handleTypeChange: t => setEventType(t),
+    handleSetDates,
+    applyDatePreset,
+    handleSearchChange: setSearchString,
+    handleSearchSubmit,
+    handleFilterSelect,
+    resetFilters,
+    isFiltersApplied,
+    handleEventChange,
+    handleReturnWithError: err => setShowError(err),
+    resetSubpageSelection: () => {
+      setSelectedEvent(null);
+      setSelectedEventForOccurrences(null);
+      setSelectedOccurrence(null);
+    },
+    getEventsList,
+    getMergedEventsList,
+    getEventOccurrencess,
+    handleGetPrevPage: () => pagination.pageNumber > 1 && getEventsList({
+      page: pagination.pageNumber - 1
+    }),
+    handleGetNextPage: () => pagination.pageNumber < pagination.pageCount && getEventsList({
+      page: pagination.pageNumber + 1
+    }),
+    handleGetPrevMergedPage: () => mergedPagination.pageNumber > 1 && getMergedEventsList({
+      page: mergedPagination.pageNumber - 1
+    }),
+    handleGetNextMergedPage: () => mergedPagination.pageNumber < mergedPagination.pageCount && getMergedEventsList({
+      page: mergedPagination.pageNumber + 1
+    }),
+    handleGetPrevOccurrencessPage: () => occurrencesPagination.pageNumber > 1 && getEventOccurrencess(selectedEventForOccurrences, occurrencesPagination.pageNumber - 1),
+    handleGetNextOccurrencessPage: () => occurrencesPagination.pageNumber < occurrencesPagination.pageCount && getEventOccurrencess(selectedEventForOccurrences, occurrencesPagination.pageNumber + 1),
+    handleEventDelete,
+    handleMultipleEventsDelete,
+    selectedEvents,
+    setSelectedEvents
+  };
+};
+
+/***/ }),
+
 /***/ "./src/Components/Pages/PageWrapper.jsx":
 /*!**********************************************!*\
   !*** ./src/Components/Pages/PageWrapper.jsx ***!
@@ -1567,6 +2294,46 @@ const PageWrapper = props => {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageWrapper);
+
+/***/ }),
+
+/***/ "./src/Components/Pages/SpinnerLoader.jsx":
+/*!************************************************!*\
+  !*** ./src/Components/Pages/SpinnerLoader.jsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const SpinnerLoader = ({
+  isLoading,
+  children,
+  customStyling
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "relative",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: isLoading ? "blur-sm pointer-events-none" : "",
+      children: children
+    }), isLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: `absolute inset-0 flex items-center justify-center ${customStyling}`,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        loading: true
+      })
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpinnerLoader);
 
 /***/ }),
 
@@ -2368,4 +3135,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=16ce20485888424c631e
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=8212539ef76e846f55e6

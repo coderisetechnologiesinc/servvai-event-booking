@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import ModalShell from "./ModalShell";
 import SpinnerLoader from "./Pages/SpinnerLoader";
+import { useServvStore } from "../store/useServvStore";
 
 const BillingStep = ({
   attributes,
@@ -26,7 +27,7 @@ const BillingStep = ({
   const [showPaymentOptionsModal, setShowPaymentOptionsModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [stripeForm, setStripeForm] = useState(null);
-
+  const { fetchSettings } = useServvStore();
   useEffect(() => {
     getBillingPlans();
   }, []);
@@ -62,10 +63,13 @@ const BillingStep = ({
       const stripe = await loadStripe(public_key);
 
       const handleComplete = async () => {
+        setLoading(true);
         checkout.destroy();
         toast("Your billing plan has been successfully activated.");
         setShowPaymentForm(false);
         setAttributes({ planActivated: true, planId: id });
+        await fetchSettings();
+        setLoading(false);
       };
 
       const checkout = await stripe.initEmbeddedCheckout({
@@ -74,7 +78,7 @@ const BillingStep = ({
       });
 
       setShowPaymentForm(true);
-      checkout.mount("#servv-billing-payment-element");
+      checkout.mount("#servv-payment-element");
       setStripeForm(checkout);
     }
     setLoading(false);
@@ -191,10 +195,9 @@ const BillingStep = ({
                 })}
               </div>
             </SpinnerLoader>
-          ) : (
-            <div id="servv-billing-payment-element" />
-          )}
+          ) : null}
         </div>
+        <div id="servv-payment-element" />
 
         {/* Actions */}
         {!loading && billingPlans && (

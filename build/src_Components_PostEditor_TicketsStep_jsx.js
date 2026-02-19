@@ -321,7 +321,7 @@ const RadioGroup = ({
         value: opt.value,
         checked: value === opt.value,
         onChange: () => onChange(opt.value),
-        disabled: disabled
+        disabled: disabled || opt.disabled
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "servv-radio__control"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
@@ -455,9 +455,10 @@ const TicketsStep = ({
   isNew,
   settings,
   isError,
+  handleFormSubmit,
   setError = () => {}
 }) => {
-  var _activeTicket$quantit, _product$quantity, _activeTicket$price;
+  var _activeTicket$quantit, _ref, _product$quantity, _activeTicket$price;
   const {
     quantity = 100,
     availability = "open" // "open" | "scheduled"
@@ -466,7 +467,7 @@ const TicketsStep = ({
   const [MAX_QTY, SET_MAX_QTY] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(settings.free_registrants_limit || 15);
   const [defaultQty, setDefaultQty] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
   const [defaultPrice, setDefaultPrice] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1);
-  const isFreePlanRestricted = !stripeConnected || settings?.current_plan?.id === 1;
+  const isFreePlanRestricted = settings?.current_plan?.id === 1;
   const AVAILABILITY_OPTIONS = [{
     value: "open",
     label: "Open"
@@ -474,16 +475,18 @@ const TicketsStep = ({
     value: "scheduled",
     label: "Sales Start & End"
   }];
-  const TIYCKET_TYPES = [{
+  const [TIYCKET_TYPES, setTicketTypes] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([{
     value: "free",
     label: "Free"
   }, {
     value: "paid",
-    label: "Paid"
+    label: "Paid",
+    disabled: true
   }, {
     value: "donation",
-    label: "Donation"
-  }];
+    label: "Donation",
+    disabled: true
+  }]);
   const tickets = attributes?.tickets || [];
   const timezone = attributes?.meeting?.timezone || "UTC";
   const product = attributes?.product;
@@ -537,6 +540,20 @@ const TicketsStep = ({
       setDefaultPrice(defaultPriceFromSettings);
     }
   }, [settings]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (stripeConnected) {
+      setTicketTypes([{
+        value: "free",
+        label: "Free"
+      }, {
+        value: "paid",
+        label: "Paid"
+      }, {
+        value: "donation",
+        label: "Donation"
+      }]);
+    }
+  }, [stripeConnected]);
 
   // useEffect(() => {
   //   if (!isFreePlanRestricted) return;
@@ -704,7 +721,7 @@ const TicketsStep = ({
   const qty = (_activeTicket$quantit = activeTicket?.quantity) !== null && _activeTicket$quantit !== void 0 ? _activeTicket$quantit : MIN_QTY;
   const isFreeTicket = activeTicket?.type === "free";
   const productMaxQty = settings.free_registrants_limit || 15;
-  const productQty = (_product$quantity = product.quantity) !== null && _product$quantity !== void 0 ? _product$quantity : productMaxQty;
+  const productQty = (_ref = (_product$quantity = product.quantity) !== null && _product$quantity !== void 0 ? _product$quantity : product.current_quantity) !== null && _ref !== void 0 ? _ref : productMaxQty;
   const activeFreeQty = isFreeTicket && typeof activeTicket?.quantity === "number" ? activeTicket.quantity : 0;
   const MAX_TICKET_QTY = isFreeTicket ? activeFreeQty + MAX_QTY : 500;
   const freeQuotaExcludingActive = (() => {
@@ -865,16 +882,16 @@ const TicketsStep = ({
             })]
           }, ticket.id))
         }), tickets.length > 0 && activeTicketId && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-          children: [stripeConnected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "step__content_block",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               className: "step__content_title",
               children: "Type"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_2__["default"], {
               name: "ticket-type",
-              value: stripeConnected ? activeTicket?.type || "free" : "free",
+              value: activeTicket?.type || "free",
               options: TIYCKET_TYPES,
-              disabled: !stripeConnected,
+              disabled: isFreePlanRestricted,
               onChange: val => {
                 const prevType = activeTicket?.type;
                 const prevQty = Number(activeTicket?.quantity || MIN_QTY);
@@ -904,6 +921,9 @@ const TicketsStep = ({
                 }
                 updateTicket(activeTicketId, patch);
               }
+            }), !stripeConnected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+              className: "servv_ticket_quantity__hint text-justify",
+              children: "To create paid or donation tickets, you need to connect your Stripe account."
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "step__content_block",
@@ -1092,7 +1112,12 @@ const TicketsStep = ({
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "servv_actions mt-auto",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+      children: [!isNew && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+        type: "button",
+        className: "servv_button servv_button--secondary",
+        onClick: () => handleFormSubmit(true),
+        children: "Save and Exit"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
         type: "button",
         className: "servv_button servv_button--secondary",
         onClick: () => changeStep("venue"),
@@ -1283,4 +1308,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=92ea9e167f9edd5a096e
+//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=6a385f4ce70cf5de00a0
