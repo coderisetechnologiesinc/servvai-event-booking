@@ -1,3 +1,16 @@
+# v1.0.24
+
+1.0.24 (2026-02-20)
+
+## Hotfix Release
+
+- ## What's Changed (80a12e6)
+- * fix: merge events and activate billing (80a12e6)
+- * fix:merged pagination (80a12e6)
+- * hotfix: onboarding redirects (80a12e6)
+- * feat: location type (80a12e6)
+- * hotfix: ui ux fixes (80a12e6)
+
 # v1.0.23
 
 1.0.23 (2026-02-14)
