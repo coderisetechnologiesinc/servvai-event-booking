@@ -542,7 +542,7 @@ const SettingsSection = ({
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "settings-card h-full",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "flex flex-col justify-center items-center p-4 gap-3 w-full min-w-[330px] bg-white border-2 border-[#E9EAEB] shadow-[0px_4px_12px_rgba(0,0,0,0.05)] rounded-xl h-full flex-1",
+          className: "flex flex-col justify-center items-center p-4 gap-3 w-full min-w-0 sm:min-w-[330px]  bg-white border-2 border-[#E9EAEB] shadow-[0px_4px_12px_rgba(0,0,0,0.05)] rounded-xl h-full flex-1",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "flex flex-col items-start gap-3 w-full",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -573,7 +573,7 @@ const SettingsSection = ({
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "w-full h-px bg-[#E6E6EB]"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-            className: "flex justify-between items-center w-full h-10",
+            className: "flex justify-between items-center w-full h-10 gap-[10px] mr-auto",
             children: [direct && onView ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
               onClick: onView,
               className: "flex items-center gap-2 px-4 py-2.5 h-10 bg-white border border-[#D5D7DA] rounded-lg shadow-sm hover:bg-gray-50",
@@ -623,7 +623,7 @@ const SettingsSection = ({
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
     className: `settings-slide ${mode === "closing" ? "settings-edit-exit" : "settings-edit-enter"}`,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "w-full",
+      className: "w-full max-w-[100%]",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "servv-dashboard-header",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -666,4 +666,4 @@ const SettingsSection = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=db18acbfeb64e675c45a
+//# sourceMappingURL=src_Components_Pages_FiltersPage_jsx.js.map?ver=c2335ef87ce4af78fb4b

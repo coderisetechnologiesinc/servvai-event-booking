@@ -60,7 +60,7 @@ const SettingsPage = () => {
   const [activeSection, setActiveSection] = useState(null);
 
   const stripeConnected = useServvStore((s) => s.stripeConnected);
-
+  const fetchSettings = useServvStore((s) => s.fetchSettings);
   const timezones = Object.keys(timezonesList).map((zone) => ({
     id: zone,
     name: timezonesList[zone],
@@ -363,6 +363,7 @@ const SettingsPage = () => {
 
     if (saveSettingsResponse?.status === 200) {
       toast("Settings saved successfully.");
+      fetchSettings();
     }
     setLoading(false);
   };
@@ -985,7 +986,7 @@ const SettingsPage = () => {
         <div className="header-line" />
 
         <PageContent className="py-0 my-0">
-          <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))] gap-6 items-stretch">
+          <div className="w-full flex flex-col max-w-[100%] gap-6 items-stretch sm:grid sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))]">
             {/* General Settings */}
             {(!activeSection || activeSection === "general") && (
               <SettingsSection

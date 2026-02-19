@@ -8,6 +8,9 @@ import Layout from "./Components/Layout/Layout.jsx";
 import "./Components/Layout/Layout.css";
 
 const EventsPage = React.lazy(() => import("./Components/Pages/EventsPage"));
+const EventsListPage = React.lazy(() =>
+  import("./Components/Pages/EventsListPage"),
+);
 const IntegrationsPage = React.lazy(() =>
   import("./Components/Pages/IntegrationsPage"),
 );
@@ -141,7 +144,8 @@ const AppRouter = ({ restAPIAvailable }) => {
         <Route element={<LayoutWrapper />}>
           <Route path="/" element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="events" element={<EventsPage />} />
+          {/* <Route path="events" element={<EventsPage />} /> */}
+          <Route path="events" element={<EventsListPage />} />
           {/* <Route
             path="events/:type/:id"
             element={<SingleEventPageRouterShell />}

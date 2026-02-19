@@ -14,6 +14,7 @@ const TicketsStep = ({
   isNew,
   settings,
   isError,
+  handleFormSubmit,
   setError = () => {},
 }) => {
   const {
@@ -26,18 +27,17 @@ const TicketsStep = ({
   );
   const [defaultQty, setDefaultQty] = useState(1);
   const [defaultPrice, setDefaultPrice] = useState(1);
-  const isFreePlanRestricted =
-    !stripeConnected || settings?.current_plan?.id === 1;
+  const isFreePlanRestricted = settings?.current_plan?.id === 1;
 
   const AVAILABILITY_OPTIONS = [
     { value: "open", label: "Open" },
     { value: "scheduled", label: "Sales Start & End" },
   ];
-  const TIYCKET_TYPES = [
+  const [TIYCKET_TYPES, setTicketTypes] = useState([
     { value: "free", label: "Free" },
-    { value: "paid", label: "Paid" },
-    { value: "donation", label: "Donation" },
-  ];
+    { value: "paid", label: "Paid", disabled: true },
+    { value: "donation", label: "Donation", disabled: true },
+  ]);
 
   const tickets = attributes?.tickets || [];
   const timezone = attributes?.meeting?.timezone || "UTC";
@@ -109,6 +109,16 @@ const TicketsStep = ({
       setDefaultPrice(defaultPriceFromSettings);
     }
   }, [settings]);
+
+  useEffect(() => {
+    if (stripeConnected) {
+      setTicketTypes([
+        { value: "free", label: "Free" },
+        { value: "paid", label: "Paid" },
+        { value: "donation", label: "Donation" },
+      ]);
+    }
+  }, [stripeConnected]);
 
   // useEffect(() => {
   //   if (!isFreePlanRestricted) return;
@@ -311,7 +321,8 @@ const TicketsStep = ({
   const qty = activeTicket?.quantity ?? MIN_QTY;
   const isFreeTicket = activeTicket?.type === "free";
   const productMaxQty = settings.free_registrants_limit || 15;
-  const productQty = product.quantity ?? productMaxQty;
+  const productQty =
+    product.quantity ?? product.current_quantity ?? productMaxQty;
   const activeFreeQty =
     isFreeTicket && typeof activeTicket?.quantity === "number"
       ? activeTicket.quantity
@@ -488,16 +499,14 @@ const TicketsStep = ({
 
             {tickets.length > 0 && activeTicketId && (
               <Fragment>
-                {stripeConnected && (
+                {
                   <div className="step__content_block">
                     <span className="step__content_title">Type</span>
                     <RadioGroup
                       name="ticket-type"
-                      value={
-                        stripeConnected ? activeTicket?.type || "free" : "free"
-                      }
+                      value={activeTicket?.type || "free"}
                       options={TIYCKET_TYPES}
-                      disabled={!stripeConnected}
+                      disabled={isFreePlanRestricted}
                       onChange={(val) => {
                         const prevType = activeTicket?.type;
                         const prevQty = Number(
@@ -538,8 +547,14 @@ const TicketsStep = ({
                         updateTicket(activeTicketId, patch);
                       }}
                     />
+                    {!stripeConnected && (
+                      <p className="servv_ticket_quantity__hint text-justify">
+                        To create paid or donation tickets, you need to connect
+                        your Stripe account.
+                      </p>
+                    )}
                   </div>
-                )}
+                }
 
                 <div className="step__content_block">
                   <span className="step__content_title">Title</span>
@@ -746,6 +761,15 @@ const TicketsStep = ({
         </Fragment>
       )}
       <div className="servv_actions mt-auto">
+        {!isNew && (
+          <button
+            type="button"
+            className="servv_button servv_button--secondary"
+            onClick={() => handleFormSubmit(true)}
+          >
+            Save and Exit
+          </button>
+        )}
         <button
           type="button"
           className="servv_button servv_button--secondary"

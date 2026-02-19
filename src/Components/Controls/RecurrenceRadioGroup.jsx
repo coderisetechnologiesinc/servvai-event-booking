@@ -18,7 +18,7 @@ const RadioGroup = ({
             value={opt.value}
             checked={value === opt.value}
             onChange={() => onChange(opt.value)}
-            disabled={disabled}
+            disabled={disabled || opt.disabled}
           />
           <span className="servv-radio__control" />
           <span className="servv-radio__label">{opt.label}</span>

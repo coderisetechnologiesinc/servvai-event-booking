@@ -2,7 +2,7 @@ import PageWrapper from "./PageWrapper";
 import { useMemo, useState, Fragment, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useServvStore } from "../../store/useServvStore";
-import { useEventsLogic } from "./Events/useEventsLogic";
+import { useEventsLogic } from "./Events/useEventsLogicMerged"; // ← merged hook
 import EventCard from "./Events/EventCard";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import NewButtonGroup from "../Controls/NewButtonGroup";
@@ -15,16 +15,22 @@ import CollapsibleSection from "../Containers/CollapsibleSection";
 import Spinner from "../Menu/Spinner";
 import DashboardPagination from "../DashboardPagination";
 import { toast } from "react-toastify";
+import SpinnerLoader from "./SpinnerLoader";
+
 const Dashboard = () => {
   const settings = useServvStore((s) => s.settings);
   const filtersList = useServvStore((s) => s.filtersList);
-
   const zoomAccount = useServvStore((s) => s.zoomAccount);
   const zoomConnected = useServvStore((s) => s.zoomConnected);
+
   const {
-    meetingsList,
-    getEventsList,
-    // handleOpenEvent,
+    // merged list — used when eventType === "all"
+    mergedList,
+    mergedPagination,
+    mergedLoading,
+    getMergedEventsList,
+
+    // actions
     handleIsPastChange,
     handleSearchChange,
     handleSetDates,
@@ -35,17 +41,15 @@ const Dashboard = () => {
     handleFilterSelect,
     resetFilters,
     isFiltersApplied,
-    loading,
     firstFetchDone,
-    pagination,
-    handleGetPrevPage,
-    handleGetNextPage,
   } = useEventsLogic(settings, filtersList, zoomAccount);
+  // eventType defaults to "all" in the merged hook — no override needed
+
   const navigate = useNavigate();
   const [filtersOpen, setFiltersOpen] = useState(false);
+
   const widgetStyleSettings = useMemo(() => {
     if (!settings?.settings?.widget_style_settings) return {};
-
     try {
       return JSON.parse(settings.settings.widget_style_settings) || {};
     } catch {
@@ -54,44 +58,50 @@ const Dashboard = () => {
   }, [settings?.settings?.widget_style_settings]);
 
   const { pw_title, pw_address, pw_avatar, pw_email } = widgetStyleSettings;
+
   const handleOpenEvent = (meeting) => {
-    let url = `/events/${"offline"}/${meeting.id}`;
-    if (meeting.occcurrence_id) {
-      url += `?occurrence_id=${meeting.occcurrence_id}`;
+    const pathType = meeting.type === "Zoom" ? "zoom" : "offline";
+    let url = `/events/${pathType}/${meeting.id}`;
+    if (meeting.occurrence_id) {
+      url += `?occurrence_id=${meeting.occurrence_id}`;
     }
-    navigate(url);
+    navigate(url, { state: { from: location.pathname } });
   };
-  // useEffect(() => {
-  //   const redirectUrl = localStorage.getItem("redirectToOnboarding");
-
-  //   if (redirectUrl) {
-  //     localStorage.removeItem("redirectToOnboarding");
-  //     window.location.replace(redirectUrl);
-  //   }
-  // }, []);
-
+  useEffect(() => {
+    const onboardingRedirect = localStorage.getItem("redirectToOnboarding");
+    if (onboardingRedirect && onboardingRedirect.length > 0) {
+      localStorage.removeItem("redirectToOnboarding");
+      navigate("/onboarding?step=settings");
+    }
+  }, []);
   useEffect(() => {
     const onboardingSkipped = localStorage.getItem("onboardingSkipped") === "1";
 
     if (
       firstFetchDone &&
-      meetingsList.length === 0 &&
+      mergedList.length === 0 &&
       !zoomConnected &&
       !onboardingSkipped
     ) {
       navigate("/onboarding");
     }
-  }, [firstFetchDone, zoomConnected, meetingsList.length]);
+  }, [firstFetchDone, zoomConnected, mergedList.length]);
 
   const handleCreateNewEvent = () => {
-    if (servvData.gutenberg_active) navigate("/events/new", "_top");
+    if (servvData.gutenberg_active)
+      navigate("/events/new", { state: { from: location.pathname } });
     else
       toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
   };
+
   const renderEventsCards = () => {
-    if (meetingsList.length > 0)
-      return meetingsList.map((meeting) => (
-        <EventCard meeting={meeting} handleOpenEvent={handleOpenEvent} />
+    if (mergedList.length > 0)
+      return mergedList.map((meeting) => (
+        <EventCard
+          key={meeting.id + (meeting.occurrence_id || "")}
+          meeting={meeting}
+          handleOpenEvent={handleOpenEvent}
+        />
       ));
   };
 
@@ -123,7 +133,6 @@ const Dashboard = () => {
         d.second(),
       );
     }
-
     if (dates.endDate) {
       const d = dates.endDate;
       out.endDate = new Date(
@@ -137,10 +146,11 @@ const Dashboard = () => {
     }
 
     return {
-      startDate: out.startDate ? out.startDate : fallback,
-      endDate: out.endDate ? dates.endDate : fallback,
+      startDate: out.startDate ?? fallback,
+      endDate: out.endDate ?? fallback,
     };
   };
+
   useEffect(() => {
     const now = moment();
 
@@ -149,166 +159,145 @@ const Dashboard = () => {
         startDate: now.clone().startOf("day"),
         endDate: now.clone().endOf("day"),
       });
-    }
-
-    if (timeRange === TIME_RANGES.week) {
+    } else if (timeRange === TIME_RANGES.week) {
       applyDatePreset({
         startDate: now.clone().startOf("week"),
         endDate: now.clone().endOf("week"),
       });
-    }
-
-    if (timeRange === TIME_RANGES.upcoming) {
-      applyDatePreset({
-        startDate: now,
-        endDate: null,
-      });
+    } else if (timeRange === TIME_RANGES.upcoming) {
+      applyDatePreset({ startDate: now, endDate: null });
     }
   }, [timeRange]);
-  const location = useLocation();
 
+  const location = useLocation();
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const createStatus = params.get("created");
 
     if (createStatus === "success") {
-      toast.success("Event successfully created");
-
+      toast.success("Event created successfully");
       params.delete("created");
       navigate(
-        {
-          pathname: location.pathname,
-          search: params.toString(),
-        },
+        { pathname: location.pathname, search: params.toString() },
         { replace: true },
       );
     }
   }, [location.search]);
 
-  const renderEventsActions = () => {
-    return (
-      <div className="events-actions">
-        <div className="events-actions-bar">
-          <h1 className="events-actions-title">
-            All events <span className="event-count"></span>
-          </h1>
-          <div className="events-actions-panel">
-            <div className="view-mode">
-              <NewButtonGroup
-                buttons={eventTypes.map((e) => e.label)}
-                active={eventTypes.find((e) => e.value === timeRange)?.label}
-                onChange={(label) => {
-                  const selected = eventTypes.find((e) => e.label === label);
-                  setTimeRange(selected.value);
-                }}
-              />
-            </div>
-            <div className="events-filters">
-              <DatePickerButton
-                value={getDates()}
-                onChange={handleSetDates}
-                label="Select date"
-                asSingle={true}
-                useRange={false}
-                displayFormat="MMM DD, YYYY"
-                minDate={new Date()}
-                disabled={false}
-              />
-              {/* Filters */}
+  const renderEventsActions = () => (
+    <div className="events-actions">
+      <div className="events-actions-bar">
+        <h1 className="events-actions-title">
+          All events <span className="event-count"></span>
+        </h1>
+        <div className="events-actions-panel">
+          <div className="view-mode">
+            <NewButtonGroup
+              buttons={eventTypes.map((e) => e.label)}
+              active={eventTypes.find((e) => e.value === timeRange)?.label}
+              onChange={(label) => {
+                const selected = eventTypes.find((e) => e.label === label);
+                setTimeRange(selected.value);
+              }}
+            />
+          </div>
+          <div className="events-filters">
+            <DatePickerButton
+              value={getDates()}
+              onChange={handleSetDates}
+              label="Select date"
+              asSingle={true}
+              useRange={false}
+              displayFormat="MMM DD, YYYY"
+              minDate={new Date()}
+              disabled={false}
+            />
 
-              <Dropdown
-                className="servv-dahboard-dropdown"
-                activator={
-                  <button
-                    type="button"
-                    className="filter-button"
-                    onClick={() => setFiltersOpen((p) => !p)}
+            <Dropdown
+              className="servv-dahboard-dropdown"
+              activator={
+                <button
+                  type="button"
+                  className="filter-button"
+                  onClick={() => setFiltersOpen((p) => !p)}
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 17 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="filter-icon"
                   >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 17 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className={"filter-icon"}
-                    >
-                      <path
-                        d="M3.33594 5.83502H13.3359M0.835938 0.835022H15.8359M5.83594 10.835H10.8359"
-                        stroke="currentColor"
-                        strokeWidth="1.67"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <span>{t("Filters")}</span>
-                  </button>
-                }
-                status={filtersOpen}
-                onClose={() => setFiltersOpen(false)}
-              >
-                <BlockStack gap={4}>
-                  {Object.keys(filtersList).map((filter) => (
-                    <CollapsibleSection
-                      key={filter}
-                      sectionHeading={
-                        filter.charAt(0).toUpperCase() + filter.slice(1)
-                      }
-                    >
-                      <BlockStack gap={2}>
-                        {filtersList[filter].map((item) => (
-                          <CheckboxControl
-                            key={item.id}
-                            label={item.name}
-                            checked={
-                              selectedFilters[filter]?.includes(item.id) ||
-                              false
-                            }
-                            onChange={() => handleFilterSelect(filter, item.id)}
-                            font="text-sm"
-                            color="text-gray-600"
-                          />
-                        ))}
-                      </BlockStack>
-                    </CollapsibleSection>
-                  ))}
+                    <path
+                      d="M3.33594 5.83502H13.3359M0.835938 0.835022H15.8359M5.83594 10.835H10.8359"
+                      stroke="currentColor"
+                      strokeWidth="1.67"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>{t("Filters")}</span>
+                </button>
+              }
+              status={filtersOpen}
+              onClose={() => setFiltersOpen(false)}
+            >
+              <BlockStack gap={4}>
+                {Object.keys(filtersList).map((filter) => (
+                  <CollapsibleSection
+                    key={filter}
+                    sectionHeading={
+                      filter.charAt(0).toUpperCase() + filter.slice(1)
+                    }
+                  >
+                    <BlockStack gap={2}>
+                      {filtersList[filter].map((item) => (
+                        <CheckboxControl
+                          key={item.id}
+                          label={item.name}
+                          checked={
+                            selectedFilters[filter]?.includes(item.id) || false
+                          }
+                          onChange={() => handleFilterSelect(filter, item.id)}
+                          font="text-sm"
+                          color="text-gray-600"
+                        />
+                      ))}
+                    </BlockStack>
+                  </CollapsibleSection>
+                ))}
 
+                <PageActionButton
+                  text={t("Apply")}
+                  type="primary"
+                  justify="justify-center"
+                  onAction={() => setFiltersOpen(false)}
+                />
+
+                {isFiltersApplied() && (
                   <PageActionButton
-                    text={t("Apply")}
-                    type="primary"
+                    text={t("Clear filters")}
+                    type="secondary"
                     justify="justify-center"
                     onAction={() => {
+                      resetFilters();
                       setFiltersOpen(false);
                     }}
                   />
+                )}
+              </BlockStack>
+            </Dropdown>
 
-                  {isFiltersApplied() && (
-                    <PageActionButton
-                      text={t("Clear filters")}
-                      type="secondary"
-                      justify="justify-center"
-                      onAction={() => {
-                        resetFilters();
-                        setFiltersOpen(false);
-                      }}
-                    />
-                  )}
-                </BlockStack>
-              </Dropdown>
-
-              {/* End Filters */}
-              <button
-                className="new-event-button"
-                onClick={() => handleCreateNewEvent()}
-              >
-                <PlusIcon className="w-5 h-5 mr-2" />
-                {t("Create event")}
-              </button>
-            </div>
+            <button className="new-event-button" onClick={handleCreateNewEvent}>
+              <PlusIcon className="w-5 h-5 mr-2" />
+              {t("Create event")}
+            </button>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <PageWrapper withBackground={true}>
@@ -327,10 +316,12 @@ const Dashboard = () => {
             <div className="dashbaord-profile">
               <img
                 className="profile-image"
-                src={pw_avatar}
+                src={
+                  pw_avatar ||
+                  `${servvData.pluginUrl}/public/assets/images/avatarPlaceholder.png`
+                }
                 alt="Profile image"
               />
-
               <div className="profile-description">
                 <div className="profile-name">{pw_title}</div>
                 <div className="profile-email">{pw_email}</div>
@@ -349,9 +340,9 @@ const Dashboard = () => {
 
         {renderEventsActions()}
 
-        {!loading && (
+        {!mergedLoading ? (
           <Fragment>
-            {firstFetchDone && meetingsList.length === 0 ? (
+            {firstFetchDone && mergedList.length === 0 ? (
               <div className="dashboard-empty-state">
                 <h1 className="dashboard-empty-state-title">
                   You don't have any events yet
@@ -360,26 +351,26 @@ const Dashboard = () => {
             ) : (
               <Fragment>
                 <div className="dashboard-events">{renderEventsCards()}</div>
-                {meetingsList.length > 0 && pagination.pageCount > 1 && (
+                {mergedList.length > 0 && mergedPagination.pageCount > 1 && (
                   <DashboardPagination
-                    currentPage={pagination.pageNumber}
-                    totalPages={pagination.pageCount}
-                    totalRecords={pagination.total || meetingsList.length}
+                    currentPage={mergedPagination.pageNumber}
+                    totalPages={mergedPagination.pageCount}
+                    totalRecords={
+                      mergedPagination.totalItems || mergedList.length
+                    }
                     pageSize={10}
-                    onPageChange={(page) => getEventsList({ page })}
+                    onPageChange={(page) => getMergedEventsList({ page })}
                   />
                 )}
               </Fragment>
             )}
           </Fragment>
-        )}
-      </div>
-      <div className="flex flex-1 items-center justify-center">
-        {((loading && !firstFetchDone) || loading) && (
-          <Spinner loading={true} />
+        ) : (
+          <SpinnerLoader isLoading={mergedLoading} customStyling="h-[50vh]" />
         )}
       </div>
     </PageWrapper>
   );
 };
+
 export default Dashboard;

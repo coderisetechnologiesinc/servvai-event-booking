@@ -80,5 +80,4 @@ Absolutely. Define your own recurrence patterns easily.
 Currently, only the Stripe payment gateway is supported.
 
 == Changelog ==
-
 Link: https://support.servv.ai/changelogs/releasenotes/

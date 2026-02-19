@@ -1345,7 +1345,37 @@ const CreateMemberFilterForm = ({
   const existingMember = id && filtersList.members ? filtersList.members.find(m => String(m.id) === String(id)) : null;
   const [memberData, setMemberData] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(existingMember || {});
   const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(window.innerWidth < 768);
-
+  const [errors, setErrors] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)({});
+  const [showErrors, setShowErrors] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(false);
+  const validateEmail = email => {
+    if (!email) return ""; // optional field
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "" : "Invalid email address";
+  };
+  const validatePhone = phone => {
+    if (!phone) return ""; // optional field
+    return /^\+?[\d\s\-().]{7,20}$/.test(phone) ? "" : "Invalid phone number";
+  };
+  const handleMemberChange = (field, value) => {
+    setMemberData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+    if (field === "email") {
+      setShowErrors(false);
+      setErrors(prev => ({
+        ...prev,
+        email: validateEmail(value)
+      }));
+    }
+    if (field === "phone") {
+      setShowErrors(false);
+      setErrors(prev => ({
+        ...prev,
+        phone: validatePhone(value)
+      }));
+    }
+  };
+  const isFormValid = memberData?.name?.length > 0 && !errors.email && !errors.phone;
   // Track window size changes
   (0,react__WEBPACK_IMPORTED_MODULE_8__.useEffect)(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -1353,14 +1383,16 @@ const CreateMemberFilterForm = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   const onCancel = () => navigate(-1);
-  const handleMemberChange = (field, value) => {
-    setMemberData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+
+  // const handleMemberChange = (field, value) => {
+  //   setMemberData((prev) => ({ ...prev, [field]: value }));
+  // };
+
   const handleMemberSave = async () => {
-    if (!memberData.name) return;
+    if (!memberData.name || !isFormValid) {
+      setShowErrors(true);
+      return;
+    }
     setLoading(true);
     let url = "/wp-json/servv-plugin/v1/filters/members";
     let method = "POST";
@@ -1382,7 +1414,9 @@ const CreateMemberFilterForm = ({
     await syncSingleFilterFromServer("members");
     navigate(-1);
   };
-  const isFormValid = memberData?.name?.length > 0;
+
+  // const isFormValid = memberData?.name?.length > 0;
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_10__["default"], {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)("div", {
       className: "dashboard-card",
@@ -1406,7 +1440,7 @@ const CreateMemberFilterForm = ({
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Save",
             type: "primary",
-            disabled: !isFormValid,
+            disabled: memberData?.name?.length === 0 || !memberData.name,
             onAction: handleMemberSave
           })]
         })]
@@ -1430,28 +1464,34 @@ const CreateMemberFilterForm = ({
                 onChange: val => handleMemberChange("name", val),
                 width: isMobile ? "100%" : "400px"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
               title: "Member Email",
               className: "items-start",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                 value: memberData?.email || "",
                 type: "email",
                 align: "left",
                 maxLength: 100,
                 onChange: val => handleMemberChange("email", val),
                 width: isMobile ? "100%" : "400px"
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), showErrors && errors.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-red-500 text-sm mt-1",
+                children: errors.email
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
               title: "Phone",
               className: "items-start",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                 value: memberData?.phone || "",
                 type: "tel",
                 align: "left",
                 maxLength: 50,
                 onChange: val => handleMemberChange("phone", val),
                 width: isMobile ? "100%" : "400px"
-              })
+              }), showErrors && errors.phone && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("span", {
+                className: "text-red-500 text-sm mt-1",
+                children: errors.phone
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
               title: "Description",
               className: "items-start",
@@ -1712,4 +1752,4 @@ function cssValue(value) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateFilterPage_jsx.js.map?ver=cf9d50aafd7eb03714da
+//# sourceMappingURL=src_Components_Pages_CreateFilterPage_jsx.js.map?ver=97caa8b422a64d3d2332

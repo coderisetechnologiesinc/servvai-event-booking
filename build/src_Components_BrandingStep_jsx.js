@@ -442,15 +442,21 @@ const BrandingStep = ({
             children: "Choose a color that contrasts well with your background."
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "servv_actions mt-auto",
-        children: !brandingCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+          type: "button",
+          className: "servv_button servv_button--secondary",
+          onClick: handleContinue,
+          disabled: loading,
+          children: loading ? "Saving..." : "I'll do this later"
+        }), !brandingCompleted && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
           type: "button",
           className: "servv_button servv_button--primary",
           onClick: handleContinue,
           disabled: loading || !attributes.branding.title?.trim(),
           children: loading ? "Saving..." : "Continue"
-        })
+        })]
       })]
     })]
   });
@@ -604,7 +610,7 @@ const NewSelectControl = ({
       style: style,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
         className: "servv-select__native",
-        value: value,
+        value: value !== null && value !== void 0 ? value : "",
         onChange: e => onChange(e.target.value),
         disabled: disabled,
         children: [helpText && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
@@ -661,7 +667,7 @@ const RadioGroup = ({
         value: opt.value,
         checked: value === opt.value,
         onChange: () => onChange(opt.value),
-        disabled: disabled
+        disabled: disabled || opt.disabled
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "servv-radio__control"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
@@ -716,4 +722,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_BrandingStep_jsx.js.map?ver=02114ab458dbb500babd
+//# sourceMappingURL=src_Components_BrandingStep_jsx.js.map?ver=a3c70da3bf3cce025fe2

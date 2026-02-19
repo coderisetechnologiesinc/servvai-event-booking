@@ -1,10 +1,8 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
-import { useEventsLogic } from "./Events/useEventsLogic";
+import { useEventsLogic } from "./Events/useEventsLogicMerged";
 import PageActionButton from "../Controls/PageActionButton";
 import InlineStack from "../Containers/InlineStack";
 import NewButtonGroup from "../Controls/NewButtonGroup";
-// import ButtonGroupConnected from "../Controls/ButtonGroupConnected";
-// import ConnectedButton from "../Controls/ConnectedButton";
 import BlockStack from "../Containers/BlockStack";
 import Badge from "../Containers/Badge";
 import Card from "../Containers/Card";
@@ -29,11 +27,14 @@ import {
   PencilSquareIcon,
   TrashIcon,
   ArrowLeftIcon,
-  MagnifyingGlassIcon,
 } from "@heroicons/react/16/solid";
 import Guideline from "./Guideline";
 import { useServvStore } from "../../store/useServvStore";
 import SpinnerLoader from "./SpinnerLoader";
+
+// =====================================================================
+// CARD HEADER
+// =====================================================================
 
 const EventsCardHeader = ({
   eventsCount,
@@ -55,13 +56,10 @@ const EventsCardHeader = ({
 }) => {
   const [filterDropdown, setFilterDropdown] = useState(false);
   const filterDropdownRef = useRef(null);
-
   const [localSearch, setLocalSearch] = useState(search);
-  const navigate = useNavigate();
+
   const handleEnterButton = (e) => {
-    if (e.key === "Enter") {
-      handleSearchSubmit(localSearch);
-    }
+    if (e.key === "Enter") handleSearchSubmit(localSearch);
   };
 
   useEffect(() => {
@@ -86,11 +84,10 @@ const EventsCardHeader = ({
     (value) => Array.isArray(value) && value.length === 0,
   );
 
-  const changeFilterDropdown = () => setFilterDropdown(!filterDropdown);
+  const changeFilterDropdown = () => setFilterDropdown((p) => !p);
 
   const getDates = () => {
     let out = { startDate: null, endDate: null };
-
     if (dates.startDate) {
       const d = dates.startDate;
       out.startDate = new Date(
@@ -102,7 +99,6 @@ const EventsCardHeader = ({
         d.second(),
       );
     }
-
     if (dates.endDate) {
       const d = dates.endDate;
       out.endDate = new Date(
@@ -114,27 +110,25 @@ const EventsCardHeader = ({
         d.second(),
       );
     }
-
     return out;
   };
 
   return (
     <div className="card-header">
       <div className="card-heading">
-        {view !== "events" && <span> {t("Event Occurrences")}</span>}
+        {view !== "events" && <span>{t("Event Occurrences")}</span>}
         {eventsCount > 0 && (
           <Badge
-            text={`${eventsCount} ${"event"}${eventsCount > 1 ? "s" : ""}`}
+            text={`${eventsCount} ${"item"}${eventsCount > 1 ? "s" : ""}`}
             color="secondary"
             size="small"
             align="center"
           />
         )}
-
         {view === "occurrences" && (
           <button
             className="pagination-control ml-auto"
-            onClick={() => backToEventsList()}
+            onClick={backToEventsList}
           >
             <ArrowLeftIcon className="pagination-control-icon" />
             <span className="pagination-control-text">
@@ -152,7 +146,6 @@ const EventsCardHeader = ({
             {moment(dates.endDate).format("MMM DD, YYYY")}
           </span>
         )}
-
         {isFiltersApplied && (
           <a className="card-header-description-link" onClick={resetFilters}>
             {t("Clear filters")}
@@ -162,7 +155,7 @@ const EventsCardHeader = ({
 
       {!isPast && (
         <div className="hidden md:flex">
-          <InlineStack align={"left"} gap={4} cardsLayout={false}>
+          <InlineStack align="left" gap={4} cardsLayout={false}>
             <InputFieldControl
               value={localSearch}
               placeholder={"Search events by name"}
@@ -227,7 +220,7 @@ const EventsCardHeader = ({
                       onFiltering();
                       setFilterDropdown(false);
                     }}
-                    justify={"justify-center"}
+                    justify="justify-center"
                   />
                 </BlockStack>
               </Dropdown>
@@ -239,34 +232,70 @@ const EventsCardHeader = ({
   );
 };
 
-const EventsPage = ({
+// =====================================================================
+// HEADINGS STORAGE HELPERS (module-level, no re-creation on render)
+// =====================================================================
+
+const HEADINGS_STORAGE_KEY = "servv_events_headings";
+
+const defaultHeadings = [
+  { label: t("Title"), value: "title", visible: true },
+  { label: t("Date"), value: "date", visible: true },
+  { label: t("Time"), value: "time", visible: true },
+  { label: t("Location"), value: "location", visible: false },
+  { label: t("Type"), value: "type", visible: false },
+  { label: t("Recurrence"), value: "recurrence", visible: true },
+  { label: t("Status"), value: "status", visible: false },
+];
+
+// Reads saved visibility map from localStorage and merges with defaults.
+// Any column added in the future will fall back to its default visibility.
+const loadHeadings = () => {
+  try {
+    const saved = localStorage.getItem(HEADINGS_STORAGE_KEY);
+    if (!saved) return defaultHeadings;
+    const savedMap = JSON.parse(saved); // { [value]: boolean }
+    return defaultHeadings.map((h) =>
+      h.value in savedMap ? { ...h, visible: savedMap[h.value] } : h,
+    );
+  } catch {
+    return defaultHeadings;
+  }
+};
+
+// Persists only the visibility map (not labels) so it stays small and
+// doesn't break if labels are later translated differently.
+const saveHeadings = (updated) => {
+  try {
+    const savedMap = Object.fromEntries(
+      updated.map((h) => [h.value, h.visible]),
+    );
+    localStorage.setItem(HEADINGS_STORAGE_KEY, JSON.stringify(savedMap));
+  } catch {}
+};
+
+// =====================================================================
+// MAIN PAGE
+// =====================================================================
+
+const EventsListPage = ({
   handleResetSubpage = () => {},
   resetSelectedSubpage = false,
   redirect = () => {},
 }) => {
   const settings = useServvStore((s) => s.settings);
   const filtersList = useServvStore((s) => s.filtersList);
-
   const zoomAccount = useServvStore((s) => s.zoomAccount);
-
-  const gmailAccount = useServvStore((s) => s.gmailAccount);
-  const stripeAccount = useServvStore((s) => s.stripeAccount);
-  const calendarAccount = useServvStore((s) => s.calendarAccount);
   const zoomConnected = useServvStore((s) => s.zoomConnected);
   const fetchZoomAccount = useServvStore((s) => s.fetchZoomAccount);
-  const fetchStripeAccount = useServvStore((s) => s.fetchStripeAccount);
-  const fetchGmailAccount = useServvStore((s) => s.fetchGmailAccount);
 
   const {
     loading,
+    mergedLoading,
     showGuide,
     isPast,
     eventType,
     dates,
-    meetingsList,
-    eventOccurrencess,
-    pagination,
-    occurrencesPagination,
     view,
     searchString,
     selectedFilters,
@@ -275,75 +304,113 @@ const EventsPage = ({
     attributes,
     timezone,
     timeFormat,
+    firstFetchDone,
+    meetingsList,
+    pagination,
+    mergedList,
+    mergedPagination,
+    eventOccurrencess,
+    occurrencesPagination,
     setSelectedEvent,
     setSelectedOccurrence,
     setView,
     setAttributes,
+    setShowGuide,
+    handleOpenEvent,
     handleIsPastChange,
     handleTypeChange,
     handleSetDates,
+    applyDatePreset,
     handleSearchChange,
+    handleSearchSubmit,
     handleFilterSelect,
     resetFilters,
     isFiltersApplied,
+    handleEventChange,
+    handleReturnWithError,
+    resetSubpageSelection,
     getEventsList,
+    getMergedEventsList,
     getEventOccurrencess,
     handleGetPrevPage,
     handleGetNextPage,
+    handleGetPrevMergedPage,
+    handleGetNextMergedPage,
     handleGetPrevOccurrencessPage,
     handleGetNextOccurrencessPage,
-    handleEventChange,
     handleEventDelete,
-    handleOpenEvent,
-    handleSearchSubmit,
-    handleReturnWithError,
-    resetSubpageSelection,
-    setShowGuide,
   } = useEventsLogic(settings, filtersList, zoomAccount);
 
-  useEffect(() => {
-    if (!settings) return;
+  // ── derive active list / pagination / loading ──
+  const isMerged = eventType === "all";
+  const activeList =
+    (isMerged
+      ? mergedList
+      : view === "events"
+      ? meetingsList
+      : eventOccurrencess) ?? [];
+  const activePagination =
+    (view === "occurrences"
+      ? occurrencesPagination
+      : isMerged
+      ? mergedPagination
+      : pagination) ?? {};
+  const activeLoading = isMerged ? mergedLoading : loading;
+  const [showBulkAction, setShowBulkAction] = useState(false);
+  const handleGetPrev =
+    view === "occurrences"
+      ? handleGetPrevOccurrencessPage
+      : isMerged
+      ? handleGetPrevMergedPage
+      : handleGetPrevPage;
 
-    const planId = settings.current_plan?.id;
+  const handleGetNext =
+    view === "occurrences"
+      ? handleGetNextOccurrencessPage
+      : isMerged
+      ? handleGetNextMergedPage
+      : handleGetNextPage;
 
-    if (planId === 2 && zoomConnected === null) {
-      fetchZoomAccount();
-    }
-  }, [settings]);
+  const triggerSearch = () => {
+    if (isMerged) getMergedEventsList();
+    else getEventsList();
+  };
 
-  const [headings, setHeadings] = useState([
-    { label: t("Title"), value: "title", visible: true },
-    { label: t("Date"), value: "date", visible: true },
-    { label: t("Time"), value: "time", visible: true },
-    { label: t("Location"), value: "location", visible: true },
-    { label: t("Type"), value: "type", visible: true },
-    { label: t("Recurrence"), value: "recurrence", visible: true },
-    { label: t("Status"), value: "status", visible: true },
-  ]);
+  // ── local ui state ──
+
+  // Lazy initializer reads from localStorage once on mount
+  const [headings, setHeadings] = useState(loadHeadings);
+
   const [selectedAll, setSelectedAll] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [active, setActiveDropdown] = useState(null);
-
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showDateModal, setShowDateModal] = useState(false);
-  const [showSearchModal, setShowSearchModal] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
-
   const [confirmationModalData, setConfirmationModalData] = useState({});
 
   const dropdownRefs = useRef(null);
   const navigate = useNavigate();
+
+  // ── effects ──
+  useEffect(() => {
+    if (!settings) return;
+    const planId = settings.current_plan?.id;
+    if (planId === 2 && zoomConnected === null) fetchZoomAccount();
+  }, [settings]);
+
   useEffect(() => {
     if (active === null) return;
     const handleClickOutside = (event) => {
       try {
-        const ref = dropdownRefs.current;
-
-        if (event.target.closest(".filter-table-dropdown-container button")) {
+        if (event.target.closest(".filter-table-dropdown-container button"))
           return;
-        }
-        if (active && ref && !ref.contains(event.target)) {
+        if (
+          active &&
+          dropdownRefs.current &&
+          !dropdownRefs.current.contains(event.target)
+        ) {
           setActiveDropdown(null);
         }
       } catch (e) {}
@@ -359,116 +426,140 @@ const EventsPage = ({
     }
   }, [resetSelectedSubpage, resetSubpageSelection, handleResetSubpage]);
 
-  const customizeHeading = (heading) => {
-    let newHeadings = [...headings];
-    let selectedHeading = headings.map((h) => h.value).indexOf(heading);
-    newHeadings[selectedHeading].visible = !headings[selectedHeading].visible;
+  // ── column customization ──
+  const customizeHeading = (value) => {
+    const newHeadings = headings.map((h) =>
+      h.value === value ? { ...h, visible: !h.visible } : h,
+    );
     setHeadings(newHeadings);
+    saveHeadings(newHeadings); // persist immediately on every toggle
   };
 
-  const renderHeadingsCustomization = () => {
-    return headings.map((heading) => {
-      return (
-        <CheckboxControl
-          key={heading.value}
-          label={heading.label}
-          name={heading.label}
-          checked={heading.visible}
-          onChange={() => customizeHeading(heading.value)}
-        />
-      );
-    });
-  };
+  const renderBulkActions = () => (
+    <div className="filter-table-dropdown left-5 top-9 ml-6 mt-6">
+      <div className="dropdown-actions">
+        <BlockStack gap={4}>
+          <button
+            className="dropdown-action"
+            onClick={() => performBulkAction("delete")}
+          >
+            <TrashIcon className="dropdown-icon-critical" />
+            Delete ({selectedEvents.length})
+          </button>
+        </BlockStack>
+      </div>
+    </div>
+  );
 
-  const selectAll = () => {
-    setSelectedAll(!selectedAll);
-  };
+  const renderHeadingsCustomization = () =>
+    headings.map((heading) => (
+      <CheckboxControl
+        key={heading.value}
+        label={heading.label}
+        name={heading.label}
+        checked={heading.visible}
+        onChange={() => customizeHeading(heading.value)}
+      />
+    ));
 
+  // ── row selection ──
   const handleSelectEvent = (selected) => {
     let newSelection = [...selectedEvents];
-    const isSelected = newSelection.filter((event) => {
-      if (
+    const isSelected = newSelection.filter(
+      (event) =>
         event.id === selected.id &&
         ((event.occurrence_id &&
           selected.occurrence_id &&
           event.occurrence_id === selected.occurrence_id) ||
-          !event.occurrence_id)
-      )
-        return true;
-      else return false;
-    });
+          !event.occurrence_id),
+    );
 
     if (isSelected.length > 0) {
-      newSelection = newSelection.filter((event) => {
-        if (
+      newSelection = newSelection.filter(
+        (event) =>
           !(
             event.id === selected.id &&
             ((event.occurrence_id &&
               selected.occurrence_id &&
               event.occurrence_id === selected.occurrence_id) ||
               !event.occurrence_id)
-          )
-        ) {
-          return { ...event };
-        }
-        return false;
-      });
+          ),
+      );
     } else {
       newSelection.push(selected);
     }
-
     setSelectedEvents(newSelection);
   };
 
   const handleMultipleEventsDelete = async () => {
-    const eventsIDs = selectedEvents.map((event) => {
-      return { id: event.post_id, occurrenceId: event.occurrence_id };
-    });
-
     try {
       await Promise.all(
-        eventsIDs.map(({ id, occurrenceId }) =>
-          handleEventDelete(id, occurrenceId),
+        selectedEvents.map(({ post_id, occurrence_id }) =>
+          handleEventDelete(post_id, occurrence_id),
         ),
       );
-
-      await getEventsList();
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error deleting events:", error);
+    }
   };
 
-  const renderHeadings = () => {
-    return (
-      <Fragment>
-        <th>
-          <CheckboxControl onClick={() => selectAll()} />
-        </th>
-        {headings.map((heading) => {
-          if (heading.visible)
-            return <th key={heading.value}>{heading.label}</th>;
-          return null;
-        })}
-        <th></th>
-      </Fragment>
-    );
+  // ── confirmation modal ──
+  const openConfirmDelete = (text, onAccept, item) => {
+    setShowBulkAction(false);
+    setConfirmationModalData({
+      open: true,
+      text,
+      item,
+      onAccept: () => {
+        onAccept();
+        setConfirmationModalData({
+          open: false,
+          onAccept: () => {},
+          item: null,
+          text: "",
+        });
+      },
+      onCancel: () =>
+        setConfirmationModalData({
+          open: false,
+          onAccept: () => {},
+          item: null,
+          text: "",
+        }),
+    });
   };
 
-  const renderRows = (events) => {
-    return events.map((row) => {
+  // ── table renderers ──
+  const renderHeadings = () => (
+    <Fragment>
+      <th>
+        <CheckboxControl onClick={() => setSelectedAll((p) => !p)} />
+      </th>
+      {headings.map((heading) =>
+        heading.visible ? <th key={heading.value}>{heading.label}</th> : null,
+      )}
+      <th></th>
+    </Fragment>
+  );
+
+  const renderRows = (events) =>
+    events.map((row) => {
       const key = row.id + (row.occurrence_id || "");
+      const isDropdownOpen =
+        (!row.occurrence_id && active === row.id) ||
+        (row.occurrence_id && row.occurrence_id === active);
+
       return (
         <tr className="table-row" key={key}>
           <td>
             <CheckboxControl
               checked={
                 selectedAll ||
-                selectedEvents.filter((event) => {
-                  if (
+                selectedEvents.some(
+                  (event) =>
                     event.id === row.id &&
-                    event.occurrence_id === row.occurrence_id
-                  )
-                    return true;
-                  else return false;
-                }).length > 0
+                    event.occurrence_id === row.occurrence_id,
+                )
               }
               size={2}
               onChange={() =>
@@ -480,6 +571,7 @@ const EventsPage = ({
               }
             />
           </td>
+
           {headings.map((heading) => {
             if (!heading.visible) return null;
 
@@ -487,7 +579,7 @@ const EventsPage = ({
               return (
                 <td key={heading.value}>
                   <Badge
-                    text={row[heading.value]}
+                    text={view === "events" ? row[heading.value] : "Occurrence"}
                     type="badge"
                     color="gray"
                     size="small"
@@ -530,7 +622,7 @@ const EventsPage = ({
                 </td>
               );
 
-            if (heading.label === "Date" && !row[heading.value]) {
+            if (heading.label === "Date" && !row[heading.value])
               return (
                 <td key={heading.value}>
                   <Badge
@@ -544,17 +636,15 @@ const EventsPage = ({
                   />
                 </td>
               );
-            }
 
-            if (heading.label === "Date" && row[heading.value]) {
+            if (heading.label === "Date" && row[heading.value])
               return (
                 <td key={heading.value}>
                   <Badge text={row[heading.value]} />
                 </td>
               );
-            }
 
-            if (heading.label === "Time" && row[heading.value]) {
+            if (heading.label === "Time" && row[heading.value])
               return (
                 <td key={heading.value}>
                   <Badge
@@ -571,13 +661,12 @@ const EventsPage = ({
                   />
                 </td>
               );
-            }
 
-            if (heading.label === "Time" && !row[heading.value]) {
+            if (heading.label === "Time" && !row[heading.value])
               return (
                 <td key={heading.value}>
                   <Badge
-                    text={"View times"}
+                    text="View times"
                     onAction={() => {
                       setView("occurrences");
                       getEventOccurrencess(row.post_id);
@@ -588,9 +677,8 @@ const EventsPage = ({
                   />
                 </td>
               );
-            }
 
-            if (heading.label === "Title") {
+            if (heading.label === "Title")
               return (
                 <td key={heading.value}>
                   <a
@@ -600,6 +688,7 @@ const EventsPage = ({
                       handleOpenEvent({
                         id: row.post_id,
                         occurrence_id: row.occurrence_id,
+                        type: row.type,
                       });
                     }}
                   >
@@ -607,39 +696,34 @@ const EventsPage = ({
                   </a>
                 </td>
               );
-            }
 
             return <td key={heading.value}>{row[heading.value]}</td>;
           })}
+
           <td className="filter-table-dropdown-container">
             <button
               onClick={() => {
-                if (
-                  (row.occurrence_id && active === row.occurrence_id) ||
-                  row.id === active
-                ) {
-                  setActiveDropdown(null);
-                } else {
-                  setActiveDropdown(
-                    !row.occurrence_id ? row.id : row.occurrence_id,
-                  );
-                }
+                const dropdownId = row.occurrence_id || row.id;
+                setActiveDropdown((prev) =>
+                  prev === dropdownId ? null : dropdownId,
+                );
               }}
             >
               <Bars4Icon className="dropdown-icon" />
             </button>
-            {((!row.occurrence_id && active === row.id) ||
-              (row.occurrence_id && row.occurrence_id === active)) && (
+
+            {isDropdownOpen && (
               <div
                 className="filter-table-dropdown absolute right-0 top-8 z-50 bg-white border border-gray-200 rounded-xl shadow-lg p-4 mt-2 min-w-[220px]"
                 ref={dropdownRefs}
               >
                 <span className="dropdown-header">
-                  {`${row.title}`}
+                  {row.title}
                   <span className="dropdown-description flex flex-row">
                     {row.date}
                   </span>
                 </span>
+
                 <div className="dropdown-actions">
                   <BlockStack gap={4}>
                     {row.occurrence_id && row.time && (
@@ -649,9 +733,8 @@ const EventsPage = ({
                           handleOpenEvent({
                             id: row.post_id,
                             occurrence_id: row.occurrence_id,
+                            type: row.type,
                           });
-                          // setSelectedOccurrence(row.occurrence_id);
-                          // setSelectedEvent(row.post_id);
                           setActiveDropdown(null);
                         }}
                       >
@@ -659,6 +742,7 @@ const EventsPage = ({
                         Occurrence details
                       </button>
                     )}
+
                     {row.recurrence === "Recurring" &&
                       view !== "occurrences" && (
                         <button
@@ -673,11 +757,12 @@ const EventsPage = ({
                           View occurrences
                         </button>
                       )}
+
                     {view === "events" && (
                       <button
                         className="dropdown-action"
                         onClick={() => {
-                          handleOpenEvent({ id: row.post_id });
+                          handleOpenEvent({ id: row.post_id, type: row.type });
                           setActiveDropdown(null);
                         }}
                       >
@@ -685,31 +770,16 @@ const EventsPage = ({
                         Event details
                       </button>
                     )}
+
                     {view === "events" && (
                       <button
                         className="dropdown-action"
                         onClick={() => {
-                          setConfirmationModalData({
-                            open: true,
-                            text: "Delete selected event",
-                            onAccept: () => {
-                              handleEventDelete(row.post_id);
-                              setConfirmationModalData({
-                                open: false,
-                                onAccept: () => {},
-                                item: null,
-                                text: "",
-                              });
-                            },
-                            item: row.title,
-                            onCancel: () =>
-                              setConfirmationModalData({
-                                open: false,
-                                onAccept: () => {},
-                                item: null,
-                                text: "",
-                              }),
-                          });
+                          openConfirmDelete(
+                            "Delete selected event",
+                            () => handleEventDelete(row.post_id),
+                            row.title,
+                          );
                           setActiveDropdown(null);
                         }}
                       >
@@ -717,31 +787,17 @@ const EventsPage = ({
                         {t("Delete event")}
                       </button>
                     )}
+
                     {row.occurrence_id && view === "occurrences" && (
                       <button
                         className="dropdown-action"
                         onClick={() => {
-                          setConfirmationModalData({
-                            open: true,
-                            text: "Delete selected occurrence of this event",
-                            onAccept: () => {
-                              handleEventDelete(row.post_id, row.occurrence_id);
-                              setConfirmationModalData({
-                                open: false,
-                                onAccept: () => {},
-                                item: null,
-                                text: "",
-                              });
-                            },
-                            item: row.title,
-                            onCancel: () =>
-                              setConfirmationModalData({
-                                open: false,
-                                onAccept: () => {},
-                                item: null,
-                                text: "",
-                              }),
-                          });
+                          openConfirmDelete(
+                            "Delete selected occurrence of this event",
+                            () =>
+                              handleEventDelete(row.post_id, row.occurrence_id),
+                            row.title,
+                          );
                           setActiveDropdown(null);
                         }}
                       >
@@ -757,36 +813,39 @@ const EventsPage = ({
         </tr>
       );
     });
-  };
 
-  const getDatesForModal = () => {
-    let datesValue = { startDate: null, endDate: null };
+  const performBulkAction = async (actionType) => {
+    if (!selectedEvents.length) return;
 
-    if (dates.startDate) {
-      const d = dates.startDate;
-      datesValue.startDate = new Date(
-        d.year(),
-        d.month(),
-        d.date(),
-        d.hour(),
-        d.minute(),
-        d.second(),
+    if (actionType === "delete") {
+      const itemLabel = selectedEvents.length === 1 ? "event" : "events";
+      const hasOccurrences = selectedEvents.some((e) => e.occurrence_id);
+      const deleteLabel = hasOccurrences ? "events/occurrences" : itemLabel;
+
+      openConfirmDelete(
+        `Delete ${selectedEvents.length} selected ${deleteLabel}`,
+        async () => {
+          try {
+            await Promise.all(
+              selectedEvents.map(({ post_id, occurrence_id }) =>
+                handleEventDelete(post_id, occurrence_id ?? null),
+              ),
+            );
+            toast.success(
+              `${selectedEvents.length} ${deleteLabel} deleted successfully.`,
+            );
+            setSelectedEvents([]);
+            setSelectedAll(false);
+            setShowBulkAction(false);
+            triggerSearch();
+          } catch (error) {
+            console.error("Bulk delete error:", error);
+            toast.error("Some items could not be deleted. Please try again.");
+          }
+        },
+        `${selectedEvents.length} selected ${deleteLabel}`,
       );
     }
-
-    if (dates.endDate) {
-      const d = dates.endDate;
-      datesValue.endDate = new Date(
-        d.year(),
-        d.month(),
-        d.date(),
-        d.hour(),
-        d.minute(),
-        d.second(),
-      );
-    }
-
-    return datesValue;
   };
 
   const renderMobileCards = (events) =>
@@ -806,7 +865,6 @@ const EventsPage = ({
         <button
           className="mobile-event-actions ml-2 p-2 rounded-full hover:bg-gray-100"
           aria-label="Show event details"
-          title="Show details"
           onClick={() => setActiveDropdown(row.occurrence_id || row.id)}
         >
           <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -818,44 +876,99 @@ const EventsPage = ({
       </div>
     ));
 
+  const getDatesForModal = () => {
+    let datesValue = { startDate: null, endDate: null };
+    if (dates.startDate) {
+      const d = dates.startDate;
+      datesValue.startDate = new Date(
+        d.year(),
+        d.month(),
+        d.date(),
+        d.hour(),
+        d.minute(),
+        d.second(),
+      );
+    }
+    if (dates.endDate) {
+      const d = dates.endDate;
+      datesValue.endDate = new Date(
+        d.year(),
+        d.month(),
+        d.date(),
+        d.hour(),
+        d.minute(),
+        d.second(),
+      );
+    }
+    return datesValue;
+  };
+
   const handleCreateNewEvent = () => {
-    if (servvData.gutenberg_active)
-      navigate("/events/new", { state: { from: location.pathname } });
+    if (servvData.gutenberg_active) navigate("/events/new", "_top");
     else
       toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
   };
 
+  const typeButtons =
+    zoomConnected && settings?.current_plan?.id !== 1
+      ? [t("Events"), "Zoom", t("All")]
+      : null;
+
+  const activeTypeLabel =
+    eventType === "offline"
+      ? t("Events")
+      : eventType === "zoom"
+      ? "Zoom"
+      : t("All");
+
+  const handleTypeLabel = (label) => {
+    if (label === "Zoom") handleTypeChange("zoom");
+    else if (label === t("All")) handleTypeChange("all");
+    else handleTypeChange("offline");
+  };
+
+  // ── render ──
   return (
     <Fragment>
-      {!selectedEvent &&
-        showGuide &&
-        (!zoomAccount || (zoomAccount && !zoomAccount.id)) && (
-          <Guideline showGuide={setShowGuide} redirect={redirect} />
-        )}
+      {!selectedEvent && showGuide && (!zoomAccount || !zoomAccount.id) && (
+        <Guideline showGuide={setShowGuide} redirect={redirect} />
+      )}
+
       {!selectedEvent && (!showGuide || (zoomAccount && zoomAccount.id)) && (
         <PageWrapper loading={false} withBackground={true}>
           <div className="dashboard-card relative">
             <div className="servv-dashboard-header">
-              <div className="dashboard-heading">
+              <div className="dashboard-heading flex flex-row justify-between">
                 <h1 className="dashboard-title">Events</h1>
-                <p className="dashboard-description">
-                  {/* Create, sell, and manage paid events, bookings, and customers
-                  from one revenue platform */}
-                </p>
+                <div className="flex flex-row gap-3 justify-self-end">
+                  <button
+                    className="flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition"
+                    onClick={() => setShowCustomizeModal(true)}
+                  >
+                    <AdjustmentsVerticalIcon className="w-5 h-5" />
+                  </button>
+
+                  <PageActionButton
+                    type="primary"
+                    size="md"
+                    icon={<PlusIcon className="w-5 h-5" />}
+                    text={t("Create event")}
+                    onAction={handleCreateNewEvent}
+                  />
+                </div>
               </div>
 
               <div className="header-line"></div>
 
+              {/* Mobile header */}
               <div className="md:hidden px-4 pt-4 pb-2">
                 <div className="flex items-center justify-between">
                   <h1 className="text-2xl font-bold text-gray-900">
                     {t("Events")}
                   </h1>
-
                   <div className="flex gap-2">
                     <button
                       aria-label={t("Customize")}
-                      title={t("Customize")}
                       className="p-2 rounded-full bg-white shadow"
                       onClick={() => setShowCustomizeModal(true)}
                     >
@@ -863,7 +976,6 @@ const EventsPage = ({
                     </button>
                     <button
                       aria-label={t("Create Event")}
-                      title={t("Create Event")}
                       className="p-2 rounded-full bg-purple-600 text-white shadow"
                       onClick={() =>
                         open("post-new.php?servv_plugin=true", "_top")
@@ -874,61 +986,37 @@ const EventsPage = ({
                   </div>
                 </div>
               </div>
-              <div className="events-actions">
-                <div className="events-actions-bar">
-                  <InlineStack
-                    gap={4}
-                    align="left"
-                    className="mt-4 justify-between"
-                  >
-                    <div className="flex flex row gap-3">
+
+              {/* Actions bar */}
+              <div className="events-actions w-full">
+                <div className="events-actions-bar w-full">
+                  <div className="flex flex-row justify-between items-center w-full gap-4 flex-wrap">
+                    <div className="flex flex-row gap-3 justify-between sm:justify-start flex-wrap w-full">
                       <NewButtonGroup
                         buttons={[t("Upcoming"), "Past"]}
                         active={isPast ? "Past" : t("Upcoming")}
-                        onChange={(label) => {
-                          handleIsPastChange(label === "Past");
-                        }}
+                        onChange={(label) =>
+                          handleIsPastChange(label === "Past")
+                        }
                       />
 
-                      {settings?.current_plan?.id !== 1 && zoomConnected && (
+                      {typeButtons && (
                         <NewButtonGroup
-                          buttons={[t("Events"), "Zoom"]}
-                          active={
-                            eventType === "offline" ? t("Events") : "Zoom"
-                          }
-                          onChange={(label) => {
-                            handleTypeChange(
-                              label === "Zoom" ? "zoom" : "offline",
-                            );
-                          }}
+                          buttons={typeButtons}
+                          active={activeTypeLabel}
+                          onChange={handleTypeLabel}
                         />
                       )}
                     </div>
-                    <div className="flex gap-3 justify-self-end">
-                      <button
-                        className="flex items-center px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition"
-                        onClick={() => setShowCustomizeModal(true)}
-                      >
-                        <AdjustmentsVerticalIcon className="w-5 h-5" />
-                      </button>
-
-                      <PageActionButton
-                        type="primary"
-                        size="md"
-                        icon={<PlusIcon className="w-5 h-5" />}
-                        text={t("Create event")}
-                        onAction={handleCreateNewEvent}
-                      />
-                    </div>
-                  </InlineStack>
+                  </div>
                 </div>
               </div>
 
               <Card className="w-full max-w-none px-0 mt-4">
+                {/* Mobile toolbar */}
                 <div className="md:hidden flex items-center px-4 pt-4 pb-2">
                   <button
                     aria-label={t("Search")}
-                    title={"Search events by name"}
                     className={`p-2 rounded-full bg-white shadow ${
                       showMobileSearch ? "ring-2 ring-purple-400" : ""
                     }`}
@@ -950,11 +1038,10 @@ const EventsPage = ({
                       />
                     </svg>
                   </button>
-                  <div className="flex-1"></div>
+                  <div className="flex-1" />
                   <div className="flex gap-2 pr-1">
                     <button
                       aria-label={t("Date")}
-                      title={t("Pick date")}
                       className="p-2 rounded-full bg-white shadow"
                       onClick={() => setShowDateModal(true)}
                     >
@@ -982,7 +1069,6 @@ const EventsPage = ({
                     </button>
                     <button
                       aria-label={t("Filters")}
-                      title={t("Filters")}
                       className="p-2 rounded-full bg-white shadow"
                       onClick={() => setShowFiltersModal(true)}
                     >
@@ -1008,15 +1094,15 @@ const EventsPage = ({
                     <input
                       type="text"
                       className="w-full border border-gray-300 rounded px-3 py-2 mb-2"
-                      placeholder={"Search events by name"}
+                      placeholder="Search events by name"
                       value={searchString}
                       autoFocus
                       onChange={(e) => handleSearchChange(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && getEventsList()}
+                      onKeyDown={(e) => e.key === "Enter" && triggerSearch()}
                     />
                     <button
                       className="w-full bg-purple-600 text-white rounded py-2"
-                      onClick={() => getEventsList()}
+                      onClick={triggerSearch}
                     >
                       {t("Search")}
                     </button>
@@ -1024,17 +1110,13 @@ const EventsPage = ({
                 )}
 
                 <EventsCardHeader
-                  eventsCount={
-                    view === "events"
-                      ? meetingsList.length
-                      : eventOccurrencess.length
-                  }
+                  eventsCount={activeList.length}
                   view={view}
                   backToEventsList={() => setView("events")}
                   search={searchString}
                   onChange={handleSearchChange}
                   filtersList={filtersList}
-                  onFiltering={getEventsList}
+                  onFiltering={triggerSearch}
                   handleSearchSubmit={handleSearchSubmit}
                   selectedFilters={selectedFilters}
                   handleFilterSelect={handleFilterSelect}
@@ -1046,76 +1128,80 @@ const EventsPage = ({
                   timezone={timezone}
                 />
 
+                {/* Desktop table */}
                 <div className="hidden md:block w-full">
-                  {view === "events" && (
-                    <SpinnerLoader
-                      isLoading={loading}
-                      customStyling={"h-[50vh]"}
-                    >
-                      <FilterTable
-                        tableClassName="events-table"
-                        headings={renderHeadings()}
-                        rows={renderRows(meetingsList)}
-                        // loading={loading}
-                      />
-                    </SpinnerLoader>
-                  )}
-                  {view === "occurrences" && (
-                    <SpinnerLoader isLoading={loading}>
-                      <FilterTable
-                        tableClassName="events-table"
-                        headings={renderHeadings()}
-                        rows={renderRows(eventOccurrencess)}
-                        // loading={loading}
-                      />
-                    </SpinnerLoader>
+                  <SpinnerLoader
+                    isLoading={activeLoading}
+                    customStyling="h-[50vh]"
+                  >
+                    <FilterTable
+                      tableClassName="events-table"
+                      headings={renderHeadings()}
+                      rows={renderRows(
+                        view === "occurrences"
+                          ? eventOccurrencess ?? []
+                          : activeList,
+                      )}
+                    />
+                  </SpinnerLoader>
+                  {selectedEvents.length > 1 && (
+                    <div className="filter-table-dropdown-container py-xl px-2 text-gray-600 font-regular justify-start border-b first:font-medium first:text-gray-900 md:text-sm flex flex-row">
+                      <button
+                        onClick={() => setShowBulkAction(!showBulkAction)}
+                        className={`mr-auto flex flex-row items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors
+                                ${
+                                  showBulkAction
+                                    ? "bg-purple-600 text-white border-purple-600"
+                                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                                }`}
+                      >
+                        <Bars4Icon className="w-4 h-4" />
+                        Bulk actions
+                      </button>
+                      {showBulkAction && renderBulkActions()}
+                    </div>
                   )}
                 </div>
 
+                {/* Mobile cards */}
                 <div className="mobile-cards-container">
                   {renderMobileCards(
-                    view === "events" ? meetingsList : eventOccurrencess,
+                    view === "occurrences"
+                      ? eventOccurrencess ?? []
+                      : activeList,
                   )}
                 </div>
 
-                {view === "events" && pagination.pageCount > 1 && (
+                {/* Pagination */}
+                {activePagination.pageCount > 1 && (
                   <ListPagination
-                    hasPrev={pagination.pageNumber > 1}
-                    hasNext={pagination.pageNumber < pagination.pageCount}
-                    onPrev={() => handleGetPrevPage()}
-                    onNext={() => handleGetNextPage()}
-                  />
-                )}
-                {view === "occurrences" && (
-                  <ListPagination
-                    hasPrev={occurrencesPagination.pageNumber > 1}
+                    hasPrev={activePagination.pageNumber > 1}
                     hasNext={
-                      occurrencesPagination.pageNumber <
-                      occurrencesPagination.pageCount
+                      activePagination.pageNumber < activePagination.pageCount
                     }
-                    onPrev={() => handleGetPrevOccurrencessPage()}
-                    onNext={() => handleGetNextOccurrencessPage()}
+                    onPrev={handleGetPrev}
+                    onNext={handleGetNext}
                   />
                 )}
               </Card>
             </div>
+
+            {/* Customize columns modal */}
             {showCustomizeModal && (
               <div className="absolute inset-0 bg-black/40 rounded-[15px] z-50 flex items-center justify-center">
                 <div className="bg-white rounded-lg p-4 w-11/12 max-w-[65%] max-h-[90%] overflow-y-auto customize-modal">
                   <div className="flex justify-between items-center mb-2 relative">
                     <span className="dashboard-title">Customize Columns</span>
                     <div
-                      className="servv-create-form-close "
+                      className="servv-create-form-close"
                       onClick={() => setShowCustomizeModal(false)}
                     >
                       <CloseIcon className="servv-create-form-close-icon top-0" />
                     </div>
                   </div>
-
                   <ul className="flex flex-col gap-1 customize-list">
                     {renderHeadingsCustomization()}
                   </ul>
-
                   <button
                     className="mt-3 w-full new-event-button"
                     onClick={() => setShowCustomizeModal(false)}
@@ -1125,6 +1211,7 @@ const EventsPage = ({
                 </div>
               </div>
             )}
+
             <ConfirmationModal data={confirmationModalData} />
           </div>
         </PageWrapper>
@@ -1144,41 +1231,7 @@ const EventsPage = ({
         />
       )}
 
-      {showSearchModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm search-modal">
-            <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold text-lg">
-                {t("Search Events")}
-              </span>
-              <button
-                onClick={() => setShowSearchModal(false)}
-                aria-label="Close"
-              >
-                {t("×")}
-              </button>
-            </div>
-            <input
-              type="text"
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              placeholder={t("Enter search")}
-              value={searchString}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && getEventsList()}
-            />
-            <button
-              className="mt-3 w-full bg-purple-600 text-white rounded py-2"
-              onClick={() => {
-                getEventsList();
-                setShowSearchModal(false);
-              }}
-            >
-              {t("Search")}
-            </button>
-          </div>
-        </div>
-      )}
-
+      {/* Mobile: filters modal */}
       {showFiltersModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm max-h-[90vh] overflow-y-auto filters-modal">
@@ -1198,17 +1251,14 @@ const EventsPage = ({
                   <div className="font-semibold mb-1">
                     {filter.charAt(0).toUpperCase() + filter.slice(1)}
                   </div>
-                  {filtersList[filter].map((filterToSelect) => (
+                  {filtersList[filter].map((item) => (
                     <CheckboxControl
-                      key={filterToSelect.id}
-                      label={filterToSelect.name}
+                      key={item.id}
+                      label={item.name}
                       checked={
-                        selectedFilters[filter] &&
-                        selectedFilters[filter].includes(filterToSelect.id)
+                        selectedFilters[filter]?.includes(item.id) || false
                       }
-                      onChange={() =>
-                        handleFilterSelect(filter, filterToSelect.id)
-                      }
+                      onChange={() => handleFilterSelect(filter, item.id)}
                       font="text-sm"
                       color="text-gray-700"
                     />
@@ -1227,7 +1277,7 @@ const EventsPage = ({
               <button
                 className="flex-1 py-2 px-4 bg-purple-600 text-white rounded-lg"
                 onClick={() => {
-                  getEventsList();
+                  triggerSearch();
                   setShowFiltersModal(false);
                 }}
               >
@@ -1238,6 +1288,7 @@ const EventsPage = ({
         </div>
       )}
 
+      {/* Mobile: date modal */}
       {showDateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-4 w-11/12 max-w-sm date-modal">
@@ -1259,7 +1310,7 @@ const EventsPage = ({
             <button
               className="mt-3 w-full bg-purple-600 text-white rounded py-2"
               onClick={() => {
-                getEventsList();
+                triggerSearch();
                 setShowDateModal(false);
               }}
             >
@@ -1272,4 +1323,4 @@ const EventsPage = ({
   );
 };
 
-export default EventsPage;
+export default EventsListPage;

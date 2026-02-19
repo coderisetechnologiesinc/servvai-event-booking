@@ -234,6 +234,15 @@ const BrandingStep = ({
           />
         </div>
         <div className="servv_actions">
+          {!isNew && (
+            <button
+              type="button"
+              className="servv_button servv_button--secondary"
+              onClick={() => handleFormSubmit(true)}
+            >
+              Save and Exit
+            </button>
+          )}
           <button
             type="button"
             className="servv_button servv_button--secondary"

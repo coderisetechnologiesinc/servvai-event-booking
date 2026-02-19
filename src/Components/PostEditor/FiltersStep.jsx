@@ -4,14 +4,20 @@ import NewSelectControl from "../Controls/NewSelectControl";
 import NewInputControl from "../Controls/NewInputControl";
 import { useServvStore } from "../../store/useServvStore";
 
-const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
+const FiltersStep = ({
+  attributes,
+  setAttributes,
+  changeStep,
+  isNew,
+  handleFormSubmit,
+}) => {
   const filtersList = useServvStore((s) => s.filtersList);
 
   // filters
   const filters = attributes.filters || {};
   const categoryId = filters.category_id || "";
   const languageId = filters.language_id || "";
-  const memberIds = filters.members || [];
+  const memberIds = filters.members || null;
 
   // custom fields
   const customFields = attributes.custom_fields || {};
@@ -97,6 +103,7 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
                 <div className="step__content_block">
                   <span className="step__content_title">Members</span>
                   <NewSelectControl
+                    helpText="Select member"
                     value={memberIds}
                     options={mapOptions(filtersList.members)}
                     multiple
@@ -140,6 +147,15 @@ const FiltersStep = ({ attributes, setAttributes, changeStep }) => {
         </div>
       </div>
       <div className="servv_actions mt-auto">
+        {!isNew && (
+          <button
+            type="button"
+            className="servv_button servv_button--secondary"
+            onClick={() => handleFormSubmit(true)}
+          >
+            Save and Exit
+          </button>
+        )}
         <button
           type="button"
           className="servv_button servv_button--secondary"

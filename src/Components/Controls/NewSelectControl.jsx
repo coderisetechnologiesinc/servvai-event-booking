@@ -22,7 +22,7 @@ const NewSelectControl = ({
       >
         <select
           className="servv-select__native"
-          value={value}
+          value={value ?? ""}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
         >

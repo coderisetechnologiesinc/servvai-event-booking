@@ -20,6 +20,8 @@ const DateStep = ({
   settings,
   changeStep,
   isOccurrence,
+  isNew,
+  handleFormSubmit,
 }) => {
   const navigate = useNavigate();
   const { startTime, duration, timezone, recurrence } =
@@ -366,6 +368,15 @@ const DateStep = ({
           )}
 
           <div className="servv_actions">
+            {!isNew && (
+              <button
+                type="button"
+                className="servv_button servv_button--secondary"
+                onClick={() => handleFormSubmit(true)}
+              >
+                Save and Exit
+              </button>
+            )}
             <button
               type="button"
               className="servv_button servv_button--secondary"

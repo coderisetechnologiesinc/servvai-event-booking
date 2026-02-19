@@ -591,11 +591,13 @@ const CreateEventForm = () => {
     }));
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (forceQuit = true) => {
     let requestURL = `/wp-json/servv-plugin/v1/`;
 
     if (isNew) {
-      requestURL += `events/${attributes.location}`;
+      requestURL += `events/${
+        attributes.location !== "zoom" ? "offline" : "zoom"
+      }`;
     } else {
       requestURL += "event";
     }
@@ -607,7 +609,10 @@ const CreateEventForm = () => {
     }
     const isRecurring = attributes.meeting?.recurrence?.type;
 
-    const isOffline = attributes.location === "offline";
+    const isOffline =
+      attributes.location === "offline" ||
+      attributes.location === "hybrid" ||
+      attributes.location === "custom";
 
     let data = {
       meeting: {
@@ -632,7 +637,10 @@ const CreateEventForm = () => {
         disable_emails: attributes.notifications.disable_emails,
       },
       types: {
-        location_id: attributes.filters.location_id,
+        location_id:
+          attributes.location === "zoom" || attributes.location === "custom"
+            ? null
+            : attributes.filters.location_id,
         category_id: attributes.filters.category_id,
         language_id: attributes.filters.language_id,
         members: attributes.filters.members,
@@ -752,7 +760,8 @@ const CreateEventForm = () => {
         },
       }).finally(() => {
         toast.success(`Event ${isNew ? "created" : "updated"} successfully.`);
-        if (isNew && !isOnboarding) navigate("/dashboard?created=success");
+        if ((isNew && !isOnboarding) || forceQuit)
+          navigate("/dashboard?created=success");
         else if (isNew) navigate("/dashboard?created=success");
       });
       setLoadingEvent(false);
@@ -848,7 +857,14 @@ const CreateEventForm = () => {
         >
           <div
             className="servv-create-form-close"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => {
+              const from = location.state?.from;
+              const allowed = ["/dashboard", "/events"];
+
+              const canGoBack =
+                from && allowed.some((path) => from.includes(path));
+              canGoBack ? navigate(-1) : navigate("/events");
+            }}
           >
             <CloseIcon className="servv-create-form-close-icon" />
           </div>
