@@ -395,12 +395,12 @@ const BrandingPage = () => {
             </p>
           </div>
 
-          <PageActionButton
+          {/* <PageActionButton
             text="Save"
             type="primary"
             disabled={loading}
             onAction={saveSettings}
-          />
+          /> */}
         </div>
 
         <div className="header-line" />
@@ -415,6 +415,7 @@ const BrandingPage = () => {
               statusText={profileStatus}
               description="Business name, avatar and widget header branding."
               buttonText="Edit"
+              handleSave={saveSettings}
               footerActions={(() => {
                 const fileRef = React.useRef(null);
 
@@ -467,6 +468,7 @@ const BrandingPage = () => {
               description="Add and update your social media links."
               buttonText="Edit"
               statusText={linkBioStatus}
+              handleSave={saveSettings}
             >
               <LinkInBioModal
                 instagram={instagram}
@@ -495,6 +497,7 @@ const BrandingPage = () => {
               description="Colors, gradients, background and widget styling."
               buttonText="Edit"
               statusText={themeStatus}
+              handleSave={saveSettings}
               footerActions={
                 <button
                   type="button"
@@ -551,6 +554,7 @@ const BrandingPage = () => {
               statusText={customLinksStatus}
               description="External links shown in your widget."
               buttonText="Edit"
+              handleSave={saveSettings}
             >
               <CustomLinksModal links={links} setLinks={setLinks} />
             </SettingsCardWithModal>
@@ -562,6 +566,7 @@ const BrandingPage = () => {
               description="Add video blocks inside widget."
               statusText={youtubeStatus}
               buttonText="Edit"
+              handleSave={saveSettings}
             >
               <YoutubeLinksModal
                 youtubeVideos={youtubeVideos}

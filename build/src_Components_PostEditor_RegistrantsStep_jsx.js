@@ -30,6 +30,7 @@ const Badge = ({
   type,
   size,
   align,
+  additionalType = null,
   fullWidth = false,
   justify = null,
   onAction = () => {}
@@ -45,6 +46,16 @@ const Badge = ({
       return "badge-warning";
     } else if (color === "success") {
       return "badge-success";
+    } else if (color === "info") {
+      return "badge-infor";
+    } else if (color === "purple") {
+      return "badge-purple";
+    } else if (color === "blue-light") {
+      return "badge-blue-light";
+    } else if (color === "zoom") {
+      return "badge-zoom";
+    } else if (color === "neutral") {
+      return "";
     }
     return "badge-gray";
   };
@@ -71,7 +82,7 @@ const Badge = ({
     return "badge-small";
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: `badge ${fullWidth ? "w-max" : ""} ${getSize()} ${getType()} ${getColor()} ${align === "center" ? "items-center" : "items-end"} ${justify && justify === "start" ? "justify-start" : justify} cursor-pointer
+    className: `badge ${fullWidth ? "w-max" : ""} ${getSize()} ${getType()} ${getColor()} ${align === "center" ? "items-center" : "items-end"} ${justify && justify === "start" ? "justify-start" : justify} ${additionalType ? additionalType : ""} cursor-pointer
 `,
     onClick: onAction,
     children: [icon && icon, image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_BadgeImage__WEBPACK_IMPORTED_MODULE_0__["default"], {
@@ -1253,4 +1264,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=f47e9694ea4aea5b0c34
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=f0557f69dd587df1c7b6

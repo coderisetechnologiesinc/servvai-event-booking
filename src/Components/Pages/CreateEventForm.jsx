@@ -23,6 +23,7 @@ import {
   updateTicket,
   multipleTicketsCreate,
   multipleTicketsUpdate,
+  deleteTicket,
 } from "../../utilities/tickets";
 import { useServvData } from "./Events/useServvData";
 const DateStep = React.lazy(() => import("../PostEditor/DateStep"));
@@ -105,6 +106,13 @@ const CreateEventForm = () => {
   const [isError, setError] = useState(false);
   const [steps, setSteps] = useState([
     {
+      key: "branding",
+      title: "Event details",
+      subtitle: "Add additional information and an image",
+      Icon: BrushIcon,
+      iconClass: "icon--angled",
+    },
+    {
       key: "date",
       title: "Date and time",
       subtitle: "Select the event’s date, time, and frequency",
@@ -131,13 +139,6 @@ const CreateEventForm = () => {
       subtitle: "Set filters and add notes",
       Icon: Filter,
       iconClass: "",
-    },
-    {
-      key: "branding",
-      title: "Event details",
-      subtitle: "Add additional information and an image",
-      Icon: BrushIcon,
-      iconClass: "icon--angled",
     },
   ]);
   const [currentStep, setCurrentStep] = useState(steps[0].key);
@@ -571,13 +572,14 @@ const CreateEventForm = () => {
     }
 
     // REMOVE (soft delete on backend)
+
     if (toRemove.length) {
       await Promise.all(
         toRemove.map((ticket) =>
-          updateTicket({
+          deleteTicket({
             postId: routeId,
             token: servvData.nonce,
-            ticket: { ...ticket, quantity: 0 },
+            ticketId: ticket.id,
             occurrenceId: occurrenceIdFromQuery,
           }),
         ),

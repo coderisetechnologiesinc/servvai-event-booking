@@ -223,7 +223,7 @@ const BrandingStep = ({
         )}
 
         {/* Email notifications */}
-        <div className="step__content_block">
+        {/* <div className="step__content_block">
           <span className="step__content_title">Email notifications</span>
 
           <RadioGroup
@@ -232,7 +232,7 @@ const BrandingStep = ({
             options={EMAIL_NOTIFICATION_OPTIONS}
             onChange={() => updateField("disable_emails", !disable_emails)}
           />
-        </div>
+        </div> */}
         <div className="servv_actions">
           {!isNew && (
             <button
@@ -246,7 +246,14 @@ const BrandingStep = ({
           <button
             type="button"
             className="servv_button servv_button--secondary"
-            onClick={() => changeStep("venue")}
+            onClick={() => {
+              const from = location.state?.from;
+              const allowed = ["/dashboard", "/events"];
+
+              const canGoBack =
+                from && allowed.some((path) => from.includes(path));
+              canGoBack ? navigate(-1) : navigate("/events");
+            }}
           >
             Previous
           </button>
@@ -256,14 +263,14 @@ const BrandingStep = ({
             className="servv_button servv_button--primary"
             onClick={() => {
               if (attributes?.meeting?.topic?.length > 0) {
-                handleFormSubmit();
+                changeStep("date");
               } else {
                 setWarning(true);
                 toast.warning("Please enter the title");
               }
             }}
           >
-            {isNew ? "Create" : "Save"}
+            Continue
           </button>
         </div>
       </div>

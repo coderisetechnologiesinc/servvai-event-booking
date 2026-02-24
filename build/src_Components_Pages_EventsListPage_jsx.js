@@ -30,6 +30,7 @@ const Badge = ({
   type,
   size,
   align,
+  additionalType = null,
   fullWidth = false,
   justify = null,
   onAction = () => {}
@@ -45,6 +46,16 @@ const Badge = ({
       return "badge-warning";
     } else if (color === "success") {
       return "badge-success";
+    } else if (color === "info") {
+      return "badge-infor";
+    } else if (color === "purple") {
+      return "badge-purple";
+    } else if (color === "blue-light") {
+      return "badge-blue-light";
+    } else if (color === "zoom") {
+      return "badge-zoom";
+    } else if (color === "neutral") {
+      return "";
     }
     return "badge-gray";
   };
@@ -71,7 +82,7 @@ const Badge = ({
     return "badge-small";
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: `badge ${fullWidth ? "w-max" : ""} ${getSize()} ${getType()} ${getColor()} ${align === "center" ? "items-center" : "items-end"} ${justify && justify === "start" ? "justify-start" : justify} cursor-pointer
+    className: `badge ${fullWidth ? "w-max" : ""} ${getSize()} ${getType()} ${getColor()} ${align === "center" ? "items-center" : "items-end"} ${justify && justify === "start" ? "justify-start" : justify} ${additionalType ? additionalType : ""} cursor-pointer
 `,
     onClick: onAction,
     children: [icon && icon, image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_BadgeImage__WEBPACK_IMPORTED_MODULE_0__["default"], {
@@ -1033,9 +1044,18 @@ const ListPagination = ({
   onPrev = () => {},
   onSelect = () => {},
   pageNumber,
-  pageCount
+  pageCount,
+  totalItems = null,
+  showingItems = null
 }) => {
-  const renderPaginationPages = () => {};
+  const renderPaginationPages = () => {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: totalItems && showingItems && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        className: "pagination-control-text self-center",
+        children: `${showingItems} of ${totalItems}`
+      })
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "pagination-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
@@ -1048,7 +1068,7 @@ const ListPagination = ({
         className: "pagination-control-text",
         children: t("Previous")
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
+    }), renderPaginationPages(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
       className: "pagination-control",
       disabled: !hasNext,
       onClick: () => onNext(),
@@ -3013,11 +3033,6 @@ const EventsCardHeader = ({
       className: "card-heading",
       children: [view !== "events" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
         children: t("Event Occurrences")
-      }), eventsCount > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        text: `${eventsCount} ${"item"}${eventsCount > 1 ? "s" : ""}`,
-        color: "secondary",
-        size: "small",
-        align: "center"
       }), view === "occurrences" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("button", {
         className: "pagination-control ml-auto",
         onClick: backToEventsList,
@@ -3125,7 +3140,7 @@ const defaultHeadings = [{
 }, {
   label: t("Type"),
   value: "type",
-  visible: false
+  visible: true
 }, {
   label: t("Recurrence"),
   value: "recurrence",
@@ -3391,18 +3406,20 @@ const EventsListPage = ({
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_6__["default"], {
             text: view === "events" ? row[heading.value] : "Occurrence",
             type: "badge",
-            color: "gray",
+            color: row[heading.value] === "Event" ? "" : "zoom",
             size: "small",
-            align: "center"
+            align: "center",
+            additionalType: "badge-short"
           })
         }, heading.value);
         if (heading.label === "Recurrence") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("td", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_6__["default"], {
             text: row[heading.value],
             type: "badge",
-            color: row[heading.value] === "Recurring" ? "brand" : "gray",
+            color: row[heading.value] === "Recurring" ? "brand" : "",
             size: "small",
-            align: "center"
+            align: "center",
+            additionalType: "badge-short"
           })
         }, heading.value);
         if (heading.label === "Status") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("td", {
@@ -3411,7 +3428,8 @@ const EventsListPage = ({
             type: "pill-colour",
             color: row[heading.value] === "Past" ? "blue" : row[heading.value] === "Unlisted" ? "warning" : "success",
             size: "small",
-            align: "center"
+            align: "center",
+            additionalType: "badge-short"
           })
         }, heading.value);
         if (heading.label === "Date" && !row[heading.value]) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("td", {
@@ -3422,12 +3440,15 @@ const EventsListPage = ({
               getEventOccurrencess(row.post_id);
             },
             size: "small",
-            align: "center"
+            align: "center",
+            color: "brand",
+            additionalType: "badge-short"
           })
         }, heading.value);
         if (heading.label === "Date" && row[heading.value]) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("td", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            text: row[heading.value]
+            text: row[heading.value],
+            additionalType: "badge-short"
           })
         }, heading.value);
         if (heading.label === "Time" && row[heading.value]) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("td", {
@@ -3435,7 +3456,8 @@ const EventsListPage = ({
             text: `${moment_timezone__WEBPACK_IMPORTED_MODULE_10___default()(row[heading.value], "hh:mm a").format(timeFormat)}${!settings?.settings?.hide_time_zone ? " " + moment_timezone__WEBPACK_IMPORTED_MODULE_10___default().tz(row.timezone).format("z").toString() : ""}`,
             size: "small",
             align: "center",
-            justify: "center"
+            justify: "center",
+            additionalType: "badge-short"
           })
         }, heading.value);
         if (heading.label === "Time" && !row[heading.value]) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("td", {
@@ -3447,7 +3469,9 @@ const EventsListPage = ({
             },
             align: "center",
             justify: "center",
-            size: "small"
+            size: "small",
+            color: "brand",
+            additionalType: "badge-short"
           })
         }, heading.value);
         if (heading.label === "Title") return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("td", {
@@ -3662,7 +3686,7 @@ const EventsListPage = ({
                   className: "w-5 h-5"
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_2__["default"], {
-                type: "primary",
+                type: "primary whitespace-nowrap text-[12px] md:text-[16px]",
                 size: "md",
                 icon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_31__["default"], {
                   className: "w-5 h-5"
@@ -3673,32 +3697,6 @@ const EventsListPage = ({
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
             className: "header-line"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-            className: "md:hidden px-4 pt-4 pb-2",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
-              className: "flex items-center justify-between",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("h1", {
-                className: "text-2xl font-bold text-gray-900",
-                children: t("Events")
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
-                className: "flex gap-2",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("button", {
-                  "aria-label": t("Customize"),
-                  className: "p-2 rounded-full bg-white shadow",
-                  onClick: () => setShowCustomizeModal(true),
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_26__["default"], {
-                    className: "w-5 h-5"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("button", {
-                  "aria-label": t("Create Event"),
-                  className: "p-2 rounded-full bg-purple-600 text-white shadow",
-                  onClick: () => open("post-new.php?servv_plugin=true", "_top"),
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_31__["default"], {
-                    className: "w-5 h-5"
-                  })
-                })]
-              })]
-            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
             className: "events-actions w-full",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
@@ -3849,6 +3847,8 @@ const EventsListPage = ({
             }), activePagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_ListPagination__WEBPACK_IMPORTED_MODULE_12__["default"], {
               hasPrev: activePagination.pageNumber > 1,
               hasNext: activePagination.pageNumber < activePagination.pageCount,
+              totalItems: activePagination.totalItems,
+              showingItems: mergedList.length,
               onPrev: handleGetPrev,
               onNext: handleGetNext
             })]
@@ -8082,4 +8082,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=7aa9fa3a98a506d5aab3
+//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=81358cb7670534501992

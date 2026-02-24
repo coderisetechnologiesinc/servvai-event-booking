@@ -13,9 +13,10 @@ const Badge = ({
   type,
   size,
   align,
+  additionalType = null,
   fullWidth = false,
   justify = null,
-  onAction = () => { },
+  onAction = () => {},
 }) => {
   const getColor = () => {
     if (color === "gray") {
@@ -28,6 +29,16 @@ const Badge = ({
       return "badge-warning";
     } else if (color === "success") {
       return "badge-success";
+    } else if (color === "info") {
+      return "badge-infor";
+    } else if (color === "purple") {
+      return "badge-purple";
+    } else if (color === "blue-light") {
+      return "badge-blue-light";
+    } else if (color === "zoom") {
+      return "badge-zoom";
+    } else if (color === "neutral") {
+      return "";
     }
     return "badge-gray";
   };
@@ -55,9 +66,13 @@ const Badge = ({
   };
   return (
     <div
-      className={`badge ${fullWidth ? "w-max" : ""
-        } ${getSize()} ${getType()} ${getColor()} ${align === "center" ? "items-center" : "items-end"
-        } ${justify && justify === "start" ? "justify-start" : justify} cursor-pointer
+      className={`badge ${
+        fullWidth ? "w-max" : ""
+      } ${getSize()} ${getType()} ${getColor()} ${
+        align === "center" ? "items-center" : "items-end"
+      } ${justify && justify === "start" ? "justify-start" : justify} ${
+        additionalType ? additionalType : ""
+      } cursor-pointer
 `}
       onClick={onAction}
     >

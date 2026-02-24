@@ -85,6 +85,7 @@ const Badge = ({
   type,
   size,
   align,
+  additionalType = null,
   fullWidth = false,
   justify = null,
   onAction = () => {}
@@ -100,6 +101,16 @@ const Badge = ({
       return "badge-warning";
     } else if (color === "success") {
       return "badge-success";
+    } else if (color === "info") {
+      return "badge-infor";
+    } else if (color === "purple") {
+      return "badge-purple";
+    } else if (color === "blue-light") {
+      return "badge-blue-light";
+    } else if (color === "zoom") {
+      return "badge-zoom";
+    } else if (color === "neutral") {
+      return "";
     }
     return "badge-gray";
   };
@@ -126,7 +137,7 @@ const Badge = ({
     return "badge-small";
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: `badge ${fullWidth ? "w-max" : ""} ${getSize()} ${getType()} ${getColor()} ${align === "center" ? "items-center" : "items-end"} ${justify && justify === "start" ? "justify-start" : justify} cursor-pointer
+    className: `badge ${fullWidth ? "w-max" : ""} ${getSize()} ${getType()} ${getColor()} ${align === "center" ? "items-center" : "items-end"} ${justify && justify === "start" ? "justify-start" : justify} ${additionalType ? additionalType : ""} cursor-pointer
 `,
     onClick: onAction,
     children: [icon && icon, image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_BadgeImage__WEBPACK_IMPORTED_MODULE_0__["default"], {
@@ -721,9 +732,18 @@ const ListPagination = ({
   onPrev = () => {},
   onSelect = () => {},
   pageNumber,
-  pageCount
+  pageCount,
+  totalItems = null,
+  showingItems = null
 }) => {
-  const renderPaginationPages = () => {};
+  const renderPaginationPages = () => {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: totalItems && showingItems && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        className: "pagination-control-text self-center",
+        children: `${showingItems} of ${totalItems}`
+      })
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "pagination-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
@@ -736,7 +756,7 @@ const ListPagination = ({
         className: "pagination-control-text",
         children: t("Previous")
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
+    }), renderPaginationPages(), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
       className: "pagination-control",
       disabled: !hasNext,
       onClick: () => onNext(),
@@ -1441,7 +1461,8 @@ const BookingsPage = () => {
                   color: row.active_registrants === 0 ? "error" : row.reunded_quantity >= row.quantity ? "warning" : "success",
                   size: "small",
                   align: "center",
-                  type: "pill-colour"
+                  type: "pill-colour",
+                  additionalType: "badge-short"
                 })
               }, "status");
             default:
@@ -1554,7 +1575,8 @@ const BookingsPage = () => {
         width: "w-8",
         align: "left",
         type: "number",
-        step: "any"
+        step: "any",
+        minValue: "0"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_13__["default"], {
         value: price.to,
         placeholder: "Price to",
@@ -1563,7 +1585,8 @@ const BookingsPage = () => {
         width: "w-8",
         align: "left",
         type: "number",
-        step: "any"
+        step: "any",
+        minValue: "0"
       })]
     })
   });
@@ -1714,6 +1737,7 @@ const BookingsPage = () => {
     link.download = filename;
     link.click();
   }
+  console.log(bookings);
   const renderBulkActions = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
     className: "filter-table-dropdown left-5 top-9 ml-6 mt-6",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
@@ -1745,16 +1769,10 @@ const BookingsPage = () => {
   const renderBookingsHeader = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
     className: "card-header",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
-      className: "card-heading",
-      children: bookings?.total_records > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        text: `${bookings?.bookings?.length || 0} item${bookings && bookings?.bookings?.length > 1 ? "s" : ""}`,
-        color: "secondary",
-        size: "small",
-        align: "center"
-      })
+      className: "card-heading"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
       className: "card-description",
-      children: (searchString.length > 0 || dates.startDate || dates.endDate || !selectedProvider.offline || !selectedProvider.zoom || price.from || price.to) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("a", {
+      children: Boolean(searchString.length > 0 || dates.startDate || dates.endDate || !selectedProvider.offline || !selectedProvider.zoom || price.from || price.to) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("a", {
         className: "card-header-description-link",
         onClick: () => resetFilters(),
         children: t("Clear filters")
@@ -1901,7 +1919,9 @@ const BookingsPage = () => {
               hasPrev: bookings.page_number > 1,
               hasNext: bookings.page_number < bookings.page_count,
               onPrev: () => handleGetPrevPage(),
-              onNext: () => handleGetNextPage()
+              onNext: () => handleGetNextPage(),
+              showingItems: bookings?.bookings?.length,
+              totalItems: bookings.total_records
             })]
           })]
         })]
@@ -3074,4 +3094,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(X
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=2737eeab3dd3f9dc7fd7
+//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=c4dbb5cb57a8e17cc58f

@@ -2269,9 +2269,54 @@ input.input-control.section-description.text-center.servv-card .card-header:hove
   --tw-border-opacity: 1;
   border-color: rgb(171 239 198 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
-  background-color: rgb(236 253 243 / var(--tw-bg-opacity, 1));
+  background-color: rgb(240 249 255 / var(--tw-bg-opacity, 1));
   --tw-text-opacity: 1;
   color: rgb(6 118 71 / var(--tw-text-opacity, 1));
+}
+
+.badge-zoom {
+  --tw-border-opacity: 1;
+  border-color: rgb(178 221 255 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 248 255 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity, 1));
+}
+
+.badge-info {
+  --tw-border-opacity: 1;
+  border-color: rgb(185 230 254 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(236 253 243 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(2 106 162 / var(--tw-text-opacity, 1));
+}
+
+.badge-blue-light {
+  --tw-border-opacity: 1;
+  border-color: rgb(185 230 254 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 249 255 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(2 106 162 / var(--tw-text-opacity, 1));
+}
+
+.badge-infor {
+  --tw-border-opacity: 1;
+  border-color: rgb(178 221 255 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 248 255 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(23 92 211 / var(--tw-text-opacity, 1));
+}
+
+.badge-purple {
+  --tw-border-opacity: 1;
+  border-color: rgb(217 214 254 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 243 255 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(89 37 220 / var(--tw-text-opacity, 1));
 }
 
 /* ... */
@@ -2963,8 +3008,8 @@ input.input-control.section-description.bookings-table th:nth-last-child(2).w-fu
 
 .bookings-table th:nth-last-child(2),
   .bookings-table td:nth-last-child(2) {
-  width: 65px;
-  max-width: 70px;
+  width: 80px;
+  max-width: 80px;
   overflow: hidden;
   white-space: nowrap;
   text-align: center;
@@ -6263,9 +6308,16 @@ svg.breadcrumbs-icon {
 .servv_button--md {
   height: 40px;
   padding: 8px 24px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 20px;
   border-radius: 8px;
+}
+
+@media screen and (max-width: 480px) {
+  .servv_button--md {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
 }
 
 .servv_button--primary {
@@ -6550,6 +6602,8 @@ input.servv-input__native.servv-input__native--center {
       background-color 180ms ease,
       box-shadow 180ms ease,
       color 180ms ease;
+  width: -moz-fit-content;
+  width: fit-content;
   cursor: pointer;
 }
 
@@ -6563,6 +6617,12 @@ input.servv-input__native.servv-input__native--center {
   color: rgb(122, 90, 248);
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(122, 90, 248, 0.18);
+}
+
+.badge-short {
+  max-width: 80px;
+  width: auto;
+  margin: 0 auto;
 }
 
 /* Steps changes */
@@ -6926,6 +6986,10 @@ input.servv-input__native.servv-input__native--center {
   margin-left: 0.5rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .ml-6 {
   margin-left: 1.5rem;
 }
@@ -6948,6 +7012,10 @@ input.servv-input__native.servv-input__native--center {
 
 .mr-3\.5 {
   margin-right: 0.875rem;
+}
+
+.mr-4 {
+  margin-right: 1rem;
 }
 
 .mr-auto {
@@ -7008,14 +7076,6 @@ input.servv-input__native.servv-input__native--center {
 
 .mt-auto {
   margin-top: auto;
-}
-
-.ml-4 {
-  margin-left: 1rem;
-}
-
-.mr-4 {
-  margin-right: 1rem;
 }
 
 .block {
@@ -7881,10 +7941,6 @@ input.servv-input__native.servv-input__native--center {
 
 .self-stretch {
   align-self: stretch;
-}
-
-.justify-self-start {
-  justify-self: start;
 }
 
 .justify-self-end {

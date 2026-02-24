@@ -839,7 +839,7 @@ const TicketsStep = ({
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
           className: "servv_ticket_quantity__hint",
-          children: ["Maximum number of tickets ", MAX_QTY]
+          children: ["Maximum number of tickets ", MAX_QTY, "."]
         })]
       })]
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
@@ -1308,4 +1308,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=6a385f4ce70cf5de00a0
+//# sourceMappingURL=src_Components_PostEditor_TicketsStep_jsx.js.map?ver=bab99b8363e677421032

@@ -305,8 +305,10 @@ const FiltersStep = ({
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
         type: "button",
         className: "servv_button servv_button--primary",
-        onClick: () => changeStep("branding"),
-        children: "Continue"
+        onClick: () => {
+          handleFormSubmit();
+        },
+        children: isNew ? "Create" : "Save"
       })]
     })]
   });
@@ -356,4 +358,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=0cef83c8c4549d7c6272
+//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=410ad4359845d614cbc1

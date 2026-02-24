@@ -7,8 +7,18 @@ const ListPagination = ({
   onSelect = () => {},
   pageNumber,
   pageCount,
+  totalItems = null,
+  showingItems = null,
 }) => {
-  const renderPaginationPages = () => {};
+  const renderPaginationPages = () => {
+    return (
+      <>
+        {totalItems && showingItems && (
+          <span className="pagination-control-text self-center">{`${showingItems} of ${totalItems}`}</span>
+        )}
+      </>
+    );
+  };
   return (
     <div className="pagination-container">
       <button
@@ -19,7 +29,7 @@ const ListPagination = ({
         <ArrowLeftIcon className="pagination-control-icon" />
         <span className="pagination-control-text">{t("Previous")}</span>
       </button>
-      {/* {renderPaginationPages()} */}
+      {renderPaginationPages()}
       <button
         className="pagination-control"
         disabled={!hasNext}
