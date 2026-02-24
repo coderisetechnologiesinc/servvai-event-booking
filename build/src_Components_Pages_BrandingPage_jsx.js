@@ -1109,9 +1109,9 @@ const BrandingPage = () => {
     withBackground: true,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
         className: "servv-dashboard-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "dashboard-heading",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h1", {
             className: "dashboard-title",
@@ -1120,12 +1120,7 @@ const BrandingPage = () => {
             className: "dashboard-description",
             children: "Customize your widget branding and store details"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          text: "Save",
-          type: "primary",
-          disabled: loading,
-          onAction: saveSettings
-        })]
+        })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
         className: "header-line"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -1138,6 +1133,7 @@ const BrandingPage = () => {
             statusText: profileStatus,
             description: "Business name, avatar and widget header branding.",
             buttonText: "Edit",
+            handleSave: saveSettings,
             footerActions: (() => {
               const fileRef = React.useRef(null);
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.Fragment, {
@@ -1180,6 +1176,7 @@ const BrandingPage = () => {
             description: "Add and update your social media links.",
             buttonText: "Edit",
             statusText: linkBioStatus,
+            handleSave: saveSettings,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_LinkInBioModal__WEBPACK_IMPORTED_MODULE_11__["default"], {
               instagram: instagram,
               setInstagram: setInstagram,
@@ -1204,6 +1201,7 @@ const BrandingPage = () => {
             description: "Colors, gradients, background and widget styling.",
             buttonText: "Edit",
             statusText: themeStatus,
+            handleSave: saveSettings,
             footerActions: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
               type: "button",
               disabled: bannerUploading,
@@ -1251,6 +1249,7 @@ const BrandingPage = () => {
             statusText: customLinksStatus,
             description: "External links shown in your widget.",
             buttonText: "Edit",
+            handleSave: saveSettings,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_CustomLinksModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
               links: links,
               setLinks: setLinks
@@ -1261,6 +1260,7 @@ const BrandingPage = () => {
             description: "Add video blocks inside widget.",
             statusText: youtubeStatus,
             buttonText: "Edit",
+            handleSave: saveSettings,
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_YoutubeLinksModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
               youtubeVideos: youtubeVideos,
               setYoutubeVideos: setYoutubeVideos
@@ -1379,6 +1379,7 @@ const ProfileBrandingModal = ({
   avatarUploading,
   avatarPreview,
   handleAvatarChange,
+  handleSave,
   responsiveBlock
 }) => {
   // console.log(avatarUploading);
@@ -1511,7 +1512,8 @@ const SettingsCardWithModal = ({
   // "available" | "unavailable"
   children,
   // modal body
-  footerActions = null
+  footerActions = null,
+  handleSave = () => {}
 }) => {
   const [open, setOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const Icon = icon;
@@ -1610,9 +1612,9 @@ const SettingsCardWithModal = ({
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             children: footerActions
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            onClick: close,
-            className: "px-5 py-2 border border-[#D5D7DA] rounded-lg hover:bg-gray-50 font-semibold text-sm",
-            children: "Close"
+            onClick: () => handleSave(),
+            className: "px-5 py-2 bg-[#7A5AF8] text-white rounded-lg",
+            children: "Save"
           })]
         })]
       })
@@ -2308,4 +2310,4 @@ const YoutubeLinksModal = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=ba6f83102a2acfb862e4
+//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=7efdc1bcadecab42eb17

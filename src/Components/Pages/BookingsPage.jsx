@@ -556,6 +556,7 @@ const BookingsPage = () => {
                       size="small"
                       align="center"
                       type="pill-colour"
+                      additionalType="badge-short"
                     />
                   </td>
                 );
@@ -688,6 +689,7 @@ const BookingsPage = () => {
           align="left"
           type="number"
           step="any"
+          minValue="0"
         />
         <InputFieldControl
           value={price.to}
@@ -698,6 +700,7 @@ const BookingsPage = () => {
           align="left"
           type="number"
           step="any"
+          minValue="0"
         />
       </BlockStack>
     </Fragment>
@@ -869,6 +872,8 @@ const BookingsPage = () => {
     link.click();
   }
 
+  console.log(bookings);
+
   const renderBulkActions = () => (
     <div className="filter-table-dropdown left-5 top-9 ml-6 mt-6">
       <div className="dropdown-actions">
@@ -904,7 +909,7 @@ const BookingsPage = () => {
   const renderBookingsHeader = () => (
     <div className="card-header">
       <div className="card-heading">
-        {bookings?.total_records > 0 && (
+        {/* {bookings?.total_records > 0 && (
           <Badge
             text={`${bookings?.bookings?.length || 0} item${
               bookings && bookings?.bookings?.length > 1 ? "s" : ""
@@ -912,17 +917,20 @@ const BookingsPage = () => {
             color="secondary"
             size="small"
             align="center"
+            additionalType="badge-short"
           />
-        )}
+        )} */}
       </div>
       <div className="card-description">
-        {(searchString.length > 0 ||
-          dates.startDate ||
-          dates.endDate ||
-          !selectedProvider.offline ||
-          !selectedProvider.zoom ||
-          price.from ||
-          price.to) && (
+        {Boolean(
+          searchString.length > 0 ||
+            dates.startDate ||
+            dates.endDate ||
+            !selectedProvider.offline ||
+            !selectedProvider.zoom ||
+            price.from ||
+            price.to,
+        ) && (
           <a
             className="card-header-description-link"
             onClick={() => resetFilters()}
@@ -1086,6 +1094,8 @@ const BookingsPage = () => {
                   hasNext={bookings.page_number < bookings.page_count}
                   onPrev={() => handleGetPrevPage()}
                   onNext={() => handleGetNextPage()}
+                  showingItems={bookings?.bookings?.length}
+                  totalItems={bookings.total_records}
                 />
               )}
             </Card>

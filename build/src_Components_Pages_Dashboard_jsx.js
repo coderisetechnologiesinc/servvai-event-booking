@@ -866,7 +866,7 @@ const Dashboard = () => {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("a", {
                 className: "view-widget",
                 href: servvData.homepage,
-                children: "View homepage"
+                children: "View store"
               })
             })]
           })]
@@ -3135,4 +3135,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=8212539ef76e846f55e6
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=41e0324a0f27aeaef101

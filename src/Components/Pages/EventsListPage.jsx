@@ -117,14 +117,15 @@ const EventsCardHeader = ({
     <div className="card-header">
       <div className="card-heading">
         {view !== "events" && <span>{t("Event Occurrences")}</span>}
-        {eventsCount > 0 && (
+        {/* {eventsCount > 0 && (
           <Badge
             text={`${eventsCount} ${"item"}${eventsCount > 1 ? "s" : ""}`}
             color="secondary"
             size="small"
             align="center"
+            additionalType="badge-short"
           />
-        )}
+        )} */}
         {view === "occurrences" && (
           <button
             className="pagination-control ml-auto"
@@ -243,7 +244,7 @@ const defaultHeadings = [
   { label: t("Date"), value: "date", visible: true },
   { label: t("Time"), value: "time", visible: true },
   { label: t("Location"), value: "location", visible: false },
-  { label: t("Type"), value: "type", visible: false },
+  { label: t("Type"), value: "type", visible: true },
   { label: t("Recurrence"), value: "recurrence", visible: true },
   { label: t("Status"), value: "status", visible: false },
 ];
@@ -581,9 +582,10 @@ const EventsListPage = ({
                   <Badge
                     text={view === "events" ? row[heading.value] : "Occurrence"}
                     type="badge"
-                    color="gray"
+                    color={row[heading.value] === "Event" ? "" : "zoom"}
                     size="small"
                     align="center"
+                    additionalType="badge-short"
                   />
                 </td>
               );
@@ -594,11 +596,10 @@ const EventsListPage = ({
                   <Badge
                     text={row[heading.value]}
                     type="badge"
-                    color={
-                      row[heading.value] === "Recurring" ? "brand" : "gray"
-                    }
+                    color={row[heading.value] === "Recurring" ? "brand" : ""}
                     size="small"
                     align="center"
+                    additionalType="badge-short"
                   />
                 </td>
               );
@@ -618,6 +619,7 @@ const EventsListPage = ({
                     }
                     size="small"
                     align="center"
+                    additionalType="badge-short"
                   />
                 </td>
               );
@@ -633,6 +635,8 @@ const EventsListPage = ({
                     }}
                     size="small"
                     align="center"
+                    color="brand"
+                    additionalType="badge-short"
                   />
                 </td>
               );
@@ -640,7 +644,10 @@ const EventsListPage = ({
             if (heading.label === "Date" && row[heading.value])
               return (
                 <td key={heading.value}>
-                  <Badge text={row[heading.value]} />
+                  <Badge
+                    text={row[heading.value]}
+                    additionalType="badge-short"
+                  />
                 </td>
               );
 
@@ -658,6 +665,7 @@ const EventsListPage = ({
                     size="small"
                     align="center"
                     justify="center"
+                    additionalType="badge-short"
                   />
                 </td>
               );
@@ -674,6 +682,8 @@ const EventsListPage = ({
                     align="center"
                     justify="center"
                     size="small"
+                    color="brand"
+                    additionalType="badge-short"
                   />
                 </td>
               );
@@ -949,7 +959,7 @@ const EventsListPage = ({
                   </button>
 
                   <PageActionButton
-                    type="primary"
+                    type="primary whitespace-nowrap text-[12px] md:text-[16px]"
                     size="md"
                     icon={<PlusIcon className="w-5 h-5" />}
                     text={t("Create event")}
@@ -961,7 +971,7 @@ const EventsListPage = ({
               <div className="header-line"></div>
 
               {/* Mobile header */}
-              <div className="md:hidden px-4 pt-4 pb-2">
+              {/* <div className="md:hidden px-4 pt-4 pb-2">
                 <div className="flex items-center justify-between">
                   <h1 className="text-2xl font-bold text-gray-900">
                     {t("Events")}
@@ -985,7 +995,7 @@ const EventsListPage = ({
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Actions bar */}
               <div className="events-actions w-full">
@@ -1179,6 +1189,8 @@ const EventsListPage = ({
                     hasNext={
                       activePagination.pageNumber < activePagination.pageCount
                     }
+                    totalItems={activePagination.totalItems}
+                    showingItems={mergedList.length}
                     onPrev={handleGetPrev}
                     onNext={handleGetNext}
                   />

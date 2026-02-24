@@ -349,17 +349,6 @@ const BrandingStep = ({
           disabled: !calendarConnected
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "step__content_block",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-          className: "step__content_title",
-          children: "Email notifications"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_RecurrenceRadioGroup__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          name: "email_notifications",
-          value: disable_emails,
-          options: EMAIL_NOTIFICATION_OPTIONS,
-          onChange: () => updateField("disable_emails", !disable_emails)
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "servv_actions",
         children: [!isNew && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           type: "button",
@@ -369,20 +358,25 @@ const BrandingStep = ({
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           type: "button",
           className: "servv_button servv_button--secondary",
-          onClick: () => changeStep("venue"),
+          onClick: () => {
+            const from = location.state?.from;
+            const allowed = ["/dashboard", "/events"];
+            const canGoBack = from && allowed.some(path => from.includes(path));
+            canGoBack ? navigate(-1) : navigate("/events");
+          },
           children: "Previous"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           type: "button",
           className: "servv_button servv_button--primary",
           onClick: () => {
             if (attributes?.meeting?.topic?.length > 0) {
-              handleFormSubmit();
+              changeStep("date");
             } else {
               setWarning(true);
               react_toastify__WEBPACK_IMPORTED_MODULE_0__.toast.warning("Please enter the title");
             }
           },
-          children: isNew ? "Create" : "Save"
+          children: "Continue"
         })]
       })]
     })]
@@ -393,4 +387,4 @@ const BrandingStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=78ce0892a1f2fa6a3947
+//# sourceMappingURL=src_Components_PostEditor_BrandingStep_jsx.js.map?ver=313027e6a54aabe0dcec

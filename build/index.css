@@ -397,13 +397,27 @@
     @apply bg-utility-warning-50 border-utility-warning-200 text-utility-warning-700;
   }
   .badge-success {
-    @apply bg-utility-success-50 border-utility-success-200 text-utility-success-700;
+    @apply bg-utility-blue-ligth-50 border-utility-success-200 text-utility-success-700;
+  }
+  .badge-zoom {
+    @apply bg-[#EFF8FF] border-[#B2DDFF] text-[#1D4ED8];
+  }
+  .badge-info {
+    @apply bg-utility-success-50 border-utility-blue-ligth-200 text-utility-blue-ligth-700;
   }
   .badge-gray-blue {
     @apply bg-utility-gray-blue-50 border-utility-gray-blue-200 text-utility-gray-blue-700;
   }
   .badge-blue-light {
-    @apply bg-utility-blue-light-50 border-utility-blue-light-200 text-utility-blue-light-700;
+    @apply bg-[#F0F9FF] border-[#B9E6FE] text-[#026AA2];
+  }
+
+  .badge-infor {
+    @apply bg-[#EFF8FF] border-[#B2DDFF] text-[#175CD3];
+  }
+
+  .badge-purple {
+    @apply bg-[#F4F3FF] border-[#D9D6FE] text-[#5925DC];
   }
   /* ... */
   .badge-pill-outline {
@@ -601,7 +615,7 @@
   }
   .bookings-table th:nth-last-child(2),
   .bookings-table td:nth-last-child(2) {
-    @apply w-[65px] max-w-[70px] whitespace-nowrap overflow-hidden text-center;
+    @apply w-[80px] max-w-[80px] whitespace-nowrap overflow-hidden text-center;
   }
   .bookings-table th:nth-last-child(3),
   .bookings-table td:nth-last-child(3) {
@@ -3211,9 +3225,15 @@
   .servv_button--md {
     height: 40px;
     padding: 8px 24px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     border-radius: 8px;
+  }
+  @media screen and (max-width: 480px) {
+    .servv_button--md {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
   }
   .servv_button--primary {
     background: #7a5af8;
@@ -3628,6 +3648,8 @@
       background-color 180ms ease,
       box-shadow 180ms ease,
       color 180ms ease;
+    width: -moz-fit-content;
+    width: fit-content;
   }
 
   .hover-badge {
@@ -3643,6 +3665,12 @@
     color: rgb(122, 90, 248);
     cursor: pointer;
     box-shadow: 0 1px 4px rgba(122, 90, 248, 0.18);
+  }
+
+  .badge-short {
+    max-width: 80px;
+    width: auto;
+    margin: 0 auto;
   }
   /* Steps changes */
   .step-content-wrapper {

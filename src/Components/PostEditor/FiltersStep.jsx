@@ -167,9 +167,11 @@ const FiltersStep = ({
         <button
           type="button"
           className="servv_button servv_button--primary"
-          onClick={() => changeStep("branding")}
+          onClick={() => {
+            handleFormSubmit();
+          }}
         >
-          Continue
+          {isNew ? "Create" : "Save"}
         </button>
       </div>
     </div>

@@ -90,7 +90,7 @@ const SupportPage = () => {
     {
       title: "Changelog",
       description: "View the latest updates and changes to our platform",
-      url: "https://support.servv.ai/changelogs/changelog/",
+      url: "https://support.servv.ai/changelogs/releasenotes/",
     },
     {
       title: "Releases",

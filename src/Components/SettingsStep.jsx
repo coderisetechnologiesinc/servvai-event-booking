@@ -251,7 +251,7 @@ const SettingsStep = ({
           {
             <div className="step__content_block border-b">
               <div className="flex flex row justify-between items-center">
-                <VideoCameraIcon className="w-16 h-16" />
+                <VideoCameraIcon className="w-12 h-12" />
                 <div className="flex flex-col ml-4 mr-auto">
                   <span className="step__content_title">Zoom</span>
                   <span className="step__content_description">
@@ -289,9 +289,9 @@ const SettingsStep = ({
 
           <div className="step__content_block border-b">
             <div className="flex flex-row justify-between items-center">
-              <EnvelopeIcon className="w-16 h-16 text-gray-600" />
+              <EnvelopeIcon className="w-12 h-12 text-gray-600" />
 
-              <div className="flex flex-col ml-4 mr-4 mr-auto">
+              <div className="flex flex-col ml-4 mr-4 mr-4">
                 <span className="step__content_title">Gmail</span>
                 <span className="step__content_description">
                   Connect your Gmail account for notifications and reminders

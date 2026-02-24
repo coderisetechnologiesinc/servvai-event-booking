@@ -24,7 +24,7 @@ const ProfileBrandingModal = ({
   avatarUploading,
   avatarPreview,
   handleAvatarChange,
-
+  handleSave,
   responsiveBlock,
 }) => {
   // console.log(avatarUploading);

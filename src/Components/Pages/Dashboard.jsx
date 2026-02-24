@@ -328,7 +328,7 @@ const Dashboard = () => {
                 {!settings?.is_wp_is_wp_marketplace && (
                   <div className="profile-link">
                     <a className="view-widget" href={servvData.homepage}>
-                      View homepage
+                      View store
                     </a>
                   </div>
                 )}

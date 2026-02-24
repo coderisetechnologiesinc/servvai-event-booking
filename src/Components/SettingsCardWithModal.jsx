@@ -14,6 +14,7 @@ const SettingsCardWithModal = ({
   status = "available", // "available" | "unavailable"
   children, // modal body
   footerActions = null,
+  handleSave = () => {},
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -122,11 +123,10 @@ const SettingsCardWithModal = ({
               <div>{footerActions}</div>
 
               <button
-                onClick={close}
-                className="px-5 py-2 border border-[#D5D7DA]
-            rounded-lg hover:bg-gray-50 font-semibold text-sm"
+                onClick={() => handleSave()}
+                className="px-5 py-2 bg-[#7A5AF8] text-white rounded-lg"
               >
-                Close
+                Save
               </button>
             </div>
           </div>

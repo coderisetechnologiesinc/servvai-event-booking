@@ -172,6 +172,12 @@ const CreateEventForm = () => {
   });
   const [isError, setError] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [steps, setSteps] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    key: "branding",
+    title: "Event details",
+    subtitle: "Add additional information and an image",
+    Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.BrushIcon,
+    iconClass: "icon--angled"
+  }, {
     key: "date",
     title: "Date and time",
     subtitle: "Select the event’s date, time, and frequency",
@@ -195,12 +201,6 @@ const CreateEventForm = () => {
     subtitle: "Set filters and add notes",
     Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.Filter,
     iconClass: ""
-  }, {
-    key: "branding",
-    title: "Event details",
-    subtitle: "Add additional information and an image",
-    Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.BrushIcon,
-    iconClass: "icon--angled"
   }]);
   const [currentStep, setCurrentStep] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(steps[0].key);
   const StepComponent = stepComponents[currentStep];
@@ -562,14 +562,12 @@ const CreateEventForm = () => {
     }
 
     // REMOVE (soft delete on backend)
+
     if (toRemove.length) {
-      await Promise.all(toRemove.map(ticket => (0,_utilities_tickets__WEBPACK_IMPORTED_MODULE_6__.updateTicket)({
+      await Promise.all(toRemove.map(ticket => (0,_utilities_tickets__WEBPACK_IMPORTED_MODULE_6__.deleteTicket)({
         postId: routeId,
         token: servvData.nonce,
-        ticket: {
-          ...ticket,
-          quantity: 0
-        },
+        ticketId: ticket.id,
         occurrenceId: occurrenceIdFromQuery
       })));
     }
@@ -1499,4 +1497,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(E
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=ca78e94291a5d143112d
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=37e6efbb166dfdddf794

@@ -442,7 +442,7 @@ const TicketsStep = ({
               </button>
             </div>
             <p className="servv_ticket_quantity__hint">
-              Maximum number of tickets {MAX_QTY}
+              Maximum number of tickets {MAX_QTY}.
             </p>
           </div>
         </div>
