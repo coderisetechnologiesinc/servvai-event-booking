@@ -248,46 +248,10 @@ const SettingsStep = ({
               }
             />
           </div> */}
-          {
-            <div className="step__content_block border-b">
-              <div className="flex flex row justify-between items-center">
-                <VideoCameraIcon className="w-12 h-12" />
-                <div className="flex flex-col ml-4 mr-auto">
-                  <span className="step__content_title">Zoom</span>
-                  <span className="step__content_description">
-                    Connect your Zoom account for online events
-                  </span>
-                </div>
-                {checkingEmail ? (
-                  <p className="step__description">Checking Zoom status…</p>
-                ) : zoomConnected ? (
-                  <button
-                    type="button"
-                    className="servv_button servv_button--primary"
-                    onClick={() => {}}
-                  >
-                    <CheckIcon className="w-4 h-4 mr-2" />
-                    Connected
-                  </button>
-                ) : (
-                  // <p className="step__description">
-                  //   Zoom is connected and ready for notifications.
-                  // </p>
-                  <button
-                    type="button"
-                    className="servv_button servv_button--secondary"
-                    onClick={handleConnectZoom}
-                  >
-                    Connect
-                  </button>
-                )}
-              </div>
-            </div>
-          }
 
           {/* Email */}
 
-          <div className="step__content_block border-b">
+          <div className="step__content_block ">
             <div className="flex flex-row justify-between items-center">
               <EnvelopeIcon className="w-12 h-12 text-gray-600" />
 
@@ -303,7 +267,7 @@ const SettingsStep = ({
               ) : isGmailConnected ? (
                 <button
                   type="button"
-                  className="servv_button servv_button--primary"
+                  className="servv_button servv_button--secondary"
                   onClick={() => {}}
                 >
                   <div className="flex flex-row gap-1 items-center">
@@ -323,6 +287,43 @@ const SettingsStep = ({
             </div>
           </div>
         </div>
+
+        {
+          <div className="step__content_block">
+            <div className="flex flex row justify-between items-center">
+              <VideoCameraIcon className="w-12 h-12" />
+              <div className="flex flex-col ml-4 mr-auto">
+                <span className="step__content_title">Zoom (Optional)</span>
+                <span className="step__content_description">
+                  Connect your Zoom account for online events
+                </span>
+              </div>
+              {checkingEmail ? (
+                <p className="step__description">Checking Zoom status…</p>
+              ) : zoomConnected ? (
+                <button
+                  type="button"
+                  className="servv_button servv_button--secondary"
+                  onClick={() => {}}
+                >
+                  <CheckIcon className="w-4 h-4 mr-2" />
+                  Connected
+                </button>
+              ) : (
+                // <p className="step__description">
+                //   Zoom is connected and ready for notifications.
+                // </p>
+                <button
+                  type="button"
+                  className="servv_button servv_button--secondary"
+                  onClick={handleConnectZoom}
+                >
+                  Connect
+                </button>
+              )}
+            </div>
+          </div>
+        }
 
         {/* Actions */}
         <div className="servv_actions mt-auto">

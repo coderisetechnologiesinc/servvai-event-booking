@@ -6,6 +6,7 @@ const NewButtonGroup = ({
   active = null,
   onChange = () => {},
   disabled = false,
+  view,
 }) => {
   return (
     <div className="tabs-wrapper">
@@ -23,7 +24,7 @@ const NewButtonGroup = ({
               onClick={() => onChange(button)}
               className={`tab-button ${
                 isActive ? "tab-button--active" : "tab-button--inactive"
-              }`}
+              } ${view ? "tab-compact" : ""}`}
             >
               <span className="tab-button-text">{button}</span>
             </button>

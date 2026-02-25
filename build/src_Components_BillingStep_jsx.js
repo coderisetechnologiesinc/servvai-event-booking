@@ -17,8 +17,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
 /* harmony import */ var _stripe_stripe_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @stripe/stripe-js */ "./node_modules/@stripe/stripe-js/lib/index.mjs");
 /* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CreditCardIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CheckCircleIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XCircleIcon.js");
 /* harmony import */ var _ModalShell__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ModalShell */ "./src/Components/ModalShell.jsx");
 /* harmony import */ var _Pages_SpinnerLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pages/SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/useServvStore */ "./src/store/useServvStore.js");
@@ -145,50 +143,64 @@ const BillingStep = ({
           customStyling: "top-[30px]",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
             className: "grid grid-cols-1 md:grid-cols-2 gap-6",
-            children: billingPlans?.map(plan => {
+            children: billingPlans?.map((plan, idx) => {
               const isCurrent = activePlanId === plan.id;
               const isUpgradeable = plan.id > (activePlanId || 0);
+              const premium = idx === billingPlans.length - 1;
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                className: `flex flex-col h-full rounded-lg border ${isCurrent ? "border-brand-500 bg-brand-50" : "border-gray-200 bg-white"} p-lg`,
+                className: "flex flex-col rounded-2xl border p-6 flex-1",
+                style: {
+                  background: premium ? "#462986" : "#FFFFFF",
+                  border: "1px solid #E6EBE7",
+                  boxShadow: "0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03)",
+                  minHeight: 0
+                },
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                  className: "flex items-start justify-between gap-4",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-                      className: "text-lg font-semibold text-gray-900",
-                      children: plan.name
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                      className: "mt-1 min-h-[1.25rem] flex flex-wrap items-center gap-2 text-sm text-gray-600",
-                      children: [(plan.price > 0 || plan.price_annual > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                        children: plan.price > 0 ? `$${plan.price}/mo` : `$${plan.price_annual}/yr`
-                      }), plan.application_fee_percent > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-                        children: ["\xB7 ", plan.application_fee_percent, "% fee"]
-                      })]
-                    })]
-                  }), isCurrent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                    className: "text-xs font-semibold text-brand-700 bg-brand-100 px-2 py-1 rounded-full",
-                    children: "Current"
+                  className: "flex flex-col items-center gap-3 text-center",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+                    className: "text-sm font-bold tracking-widest uppercase",
+                    style: {
+                      background: premium ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)" : undefined,
+                      WebkitBackgroundClip: premium ? "text" : undefined,
+                      WebkitTextFillColor: premium ? "transparent" : "transparent",
+                      backgroundClip: premium ? "text" : undefined,
+                      color: premium ? undefined : "#872CFA",
+                      WebkitTextFillColor: premium ? "transparent" : "#872CFA"
+                    },
+                    children: plan.name
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+                    className: "text-3xl font-bold",
+                    style: {
+                      color: premium ? "#FFFFFF" : "#070908"
+                    },
+                    children: plan.price > 0 ? `$${plan.price}/mo` : plan.price_annual > 0 ? `$${plan.price_annual}/yr` : "Free"
+                  }), plan.application_fee_percent > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+                    className: "text-sm",
+                    style: {
+                      color: premium ? "rgba(255,255,255,0.6)" : "#717680"
+                    },
+                    children: [plan.application_fee_percent, "% transaction fee"]
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("ul", {
-                  className: "mt-4 space-y-2",
-                  children: plan.features?.map((feature, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
-                    className: "flex items-start gap-2",
-                    children: [feature.value === "true" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                      className: "w-5 h-5 text-success-600 shrink-0"
-                    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__["default"], {
-                      className: "w-5 h-5 text-error-600 shrink-0"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                      className: "text-sm text-gray-700",
-                      children: feature.title
-                    })]
-                  }, index))
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                  className: "mt-auto pt-6",
-                  children: isCurrent ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                    className: "block w-full text-center text-sm font-semibold text-brand-700",
-                    children: "Active Plan"
+                  className: "mt-auto pt-8 flex flex-col items-center gap-3",
+                  children: isCurrent ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                      className: "text-xs font-semibold px-2 py-1 rounded-full",
+                      style: {
+                        color: premium ? "#462986" : "#6941C6",
+                        background: premium ? "#FFFFFF" : "#F4EBFF"
+                      },
+                      children: "Active Plan"
+                    })
                   }) : isUpgradeable && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
                     type: "button",
-                    className: "servv_button servv_button--primary w-full",
+                    className: "w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90 disabled:opacity-50",
+                    style: {
+                      background: "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
+                      border: "3px solid rgba(255, 255, 255, 0.35)",
+                      boxShadow: "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
+                      color: "#FFFFFF"
+                    },
                     onClick: () => showPaymentOptions(plan),
                     disabled: loading,
                     children: "Activate"
@@ -288,86 +300,6 @@ const SpinnerLoader = ({
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpinnerLoader);
-
-/***/ }),
-
-/***/ "./node_modules/@heroicons/react/24/outline/esm/CheckCircleIcon.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@heroicons/react/24/outline/esm/CheckCircleIcon.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-
-function CheckCircleIcon({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    strokeWidth: 1.5,
-    stroke: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-  }));
-}
-const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(CheckCircleIcon);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
-
-/***/ }),
-
-/***/ "./node_modules/@heroicons/react/24/outline/esm/XCircleIcon.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@heroicons/react/24/outline/esm/XCircleIcon.js ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-
-function XCircleIcon({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    strokeWidth: 1.5,
-    stroke: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-  }));
-}
-const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(XCircleIcon);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
 
 /***/ }),
 
@@ -598,4 +530,4 @@ __webpack_require__.r(__webpack_exports__);
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_BillingStep_jsx.js.map?ver=f43b71aab2f4f09837fb
+//# sourceMappingURL=src_Components_BillingStep_jsx.js.map?ver=dd39ae92f9c4f25e1e11

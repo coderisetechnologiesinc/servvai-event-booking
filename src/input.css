@@ -837,7 +837,7 @@
     @apply mb-2;
   }
   .collapsible-header {
-    @apply flex flex-row gap-4 mb-2 px-4 py-2 rounded-sm justify-between hover:bg-gray-200 hover:cursor-pointer;
+    @apply flex flex-row gap-4 mb-2 px-4 py-2 rounded-sm justify-between hover:bg-gray-200 hover:cursor-pointer rounded-[6px];
   }
   .filters-dropdown {
     @apply flex flex-col items-start gap-3 pl-2;
@@ -1320,6 +1320,25 @@
     line-height: 24px;
     color: #181d27;
     white-space: nowrap;
+  }
+  .tab-compact {
+    height: 32px;
+    padding: 4px 10px;
+    gap: 6px;
+    border-radius: 6px;
+  }
+
+  .tab-compact .tab-button-text {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .collapsible-section-heading {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: #181d27;
+    white-space: nowrap;
+    border-radius: 6px;
   }
   @media screen and (max-width: 480px) {
     .tab-button-text {

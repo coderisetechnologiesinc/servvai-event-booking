@@ -1,8 +1,8 @@
 <template>
   <div class="card-widget" :style="cardBackgroundStyle">
     <div class="cover" v-if="!hideAvatar">
-      <img class="cover-bg" :src="noiseImage" alt="Cover" />
-
+      <div class="cover-bg cover-noise"></div>
+      <!-- <img class="cover-bg" :src="noiseImage" alt="Cover" /> -->
       <div class="ellipse ellipse-left"></div>
       <div class="ellipse ellipse-right"></div>
 
@@ -90,6 +90,23 @@
     </div>
     <div v-if="showNotification" class="mac-notification">Link copied</div>
   </div>
+  <svg width="0" height="0" style="position: absolute">
+    <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence
+        type="turbulence"
+        baseFrequency="0.5"
+        numOctaves="6"
+        stitchTiles="stitch"
+      />
+      <feColorMatrix
+        type="matrix"
+        values="8 0 0 0 -2
+            0 8 0 0 -2
+            0 0 8 0 -2
+            0 0 0 1  0"
+      />
+    </filter>
+  </svg>
 </template>
 
 <script setup>
@@ -110,7 +127,7 @@ import YoutubeIcon from "@/assets/icons/youtube-icon.svg";
 
 const baseUrl = window.servvPlatformAjax?.base_url || "";
 const defaultAvatar = `${baseUrl}images/avatarPlaceholder.png`;
-const noiseImage = `${baseUrl}images/noise.png`;
+// const noiseImage = `${baseUrl}images/noise.png`;
 
 const store = useCommonStore();
 
@@ -325,8 +342,8 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 
   --shadow-cover:
     0px 20px 24px -4px rgba(10, 13, 18, 0.08),
-    0px 8px 8px -4px rgba(10, 13, 18, 0.03);
-  --cover-bg-opacity: 0.2;
+    0px 8px 8px -4px rgba(1, 2, 3, 0.03);
+  --cover-bg-opacity: 0.3;
 
   --ellipse-opacity: 0.08;
   --ellipse-gradient: linear-gradient(
@@ -437,6 +454,16 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 </style>
 
 <style scoped>
+.cover-noise {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: var(--cover-bg-opacity);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  filter: url(#noise);
+}
 .card-widget {
   width: 100%;
   max-width: 480px;

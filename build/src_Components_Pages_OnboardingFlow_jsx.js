@@ -628,20 +628,23 @@ const OnboardingFlow = () => {
             className: "step-loading",
             children: "Loading\u2026"
           }),
-          children: StepComponent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(StepComponent, {
-            attributes: attributes,
-            setAttributes: mergeAttributes,
-            currentStep: currentStep,
-            goToNextStep: goToNextStep,
-            goToPreviousStep: goToPreviousStep,
-            checkingEmail: synchronization,
-            loading: loading,
-            zoomConnected: zoomConnected,
-            isGmailConnected: gmailConnected,
-            brandingCompleted: brandingCompleted,
-            settings: settings,
-            onSave: currentStep === "settings" ? handleSettingsSave : currentStep === "first-event" ? handleFirstEventCreate : handleBrandingComplete
-          })
+          children: StepComponent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
+            className: "step-slide w-full",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(StepComponent, {
+              attributes: attributes,
+              setAttributes: mergeAttributes,
+              currentStep: currentStep,
+              goToNextStep: goToNextStep,
+              goToPreviousStep: goToPreviousStep,
+              checkingEmail: synchronization,
+              loading: loading,
+              zoomConnected: zoomConnected,
+              isGmailConnected: gmailConnected,
+              brandingCompleted: brandingCompleted,
+              settings: settings,
+              onSave: currentStep === "settings" ? handleSettingsSave : currentStep === "first-event" ? handleFirstEventCreate : handleBrandingComplete
+            })
+          }, currentStep)
         })]
       }), showSkipModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_6__["default"], {
         title: "Skip onboarding",
@@ -1700,4 +1703,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(R
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=c4868d22fb238da58ba8
+//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=24d3aca311edd99ee847

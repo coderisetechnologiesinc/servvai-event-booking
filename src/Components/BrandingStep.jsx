@@ -2,13 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { UploadIcon } from "../assets/icons";
 import { BrushIcon } from "../assets/icons";
 import NewInputControl from "./Controls/NewInputControl";
 import NewSelectControl from "./Controls/NewSelectControl";
 import CheckboxControl from "./Controls/CheckboxControl";
 import RadioGroup from "./Controls/RecurrenceRadioGroup";
+import NewButtonGroup from "./Controls/NewButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { useServvStore } from "../store/useServvStore";
+
 const BrandingStep = ({
   attributes,
   setAttributes,
@@ -280,7 +283,9 @@ const BrandingStep = ({
         <div className="flex flex-col gap-y-[24px]">
           {/* Business Title */}
           <div className="step__content_block">
-            <span className="step__content_title">Store Name</span>
+            <span className="step__content_title flex flex-row items-center">
+              Store Name<span className="ml-1 text-brand-700">*</span>
+            </span>
 
             <NewInputControl
               placeholder="Enter your store name"
@@ -307,19 +312,23 @@ const BrandingStep = ({
             <NewInputControl
               placeholder="Tell visitors what you offer"
               value={attributes.branding.description || ""}
-              onChange={(val) =>
-                setAttributes({
-                  branding: {
-                    ...attributes.branding,
-                    description: val,
-                  },
-                })
-              }
+              textarea={true}
+              onChange={(val) => {
+                if (val.length <= 100)
+                  setAttributes({
+                    branding: {
+                      ...attributes.branding,
+                      description: val,
+                    },
+                  });
+              }}
             />
-
-            <p className="step__description">
-              Keep it short and clear (1–2 sentences).
-            </p>
+            <div className="flex flex-row justify-between">
+              <p className="step__description">
+                Keep it short and clear (1–2 sentences).
+              </p>
+              <span className="step__description">{`${attributes.branding.description.length}/100`}</span>
+            </div>
           </div>
 
           {/* Avatar Upload */}
@@ -330,37 +339,48 @@ const BrandingStep = ({
               ref={avatarInputRef}
               type="file"
               accept="image/*"
-              hidden
+              style={{ display: "none" }}
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) handleAvatarChange(file);
               }}
             />
 
-            <button
-              type="button"
-              className="servv_button servv_button--secondary"
-              onClick={() => avatarInputRef.current?.click()}
-              disabled={avatarUploading}
-            >
-              {avatarUploading ? "Uploading..." : "Upload Avatar"}
-            </button>
+            <div className="flex gap-4 items-start">
+              <div
+                className="servv_upload pt-[16px]flex-1"
+                onClick={() => avatarInputRef.current?.click()}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="servv_upload__icon">
+                  <UploadIcon />
+                </div>
+                <div className="servv_upload__text">
+                  <button type="button" className="servv_upload__action">
+                    {avatarUploading ? "Uploading..." : "Click to upload"}
+                  </button>
+                </div>
+                <div className="servv_upload__support">
+                  PNG or JPG up to 5MB.
+                </div>
+                <div className="servv_upload__support">
+                  Recommended size: 400×400px.
+                </div>
+              </div>
 
-            {(attributes.branding.avatarPreview ||
-              attributes.branding.avatar) && (
-              <img
-                src={
-                  attributes.branding.avatarPreview ||
-                  attributes.branding.avatar
-                }
-                alt="Avatar preview"
-                className="w-[120px] h-[120px] rounded-full border object-cover mt-3 mx-auto"
-              />
-            )}
-
-            <p className="step__description">
-              Recommended size: 400×400px. PNG or JPG.
-            </p>
+              {(attributes.branding.avatarPreview ||
+                attributes.branding.avatar) && (
+                <img
+                  src={
+                    attributes.branding.avatarPreview ||
+                    attributes.branding.avatar
+                  }
+                  alt="Avatar preview"
+                  className="w-[120px] h-[120px] rounded-full border object-cover shrink-0"
+                  style={{ opacity: avatarUploading ? 0.6 : 1 }}
+                />
+              )}
+            </div>
           </div>
 
           {/* Banner Upload */}
@@ -371,21 +391,31 @@ const BrandingStep = ({
               ref={bannerInputRef}
               type="file"
               accept="image/*"
-              hidden
+              style={{ display: "none" }}
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) handleBannerChange(file);
               }}
             />
 
-            <button
-              type="button"
-              className="servv_button servv_button--secondary"
+            <div
+              className="servv_upload pt-[16px]"
               onClick={() => bannerInputRef.current?.click()}
-              disabled={bannerUploading}
+              style={{ cursor: "pointer" }}
             >
-              {bannerUploading ? "Uploading..." : "Upload Banner"}
-            </button>
+              <div className="servv_upload__icon">
+                <UploadIcon />
+              </div>
+              <div className="servv_upload__text">
+                <button type="button" className="servv_upload__action">
+                  {bannerUploading ? "Uploading..." : "Click to upload"}
+                </button>
+              </div>
+              <div className="servv_upload__support">JPG or PNG up to 5MB.</div>
+              <div className="servv_upload__support">
+                Recommended size: 1920×1080px.
+              </div>
+            </div>
 
             {(attributes.branding.bannerPreview ||
               attributes.branding.banner) && (
@@ -396,30 +426,26 @@ const BrandingStep = ({
                 }
                 alt="Banner preview"
                 className="w-full h-[120px] rounded-xl border object-cover mt-3"
+                style={{ opacity: bannerUploading ? 0.6 : 1 }}
               />
             )}
-
-            <p className="step__description">
-              Recommended size: 1920×1080px. JPG or PNG.
-            </p>
           </div>
 
           {/* Background Type */}
           <div className="step__content_block">
             <span className="step__content_title">Background Type</span>
-
-            <RadioGroup
-              name="background-type"
-              value={attributes.branding.backgroundType || "color"}
-              options={[
-                { value: "color", label: "Solid Color" },
-                { value: "gradient", label: "Gradient" },
-              ]}
-              onChange={(val) =>
+            <NewButtonGroup
+              buttons={["Color", "Gradient"]}
+              active={
+                attributes.branding.backgroundType === "gradient"
+                  ? "Gradient"
+                  : "Color"
+              }
+              onChange={(label) =>
                 setAttributes({
                   branding: {
                     ...attributes.branding,
-                    backgroundType: val,
+                    backgroundType: label.toLowerCase(),
                   },
                 })
               }
@@ -443,7 +469,7 @@ const BrandingStep = ({
                       },
                     })
                   }
-                  className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
+                  className="w-12 h-12 rounded-lg border-0 outline-none cursor-pointer"
                 />
 
                 <NewInputControl
@@ -474,7 +500,7 @@ const BrandingStep = ({
                         },
                       })
                     }
-                    className="w-9 h-9 rounded-lg border border-gray-300 cursor-pointer hover:scale-110 transition-transform"
+                    className="w-9 h-9 rounded-lg border-0 outline-none cursor-pointer hover:scale-110 transition-transform"
                     style={{ backgroundColor: color }}
                   />
                 ))}
@@ -567,14 +593,14 @@ const BrandingStep = ({
           >
             Previous
           </button> */}
-          <button
+          {/* <button
             type="button"
             className="servv_button servv_button--secondary"
             onClick={handleContinue}
             disabled={loading}
           >
             {loading ? "Saving..." : "I'll do this later"}
-          </button>
+          </button> */}
 
           {!brandingCompleted && (
             <button

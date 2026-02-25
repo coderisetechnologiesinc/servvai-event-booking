@@ -3165,52 +3165,103 @@ const SettingsPage = () => {
   };
   const renderBillingPlans = () => {
     if (!settings?.current_plan || !billingPlans) return null;
+    const isPremium = plan => plan.id === Math.max(...billingPlans.map(p => p.id));
     return billingPlans.map(plan => {
       const isCurrent = settings.current_plan.id === plan.id;
       const isUpgradeable = plan.id > settings.current_plan.id;
+      const premium = isPremium(plan);
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-        className: `flex flex-col h-full rounded-lg border ${isCurrent ? "border-brand-500 bg-brand-50" : "border-gray-200 bg-white"} p-lg`,
+        className: "flex flex-col rounded-2xl border p-6 flex-1",
+        style: {
+          background: premium ? "#462986" : "#FFFFFF",
+          border: `1px solid ${premium ? "#E6EBE7" : "#E6EBE7"}`,
+          boxShadow: "0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03)",
+          minHeight: 474
+        },
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-          className: "flex items-start justify-between gap-4",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h2", {
-              className: "text-lg font-semibold text-gray-900",
-              children: plan.name
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("div", {
-              className: "mt-1 min-h-[1.25rem] flex flex-wrap items-center gap-2 text-sm text-gray-600",
-              children: [(plan.price > 0 || plan.price_annual > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
-                children: plan.price > 0 ? `$${plan.price}/mo` : `$${plan.price_annual}/yr`
-              }), plan.application_fee_percent > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("span", {
-                children: ["\xB7 ", plan.application_fee_percent, "% fee"]
-              })]
-            })]
-          }), isCurrent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
-            className: "text-xs font-semibold text-brand-700 bg-brand-100 px-2 py-1 rounded-full",
-            children: "Current"
+          className: "flex flex-col items-center gap-3 text-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("p", {
+            className: "text-sm font-bold tracking-widest uppercase",
+            style: {
+              color: premium ? "transparent" : "#872CFA",
+              background: premium ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)" : undefined,
+              WebkitBackgroundClip: premium ? "text" : undefined,
+              WebkitTextFillColor: premium ? "transparent" : undefined,
+              backgroundClip: premium ? "text" : undefined
+            },
+            children: plan.name
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("h2", {
+            className: "text-3xl font-bold",
+            style: {
+              color: premium ? "#FFFFFF" : "#070908"
+            },
+            children: plan.price > 0 ? `$${plan.price}/mo` : plan.price_annual > 0 ? `$${plan.price_annual}/yr` : "Free"
+          }), plan.application_fee_percent > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("p", {
+            className: "text-sm",
+            style: {
+              color: premium ? "rgba(255,255,255,0.6)" : "#717680"
+            },
+            children: [plan.application_fee_percent, "% transaction fee"]
+          }), plan.application_fee_percent === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("p", {
+            className: "text-sm mt-5",
+            style: {
+              color: premium ? "rgba(255,255,255,0.6)" : "#717680"
+            }
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("ul", {
-          className: "mt-4 space-y-2",
+          className: "mt-4 flex flex-col gap-1",
           children: plan.features.map((feature, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsxs)("li", {
-            className: "flex items-start gap-2",
+            className: "flex items-start gap-2.5",
             children: [feature.value === "true" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_25__["default"], {
-              className: "w-5 h-5 text-success-600 shrink-0"
+              className: "w-5 h-5 shrink-0",
+              style: {
+                color: premium ? "#E3E1F2" : "#299E6C"
+              }
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_26__["default"], {
-              className: "w-5 h-5 text-error-600 shrink-0"
+              className: "w-5 h-5 shrink-0",
+              style: {
+                color: premium ? "rgba(255,255,255,0.3)" : "#D0D5DD"
+              }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
-              className: "text-sm text-gray-700",
+              className: "text-base font-light",
+              style: {
+                color: premium ? "#FFFFFF" : "#070908"
+              },
               children: feature.title
             })]
           }, index))
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
-          className: "mt-auto pt-6",
+          className: "mt-auto pt-8",
           children: isCurrent ? (plan.price > 0 || plan.price_annual > 0) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
-            className: "w-full rounded-lg border border-brand-300 text-sm font-semibold text-brand-700 bg-white px-lg py-md shadow-combined-brand",
+            className: "w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90",
+            style: {
+              background: "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
+              border: "3px solid rgba(255, 255, 255, 0.35)",
+              boxShadow: "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
+              color: "#FFFFFF"
+            },
             onClick: handleOpenPortal,
             children: "Manage"
-          }) : isUpgradeable && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
-            className: "w-full rounded-lg px-lg py-md text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700",
+          }) : isUpgradeable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("button", {
+            className: "w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90",
+            style: {
+              background: "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
+              border: "3px solid rgba(255, 255, 255, 0.35)",
+              boxShadow: "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
+              color: "#FFFFFF"
+            },
             onClick: () => showPaymentOptions(plan),
             children: "Activate"
+          }) : null
+        }), isCurrent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("div", {
+          className: "mt-3 text-center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_23__.jsx)("span", {
+            className: "text-xs font-semibold px-2 py-1 rounded-full",
+            style: {
+              color: premium ? "#462986" : "#6941C6",
+              background: premium ? "#FFFFFF" : "#F4EBFF"
+            },
+            children: "Current plan"
           })
         })]
       }, plan.id);
@@ -4918,4 +4969,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=90a76db562d9b40cf843
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=fbd267fe7ba9bfa8f004

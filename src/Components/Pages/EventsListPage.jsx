@@ -53,6 +53,9 @@ const EventsCardHeader = ({
   isPast,
   handleSearchSubmit,
   timezone,
+  typeButtons,
+  activeTypeLabel,
+  handleTypeLabel,
 }) => {
   const [filterDropdown, setFilterDropdown] = useState(false);
   const filterDropdownRef = useRef(null);
@@ -188,6 +191,14 @@ const EventsCardHeader = ({
                 onClose={() => setFilterDropdown(false)}
               >
                 <BlockStack gap={4}>
+                  {typeButtons && (
+                    <NewButtonGroup
+                      view={"compact"}
+                      buttons={typeButtons}
+                      active={activeTypeLabel}
+                      onChange={handleTypeLabel}
+                    />
+                  )}
                   {Object.keys(filtersList).map((filter) => (
                     <CollapsibleSection
                       key={filter}
@@ -1009,14 +1020,6 @@ const EventsListPage = ({
                           handleIsPastChange(label === "Past")
                         }
                       />
-
-                      {typeButtons && (
-                        <NewButtonGroup
-                          buttons={typeButtons}
-                          active={activeTypeLabel}
-                          onChange={handleTypeLabel}
-                        />
-                      )}
                     </div>
                   </div>
                 </div>
@@ -1136,6 +1139,9 @@ const EventsListPage = ({
                   resetFilters={resetFilters}
                   isPast={isPast}
                   timezone={timezone}
+                  typeButtons={typeButtons}
+                  activeTypeLabel={activeTypeLabel}
+                  handleTypeLabel={handleTypeLabel}
                 />
 
                 {/* Desktop table */}

@@ -13,6 +13,7 @@ import NewRecurringControl from "../Controls/NewRecurringControl";
 import NewEndDateControl from "./NewEndDateControl";
 import { useNavigate } from "react-router-dom";
 import timezonesWithOffset from "../../utilities/timezones";
+import { toast } from "react-toastify";
 
 const DateStep = ({
   attributes,
@@ -173,6 +174,28 @@ const DateStep = ({
         },
       });
     }
+  };
+
+  const validateStartTime = () => {
+    const updated = startMoment.clone();
+    const timezone = attributes?.meeting?.timezone;
+
+    const userSelection = moment.tz(
+      updated.format("YYYY-MM-DD HH:mm"),
+      timezone,
+    );
+    const now = moment().tz(timezone);
+
+    const isInPast = userSelection.isBefore(now);
+
+    if (isInPast) {
+      setHasInvalidStartTime(true);
+      toast.warning("Date and time must be in the future.");
+      return;
+    }
+
+    setHasInvalidStartTime(false);
+    changeStep("venue");
   };
 
   const handleEndTimeChange = (newEndMoment) => {
@@ -388,7 +411,9 @@ const DateStep = ({
             <button
               type="button"
               className="servv_button servv_button--primary"
-              onClick={() => changeStep("venue")}
+              onClick={() => {
+                validateStartTime();
+              }}
               disabled={hasInvalidStartTime}
             >
               Continue

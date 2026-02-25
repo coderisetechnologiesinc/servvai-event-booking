@@ -1264,4 +1264,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=f0557f69dd587df1c7b6
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=a59ef128671da768e0f1
