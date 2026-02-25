@@ -1106,7 +1106,8 @@ const NewButtonGroup = ({
   buttons = [],
   active = null,
   onChange = () => {},
-  disabled = false
+  disabled = false,
+  view
 }) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "tabs-wrapper",
@@ -1121,7 +1122,7 @@ const NewButtonGroup = ({
           type: "button",
           disabled: disabled,
           onClick: () => onChange(button),
-          className: `tab-button ${isActive ? "tab-button--active" : "tab-button--inactive"}`,
+          className: `tab-button ${isActive ? "tab-button--active" : "tab-button--inactive"} ${view ? "tab-compact" : ""}`,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
             className: "tab-button-text",
             children: button
@@ -2989,7 +2990,10 @@ const EventsCardHeader = ({
   resetFilters,
   isPast,
   handleSearchSubmit,
-  timezone
+  timezone,
+  typeButtons,
+  activeTypeLabel,
+  handleTypeLabel
 }) => {
   const [filterDropdown, setFilterDropdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const filterDropdownRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
@@ -3084,7 +3088,12 @@ const EventsCardHeader = ({
           onClose: () => setFilterDropdown(false),
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
             gap: 4,
-            children: [Object.keys(filtersList).map(filter => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
+            children: [typeButtons && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              view: "compact",
+              buttons: typeButtons,
+              active: activeTypeLabel,
+              onChange: handleTypeLabel
+            }), Object.keys(filtersList).map(filter => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
               sectionHeading: filter.charAt(0).toUpperCase() + filter.substring(1),
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
                 gap: 2,
@@ -3703,17 +3712,13 @@ const EventsListPage = ({
               className: "events-actions-bar w-full",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
                 className: "flex flex-row justify-between items-center w-full gap-4 flex-wrap",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
                   className: "flex flex-row gap-3 justify-between sm:justify-start flex-wrap w-full",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
                     buttons: [t("Upcoming"), "Past"],
                     active: isPast ? "Past" : t("Upcoming"),
                     onChange: label => handleIsPastChange(label === "Past")
-                  }), typeButtons && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_NewButtonGroup__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                    buttons: typeButtons,
-                    active: activeTypeLabel,
-                    onChange: handleTypeLabel
-                  })]
+                  })
                 })
               })
             })
@@ -3819,7 +3824,10 @@ const EventsListPage = ({
               isFiltersApplied: isFiltersApplied(),
               resetFilters: resetFilters,
               isPast: isPast,
-              timezone: timezone
+              timezone: timezone,
+              typeButtons: typeButtons,
+              activeTypeLabel: activeTypeLabel,
+              handleTypeLabel: handleTypeLabel
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
               className: "hidden md:block w-full",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_23__["default"], {
@@ -8082,4 +8090,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=81358cb7670534501992
+//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=84cd90067a45788f4944

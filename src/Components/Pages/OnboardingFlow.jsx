@@ -563,26 +563,28 @@ const OnboardingFlow = () => {
             fallback={<div className="step-loading">Loading…</div>}
           >
             {StepComponent && (
-              <StepComponent
-                attributes={attributes}
-                setAttributes={mergeAttributes}
-                currentStep={currentStep}
-                goToNextStep={goToNextStep}
-                goToPreviousStep={goToPreviousStep}
-                checkingEmail={synchronization}
-                loading={loading}
-                zoomConnected={zoomConnected}
-                isGmailConnected={gmailConnected}
-                brandingCompleted={brandingCompleted}
-                settings={settings}
-                onSave={
-                  currentStep === "settings"
-                    ? handleSettingsSave
-                    : currentStep === "first-event"
-                    ? handleFirstEventCreate
-                    : handleBrandingComplete
-                }
-              />
+              <div key={currentStep} className="step-slide w-full">
+                <StepComponent
+                  attributes={attributes}
+                  setAttributes={mergeAttributes}
+                  currentStep={currentStep}
+                  goToNextStep={goToNextStep}
+                  goToPreviousStep={goToPreviousStep}
+                  checkingEmail={synchronization}
+                  loading={loading}
+                  zoomConnected={zoomConnected}
+                  isGmailConnected={gmailConnected}
+                  brandingCompleted={brandingCompleted}
+                  settings={settings}
+                  onSave={
+                    currentStep === "settings"
+                      ? handleSettingsSave
+                      : currentStep === "first-event"
+                      ? handleFirstEventCreate
+                      : handleBrandingComplete
+                  }
+                />
+              </div>
             )}
           </React.Suspense>
         </main>

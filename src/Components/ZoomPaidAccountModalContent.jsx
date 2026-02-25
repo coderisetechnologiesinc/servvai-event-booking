@@ -3,13 +3,15 @@ import React, { Fragment } from "react";
 import BlockStack from "./Containers/BlockStack";
 import CheckboxControl from "./Controls/CheckboxControl";
 import StepBlock from "./StepBlock";
-
+import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 const ZoomPaidAccountModalContent = ({
   zoomConfirmed,
   setZoomConfirmed,
   handlerOnZoomAccountAdd,
   closeModal,
 }) => {
+  const navigate = useNavigate();
   return (
     <Fragment>
       {/* ===================================================== */}
@@ -59,6 +61,20 @@ const ZoomPaidAccountModalContent = ({
             checked={zoomConfirmed}
             onChange={() => setZoomConfirmed(!zoomConfirmed)}
           />
+          <div
+            className="flex flex-row gap-2 items-center hover:cursor-pointer hover:bg-gray-100 py-2 w-fit px-2 -ml-2 rounded-[6px]"
+            onClick={() =>
+              open(
+                "https://support.servv.ai/pages/getting-started/integrations/integrations/",
+                "_blank",
+              )
+            }
+          >
+            <QuestionMarkCircleIcon className="w-[16px] h-[16px]" />
+            <span className="text-sm text-gray-600 leading-relaxed">
+              Learn more
+            </span>
+          </div>
 
           {/* ✅ Actions */}
           <div className="flex justify-end gap-3 pt-2">

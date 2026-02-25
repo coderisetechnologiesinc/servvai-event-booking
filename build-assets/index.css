@@ -3920,6 +3920,7 @@ button.pagination-control:disabled {
   justify-content: space-between;
   gap: 1rem;
   border-radius: 0.125rem;
+  border-radius: 6px;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 0.5rem;
@@ -4486,6 +4487,27 @@ svg.breadcrumbs-icon {
   line-height: 24px;
   color: #181d27;
   white-space: nowrap;
+}
+
+.tab-compact {
+  height: 32px;
+  padding: 4px 10px;
+  gap: 6px;
+  border-radius: 6px;
+}
+
+.tab-compact .tab-button-text {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.collapsible-section-heading {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #181d27;
+  white-space: nowrap;
+  border-radius: 6px;
 }
 
 @media screen and (max-width: 480px) {
@@ -7078,6 +7100,22 @@ input.servv-input__native.servv-input__native--center {
   margin-top: auto;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.ml-\[-2\] {
+  margin-left: -2;
+}
+
+.-ml-2 {
+  margin-left: -0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -7222,6 +7260,14 @@ input.servv-input__native.servv-input__native--center {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[16px\] {
+  height: 16px;
+}
+
+.h-\[100px\] {
+  height: 100px;
 }
 
 .max-h-60 {
@@ -7380,6 +7426,14 @@ input.servv-input__native.servv-input__native--center {
 .w-max {
   width: -moz-max-content;
   width: max-content;
+}
+
+.w-\[16px\] {
+  width: 16px;
+}
+
+.w-\[100px\] {
+  width: 100px;
 }
 
 .min-w-0 {
@@ -7832,6 +7886,10 @@ input.servv-input__native.servv-input__native--center {
   gap: 0.75rem;
 }
 
+.gap-2\.5 {
+  gap: 0.625rem;
+}
+
 .gap-y-0\.5 {
   row-gap: 0.125rem;
 }
@@ -8039,6 +8097,10 @@ input.servv-input__native.servv-input__native--center {
 
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded-\[6px\] {
+  border-radius: 6px;
 }
 
 .rounded-l-full {
@@ -9181,6 +9243,10 @@ input.servv-input__native.servv-input__native--center {
   padding-top: 25px;
 }
 
+.pt-\[16px\] {
+  padding-top: 16px;
+}
+
 .text-left {
   text-align: left;
 }
@@ -9334,6 +9400,10 @@ input.servv-input__native.servv-input__native--center {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-extrabold {
+  font-weight: 800;
 }
 
 .uppercase {
@@ -9748,6 +9818,11 @@ input.servv-input__native.servv-input__native--center {
   color: rgb(202 138 4 / var(--tw-text-opacity, 1));
 }
 
+.text-\[\#ff0000\] {
+  --tw-text-opacity: 1;
+  color: rgb(255 0 0 / var(--tw-text-opacity, 1));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -9861,6 +9936,11 @@ input.servv-input__native.servv-input__native--center {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.outline-none {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 .ring {
@@ -10171,6 +10251,10 @@ input.servv-input__native.servv-input__native--center {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\:cursor-pointer:hover {
+  cursor: pointer;
+}
+
 .hover\:bg-\[\#6845f5\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(104 69 245 / var(--tw-bg-opacity, 1));
@@ -10316,6 +10400,16 @@ input.servv-input__native.servv-input__native--center {
   background-color: rgb(202 138 4 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-brand-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(157 73 236 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-brand-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 235 255 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:from-purple-700:hover {
   --tw-gradient-from: #7e22ce var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(126 34 206 / 0) var(--tw-gradient-to-position);
@@ -10434,6 +10528,10 @@ input.servv-input__native.servv-input__native--center {
 .hover\:text-yellow-700:hover {
   --tw-text-opacity: 1;
   color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+}
+
+.hover\:opacity-90:hover {
+  opacity: 0.9;
 }
 
 .hover\:shadow-xl:hover {

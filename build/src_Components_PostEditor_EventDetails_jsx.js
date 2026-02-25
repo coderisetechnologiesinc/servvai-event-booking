@@ -5288,4 +5288,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=5fe08ebb9d09d7e35869
+//# sourceMappingURL=src_Components_PostEditor_EventDetails_jsx.js.map?ver=1d523f395c7205b7ec82

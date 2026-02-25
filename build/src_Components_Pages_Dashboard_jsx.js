@@ -292,7 +292,8 @@ const NewButtonGroup = ({
   buttons = [],
   active = null,
   onChange = () => {},
-  disabled = false
+  disabled = false,
+  view
 }) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "tabs-wrapper",
@@ -307,7 +308,7 @@ const NewButtonGroup = ({
           type: "button",
           disabled: disabled,
           onClick: () => onChange(button),
-          className: `tab-button ${isActive ? "tab-button--active" : "tab-button--inactive"}`,
+          className: `tab-button ${isActive ? "tab-button--active" : "tab-button--inactive"} ${view ? "tab-compact" : ""}`,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
             className: "tab-button-text",
             children: button
@@ -3135,4 +3136,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=41e0324a0f27aeaef101
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=ff20b3c0c2f8b57483c4
