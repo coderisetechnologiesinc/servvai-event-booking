@@ -455,7 +455,8 @@ function servv_admin_enqueue_scripts() {
         'adminUrl'          => admin_url('admin.php'),
         'install_status'    => get_option('servv_install_status', ''),
         'gutenberg_active'  => (int)function_exists( 'register_block_type' ),
-        'homepage'          => home_url()
+        'homepage'          => home_url(),
+        'env'               => (str_contains(servv_plugin_get_config('api_base_url'), 'testapi') ? 'test' : (str_contains(servv_plugin_get_config('api_base_url'), 'devapi') ? 'dev' : 'prod')),
     ]);
 }
 

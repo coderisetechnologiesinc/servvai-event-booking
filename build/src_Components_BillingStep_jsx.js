@@ -1,6 +1,61 @@
 "use strict";
 (self["webpackChunkservv_plugin"] = self["webpackChunkservv_plugin"] || []).push([["src_Components_BillingStep_jsx"],{
 
+/***/ "./src/Components/AnimatedModal.jsx":
+/*!******************************************!*\
+  !*** ./src/Components/AnimatedModal.jsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const AnimatedModal = ({
+  open,
+  onClose,
+  children
+}) => {
+  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(open);
+  const [closing, setClosing] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (open) {
+      setVisible(true);
+      setClosing(false);
+    }
+  }, [open]);
+  const close = () => {
+    if (closing) return;
+    setClosing(true);
+    setTimeout(() => {
+      setVisible(false);
+      setClosing(false);
+      onClose?.();
+    }, 160);
+  };
+  if (!visible) return null;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: `servv-modal-overlay ${closing ? "closing" : ""}`,
+    onClick: close,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: `servv-modal ${closing ? "closing" : ""}`,
+      onClick: e => e.stopPropagation(),
+      children: typeof children === "function" ? children({
+        close
+      }) : children
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AnimatedModal);
+
+/***/ }),
+
 /***/ "./src/Components/BillingStep.jsx":
 /*!****************************************!*\
   !*** ./src/Components/BillingStep.jsx ***!
@@ -13,15 +68,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
 /* harmony import */ var _stripe_stripe_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @stripe/stripe-js */ "./node_modules/@stripe/stripe-js/lib/index.mjs");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CreditCardIcon.js");
-/* harmony import */ var _ModalShell__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ModalShell */ "./src/Components/ModalShell.jsx");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CreditCardIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XMarkIcon.js");
+/* harmony import */ var _AnimatedModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AnimatedModal */ "./src/Components/AnimatedModal.jsx");
 /* harmony import */ var _Pages_SpinnerLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pages/SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _Containers_InteractiveCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Containers/InteractiveCard */ "./src/Components/Containers/InteractiveCard.jsx");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -48,13 +106,13 @@ const BillingStep = ({
   const [stripeForm, setStripeForm] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const {
     fetchSettings
-  } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_5__.useServvStore)();
+  } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_6__.useServvStore)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     getBillingPlans();
   }, []);
   const getBillingPlans = async () => {
     setLoading(true);
-    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_7__["default"])("/wp-json/servv-plugin/v1/shop/paymentplans", {
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_8__["default"])("/wp-json/servv-plugin/v1/shop/paymentplans", {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
@@ -67,7 +125,7 @@ const BillingStep = ({
   const activateBillingPlan = async (id, isAnnual = false) => {
     setLoading(true);
     setShowPaymentOptionsModal(false);
-    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_7__["default"])({
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_8__["default"])({
       method: "POST",
       url: `/wp-json/servv-plugin/v1/shop/paymentplans/${id}`,
       headers: {
@@ -118,148 +176,235 @@ const BillingStep = ({
     });
   };
   const activePlanId = settings?.current_plan?.id || 1;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (activePlanId !== 1) {
+      goToNextStep();
+    }
+  }, [activePlanId]);
+  const isMarketplace = settings?.is_wp_marketplace === true;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "step__wrapper w-full",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "step__header",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_9__["default"], {
         className: "step__header_icon settings-icon"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "step__heading",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
           className: "step__header_title",
           children: "Choose a Plan"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
           className: "step__description",
           children: "Select the plan that best fits your needs."
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: `step__content w-full`,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "flex flex-col gap-y-[24px] mb-[30px]",
-        children: !showPaymentForm ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Pages_SpinnerLoader__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: !showPaymentForm ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Pages_SpinnerLoader__WEBPACK_IMPORTED_MODULE_4__["default"], {
           isLoading: loading && !billingPlans,
           customStyling: "top-[30px]",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-            className: "grid grid-cols-1 md:grid-cols-2 gap-6",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+            className: `${isMarketplace ? "flex flex-row max-w-[640px] items-center mx-auto justify-center" : "grid grid-cols-1 md:grid-cols-2 gap-6"}`,
             children: billingPlans?.map((plan, idx) => {
               const isCurrent = activePlanId === plan.id;
               const isUpgradeable = plan.id > (activePlanId || 0);
               const premium = idx === billingPlans.length - 1;
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                className: "flex flex-col rounded-2xl border p-6 flex-1",
+              if (isMarketplace && plan.id !== 1 || !isMarketplace) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_InteractiveCard__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                isPremium: premium,
                 style: {
-                  background: premium ? "#462986" : "#FFFFFF",
-                  border: "1px solid #E6EBE7",
-                  boxShadow: "0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03)",
                   minHeight: 0
                 },
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                  className: "flex flex-col items-center gap-3 text-center",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-                    className: "text-sm font-bold tracking-widest uppercase",
+                subtitle: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+                  className: "text-sm font-bold tracking-widest uppercase",
+                  style: {
+                    background: premium ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)" : undefined,
+                    WebkitBackgroundClip: premium ? "text" : undefined,
+                    backgroundClip: premium ? "text" : undefined,
+                    WebkitTextFillColor: premium ? "transparent" : "#872CFA"
+                  },
+                  children: plan.name
+                }),
+                title: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
+                  className: "text-3xl font-bold",
+                  style: {
+                    color: premium ? "#FFFFFF" : "#070908"
+                  },
+                  children: plan.price > 0 ? `$${plan.price}/mo` : plan.price_annual > 0 ? `$${plan.price_annual}/yr` : "Free"
+                }),
+                text: plan.application_fee_percent > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+                  className: "text-sm",
+                  style: {
+                    color: premium ? "rgba(255,255,255,0.6)" : "#717680"
+                  },
+                  children: [plan.application_fee_percent, "% transaction fee"]
+                }) : null,
+                action: isCurrent && activePlanId !== 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                  className: "flex flex-col items-center",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                    className: "text-xs font-semibold px-2 py-1 rounded-full",
                     style: {
-                      background: premium ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)" : undefined,
-                      WebkitBackgroundClip: premium ? "text" : undefined,
-                      WebkitTextFillColor: premium ? "transparent" : "transparent",
-                      backgroundClip: premium ? "text" : undefined,
-                      color: premium ? undefined : "#872CFA",
-                      WebkitTextFillColor: premium ? "transparent" : "#872CFA"
+                      color: premium ? "#462986" : "#6941C6",
+                      background: premium ? "#FFFFFF" : "#F4EBFF"
                     },
-                    children: plan.name
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-                    className: "text-3xl font-bold",
-                    style: {
-                      color: premium ? "#FFFFFF" : "#070908"
-                    },
-                    children: plan.price > 0 ? `$${plan.price}/mo` : plan.price_annual > 0 ? `$${plan.price_annual}/yr` : "Free"
-                  }), plan.application_fee_percent > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
-                    className: "text-sm",
-                    style: {
-                      color: premium ? "rgba(255,255,255,0.6)" : "#717680"
-                    },
-                    children: [plan.application_fee_percent, "% transaction fee"]
-                  })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                  className: "mt-auto pt-8 flex flex-col items-center gap-3",
-                  children: isCurrent ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                      className: "text-xs font-semibold px-2 py-1 rounded-full",
-                      style: {
-                        color: premium ? "#462986" : "#6941C6",
-                        background: premium ? "#FFFFFF" : "#F4EBFF"
-                      },
-                      children: "Active Plan"
-                    })
-                  }) : isUpgradeable && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-                    type: "button",
-                    className: "w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90 disabled:opacity-50",
-                    style: {
-                      background: "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
-                      border: "3px solid rgba(255, 255, 255, 0.35)",
-                      boxShadow: "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
-                      color: "#FFFFFF"
-                    },
-                    onClick: () => showPaymentOptions(plan),
-                    disabled: loading,
-                    children: "Activate"
+                    children: "Active Plan"
                   })
-                })]
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+                  type: "button",
+                  className: "w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90 disabled:opacity-50",
+                  style: {
+                    background: "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
+                    border: "3px solid rgba(255, 255, 255, 0.35)",
+                    boxShadow: "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
+                    color: "#FFFFFF"
+                  },
+                  onClick: () => {
+                    if (plan.id === 1) {
+                      goToNextStep();
+                    } else if (isMarketplace) {
+                      activateBillingPlan(plan.id);
+                    } else {
+                      showPaymentOptions(plan);
+                    }
+                  },
+                  disabled: loading,
+                  children: "Activate"
+                })
               }, plan.id);
             })
           })
         }) : null
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         id: "servv-payment-element"
-      }), !loading && billingPlans && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-        className: `servv_actions mt-auto`,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-          type: "button",
-          className: "servv_button servv_button--primary",
-          onClick: goToNextStep,
-          disabled: loading || parentLoading,
-          children: parentLoading ? "Saving..." : "Continue"
-        })
       })]
-    }), showPaymentOptionsModal && selectedPlan && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      title: `Activate ${selectedPlan.name}`,
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_AnimatedModal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      open: showPaymentOptionsModal && !!selectedPlan,
       onClose: () => {
         setShowPaymentOptionsModal(false);
         setSelectedPlan(null);
       },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-        className: "flex flex-col gap-y-[16px] p-[24px]",
-        children: [selectedPlan.application_fee_percent > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
-          className: "step__description",
-          children: ["This plan includes a ", selectedPlan.application_fee_percent, "% transaction fee."]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "flex flex-col gap-y-[12px]",
-          children: [selectedPlan.price > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
-            type: "button",
-            className: "servv_button servv_button--primary w-full",
-            onClick: () => activateBillingPlan(selectedPlan.id),
-            children: ["Monthly \u2014 $", selectedPlan.price, "/mo"]
-          }), selectedPlan.price_annual > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
-            type: "button",
-            className: "servv_button servv_button--secondary w-full",
-            onClick: () => activateBillingPlan(selectedPlan.id, true),
-            children: ["Annual \u2014 $", selectedPlan.price_annual, "/yr"]
+      children: ({
+        close
+      }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "relative w-full max-w-[600px] max-h-[85vh] bg-white rounded-xl shadow-lg flex flex-col",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+          onClick: close,
+          className: "absolute -top-4 -right-4 w-9 h-9 flex items-center justify-center rounded-full border border-[#D5D7DA] bg-white hover:bg-gray-50 shadow-md",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_10__["default"], {
+            className: "w-5 h-5 text-[#414651]"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "text-center p-8 pb-4 flex-shrink-0",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h2", {
+            className: "text-xl font-semibold text-[#181D27]",
+            children: ["Activate ", selectedPlan?.name]
+          }), selectedPlan?.application_fee_percent > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+            className: "text-base text-[#717680] mt-1",
+            children: ["This plan includes a ", selectedPlan.application_fee_percent, "% transaction fee."]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-          type: "button",
-          className: "servv_button servv_button--secondary w-full",
-          onClick: () => {
-            setShowPaymentOptionsModal(false);
-            setSelectedPlan(null);
-          },
-          children: "Cancel"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          className: "flex-1 overflow-y-auto px-8 py-4",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "flex flex-col gap-4",
+            children: [selectedPlan?.price > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
+              type: "button",
+              className: "servv_button servv_button--primary w-full",
+              onClick: () => {
+                activateBillingPlan(selectedPlan.id);
+                setShowPaymentOptionsModal(false);
+                close();
+              },
+              children: ["Monthly \u2014 $", selectedPlan.price, "/mo"]
+            }), selectedPlan?.price_annual > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
+              type: "button",
+              className: "servv_button servv_button--secondary w-full",
+              onClick: () => {
+                activateBillingPlan(selectedPlan.id, true);
+                setShowPaymentOptionsModal(false);
+                close();
+              },
+              children: ["Annual \u2014 $", selectedPlan.price_annual, "/yr"]
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          className: "flex justify-end gap-3 p-8 pt-4 border-t border-gray-200 flex-shrink-0",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            type: "button",
+            className: "servv_button servv_button--secondary",
+            onClick: close,
+            children: "Cancel"
+          })
         })]
       })
     })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BillingStep);
+
+/***/ }),
+
+/***/ "./src/Components/Containers/InteractiveCard.jsx":
+/*!*******************************************************!*\
+  !*** ./src/Components/Containers/InteractiveCard.jsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../assets/icons */ "./src/assets/icons/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const InteractiveCard = ({
+  isPremium = false,
+  background,
+  onClick,
+  subtitle,
+  title,
+  text,
+  action,
+  footer,
+  children,
+  style,
+  className = "",
+  selected = false
+}) => {
+  const computedBg = background !== null && background !== void 0 ? background : isPremium ? "#462986" : "#FFFFFF";
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: `relative flex flex-col rounded-2xl border p-6 flex-1 ${className}${onClick ? " cursor-pointer" : ""}`,
+    style: {
+      background: computedBg,
+      border: selected ? "2px solid #7A5AF8" : "1px solid #E6EBE7",
+      boxShadow: "0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03)",
+      ...style
+    },
+    onClick: onClick,
+    children: [selected && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "absolute top-3 right-3",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_assets_icons__WEBPACK_IMPORTED_MODULE_0__.CheckMark, {})
+    }), (subtitle || title || text) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "flex flex-col items-center gap-2 text-center",
+      children: [subtitle && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: subtitle
+      }), title && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: title
+      }), text && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: text
+      })]
+    }), children, action && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "mt-auto pt-6",
+      children: action
+    }), footer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "mt-3 text-center",
+      children: footer
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InteractiveCard);
 
 /***/ }),
 
@@ -530,4 +675,4 @@ __webpack_require__.r(__webpack_exports__);
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_BillingStep_jsx.js.map?ver=dd39ae92f9c4f25e1e11
+//# sourceMappingURL=src_Components_BillingStep_jsx.js.map?ver=b6a7b10d878a5f763413

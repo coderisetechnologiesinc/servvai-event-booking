@@ -6,6 +6,7 @@ const CalendarInline = ({ value, onChange }) => {
       <DayPicker
         mode="single"
         selected={value}
+        defaultMonth={value}
         onSelect={onChange}
         weekStartsOn={1} // Mo → Su
         showOutsideDays

@@ -11,12 +11,19 @@ const BillingSettings = ({
   selectedPlan,
   setSelectedPlan,
   activateBillingPlan,
+  isMarketplace = true,
 }) => {
   return (
     <>
       <BlockStack gap={8} className={responsiveBlockStack}>
         {!showPaymentForm && (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6">
+          <div
+            className={
+              isMarketplace
+                ? "flex flex-row min-w-[430px] mx-auto max-w-[480px] flex-1 justify-center"
+                : `grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6`
+            }
+          >
             {renderBillingPlans()}
           </div>
         )}

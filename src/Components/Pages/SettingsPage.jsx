@@ -17,7 +17,7 @@ import {
   CheckCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-
+import InteractiveCard from "../Containers/InteractiveCard";
 import PageWrapper from "./PageWrapper";
 import PageContent from "../Containers/PageContent";
 import { timezonesList } from "../../utilities/timezones";
@@ -472,14 +472,14 @@ const SettingsPage = () => {
       diffMinutes = endNormalized.diff(startNormalized, "minutes");
     }
 
-    console.log(
-      "start:",
-      startNormalized.format("hh:mm a"),
-      "end:",
-      newVal.format("hh:mm a"),
-      "diff:",
-      diffMinutes,
-    );
+    // console.log(
+    //   "start:",
+    //   startNormalized.format("hh:mm a"),
+    //   "end:",
+    //   newVal.format("hh:mm a"),
+    //   "diff:",
+    //   diffMinutes,
+    // );
 
     currentSettings.settings.admin_dashboard.default_duration =
       diffMinutes > 0 ? diffMinutes / 60 : 1;
@@ -889,156 +889,140 @@ const SettingsPage = () => {
     }
     setLoading(false);
   };
-
+  const isMarketplace = settings?.is_wp_marketplace;
   const renderBillingPlans = () => {
     if (!settings?.current_plan || !billingPlans) return null;
 
-    const isPremium = (plan) =>
-      plan.id === Math.max(...billingPlans.map((p) => p.id));
+    const maxPlanId = Math.max(...billingPlans.map((p) => p.id));
 
     return billingPlans.map((plan) => {
       const isCurrent = settings.current_plan.id === plan.id;
       const isUpgradeable = plan.id > settings.current_plan.id;
-      const premium = isPremium(plan);
+      const isPremium = plan.id === maxPlanId;
+      const isPaid = plan.price > 0 || plan.price_annual > 0;
 
-      return (
-        <div
-          key={plan.id}
-          className="flex flex-col rounded-2xl border p-6 flex-1"
+      const ctaButtonStyle = {
+        background:
+          "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
+        border: "3px solid rgba(255, 255, 255, 0.35)",
+        boxShadow:
+          "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
+        color: "#FFFFFF",
+      };
+
+      const subtitle = (
+        <p
+          className="text-sm font-bold tracking-widest uppercase"
           style={{
-            background: premium ? "#462986" : "#FFFFFF",
-            border: `1px solid ${premium ? "#E6EBE7" : "#E6EBE7"}`,
-            boxShadow:
-              "0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03)",
-            minHeight: 474,
+            color: isPremium ? "transparent" : "#872CFA",
+            background: isPremium
+              ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)"
+              : undefined,
+            WebkitBackgroundClip: isPremium ? "text" : undefined,
+            WebkitTextFillColor: isPremium ? "transparent" : undefined,
+            backgroundClip: isPremium ? "text" : undefined,
           }}
         >
-          {/* Top section */}
-          <div className="flex flex-col items-center gap-3 text-center">
-            {/* Plan label */}
-            <p
-              className="text-sm font-bold tracking-widest uppercase"
-              style={{
-                color: premium ? "transparent" : "#872CFA",
-                background: premium
-                  ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)"
-                  : undefined,
-                WebkitBackgroundClip: premium ? "text" : undefined,
-                WebkitTextFillColor: premium ? "transparent" : undefined,
-                backgroundClip: premium ? "text" : undefined,
-              }}
-            >
-              {plan.name}
-            </p>
-
-            {/* Price */}
-            <h2
-              className="text-3xl font-bold"
-              style={{ color: premium ? "#FFFFFF" : "#070908" }}
-            >
-              {plan.price > 0
-                ? `$${plan.price}/mo`
-                : plan.price_annual > 0
-                ? `$${plan.price_annual}/yr`
-                : "Free"}
-            </h2>
-
-            {plan.application_fee_percent > 0 && (
-              <p
-                className="text-sm"
-                style={{ color: premium ? "rgba(255,255,255,0.6)" : "#717680" }}
-              >
-                {plan.application_fee_percent}% transaction fee
-              </p>
-            )}
-            {plan.application_fee_percent === 0 && (
-              <p
-                className="text-sm mt-5"
-                style={{ color: premium ? "rgba(255,255,255,0.6)" : "#717680" }}
-              ></p>
-            )}
-          </div>
-
-          {/* Features list */}
-          <ul className="mt-4 flex flex-col gap-1">
-            {plan.features.map((feature, index) => (
-              <li key={index} className="flex items-start gap-2.5">
-                {feature.value === "true" ? (
-                  <CheckCircleIcon
-                    className="w-5 h-5 shrink-0"
-                    style={{ color: premium ? "#E3E1F2" : "#299E6C" }}
-                  />
-                ) : (
-                  <XCircleIcon
-                    className="w-5 h-5 shrink-0"
-                    style={{
-                      color: premium ? "rgba(255,255,255,0.3)" : "#D0D5DD",
-                    }}
-                  />
-                )}
-                <span
-                  className="text-base font-light"
-                  style={{ color: premium ? "#FFFFFF" : "#070908" }}
-                >
-                  {feature.title}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          {/* CTA button */}
-          <div className="mt-auto pt-8">
-            {isCurrent ? (
-              (plan.price > 0 || plan.price_annual > 0) && (
-                <button
-                  className="w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90"
-                  style={{
-                    background:
-                      "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
-                    border: "3px solid rgba(255, 255, 255, 0.35)",
-                    boxShadow:
-                      "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
-                    color: "#FFFFFF",
-                  }}
-                  onClick={handleOpenPortal}
-                >
-                  Manage
-                </button>
-              )
-            ) : isUpgradeable ? (
-              <button
-                className="w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90"
-                style={{
-                  background:
-                    "linear-gradient(74.06deg, #583DFF -11.67%, #9B25F8 47.12%)",
-                  border: "3px solid rgba(255, 255, 255, 0.35)",
-                  boxShadow:
-                    "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
-                  color: "#FFFFFF",
-                }}
-                onClick={() => showPaymentOptions(plan)}
-              >
-                Activate
-              </button>
-            ) : null}
-          </div>
-
-          {/* Current plan badge */}
-          {isCurrent && (
-            <div className="mt-3 text-center">
-              <span
-                className="text-xs font-semibold px-2 py-1 rounded-full"
-                style={{
-                  color: premium ? "#462986" : "#6941C6",
-                  background: premium ? "#FFFFFF" : "#F4EBFF",
-                }}
-              >
-                Current plan
-              </span>
-            </div>
-          )}
-        </div>
+          {plan.name}
+        </p>
       );
+
+      const title = (
+        <h2
+          className="text-3xl font-bold"
+          style={{ color: isPremium ? "#FFFFFF" : "#070908" }}
+        >
+          {plan.price > 0
+            ? `$${plan.price}/mo`
+            : plan.price_annual > 0
+            ? `$${plan.price_annual}/yr`
+            : "Free"}
+        </h2>
+      );
+
+      const text = (
+        <p
+          className={`text-sm ${
+            plan.application_fee_percent === 0 ? "mt-5" : ""
+          }`}
+          style={{ color: isPremium ? "rgba(255,255,255,0.6)" : "#717680" }}
+        >
+          {plan.application_fee_percent > 0
+            ? `${plan.application_fee_percent}% transaction fee`
+            : ""}
+        </p>
+      );
+
+      const action = isCurrent ? (
+        isPaid ? (
+          <button
+            className="w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90"
+            style={ctaButtonStyle}
+            onClick={handleOpenPortal}
+          >
+            Manage
+          </button>
+        ) : null
+      ) : isUpgradeable ? (
+        <button
+          className="w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90"
+          style={ctaButtonStyle}
+          onClick={() => showPaymentOptions(plan)}
+        >
+          Activate
+        </button>
+      ) : null;
+
+      const footer = isCurrent ? (
+        <span
+          className="text-xs font-semibold px-2 py-1 rounded-full"
+          style={{
+            color: isPremium ? "#462986" : "#6941C6",
+            background: isPremium ? "#FFFFFF" : "#F4EBFF",
+          }}
+        >
+          Current plan
+        </span>
+      ) : null;
+      if (plan.id !== 1 || !isMarketplace)
+        return (
+          <InteractiveCard
+            key={plan.id}
+            isPremium={isPremium}
+            subtitle={subtitle}
+            title={title}
+            text={text}
+            action={action}
+            footer={footer}
+            style={{ minHeight: 474 }}
+          >
+            <ul className="mt-4 flex flex-col gap-1">
+              {plan.features.map((feature, index) => (
+                <li key={index} className="flex items-start gap-2.5">
+                  {feature.value === "true" ? (
+                    <CheckCircleIcon
+                      className="w-5 h-5 shrink-0"
+                      style={{ color: isPremium ? "#E3E1F2" : "#299E6C" }}
+                    />
+                  ) : (
+                    <XCircleIcon
+                      className="w-5 h-5 shrink-0"
+                      style={{
+                        color: isPremium ? "rgba(255,255,255,0.3)" : "#D0D5DD",
+                      }}
+                    />
+                  )}
+                  <span
+                    className="text-base font-light"
+                    style={{ color: isPremium ? "#FFFFFF" : "#070908" }}
+                  >
+                    {feature.title}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </InteractiveCard>
+        );
     });
   };
 
@@ -1281,6 +1265,7 @@ const SettingsPage = () => {
                   selectedPlan={selectedPlan}
                   setSelectedPlan={setSelectedPlan}
                   activateBillingPlan={activateBillingPlan}
+                  isMarketplace={isMarketplace}
                 />
               </SettingsSection>
             )}

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useEventsLogic } from "./useEventsLogic";
-import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  PencilSquareIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
 
 const PLACEHOLDER_IMAGE = `${window.servvData.pluginUrl}public/assets/images/placeholder.png`;
 
@@ -75,6 +79,20 @@ const EventCard = ({ meeting, handleOpenEvent }) => {
               <EyeIcon className="event-action-icon" />
             </button>
 
+            <button
+              className="event-action-btn edit"
+              title="Edit event"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenEvent({
+                  id: meeting.post_id,
+                  occurrence_id: meeting.occurrence_id,
+                  registrants_view: true,
+                });
+              }}
+            >
+              <UserCircleIcon className="event-action-icon" />
+            </button>
             <button
               className="event-action-btn edit"
               title="Edit event"

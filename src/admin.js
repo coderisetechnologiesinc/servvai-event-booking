@@ -3,7 +3,7 @@ import domReady from "@wordpress/dom-ready";
 import { createRoot } from "@wordpress/element";
 import React, { useRef, useEffect, Suspense, useState } from "react";
 import { HashRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
-
+import LogRocket from "logrocket";
 import Layout from "./Components/Layout/Layout.jsx";
 import "./Components/Layout/Layout.css";
 
@@ -198,7 +198,9 @@ domReady(() => {
     } catch {
       restAPIAvailable = false;
     }
-
+    if (servvData.env === "test") {
+      LogRocket.init("nh6p6d/servvai-test");
+    }
     root.render(
       <HashRouter>
         {servvData.page === "servvai-event-booking" ? (

@@ -140,16 +140,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/icons */ "./src/assets/icons/index.js");
 /* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CreditCardIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/RocketLaunchIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/LinkIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/RocketLaunchIcon.js");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
 /* harmony import */ var _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../assets/images/logo.png */ "./src/assets/images/logo.png");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
 /* harmony import */ var _ModalShell__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ModalShell */ "./src/Components/ModalShell.jsx");
 /* harmony import */ var _SkipOnboardingModalContent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SkipOnboardingModalContent */ "./src/Components/Pages/SkipOnboardingModalContent.jsx");
-/* harmony import */ var _utilities_timezones__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utilities/timezones */ "./src/utilities/timezones.js");
+/* harmony import */ var _utilities_stripe__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utilities/stripe */ "./src/utilities/stripe.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__);
 
@@ -167,7 +168,8 @@ __webpack_require__.r(__webpack_exports__);
 // Lazy load step components
 
 const SettingsStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_SettingsStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../SettingsStep */ "./src/Components/SettingsStep.jsx")));
-// const FirstEventStep = React.lazy(() => import("../Onboarding/FirstEventStep"));
+const FirstEventStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_FirstEventStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../FirstEventStep */ "./src/Components/FirstEventStep.jsx")));
+const IntegrationsStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_IntegrationsStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../IntegrationsStep */ "./src/Components/IntegrationsStep.jsx")));
 const BrandingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_BrandingStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../BrandingStep */ "./src/Components/BrandingStep.jsx")));
 const BillingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_BillingStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../BillingStep */ "./src/Components/BillingStep.jsx")));
 const StepperIcon = ({
@@ -211,8 +213,10 @@ const OnboardingFlow = () => {
   const fetchSettings = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.fetchSettings);
   const syncGmailAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.syncGmailAccount);
   const syncZoomAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.syncZoomAccount);
+  const syncCalendarAccount = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.syncCalendarAccount);
   const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_2__.useServvStore)(s => s.syncSingleFilterFromServer);
   const [synchronization, setSynchronization] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [stripeConnected, setStripeConnected] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.useNavigate)();
   const contentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   const [searchParams, setSearchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.useSearchParams)();
@@ -256,23 +260,31 @@ const OnboardingFlow = () => {
     subtitle: "Choose your plan",
     Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_11__["default"],
     iconClass: "icon--angled"
-  }, {
-    key: "branding",
-    title: "Store Branding",
-    subtitle: "Personalize your appearance",
-    Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.BrushIcon,
-    iconClass: "icon--angled"
+  },
+  // {
+  //   key: "branding",
+  //   title: "Store Branding",
+  //   subtitle: "Personalize your appearance",
+  //   Icon: BrushIcon,
+  //   iconClass: "icon--angled",
+  // },
+  {
+    key: "integrations",
+    title: "Integrations",
+    subtitle: "Connect your services",
+    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_12__["default"],
+    iconClass: ""
   }, {
     key: "settings",
     title: "Global Settings",
     subtitle: "Configure your preferences",
-    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_12__["default"],
+    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_13__["default"],
     iconClass: ""
   }, {
     key: "first-event",
     title: "Create First Event",
     subtitle: "Set up your initial event",
-    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_13__["default"],
+    Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_14__["default"],
     iconClass: ""
   }]);
 
@@ -317,8 +329,12 @@ const OnboardingFlow = () => {
     }
     setSynchronization(true);
     syncGmailAccount();
-    syncZoomAccount();
+    // syncZoomAccount();
     syncSingleFilterFromServer("locations");
+    syncCalendarAccount();
+    (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeAccount)(servvData.nonce).then(account => {
+      if (account?.charges_enabled) setStripeConnected(true);
+    });
     setSynchronization(false);
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -340,6 +356,17 @@ const OnboardingFlow = () => {
     } catch (e) {
       console.warn("Invalid admin_dashboard JSON", e);
     }
+    if (settings?.is_wp_marketplace === false) {
+      let newSteps = [...steps];
+      newSteps.splice(1, 0, {
+        key: "branding",
+        title: "Store Branding",
+        subtitle: "Personalize your appearance",
+        Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.BrushIcon,
+        iconClass: "icon--angled"
+      });
+      setSteps(newSteps);
+    }
     setAttributes(prev => ({
       ...prev,
       ...(adminDashboard.default_timezone && {
@@ -358,9 +385,10 @@ const OnboardingFlow = () => {
   }, [settings]);
   const stepComponents = {
     billing: BillingStep,
+    branding: BrandingStep,
+    integrations: IntegrationsStep,
     settings: SettingsStep,
-    "first-event": null,
-    branding: BrandingStep
+    "first-event": FirstEventStep
   };
   const StepComponent = stepComponents[currentStep];
   const mergeAttributes = patch => {
@@ -388,10 +416,14 @@ const OnboardingFlow = () => {
     const currentIndex = steps.findIndex(s => s.key === currentStep);
     if (currentIndex < steps.length - 1) {
       markStepCompleted(currentStep);
-      if (currentIndex === 2) {
-        navigate(`/events/new?onboarding_step=2&timezone=${attributes.timezone}`);
-        return;
-      }
+
+      // if (currentIndex === 3) {
+      //   navigate(
+      //     `/events/new?onboarding_step=2&timezone=${attributes.timezone}`,
+      //   );
+      //   return;
+      // }
+
       setCurrentStep(steps[currentIndex + 1].key);
     }
   };
@@ -406,14 +438,14 @@ const OnboardingFlow = () => {
     const currentIndex = steps.findIndex(s => s.key === currentStep);
 
     // Allow going back to any previous step or completed step
-    if (clickedIndex !== 3) {
+    if (clickedIndex !== steps.length - 1) {
       setCurrentStep(stepKey);
     }
   };
   const handleFirstEventCreate = async eventData => {
     setLoading(true);
     try {
-      const response = await axios__WEBPACK_IMPORTED_MODULE_14__["default"].post(`/wp-json/servv-plugin/v1/events/${eventData.location}`, {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_15__["default"].post(`/wp-json/servv-plugin/v1/events/${eventData.location}`, {
         meeting: {
           topic: eventData.topic,
           startTime: eventData.startTime,
@@ -464,7 +496,7 @@ const OnboardingFlow = () => {
         pw_background_gradient: (_ref3 = (_branding$backgroundG = branding.backgroundGradient) !== null && _branding$backgroundG !== void 0 ? _branding$backgroundG : existing.pw_background_gradient) !== null && _ref3 !== void 0 ? _ref3 : null,
         pw_text_color: branding.textColor || existing.pw_text_color || "#000000"
       };
-      await axios__WEBPACK_IMPORTED_MODULE_14__["default"].put("/wp-json/servv-plugin/v1/shop/settings", {
+      await axios__WEBPACK_IMPORTED_MODULE_15__["default"].put("/wp-json/servv-plugin/v1/shop/settings", {
         ...settings,
         settings: {
           ...settings.settings,
@@ -489,7 +521,7 @@ const OnboardingFlow = () => {
     setLoading(true);
     let url = "/wp-json/servv-plugin/v1/filters/locations";
     let method = "POST";
-    await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_15__["default"])({
       method,
       url,
       headers: {
@@ -500,6 +532,40 @@ const OnboardingFlow = () => {
       }
     });
     // await syncSingleFilterFromServer("locations");
+  };
+  const connectGmail = async () => {
+    const res = await axios__WEBPACK_IMPORTED_MODULE_15__["default"].get("/wp-json/servv-plugin/v1/gmail/url", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
+    });
+    await handleSettingsSave({
+      sync: true
+    });
+    localStorage.setItem("redirectToOnboarding", window.location.href);
+    if (res?.status === 200) {
+      open(`${servvData.shopify_app}/mail/connect?wordpress_url=${encodeURIComponent(res.data.auth_url)}&wordpress_return_url=${encodeURIComponent(window.location.origin)}&servv_nonce=${res.data.nonce}`, "_top");
+    }
+  };
+  const connectZoom = async () => {
+    const res = await axios__WEBPACK_IMPORTED_MODULE_15__["default"].get("/wp-json/servv-plugin/v1/zoom/url", {
+      headers: {
+        "X-WP-Nonce": servvData.nonce
+      }
+    });
+    await handleSettingsSave({
+      sync: true
+    });
+    localStorage.setItem("redirectToOnboarding", window.location.href);
+    if (res?.status === 200) {
+      open(`${servvData.shopify_app}/zoom/connect?wordpress_url=${encodeURIComponent(res.data.auth_url)}&wordpress_return_url=${encodeURIComponent(window.location.origin)}&servv_nonce=${res.data.nonce}`, "_top");
+    }
+  };
+  const connectStripe = async () => {
+    const url = await (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_8__.getStripeConnectURL)(servvData.nonce);
+    if (url) {
+      open(`${servvData.shopify_app}/payments/stripe/connect?wordpress_url=${encodeURIComponent(url.auth_url)}&wordpress_return_url=${encodeURIComponent(window.location.origin)}`, "_top");
+    }
   };
   const handleSettingsSave = async ({
     sync = false
@@ -519,7 +585,7 @@ const OnboardingFlow = () => {
       }
     };
     try {
-      const saveSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+      const saveSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_15__["default"])({
         method: "PUT",
         url: "/wp-json/servv-plugin/v1/shop/settings",
         headers: {
@@ -640,6 +706,10 @@ const OnboardingFlow = () => {
               loading: loading,
               zoomConnected: zoomConnected,
               isGmailConnected: gmailConnected,
+              stripeConnected: stripeConnected,
+              onConnectGmail: connectGmail,
+              onConnectZoom: connectZoom,
+              onConnectStripe: connectStripe,
               brandingCompleted: brandingCompleted,
               settings: settings,
               onSave: currentStep === "settings" ? handleSettingsSave : currentStep === "first-event" ? handleFirstEventCreate : handleBrandingComplete
@@ -807,604 +877,136 @@ const StepBlock = ({
 
 /***/ }),
 
-/***/ "./src/utilities/timezones.js":
-/*!************************************!*\
-  !*** ./src/utilities/timezones.js ***!
-  \************************************/
+/***/ "./src/utilities/stripe.js":
+/*!*********************************!*\
+  !*** ./src/utilities/stripe.js ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   timezonesList: () => (/* binding */ timezonesList)
+/* harmony export */   confirmStripe: () => (/* binding */ confirmStripe),
+/* harmony export */   disconnectStripeAccount: () => (/* binding */ disconnectStripeAccount),
+/* harmony export */   getDisconnectedStripeAccounts: () => (/* binding */ getDisconnectedStripeAccounts),
+/* harmony export */   getStripeAccount: () => (/* binding */ getStripeAccount),
+/* harmony export */   getStripeConnectURL: () => (/* binding */ getStripeConnectURL),
+/* harmony export */   getStripeSettings: () => (/* binding */ getStripeSettings),
+/* harmony export */   updateStripeSettings: () => (/* binding */ updateStripeSettings)
 /* harmony export */ });
-const timezones = [{
-  zone: "Pacific/Midway",
-  gmt: "(GMT-11:00)",
-  name: "Midway Island"
-}, {
-  zone: "US/Samoa",
-  gmt: "(GMT-11:00)",
-  name: "Samoa"
-}, {
-  zone: "US/Hawaii",
-  gmt: "(GMT-10:00)",
-  name: "Hawaii"
-}, {
-  zone: "US/Alaska",
-  gmt: "(GMT-09:00)",
-  name: "Alaska"
-}, {
-  zone: "US/Pacific",
-  gmt: "(GMT-08:00)",
-  name: "Pacific Time (US and Canada)"
-}, {
-  zone: "America/Tijuana",
-  gmt: "(GMT-08:00)",
-  name: "Tijuana"
-}, {
-  zone: "US/Arizona",
-  gmt: "(GMT-07:00)",
-  name: "Arizona"
-}, {
-  zone: "US/Mountain",
-  gmt: "(GMT-07:00)",
-  name: "Mountain Time (US and Canada)"
-}, {
-  zone: "America/Chihuahua",
-  gmt: "(GMT-07:00)",
-  name: "Chihuahua"
-}, {
-  zone: "America/Mazatlan",
-  gmt: "(GMT-07:00)",
-  name: "Mazatlan"
-}, {
-  zone: "America/Mexico_City",
-  gmt: "(GMT-06:00)",
-  name: "Mexico City"
-}, {
-  zone: "America/Monterrey",
-  gmt: "(GMT-06:00)",
-  name: "Monterrey"
-}, {
-  zone: "Canada/Saskatchewan",
-  gmt: "(GMT-06:00)",
-  name: "Saskatchewan"
-}, {
-  zone: "US/Central",
-  gmt: "(GMT-06:00)",
-  name: "Central Time (US and Canada)"
-}, {
-  zone: "US/Eastern",
-  gmt: "(GMT-05:00)",
-  name: "Eastern Time (US and Canada)"
-}, {
-  zone: "US/East-Indiana",
-  gmt: "(GMT-05:00)",
-  name: "Indiana (East)"
-}, {
-  zone: "America/Bogota",
-  gmt: "(GMT-05:00)",
-  name: "Bogota"
-}, {
-  zone: "America/Lima",
-  gmt: "(GMT-05:00)",
-  name: "Lima"
-}, {
-  zone: "America/Caracas",
-  gmt: "(GMT-04:30)",
-  name: "Caracas"
-}, {
-  zone: "Canada/Atlantic",
-  gmt: "(GMT-04:00)",
-  name: "Atlantic Time (Canada)"
-}, {
-  zone: "America/La_Paz",
-  gmt: "(GMT-04:00)",
-  name: "La_Paz"
-}, {
-  zone: "America/Santiago",
-  gmt: "(GMT-04:00)",
-  name: "Santiago"
-}, {
-  zone: "Canada/Newfoundland",
-  gmt: "(GMT-03:30)",
-  name: "Newfoundland"
-}, {
-  zone: "America/Buenos_Aires",
-  gmt: "(GMT-03:00)",
-  name: "Buenos Aires"
-}, {
-  zone: "Greenland",
-  gmt: "(GMT-03:00)",
-  name: "Greenland"
-}, {
-  zone: "Atlantic/Stanley",
-  gmt: "(GMT-02:00)",
-  name: "Stanley"
-}, {
-  zone: "Atlantic/Azores",
-  gmt: "(GMT-01:00)",
-  name: "Azores"
-}, {
-  zone: "Atlantic/Cape_Verde",
-  gmt: "(GMT-01:00)",
-  name: "Cape Verde Is."
-}, {
-  zone: "Africa/Casablanca",
-  gmt: "(GMT)",
-  name: "Casablanca"
-}, {
-  zone: "Europe/Dublin",
-  gmt: "(GMT)",
-  name: "Dublin"
-}, {
-  zone: "Europe/Lisbon",
-  gmt: "(GMT)",
-  name: "Libson"
-}, {
-  zone: "Europe/London",
-  gmt: "(GMT)",
-  name: "London"
-}, {
-  zone: "Africa/Monrovia",
-  gmt: "(GMT)",
-  name: "Monrovia"
-}, {
-  zone: "Europe/Amsterdam",
-  gmt: "(GMT+01:00)",
-  name: "Amsterdam"
-}, {
-  zone: "Europe/Belgrade",
-  gmt: "(GMT+01:00)",
-  name: "Belgrade"
-}, {
-  zone: "Europe/Berlin",
-  gmt: "(GMT+01:00)",
-  name: "Berlin"
-}, {
-  zone: "Europe/Bratislava",
-  gmt: "(GMT+01:00)",
-  name: "Bratislava"
-}, {
-  zone: "Europe/Brussels",
-  gmt: "(GMT+01:00)",
-  name: "Brussels"
-}, {
-  zone: "Europe/Budapest",
-  gmt: "(GMT+01:00)",
-  name: "Budapest"
-}, {
-  zone: "Europe/Copenhagen",
-  gmt: "(GMT+01:00)",
-  name: "Copenhagen"
-}, {
-  zone: "Europe/Ljubljana",
-  gmt: "(GMT+01:00)",
-  name: "Ljubljana"
-}, {
-  zone: "Europe/Madrid",
-  gmt: "(GMT+01:00)",
-  name: "Madrid"
-}, {
-  zone: "Europe/Paris",
-  gmt: "(GMT+01:00)",
-  name: "Paris"
-}, {
-  zone: "Europe/Prague",
-  gmt: "(GMT+01:00)",
-  name: "Prague"
-}, {
-  zone: "Europe/Rome",
-  gmt: "(GMT+01:00)",
-  name: "Rome"
-}, {
-  zone: "Europe/Sarajevo",
-  gmt: "(GMT+01:00)",
-  name: "Sarajevo"
-}, {
-  zone: "Europe/Skopje",
-  gmt: "(GMT+01:00)",
-  name: "Skopje"
-}, {
-  zone: "Europe/Stockholm",
-  gmt: "(GMT+01:00)",
-  name: "Stockholm"
-}, {
-  zone: "Europe/Vienna",
-  gmt: "(GMT+01:00)",
-  name: "Vienna"
-}, {
-  zone: "Europe/Warsaw",
-  gmt: "(GMT+01:00)",
-  name: "Warsaw"
-}, {
-  zone: "Europe/Zagreb",
-  gmt: "(GMT+01:00)",
-  name: "Zagreb"
-}, {
-  zone: "Europe/Athens",
-  gmt: "(GMT+02:00)",
-  name: "Athens"
-}, {
-  zone: "Europe/Bucharest",
-  gmt: "(GMT+02:00)",
-  name: "Bucharest"
-}, {
-  zone: "Africa/Cairo",
-  gmt: "(GMT+02:00)",
-  name: "Cairo"
-}, {
-  zone: "Africa/Harare",
-  gmt: "(GMT+02:00)",
-  name: "Harere"
-}, {
-  zone: "Europe/Helsinki",
-  gmt: "(GMT+02:00)",
-  name: "Helsinki"
-}, {
-  zone: "Europe/Istanbul",
-  gmt: "(GMT+02:00)",
-  name: "Istanbul"
-}, {
-  zone: "Asia/Jerusalem",
-  gmt: "(GMT+02:00)",
-  name: "Jerusalem"
-}, {
-  zone: "Europe/Kiev",
-  gmt: "(GMT+02:00)",
-  name: "Kiev"
-}, {
-  zone: "Europe/Minsk",
-  gmt: "(GMT+02:00)",
-  name: "Minsk"
-}, {
-  zone: "Europe/Riga",
-  gmt: "(GMT+02:00)",
-  name: "Riga"
-}, {
-  zone: "Europe/Sofia",
-  gmt: "(GMT+02:00)",
-  name: "Sofia"
-}, {
-  zone: "Europe/Tallinn",
-  gmt: "(GMT+02:00)",
-  name: "Tallinn"
-}, {
-  zone: "Europe/Vilnius",
-  gmt: "(GMT+02:00)",
-  name: "Vilnius"
-}, {
-  zone: "Asia/Baghdad",
-  gmt: "(GMT+03:00)",
-  name: "Baghdad"
-}, {
-  zone: "Asia/Kuwait",
-  gmt: "(GMT+03:00)",
-  name: "Kuwait"
-}, {
-  zone: "Africa/Nairobi",
-  gmt: "(GMT+03:00)",
-  name: "Nairobi"
-}, {
-  zone: "Asia/Riyadh",
-  gmt: "(GMT+03:00)",
-  name: "Riyadh"
-}, {
-  zone: "Asia/Tehran",
-  gmt: "(GMT+03:30)",
-  name: "Tehran"
-}, {
-  zone: "Europe/Moscow",
-  gmt: "(GMT+04:00)",
-  name: "Moscow"
-}, {
-  zone: "Asia/Baku",
-  gmt: "(GMT+04:00)",
-  name: "Baku"
-}, {
-  zone: "Europe/Volgograd",
-  gmt: "(GMT+04:00)",
-  name: "Volgograd"
-}, {
-  zone: "Asia/Muscat",
-  gmt: "(GMT+04:00)",
-  name: "Muscat"
-}, {
-  zone: "Asia/Tbilisi",
-  gmt: "(GMT+04:00)",
-  name: "Tbilisi"
-}, {
-  zone: "Asia/Yerevan",
-  gmt: "(GMT+04:00)",
-  name: "Yerevan"
-}, {
-  zone: "Asia/Kabul",
-  gmt: "(GMT+04:30)",
-  name: "Kabul"
-}, {
-  zone: "Asia/Karachi",
-  gmt: "(GMT+05:00)",
-  name: "Karachi"
-}, {
-  zone: "Asia/Tashkent",
-  gmt: "(GMT+05:00)",
-  name: "Tashkent"
-}, {
-  zone: "Asia/Kolkata",
-  gmt: "(GMT+05:30)",
-  name: "Kolkata"
-}, {
-  zone: "Asia/Kathmandu",
-  gmt: "(GMT+05:45)",
-  name: "Kathmandu"
-}, {
-  zone: "Asia/Yekaterinburg",
-  gmt: "(GMT+06:00)",
-  name: "Yekaterinburg"
-}, {
-  zone: "Asia/Almaty",
-  gmt: "(GMT+06:00)",
-  name: "Almaty"
-}, {
-  zone: "Asia/Dhaka",
-  gmt: "(GMT+06:00)",
-  name: "Dhaka"
-}, {
-  zone: "Asia/Novosibirsk",
-  gmt: "(GMT+07:00)",
-  name: "Novosibirsk"
-}, {
-  zone: "Asia/Bangkok",
-  gmt: "(GMT+07:00)",
-  name: "Bangkok"
-}, {
-  zone: "Asia/Jakarta",
-  gmt: "(GMT+07:00)",
-  name: "Jakarta"
-}, {
-  zone: "Asia/Krasnoyarsk",
-  gmt: "(GMT+08:00)",
-  name: "Krasnoyarsk"
-}, {
-  zone: "Asia/Chongqing",
-  gmt: "(GMT+08:00)",
-  name: "Chongqing"
-}, {
-  zone: "Asia/Hong_Kong",
-  gmt: "(GMT+08:00)",
-  name: "Hong Kong"
-}, {
-  zone: "Asia/Kuala_Lumpur",
-  gmt: "(GMT+08:00)",
-  name: "Kuala Lumpur"
-}, {
-  zone: "Australia/Perth",
-  gmt: "(GMT+08:00)",
-  name: "Perth"
-}, {
-  zone: "Asia/Singapore",
-  gmt: "(GMT+08:00)",
-  name: "Singapore"
-}, {
-  zone: "Asia/Taipei",
-  gmt: "(GMT+08:00)",
-  name: "Taipei"
-}, {
-  zone: "Asia/Ulaanbaatar",
-  gmt: "(GMT+08:00)",
-  name: "Ulaan Bataar"
-}, {
-  zone: "Asia/Urumqi",
-  gmt: "(GMT+08:00)",
-  name: "Urumqi"
-}, {
-  zone: "Asia/Irkutsk",
-  gmt: "(GMT+09:00)",
-  name: "Irkutsk"
-}, {
-  zone: "Asia/Seoul",
-  gmt: "(GMT+09:00)",
-  name: "Seoul"
-}, {
-  zone: "Asia/Tokyo",
-  gmt: "(GMT+09:00)",
-  name: "Tokyo"
-}, {
-  zone: "Australia/Adelaide",
-  gmt: "(GMT+09:30)",
-  name: "Adelaide"
-}, {
-  zone: "Australia/Darwin",
-  gmt: "(GMT+09:30)",
-  name: "Darwin"
-}, {
-  zone: "Asia/Yakutsk",
-  gmt: "(GMT+10:00)",
-  name: "Yakutsk"
-}, {
-  zone: "Australia/Brisbane",
-  gmt: "(GMT+10:00)",
-  name: "Brisbane"
-}, {
-  zone: "Australia/Canberra",
-  gmt: "(GMT+10:00)",
-  name: "Canberra"
-}, {
-  zone: "Pacific/Guam",
-  gmt: "(GMT+10:00)",
-  name: "Guam"
-}, {
-  zone: "Australia/Hobart",
-  gmt: "(GMT+10:00)",
-  name: "Hobart"
-}, {
-  zone: "Australia/Melbourne",
-  gmt: "(GMT+10:00)",
-  name: "Melbourne"
-}, {
-  zone: "Pacific/Port_Moresby",
-  gmt: "(GMT+10:00)",
-  name: "Port Moresby"
-}, {
-  zone: "Australia/Sydney",
-  gmt: "(GMT+10:00)",
-  name: "Sydney"
-}, {
-  zone: "Asia/Vladivostok",
-  gmt: "(GMT+11:00)",
-  name: "Vladivostok"
-}, {
-  zone: "Asia/Magadan",
-  gmt: "(GMT+12:00)",
-  name: "Magadan"
-}, {
-  zone: "Pacific/Auckland",
-  gmt: "(GMT+12:00)",
-  name: "Auckland"
-}, {
-  zone: "Pacific/Fiji",
-  gmt: "(GMT+12:00)",
-  name: "Fiji"
-}];
-const timezonesList = {
-  "Pacific/Midway": "Midway Island, Samoa",
-  "Pacific/Pago_Pago": "Pago Pago",
-  "Pacific/Honolulu": "Hawaii",
-  "America/Anchorage": "Alaska",
-  "America/Vancouver": "Vancouver",
-  "America/Los_Angeles": "Pacific Time (US and Canada)",
-  "America/Tijuana": "Tijuana",
-  "America/Edmonton": "Edmonton",
-  "America/Denver": "Mountain Time (US and Canada)",
-  "America/Phoenix": "Arizona",
-  "America/Mazatlan": "Mazatlan",
-  "America/Winnipeg": "Winnipeg",
-  "America/Regina": "Saskatchewan",
-  "America/Chicago": "Central Time (US and Canada)",
-  "America/Mexico_City": "Mexico City",
-  "America/Guatemala": "Guatemala",
-  "America/El_Salvador": "El Salvador",
-  "America/Managua": "Managua",
-  "America/Costa_Rica": "Costa Rica",
-  "America/Montreal": "Montreal",
-  "America/New_York": "Eastern Time (US and Canada)",
-  "America/Indianapolis": "Indiana (East)",
-  "America/Panama": "Panama",
-  "America/Bogota": "Bogota",
-  "America/Lima": "Lima",
-  "America/Halifax": "Halifax",
-  "America/Puerto_Rico": "Puerto Rico",
-  "America/Caracas": "Caracas",
-  "America/Santiago": "Santiago",
-  "America/St_Johns": "Newfoundland and Labrador",
-  "America/Montevideo": "Montevideo",
-  "America/Araguaina": "Brasilia",
-  "America/Argentina/Buenos_Aires": "Buenos Aires, Georgetown",
-  "America/Godthab": "Greenland",
-  "America/Sao_Paulo": "Sao Paulo",
-  "Atlantic/Azores": "Azores",
-  "Canada/Atlantic": "Atlantic Time (Canada)",
-  "Atlantic/Cape_Verde": "Cape Verde Islands",
-  UTC: "Universal Time UTC",
-  "Etc/Greenwich": "Greenwich Mean Time",
-  "Europe/Belgrade": "Belgrade, Bratislava, Ljubljana",
-  CET: "Sarajevo, Skopje, Zagreb",
-  "Atlantic/Reykjavik": "Reykjavik",
-  "Europe/Dublin": "Dublin",
-  "Europe/London": "London",
-  "Europe/Lisbon": "Lisbon",
-  "Africa/Casablanca": "Casablanca",
-  "Africa/Nouakchott": "Nouakchott",
-  "Europe/Oslo": "Oslo",
-  "Europe/Copenhagen": "Copenhagen",
-  "Europe/Brussels": "Brussels",
-  "Europe/Berlin": "Amsterdam, Berlin, Rome, Stockholm, Vienna",
-  "Europe/Helsinki": "Helsinki",
-  "Europe/Amsterdam": "Amsterdam",
-  "Europe/Rome": "Rome",
-  "Europe/Stockholm": "Stockholm",
-  "Europe/Vienna": "Vienna",
-  "Europe/Luxembourg": "Luxembourg",
-  "Europe/Paris": "Paris",
-  "Europe/Zurich": "Zurich",
-  "Europe/Madrid": "Madrid",
-  "Africa/Bangui": "West Central Africa",
-  "Africa/Algiers": "Algiers",
-  "Africa/Tunis": "Tunis",
-  "Africa/Harare": "Harare, Pretoria",
-  "Africa/Nairobi": "Nairobi",
-  "Europe/Warsaw": "Warsaw",
-  "Europe/Prague": "Prague Bratislava",
-  "Europe/Budapest": "Budapest",
-  "Europe/Sofia": "Sofia",
-  "Europe/Istanbul": "Istanbul",
-  "Europe/Athens": "Athens",
-  "Europe/Bucharest": "Bucharest",
-  "Asia/Nicosia": "Nicosia",
-  "Asia/Beirut": "Beirut",
-  "Asia/Damascus": "Damascus",
-  "Asia/Jerusalem": "Jerusalem",
-  "Asia/Amman": "Amman",
-  "Africa/Tripoli": "Tripoli",
-  "Africa/Cairo": "Cairo",
-  "Africa/Johannesburg": "Johannesburg",
-  "Europe/Moscow": "Moscow",
-  "Asia/Baghdad": "Baghdad",
-  "Asia/Kuwait": "Kuwait",
-  "Asia/Riyadh": "Riyadh",
-  "Asia/Bahrain": "Bahrain",
-  "Asia/Qatar": "Qatar",
-  "Asia/Aden": "Aden",
-  "Asia/Tehran": "Tehran",
-  "Africa/Khartoum": "Khartoum",
-  "Africa/Djibouti": "Djibouti",
-  "Africa/Mogadishu": "Mogadishu",
-  "Asia/Dubai": "Dubai",
-  "Asia/Muscat": "Muscat",
-  "Asia/Baku": "Baku, Tbilisi, Yerevan",
-  "Asia/Kabul": "Kabul",
-  "Asia/Yekaterinburg": "Yekaterinburg",
-  "Asia/Tashkent": "Islamabad, Karachi, Tashkent",
-  "Asia/Calcutta": "India",
-  "Asia/Kathmandu": "Kathmandu",
-  "Asia/Novosibirsk": "Novosibirsk",
-  "Asia/Almaty": "Almaty",
-  "Asia/Dacca": "Dacca",
-  "Asia/Krasnoyarsk": "Krasnoyarsk",
-  "Asia/Dhaka": "Astana, Dhaka",
-  "Asia/Bangkok": "Bangkok",
-  "Asia/Saigon": "Vietnam",
-  "Asia/Jakarta": "Jakarta",
-  "Asia/Irkutsk": "Irkutsk, Ulaanbaatar",
-  "Asia/Shanghai": "Beijing, Shanghai",
-  "Asia/Hong_Kong": "Hong Kong",
-  "Asia/Taipei": "Taipei",
-  "Asia/Kuala_Lumpur": "Kuala Lumpur",
-  "Asia/Singapore": "Singapore",
-  "Australia/Perth": "Perth",
-  "Asia/Yakutsk": "Yakutsk",
-  "Asia/Seoul": "Seoul",
-  "Asia/Tokyo": "Osaka, Sapporo, Tokyo",
-  "Australia/Darwin": "Darwin",
-  "Australia/Adelaide": "Adelaide",
-  "Asia/Vladivostok": "Vladivostok",
-  "Pacific/Port_Moresby": "Guam, Port Moresby",
-  "Australia/Brisbane": "Brisbane",
-  "Australia/Sydney": "Canberra, Melbourne, Sydney",
-  "Australia/Hobart": "Hobart",
-  "Asia/Magadan": "Magadan",
-  SST: "Solomon Islands",
-  "Pacific/Noumea": "New Caledonia",
-  "Asia/Kamchatka": "Kamchatka",
-  "Pacific/Fiji": "Fiji Islands, Marshall Islands",
-  "Pacific/Auckland": "Auckland, Wellington",
-  "Asia/Kolkata": "Mumbai, Kolkata, New Delhi",
-  "Europe/Kiev": "Kiev",
-  "America/Tegucigalpa": "Tegucigalpa",
-  "Pacific/Apia": "Independent State of Samoa"
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+const getStripeSettings = async authToken => {
+  try {
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      method: "GET",
+      url: "/wp-json/servv-plugin/v1/stripe/settings",
+      headers: {
+        "X-WP-Nonce": authToken
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Stripe settings:", error);
+    return null;
+  }
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timezones);
+const getStripeAccount = async authToken => {
+  try {
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      method: "GET",
+      url: "/wp-json/servv-plugin/v1/stripe/account",
+      headers: {
+        "X-WP-Nonce": authToken
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Stripe account:", error);
+    return null;
+  }
+};
+const getStripeConnectURL = async (authToken, accountId = null) => {
+  try {
+    let url = "/wp-json/servv-plugin/v1/stripe/url";
+    if (accountId) {
+      url += `?account_id=${accountId}`;
+    }
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      method: "GET",
+      url: url,
+      headers: {
+        "X-WP-Nonce": authToken
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Stripe connect URL:", error);
+    return null;
+  }
+};
+const confirmStripe = async authToken => {
+  try {
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      method: "GET",
+      url: "/wp-json/servv-plugin/v1/stripe/confirm",
+      headers: {
+        "X-WP-Nonce": authToken
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Stripe connect URL:", error);
+    return null;
+  }
+};
+const disconnectStripeAccount = async authToken => {
+  try {
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      method: "DELETE",
+      url: "/wp-json/servv-plugin/v1/stripe/account",
+      headers: {
+        "X-WP-Nonce": authToken
+      }
+    });
+    return response.status;
+  } catch (error) {
+    console.error("Error disconnecting Stripe connect URL:", error);
+    return null;
+  }
+};
+const getDisconnectedStripeAccounts = async authToken => {
+  try {
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      method: "GET",
+      url: "/wp-json/servv-plugin/v1/stripe/account/disconnected",
+      headers: {
+        "X-WP-Nonce": authToken
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error disconnecting Stripe connect URL:", error);
+    return null;
+  }
+};
+const updateStripeSettings = async (authToken, currency) => {
+  try {
+    const response = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      method: "POST",
+      url: "/wp-json/servv-plugin/v1/stripe/settings",
+      headers: {
+        "X-WP-Nonce": authToken
+      },
+      data: {
+        currency: currency
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error disconnecting Stripe connect URL:", error);
+    return null;
+  }
+};
 
 /***/ }),
 
@@ -1662,6 +1264,46 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 
 /***/ }),
 
+/***/ "./node_modules/@heroicons/react/24/outline/esm/LinkIcon.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@heroicons/react/24/outline/esm/LinkIcon.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+
+function LinkIcon({
+  title,
+  titleId,
+  ...props
+}, svgRef) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    "aria-hidden": "true",
+    "data-slot": "icon",
+    ref: svgRef,
+    "aria-labelledby": titleId
+  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
+    id: titleId
+  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    d: "M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+  }));
+}
+const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(LinkIcon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
+
+/***/ }),
+
 /***/ "./node_modules/@heroicons/react/24/outline/esm/RocketLaunchIcon.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/@heroicons/react/24/outline/esm/RocketLaunchIcon.js ***!
@@ -1703,4 +1345,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(R
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=24d3aca311edd99ee847
+//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=59459a662329c7be4ad0

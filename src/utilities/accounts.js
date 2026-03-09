@@ -32,3 +32,49 @@ export const getGmailAccount = async () => {
 export const getCalendarAccount = async () => {
   return wpGet("calendar/account");
 };
+
+export const getCalendarConnectURL = async () => {
+  const getAuthURLResponse = await axios(
+    "/wp-json/servv-plugin/v1/calendar/url",
+    {
+      method: "GET",
+      headers: {
+        "X-WP-Nonce": servvData.nonce,
+      },
+      redirect: "manual",
+    },
+  );
+
+  if (getAuthURLResponse && getAuthURLResponse.status === 200) {
+    open(
+      `${
+        servvData.shopify_app
+      }/calendar/connect?wordpress_url=${encodeURIComponent(
+        getAuthURLResponse.data.auth_url,
+      )}&wordpress_return_url=${encodeURIComponent(
+        window.location.origin,
+      )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
+      "_top",
+    );
+  }
+};
+
+export const getZoomConnectURL = async () => {
+  const getAuthURLResponse = await axios("/wp-json/servv-plugin/v1/zoom/url", {
+    method: "GET",
+    headers: {
+      "X-WP-Nonce": servvData.nonce,
+    },
+    redirect: "manual",
+  });
+  if (getAuthURLResponse && getAuthURLResponse.status === 200) {
+    open(
+      `${servvData.shopify_app}/zoom/connect?wordpress_url=${encodeURIComponent(
+        getAuthURLResponse.data.auth_url,
+      )}&wordpress_return_url=${encodeURIComponent(
+        window.location.origin,
+      )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
+      "_top",
+    );
+  }
+};

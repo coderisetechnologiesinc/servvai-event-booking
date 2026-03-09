@@ -117,7 +117,7 @@ const SingleEventPage = ({
 
   return (
     <PageWrapper loading={loading}>
-      <div className="servv-app max-w-[1080px] mx-auto h-full min-h-screen w-[65%] [@media(max-width:1110px)]:w-full">
+      <div className="servv-app max-w-[1080px] mx-auto h-full min-h-screen w-full px-4">
         {/* <div className="border-l h-full border-gray-200 pl-4 w-full grow-[2] pr-4 max-w-[720px]"> */}
         <BlockStack gap={-1}>
           <PageHeader>

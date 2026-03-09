@@ -2108,6 +2108,7 @@ const CalendarInline = ({
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_day_picker__WEBPACK_IMPORTED_MODULE_1__.DayPicker, {
       mode: "single",
       selected: value,
+      defaultMonth: value,
       onSelect: onChange,
       weekStartsOn: 1 // Mo → Su
       ,
@@ -3095,4 +3096,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(X
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=0ede917e11f6333ab525
+//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=1def3506f909d1c76f29

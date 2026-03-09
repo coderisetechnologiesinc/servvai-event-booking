@@ -17,6 +17,8 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   CheckIcon,
+  MinusCircleIcon,
+  TicketIcon,
 } from "@heroicons/react/16/solid";
 import OccurrencessDropdown from "./Components/Controls/OccurrencessDropdown";
 const PaymentForm = () => {
@@ -309,10 +311,10 @@ const PaymentForm = () => {
                             className="flex flex-row gap-4 items-center"
                           >
                             <span className="font-semibold text-[16px]">
-                              {"Attendee " + (index + 1)}
+                              {"Registrant " + (index + 1)}
                             </span>
                             <div className="text-[12px] md:text-[16px] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] border border-[#E5E5E5] text-[#171717] bg-white">
-                              Standard ticket
+                              Standard
                             </div>
                           </div>
                           {registrant.canBeAdded === false && (
@@ -323,7 +325,7 @@ const PaymentForm = () => {
                               className="font-semibold text-black border-none text-[12px]"
                               onClick={() => removeRegistrant(index)}
                             >
-                              Remove
+                              <MinusCircleIcon className="w-[20px] text-error-500" />
                             </button>
                           )}
                         </div>
@@ -333,18 +335,6 @@ const PaymentForm = () => {
                             : "Free"}
                         </div>
                         <div className="flex flex-col gap-2">
-                          <div className="text-[16px] flex flex-col font-semibold">
-                            Email *
-                          </div>
-                          <InputFieldControl
-                            value={registrant.email}
-                            align="left"
-                            type="text"
-                            width={"100%"}
-                            onChange={(val) =>
-                              handleRegistrantEmailChange(index, val)
-                            }
-                          />
                           <div className="flex flex-row justify-evenly items-baseline w-full gap-4">
                             <div className="flex flex-col gap-2 flex-1">
                               <div className="text-[16px] flex flex-col font-semibold">
@@ -375,6 +365,18 @@ const PaymentForm = () => {
                               />
                             </div>
                           </div>
+                          <div className="text-[16px] flex flex-col font-semibold">
+                            Email *
+                          </div>
+                          <InputFieldControl
+                            value={registrant.email}
+                            align="left"
+                            type="text"
+                            width={"100%"}
+                            onChange={(val) =>
+                              handleRegistrantEmailChange(index, val)
+                            }
+                          />
                         </div>
                       </div>
                       {additionalRegistrants.length > 1 &&
@@ -382,7 +384,7 @@ const PaymentForm = () => {
                           <div className="mt-4">
                             {registrant.first_registrant && (
                               <CheckboxControl
-                                label="Same for all"
+                                label="Use the same contact details for all tickets"
                                 checked={sameForAll}
                                 onChange={() => setSameForAll(!sameForAll)}
                               />
@@ -394,7 +396,11 @@ const PaymentForm = () => {
                 </Fragment>
               );
             })}
+            <div className="flex flex-row justify-end w-full text-sm text-gray-500">
+              * Required
+            </div>
             {/* Render registrants end */}
+
             <div className="flex flex-row justify-between pt-8">
               <button
                 onClick={() => handlePrevStep()}
@@ -1500,7 +1506,7 @@ const PaymentForm = () => {
                         className="font-semibold text-[12px]"
                         onClick={() => removeRegistrant(index)}
                       >
-                        Remove
+                        <MinusCircleIcon className="w-[20px] text-error-500" />
                       </button>
                     )}
                   </div>
@@ -1581,7 +1587,7 @@ const PaymentForm = () => {
                     <div className="mt-4">
                       {registrant.first_registrant && (
                         <CheckboxControl
-                          label="Same for all"
+                          label="Use the same contact details for all tickets"
                           checked={sameForAll}
                           onChange={() => setSameForAll(!sameForAll)}
                         />
@@ -1764,7 +1770,6 @@ const PaymentForm = () => {
     });
 
     const { total, ticketsCount } = getTotal();
-    let counter = 0;
     const isDonation = isTicketsAvailable()
       ? additionalRegistrants.filter((reg) => reg.ticket.is_donation).length > 0
       : false;
@@ -1772,7 +1777,7 @@ const PaymentForm = () => {
       <div className="flex flex-col items-start gap-2 p-[17px] border rounded-[17px] self-stretch border-[#CBD5E1] bg-white w-1/3 h-fit max-sm:w-full">
         <div className="font-semibold">Order summary</div>
         <div className="flex flex-col gap-4 border-b w-full pb-[13px]">
-          {ticketStats
+          {/* {ticketStats
             .filter((t) => t.count > 0)
             .map((ticket) => {
               return (
@@ -1792,78 +1797,54 @@ const PaymentForm = () => {
                   </div>
                 </div>
               );
-            })}
+            })} */}
         </div>
-        <div className="flex flex-row justify-between items-center w-full pb-[24px]">
-          <span className="font-semibold">Total</span>
-          <span className="font-semibold">{total}</span>
-        </div>
-        <div className="pt-[24px] border-t w-full">
-          <span className="font-semibold">Attendees</span>
+
+        <div className="w-full">
+          <span className="font-semibold">Tickets</span>
           {isTicketsAvailable() && (
             <div>
-              {tickets.map((t) =>
-                additionalRegistrants
-                  .filter((reg) => reg.ticket.id === t.id)
-                  .map((r, index) => {
-                    counter += 1;
-                    return (
-                      <div
-                        key={`${t.id}-${index}`}
-                        className="flex flex-row items-center gap-2"
-                      >
-                        <div
-                          className={`w-[8px] h-[8px] rounded-full ${
-                            r.first_registrant ? "bg-[#0ED300]" : "bg-[#BCBCBC]"
-                          }`}
-                        ></div>
-
-                        <span className="text-[#4A5565] text-[0.875rem]">
-                          {r.canBeAdded ? r.ticket.name : "Ticket closed"}
-                        </span>
-                        <span className="text-[#4A5565] text-[0.875rem]">
-                          -
-                        </span>
-                        <span className="text-[#4A5565] text-[0.875rem]">
-                          {`Attendee ${counter}`}
-                        </span>
-                      </div>
-                    );
-                  }),
-              )}
+              {tickets.map((t) => {
+                const count = additionalRegistrants.filter(
+                  (reg) => reg.ticket.id === t.id,
+                ).length;
+                if (count === 0) return null;
+                return (
+                  <div key={t.id} className="flex flex-row items-center gap-4">
+                    <div className="flex flex-row items-center gap-2 flex-1">
+                      <TicketIcon className="w-[20px] shrink-0 text-brand-500" />
+                      <span className="text-[#4A5565] text-[1rem]">
+                        {t.name}
+                      </span>
+                    </div>
+                    <span className="text-[#4A5565] text-[1rem]">{count}</span>
+                  </div>
+                );
+              })}
             </div>
           )}
           {!isTicketsAvailable() && (
-            <div>
-              {additionalRegistrants.map((r, index) => (
-                <div
-                  key={`${"Attendee"}-${index}`}
-                  className="flex flex-row items-center gap-2"
-                >
-                  <div
-                    className={`w-[8px] h-[8px] rounded-full ${
-                      r.first_registrant ? "bg-[#0ED300]" : "bg-[#BCBCBC]"
-                    }`}
-                  ></div>
-
-                  <span className="text-[#4A5565] text-[0.875rem]">
-                    Standard
-                  </span>
-                  <span className="text-[#4A5565] text-[0.875rem]">-</span>
-                  <span className="text-[#4A5565] text-[0.875rem]">
-                    {`Attendee ${index + 1}`}
-                  </span>
-                </div>
-              ))}
+            <div className="flex flex-row items-center gap-4">
+              <div className="flex flex-row items-center gap-2 flex-1">
+                <TicketIcon className="w-[20px] text-brand-500 shrink-0" />
+                <span className="text-[#4A5565] text-[1rem]">Standard</span>
+              </div>
+              <span className="text-[#4A5565] text-[1rem]">
+                {additionalRegistrants.length}
+              </span>
             </div>
           )}
         </div>
-        <div class="self-stretch rounded-[0.425rem] bg-[#F9FAFB] pt-[0.75rem] pr-[0.65rem] pb-[0.75rem] pl-[0.65rem] text-[0.875rem]">
+        {/* <div class="self-stretch rounded-[0.425rem] bg-[#F9FAFB] pt-[0.75rem] pr-[0.65rem] pb-[0.75rem] pl-[0.65rem] text-[0.875rem]">
           <span className="font-semibold">Required fields:</span>{" "}
           {`First name,
           last name,${
             isDonation ? " donation" : ""
-          } and email address are required for all attendees.`}
+          } and email address are required for all registrants.`}
+        </div> */}
+        <div className="flex flex-row justify-between border-t items-center w-full pt-[24px]">
+          <span className="font-semibold">Total</span>
+          <span className="font-semibold">{total}</span>
         </div>
       </div>
     );
@@ -1891,6 +1872,9 @@ const PaymentForm = () => {
             {tickets.map((ticket) => {
               return renderRegistrantsFormByTicket(ticket.id);
             })}
+            <div className="flex flex-row justify-end w-full text-sm text-gray-500">
+              * Required
+            </div>
             <div className="flex flex-row justify-between pt-8">
               <button
                 onClick={() => {
@@ -2029,7 +2013,7 @@ const PaymentForm = () => {
             </div>
           </div>
           <span className="font-semibold self-stretch pt-[25px] text-[1rem] text-[#0A0A0A]">
-            Attendee details
+            Registrants details
           </span>
           <div className="flex flex-col gap-[0.75rem] w-full">
             {mainRegistrant &&
@@ -2070,7 +2054,7 @@ const PaymentForm = () => {
                   {!isTicketsAvailable() && (
                     <div className="flex flex-row gap-[24px] md:flex-col md:gap-[4px] items-start">
                       <span className="font-semibold text-[0.875rem]">
-                        {"Standard ticket"}
+                        {"Standard"}
                       </span>
                       <span className="text-[#4A5565] text-[0.875rem]">
                         {"Free"}
@@ -2150,7 +2134,7 @@ const PaymentForm = () => {
                   {!isTicketsAvailable() && (
                     <div className="flex flex-row gap-[24px] md:flex-col md:gap-[4px] items-start">
                       <span className="font-semibold text-[0.875rem]">
-                        {"Standard ticket"}
+                        {"Standard"}
                       </span>
                       <span className="text-[#4A5565] text-[0.875rem]">
                         {"Free"}
@@ -2212,7 +2196,7 @@ const PaymentForm = () => {
           {/* Standard ticket start */}
           <div className="flex flex-col justify-self-stretch basis-[482px] grow shrink min-w-[300px] max-sm:basis-auto">
             <div className="flex flex-row gap-2">
-              <span className="font-regular text-[1rem]">Standard ticket</span>
+              <span className="font-regular text-[1rem]">Standard</span>
               <div className="text-[0.75rem] flex justify-center items-center px-[0.5625rem] py-[0.1875rem] rounded-[0.425rem] bg-[#171717] text-white">
                 {isAvailable ? "Available" : "Sold out"}
               </div>
@@ -2294,17 +2278,19 @@ const PaymentForm = () => {
               <div className="flex flex-row gap-2">
                 <span className="text-[0.875rem] leading-[1.4] font-normal not-italic text-[#4A5565]">
                   {additionalRegistrants.length > 1
-                    ? additionalRegistrants.length + " attendees"
-                    : additionalRegistrants.length + " attendee"}
+                    ? additionalRegistrants.length + " registrants"
+                    : additionalRegistrants.length + " registrant"}
                 </span>
               </div>
             </div>
           )}
 
           {!isTicketsAvailable() && step === 1 && renderStandardTicket()}
+
           {!isTicketsAvailable() &&
             step === 2 &&
             renderAdditionalRegistrantsForm()}
+
           {/* {!confirmMessage && isTicketsAvailable() && (
               <BlockStack gap={4} cardsLayout={true}>
                 <div className="flex flex-row items-center">Tickets</div>
