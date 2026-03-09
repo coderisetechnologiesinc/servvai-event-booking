@@ -29,6 +29,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import he from "he";
 import { getCurrencySymbol } from "../../../widget/servicesShared/currencies";
 import moment from "moment-timezone";
+import SpinnerLoader from "./SpinnerLoader";
 
 const AnalyticsPage = () => {
   const [loading, setLoading] = useState(false);
@@ -515,7 +516,7 @@ const AnalyticsPage = () => {
   const { unique, total } = getRegistrantsTotal();
 
   return (
-    <PageWrapper loading={loading} withBackground={true}>
+    <PageWrapper loading={false} withBackground={true}>
       <div className="dashboard-card">
         <div className="servv-dashboard-header">
           <div className="dashboard-heading">
@@ -538,180 +539,182 @@ const AnalyticsPage = () => {
               />
             </div>
             {/* Responsive content blocks */}
-            {selectedTab === 0 && (
-              <BlockStack gap={8} className="w-full min-w-0">
-                <div className="flex flex-col md:flex-row justify-end items-end min-w-0 w-full">
-                  <div className="w-full md:w-72">
-                    <Datepicker
-                      displayFormat={"MMM DD, YYYY"}
-                      value={revenueDates}
-                      placeholder="Select Dates"
-                      inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
-                      onChange={(newValue) => setRevenueDates(newValue)}
-                    />
+            <SpinnerLoader isLoading={loading}>
+              {selectedTab === 0 && (
+                <BlockStack gap={8} className="w-full min-w-0">
+                  <div className="flex flex-col md:flex-row justify-end items-end min-w-0 w-full">
+                    <div className="w-full md:w-72">
+                      <Datepicker
+                        displayFormat={"MMM DD, YYYY"}
+                        value={revenueDates}
+                        placeholder="Select Dates"
+                        inputClassName="input-control section-description text-left w-full shadow-sm border-solid border border-gray-300 bg-white"
+                        onChange={(newValue) => setRevenueDates(newValue)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
-                  <div className="flex flex-col items-center justify-start">
-                    <h2 className="font-semibold text-brand-700 text-display-md">
+                  <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
+                    <div className="flex flex-col items-center justify-start">
+                      <h2 className="font-semibold text-brand-700 text-display-md">
+                        <Count
+                          from={0}
+                          to={
+                            !revenueDates.startDate
+                              ? totalRevenue || 0
+                              : filteredByDateRevenue || 0
+                          }
+                          className="font-semibold text-brand-700 text-display-md"
+                        />
+                      </h2>
+                      {totalRevenue === 0 && (
+                        <p>{t("You haven’t made any Sales yet.")}</p>
+                      )}
+                    </div>
+                  </div>
+                </BlockStack>
+              )}
+
+              {selectedTab === 1 && (
+                <BlockStack gap={8} className="w-full min-w-0">
+                  <InlineStack
+                    gap={4}
+                    className="flex-col sm:flex-row w-full items-start min-w-0"
+                  >
+                    <div className="w-full sm:w-48">
+                      <SelectControl
+                        options={monthOptions}
+                        selected={selectedMonth}
+                        onSelectChange={(val) => {
+                          handleMonthSelect(val);
+                          setIsMonthSelected(true);
+                        }}
+                      />
+                    </div>
+                    <div className="w-full sm:w-48">
+                      <SelectControl
+                        options={yearOptions}
+                        selected={selectedYear}
+                        onSelectChange={(val) => {
+                          handleYearSelect(val);
+                          setIsMonthSelected(true);
+                        }}
+                      />
+                    </div>
+                    <PageActionButton
+                      text="Reset"
+                      icon={null}
+                      type="primary"
+                      className="p-3 self-center w-full sm:w-auto"
+                      onAction={() => {
+                        setIsMonthSelected(false);
+                        setSelectedMonth("");
+                        setSelectedYear("");
+                      }}
+                    />
+                  </InlineStack>
+                  <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
+                    <h2 className="font-semibold text-brand-700 text-3xl">
                       <Count
                         from={0}
-                        to={
-                          !revenueDates.startDate
-                            ? totalRevenue || 0
-                            : filteredByDateRevenue || 0
-                        }
-                        className="font-semibold text-brand-700 text-display-md"
+                        to={unique + total}
+                        className="font-semibold"
                       />
+                      {` Registrants`}
                     </h2>
-                    {totalRevenue === 0 && (
-                      <p>{t("You haven’t made any Sales yet.")}</p>
+                    {unique + total === 0 && (
+                      <p className="text-gray-500 mt-2">
+                        {t("You don’t have any Registrants yet.")}
+                      </p>
                     )}
                   </div>
-                </div>
-              </BlockStack>
-            )}
+                </BlockStack>
+              )}
 
-            {selectedTab === 1 && (
-              <BlockStack gap={8} className="w-full min-w-0">
-                <InlineStack
-                  gap={4}
-                  className="flex-col sm:flex-row w-full items-start min-w-0"
-                >
-                  <div className="w-full sm:w-48">
-                    <SelectControl
-                      options={monthOptions}
-                      selected={selectedMonth}
-                      onSelectChange={(val) => {
-                        handleMonthSelect(val);
-                        setIsMonthSelected(true);
-                      }}
-                    />
-                  </div>
-                  <div className="w-full sm:w-48">
-                    <SelectControl
-                      options={yearOptions}
-                      selected={selectedYear}
-                      onSelectChange={(val) => {
-                        handleYearSelect(val);
-                        setIsMonthSelected(true);
-                      }}
-                    />
-                  </div>
-                  <PageActionButton
-                    text="Reset"
-                    icon={null}
-                    type="primary"
-                    className="p-3 self-center w-full sm:w-auto"
-                    onAction={() => {
-                      setIsMonthSelected(false);
-                      setSelectedMonth("");
-                      setSelectedYear("");
-                    }}
-                  />
-                </InlineStack>
-                <div className="w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0">
-                  <h2 className="font-semibold text-brand-700 text-3xl">
-                    <Count
-                      from={0}
-                      to={unique + total}
-                      className="font-semibold"
-                    />
-                    {` Registrants`}
-                  </h2>
-                  {unique + total === 0 && (
-                    <p className="text-gray-500 mt-2">
-                      {t("You don’t have any Registrants yet.")}
-                    </p>
+              {selectedTab === 2 && (
+                <>
+                  {eventsStatistic ? (
+                    <div className="w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-8 gap-4 min-w-0">
+                      <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                        <h2 className="font-semibold text-brand-700 text-lg">
+                          {t("Active Events")}
+                        </h2>
+                        <Count
+                          from={0}
+                          to={getActiveEvents()}
+                          className="font-semibold text-brand-700 text-3xl"
+                        />
+                      </div>
+                      <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                        <h2 className="font-semibold text-brand-700 text-lg">
+                          {t("Events Happened")}
+                        </h2>
+                        <Count
+                          from={0}
+                          to={getHappenedEvents()}
+                          className="font-semibold text-brand-700 text-3xl"
+                        />
+                      </div>
+                      <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
+                        <h2 className="font-semibold text-brand-700 text-lg">
+                          {t("Events Cancelled")}
+                        </h2>
+                        <Count
+                          from={0}
+                          to={getCanceledEvents()}
+                          className="font-semibold text-brand-700 text-3xl"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full h-64 flex items-center justify-center text-gray-500 min-w-0">
+                      {t("No event analytics to display.")}
+                    </div>
                   )}
-                </div>
-              </BlockStack>
-            )}
+                </>
+              )}
 
-            {selectedTab === 2 && (
-              <>
-                {eventsStatistic ? (
-                  <div className="w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-8 gap-4 min-w-0">
-                    <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
-                      <h2 className="font-semibold text-brand-700 text-lg">
-                        {t("Active Events")}
-                      </h2>
-                      <Count
-                        from={0}
-                        to={getActiveEvents()}
-                        className="font-semibold text-brand-700 text-3xl"
+              {selectedTab === 3 && (
+                <BlockStack gap={8} className="w-full min-w-0">
+                  <InlineStack
+                    gap={4}
+                    className="flex-col sm:flex-row w-full min-w-0"
+                  >
+                    <div className="w-full sm:w-48">
+                      <SelectControl
+                        options={monthOptions}
+                        selected={selectedMonth}
+                        onSelectChange={(val) => {
+                          handleMonthSelect(val);
+                          setIsMonthSelected(true);
+                        }}
                       />
                     </div>
-                    <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
-                      <h2 className="font-semibold text-brand-700 text-lg">
-                        {t("Events Happened")}
-                      </h2>
-                      <Count
-                        from={0}
-                        to={getHappenedEvents()}
-                        className="font-semibold text-brand-700 text-3xl"
+                    <div className="w-full sm:w-48">
+                      <SelectControl
+                        options={yearOptions}
+                        selected={selectedYear}
+                        onSelectChange={(val) => {
+                          handleYearSelect(val);
+                          setIsMonthSelected(true);
+                        }}
                       />
                     </div>
-                    <div className="w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0">
-                      <h2 className="font-semibold text-brand-700 text-lg">
-                        {t("Events Cancelled")}
-                      </h2>
-                      <Count
-                        from={0}
-                        to={getCanceledEvents()}
-                        className="font-semibold text-brand-700 text-3xl"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="w-full h-64 flex items-center justify-center text-gray-500 min-w-0">
-                    {t("No event analytics to display.")}
-                  </div>
-                )}
-              </>
-            )}
-
-            {selectedTab === 3 && (
-              <BlockStack gap={8} className="w-full min-w-0">
-                <InlineStack
-                  gap={4}
-                  className="flex-col sm:flex-row w-full min-w-0"
-                >
-                  <div className="w-full sm:w-48">
-                    <SelectControl
-                      options={monthOptions}
-                      selected={selectedMonth}
-                      onSelectChange={(val) => {
-                        handleMonthSelect(val);
-                        setIsMonthSelected(true);
+                    <PageActionButton
+                      text="Reset"
+                      icon={null}
+                      type="primary"
+                      className="p-[0.75rem] self-end w-full sm:w-auto"
+                      onAction={() => {
+                        setIsMonthSelected(false);
+                        setSelectedMonth("");
+                        setSelectedYear("");
                       }}
                     />
-                  </div>
-                  <div className="w-full sm:w-48">
-                    <SelectControl
-                      options={yearOptions}
-                      selected={selectedYear}
-                      onSelectChange={(val) => {
-                        handleYearSelect(val);
-                        setIsMonthSelected(true);
-                      }}
-                    />
-                  </div>
-                  <PageActionButton
-                    text="Reset"
-                    icon={null}
-                    type="primary"
-                    className="p-[0.75rem] self-end w-full sm:w-auto"
-                    onAction={() => {
-                      setIsMonthSelected(false);
-                      setSelectedMonth("");
-                      setSelectedYear("");
-                    }}
-                  />
-                </InlineStack>
-                {filtersStatistic && renderFiltersStatistic()}
-              </BlockStack>
-            )}
+                  </InlineStack>
+                  {filtersStatistic && renderFiltersStatistic()}
+                </BlockStack>
+              )}
+            </SpinnerLoader>
           </BlockStack>
         </PageContent>
       </div>

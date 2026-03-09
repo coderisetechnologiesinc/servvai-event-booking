@@ -117,7 +117,7 @@ const CreateEventForm = () => {
       title: "Date and time",
       subtitle: "Select the event’s date, time, and frequency",
       Icon: CalendarIcon,
-      iconClass: "", // symmetric
+      iconClass: "",
     },
     {
       key: "venue",
@@ -142,6 +142,11 @@ const CreateEventForm = () => {
     },
   ]);
   const [currentStep, setCurrentStep] = useState(steps[0].key);
+  const [isFullWidth, setIsFullWidth] = useState(false);
+
+  useEffect(() => {
+    setIsFullWidth(false);
+  }, [currentStep]);
 
   const StepComponent = stepComponents[currentStep];
 
@@ -155,10 +160,18 @@ const CreateEventForm = () => {
     searchParams.get("occ") ||
     null;
   const isOnboarding = searchParams.get("onboarding_step");
+  const registrantsView = searchParams.get("registrants");
+  useEffect(() => {
+    if (registrantsView) setCurrentStep("registrants");
+  }, [registrantsView]);
   const isNew = !routeId;
   useEffect(() => {
     if (isOnboarding) {
       fetchSettings();
+      let newSteps = [...steps];
+      newSteps = newSteps.filter((s) => s.key !== "filters");
+      setSteps(newSteps);
+    } else {
     }
   }, [isOnboarding]);
   // Images
@@ -330,27 +343,27 @@ const CreateEventForm = () => {
         data.meeting.occurrences.length === 0 ||
         occurrenceIdFromQuery
       ) {
-        newSteps.push({
-          key: "registrants",
-          title: "Registrants",
-          subtitle: "Manage registrants",
-          Icon: Contacts,
-          iconClass: "icon--left",
-        });
+        // newSteps.push({
+        //   key: "registrants",
+        //   title: "Registrants",
+        //   subtitle: "Manage registrants",
+        //   Icon: Contacts,
+        //   iconClass: "icon--left",
+        // });
       }
 
       if (!isNew && data.wp_post_url) {
         mergeAttributes({ wp_post_url: data.wp_post_url });
-        newSteps.push({
-          key: "view",
-          title: "View event",
-          subtitle: "View event page",
-          Icon: EyeIcon,
-          iconClass: "icon--left",
-        });
+        // newSteps.push({
+        //   key: "view",
+        //   title: "View event",
+        //   subtitle: "View event page",
+        //   Icon: EyeIcon,
+        //   iconClass: "icon--left",
+        // });
       }
 
-      setSteps(newSteps);
+      // setSteps(newSteps);
 
       if (data.meeting.occurrences && data.meeting.occurrences.length > 0) {
         const occurrenceTickets = fetchEventTickets({ postId, occurrenceId });
@@ -789,64 +802,56 @@ const CreateEventForm = () => {
   return (
     <div className="create-event">
       {/* SIDEBAR */}
-      <aside
-        className={`create-event__sidebar ${
-          settings?.is_wp_marketplace ? "marketplace" : ""
-        }`}
-      >
-        <div className="logo-wrapper">
-          <div
-            className="logo-bg"
-            style={{ backgroundImage: `url(${logo})` }}
-          />
-          <div className="sidebar__logo servv-logo-png" />
-        </div>
-
-        <div className="sidebar__stepper">
-          <div>
-            {steps.map((step, index) => {
-              const isActive = step.key === currentStep;
-
-              return (
-                <div
-                  className="stepper__row"
-                  key={step.key}
-                  onClick={() =>
-                    step.key !== "view"
-                      ? !isError
-                        ? setCurrentStep(step.key)
-                        : () => {}
-                      : open(attributes.wp_post_url, "_blank")
-                  }
-                >
-                  <StepperIcon
-                    Icon={step.Icon}
-                    iconClass={step.iconClass}
-                    active={isActive}
-                    showLine={index < steps.length - 1}
-                  />
-
-                  <StepperText
-                    title={step.title}
-                    subtitle={step.subtitle}
-                    active={isActive}
-                  />
-                </div>
-              );
-            })}
+      {!registrantsView && (
+        <aside
+          className={`create-event__sidebar ${
+            settings?.is_wp_marketplace ? "marketplace" : ""
+          }`}
+        >
+          <div className="logo-wrapper">
+            <div
+              className="logo-bg"
+              style={{ backgroundImage: `url(${logo})` }}
+            />
+            <div className="sidebar__logo servv-logo-png" />
           </div>
-        </div>
 
-        {/* <div className="sidebar__bottom-link">
-          <Support className="bottom-link__icon" aria-hidden="true" />
-          <span
-            className="bottom-link__text"
-            onClick={() => navigate("/support")}
-          >
-            Support
-          </span>
-        </div> */}
-      </aside>
+          <div className="sidebar__stepper">
+            <div>
+              {steps.map((step, index) => {
+                const isActive = step.key === currentStep;
+
+                return (
+                  <div
+                    className="stepper__row"
+                    key={step.key}
+                    onClick={() =>
+                      step.key !== "view"
+                        ? !isError
+                          ? setCurrentStep(step.key)
+                          : () => {}
+                        : open(attributes.wp_post_url, "_blank")
+                    }
+                  >
+                    <StepperIcon
+                      Icon={step.Icon}
+                      iconClass={step.iconClass}
+                      active={isActive}
+                      showLine={index < steps.length - 1}
+                    />
+
+                    <StepperText
+                      title={step.title}
+                      subtitle={step.subtitle}
+                      active={isActive}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
+      )}
 
       {/* CONTENT */}
 
@@ -854,7 +859,7 @@ const CreateEventForm = () => {
         <main
           className={`create-event__content ${
             settings?.is_wp_marketplace ? "marketplace" : ""
-          }`}
+          } ${registrantsView ? "registrants-centered" : ""}`}
           ref={contentRef}
         >
           <div
@@ -870,12 +875,21 @@ const CreateEventForm = () => {
           >
             <CloseIcon className="servv-create-form-close-icon" />
           </div>
-          <div className="step-content-wrapper">
+          <div
+            className={`step-content-wrapper ${
+              isOnboarding &&
+              (currentStep === "tickets" || currentStep === "venue")
+                ? "w-full"
+                : ""
+            }`}
+          >
             <React.Suspense
               fallback={<div className="step-loading">Loading…</div>}
             >
               {StepComponent && (
-                <SpinnerLoader isLoading={loadingEvent}>
+                <SpinnerLoader
+                  isLoading={loadingEvent && currentStep !== "registrants"}
+                >
                   <div key={currentStep} className="step-slide">
                     <StepComponent
                       attributes={attributes}
@@ -894,6 +908,9 @@ const CreateEventForm = () => {
                       isOccurrence={occurrenceIdFromQuery}
                       isError={isError}
                       setError={setError}
+                      isOnboarding={isOnboarding}
+                      setFullWidth={setIsFullWidth}
+                      registrantsView={registrantsView}
                     />
                   </div>
                 </SpinnerLoader>

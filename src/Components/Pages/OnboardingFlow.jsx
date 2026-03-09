@@ -1,17 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  CalendarIcon,
-  MapMarkIcon,
-  BrushIcon,
-  CloseIcon,
-  Support,
-} from "../../assets/icons";
+import { BrushIcon, CloseIcon, Support } from "../../assets/icons";
 import {
   Cog6ToothIcon,
   RocketLaunchIcon,
-  EyeIcon,
   CreditCardIcon,
+  LinkIcon,
 } from "@heroicons/react/24/outline";
 import { useServvStore } from "../../store/useServvStore";
 import logo from "../../assets/images/logo.png";
@@ -20,10 +14,11 @@ import PageWrapper from "./PageWrapper";
 import { toast } from "react-toastify";
 import ModalShell from "../ModalShell";
 import SkipOnboardingModalContent from "./SkipOnboardingModalContent";
-import timezones from "../../utilities/timezones";
+import { getStripeAccount, getStripeConnectURL } from "../../utilities/stripe";
 // Lazy load step components
 const SettingsStep = React.lazy(() => import("../SettingsStep"));
-// const FirstEventStep = React.lazy(() => import("../Onboarding/FirstEventStep"));
+const FirstEventStep = React.lazy(() => import("../FirstEventStep"));
+const IntegrationsStep = React.lazy(() => import("../IntegrationsStep"));
 const BrandingStep = React.lazy(() => import("../BrandingStep"));
 const BillingStep = React.lazy(() => import("../BillingStep"));
 
@@ -57,10 +52,12 @@ const OnboardingFlow = () => {
   const fetchSettings = useServvStore((s) => s.fetchSettings);
   const syncGmailAccount = useServvStore((s) => s.syncGmailAccount);
   const syncZoomAccount = useServvStore((s) => s.syncZoomAccount);
+  const syncCalendarAccount = useServvStore((s) => s.syncCalendarAccount);
   const syncSingleFilterFromServer = useServvStore(
     (s) => s.syncSingleFilterFromServer,
   );
   const [synchronization, setSynchronization] = useState(false);
+  const [stripeConnected, setStripeConnected] = useState(false);
   const navigate = useNavigate();
   const contentRef = useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -109,12 +106,19 @@ const OnboardingFlow = () => {
       Icon: CreditCardIcon,
       iconClass: "icon--angled",
     },
+    // {
+    //   key: "branding",
+    //   title: "Store Branding",
+    //   subtitle: "Personalize your appearance",
+    //   Icon: BrushIcon,
+    //   iconClass: "icon--angled",
+    // },
     {
-      key: "branding",
-      title: "Store Branding",
-      subtitle: "Personalize your appearance",
-      Icon: BrushIcon,
-      iconClass: "icon--angled",
+      key: "integrations",
+      title: "Integrations",
+      subtitle: "Connect your services",
+      Icon: LinkIcon,
+      iconClass: "",
     },
     {
       key: "settings",
@@ -170,8 +174,12 @@ const OnboardingFlow = () => {
     }
     setSynchronization(true);
     syncGmailAccount();
-    syncZoomAccount();
+    // syncZoomAccount();
     syncSingleFilterFromServer("locations");
+    syncCalendarAccount();
+    getStripeAccount(servvData.nonce).then((account) => {
+      if (account?.charges_enabled) setStripeConnected(true);
+    });
     setSynchronization(false);
   }, []);
 
@@ -205,6 +213,18 @@ const OnboardingFlow = () => {
       console.warn("Invalid admin_dashboard JSON", e);
     }
 
+    if (settings?.is_wp_marketplace === false) {
+      let newSteps = [...steps];
+      newSteps.splice(1, 0, {
+        key: "branding",
+        title: "Store Branding",
+        subtitle: "Personalize your appearance",
+        Icon: BrushIcon,
+        iconClass: "icon--angled",
+      });
+      setSteps(newSteps);
+    }
+
     setAttributes((prev) => ({
       ...prev,
 
@@ -229,9 +249,10 @@ const OnboardingFlow = () => {
 
   const stepComponents = {
     billing: BillingStep,
-    settings: SettingsStep,
-    "first-event": null,
     branding: BrandingStep,
+    integrations: IntegrationsStep,
+    settings: SettingsStep,
+    "first-event": FirstEventStep,
   };
 
   const StepComponent = stepComponents[currentStep];
@@ -269,12 +290,12 @@ const OnboardingFlow = () => {
     if (currentIndex < steps.length - 1) {
       markStepCompleted(currentStep);
 
-      if (currentIndex === 2) {
-        navigate(
-          `/events/new?onboarding_step=2&timezone=${attributes.timezone}`,
-        );
-        return;
-      }
+      // if (currentIndex === 3) {
+      //   navigate(
+      //     `/events/new?onboarding_step=2&timezone=${attributes.timezone}`,
+      //   );
+      //   return;
+      // }
 
       setCurrentStep(steps[currentIndex + 1].key);
     }
@@ -292,7 +313,7 @@ const OnboardingFlow = () => {
     const currentIndex = steps.findIndex((s) => s.key === currentStep);
 
     // Allow going back to any previous step or completed step
-    if (clickedIndex !== 3) {
+    if (clickedIndex !== steps.length - 1) {
       setCurrentStep(stepKey);
     }
   };
@@ -408,6 +429,60 @@ const OnboardingFlow = () => {
       },
     });
     // await syncSingleFilterFromServer("locations");
+  };
+
+  const connectGmail = async () => {
+    const res = await axios.get("/wp-json/servv-plugin/v1/gmail/url", {
+      headers: { "X-WP-Nonce": servvData.nonce },
+    });
+    await handleSettingsSave({ sync: true });
+    localStorage.setItem("redirectToOnboarding", window.location.href);
+    if (res?.status === 200) {
+      open(
+        `${
+          servvData.shopify_app
+        }/mail/connect?wordpress_url=${encodeURIComponent(
+          res.data.auth_url,
+        )}&wordpress_return_url=${encodeURIComponent(
+          window.location.origin,
+        )}&servv_nonce=${res.data.nonce}`,
+        "_top",
+      );
+    }
+  };
+
+  const connectZoom = async () => {
+    const res = await axios.get("/wp-json/servv-plugin/v1/zoom/url", {
+      headers: { "X-WP-Nonce": servvData.nonce },
+    });
+    await handleSettingsSave({ sync: true });
+    localStorage.setItem("redirectToOnboarding", window.location.href);
+    if (res?.status === 200) {
+      open(
+        `${
+          servvData.shopify_app
+        }/zoom/connect?wordpress_url=${encodeURIComponent(
+          res.data.auth_url,
+        )}&wordpress_return_url=${encodeURIComponent(
+          window.location.origin,
+        )}&servv_nonce=${res.data.nonce}`,
+        "_top",
+      );
+    }
+  };
+
+  const connectStripe = async () => {
+    const url = await getStripeConnectURL(servvData.nonce);
+    if (url) {
+      open(
+        `${
+          servvData.shopify_app
+        }/payments/stripe/connect?wordpress_url=${encodeURIComponent(
+          url.auth_url,
+        )}&wordpress_return_url=${encodeURIComponent(window.location.origin)}`,
+        "_top",
+      );
+    }
   };
 
   const handleSettingsSave = async ({ sync = false }) => {
@@ -574,6 +649,10 @@ const OnboardingFlow = () => {
                   loading={loading}
                   zoomConnected={zoomConnected}
                   isGmailConnected={gmailConnected}
+                  stripeConnected={stripeConnected}
+                  onConnectGmail={connectGmail}
+                  onConnectZoom={connectZoom}
+                  onConnectStripe={connectStripe}
                   brandingCompleted={brandingCompleted}
                   settings={settings}
                   onSave={

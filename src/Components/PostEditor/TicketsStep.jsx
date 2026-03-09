@@ -1,6 +1,7 @@
 import { TicketIcon, PlusIcon, MinusIcon, CheckMark } from "../../assets/icons";
 import { useState, useEffect, Fragment } from "react";
 import { v4 as uuidv4 } from "uuid";
+import InteractiveCard from "../Containers/InteractiveCard";
 import RadioGroup from "../Controls/RecurrenceRadioGroup";
 import NewInputControl from "../Controls/NewInputControl";
 import NewTimeInputControl from "../Controls/NewTimeInputControl";
@@ -16,11 +17,14 @@ const TicketsStep = ({
   isError,
   handleFormSubmit,
   setError = () => {},
+  isOnboarding,
+  setFullWidth,
 }) => {
   const {
     quantity = 100,
     availability = "open", // "open" | "scheduled"
   } = attributes || {};
+
   const MIN_QTY = 1;
   const [MAX_QTY, SET_MAX_QTY] = useState(
     settings.free_registrants_limit || 15,
@@ -358,6 +362,63 @@ const TicketsStep = ({
     setActiveTicketId(newTicket.id);
   };
 
+  useEffect(() => {
+    if (isOnboarding) setFullWidth?.(false);
+  }, [isOnboarding]);
+
+  useEffect(() => {
+    if (!isOnboarding || tickets.length) return;
+    const initialQty = Math.min(defaultQty, MAX_QTY > 0 ? MAX_QTY : 1);
+    const newTicket = {
+      id: uuidv4(),
+      type: "free",
+      title: "Standard",
+      quantity: initialQty,
+      availability: "open",
+    };
+    updateTickets([newTicket]);
+    setActiveTicketId(newTicket.id);
+  }, [isOnboarding]);
+
+  const handleOnboardingTypeSelect = (type) => {
+    if (activeTicket?.type === type) return;
+
+    if (activeTicket) {
+      const prevQty = Number(activeTicket.quantity || MIN_QTY);
+      let nextQty = prevQty;
+
+      if (type === "free") {
+        nextQty = Math.min(prevQty, freeQuotaExcludingActive);
+      }
+      nextQty = Math.max(MIN_QTY, nextQty);
+
+      const patch = { type, quantity: nextQty };
+
+      if (type === "paid" || type === "donation") {
+        const currentPrice = Number(activeTicket?.price);
+        patch.price =
+          currentPrice > 0 ? String(activeTicket.price) : String(defaultPrice);
+      }
+
+      updateTicket(activeTicketId, patch);
+    } else {
+      const initialQty =
+        type === "free"
+          ? Math.min(defaultQty, MAX_QTY > 0 ? MAX_QTY : 1)
+          : defaultQty;
+      const newTicket = {
+        id: uuidv4(),
+        type,
+        title: "Standard",
+        quantity: initialQty,
+        availability: "open",
+        ...(type === "paid" ? { price: String(defaultPrice) } : {}),
+      };
+      updateTickets([newTicket]);
+      setActiveTicketId(newTicket.id);
+    }
+  };
+
   return (
     <div className="step__wrapper servv_tickets">
       {/* Header */}
@@ -379,7 +440,181 @@ const TicketsStep = ({
           )}
       </div>
       {/* Content */}
-      {isProductMode ? (
+      {isOnboarding ? (
+        <div className="step__content w-full">
+          <div className="grid grid-cols-2 gap-4">
+            <InteractiveCard
+              onClick={() => handleOnboardingTypeSelect("free")}
+              selected={activeTicket?.type === "free"}
+              style={{ minHeight: 0, cursor: "pointer" }}
+              subtitle={
+                <p
+                  className="text-sm font-bold tracking-widest uppercase"
+                  style={{ color: "#872CFA" }}
+                >
+                  Tickets
+                </p>
+              }
+              title={
+                <h2 className="text-3xl font-bold" style={{ color: "#070908" }}>
+                  Free
+                </h2>
+              }
+            />
+            <InteractiveCard
+              onClick={
+                stripeConnected
+                  ? () => handleOnboardingTypeSelect("paid")
+                  : undefined
+              }
+              selected={activeTicket?.type === "paid"}
+              style={{
+                minHeight: 0,
+                opacity: stripeConnected ? 1 : 0.45,
+                cursor: stripeConnected ? "pointer" : "not-allowed",
+              }}
+              subtitle={
+                <p
+                  className="text-sm font-bold tracking-widest uppercase"
+                  style={{ color: "#872CFA" }}
+                >
+                  {stripeConnected ? "Tickets" : "Requires Stripe"}
+                </p>
+              }
+              title={
+                <h2 className="text-3xl font-bold" style={{ color: "#070908" }}>
+                  Paid
+                </h2>
+              }
+            />
+          </div>
+
+          {activeTicket && (
+            <div
+              className={
+                isOnboarding
+                  ? "flex flex-col gap-4 mt-4 w-full max-w-[384px] self-stretch mx-auto"
+                  : `flex flex-col gap-4 mt-4`
+              }
+            >
+              <div className="step__content_block">
+                <span className="step__content_title">Title</span>
+                <NewInputControl
+                  placeholder="Enter title"
+                  value={activeTicket.title || ""}
+                  onChange={(val) =>
+                    updateTicket(activeTicketId, { title: val })
+                  }
+                />
+              </div>
+
+              {activeTicket.type === "paid" && (
+                <div className="step__content_block">
+                  <span className="step__content_title">Price</span>
+                  <NewInputControl
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="Enter price, up to 1000"
+                    value={activeTicket.price ?? ""}
+                    error={isError ? "Please enter valid price" : ""}
+                    onChange={(val) => {
+                      if (val === "") {
+                        updateTicket(activeTicketId, { price: "" });
+                        setError(true);
+                        return;
+                      } else {
+                        setError(false);
+                      }
+                      if (!/^\d+(\.\d{0,2})?$/.test(val)) return;
+                      if (Number.parseFloat(val) > 1000) return;
+                      if (Number.parseInt(val) === 0) {
+                        setError(true);
+                      } else {
+                        setError(false);
+                      }
+                      updateTicket(activeTicketId, { price: val });
+                    }}
+                  />
+                </div>
+              )}
+
+              <div className="servv_ticket_quantity">
+                <label className="step__content_title">Quantity</label>
+                <div className="servv_ticket_quantity__input">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (qty > MIN_QTY)
+                        updateTicket(activeTicketId, { quantity: qty - 1 });
+                    }}
+                    disabled={qty <= MIN_QTY}
+                  >
+                    <MinusIcon />
+                  </button>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    className="servv_ticket_quantity__field"
+                    placeholder="Enter a quantity"
+                    value={qty === "" ? "" : String(qty)}
+                    onChange={(e) => {
+                      const raw = e.target.value;
+                      if (raw === "") {
+                        updateTicket(activeTicketId, { quantity: "" });
+                        return;
+                      }
+                      if (!/^\d+$/.test(raw)) return;
+                      const num = Number(raw);
+                      if (num >= MIN_QTY && num <= MAX_TICKET_QTY)
+                        updateTicket(activeTicketId, { quantity: num });
+                    }}
+                    onBlur={() => {
+                      if (activeTicket.quantity === "")
+                        updateTicket(activeTicketId, { quantity: MIN_QTY });
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (qty < MAX_TICKET_QTY)
+                        updateTicket(activeTicketId, { quantity: qty + 1 });
+                    }}
+                    disabled={qty >= MAX_TICKET_QTY}
+                  >
+                    <PlusIcon />
+                  </button>
+                </div>
+                {isFreeTicket && (
+                  <p className="servv_ticket_quantity__hint">
+                    Maximum number of tickets {MAX_QTY}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="servv_actions mt-auto">
+            <button
+              type="button"
+              className="servv_button servv_button--secondary"
+              onClick={() => changeStep("venue")}
+            >
+              Previous
+            </button>
+            {activeTicket && (
+              <button
+                type="button"
+                className="servv_button servv_button--primary"
+                onClick={() => handleFormSubmit(true)}
+                disabled={isError}
+              >
+                Create
+              </button>
+            )}
+          </div>
+        </div>
+      ) : isProductMode ? (
         <div className="step__content">
           <div className="step__content_block">
             <div className={`servv_ticket_card servv_ticket_card--active`}>
@@ -442,7 +677,7 @@ const TicketsStep = ({
               </button>
             </div>
             <p className="servv_ticket_quantity__hint">
-              Maximum number of tickets {MAX_QTY}.
+              Maximum number of tickets {MAX_QTY}
             </p>
           </div>
         </div>
@@ -760,33 +995,37 @@ const TicketsStep = ({
           </div>
         </Fragment>
       )}
-      <div className="servv_actions mt-auto">
-        {!isNew && (
+      {!isOnboarding && (
+        <div className="servv_actions mt-auto">
+          {!isNew && (
+            <button
+              type="button"
+              className="servv_button servv_button--secondary"
+              onClick={() => handleFormSubmit(true)}
+            >
+              Save and Exit
+            </button>
+          )}
           <button
             type="button"
             className="servv_button servv_button--secondary"
-            onClick={() => handleFormSubmit(true)}
+            onClick={() => changeStep("venue")}
           >
-            Save and Exit
+            Previous
           </button>
-        )}
-        <button
-          type="button"
-          className="servv_button servv_button--secondary"
-          onClick={() => changeStep("venue")}
-        >
-          Previous
-        </button>
 
-        <button
-          type="button"
-          className="servv_button servv_button--primary"
-          onClick={() => changeStep("filters")}
-          disabled={isError}
-        >
-          Continue
-        </button>
-      </div>
+          <button
+            type="button"
+            className="servv_button servv_button--primary"
+            onClick={() =>
+              isOnboarding ? handleFormSubmit(true) : changeStep("filters")
+            }
+            disabled={isError}
+          >
+            Continue
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -54,7 +54,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/icons */ "./src/assets/icons/index.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
 /* harmony import */ var _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../assets/images/logo.png */ "./src/assets/images/logo.png");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
@@ -182,7 +181,7 @@ const CreateEventForm = () => {
     title: "Date and time",
     subtitle: "Select the event’s date, time, and frequency",
     Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.CalendarIcon,
-    iconClass: "" // symmetric
+    iconClass: ""
   }, {
     key: "venue",
     title: "Location",
@@ -203,6 +202,10 @@ const CreateEventForm = () => {
     iconClass: ""
   }]);
   const [currentStep, setCurrentStep] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(steps[0].key);
+  const [isFullWidth, setIsFullWidth] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setIsFullWidth(false);
+  }, [currentStep]);
   const StepComponent = stepComponents[currentStep];
   const {
     id: routeId
@@ -211,11 +214,18 @@ const CreateEventForm = () => {
   const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.useLocation)();
   const occurrenceIdFromQuery = searchParams.get("occurrence_id") || searchParams.get("occurrenceId") || searchParams.get("occ") || null;
   const isOnboarding = searchParams.get("onboarding_step");
+  const registrantsView = searchParams.get("registrants");
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (registrantsView) setCurrentStep("registrants");
+  }, [registrantsView]);
   const isNew = !routeId;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (isOnboarding) {
       fetchSettings();
-    }
+      let newSteps = [...steps];
+      newSteps = newSteps.filter(s => s.key !== "filters");
+      setSteps(newSteps);
+    } else {}
   }, [isOnboarding]);
   // Images
   const WP_API_BASE = "/wp-json/wp/v2/posts";
@@ -348,27 +358,29 @@ const CreateEventForm = () => {
       mergeAttributes(payload);
       let newSteps = [...steps];
       if (data.meeting.occurrences === undefined || data.meeting.occurrences === null || data.meeting.occurrences.length === 0 || occurrenceIdFromQuery) {
-        newSteps.push({
-          key: "registrants",
-          title: "Registrants",
-          subtitle: "Manage registrants",
-          Icon: _assets_icons__WEBPACK_IMPORTED_MODULE_1__.Contacts,
-          iconClass: "icon--left"
-        });
+        // newSteps.push({
+        //   key: "registrants",
+        //   title: "Registrants",
+        //   subtitle: "Manage registrants",
+        //   Icon: Contacts,
+        //   iconClass: "icon--left",
+        // });
       }
       if (!isNew && data.wp_post_url) {
         mergeAttributes({
           wp_post_url: data.wp_post_url
         });
-        newSteps.push({
-          key: "view",
-          title: "View event",
-          subtitle: "View event page",
-          Icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_12__["default"],
-          iconClass: "icon--left"
-        });
+        // newSteps.push({
+        //   key: "view",
+        //   title: "View event",
+        //   subtitle: "View event page",
+        //   Icon: EyeIcon,
+        //   iconClass: "icon--left",
+        // });
       }
-      setSteps(newSteps);
+
+      // setSteps(newSteps);
+
       if (data.meeting.occurrences && data.meeting.occurrences.length > 0) {
         const occurrenceTickets = fetchEventTickets({
           postId,
@@ -729,7 +741,7 @@ const CreateEventForm = () => {
   }, [currentStep]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
     className: "create-event",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("aside", {
+    children: [!registrantsView && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("aside", {
       className: `create-event__sidebar ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "logo-wrapper",
@@ -767,7 +779,7 @@ const CreateEventForm = () => {
       loading: false,
       withoutSpinner: true,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("main", {
-        className: `create-event__content ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
+        className: `create-event__content ${settings?.is_wp_marketplace ? "marketplace" : ""} ${registrantsView ? "registrants-centered" : ""}`,
         ref: contentRef,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "servv-create-form-close",
@@ -781,14 +793,14 @@ const CreateEventForm = () => {
             className: "servv-create-form-close-icon"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
-          className: "step-content-wrapper",
+          className: `step-content-wrapper ${isOnboarding && (currentStep === "tickets" || currentStep === "venue") ? "w-full" : ""}`,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Suspense), {
             fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
               className: "step-loading",
               children: "Loading\u2026"
             }),
             children: StepComponent && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_8__["default"], {
-              isLoading: loadingEvent,
+              isLoading: loadingEvent && currentStep !== "registrants",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
                 className: "step-slide",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(StepComponent, {
@@ -807,7 +819,10 @@ const CreateEventForm = () => {
                   gmailConnected: gmailConnected,
                   isOccurrence: occurrenceIdFromQuery,
                   isError: isError,
-                  setError: setError
+                  setError: setError,
+                  isOnboarding: isOnboarding,
+                  setFullWidth: setIsFullWidth,
+                  registrantsView: registrantsView
                 })
               }, currentStep)
             })
@@ -1450,51 +1465,7 @@ const multipleTicketsUpdate = async ({
 
 module.exports = __webpack_require__.p + "images/logo.b4e524fb.png";
 
-/***/ }),
-
-/***/ "./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-
-function EyeIcon({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    strokeWidth: 1.5,
-    stroke: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-  }));
-}
-const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(EyeIcon);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
-
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=37e6efbb166dfdddf794
+//# sourceMappingURL=src_Components_Pages_CreateEventForm_jsx.js.map?ver=c009b9854254726d56c3

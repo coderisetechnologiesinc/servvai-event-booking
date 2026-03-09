@@ -476,7 +476,8 @@ const RegistrantsStep = ({
   attributes,
   setAttributes,
   changeStep,
-  handleFormSubmit
+  handleFormSubmit,
+  registrantsView
 }) => {
   const registrants = attributes.registrants || [];
   const [firstNameValue, setFirstName] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)("");
@@ -897,7 +898,7 @@ const RegistrantsStep = ({
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "servv_actions mt-auto",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+      children: [!registrantsView && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
         type: "button",
         className: "servv_button servv_button--secondary",
         onClick: () => changeStep("branding"),
@@ -1264,4 +1265,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=a59ef128671da768e0f1
+//# sourceMappingURL=src_Components_PostEditor_RegistrantsStep_jsx.js.map?ver=007f90b1867ed6f862e9

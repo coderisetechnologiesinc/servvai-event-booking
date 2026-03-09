@@ -778,9 +778,10 @@ var SvgUploadIcon = function SvgUploadIcon(props) {
     xmlns: "http://www.w3.org/2000/svg",
     width: 20,
     height: 17,
-    fill: "none"
+    fill: "none",
+    overflow: "visible"
   }, props), _path || (_path = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    stroke: "#717680",
+    stroke: "currentColor",
     strokeLinecap: "round",
     strokeLinejoin: "round",
     strokeWidth: 1.667,
@@ -788,7 +789,7 @@ var SvgUploadIcon = function SvgUploadIcon(props) {
   })));
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTciIHZpZXdCb3g9IjAgMCAyMCAxNyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzLjMzMzUgMTEuNjY0NkwxMC4wMDAyIDguMzMxMjZNMTAuMDAwMiA4LjMzMTI2TDYuNjY2ODggMTEuNjY0Nk0xMC4wMDAyIDguMzMxMjZWMTUuODMxM00xNi45OTE5IDEzLjY1NjNDMTcuODA0NyAxMy4yMTMyIDE4LjQ0NjcgMTIuNTEyIDE4LjgxNjggMTEuNjYzNUMxOS4xODY4IDEwLjgxNDkgMTkuMjYzNyA5Ljg2NzI5IDE5LjAzNTQgOC45NzAxN0MxOC44MDcgOC4wNzMwNiAxOC4yODY1IDcuMjc3NTIgMTcuNTU1OCA2LjcwOTE0QzE2LjgyNTEgNi4xNDA3NSAxNS45MjU5IDUuODMxODggMTUuMDAwMiA1LjgzMTI2SDEzLjk1MDJDMTMuNjk4IDQuODU1NjMgMTMuMjI3OCAzLjk0OTg4IDEyLjU3NTIgMy4xODIwOUMxMS45MjI1IDIuNDE0MzEgMTEuMTA0MiAxLjgwNDQ3IDEwLjE4MiAxLjM5ODQ0QzkuMjU5NjcgMC45OTI0MDIgOC4yNTczNCAwLjgwMDczMSA3LjI1MDMxIDAuODM3ODM0QzYuMjQzMjggMC44NzQ5MzcgNS4yNTc3NyAxLjEzOTg1IDQuMzY3ODYgMS42MTI2NUMzLjQ3Nzk1IDIuMDg1NDYgMi43MDY4IDIuNzUzODUgMi4xMTI0IDMuNTY3NThDMS41MTc5OSA0LjM4MTMyIDEuMTE1NzkgNS4zMTkyMSAwLjkzNjAyOCA2LjMxMDc2QzAuNzU2MjY5IDcuMzAyMzEgMC44MDM2MzIgOC4zMjE3MSAxLjA3NDU2IDkuMjkyMzFDMS4zNDU0OCAxMC4yNjI5IDEuODMyOTEgMTEuMTU5NSAyLjUwMDIxIDExLjkxNDYiIHN0cm9rZT0iIzcxNzY4MCIgc3Ryb2tlLXdpZHRoPSIxLjY2NjY3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTciIHZpZXdCb3g9IjAgMCAyMCAxNyIgZmlsbD0ibm9uZSIgb3ZlcmZsb3c9InZpc2libGUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMy4zMzM1IDExLjY2NDZMMTAuMDAwMiA4LjMzMTI2TTEwLjAwMDIgOC4zMzEyNkw2LjY2Njg4IDExLjY2NDZNMTAuMDAwMiA4LjMzMTI2VjE1LjgzMTNNMTYuOTkxOSAxMy42NTYzQzE3LjgwNDcgMTMuMjEzMiAxOC40NDY3IDEyLjUxMiAxOC44MTY4IDExLjY2MzVDMTkuMTg2OCAxMC44MTQ5IDE5LjI2MzcgOS44NjcyOSAxOS4wMzU0IDguOTcwMTdDMTguODA3IDguMDczMDYgMTguMjg2NSA3LjI3NzUyIDE3LjU1NTggNi43MDkxNEMxNi44MjUxIDYuMTQwNzUgMTUuOTI1OSA1LjgzMTg4IDE1LjAwMDIgNS44MzEyNkgxMy45NTAyQzEzLjY5OCA0Ljg1NTYzIDEzLjIyNzggMy45NDk4OCAxMi41NzUyIDMuMTgyMDlDMTEuOTIyNSAyLjQxNDMxIDExLjEwNDIgMS44MDQ0NyAxMC4xODIgMS4zOTg0NEM5LjI1OTY3IDAuOTkyNDAyIDguMjU3MzQgMC44MDA3MzEgNy4yNTAzMSAwLjgzNzgzNEM2LjI0MzI4IDAuODc0OTM3IDUuMjU3NzcgMS4xMzk4NSA0LjM2Nzg2IDEuNjEyNjVDMy40Nzc5NSAyLjA4NTQ2IDIuNzA2OCAyLjc1Mzg1IDIuMTEyNCAzLjU2NzU4QzEuNTE3OTkgNC4zODEzMiAxLjExNTc5IDUuMzE5MjEgMC45MzYwMjggNi4zMTA3NkMwLjc1NjI2OSA3LjMwMjMxIDAuODAzNjMyIDguMzIxNzEgMS4wNzQ1NiA5LjI5MjMxQzEuMzQ1NDggMTAuMjYyOSAxLjgzMjkxIDExLjE1OTUgMi41MDAyMSAxMS45MTQ2IiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIxLjY2NjY3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==");
 
 /***/ }),
 
@@ -1119,13 +1120,13 @@ const SideBar = ({
           link: "events",
           icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Events
         }, {
-          title: "Branding",
-          link: "branding",
-          icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Widgets
-        }, {
           title: "Bookings",
           link: "bookings",
           icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Sales
+        }, {
+          title: "Branding",
+          link: "branding",
+          icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Widgets
         }, {
           title: "Filters",
           link: "filters",
@@ -1674,9 +1675,11 @@ const useServvStore = (0,zustand__WEBPACK_IMPORTED_MODULE_3__.create)((0,zustand
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getCalendarAccount: () => (/* binding */ getCalendarAccount),
+/* harmony export */   getCalendarConnectURL: () => (/* binding */ getCalendarConnectURL),
 /* harmony export */   getGmailAccount: () => (/* binding */ getGmailAccount),
 /* harmony export */   getStripeAccount: () => (/* binding */ getStripeAccount),
-/* harmony export */   getZoomAccount: () => (/* binding */ getZoomAccount)
+/* harmony export */   getZoomAccount: () => (/* binding */ getZoomAccount),
+/* harmony export */   getZoomConnectURL: () => (/* binding */ getZoomConnectURL)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 
@@ -1716,6 +1719,30 @@ const getGmailAccount = async () => {
 };
 const getCalendarAccount = async () => {
   return wpGet("calendar/account");
+};
+const getCalendarConnectURL = async () => {
+  const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])("/wp-json/servv-plugin/v1/calendar/url", {
+    method: "GET",
+    headers: {
+      "X-WP-Nonce": servvData.nonce
+    },
+    redirect: "manual"
+  });
+  if (getAuthURLResponse && getAuthURLResponse.status === 200) {
+    open(`${servvData.shopify_app}/calendar/connect?wordpress_url=${encodeURIComponent(getAuthURLResponse.data.auth_url)}&wordpress_return_url=${encodeURIComponent(window.location.origin)}&servv_nonce=${getAuthURLResponse.data.nonce}`, "_top");
+  }
+};
+const getZoomConnectURL = async () => {
+  const getAuthURLResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])("/wp-json/servv-plugin/v1/zoom/url", {
+    method: "GET",
+    headers: {
+      "X-WP-Nonce": servvData.nonce
+    },
+    redirect: "manual"
+  });
+  if (getAuthURLResponse && getAuthURLResponse.status === 200) {
+    open(`${servvData.shopify_app}/zoom/connect?wordpress_url=${encodeURIComponent(getAuthURLResponse.data.auth_url)}&wordpress_return_url=${encodeURIComponent(window.location.origin)}&servv_nonce=${getAuthURLResponse.data.nonce}`, "_top");
+  }
 };
 
 /***/ }),
@@ -1882,6 +1909,4067 @@ function translateAll(root = document.body) {
     if (key) el.textContent = t(key);
   });
 }
+
+/***/ }),
+
+/***/ "./node_modules/logrocket/dist/build.umd.js":
+/*!**************************************************!*\
+  !*** ./node_modules/logrocket/dist/build.umd.js ***!
+  \**************************************************/
+/***/ (function(module) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else { var i, a; }
+})(this, function() {
+return /******/ (function() { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./packages/@logrocket/console/src/index.js":
+/*!**************************************************!*\
+  !*** ./packages/@logrocket/console/src/index.js ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_718__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_718__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+var _registerConsole = _interopRequireDefault(__nested_webpack_require_718__(/*! ./registerConsole */ "./packages/@logrocket/console/src/registerConsole.js"));
+var _default = exports["default"] = _registerConsole.default;
+
+/***/ }),
+
+/***/ "./packages/@logrocket/console/src/registerConsole.js":
+/*!************************************************************!*\
+  !*** ./packages/@logrocket/console/src/registerConsole.js ***!
+  \************************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_1595__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_1595__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = registerConsole;
+var _enhanceFunc = _interopRequireDefault(__nested_webpack_require_1595__(/*! @logrocket/utils/src/enhanceFunc */ "./packages/@logrocket/utils/src/enhanceFunc.ts"));
+var _exceptions = __nested_webpack_require_1595__(/*! @logrocket/exceptions */ "./packages/@logrocket/exceptions/src/index.js");
+function registerConsole(logger) {
+  const unsubFunctions = [];
+  const methods = ['log', 'warn', 'info', 'error', 'debug'];
+  methods.forEach(method => {
+    unsubFunctions.push((0, _enhanceFunc.default)(console, method, function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      logger.addEvent('lr.core.LogEvent', function () {
+        let consoleOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        const isEnabled = consoleOptions.isEnabled;
+        if (typeof isEnabled === 'object' && isEnabled[method] === false || isEnabled === false) {
+          return null;
+        }
+        if (method === 'error' && consoleOptions.shouldAggregateConsoleErrors) {
+          // some customers have loggers that add the log level as the first arg
+          if (!!args && args.length >= 2 && args[0] === 'ERROR') {
+            let secondArg = '';
+            try {
+              secondArg = " ".concat(args[1]);
+            } catch (_unused) {} // eslint-disable-line no-empty
+            _exceptions.Capture.captureMessage(logger, "".concat(args[0]).concat(secondArg), args, {}, true);
+          } else {
+            _exceptions.Capture.captureMessage(logger, args[0], args, {}, true);
+          }
+        }
+        return {
+          logLevel: method.toUpperCase(),
+          args
+        };
+      });
+    }));
+  });
+  return () => {
+    unsubFunctions.forEach(unsubFunction => unsubFunction());
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/exceptions/src/Capture.js":
+/*!*******************************************************!*\
+  !*** ./packages/@logrocket/exceptions/src/Capture.js ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_4060__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_4060__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.captureException = captureException;
+exports.captureMessage = captureMessage;
+var _scrubException = __nested_webpack_require_4060__(/*! @logrocket/utils/src/scrubException */ "./packages/@logrocket/utils/src/scrubException.ts");
+var _TraceKit = _interopRequireDefault(__nested_webpack_require_4060__(/*! @logrocket/utils/src/TraceKit */ "./packages/@logrocket/utils/src/TraceKit.js"));
+var _stackTraceFromError = _interopRequireDefault(__nested_webpack_require_4060__(/*! ./stackTraceFromError */ "./packages/@logrocket/exceptions/src/stackTraceFromError.js"));
+function captureMessage(logger, message, messageArgs) {
+  let options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+  let isConsole = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+  const data = {
+    exceptionType: isConsole ? 'CONSOLE' : 'MESSAGE',
+    message,
+    messageArgs,
+    browserHref: window.location ? window.location.href : ''
+  };
+  (0, _scrubException.scrubException)(data, options);
+  logger.addEvent('lr.core.Exception', () => data);
+}
+function captureException(logger, exception) {
+  let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  let preppedTrace = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+  let exceptionType = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'WINDOW';
+  const trace = preppedTrace || _TraceKit.default.computeStackTrace(exception);
+  const data = {
+    exceptionType,
+    errorType: trace.name,
+    message: trace.message,
+    browserHref: window.location ? window.location.href : ''
+  };
+  (0, _scrubException.scrubException)(data, options);
+  const addEventOptions = {
+    _stackTrace: (0, _stackTraceFromError.default)(trace)
+  };
+  logger.addEvent('lr.core.Exception', () => data, addEventOptions);
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/exceptions/src/index.js":
+/*!*****************************************************!*\
+  !*** ./packages/@logrocket/exceptions/src/index.js ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_6498__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_6498__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Capture = void 0;
+Object.defineProperty(exports, "registerExceptions", ({
+  enumerable: true,
+  get: function () {
+    return _registerExceptions.default;
+  }
+}));
+var _registerExceptions = _interopRequireDefault(__nested_webpack_require_6498__(/*! ./registerExceptions */ "./packages/@logrocket/exceptions/src/registerExceptions.js"));
+var Capture = _interopRequireWildcard(__nested_webpack_require_6498__(/*! ./Capture */ "./packages/@logrocket/exceptions/src/Capture.js"));
+exports.Capture = Capture;
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+/***/ }),
+
+/***/ "./packages/@logrocket/exceptions/src/raven/FunctionPropertyMirror.js":
+/*!****************************************************************************!*\
+  !*** ./packages/@logrocket/exceptions/src/raven/FunctionPropertyMirror.js ***!
+  \****************************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+const DEFAULT_RESERVED_PROPS = new Set(['prototype', 'length', 'name', 'arguments', 'caller', '__lr__', '__lr_wrapper__', '__inner__', '__refreshMirroredProps__']);
+function isSymbol(prop) {
+  return typeof prop === 'symbol';
+}
+class FunctionPropertyMirror {
+  constructor(source, target) {
+    let {
+      hasKey,
+      reservedProps = DEFAULT_RESERVED_PROPS,
+      includeSymbols = true
+    } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    this.source = source;
+    this.target = target;
+    this.hasKey = hasKey || (() => false);
+    this.reservedProps = reservedProps;
+    this.includeSymbols = includeSymbols;
+    this.mirroredProps = Object.create(null);
+    this.descriptorCache = Object.create(null);
+  }
+  isReserved(prop) {
+    if (prop === null || prop === undefined) {
+      return true;
+    }
+    if (isSymbol(prop)) {
+      return !this.includeSymbols;
+    }
+    return this.reservedProps.has(prop);
+  }
+  remember(prop) {
+    this.mirroredProps[prop] = true;
+  }
+  forget(prop) {
+    delete this.mirroredProps[prop];
+    if (Object.prototype.hasOwnProperty.call(this.descriptorCache, prop)) {
+      delete this.descriptorCache[prop];
+    }
+  }
+  hasMirrored(prop) {
+    return Object.prototype.hasOwnProperty.call(this.mirroredProps, prop);
+  }
+  getDescriptor(prop) {
+    if (Object.prototype.hasOwnProperty.call(this.descriptorCache, prop)) {
+      return this.descriptorCache[prop] || undefined;
+    }
+    let descriptor;
+    try {
+      descriptor = Object.getOwnPropertyDescriptor(this.source, prop);
+    } catch (err) {
+      descriptor = undefined;
+    }
+    this.descriptorCache[prop] = descriptor || null;
+    return descriptor;
+  }
+  defineMirroredDescriptor(prop, descriptor) {
+    const configurable = Object.prototype.hasOwnProperty.call(descriptor, 'configurable') ? descriptor.configurable : true;
+    const enumerable = Object.prototype.hasOwnProperty.call(descriptor, 'enumerable') ? descriptor.enumerable : true;
+    if (descriptor.get || descriptor.set) {
+      Object.defineProperty(this.target, prop, {
+        configurable,
+        enumerable,
+        get: descriptor.get ? () => descriptor.get.call(this.source) : undefined,
+        set: descriptor.set ? value => descriptor.set.call(this.source, value) : undefined
+      });
+      return;
+    }
+    const writable = Object.prototype.hasOwnProperty.call(descriptor, 'writable') ? descriptor.writable : true;
+    Object.defineProperty(this.target, prop, {
+      configurable,
+      enumerable,
+      get: () => this.source[prop],
+      set: writable === false ? undefined : value => {
+        this.source[prop] = value;
+      }
+    });
+  }
+  mirrorProperty(prop) {
+    if (this.isReserved(prop) || this.hasMirrored(prop)) {
+      return false;
+    }
+    if (!this.hasKey(this.source, prop)) {
+      return false;
+    }
+    const descriptor = this.getDescriptor(prop);
+    if (!descriptor) {
+      return false;
+    }
+    try {
+      this.defineMirroredDescriptor(prop, descriptor);
+      this.remember(prop);
+      return true;
+    } catch (err) {
+      try {
+        this.target[prop] = this.source[prop];
+        this.remember(prop);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+  }
+  mirrorProperties(props) {
+    if (!props) {
+      return;
+    }
+    const list = Array.isArray(props) ? props : [props];
+    for (let i = 0; i < list.length; i += 1) {
+      this.mirrorProperty(list[i]);
+    }
+  }
+  syncAll() {
+    try {
+      this.mirrorProperties(Object.getOwnPropertyNames(this.source));
+      if (this.includeSymbols && typeof Object.getOwnPropertySymbols === 'function') {
+        this.mirrorProperties(Object.getOwnPropertySymbols(this.source));
+      }
+    } catch (err) {
+      // Accessing some meta properties (e.g., 'caller') can throw in strict mode environments.
+    }
+  }
+  syncProperty(prop) {
+    if (this.isReserved(prop)) {
+      return;
+    }
+    this.forget(prop);
+    this.mirrorProperty(prop);
+  }
+  attachManualRefreshHook() {
+    if (this.isReserved('__refreshMirroredProps__')) {
+      Object.defineProperty(this.target, '__refreshMirroredProps__', {
+        configurable: true,
+        enumerable: false,
+        writable: false,
+        value: () => {
+          this.syncAll();
+          return this.target;
+        }
+      });
+    }
+  }
+}
+exports["default"] = FunctionPropertyMirror;
+
+/***/ }),
+
+/***/ "./packages/@logrocket/exceptions/src/raven/raven.js":
+/*!***********************************************************!*\
+  !*** ./packages/@logrocket/exceptions/src/raven/raven.js ***!
+  \***********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_13602__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_13602__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+var _TraceKit = _interopRequireDefault(__nested_webpack_require_13602__(/*! @logrocket/utils/src/TraceKit */ "./packages/@logrocket/utils/src/TraceKit.js"));
+var _FunctionPropertyMirror = _interopRequireDefault(__nested_webpack_require_13602__(/*! ./FunctionPropertyMirror */ "./packages/@logrocket/exceptions/src/raven/FunctionPropertyMirror.js"));
+/* eslint-disable */
+
+/*
+Some contents of this file were originaly from raven-js, BSD-2 Clause
+
+Copyright (c) 2018 Sentry (https://sentry.io) and individual contributors.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+var objectPrototype = Object.prototype;
+function isUndefined(what) {
+  return what === void 0;
+}
+function isFunction(what) {
+  return typeof what === 'function';
+}
+function each(obj, callback) {
+  var i, j;
+  if (isUndefined(obj.length)) {
+    for (i in obj) {
+      if (hasKey(obj, i)) {
+        callback.call(null, i, obj[i]);
+      }
+    }
+  } else {
+    j = obj.length;
+    if (j) {
+      for (i = 0; i < j; i++) {
+        callback.call(null, i, obj[i]);
+      }
+    }
+  }
+}
+
+/**
+ * hasKey, a better form of hasOwnProperty
+ * Example: hasKey(MainHostObject, property) === true/false
+ *
+ * @param {Object} host object to check property
+ * @param {string} key to check
+ */
+function hasKey(object, key) {
+  return objectPrototype.hasOwnProperty.call(object, key);
+}
+
+/**
+ * Polyfill a method
+ * @param obj object e.g. `document`
+ * @param name method name present on object e.g. `addEventListener`
+ * @param replacement replacement function
+ * @param track {optional} record instrumentation to an array
+ */
+function fill(obj, name, replacement, track) {
+  var orig = obj[name];
+  obj[name] = replacement(orig);
+  if (track) {
+    track.push([obj, name, orig]);
+  }
+}
+var _window = typeof window !== 'undefined' ? window : typeof __nested_webpack_require_13602__.g !== 'undefined' ? __nested_webpack_require_13602__.g : typeof self !== 'undefined' ? self : {};
+var _document = _window.document;
+class Handler {
+  constructor(_ref) {
+    let {
+      captureException
+    } = _ref;
+    this._errorHandler = this._errorHandler.bind(this);
+    this._ignoreOnError = 0;
+    this._wrappedBuiltIns = [];
+    this.captureException = captureException;
+    _TraceKit.default.report.subscribe(this._errorHandler);
+    this._instrumentTryCatch();
+  }
+  uninstall() {
+    _TraceKit.default.report.unsubscribe(this._errorHandler);
+
+    // restore any wrapped builtins
+    var builtin;
+    while (this._wrappedBuiltIns.length) {
+      builtin = this._wrappedBuiltIns.shift();
+      var obj = builtin[0],
+        name = builtin[1],
+        orig = builtin[2];
+      obj[name] = orig;
+    }
+  }
+  _errorHandler(report) {
+    if (!this._ignoreOnError) {
+      this.captureException(report);
+    }
+  }
+  _ignoreNextOnError() {
+    this._ignoreOnError += 1;
+    setTimeout(() => {
+      // onerror should trigger before setTimeout
+      this._ignoreOnError -= 1;
+    });
+  }
+
+  /*
+   * Wrap code within a context so Handler can capture errors
+   * reliably across domains that is executed immediately.
+   *
+   * @param {object} options A specific set of options for this context [optional]
+   * @param {function} func The callback to be immediately executed within the context
+   * @param {array} args An array of arguments to be called with the callback [optional]
+   */
+  context(options, func, args) {
+    if (isFunction(options)) {
+      args = func || [];
+      func = options;
+      options = undefined;
+    }
+    return this.wrap(options, func).apply(this, args);
+  }
+
+  /*
+   * Wrap code within a context and returns back a new function to be executed
+   *
+   * @param {object} options A specific set of options for this context [optional]
+   * @param {function} func The function to be wrapped in a new context
+   * @param {function} func A function to call before the try/catch wrapper [optional, private]
+   * @return {function} The newly wrapped functions with a context
+   */
+  wrap(options, func, _before) {
+    var self = this;
+    // 1 argument has been passed, and it's not a function
+    // so just return it
+    if (isUndefined(func) && !isFunction(options)) {
+      return options;
+    }
+
+    // options is optional
+    if (isFunction(options)) {
+      func = options;
+      options = undefined;
+    }
+
+    // At this point, we've passed along 2 arguments, and the second one
+    // is not a function either, so we'll just return the second argument.
+    if (!isFunction(func)) {
+      return func;
+    }
+
+    // We don't wanna wrap it twice!
+    try {
+      if (func.__lr__) {
+        return func;
+      }
+
+      // If this has already been wrapped in the past, return that
+      if (func.__lr_wrapper__) {
+        return func.__lr_wrapper__;
+      }
+
+      // If func is not extensible, return the function as-is to prevent TypeErrors
+      // when trying to add new props & to assure immutable funcs aren't changed
+      if (!Object.isExtensible(func)) {
+        return func;
+      }
+    } catch (e) {
+      // Just accessing custom props in some Selenium environments
+      // can cause a "Permission denied" exception (see lr-js#495).
+      // Bail on wrapping and return the function as-is (defers to window.onerror).
+      return func;
+    }
+    function wrapped() {
+      var args = [],
+        i = arguments.length,
+        deep = !options || options && options.deep !== false;
+      if (_before && isFunction(_before)) {
+        _before.apply(this, arguments);
+      }
+
+      // Recursively wrap all of a function's arguments that are
+      // functions themselves.
+      while (i--) args[i] = deep ? self.wrap(options, arguments[i]) : arguments[i];
+      try {
+        // Attempt to invoke user-land function. This is part of the LogRocket SDK.
+        // If you're seeing this frame in a stack trace, it means that LogRocket caught
+        // an unhandled error thrown by your application code, reported it, then bubbled
+        // it up. This is expected behavior and is not a bug with LogRocket.
+        return func.apply(this, args);
+      } catch (e) {
+        self._ignoreNextOnError();
+        self.captureException(_TraceKit.default.computeStackTrace(e), options);
+        throw e;
+      }
+    }
+    var reflect = typeof Reflect === 'object' ? Reflect : undefined;
+    var propertyMirror = new _FunctionPropertyMirror.default(func, wrapped, {
+      hasKey: hasKey,
+      includeSymbols: true
+    });
+    propertyMirror.syncAll();
+    propertyMirror.attachManualRefreshHook();
+    wrapped.prototype = func.prototype;
+    try {
+      if (typeof Object.setPrototypeOf === 'function') {
+        Object.setPrototypeOf(wrapped, func);
+      } else if (!isUndefined(wrapped.__proto__)) {
+        wrapped.__proto__ = func;
+      }
+    } catch (prototypeError) {
+      // Ignore failures from prototype adjustments (e.g., non-extensible functions).
+    }
+    var returnWrapper = wrapped;
+    if (typeof Proxy === 'function') {
+      var proxy = new Proxy(wrapped, {
+        apply(target, thisArg, argArray) {
+          propertyMirror.syncAll();
+          return target.apply(thisArg, argArray);
+        },
+        construct(target, argArray, newTarget) {
+          propertyMirror.syncAll();
+          if (reflect && reflect.construct) {
+            return reflect.construct(target, argArray, newTarget);
+          }
+          var BoundTarget = Function.bind.apply(target, [null].concat(argArray || []));
+          return new BoundTarget();
+        },
+        get(target, prop, receiver) {
+          if (prop === '__inner__') {
+            return func;
+          }
+          propertyMirror.mirrorProperty(prop);
+          if (reflect && reflect.get) {
+            return reflect.get(target, prop, receiver);
+          }
+          return target[prop];
+        },
+        set(target, prop, value, receiver) {
+          if (prop === '__lr__' || prop === '__lr_wrapper__' || prop === '__inner__') {
+            if (reflect && reflect.set) {
+              return reflect.set(target, prop, value, receiver);
+            }
+            target[prop] = value;
+            return true;
+          }
+          propertyMirror.mirrorProperty(prop);
+          var result;
+          if (reflect && reflect.set) {
+            result = reflect.set(target, prop, value, receiver);
+          } else {
+            target[prop] = value;
+            result = true;
+          }
+          try {
+            func[prop] = value;
+            propertyMirror.syncProperty(prop);
+          } catch (err) {
+            // ignore failures syncing to the inner function
+          }
+          return result;
+        },
+        has(target, prop) {
+          propertyMirror.mirrorProperty(prop);
+          if (reflect && reflect.has) {
+            if (reflect.has(target, prop)) {
+              return true;
+            }
+          } else if (prop in target) {
+            return true;
+          }
+          return prop in func;
+        },
+        ownKeys(target) {
+          propertyMirror.syncAll();
+          if (reflect && reflect.ownKeys) {
+            return reflect.ownKeys(target);
+          }
+          return Object.getOwnPropertyNames(target);
+        },
+        getOwnPropertyDescriptor(target, prop) {
+          propertyMirror.mirrorProperty(prop);
+          if (reflect && reflect.getOwnPropertyDescriptor) {
+            return reflect.getOwnPropertyDescriptor(target, prop);
+          }
+          return Object.getOwnPropertyDescriptor(target, prop);
+        },
+        defineProperty(target, prop, descriptor) {
+          var defineResult;
+          if (reflect && reflect.defineProperty) {
+            defineResult = reflect.defineProperty(target, prop, descriptor);
+          } else {
+            Object.defineProperty(target, prop, descriptor);
+            defineResult = true;
+          }
+          if (prop === '__lr__' || prop === '__lr_wrapper__' || prop === '__inner__') {
+            return defineResult;
+          }
+          try {
+            Object.defineProperty(func, prop, descriptor);
+          } catch (err) {
+            // ignore sync failure on inner function
+          }
+          propertyMirror.syncProperty(prop);
+          return defineResult;
+        },
+        deleteProperty(target, prop) {
+          if (prop === '__lr__' || prop === '__lr_wrapper__' || prop === '__inner__') {
+            if (reflect && reflect.deleteProperty) {
+              return reflect.deleteProperty(target, prop);
+            }
+            return delete target[prop];
+          }
+          propertyMirror.forget(prop);
+          try {
+            delete func[prop];
+          } catch (err) {
+            // ignore failures removing from inner function
+          }
+          if (reflect && reflect.deleteProperty) {
+            return reflect.deleteProperty(target, prop);
+          }
+          return delete target[prop];
+        }
+      });
+      returnWrapper = proxy;
+    }
+    func.__lr_wrapper__ = returnWrapper;
+    // Signal that this function has been wrapped already
+    // for both debugging and to prevent it to being wrapped twice
+    wrapped.__lr__ = true;
+    wrapped.__inner__ = func;
+    if (returnWrapper !== wrapped) {
+      returnWrapper.__lr__ = true;
+      returnWrapper.__inner__ = func;
+    }
+    return returnWrapper;
+  }
+
+  /**
+   * Install any queued plugins
+   */
+  _instrumentTryCatch() {
+    var self = this;
+    var wrappedBuiltIns = self._wrappedBuiltIns;
+    function wrapTimeFn(orig) {
+      return function (fn, t) {
+        // preserve arity
+        // Make a copy of the arguments to prevent deoptimization
+        // https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#32-leaking-arguments
+        var args = new Array(arguments.length);
+        for (var i = 0; i < args.length; ++i) {
+          args[i] = arguments[i];
+        }
+        var originalCallback = args[0];
+        if (isFunction(originalCallback)) {
+          args[0] = self.wrap(originalCallback);
+        }
+
+        // IE < 9 doesn't support .call/.apply on setInterval/setTimeout, but it
+        // also supports only two arguments and doesn't care what this is, so we
+        // can just call the original function directly.
+        if (orig.apply) {
+          return orig.apply(this, args);
+        } else {
+          return orig(args[0], args[1]);
+        }
+      };
+    }
+    function wrapEventTarget(global) {
+      var proto = _window[global] && _window[global].prototype;
+      if (proto && proto.hasOwnProperty && proto.hasOwnProperty('addEventListener')) {
+        fill(proto, 'addEventListener', function (orig) {
+          return function (evtName, fn, capture, secure) {
+            // preserve arity
+            try {
+              if (fn && fn.handleEvent) {
+                fn.handleEvent = self.wrap(fn.handleEvent);
+              }
+            } catch (err) {
+              // can sometimes get 'Permission denied to access property "handle Event'
+            }
+
+            // More breadcrumb DOM capture ... done here and not in `_instrumentBreadcrumbs`
+            // so that we don't have more than one wrapper function
+            var before;
+            return orig.call(this, evtName, self.wrap(fn, undefined, before), capture, secure);
+          };
+        }, wrappedBuiltIns);
+        fill(proto, 'removeEventListener', function (orig) {
+          return function (evt, fn, capture, secure) {
+            /**
+             * There are 3 scenararios to consider when removing an event listener
+             *
+             * 1. 'addEventListener' was called when the LR SDK was uninitialized.
+             * In this case, the event handler has not been wrapped, so this behaves
+             * as a passthrough and just removes the original handler.
+             *
+             * 2. 'addEventListener' was called while the LR SDK was initialized, which means
+             * our wrapped 'addEventListener' was called. In this case, the tracked event handler
+             * is also wrapped, so we need to remove that wrapped version of the handler.
+             *
+             * 3. 'addEventListener' was called both before and after the LR SDK was initialized
+             * for the same event handler. In this case, we have to remove both of them.
+             * If we'd remove only the wrapped one, the initial handler would stick around forever.
+             */
+            try {
+              const wrappedFn = fn === null || fn === void 0 ? void 0 : fn.__lr_wrapper__;
+              if (wrappedFn) {
+                orig.call(this, evt, wrappedFn, capture, secure);
+              }
+            } catch (e) {
+              // ignore, accessing __lr_wrapper__ will throw in some Selenium environments
+            }
+            return orig.call(this, evt, fn, capture, secure);
+          };
+        },
+        // undefined is provided here to skip tracking for uninstall.
+        // Once our removeEventListener is installed, it can't be uninstalled.
+        // We always need to support removing logrocket wrapped event handlers (event
+        // handlers added when logrocket was installed) even after SDK shutdown.
+        undefined);
+      }
+    }
+    fill(_window, 'setTimeout', wrapTimeFn, wrappedBuiltIns);
+    fill(_window, 'setInterval', wrapTimeFn, wrappedBuiltIns);
+    if (_window.requestAnimationFrame) {
+      fill(_window, 'requestAnimationFrame', function (orig) {
+        return function (cb) {
+          return orig(self.wrap(cb));
+        };
+      }, wrappedBuiltIns);
+    }
+
+    // event targets borrowed from bugsnag-js:
+    // https://github.com/bugsnag/bugsnag-js/blob/master/src/bugsnag.js#L666
+    var eventTargets = ['EventTarget', 'Window', 'Node', 'ApplicationCache', 'AudioTrackList', 'ChannelMergerNode', 'CryptoOperation', 'EventSource', 'FileReader', 'HTMLUnknownElement', 'IDBDatabase', 'IDBRequest', 'IDBTransaction', 'KeyOperation', 'MediaController', 'MessagePort', 'ModalWindow', 'Notification', 'SVGElementInstance', 'Screen', 'TextTrack', 'TextTrackCue', 'TextTrackList', 'WebSocket', 'WebSocketWorker', 'Worker', 'XMLHttpRequest', 'XMLHttpRequestEventTarget', 'XMLHttpRequestUpload'];
+    for (var i = 0; i < eventTargets.length; i++) {
+      wrapEventTarget(eventTargets[i]);
+    }
+    var $ = _window.jQuery || _window.$;
+    if ($ && $.fn && $.fn.ready) {
+      fill($.fn, 'ready', function (orig) {
+        return function (fn) {
+          return orig.call(this, self.wrap(fn));
+        };
+      }, wrappedBuiltIns);
+    }
+  }
+}
+exports["default"] = Handler;
+
+/***/ }),
+
+/***/ "./packages/@logrocket/exceptions/src/registerExceptions.js":
+/*!******************************************************************!*\
+  !*** ./packages/@logrocket/exceptions/src/registerExceptions.js ***!
+  \******************************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_31855__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_31855__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = registerCore;
+var _raven = _interopRequireDefault(__nested_webpack_require_31855__(/*! ./raven/raven */ "./packages/@logrocket/exceptions/src/raven/raven.js"));
+var Capture = _interopRequireWildcard(__nested_webpack_require_31855__(/*! ./Capture */ "./packages/@logrocket/exceptions/src/Capture.js"));
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function registerCore(logger) {
+  const raven = new _raven.default({
+    captureException(errorReport) {
+      Capture.captureException(logger, null, null, errorReport);
+    }
+  });
+  const rejectionHandler = evt => {
+    // http://2ality.com/2016/04/unhandled-rejections.html
+    if (evt.reason instanceof Error) {
+      Capture.captureException(logger, evt.reason, null, null, 'UNHANDLED_REJECTION');
+    } else {
+      logger.addEvent('lr.core.Exception', () => ({
+        exceptionType: 'UNHANDLED_REJECTION',
+        message: evt.reason || 'Unhandled Promise rejection'
+      }));
+    }
+  };
+  window.addEventListener('unhandledrejection', rejectionHandler);
+  return () => {
+    window.removeEventListener('unhandledrejection', rejectionHandler);
+    raven.uninstall();
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/exceptions/src/stackTraceFromError.js":
+/*!*******************************************************************!*\
+  !*** ./packages/@logrocket/exceptions/src/stackTraceFromError.js ***!
+  \*******************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = stackTraceFromError;
+function stackTraceFromError(errorReport) {
+  function makeNotNull(val) {
+    return val === null ? undefined : val;
+  }
+  return errorReport.stack ? errorReport.stack.map(frame => ({
+    lineNumber: makeNotNull(frame.line),
+    columnNumber: makeNotNull(frame.column),
+    fileName: makeNotNull(frame.url),
+    functionName: makeNotNull(frame.func)
+  })) : undefined;
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/network/src/fetchIntercept.js":
+/*!***********************************************************!*\
+  !*** ./packages/@logrocket/network/src/fetchIntercept.js ***!
+  \***********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_35533__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+var _registerXHR = __nested_webpack_require_35533__(/*! ./registerXHR */ "./packages/@logrocket/network/src/registerXHR.js");
+/* eslint-disable @typescript-eslint/no-shadow */
+
+let interceptors = [];
+function makeInterceptor(fetch, fetchId) {
+  const reversedInterceptors = interceptors.reduce((array, interceptor) => [interceptor].concat(array), []);
+  // if a browser supports fetch, it supports promise
+  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+    args[_key - 2] = arguments[_key];
+  }
+  let promise = Promise.resolve(args);
+
+  // Register request interceptors
+  reversedInterceptors.forEach(_ref => {
+    let {
+      request,
+      requestError
+    } = _ref;
+    if (request || requestError) {
+      promise = promise.then(args => request(fetchId, ...args), args => requestError(fetchId, ...args));
+    }
+  });
+  promise = promise.then(args => {
+    (0, _registerXHR.setActive)(false);
+    let res;
+    let err;
+    try {
+      res = fetch(...args);
+    } catch (_err) {
+      err = _err;
+    }
+    (0, _registerXHR.setActive)(true);
+    if (err) {
+      throw err;
+    }
+    return res;
+  });
+  reversedInterceptors.forEach(_ref2 => {
+    let {
+      response,
+      responseError
+    } = _ref2;
+    if (response || responseError) {
+      promise = promise.then(res => response(fetchId, res), err => responseError && responseError(fetchId, err));
+    }
+  });
+  return promise;
+}
+function attach(env) {
+  if (!env.fetch || !env.Promise) {
+    // Make sure fetch is available in the given environment. If it's not, then
+    // default to using XHR intercept.
+    return;
+  }
+  const isPolyfill = env.fetch.polyfill;
+  env.fetch = (fetch => {
+    let fetchId = 0;
+    return function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+      return makeInterceptor(fetch, fetchId++, ...args);
+    };
+  })(env.fetch);
+
+  // Forward the polyfill properly from fetch (set by github/whatwg-fetch).
+  if (isPolyfill) {
+    env.fetch.polyfill = isPolyfill;
+  }
+}
+
+// TODO: React Native
+//   attach(global);
+
+let didAttach = false;
+var _default = exports["default"] = {
+  register(interceptor) {
+    if (!didAttach) {
+      didAttach = true;
+      attach(window);
+    }
+    interceptors.push(interceptor);
+    return () => {
+      const index = interceptors.indexOf(interceptor);
+      if (index >= 0) {
+        interceptors.splice(index, 1);
+      }
+    };
+  },
+  clear() {
+    interceptors = [];
+  }
+};
+
+/***/ }),
+
+/***/ "./packages/@logrocket/network/src/index.js":
+/*!**************************************************!*\
+  !*** ./packages/@logrocket/network/src/index.js ***!
+  \**************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_38512__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_38512__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = registerNetwork;
+var _defineProperty2 = _interopRequireDefault(__nested_webpack_require_38512__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _registerFetch = _interopRequireDefault(__nested_webpack_require_38512__(/*! ./registerFetch */ "./packages/@logrocket/network/src/registerFetch.js"));
+var _registerIonic = __nested_webpack_require_38512__(/*! ./registerIonic */ "./packages/@logrocket/network/src/registerIonic.ts");
+var _registerNetworkInformation = _interopRequireDefault(__nested_webpack_require_38512__(/*! ./registerNetworkInformation */ "./packages/@logrocket/network/src/registerNetworkInformation.js"));
+var _registerXHR = _interopRequireDefault(__nested_webpack_require_38512__(/*! ./registerXHR */ "./packages/@logrocket/network/src/registerXHR.js"));
+var _mapValues = _interopRequireDefault(__nested_webpack_require_38512__(/*! @logrocket/utils/src/mapValues */ "./packages/@logrocket/utils/src/mapValues.ts"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function registerNetwork(logger) {
+  let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+    isReactNative: false,
+    isDisabled: false
+  };
+  if ((config === null || config === void 0 ? void 0 : config.isDisabled) === true) {
+    return () => {};
+  }
+  const {
+    isReactNative,
+    shouldAugmentNPS,
+    shouldParseXHRBlob
+  } = config;
+  const ignoredNetwork = {};
+
+  // truncate if > 4MB in size
+  const truncate = data => {
+    const limit = 1024 * 1000 * 4;
+    let str = data;
+    if (typeof data === 'object' && data != null) {
+      const proto = Object.getPrototypeOf(data);
+      if (proto === Object.prototype || proto === null) {
+        // plain object - jsonify for the size check
+        str = JSON.stringify(data);
+      }
+    }
+    if (str && str.length && str.length > limit && typeof str === 'string') {
+      const beginning = str.substring(0, 1000);
+      return "".concat(beginning, " ... LogRocket truncating to first 1000 characters.\n      Keep data under 4MB to prevent truncation. https://docs.logrocket.com/reference/network");
+    }
+    return data;
+  };
+  const addRequest = (reqId, request) => {
+    const method = request.method;
+    logger.addEvent('lr.network.RequestEvent', function () {
+      let {
+        isEnabled = true,
+        requestSanitizer = f => f
+      } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      if (!isEnabled) {
+        return null;
+      }
+      let sanitized = null;
+      try {
+        // only try catch user defined functions
+        sanitized = requestSanitizer(_objectSpread(_objectSpread({}, request), {}, {
+          reqId
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+      if (sanitized) {
+        let url = sanitized.url;
+        if (typeof document !== 'undefined' && typeof document.createElement === 'function') {
+          // Writing and then reading from an a tag turns a relative
+          // url into an absolute one.
+          const a = document.createElement('a');
+          a.href = sanitized.url;
+          url = a.href;
+        }
+        return {
+          reqId,
+          // default
+          url,
+          // sanitized
+          headers: (0, _mapValues.default)(sanitized.headers, headerValue => {
+            // sanitized
+            return "".concat(headerValue);
+          }),
+          body: truncate(sanitized.body),
+          // sanitized
+          method,
+          // default
+          referrer: sanitized.referrer || undefined,
+          // sanitized
+          mode: sanitized.mode || undefined,
+          // sanitized
+          credentials: sanitized.credentials || undefined,
+          // sanitized
+          initiatorType: sanitized.initiatorType || 'UNKNOWN'
+        };
+      }
+      ignoredNetwork[reqId] = true;
+      return null;
+    });
+  };
+  const addResponse = (reqId, response) => {
+    const {
+      method,
+      status,
+      responseType
+    } = response;
+    logger.addEvent('lr.network.ResponseEvent', function () {
+      let {
+        isEnabled = true,
+        responseSanitizer = f => f
+      } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      if (!isEnabled) {
+        return null;
+      } else if (ignoredNetwork[reqId]) {
+        delete ignoredNetwork[reqId];
+        return null;
+      }
+      let sanitized = null;
+      try {
+        // only try catch user defined functions
+        sanitized = responseSanitizer(_objectSpread(_objectSpread({}, response), {}, {
+          reqId
+        }));
+      } catch (err) {
+        console.error(err);
+        // fall through to redacted log
+      }
+      if (sanitized) {
+        return {
+          reqId,
+          // default
+          responseType,
+          status: sanitized.status,
+          // sanitized
+          headers: (0, _mapValues.default)(sanitized.headers, headerValue => {
+            // sanitized
+            return "".concat(headerValue);
+          }),
+          body: truncate(sanitized.body),
+          // sanitized
+          method // default
+        };
+      }
+      return {
+        reqId,
+        // default
+        responseType,
+        status,
+        // default
+        headers: {},
+        // redacted
+        body: null,
+        // redacted
+        method // default
+      };
+    });
+  };
+  const isIgnored = reqId => logger.isDisabled || ignoredNetwork[reqId] === true;
+  const unsubFetch = (0, _registerFetch.default)({
+    addRequest,
+    addResponse,
+    isIgnored
+  });
+  const unsubXHR = (0, _registerXHR.default)({
+    addRequest,
+    addResponse,
+    isIgnored,
+    logger,
+    shouldAugmentNPS,
+    shouldParseXHRBlob
+  });
+  const unsubIonic = (0, _registerIonic.registerIonic)({
+    addRequest,
+    addResponse,
+    isIgnored
+  });
+  const unsubNetworkInformation = isReactNative ? () => {} : (0, _registerNetworkInformation.default)(logger);
+  return () => {
+    unsubNetworkInformation();
+    unsubFetch();
+    unsubXHR();
+    unsubIonic();
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/network/src/registerFetch.js":
+/*!**********************************************************!*\
+  !*** ./packages/@logrocket/network/src/registerFetch.js ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_45955__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_45955__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = registerFetch;
+var _defineProperty2 = _interopRequireDefault(__nested_webpack_require_45955__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _mapValues = _interopRequireDefault(__nested_webpack_require_45955__(/*! @logrocket/utils/src/mapValues */ "./packages/@logrocket/utils/src/mapValues.ts"));
+var _fetchIntercept = _interopRequireDefault(__nested_webpack_require_45955__(/*! ./fetchIntercept */ "./packages/@logrocket/network/src/fetchIntercept.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function makeObjectFromHeaders(headers) {
+  if (typeof headers === 'undefined') {
+    return {};
+  }
+
+  // If using real fetch, we must stringify the Headers object.
+  if (headers == null || typeof headers.forEach !== 'function') {
+    return headers;
+  }
+  const result = {};
+  headers.forEach((value, key) => {
+    if (result[key]) {
+      result[key] = "".concat(result[key], ",").concat(value);
+    } else {
+      result[key] = "".concat(value);
+    }
+  });
+  return result;
+}
+
+// XHR specification is unclear of what types to allow in value so using toString method for now
+const stringifyHeaders = headers => (0, _mapValues.default)(makeObjectFromHeaders(headers), value => {
+  return "".concat(value);
+});
+function pluckFetchFields() {
+  let arg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return {
+    url: arg.url,
+    headers: stringifyHeaders(arg.headers),
+    method: arg.method && arg.method.toUpperCase(),
+    referrer: arg.referrer || undefined,
+    mode: arg.mode || undefined,
+    credentials: arg.credentials || undefined
+  };
+}
+function contentTypeIsBinary(contentType) {
+  if (typeof contentType !== 'string') {
+    return false;
+  }
+  if (contentType.startsWith('image/') && contentType !== 'image/svg+xml') {
+    return true;
+  } else if (contentType.startsWith('video/')) {
+    return true;
+  } else if (contentType === 'application/octet-stream') {
+    return true;
+  }
+  return false;
+}
+function registerFetch(_ref) {
+  let {
+    addRequest,
+    addResponse,
+    isIgnored
+  } = _ref;
+  const LOGROCKET_FETCH_LABEL = 'fetch-';
+  const fetchMethodMap = {};
+  const unregister = _fetchIntercept.default.register({
+    request(fetchId) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      let p;
+      if (typeof Request !== 'undefined' && args[0] instanceof Request) {
+        let clonedText;
+
+        // Request.clone() and Request.text() may throw in Safari (e.g., when
+        // request body contains FormData)
+        try {
+          clonedText = args[0].clone().text();
+        } catch (err) {
+          // if a browser supports fetch, it supports promise
+
+          clonedText = Promise.resolve("LogRocket fetch error: ".concat(err.message));
+        }
+        p = clonedText.then(body => {
+          return _objectSpread(_objectSpread({}, pluckFetchFields(args[0])), {}, {
+            body
+          });
+        }, err => {
+          return _objectSpread(_objectSpread({}, pluckFetchFields(args[0])), {}, {
+            body: "LogRocket fetch error: ".concat(err.message)
+          });
+        });
+      } else {
+        // if a browser supports fetch, it supports promise
+
+        p = Promise.resolve(_objectSpread(_objectSpread({}, pluckFetchFields(args[1])), {}, {
+          url: "".concat(args[0]),
+          body: (args[1] || {}).body
+        }));
+      }
+      return p.then(req => {
+        fetchMethodMap[fetchId] = req.method;
+        req.initiatorType = 'FETCH';
+        addRequest("".concat(LOGROCKET_FETCH_LABEL).concat(fetchId), req);
+        return args;
+      });
+    },
+    requestError(fetchId, error) {
+      // if a browser supports fetch, it supports promise
+
+      return Promise.reject(error);
+    },
+    response(fetchId, response) {
+      var _response$headers, _response$headers2;
+      let responseClone;
+      let responseTextPromise;
+      if (isIgnored("".concat(LOGROCKET_FETCH_LABEL).concat(fetchId))) {
+        // Don't even try to read ignored requests
+        return response;
+      }
+
+      // event-streams are meant to remain open and be consumed over time by the sender. Attempting to capture the body
+      // of these requests will cause us to "stall" here, and prevents the users of our SDK from using event-streams
+      // unless they have explicitly ignored the request.
+      if (((_response$headers = response.headers) === null || _response$headers === void 0 ? void 0 : _response$headers.get('content-type')) === 'text/event-stream') {
+        responseTextPromise = Promise.resolve('LogRocket skipped consuming an event-stream body.');
+      } else if (contentTypeIsBinary((_response$headers2 = response.headers) === null || _response$headers2 === void 0 ? void 0 : _response$headers2.get('content-type'))) {
+        responseTextPromise = Promise.resolve('LogRocket skipped consuming a binary body.');
+      } else {
+        try {
+          // TODO: enhance function on original response and future clones for:
+          // text(), json(), blob(), formdata(), arraybuffer()
+          responseClone = response.clone();
+        } catch (err) {
+          var _response$type;
+          // safari has a bug where cloning can fail
+          const responseHash = {
+            url: response.url,
+            responseType: (_response$type = response.type) === null || _response$type === void 0 ? void 0 : _response$type.toUpperCase(),
+            status: response.status,
+            headers: stringifyHeaders(response.headers),
+            body: "LogRocket fetch error: ".concat(err.message),
+            method: fetchMethodMap[fetchId]
+          };
+          delete fetchMethodMap[fetchId];
+          addResponse("".concat(LOGROCKET_FETCH_LABEL).concat(fetchId), responseHash);
+          return response;
+        }
+        try {
+          if (window.TextDecoder && responseClone.body) {
+            // use a reader to manually read the response body rather than calling response.text()
+            // response.text() was timing out for some responses, in some cases because Apollo sends
+            //   an abort signal or because the stream wasn't getting terminated cleanly
+            // using a reader allows us to capture what we can from response bodies before the
+            //   response receives an abort signal
+            const reader = responseClone.body.getReader();
+            // response bodies always decode with UTF-8
+            // https://developer.mozilla.org/en-US/docs/Web/API/Response/text
+            const utf8Decoder = new window.TextDecoder('utf-8');
+            let bodyContents = '';
+            responseTextPromise = reader.read().then(function readResponseBody(_ref2) {
+              let {
+                done,
+                value
+              } = _ref2;
+              if (done) {
+                return bodyContents;
+              }
+              const chunk = value ? utf8Decoder.decode(value, {
+                stream: true
+              }) : '';
+              bodyContents += chunk;
+              return reader.read().then(readResponseBody);
+            });
+          } else {
+            // TextDecoder doesn't have support across all browsers that LR supports, so if there's
+            //  no TextDecoder, fall back to the old approach
+            responseTextPromise = responseClone.text();
+          }
+        } catch (error) {
+          responseTextPromise = Promise.resolve("LogRocket error reading body: ".concat(error.message));
+        }
+      }
+      responseTextPromise.catch(error => {
+        // don't drop request & log to console when the request is aborted,
+        // as it may have already completed
+        // https://github.com/LogRocket/logrocket/issues/34
+        if (error.name === 'AbortError' && error instanceof DOMException) {
+          return;
+        }
+        return "LogRocket error reading body: ".concat(error.message);
+      }).then(data => {
+        var _response$type2;
+        const responseHash = {
+          url: response.url,
+          responseType: (_response$type2 = response.type) === null || _response$type2 === void 0 ? void 0 : _response$type2.toUpperCase(),
+          status: response.status,
+          headers: stringifyHeaders(response.headers),
+          body: data,
+          method: fetchMethodMap[fetchId]
+        };
+        delete fetchMethodMap[fetchId];
+        addResponse("".concat(LOGROCKET_FETCH_LABEL).concat(fetchId), responseHash);
+      });
+      return response;
+    },
+    responseError(fetchId, error) {
+      const response = {
+        url: undefined,
+        status: 0,
+        headers: {},
+        body: "".concat(error)
+      };
+      addResponse("".concat(LOGROCKET_FETCH_LABEL).concat(fetchId), response);
+      // if a browser supports fetch, it supports promise
+
+      return Promise.reject(error);
+    }
+  });
+  return unregister;
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/network/src/registerIonic.ts":
+/*!**********************************************************!*\
+  !*** ./packages/@logrocket/network/src/registerIonic.ts ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_56365__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_56365__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.appendQueryParamsString = appendQueryParamsString;
+exports.mergeHeaders = mergeHeaders;
+exports.processData = processData;
+exports.registerIonic = registerIonic;
+exports.serializeQueryParams = serializeQueryParams;
+var _defineProperty2 = _interopRequireDefault(__nested_webpack_require_56365__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _protectFunc = _interopRequireDefault(__nested_webpack_require_56365__(/*! @logrocket/utils/src/protectFunc */ "./packages/@logrocket/utils/src/protectFunc.ts"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+const VALID_HTTP_METHODS = new Set(['get', 'put', 'post', 'patch', 'head', 'delete', 'options', 'upload', 'download']);
+const VALID_SERIALIZERS = new Set(['urlencoded', 'json', 'utf8']);
+const UNSUPPORTED_SERIALIZERS = new Set(['raw', 'multipart']);
+const LOGROCKET_IONIC_LABEL = 'ionic-';
+const UNSUPPORTED_PLATFORMS = new Set(['desktop', 'mobileweb', 'pwa']);
+const FORM_DATA = new Set(['FormData']);
+const EMPTY_SET = new Set();
+const STRING_SET = new Set(['string']);
+const STRING_ARRAY_SET = new Set(['string', 'array']);
+const ALLOWED_DATA_TYPES = {
+  utf8: STRING_SET,
+  urlencoded: new Set(['object']),
+  json: new Set(['array', 'object']),
+  raw: new Set(['Uint8Array', 'ArrayBuffer']),
+  default: EMPTY_SET
+};
+
+// Used in intercepting Ionic pugin requests found here https://www.npmjs.com/package/@ionic-native/http
+// based on https://github.com/silkimen/cordova-plugin-advanced-http/blob/master/www/public-interface.js
+
+// The @ionic-native/http plugin declares that the path to the plugin is `cordova.plugin.http`, but the Cordova type
+// (provided by @types/cordova in the sample app) does _not_ expose a `plugin` field. This is used to coerce and
+// correct the typing below.
+
+function checkForValidStringValue(list, value, fieldName) {
+  if (typeof value !== 'string') {
+    throw new Error("".concat(fieldName, " must be one of: ").concat([...list].join(', ')));
+  }
+  value = value.trim().toLowerCase();
+  if (!list.has(value)) {
+    throw new Error("".concat(fieldName, " must be one of: ").concat([...list].join(', ')));
+  }
+  return value;
+}
+function checkKeyValuePairObject(obj, allowedChildren, onInvalidValueMessage) {
+  if (typeof obj !== 'object') {
+    throw new Error(onInvalidValueMessage);
+  }
+  for (const key of Object.keys(obj)) {
+    if (!allowedChildren.has(typeof obj[key])) {
+      throw new Error(onInvalidValueMessage);
+    }
+  }
+  return obj;
+}
+function getMatchingHostHeaders(url, ionicHttp) {
+  const {
+    host
+  } = new URL(url);
+  return ionicHttp.getHeaders(host) || null;
+}
+function mergeHeaders(defaultHeaders, headers) {
+  return _objectSpread(_objectSpread({}, defaultHeaders), headers);
+}
+function getMergedHeaders(url, requestHeaders, ionicHttp) {
+  // get global headers via public method
+  const globalHeaders = ionicHttp.getHeaders('*') || {};
+  const hostHeaders = getMatchingHostHeaders(url, ionicHttp) || {};
+  return mergeHeaders(mergeHeaders(globalHeaders, hostHeaders), requestHeaders);
+}
+function serializeValue(value, encode) {
+  if (encode) {
+    return encodeURIComponent(value);
+  } else {
+    return value;
+  }
+}
+function serializeIdentifier(parentKey, key, encode) {
+  if (!parentKey.length) {
+    return encode ? encodeURIComponent(key) : key;
+  }
+  if (encode) {
+    return "".concat(encodeURIComponent(parentKey), "[").concat(encodeURIComponent(key), "]");
+  } else {
+    return "".concat(parentKey, "[").concat(key, "]");
+  }
+}
+function serializeArray(parentKey, array, encode) {
+  const parts = [];
+  for (const e of array) {
+    if (Array.isArray(e)) {
+      parts.push(serializeArray("".concat(parentKey, "[]"), e, encode));
+      continue;
+    } else if (typeof e === 'object') {
+      /* This replicates what appears to be a bug in the Ionic code in order to capture everything identically
+         parts.push(serializeObject(`${parentKey}[]${array[i]}`, encode));
+         https://github.com/silkimen/cordova-plugin-advanced-http/blob/master/www/url-util.js#L73
+      */
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      parts.push(serializeObject("".concat(parentKey, "[]").concat(e), encode, undefined));
+      continue;
+    }
+    parts.push("".concat(serializeIdentifier(parentKey, '', encode), "=").concat(serializeValue(e, encode)));
+  }
+  return parts.join('&');
+}
+function serializeObject(parentKey, object, encode) {
+  const parts = [];
+  for (const key in object) {
+    if (!object.hasOwnProperty(key)) {
+      continue;
+    }
+    const identifier = parentKey.length ? "".concat(parentKey, "[").concat(key, "]") : key;
+    if (Array.isArray(object[key])) {
+      parts.push(serializeArray(identifier, object[key], encode));
+      continue;
+    } else if (typeof object[key] === 'object' && object[key] !== null) {
+      parts.push(serializeObject(identifier, object[key], encode));
+      continue;
+    }
+    parts.push("".concat(serializeIdentifier(parentKey, key, encode), "=").concat(serializeValue(object[key], encode)));
+  }
+  return parts.join('&');
+}
+function serializeQueryParams(params, encode) {
+  return serializeObject('', params, encode);
+}
+function appendQueryParamsString(url, params) {
+  if (!url.length || !params.length) {
+    return url;
+  }
+  const {
+    host,
+    pathname,
+    search,
+    hash,
+    protocol
+  } = new URL(url);
+  return "".concat(protocol, "//").concat(host).concat(pathname).concat(search.length ? "".concat(search, "&").concat(params) : "?".concat(params)).concat(hash);
+}
+function getAllowedDataTypes(dataSerializer) {
+  return ALLOWED_DATA_TYPES[dataSerializer] || ALLOWED_DATA_TYPES.default;
+}
+function getAllowedInstanceTypes(dataSerializer) {
+  return dataSerializer === 'multipart' ? FORM_DATA : EMPTY_SET;
+}
+function processData(data, dataSerializer) {
+  const currentDataType = typeof data;
+  const allowedDataTypes = getAllowedDataTypes(dataSerializer);
+  const allowedInstanceTypes = getAllowedInstanceTypes(dataSerializer);
+  if (allowedInstanceTypes.size > 0) {
+    let isCorrectInstanceType = false;
+    allowedInstanceTypes.forEach(type => {
+      if (__nested_webpack_require_56365__.g[type] && data instanceof __nested_webpack_require_56365__.g[type]) {
+        isCorrectInstanceType = true;
+      }
+    });
+    if (!isCorrectInstanceType) {
+      throw new Error("INSTANCE_TYPE_MISMATCH_DATA ".concat([...allowedInstanceTypes].join(', ')));
+    }
+  }
+  if (allowedInstanceTypes.size === 0 && !allowedDataTypes.has(currentDataType)) {
+    throw new Error("TYPE_MISMATCH_DATA ".concat([...allowedDataTypes].join(', ')));
+  }
+  switch (dataSerializer) {
+    case 'utf8':
+      // already a string
+      return data;
+    default:
+      // object of some sort (urlencoded or json)
+      return JSON.stringify(data, undefined, 2);
+  }
+}
+function handleMissingOptions(options, ionicHttp) {
+  options = options || {};
+  let serializer;
+  let data = options.data;
+  try {
+    // need to check special case if data type is not handled by LR but otherwise valid
+    serializer = checkForValidStringValue(VALID_SERIALIZERS, options.serializer || ionicHttp.getDataSerializer(), 'serializer / data payload type');
+  } catch (_unused) {
+    // if this fails it's of entirely invalid type, let it fail
+    serializer = checkForValidStringValue(UNSUPPORTED_SERIALIZERS, options.serializer || ionicHttp.getDataSerializer(), 'serializer / data payload type');
+    // is of a valid but unsupported to LR type, set data to empty
+    data = {};
+  }
+  return {
+    data,
+    filePath: options.filePath,
+    followRedirect: options.followRedirect,
+    headers: checkKeyValuePairObject(options.headers || {}, STRING_SET, 'Invalid header type, must be string'),
+    method: checkForValidStringValue(VALID_HTTP_METHODS, options.method || VALID_HTTP_METHODS[0], 'method'),
+    name: options.name,
+    params: checkKeyValuePairObject(options.params || {}, STRING_ARRAY_SET, 'Invalid param, must be of type string or array'),
+    responseType: options.responseType,
+    serializer,
+    connectTimeout: options.connectTimeout,
+    readTimeout: options.readTimeout,
+    timeout: options.timeout
+  };
+}
+let ionicIdCounter = 0;
+function registerIonic(_ref) {
+  var _cordova, _cordova$plugin, _window$ionic;
+  let {
+    addRequest,
+    addResponse,
+    isIgnored
+  } = _ref;
+  const ionicHttp = (_cordova = window.cordova) === null || _cordova === void 0 ? void 0 : (_cordova$plugin = _cordova.plugin) === null || _cordova$plugin === void 0 ? void 0 : _cordova$plugin.http;
+  let ionicMap = {};
+  let unsubscribedFromIonic = false;
+  if (typeof ionicHttp === 'undefined') {
+    // Plugin does not exist! Empty uninstall hook.
+    return () => {};
+  }
+  const platforms = (_window$ionic = window.ionic) === null || _window$ionic === void 0 ? void 0 : _window$ionic.platforms;
+  if (typeof platforms !== 'undefined' && typeof platforms.some === 'function' && platforms.some(e => UNSUPPORTED_PLATFORMS.has(e))) {
+    // We appear to be running in a web browser, do not hook and let XHR wrap instead.
+    return () => {};
+  }
+  const originalSendRequest = ionicHttp.sendRequest;
+  const handleResponse = (0, _protectFunc.default)((response, isSuccess, ionicReqId) => {
+    if (!isIgnored("".concat(LOGROCKET_IONIC_LABEL).concat(ionicReqId))) {
+      try {
+        const responseHash = {
+          url: response.url || '',
+          status: response.status < 600 && response.status >= 100 ? response.status : 0,
+          headers: response.headers || {},
+          body: isSuccess ? response.data : response.error,
+          method: ionicMap[ionicReqId].toUpperCase()
+        };
+        addResponse("".concat(LOGROCKET_IONIC_LABEL).concat(ionicReqId), responseHash);
+      } catch (err) {
+        const responseHash = {
+          url: response.url || '',
+          status: response.status < 600 && response.status >= 100 ? response.status : 0,
+          headers: response.headers || {},
+          body: "LogRocket fetch error: ".concat(err.message),
+          method: ionicMap[ionicReqId].toUpperCase()
+        };
+        addResponse("".concat(LOGROCKET_IONIC_LABEL).concat(ionicReqId), responseHash);
+      }
+    } // Otherwise, don't even try to read ignored / unsubscribed requests
+  });
+  ionicHttp.sendRequest = (url, options, success, failure) => {
+    const currentId = ++ionicIdCounter;
+    const ourSuccessHandler = response => {
+      if (!unsubscribedFromIonic) {
+        handleResponse(response, true, currentId);
+        delete ionicMap[currentId];
+      }
+      success(response);
+    };
+    const ourFailureHandler = response => {
+      if (!unsubscribedFromIonic) {
+        handleResponse(response, false, currentId);
+        delete ionicMap[currentId];
+      }
+      failure(response);
+    };
+    if (!unsubscribedFromIonic) {
+      try {
+        // will throw just like identical ionic code if input is invalid
+        const modifiedOptions = handleMissingOptions(options, ionicHttp);
+        const modifiedUrl = appendQueryParamsString(url, serializeObject('', modifiedOptions.params, true));
+        // need to minic behavior of Ionic API by adding global headers
+        const mergedHeaders = getMergedHeaders(url, modifiedOptions.headers, ionicHttp);
+
+        // ionic APIs default to get method
+        const method = modifiedOptions.method || 'get';
+        ionicMap[currentId] = method;
+        const requestHash = {
+          url: modifiedUrl,
+          method: method.toUpperCase(),
+          headers: mergedHeaders || {},
+          // only applicable on post, put or patch methods
+          body: processData(modifiedOptions.data || {}, modifiedOptions.serializer),
+          initiatorType: 'IONIC'
+        };
+        addRequest("".concat(LOGROCKET_IONIC_LABEL).concat(currentId), requestHash);
+      } catch (err) {
+        const requestHash = {
+          url,
+          method: (options.method || 'get').toUpperCase(),
+          headers: {},
+          body: "LogRocket fetch error: ".concat(err.message),
+          initiatorType: 'IONIC'
+        };
+        addRequest("".concat(LOGROCKET_IONIC_LABEL).concat(currentId), requestHash);
+      }
+    }
+    return originalSendRequest(url, options, ourSuccessHandler, ourFailureHandler);
+  };
+  return () => {
+    unsubscribedFromIonic = true;
+    ionicHttp.sendRequest = originalSendRequest;
+    ionicMap = {};
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/network/src/registerNetworkInformation.js":
+/*!***********************************************************************!*\
+  !*** ./packages/@logrocket/network/src/registerNetworkInformation.js ***!
+  \***********************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = registerNetworkInformation;
+const EFFECTIVE_TYPE_VALS = {
+  'slow-2g': 'SLOW2G',
+  '2g': 'TWOG',
+  '3g': 'THREEG',
+  '4g': 'FOURG'
+};
+function registerNetworkInformation(logger) {
+  let lastStatus = undefined;
+  function sendNetworkInformation() {
+    const newStatus = {
+      online: window.navigator.onLine,
+      effectiveType: 'UNKOWN'
+    };
+    if (!window.navigator.onLine) {
+      newStatus.effectiveType = 'NONE';
+    } else if (window.navigator.connection && window.navigator.connection.effectiveType) {
+      newStatus.effectiveType = EFFECTIVE_TYPE_VALS[window.navigator.connection.effectiveType] || 'UNKNOWN';
+    }
+    if (lastStatus && newStatus.online === lastStatus.online && newStatus.effectiveType === lastStatus.effectiveType) {
+      return;
+    }
+    lastStatus = newStatus;
+    logger.addEvent('lr.network.NetworkStatusEvent', function () {
+      let {
+        isEnabled = true
+      } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      if (!isEnabled) {
+        return null;
+      }
+      return newStatus;
+    });
+  }
+  setTimeout(sendNetworkInformation);
+  if (window.navigator.connection && typeof window.navigator.connection.addEventListener === 'function') {
+    window.navigator.connection.addEventListener('change', sendNetworkInformation);
+  }
+  window.addEventListener('online', sendNetworkInformation);
+  window.addEventListener('offline', sendNetworkInformation);
+  return () => {
+    window.removeEventListener('offline', sendNetworkInformation);
+    window.removeEventListener('online', sendNetworkInformation);
+    if (window.navigator.connection && typeof window.navigator.connection.removeEventListener === 'function') {
+      window.navigator.connection.removeEventListener('change', sendNetworkInformation);
+    }
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/network/src/registerXHR.js":
+/*!********************************************************!*\
+  !*** ./packages/@logrocket/network/src/registerXHR.js ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_72405__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_72405__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = registerXHR;
+exports.setActive = setActive;
+var _mapValues = _interopRequireDefault(__nested_webpack_require_72405__(/*! @logrocket/utils/src/mapValues */ "./packages/@logrocket/utils/src/mapValues.ts"));
+var _enhanceFunc = _interopRequireDefault(__nested_webpack_require_72405__(/*! @logrocket/utils/src/enhanceFunc */ "./packages/@logrocket/utils/src/enhanceFunc.ts"));
+var _protectFunc = _interopRequireDefault(__nested_webpack_require_72405__(/*! @logrocket/utils/src/protectFunc */ "./packages/@logrocket/utils/src/protectFunc.ts"));
+var _startsWith = _interopRequireDefault(__nested_webpack_require_72405__(/*! @logrocket/utils/src/startsWith */ "./packages/@logrocket/utils/src/startsWith.js"));
+var _nps = __nested_webpack_require_72405__(/*! @logrocket/utils/src/constants/nps */ "./packages/@logrocket/utils/src/constants/nps.js");
+var _statusCodes = __nested_webpack_require_72405__(/*! @logrocket/utils/src/constants/statusCodes */ "./packages/@logrocket/utils/src/constants/statusCodes.ts");
+var _parseRawHeaders = __nested_webpack_require_72405__(/*! @logrocket/utils/src/parseRawHeaders */ "./packages/@logrocket/utils/src/parseRawHeaders.ts");
+let isActive = true;
+function setActive(shouldBeActive) {
+  isActive = shouldBeActive;
+}
+let currentXHRId = 0;
+function registerXHR(_ref) {
+  let {
+    addRequest,
+    addResponse,
+    isIgnored,
+    logger,
+    shouldAugmentNPS = true,
+    shouldParseXHRBlob = false
+  } = _ref;
+  const _XHR = XMLHttpRequest;
+  const xhrMap = new WeakMap();
+  let unsubscribedFromXhr = false;
+  const LOGROCKET_XHR_LABEL = 'xhr-';
+  window._lrXMLHttpRequest = XMLHttpRequest;
+  XMLHttpRequest = function XMLHttpRequest(mozAnon, mozSystem) {
+    const xhrObject = new _XHR(mozAnon, mozSystem);
+    if (!isActive) {
+      return xhrObject;
+    }
+    xhrMap.set(xhrObject, {
+      xhrId: ++currentXHRId,
+      requestHeaders: {},
+      sent: false,
+      done: false
+    });
+    const openOriginal = xhrObject.open;
+    function openShim() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      try {
+        const url = args[1];
+        if (window.URL && typeof window.URL === 'function' && url.search(_nps.WOOTRIC_RESPONSES_REGEX) === 0) {
+          const logrocketSessionURL = new window.URL(logger.recordingURL);
+          logrocketSessionURL.searchParams.set('nps', 'wootric');
+          const urlObj = new window.URL(url);
+          const responseText = urlObj.searchParams.get('response[text]');
+          const feedback = responseText ? "".concat(responseText, "\n\n") : '';
+          urlObj.searchParams.set('response[text]', "".concat(feedback, "<").concat(logrocketSessionURL.href, "|View LogRocket session>"));
+          args[1] = urlObj.href;
+        }
+      } catch (e) {
+        /* do nothing */
+      }
+      return openOriginal.apply(this, args);
+    }
+    const sendOriginal = xhrObject.send;
+    function sendShim() {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+      try {
+        const currentXHR = xhrMap.get(xhrObject);
+        if (window.URL && typeof window.URL === 'function' && currentXHR && currentXHR.url && currentXHR.url.search(_nps.DELIGHTED_RESPONSES_REGEX) === 0 && args.length && args[0].indexOf(_nps.DELIGHTED_FEEDBACK_PREFIX) !== -1) {
+          const recordingURL = new window.URL(logger.recordingURL);
+          recordingURL.searchParams.set('nps', 'delighted');
+          const logrocketSessionURL = encodeURIComponent(recordingURL.href);
+          const data = args[0].split('&').map(dataString => {
+            if ((0, _startsWith.default)(dataString, _nps.DELIGHTED_FEEDBACK_PREFIX)) {
+              const isEmpty = dataString === _nps.DELIGHTED_FEEDBACK_PREFIX;
+              return "".concat(dataString).concat(isEmpty ? '' : '\n\n', "<").concat(logrocketSessionURL, "|View LogRocket session>");
+            }
+            return dataString;
+          }).join('&');
+          args[0] = data;
+        }
+      } catch (e) {
+        /* do nothing */
+      }
+      return sendOriginal.apply(this, args);
+    }
+    if (shouldAugmentNPS) {
+      xhrObject.open = openShim;
+      xhrObject.send = sendShim;
+    }
+    const captureResponse = () => {
+      var _window$navigator;
+      if (unsubscribedFromXhr) {
+        return;
+      }
+      const currentXHR = xhrMap.get(xhrObject);
+      if (!currentXHR || isIgnored("".concat(LOGROCKET_XHR_LABEL).concat(currentXHR.xhrId))) {
+        return;
+      }
+      if (!currentXHR.sent || !currentXHR.done) {
+        // Don't capture the response if we haven't yet captured the request, or if we haven't received the response.
+        // The flow of events is different for async and sync requests.
+        // Async requests:
+        //   1. open
+        //   2. original send
+        //   3. our send enhancer (captures request)
+        //   4. loadstart
+        //   5. readyStateChange(readyState: 4)
+        //   6. load, abort, error, or timeout
+        //   7. loadend (captures response)
+        // Sync requests:
+        //   1. open
+        //   2. original send
+        //   3. loadstart
+        //   4. readyStateChange(readyState: 4)
+        //   5. load, abort, error, or timeout
+        //   6. loadend
+        //   7. our send enhancer (captures request and response)
+        return;
+      }
+      let status = currentXHR.status || _statusCodes.XHR_CUSTOM_STATUS_CODES.error;
+      if (status === _statusCodes.XHR_CUSTOM_STATUS_CODES.error && ((_window$navigator = window.navigator) === null || _window$navigator === void 0 ? void 0 : _window$navigator.onLine) === false) {
+        // requests to localhost can still succeed when offline
+        status = _statusCodes.XHR_CUSTOM_STATUS_CODES.offline;
+      }
+      const response = {
+        url: currentXHR.url,
+        status,
+        headers: currentXHR.responseHeaders,
+        body: currentXHR.responseBody,
+        method: (currentXHR.method || '').toUpperCase()
+      };
+      if (shouldParseXHRBlob && response.body instanceof Blob) {
+        const blobReader = new FileReader();
+        blobReader.readAsText(response.body);
+        blobReader.onload = function () {
+          try {
+            response.body = JSON.parse(blobReader.result);
+          } catch (_unused) {} // eslint-disable-line no-empty
+          addResponse("".concat(LOGROCKET_XHR_LABEL).concat(currentXHR.xhrId), response);
+        };
+      } else {
+        addResponse("".concat(LOGROCKET_XHR_LABEL).concat(currentXHR.xhrId), response);
+      }
+    };
+
+    // ..., 'open', (method, url, async, username, password) => {
+    (0, _enhanceFunc.default)(xhrObject, 'open', (0, _protectFunc.default)((method, url) => {
+      if (unsubscribedFromXhr) {
+        return;
+      }
+      const currentXHR = xhrMap.get(xhrObject);
+      currentXHR.method = method;
+      currentXHR.url = url;
+    }));
+    (0, _enhanceFunc.default)(xhrObject, 'send', (0, _protectFunc.default)(data => {
+      if (unsubscribedFromXhr) {
+        return;
+      }
+      const currentXHR = xhrMap.get(xhrObject);
+      if (!currentXHR) {
+        return;
+      }
+      const request = {
+        url: currentXHR.url,
+        method: currentXHR.method && currentXHR.method.toUpperCase(),
+        headers: (0, _mapValues.default)(currentXHR.requestHeaders || {}, headerValues => {
+          return headerValues.join(', ');
+        }),
+        body: data,
+        initiatorType: 'XHR'
+      };
+      addRequest("".concat(LOGROCKET_XHR_LABEL).concat(currentXHR.xhrId), request);
+      currentXHR.sent = true;
+
+      // Attempt to capture the response event for synchronous requests
+      captureResponse();
+    }));
+    (0, _enhanceFunc.default)(xhrObject, 'setRequestHeader', (0, _protectFunc.default)((header, value) => {
+      if (unsubscribedFromXhr) {
+        return;
+      }
+      const currentXHR = xhrMap.get(xhrObject);
+      if (!currentXHR) {
+        return;
+      }
+      currentXHR.requestHeaders = currentXHR.requestHeaders || {};
+      currentXHR.requestHeaders[header] = currentXHR.requestHeaders[header] || [];
+      currentXHR.requestHeaders[header].push(value);
+    }));
+    const xhrListeners = {
+      readystatechange: (0, _protectFunc.default)(() => {
+        if (unsubscribedFromXhr) {
+          return;
+        }
+        if (xhrObject.readyState === 4) {
+          const currentXHR = xhrMap.get(xhrObject);
+          if (!currentXHR) {
+            return;
+          }
+
+          // Do not read ignored requests at all.
+          if (isIgnored("".concat(LOGROCKET_XHR_LABEL).concat(currentXHR.xhrId))) {
+            return;
+          }
+          const headerString = xhrObject.getAllResponseHeaders() || '';
+          currentXHR.responseHeaders = (0, _parseRawHeaders.parseRawHeaders)(headerString);
+          let body;
+          try {
+            switch (xhrObject.responseType) {
+              case 'json':
+                body = logger._shouldCloneResponse ? JSON.parse(JSON.stringify(xhrObject.response)) : xhrObject.response;
+                break;
+              case 'arraybuffer':
+              case 'blob':
+                {
+                  if (shouldParseXHRBlob) {
+                    body = xhrObject.response;
+                  } else {
+                    body = 'LogRocket skipped consuming a binary body.';
+                  }
+                  break;
+                }
+              case 'document':
+                {
+                  body = xhrObject.responseXML;
+                  break;
+                }
+              case 'text':
+              case '':
+                {
+                  body = xhrObject.responseText;
+                  break;
+                }
+              default:
+                {
+                  body = '';
+                }
+            }
+          } catch (err) {
+            body = 'LogRocket: Error accessing response.';
+          }
+          currentXHR.responseBody = body;
+          currentXHR.status = xhrObject.status;
+          currentXHR.done = true;
+        }
+      }),
+      abort: (0, _protectFunc.default)(() => {
+        const currentXHR = xhrMap.get(xhrObject);
+        if (currentXHR) {
+          currentXHR.status = _statusCodes.XHR_CUSTOM_STATUS_CODES.aborted;
+        }
+      }),
+      timeout: (0, _protectFunc.default)(() => {
+        const currentXHR = xhrMap.get(xhrObject);
+        if (currentXHR) {
+          currentXHR.status = _statusCodes.XHR_CUSTOM_STATUS_CODES.timeout;
+        }
+      }),
+      loadend: (0, _protectFunc.default)(() => {
+        captureResponse();
+      })
+      // // Unused Event Listeners
+      // loadstart: () => {},
+      // progress: () => {},
+      // error: () => {},
+      // load: () => {},
+    };
+    Object.keys(xhrListeners).forEach(key => {
+      xhrObject.addEventListener(key, xhrListeners[key]);
+    });
+    return xhrObject;
+  };
+
+  // this allows "instanceof XMLHttpRequest" to work
+  XMLHttpRequest.prototype = _XHR.prototype;
+
+  // Persist the static variables.
+  ['UNSENT', 'OPENED', 'HEADERS_RECEIVED', 'LOADING', 'DONE'].forEach(variable => {
+    XMLHttpRequest[variable] = _XHR[variable];
+  });
+  return () => {
+    unsubscribedFromXhr = true;
+    XMLHttpRequest = _XHR;
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/now/src/index.js":
+/*!**********************************************!*\
+  !*** ./packages/@logrocket/now/src/index.js ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+const dateNow = Date.now.bind(Date);
+const loadTime = dateNow();
+var _default = exports["default"] = typeof performance !== 'undefined' && performance.now ? performance.now.bind(performance) : () => dateNow() - loadTime;
+
+/***/ }),
+
+/***/ "./packages/@logrocket/redux/src/createEnhancer.js":
+/*!*********************************************************!*\
+  !*** ./packages/@logrocket/redux/src/createEnhancer.js ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_84818__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_84818__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = createEnhancer;
+var _defineProperty2 = _interopRequireDefault(__nested_webpack_require_84818__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _now = _interopRequireDefault(__nested_webpack_require_84818__(/*! @logrocket/now */ "./packages/@logrocket/now/src/index.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+let storeIdCounter = 0;
+function createEnhancer(logger) {
+  let {
+    stateSanitizer = f => f,
+    actionSanitizer = f => f
+  } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  // an enhancer is a function that returns a Store
+  return createStore => (reducer, initialState, enhancer) => {
+    const store = createStore(reducer, initialState, enhancer);
+    const originalDispatch = store.dispatch;
+    const storeId = storeIdCounter++;
+    logger.addEvent('lr.redux.InitialState', () => {
+      let sanitizedState;
+      try {
+        // only try catch user defined functions
+        sanitizedState = stateSanitizer(store.getState());
+      } catch (err) {
+        console.error(err.toString());
+      }
+      return {
+        state: sanitizedState,
+        storeId
+      };
+    });
+    const dispatch = action => {
+      const start = (0, _now.default)();
+      let err;
+      let res;
+      try {
+        res = originalDispatch(action);
+      } catch (_err) {
+        err = _err;
+      } finally {
+        const duration = (0, _now.default)() - start;
+        logger.addEvent('lr.redux.ReduxAction', () => {
+          let sanitizedState = null;
+          let sanitizedAction = null;
+          try {
+            // only try catch user defined functions
+            sanitizedState = stateSanitizer(store.getState());
+            sanitizedAction = actionSanitizer(action);
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+          } catch (err) {
+            console.error(err.toString());
+          }
+          if (sanitizedState && sanitizedAction) {
+            return {
+              storeId,
+              action: sanitizedAction,
+              duration,
+              stateDelta: sanitizedState
+            };
+          }
+          return null;
+        });
+      }
+      if (err) {
+        throw err;
+      }
+      return res;
+    };
+    return _objectSpread(_objectSpread({}, store), {}, {
+      dispatch
+    });
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/redux/src/createMiddleware.js":
+/*!***********************************************************!*\
+  !*** ./packages/@logrocket/redux/src/createMiddleware.js ***!
+  \***********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_88659__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_88659__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = createMiddleware;
+var _now = _interopRequireDefault(__nested_webpack_require_88659__(/*! @logrocket/now */ "./packages/@logrocket/now/src/index.js"));
+let storeIdCounter = 0;
+function createMiddleware(logger) {
+  let {
+    stateSanitizer = f => f,
+    actionSanitizer = f => f
+  } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return store => {
+    const storeId = storeIdCounter++;
+    logger.addEvent('lr.redux.InitialState', () => {
+      let sanitizedState;
+      try {
+        // only try catch user defined functions
+        sanitizedState = stateSanitizer(store.getState());
+      } catch (err) {
+        console.error(err.toString());
+      }
+      return {
+        state: sanitizedState,
+        storeId
+      };
+    });
+    return next => action => {
+      const start = (0, _now.default)();
+      let err;
+      let res;
+      try {
+        res = next(action);
+      } catch (_err) {
+        err = _err;
+      } finally {
+        const duration = (0, _now.default)() - start;
+        logger.addEvent('lr.redux.ReduxAction', () => {
+          let sanitizedState = null;
+          let sanitizedAction = null;
+          try {
+            // only try catch user defined functions
+            sanitizedState = stateSanitizer(store.getState());
+            sanitizedAction = actionSanitizer(action);
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+          } catch (err) {
+            console.error(err.toString());
+          }
+          if (sanitizedState && sanitizedAction) {
+            return {
+              storeId,
+              action: sanitizedAction,
+              duration,
+              stateDelta: sanitizedState
+            };
+          }
+          return null;
+        });
+      }
+      if (err) {
+        throw err;
+      }
+      return res;
+    };
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/redux/src/index.js":
+/*!************************************************!*\
+  !*** ./packages/@logrocket/redux/src/index.js ***!
+  \************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_91086__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_91086__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+Object.defineProperty(exports, "createEnhancer", ({
+  enumerable: true,
+  get: function () {
+    return _createEnhancer.default;
+  }
+}));
+Object.defineProperty(exports, "createMiddleware", ({
+  enumerable: true,
+  get: function () {
+    return _createMiddleware.default;
+  }
+}));
+var _createEnhancer = _interopRequireDefault(__nested_webpack_require_91086__(/*! ./createEnhancer */ "./packages/@logrocket/redux/src/createEnhancer.js"));
+var _createMiddleware = _interopRequireDefault(__nested_webpack_require_91086__(/*! ./createMiddleware */ "./packages/@logrocket/redux/src/createMiddleware.js"));
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/TraceKit.js":
+/*!***************************************************!*\
+  !*** ./packages/@logrocket/utils/src/TraceKit.js ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_92261__) {
+
+"use strict";
+/* eslint-disable */
+
+
+
+/*
+ TraceKit - Cross browser stack traces - github.com/occ/TraceKit
+
+ This was originally forked from github.com/occ/TraceKit, but has since been
+ largely re-written and is now maintained as part of raven-js.  Tests for
+ this are in test/vendor.
+
+ MIT license
+*/
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+var TraceKit = {
+  collectWindowErrors: true,
+  debug: false
+};
+
+// This is to be defensive in environments where window does not exist (see https://github.com/getsentry/raven-js/pull/785)
+var _window = typeof window !== 'undefined' ? window : typeof __nested_webpack_require_92261__.g !== 'undefined' ? __nested_webpack_require_92261__.g : typeof self !== 'undefined' ? self : {};
+
+// global reference to slice
+var _slice = [].slice;
+var UNKNOWN_FUNCTION = '?';
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Error_types
+var ERROR_TYPES_RE = /^(?:Uncaught (?:exception: )?)?((?:Eval|Internal|Range|Reference|Syntax|Type|URI)Error): ?(.*)$/;
+function getLocationHref() {
+  if (typeof document === 'undefined' || typeof document.location === 'undefined') return '';
+  return document.location.href;
+}
+
+/**
+ * TraceKit.report: cross-browser processing of unhandled exceptions
+ *
+ * Syntax:
+ *   TraceKit.report.subscribe(function(stackInfo) { ... })
+ *   TraceKit.report.unsubscribe(function(stackInfo) { ... })
+ *   TraceKit.report(exception)
+ *   try { ...code... } catch(ex) { TraceKit.report(ex); }
+ *
+ * Supports:
+ *   - Firefox: full stack trace with line numbers, plus column number
+ *              on top frame; column number is not guaranteed
+ *   - Opera:   full stack trace with line and column numbers
+ *   - Chrome:  full stack trace with line and column numbers
+ *   - Safari:  line and column number for the top frame only; some frames
+ *              may be missing, and column number is not guaranteed
+ *   - IE:      line and column number for the top frame only; some frames
+ *              may be missing, and column number is not guaranteed
+ *
+ * In theory, TraceKit should work on all of the following versions:
+ *   - IE5.5+ (only 8.0 tested)
+ *   - Firefox 0.9+ (only 3.5+ tested)
+ *   - Opera 7+ (only 10.50 tested; versions 9 and earlier may require
+ *     Exceptions Have Stacktrace to be enabled in opera:config)
+ *   - Safari 3+ (only 4+ tested)
+ *   - Chrome 1+ (only 5+ tested)
+ *   - Konqueror 3.5+ (untested)
+ *
+ * Requires TraceKit.computeStackTrace.
+ *
+ * Tries to catch all unhandled exceptions and report them to the
+ * subscribed handlers. Please note that TraceKit.report will rethrow the
+ * exception. This is REQUIRED in order to get a useful stack trace in IE.
+ * If the exception does not reach the top of the browser, you will only
+ * get a stack trace from the point where TraceKit.report was called.
+ *
+ * Handlers receive a stackInfo object as described in the
+ * TraceKit.computeStackTrace docs.
+ */
+TraceKit.report = function reportModuleWrapper() {
+  var handlers = [],
+    lastArgs = null,
+    lastException = null,
+    lastExceptionStack = null;
+
+  /**
+   * Add a crash handler.
+   * @param {Function} handler
+   */
+  function subscribe(handler) {
+    installGlobalHandler();
+    handlers.push(handler);
+  }
+
+  /**
+   * Remove a crash handler.
+   * @param {Function} handler
+   */
+  function unsubscribe(handler) {
+    for (var i = handlers.length - 1; i >= 0; --i) {
+      if (handlers[i] === handler) {
+        handlers.splice(i, 1);
+      }
+    }
+  }
+
+  /**
+   * Remove all crash handlers.
+   */
+  function unsubscribeAll() {
+    uninstallGlobalHandler();
+    handlers = [];
+  }
+
+  /**
+   * Dispatch stack information to all handlers.
+   * @param {Object.<string, *>} stack
+   */
+  function notifyHandlers(stack, isWindowError) {
+    var exception = null;
+    if (isWindowError && !TraceKit.collectWindowErrors) {
+      return;
+    }
+    for (var i in handlers) {
+      if (handlers.hasOwnProperty(i)) {
+        try {
+          handlers[i].apply(null, [stack].concat(_slice.call(arguments, 2)));
+        } catch (inner) {
+          exception = inner;
+        }
+      }
+    }
+    if (exception) {
+      throw exception;
+    }
+  }
+  var _oldOnerrorHandler, _onErrorHandlerInstalled;
+
+  /**
+   * Ensures all global unhandled exceptions are recorded.
+   * Supported by Gecko and IE.
+   * @param {string} message Error message.
+   * @param {string} url URL of script that generated the exception.
+   * @param {(number|string)} lineNo The line number at which the error
+   * occurred.
+   * @param {?(number|string)} colNo The column number at which the error
+   * occurred.
+   * @param {?Error} ex The actual Error object.
+   */
+  function traceKitWindowOnError(message, url, lineNo, colNo, ex) {
+    var stack = null;
+    if (lastExceptionStack) {
+      TraceKit.computeStackTrace.augmentStackTraceWithInitialElement(lastExceptionStack, url, lineNo, message);
+      processLastException();
+    } else if (ex) {
+      // New chrome and blink send along a real error object
+      // Let's just report that like a normal error.
+      // See: https://mikewest.org/2013/08/debugging-runtime-errors-with-window-onerror
+      stack = TraceKit.computeStackTrace(ex);
+      notifyHandlers(stack, true);
+    } else {
+      var location = {
+        url: url,
+        line: lineNo,
+        column: colNo
+      };
+      var name = undefined;
+      var msg = message; // must be new var or will modify original `arguments`
+      var groups;
+      if ({}.toString.call(message) === '[object String]') {
+        var groups = message.match(ERROR_TYPES_RE);
+        if (groups) {
+          name = groups[1];
+          msg = groups[2];
+        }
+      }
+      location.func = UNKNOWN_FUNCTION;
+      stack = {
+        name: name,
+        message: msg,
+        url: getLocationHref(),
+        stack: [location]
+      };
+      notifyHandlers(stack, true);
+    }
+    if (_oldOnerrorHandler) {
+      return _oldOnerrorHandler.apply(this, arguments);
+    }
+    return false;
+  }
+  function installGlobalHandler() {
+    if (_onErrorHandlerInstalled) {
+      return;
+    }
+    _oldOnerrorHandler = _window.onerror;
+    _window.onerror = traceKitWindowOnError;
+    _onErrorHandlerInstalled = true;
+  }
+  function uninstallGlobalHandler() {
+    if (!_onErrorHandlerInstalled) {
+      return;
+    }
+    _window.onerror = _oldOnerrorHandler;
+    _onErrorHandlerInstalled = false;
+    _oldOnerrorHandler = undefined;
+  }
+  function processLastException() {
+    var _lastExceptionStack = lastExceptionStack,
+      _lastArgs = lastArgs;
+    lastArgs = null;
+    lastExceptionStack = null;
+    lastException = null;
+    notifyHandlers.apply(null, [_lastExceptionStack, false].concat(_lastArgs));
+  }
+
+  /**
+   * Reports an unhandled Error to TraceKit.
+   * @param {Error} ex
+   * @param {?boolean} rethrow If false, do not re-throw the exception.
+   * Only used for window.onerror to not cause an infinite loop of
+   * rethrowing.
+   */
+  function report(ex, rethrow) {
+    var args = _slice.call(arguments, 1);
+    if (lastExceptionStack) {
+      if (lastException === ex) {
+        return; // already caught by an inner catch block, ignore
+      } else {
+        processLastException();
+      }
+    }
+    var stack = TraceKit.computeStackTrace(ex);
+    lastExceptionStack = stack;
+    lastException = ex;
+    lastArgs = args;
+
+    // If the stack trace is incomplete, wait for 2 seconds for
+    // slow slow IE to see if onerror occurs or not before reporting
+    // this exception; otherwise, we will end up with an incomplete
+    // stack trace
+    setTimeout(function () {
+      if (lastException === ex) {
+        processLastException();
+      }
+    }, stack.incomplete ? 2000 : 0);
+    if (rethrow !== false) {
+      throw ex; // re-throw to propagate to the top level (and cause window.onerror)
+    }
+  }
+  report.subscribe = subscribe;
+  report.unsubscribe = unsubscribe;
+  report.uninstall = unsubscribeAll;
+  return report;
+}();
+
+/**
+ * TraceKit.computeStackTrace: cross-browser stack traces in JavaScript
+ *
+ * Syntax:
+ *   s = TraceKit.computeStackTrace(exception) // consider using TraceKit.report instead (see below)
+ * Returns:
+ *   s.name              - exception name
+ *   s.message           - exception message
+ *   s.stack[i].url      - JavaScript or HTML file URL
+ *   s.stack[i].func     - function name, or empty for anonymous functions (if guessing did not work)
+ *   s.stack[i].args     - arguments passed to the function, if known
+ *   s.stack[i].line     - line number, if known
+ *   s.stack[i].column   - column number, if known
+ *
+ * Supports:
+ *   - Firefox:  full stack trace with line numbers and unreliable column
+ *               number on top frame
+ *   - Opera 10: full stack trace with line and column numbers
+ *   - Opera 9-: full stack trace with line numbers
+ *   - Chrome:   full stack trace with line and column numbers
+ *   - Safari:   line and column number for the topmost stacktrace element
+ *               only
+ *   - IE:       no line numbers whatsoever
+ *
+ * Tries to guess names of anonymous functions by looking for assignments
+ * in the source code. In IE and Safari, we have to guess source file names
+ * by searching for function bodies inside all page scripts. This will not
+ * work for scripts that are loaded cross-domain.
+ * Here be dragons: some function names may be guessed incorrectly, and
+ * duplicate functions may be mismatched.
+ *
+ * TraceKit.computeStackTrace should only be used for tracing purposes.
+ * Logging of unhandled exceptions should be done with TraceKit.report,
+ * which builds on top of TraceKit.computeStackTrace and provides better
+ * IE support by utilizing the window.onerror event to retrieve information
+ * about the top of the stack.
+ *
+ * Note: In IE and Safari, no stack trace is recorded on the Error object,
+ * so computeStackTrace instead walks its *own* chain of callers.
+ * This means that:
+ *  * in Safari, some methods may be missing from the stack trace;
+ *  * in IE, the topmost function in the stack trace will always be the
+ *    caller of computeStackTrace.
+ *
+ * This is okay for tracing (because you are likely to be calling
+ * computeStackTrace from the function you want to be the topmost element
+ * of the stack trace anyway), but not okay for logging unhandled
+ * exceptions (because your catch block will likely be far away from the
+ * inner function that actually caused the exception).
+ *
+ */
+TraceKit.computeStackTrace = function computeStackTraceWrapper() {
+  /**
+   * Escapes special characters, except for whitespace, in a string to be
+   * used inside a regular expression as a string literal.
+   * @param {string} text The string.
+   * @return {string} The escaped string literal.
+   */
+  function escapeRegExp(text) {
+    return text.replace(/[\-\[\]{}()*+?.,\\\^$|#]/g, '\\$&');
+  }
+
+  /**
+   * Escapes special characters in a string to be used inside a regular
+   * expression as a string literal. Also ensures that HTML entities will
+   * be matched the same as their literal friends.
+   * @param {string} body The string.
+   * @return {string} The escaped string.
+   */
+  function escapeCodeAsRegExpForMatchingInsideHTML(body) {
+    return escapeRegExp(body).replace('<', '(?:<|&lt;)').replace('>', '(?:>|&gt;)').replace('&', '(?:&|&amp;)').replace('"', '(?:"|&quot;)').replace(/\s+/g, '\\s+');
+  }
+
+  // Contents of Exception in various browsers.
+  //
+  // SAFARI:
+  // ex.message = Can't find variable: qq
+  // ex.line = 59
+  // ex.sourceId = 580238192
+  // ex.sourceURL = http://...
+  // ex.expressionBeginOffset = 96
+  // ex.expressionCaretOffset = 98
+  // ex.expressionEndOffset = 98
+  // ex.name = ReferenceError
+  //
+  // FIREFOX:
+  // ex.message = qq is not defined
+  // ex.fileName = http://...
+  // ex.lineNumber = 59
+  // ex.columnNumber = 69
+  // ex.stack = ...stack trace... (see the example below)
+  // ex.name = ReferenceError
+  //
+  // CHROME:
+  // ex.message = qq is not defined
+  // ex.name = ReferenceError
+  // ex.type = not_defined
+  // ex.arguments = ['aa']
+  // ex.stack = ...stack trace...
+  //
+  // INTERNET EXPLORER:
+  // ex.message = ...
+  // ex.name = ReferenceError
+  //
+  // OPERA:
+  // ex.message = ...message... (see the example below)
+  // ex.name = ReferenceError
+  // ex.opera#sourceloc = 11  (pretty much useless, duplicates the info in ex.message)
+  // ex.stacktrace = n/a; see 'opera:config#UserPrefs|Exceptions Have Stacktrace'
+
+  /**
+   * Computes stack trace information from the stack property.
+   * Chrome and Gecko use this property.
+   * @param {Error} ex
+   * @return {?Object.<string, *>} Stack trace information.
+   */
+  function computeStackTraceFromStackProp(ex) {
+    if (typeof ex.stack === 'undefined' || !ex.stack) return;
+    var chrome = /^\s*at (.*?) ?\(((?:file|https?|blob|chrome-extension|native|eval|<anonymous>).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i,
+      gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|resource|\[native).*?)(?::(\d+))?(?::(\d+))?\s*$/i,
+      winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i,
+      lines = ex.stack.split('\n'),
+      stack = [],
+      parts,
+      element,
+      reference = /^(.*) is undefined$/.exec(ex.message);
+    for (var i = 0, j = lines.length; i < j; ++i) {
+      if (parts = chrome.exec(lines[i])) {
+        var isNative = parts[2] && parts[2].indexOf('native') !== -1;
+        element = {
+          url: !isNative ? parts[2] : null,
+          func: parts[1] || UNKNOWN_FUNCTION,
+          args: isNative ? [parts[2]] : [],
+          line: parts[3] ? +parts[3] : null,
+          column: parts[4] ? +parts[4] : null
+        };
+      } else if (parts = winjs.exec(lines[i])) {
+        element = {
+          url: parts[2],
+          func: parts[1] || UNKNOWN_FUNCTION,
+          args: [],
+          line: +parts[3],
+          column: parts[4] ? +parts[4] : null
+        };
+      } else if (parts = gecko.exec(lines[i])) {
+        element = {
+          url: parts[3],
+          func: parts[1] || UNKNOWN_FUNCTION,
+          args: parts[2] ? parts[2].split(',') : [],
+          line: parts[4] ? +parts[4] : null,
+          column: parts[5] ? +parts[5] : null
+        };
+      } else {
+        continue;
+      }
+      if (!element.func && element.line) {
+        element.func = UNKNOWN_FUNCTION;
+      }
+      stack.push(element);
+    }
+    if (!stack.length) {
+      return null;
+    }
+    if (!stack[0].column && typeof ex.columnNumber !== 'undefined') {
+      // FireFox uses this awesome columnNumber property for its top frame
+      // Also note, Firefox's column number is 0-based and everything else expects 1-based,
+      // so adding 1
+      stack[0].column = ex.columnNumber + 1;
+    }
+    return {
+      name: ex.name,
+      message: ex.message,
+      url: getLocationHref(),
+      stack: stack
+    };
+  }
+
+  /**
+   * Adds information about the first frame to incomplete stack traces.
+   * Safari and IE require this to get complete data on the first frame.
+   * @param {Object.<string, *>} stackInfo Stack trace information from
+   * one of the compute* methods.
+   * @param {string} url The URL of the script that caused an error.
+   * @param {(number|string)} lineNo The line number of the script that
+   * caused an error.
+   * @param {string=} message The error generated by the browser, which
+   * hopefully contains the name of the object that caused the error.
+   * @return {boolean} Whether or not the stack information was
+   * augmented.
+   */
+  function augmentStackTraceWithInitialElement(stackInfo, url, lineNo, message) {
+    var initial = {
+      url: url,
+      line: lineNo
+    };
+    if (initial.url && initial.line) {
+      stackInfo.incomplete = false;
+      if (!initial.func) {
+        initial.func = UNKNOWN_FUNCTION;
+      }
+      if (stackInfo.stack.length > 0) {
+        if (stackInfo.stack[0].url === initial.url) {
+          if (stackInfo.stack[0].line === initial.line) {
+            return false; // already in stack trace
+          } else if (!stackInfo.stack[0].line && stackInfo.stack[0].func === initial.func) {
+            stackInfo.stack[0].line = initial.line;
+            return false;
+          }
+        }
+      }
+      stackInfo.stack.unshift(initial);
+      stackInfo.partial = true;
+      return true;
+    } else {
+      stackInfo.incomplete = true;
+    }
+    return false;
+  }
+
+  /**
+   * Computes stack trace information by walking the arguments.caller
+   * chain at the time the exception occurred. This will cause earlier
+   * frames to be missed but is the only way to get any stack trace in
+   * Safari and IE. The top frame is restored by
+   * {@link augmentStackTraceWithInitialElement}.
+   * @param {Error} ex
+   * @return {?Object.<string, *>} Stack trace information.
+   */
+  function computeStackTraceByWalkingCallerChain(ex, depth) {
+    var functionName = /function\s+([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)?\s*\(/i,
+      stack = [],
+      funcs = {},
+      recursion = false,
+      parts,
+      item,
+      source;
+    for (var curr = computeStackTraceByWalkingCallerChain.caller; curr && !recursion; curr = curr.caller) {
+      if (curr === computeStackTrace || curr === TraceKit.report) {
+        // console.log('skipping internal function');
+        continue;
+      }
+      item = {
+        url: null,
+        func: UNKNOWN_FUNCTION,
+        line: null,
+        column: null
+      };
+      if (curr.name) {
+        item.func = curr.name;
+      } else if (parts = functionName.exec(curr.toString())) {
+        item.func = parts[1];
+      }
+      if (typeof item.func === 'undefined') {
+        try {
+          item.func = parts.input.substring(0, parts.input.indexOf('{'));
+        } catch (e) {}
+      }
+      if (funcs['' + curr]) {
+        recursion = true;
+      } else {
+        funcs['' + curr] = true;
+      }
+      stack.push(item);
+    }
+    if (depth) {
+      // console.log('depth is ' + depth);
+      // console.log('stack is ' + stack.length);
+      stack.splice(0, depth);
+    }
+    var result = {
+      name: ex.name,
+      message: ex.message,
+      url: getLocationHref(),
+      stack: stack
+    };
+    augmentStackTraceWithInitialElement(result, ex.sourceURL || ex.fileName, ex.line || ex.lineNumber, ex.message || ex.description);
+    return result;
+  }
+
+  /**
+   * Computes a stack trace for an exception.
+   * @param {Error} ex
+   * @param {(string|number)=} depth
+   */
+  function computeStackTrace(ex, depth) {
+    var stack = null;
+    depth = depth == null ? 0 : +depth;
+    try {
+      stack = computeStackTraceFromStackProp(ex);
+      if (stack) {
+        return stack;
+      }
+    } catch (e) {
+      if (TraceKit.debug) {
+        throw e;
+      }
+    }
+    try {
+      stack = computeStackTraceByWalkingCallerChain(ex, depth + 1);
+      if (stack) {
+        return stack;
+      }
+    } catch (e) {
+      if (TraceKit.debug) {
+        throw e;
+      }
+    }
+    return {
+      name: ex.name,
+      message: ex.message,
+      url: getLocationHref()
+    };
+  }
+  computeStackTrace.augmentStackTraceWithInitialElement = augmentStackTraceWithInitialElement;
+  computeStackTrace.computeStackTraceFromStackProp = computeStackTraceFromStackProp;
+  return computeStackTrace;
+}();
+var _default = exports["default"] = TraceKit;
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/constants/nps.js":
+/*!********************************************************!*\
+  !*** ./packages/@logrocket/utils/src/constants/nps.js ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.WOOTRIC_RESPONSES_REGEX = exports.DELIGHTED_RESPONSES_REGEX = exports.DELIGHTED_FEEDBACK_PREFIX = void 0;
+const WOOTRIC_RESPONSES_REGEX = exports.WOOTRIC_RESPONSES_REGEX = /^https:\/\/production.wootric.com\/responses/;
+const DELIGHTED_RESPONSES_REGEX = exports.DELIGHTED_RESPONSES_REGEX = /^https:\/\/web.delighted.com\/e\/[a-zA-Z-]*\/c/;
+const DELIGHTED_FEEDBACK_PREFIX = exports.DELIGHTED_FEEDBACK_PREFIX = 'comment=';
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/constants/statusCodes.ts":
+/*!****************************************************************!*\
+  !*** ./packages/@logrocket/utils/src/constants/statusCodes.ts ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.XHR_CUSTOM_STATUS_CODES = exports.XHR_CUSTOM_FAILURE_STATUSES = exports.STATUS_CODES = void 0;
+exports.getStatusText = getStatusText;
+// status codes via https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+const STATUS_CODES = exports.STATUS_CODES = {
+  0: '',
+  100: 'Continue',
+  101: 'Switching Protocol',
+  102: 'Processing',
+  103: 'Early Hints',
+  200: 'OK',
+  201: 'Created',
+  202: 'Accepted',
+  203: 'Non-Authoritative Information',
+  204: 'No Content',
+  205: 'Reset Content',
+  206: 'Partial Content',
+  207: 'Multi-Status',
+  208: 'Already Reported',
+  226: 'IM Used',
+  300: 'Multiple Choices',
+  301: 'Moved Permanently',
+  302: 'Found',
+  303: 'See Other',
+  304: 'Not Modified',
+  305: 'Use Proxy',
+  306: 'unused',
+  307: 'Temporary Redirect',
+  308: 'Permanent Redirect',
+  400: 'Bad Request',
+  401: 'Unauthorized',
+  402: 'Payment Required',
+  403: 'Forbidden',
+  404: 'Not Found',
+  405: 'Method Not Allowed',
+  406: 'Not Acceptable',
+  407: 'Proxy Authentication Required',
+  408: 'Request Timeout',
+  409: 'Conflict',
+  410: 'Gone',
+  411: 'Length Required',
+  412: 'Precondition Failed',
+  413: 'Payload Too Large',
+  414: 'URI Too Long',
+  415: 'Unsupported Media Type',
+  416: 'Range Not Satisfiable',
+  417: 'Expectation Failed',
+  418: "I'm a teapot",
+  421: 'Misdirected Request',
+  422: 'Unprocessable Entity',
+  423: 'Locked',
+  424: 'Failed Dependency',
+  425: 'Too Early',
+  426: 'Upgrade Required',
+  428: 'Precondition Required',
+  429: 'Too Many Requests',
+  431: 'Request Header Fields Too Large',
+  451: 'Unavailable For Legal Reasons',
+  500: 'Internal Server Error',
+  501: 'Not Implemented',
+  502: 'Bad Gateway',
+  503: 'Service Unavailable',
+  504: 'Gateway Timeout',
+  505: 'HTTP Version Not Supported',
+  506: 'Variant Also Negotiates',
+  507: 'Insufficient Storage',
+  508: 'Loop Detected',
+  510: 'Not Extended',
+  511: 'Network Authentication Required'
+};
+const XHR_CUSTOM_STATUS_CODES = exports.XHR_CUSTOM_STATUS_CODES = {
+  error: 0,
+  timeout: 444,
+  aborted: 499,
+  offline: 1001
+};
+const XHR_CUSTOM_FAILURE_STATUSES = exports.XHR_CUSTOM_FAILURE_STATUSES = {
+  [XHR_CUSTOM_STATUS_CODES.error]: 'Error',
+  [XHR_CUSTOM_STATUS_CODES.timeout]: 'Timeout',
+  [XHR_CUSTOM_STATUS_CODES.aborted]: 'Aborted',
+  [XHR_CUSTOM_STATUS_CODES.offline]: 'Offline'
+};
+function getStatusText(statusCode) {
+  return STATUS_CODES[String(statusCode)];
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/createUnsubListener.ts":
+/*!**************************************************************!*\
+  !*** ./packages/@logrocket/utils/src/createUnsubListener.ts ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Handler = void 0;
+exports.createUnsubListener = createUnsubListener;
+class Handler {
+  constructor(value) {
+    this._value = void 0;
+    this._value = value;
+  }
+  get() {
+    return this._value;
+  }
+  clear() {
+    this._value = undefined;
+  }
+}
+
+/*
+ * This approach ensures the unsub function never keeps a reference to the event listener's target element.
+ * This is not a concern in Chrome or Firefox, but Safari will hold the entire context of a function's parent function
+ * in scope of that child function. This means that creating the unsub function inside 'addListener' could cause the
+ * target element (the 'obj' argument) to be held in scope of the unsub function even though it is never referenced
+ * in the unsub function itself. This would lead to a memory leak after the target element is removed from the DOM.
+ *
+ * This function is in a separate file to prevent the Terser minifier from inline-ing the function into 'addListener'.
+ */
+exports.Handler = Handler;
+function createUnsubListener(handler) {
+  return () => {
+    handler.clear();
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/enhanceFunc.ts":
+/*!******************************************************!*\
+  !*** ./packages/@logrocket/utils/src/enhanceFunc.ts ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_116975__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = enhanceFunc;
+var _createUnsubListener = __nested_webpack_require_116975__(/*! ./createUnsubListener */ "./packages/@logrocket/utils/src/createUnsubListener.ts");
+const NO_OP_UNREGISTER = () => {};
+function enhanceFunc(obj, method, handler) {
+  if (typeof obj[method] !== 'function') {
+    return NO_OP_UNREGISTER;
+  }
+  try {
+    const original = obj[method];
+    const h = new _createUnsubListener.Handler(handler);
+    function shim() {
+      var _h$get;
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      const res = original.apply(this, args);
+      (_h$get = h.get()) === null || _h$get === void 0 ? void 0 : _h$get.apply(this, args);
+      return res;
+    }
+    obj[method] = shim;
+    return () => {
+      // Disable our shim from running, and if the method hasn't been re-shimmed
+      // since our shim was applied, safely reset the method to its prior state
+      h.clear();
+      if (obj[method] === shim) {
+        obj[method] = original;
+      }
+    };
+  } catch (_error) {
+    return NO_OP_UNREGISTER;
+  }
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/logError.js":
+/*!***************************************************!*\
+  !*** ./packages/@logrocket/utils/src/logError.js ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+const canBind = typeof console !== 'undefined' && console.error && console.error.bind;
+const logError = canBind ? console.error.bind(console) : () => {};
+var _default = exports["default"] = logError;
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/mapValues.ts":
+/*!****************************************************!*\
+  !*** ./packages/@logrocket/utils/src/mapValues.ts ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = mapValues;
+function mapValues(obj, f) {
+  if (obj == null) {
+    return {};
+  }
+  const res = {};
+  Object.keys(obj).forEach(key => {
+    res[key] = f(obj[key]);
+  });
+  return res;
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/parseRawHeaders.ts":
+/*!**********************************************************!*\
+  !*** ./packages/@logrocket/utils/src/parseRawHeaders.ts ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_119702__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_119702__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.parseRawHeaders = void 0;
+var _defineProperty2 = _interopRequireDefault(__nested_webpack_require_119702__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+/**
+ * Parses a string of raw HTTP Headers into key-value pairs. Can optionally lower-case keys (for consistent access).
+ */
+const parseRawHeaders = function (raw) {
+  let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return raw.split(/[\r\n]+/).reduce((headers, entry) => {
+    const idx = entry.indexOf(':');
+    const key = entry.substring(0, idx);
+    const value = entry.substring(idx + 1).trim();
+    const name = config.lowerCaseKeys ? key.toLowerCase() : key;
+    return _objectSpread(_objectSpread({}, headers), {}, {
+      [name]: typeof headers[key] === 'string' ? "".concat(headers[key], ", ").concat(value) : value
+    });
+  }, {});
+};
+exports.parseRawHeaders = parseRawHeaders;
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/protectFunc.ts":
+/*!******************************************************!*\
+  !*** ./packages/@logrocket/utils/src/protectFunc.ts ***!
+  \******************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_122154__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_122154__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = protectFunc;
+var _sendTelemetryData = _interopRequireDefault(__nested_webpack_require_122154__(/*! ./sendTelemetryData */ "./packages/@logrocket/utils/src/sendTelemetryData.js"));
+var _logError = _interopRequireDefault(__nested_webpack_require_122154__(/*! ./logError */ "./packages/@logrocket/utils/src/logError.js"));
+function protectFunc(f) {
+  let onFail = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : () => {};
+  return function () {
+    let result;
+    try {
+      result = f(...arguments);
+    } catch (err) {
+      if (typeof window !== 'undefined' && window._lrdebug) {
+        throw err;
+      }
+      const payload = onFail(err);
+      (0, _logError.default)('LogRocket', err);
+      (0, _sendTelemetryData.default)(err, payload);
+    }
+    return result;
+  };
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/scrubException.ts":
+/*!*********************************************************!*\
+  !*** ./packages/@logrocket/utils/src/scrubException.ts ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.scrubException = scrubException;
+function isScalar(value) {
+  return /boolean|number|string/.test(typeof value);
+}
+const optionalScalars = [
+// Valid values for 'level' are 'fatal', 'error', 'warning', 'info',
+// and 'debug'. Defaults to 'error'.
+'level', 'logger'];
+const optionalMaps = ['tags', 'extra'];
+function scrubException(data, options) {
+  if (options) {
+    for (const field of optionalScalars) {
+      const value = options[field];
+      if (isScalar(value)) {
+        data[field] = value.toString();
+      }
+    }
+    for (const field of optionalMaps) {
+      const dirty = options[field] || {};
+      const scrubbed = {};
+      for (const key of Object.keys(dirty)) {
+        const value = dirty[key];
+        if (isScalar(value)) {
+          scrubbed[key.toString()] = value.toString();
+        }
+      }
+      data[field] = scrubbed;
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/sendTelemetryData.js":
+/*!************************************************************!*\
+  !*** ./packages/@logrocket/utils/src/sendTelemetryData.js ***!
+  \************************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_124846__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_124846__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = sendErrorTelemetry;
+exports.sendTelemetry = sendTelemetry;
+var _defineProperty2 = _interopRequireDefault(__nested_webpack_require_124846__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _logError = _interopRequireDefault(__nested_webpack_require_124846__(/*! ./logError */ "./packages/@logrocket/utils/src/logError.js"));
+var _TraceKit = _interopRequireDefault(__nested_webpack_require_124846__(/*! ./TraceKit */ "./packages/@logrocket/utils/src/TraceKit.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; } /* eslint-disable @typescript-eslint/no-shadow */
+const SCRIPT_VERSION =   true ? "4a0e7c7c2340754e808eede6a98469edd4f5ae26" : 0;
+function _sendToSentry(data) {
+  try {
+    var _window$__SDKCONFIG__, _window$__SDKCONFIG__2;
+    const message = data.message;
+    const url = 'https://e.logrocket.com/api/3/store/?sentry_version=7&sentry_client=http%2F3.8.0&sentry_key=b64162b4187a4c5caae8a68a7e291793';
+    const body = JSON.stringify(_objectSpread({
+      message,
+      logger: 'javascript',
+      platform: 'javascript',
+      request: {
+        headers: {
+          'User-Agent': typeof navigator !== 'undefined' && navigator.userAgent
+        },
+        url: typeof location !== 'undefined' && location.href
+      },
+      release: SCRIPT_VERSION,
+      environment: typeof window !== 'undefined' ? (_window$__SDKCONFIG__ = (_window$__SDKCONFIG__2 = window.__SDKCONFIG__) === null || _window$__SDKCONFIG__2 === void 0 ? void 0 : _window$__SDKCONFIG__2.scriptEnv) !== null && _window$__SDKCONFIG__ !== void 0 ? _window$__SDKCONFIG__ : 'prod' : 'prod'
+    }, data));
+    if (typeof window !== 'undefined') {
+      const XHR = window._lrXMLHttpRequest || XMLHttpRequest;
+      const req = new XHR();
+      req.open('POST', url);
+      req.send(body);
+    } else if (typeof fetch !== 'undefined') {
+      // NOTE: fetch is intended only to be used in a web worker context where the main web SDK hasn't be initialized
+      //       (ex. Shopify SDK). Otherwise this fetch call would get captured by LogRocket and we don't want to record
+      //       network requests to LogRocket. Eventually this potential issue will be resolved by SSDK-2149.
+
+      fetch(url, {
+        method: 'POST',
+        body
+      }).catch(rejectReason => {
+        (0, _logError.default)('Failed to send via fetch', rejectReason);
+      });
+    }
+  } catch (err) {
+    (0, _logError.default)('Failed to send', err);
+  }
+}
+function sendTelemetry(message, more) {
+  if (typeof window !== 'undefined' && window._lrdebug) {
+    return void (0, _logError.default)(message);
+  }
+  if (more && more.extra && more.extra.appID && typeof more.extra.appID.indexOf === 'function' && more.extra.appID.indexOf('au2drp/') === 0 && Math.random() >= 0.25) {
+    return;
+  }
+  _sendToSentry(_objectSpread({
+    message
+  }, more));
+}
+function sendErrorTelemetry(err, payload) {
+  try {
+    const message = err.message;
+    let stringPayload;
+    try {
+      stringPayload = JSON.stringify(payload).slice(0, 1000);
+    } catch (err) {
+      try {
+        stringPayload = "Could not stringify payload: ".concat(Object.prototype.toString.call(payload));
+      } catch (err) {
+        /* nada */
+      }
+    }
+    let stack;
+    try {
+      stack = _TraceKit.default.computeStackTrace(err).stack.map(frame => ({
+        filename: frame.url,
+        lineno: frame.line,
+        colno: frame.column,
+        function: frame.func || '?'
+      }));
+    } catch (err) {
+      /* nada */
+    }
+    _sendToSentry({
+      message,
+      extra: {
+        stringPayload
+      },
+      exception: {
+        values: [{
+          type: err.type,
+          value: message,
+          stacktrace: {
+            frames: stack
+          }
+        }]
+      }
+    });
+  } catch (err) {
+    (0, _logError.default)('Failed to send', err);
+  }
+}
+
+/***/ }),
+
+/***/ "./packages/@logrocket/utils/src/startsWith.js":
+/*!*****************************************************!*\
+  !*** ./packages/@logrocket/utils/src/startsWith.js ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = startsWith;
+function startsWith(value, search) {
+  let pos = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  return value && search && value.substring(pos, pos + search.length) === search;
+}
+
+/***/ }),
+
+/***/ "./packages/logrocket/src/LogRocket.js":
+/*!*********************************************!*\
+  !*** ./packages/logrocket/src/LogRocket.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_130726__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_130726__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = exports.MAX_QUEUE_SIZE = void 0;
+var _defineProperty2 = _interopRequireDefault(__nested_webpack_require_130726__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js"));
+var _objectWithoutProperties2 = _interopRequireDefault(__nested_webpack_require_130726__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+var _network = _interopRequireDefault(__nested_webpack_require_130726__(/*! @logrocket/network */ "./packages/@logrocket/network/src/index.js"));
+var _exceptions = __nested_webpack_require_130726__(/*! @logrocket/exceptions */ "./packages/@logrocket/exceptions/src/index.js");
+var _console = _interopRequireDefault(__nested_webpack_require_130726__(/*! @logrocket/console */ "./packages/@logrocket/console/src/index.js"));
+var _redux = __nested_webpack_require_130726__(/*! @logrocket/redux */ "./packages/@logrocket/redux/src/index.js");
+var _sendTelemetryData = _interopRequireDefault(__nested_webpack_require_130726__(/*! @logrocket/utils/src/sendTelemetryData */ "./packages/@logrocket/utils/src/sendTelemetryData.js"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+const MAX_QUEUE_SIZE = exports.MAX_QUEUE_SIZE = 1000;
+const considerIngestServerOption = function () {
+  let _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    {
+      ingestServer
+    } = _ref,
+    options = (0, _objectWithoutProperties2.default)(_ref, ["ingestServer"]);
+  if (ingestServer) {
+    return _objectSpread({
+      serverURL: "".concat(ingestServer, "/i"),
+      statsURL: "".concat(ingestServer, "/s")
+    }, options);
+  }
+  return options;
+};
+class LogRocket {
+  constructor() {
+    var _this = this;
+    this._buffer = [];
+    // TODO: tests for these exposed methods.
+    ['log', 'info', 'warn', 'error', 'debug'].forEach(method => {
+      this[method] = function () {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+        _this.addEvent('lr.core.LogEvent', function () {
+          let consoleOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+          if (method === 'error' && consoleOptions.shouldAggregateConsoleErrors) {
+            _exceptions.Capture.captureMessage(_this, args[0], args, {}, true);
+          }
+          return {
+            logLevel: method.toUpperCase(),
+            args
+          };
+        }, {
+          shouldCaptureStackTrace: true
+        });
+      };
+    });
+    this._isInitialized = false;
+    this._installed = [];
+
+    // expose a callback to get the session URL from the global context
+    window._lr_surl_cb = this.getSessionURL.bind(this);
+  }
+  addEvent(type, getMessage) {
+    let opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    const time = Date.now();
+    this._run(logger => {
+      logger.addEvent(type, getMessage, _objectSpread(_objectSpread({}, opts), {}, {
+        timeOverride: time
+      }));
+    });
+  }
+  onLogger(logger) {
+    this._logger = logger;
+    while (this._buffer.length > 0) {
+      const f = this._buffer.shift();
+      f(this._logger);
+    }
+  }
+  _run(f) {
+    if (this._isDisabled) {
+      return;
+    }
+    if (this._logger) {
+      f(this._logger);
+    } else {
+      if (this._buffer.length >= MAX_QUEUE_SIZE) {
+        this._isDisabled = true;
+        console.warn('LogRocket: script did not load. Check that you have a valid network connection.');
+        this.uninstall();
+        return;
+      }
+      this._buffer.push(f.bind(this));
+    }
+  }
+  _initInternal(appID, opts) {
+    if (!this._isInitialized) {
+      var _opts$network;
+      const {
+        shouldAugmentNPS = true,
+        shouldParseXHRBlob = false,
+        shouldDetectExceptions = true
+      } = opts;
+      if (shouldDetectExceptions) {
+        this._installed.push((0, _exceptions.registerExceptions)(this));
+      }
+      this._installed.push((0, _network.default)(this, {
+        shouldAugmentNPS: !!shouldAugmentNPS,
+        shouldParseXHRBlob: !!shouldParseXHRBlob,
+        isDisabled: (opts === null || opts === void 0 ? void 0 : (_opts$network = opts.network) === null || _opts$network === void 0 ? void 0 : _opts$network.isEnabled) === false
+      }));
+      this._installed.push((0, _console.default)(this));
+      this._isInitialized = true;
+      this._run(logger => {
+        logger.init(appID, considerIngestServerOption(opts));
+      });
+    }
+  }
+  init(appID) {
+    var _window, _window$Zone, _window2, _window2$Zone, _window2$Zone$current;
+    let opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    // If inside an Angular Zone, escape the Zone to avoid interacting with Angular's change detection.
+    const parentZone = ((_window = window) === null || _window === void 0 ? void 0 : (_window$Zone = _window.Zone) === null || _window$Zone === void 0 ? void 0 : _window$Zone.root) || ((_window2 = window) === null || _window2 === void 0 ? void 0 : (_window2$Zone = _window2.Zone) === null || _window2$Zone === void 0 ? void 0 : (_window2$Zone$current = _window2$Zone.current) === null || _window2$Zone$current === void 0 ? void 0 : _window2$Zone$current._parent);
+    if (parentZone && typeof parentZone.run === 'function') {
+      try {
+        parentZone.run(() => {
+          this._initInternal(appID, opts);
+        });
+        return;
+      } catch (e) {
+        // If we fail to escape the Zone, just init directly.
+        console.warn('LogRocket: init failed to escape Angular Zone', e);
+        (0, _sendTelemetryData.default)(e);
+      }
+    }
+    this._initInternal(appID, opts);
+  }
+  start() {
+    this._run(logger => {
+      logger.start();
+    });
+  }
+  uninstall() {
+    this._installed.forEach(f => f());
+    this._buffer = [];
+    this._run(logger => {
+      logger.uninstall();
+    });
+  }
+  identify(id, opts) {
+    this._run(logger => {
+      logger.identify(id, opts);
+    });
+  }
+  startNewSession() {
+    this._run(logger => {
+      logger.startNewSession();
+    });
+  }
+  track(customEventName, eventProperties) {
+    this._run(logger => {
+      logger.track(customEventName, eventProperties);
+    });
+  }
+  getSessionURL(cb) {
+    if (typeof cb !== 'function') {
+      throw new Error('LogRocket: must pass callback to getSessionURL()');
+    }
+    this._run(logger => {
+      if (logger.getSessionURL) {
+        logger.getSessionURL(cb);
+      } else {
+        cb(logger.recordingURL);
+      }
+    });
+  }
+  trackScrollEvent(target) {
+    // Only reigster the event if the core logger is available,
+    //  otherwise we won't yet have captured the target element:
+    if (this._logger) {
+      this._logger.trackScrollEvent(target);
+    }
+  }
+  getVersion(cb) {
+    this._run(logger => {
+      cb(logger.version);
+    });
+  }
+  captureMessage(message) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    _exceptions.Capture.captureMessage(this, message, [message], options);
+  }
+  captureException(exception) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    _exceptions.Capture.captureException(this, exception, options);
+  }
+  get version() {
+    return this._logger && this._logger.version;
+  }
+  get sessionURL() {
+    return this._logger && this._logger.recordingURL;
+  }
+  get recordingURL() {
+    return this._logger && this._logger.recordingURL;
+  }
+  get recordingID() {
+    return this._logger && this._logger.recordingID;
+  }
+  get threadID() {
+    return this._logger && this._logger.threadID;
+  }
+  get tabID() {
+    return this._logger && this._logger.tabID;
+  }
+  reduxEnhancer() {
+    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    return (0, _redux.createEnhancer)(this, options);
+  }
+  reduxMiddleware() {
+    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    return (0, _redux.createMiddleware)(this, options);
+  }
+  get isDisabled() {
+    return !!(this._isDisabled || this._logger && this._logger._isDisabled);
+  }
+}
+exports["default"] = LogRocket;
+
+/***/ }),
+
+/***/ "./packages/logrocket/src/makeLogRocket.js":
+/*!*************************************************!*\
+  !*** ./packages/logrocket/src/makeLogRocket.js ***!
+  \*************************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_140327__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_140327__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = makeLogRocket;
+var _LogRocket = _interopRequireDefault(__nested_webpack_require_140327__(/*! ./LogRocket */ "./packages/logrocket/src/LogRocket.js"));
+const REACT_NATIVE_NOTICE = 'LogRocket on React Native requires the LogRocket React Native specific SDK. See setup guide here https://docs.logrocket.com/reference/react-native.';
+const makeNoopPolyfill = () => ({
+  init() {},
+  uninstall() {},
+  log() {},
+  info() {},
+  warn() {},
+  error() {},
+  debug() {},
+  addEvent() {},
+  identify() {},
+  start() {},
+  get threadID() {
+    return null;
+  },
+  get recordingID() {
+    return null;
+  },
+  get recordingURL() {
+    return null;
+  },
+  reduxEnhancer() {
+    return store => function () {
+      return store(...arguments);
+    };
+  },
+  reduxMiddleware() {
+    return () => next => action => next(action);
+  },
+  track() {},
+  getSessionURL() {},
+  getVersion() {},
+  startNewSession() {},
+  onLogger() {},
+  setClock() {},
+  captureMessage() {},
+  captureException() {}
+});
+function isUnsupportedLegacyBrowser() {
+  return !window.MutationObserver || !window.WeakMap || typeof Symbol === 'undefined' || typeof HTMLScriptElement.supports !== 'function';
+}
+function makeLogRocket() {
+  let getLogger = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : () => {};
+  let getNoopPolyfill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : makeNoopPolyfill;
+  let getInstance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : () => new _LogRocket.default();
+  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    throw new Error(REACT_NATIVE_NOTICE);
+  }
+  if (typeof window !== 'undefined') {
+    if (window._disableLogRocket || isUnsupportedLegacyBrowser()) {
+      return getNoopPolyfill();
+    }
+
+    // Save window globals that we rely on.
+    window._lrMutationObserver = window.MutationObserver;
+    const instance = getInstance();
+    getLogger(instance);
+    return instance;
+  }
+  return makeNoopPolyfill();
+}
+
+/***/ }),
+
+/***/ "./packages/logrocket/src/setup.js":
+/*!*****************************************!*\
+  !*** ./packages/logrocket/src/setup.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_142900__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __nested_webpack_require_142900__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = setup;
+exports.getDomainsAndEnv = getDomainsAndEnv;
+exports.setupBaseSDKCONFIG = setupBaseSDKCONFIG;
+var _objectWithoutProperties2 = _interopRequireDefault(__nested_webpack_require_142900__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+var _makeLogRocket = _interopRequireDefault(__nested_webpack_require_142900__(/*! ./makeLogRocket */ "./packages/logrocket/src/makeLogRocket.js"));
+const CDN_SERVER_MAP = {
+  'cdn.logrocket.com': 'https://r.logrocket.io',
+  'cdn.logrocket.io': 'https://r.logrocket.io',
+  'cdn.lr-ingest.io': 'https://r.lr-ingest.io',
+  'cdn.lr-in.com': 'https://r.lr-in.com',
+  'cdn.lr-in-prod.com': 'https://r.lr-in-prod.com',
+  'cdn.lr-ingest.com': 'https://r.lr-ingest.com',
+  'cdn.ingest-lr.com': 'https://r.ingest-lr.com',
+  'cdn.lr-intake.com': 'https://r.lr-intake.com',
+  'cdn.intake-lr.com': 'https://r.intake-lr.com',
+  'cdn.logr-ingest.com': 'https://r.logr-ingest.com',
+  'cdn.lrkt-in.com': 'https://r.lrkt-in.com',
+  'cdn.lgrckt-in.com': 'https://r.lgrckt-in.com',
+  'cdn.logr-in.com': 'https://r.logr-in.com',
+  'cdn-staging.logrocket.io': 'https://staging-i.logrocket.io',
+  'cdn-staging.lr-ingest.io': 'https://staging-i.lr-ingest.io',
+  'cdn-staging.lr-in.com': 'https://staging-i.lr-in.com',
+  'cdn-staging.lr-in-prod.com': 'https://staging-i.lr-in-prod.com',
+  'cdn-staging.lr-ingest.com': 'https://staging-i.lr-ingest.com',
+  'cdn-staging.ingest-lr.com': 'https://staging-i.ingest-lr.com',
+  'cdn-staging.lr-intake.com': 'https://staging-i.lr-intake.com',
+  'cdn-staging.intake-lr.com': 'https://staging-i.intake-lr.com',
+  'cdn-staging.logr-ingest.com': 'https://staging-i.logr-ingest.com',
+  'cdn-staging.lrkt-in.com': 'https://staging-i.lrkt-in.com',
+  'cdn-staging.lgrckt-in.com': 'https://staging-i.lgrckt-in.com',
+  'cdn-staging.logr-in.com': 'https://staging-i.logr-in.com'
+};
+function envFromHostname(hostname) {
+  if (hostname.startsWith('cdn-staging')) {
+    return 'staging';
+  } else if (hostname.startsWith('localhost')) {
+    return 'development';
+  } else {
+    return 'prod';
+  }
+}
+function getDomainsAndEnv(sdkVersion) {
+  if (sdkVersion === 'script' || sdkVersion === 'shopify-pixel') {
+    // We cannot rely on the DEPLOY_ENV config for script tag usage: we deploy the script built for staging to prod to
+    // improve deployment times, so the DEPLOY_ENV is always 'staging' for script usage! Instead we default to 'prod'
+    // and inspect the script's URL to determine if the environment should instead be staging or development.
+    try {
+      const scriptTag = document.currentScript;
+      const matches = scriptTag.src.match(/^(https?:\/\/([^\\]+))\/.+$/);
+      const scriptHostname = matches && matches[2];
+      if (scriptHostname && CDN_SERVER_MAP[scriptHostname]) {
+        return {
+          scriptEnv: envFromHostname(scriptHostname),
+          scriptOrigin: matches && matches[1],
+          scriptIngest: CDN_SERVER_MAP[scriptHostname]
+        };
+      }
+    } catch (_) {
+      /* no-op */
+    }
+
+    // If we cannot determine the env based on the script's URL we default to prod.
+    return {
+      scriptEnv: 'prod',
+      scriptOrigin: 'https://cdn.logrocket.io'
+    };
+  } else {
+    // NPM package
+    return {
+      scriptEnv: undefined,
+      scriptOrigin:   false ? 0 : 'https://cdn.logr-in.com',
+      scriptIngest:   false ? 0 : 'https://r.logr-in.com'
+    };
+  }
+}
+function setupBaseSDKCONFIG(ingestServer) {
+  if (typeof window.__SDKCONFIG__ === 'undefined') {
+    window.__SDKCONFIG__ = {};
+  }
+  window.__SDKCONFIG__.serverURL = "".concat(ingestServer, "/i");
+  window.__SDKCONFIG__.statsURL = "".concat(ingestServer, "/s");
+}
+function setup() {
+  let _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+    {
+      enterpriseServer,
+      sdkVersion = "12.0.0"
+    } = _ref,
+    opts = (0, _objectWithoutProperties2.default)(_ref, ["enterpriseServer", "sdkVersion"]);
+  const {
+    scriptEnv,
+    scriptOrigin,
+    scriptIngest
+  } = getDomainsAndEnv(sdkVersion);
+  const sdkServer = opts.sdkServer || enterpriseServer;
+  const ingestServer = opts.ingestServer || enterpriseServer || scriptIngest;
+  const instance = (0, _makeLogRocket.default)(() => {
+    const script = document.createElement('script');
+    if (ingestServer) {
+      setupBaseSDKCONFIG(ingestServer);
+      window.__SDKCONFIG__.scriptEnv = scriptEnv;
+    }
+    if (sdkServer) {
+      script.src = "".concat(sdkServer, "/logger.min.js");
+    } else if (window.__SDKCONFIG__ && window.__SDKCONFIG__.loggerURL) {
+      script.src = window.__SDKCONFIG__.loggerURL;
+    } else if (window._lrAsyncScript) {
+      script.src = window._lrAsyncScript;
+    } else {
+      script.src = "".concat(scriptOrigin, "/logger-1.min.js");
+    }
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = () => {
+      // Brave browser: Advertises its user-agent as Chrome ##.##... then
+      // loads logger.min.js, but blocks the execution of the script
+      // causing _LRlogger to be undefined.  Let's make sure its there first.
+      if (typeof window._LRLogger === 'function') {
+        setTimeout(() => {
+          instance.onLogger(new window._LRLogger({
+            sdkVersion
+          }));
+        });
+      } else {
+        console.warn('LogRocket: script execution has been blocked by a product or service.');
+        instance.uninstall();
+      }
+    };
+    script.onerror = () => {
+      console.warn('LogRocket: script could not load. Check that you have a valid network connection.');
+      instance.uninstall();
+    };
+  });
+  return instance;
+}
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!********************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \********************************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_149380__) {
+
+var toPropertyKey = __nested_webpack_require_149380__(/*! ./toPropertyKey.js */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/toPropertyKey.js");
+function _defineProperty(obj, key, value) {
+  key = toPropertyKey(key);
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
+  \***************************************************************************************************************/
+/***/ (function(module) {
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/objectWithoutProperties.js":
+/*!*****************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
+  \*****************************************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_151224__) {
+
+var objectWithoutPropertiesLoose = __nested_webpack_require_151224__(/*! ./objectWithoutPropertiesLoose.js */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js");
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+  var target = objectWithoutPropertiesLoose(source, excluded);
+  var key, i;
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+module.exports = _objectWithoutProperties, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js":
+/*!**********************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
+  \**********************************************************************************************************************/
+/***/ (function(module) {
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+  return target;
+}
+module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/toPrimitive.js":
+/*!*****************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/toPrimitive.js ***!
+  \*****************************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_153595__) {
+
+var _typeof = (__nested_webpack_require_153595__(/*! ./typeof.js */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/toPropertyKey.js":
+/*!*******************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/toPropertyKey.js ***!
+  \*******************************************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_154784__) {
+
+var _typeof = (__nested_webpack_require_154784__(/*! ./typeof.js */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+var toPrimitive = __nested_webpack_require_154784__(/*! ./toPrimitive.js */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/toPrimitive.js");
+function _toPropertyKey(arg) {
+  var key = toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/typeof.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/typeof.js ***!
+  \************************************************************************************************/
+/***/ (function(module) {
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return (module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports), _typeof(obj);
+}
+module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __nested_webpack_require_156594__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_156594__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/global */
+/******/ 	!function() {
+/******/ 		__nested_webpack_require_156594__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __nested_webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+!function() {
+"use strict";
+var exports = __nested_webpack_exports__;
+/*!**********************************************!*\
+  !*** ./packages/logrocket/src/module-npm.js ***!
+  \**********************************************/
+
+
+var _interopRequireDefault = __nested_webpack_require_156594__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/.pnpm/@babel+runtime@7.21.0/node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+var _setup = _interopRequireDefault(__nested_webpack_require_156594__(/*! ./setup */ "./packages/logrocket/src/setup.js"));
+/** @type {import('./types').LR.LogRocket} */
+const instance = (0, _setup.default)();
+var _default = exports["default"] = instance;
+}();
+__nested_webpack_exports__ = __nested_webpack_exports__["default"];
+/******/ 	return __nested_webpack_exports__;
+/******/ })()
+;
+});
 
 /***/ }),
 
@@ -18510,7 +22598,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-e447d5":"38914705db41ff5de7b8","vendors-node_modules_heroicons_react_16_solid_esm_ArrowLeftIcon_js-node_modules_heroicons_rea-c15cb5":"eb86457988b5be6cccf8","src_Components_Pages_EventsPage_jsx":"813394bc21977c9381fb","src_Components_Pages_EventsListPage_jsx":"84cd90067a45788f4944","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"555e240ea375126d87ca","src_Components_PostEditor_EventDetails_jsx":"1d523f395c7205b7ec82","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-02e6b0":"3664080301e3c6d241d1","src_Components_Pages_SettingsPage_jsx":"fbd267fe7ba9bfa8f004","vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_heroicons_react_16_solid_e-735075":"c428f5da178ab707d3b5","src_Components_Pages_FiltersPage_jsx":"c2335ef87ce4af78fb4b","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"fc314cedff07f37085dd","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"1cdd916f6b3f85136b26","vendors-node_modules_react-day-picker_dist_esm_DayPicker_js":"fdf2036bce2521269edd","src_Components_Pages_BookingsPage_jsx":"0ede917e11f6333ab525","src_Components_Pages_SupportPage_jsx":"34a428eb6de3d92e570b","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-e8d6fb":"56b8f822fb746c9b1980","src_Components_Pages_BrandingPage_jsx":"7efdc1bcadecab42eb17","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_Pages_CreateEventForm_jsx":"37e6efbb166dfdddf794","src_Components_Pages_Dashboard_jsx":"ff20b3c0c2f8b57483c4","src_Components_Pages_CreateFilterPage_jsx":"62d3cd788308ce237c94","src_Components_Pages_FiltersListPage_jsx":"a0ecb0e517b846c6d8aa","src_Components_Pages_SingleEventPageRouterShell_jsx":"3c4c415dc3aaeda727cc","src_Components_Pages_ZoomPage_jsx":"93e86a2947f4dd3a79eb","src_Components_Pages_ZoomSettingsPage_jsx":"9cb1b8f0ee2e39b03fb4","src_Components_Pages_StripeIntegrationsPage_jsx":"27b29b4d526f9d12456b","src_Components_Pages_EmailsPage_jsx":"34e2e034015cc54ec317","src_Components_Pages_CalendarsPage_jsx":"7775286458299691cc45","src_Components_Pages_OnboardingFlow_jsx":"24d3aca311edd99ee847","src_Components_PostEditor_DateStep_jsx":"c1f3ebfa58328830c4ec","src_Components_PostEditor_VenueStep_jsx":"03b9892cc1876be14f67","src_Components_PostEditor_FiltersStep_jsx":"410ad4359845d614cbc1","src_Components_PostEditor_BrandingStep_jsx":"313027e6a54aabe0dcec","src_Components_PostEditor_TicketsStep_jsx":"bab99b8363e677421032","src_Components_PostEditor_RegistrantsStep_jsx":"a59ef128671da768e0f1","src_Components_SettingsStep_jsx":"ef9fa35f3da9c44d8cb2","src_Components_BrandingStep_jsx":"3a5fca6e47b37379e23e","src_Components_BillingStep_jsx":"dd39ae92f9c4f25e1e11"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js-node_modules_react-spinners_esm_ClipLoader_js":"45e5d73ca0ee35bebe95","vendors-node_modules_prop-types_index_js-node_modules_babel_runtime_helpers_esm_extends_js":"c14e8230bce0b9d761c8","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-e447d5":"38914705db41ff5de7b8","vendors-node_modules_heroicons_react_16_solid_esm_ArrowLeftIcon_js-node_modules_heroicons_rea-c15cb5":"eb86457988b5be6cccf8","src_Components_Pages_EventsPage_jsx":"813394bc21977c9381fb","src_Components_Pages_EventsListPage_jsx":"84cd90067a45788f4944","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_IntegrationsPage_jsx":"7e0393a5d1693dd080e7","src_Components_PostEditor_EventDetails_jsx":"1d523f395c7205b7ec82","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-02e6b0":"3664080301e3c6d241d1","src_Components_Pages_SettingsPage_jsx":"6612c64a3846aa94203e","vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_heroicons_react_16_solid_e-735075":"c428f5da178ab707d3b5","src_Components_Pages_FiltersPage_jsx":"c2335ef87ce4af78fb4b","vendors-node_modules_quill_dist_quill_snow_css-node_modules_react-spinners_esm_ClipLoader_js--93a569":"1174af52681646a80b42","src_Components_Pages_EmailTemplates_jsx":"cf92826d9bb36dab8216","vendors-node_modules_reaviz_dist_index_js":"ef94db7d29d6e14f3ee5","src_Components_Pages_AnalyticsPage_jsx":"2abcf315d69fe16b2dfa","vendors-node_modules_react-day-picker_dist_esm_DayPicker_js":"fdf2036bce2521269edd","src_Components_Pages_BookingsPage_jsx":"1def3506f909d1c76f29","src_Components_Pages_SupportPage_jsx":"34a428eb6de3d92e570b","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-e8d6fb":"56b8f822fb746c9b1980","src_Components_Pages_BrandingPage_jsx":"7efdc1bcadecab42eb17","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_Pages_CreateEventForm_jsx":"c009b9854254726d56c3","src_Components_Pages_Dashboard_jsx":"1f435d67cc98223e9692","src_Components_Pages_CreateFilterPage_jsx":"62d3cd788308ce237c94","src_Components_Pages_FiltersListPage_jsx":"a0ecb0e517b846c6d8aa","src_Components_Pages_SingleEventPageRouterShell_jsx":"3c4c415dc3aaeda727cc","src_Components_Pages_ZoomPage_jsx":"d662a0593ae774ad3641","src_Components_Pages_ZoomSettingsPage_jsx":"9cb1b8f0ee2e39b03fb4","src_Components_Pages_StripeIntegrationsPage_jsx":"27b29b4d526f9d12456b","src_Components_Pages_EmailsPage_jsx":"9ccd1cb749083197fc61","src_Components_Pages_CalendarsPage_jsx":"7775286458299691cc45","src_Components_Pages_OnboardingFlow_jsx":"59459a662329c7be4ad0","src_Components_PostEditor_DateStep_jsx":"28db4e3d48eba846007e","src_Components_PostEditor_VenueStep_jsx":"7e7665853a6605465901","src_Components_PostEditor_FiltersStep_jsx":"410ad4359845d614cbc1","src_Components_PostEditor_BrandingStep_jsx":"0b7f685b5bee7082bd79","src_Components_PostEditor_TicketsStep_jsx":"7c694da534445f91f55a","src_Components_PostEditor_RegistrantsStep_jsx":"007f90b1867ed6f862e9","src_Components_SettingsStep_jsx":"86fbdf3d353e81d81111","src_Components_FirstEventStep_jsx":"2cf75d3523b3ec3463ac","src_Components_IntegrationsStep_jsx":"d38aa50eadadc0b7157a","src_Components_BrandingStep_jsx":"8ab53a666dc0c76b72dc","src_Components_BillingStep_jsx":"b6a7b10d878a5f763413"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -18823,15 +22911,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var _Components_Layout_Layout_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Components/Layout/Layout.jsx */ "./src/Components/Layout/Layout.jsx");
-/* harmony import */ var _Components_Layout_Layout_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Components/Layout/Layout.css */ "./src/Components/Layout/Layout.css");
-/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var quill_dist_quill_core_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! quill/dist/quill.core.css */ "./node_modules/quill/dist/quill.core.css");
-/* harmony import */ var _Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Components/Pages/ValidationScreen.jsx */ "./src/Components/Pages/ValidationScreen.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var logrocket__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! logrocket */ "./node_modules/logrocket/dist/build.umd.js");
+/* harmony import */ var logrocket__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(logrocket__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Components_Layout_Layout_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Components/Layout/Layout.jsx */ "./src/Components/Layout/Layout.jsx");
+/* harmony import */ var _Components_Layout_Layout_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Components/Layout/Layout.css */ "./src/Components/Layout/Layout.css");
+/* harmony import */ var _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utilities/textResolver.js */ "./src/utilities/textResolver.js");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var quill_dist_quill_core_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! quill/dist/quill.core.css */ "./node_modules/quill/dist/quill.core.css");
+/* harmony import */ var _Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Components/Pages/ValidationScreen.jsx */ "./src/Components/Pages/ValidationScreen.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
+
 
 
 
@@ -18852,8 +22943,8 @@ const SupportPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => __we
 const BrandingPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_react-spinners_esm_Cl-e8d6fb"), __webpack_require__.e("src_Components_Pages_BrandingPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/BrandingPage.jsx */ "./src/Components/Pages/BrandingPage.jsx")));
 const ScrollManager = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Layout_ScrollManager_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Layout/ScrollManager.jsx */ "./src/Components/Layout/ScrollManager.jsx")));
 
-window.t = _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_6__.t;
-(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_6__.initI18n)("en_US");
+window.t = _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_7__.t;
+(0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_7__.initI18n)("en_US");
 
 
 
@@ -18869,10 +22960,10 @@ const StripeIntegrationsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy
 const EmailsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Pages_EmailsPage_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EmailsPage.jsx */ "./src/Components/Pages/EmailsPage.jsx")));
 const CalendarsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Pages_CalendarsPage_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/CalendarsPage.jsx */ "./src/Components/Pages/CalendarsPage.jsx")));
 const OnboardingFlow = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Pages_OnboardingFlow_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/OnboardingFlow.jsx */ "./src/Components/Pages/OnboardingFlow.jsx")));
-const LayoutWrapper = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Components_Layout_Layout_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react__WEBPACK_IMPORTED_MODULE_3__.Suspense, {
+const LayoutWrapper = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Layout_Layout_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react__WEBPACK_IMPORTED_MODULE_3__.Suspense, {
     fallback: null,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Outlet, {})
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Outlet, {})
   })
 });
 const AppRouter = ({
@@ -18880,7 +22971,7 @@ const AppRouter = ({
 }) => {
   const {
     fetchSettings
-  } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_7__.useServvStore)();
+  } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_8__.useServvStore)();
   const [statusChecked, setStatusChecked] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
   const intervalRef = (0,react__WEBPACK_IMPORTED_MODULE_3__.useRef)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
@@ -18906,107 +22997,107 @@ const AppRouter = ({
     };
   }, []);
   if (!restAPIAvailable) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_10__["default"], {
       message: "REST API not accessible."
     });
   }
   if (servvData.install_status === "failed") {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_10__["default"], {
       message: "\u26A0\uFE0F Activation failed.",
       troubleshoot: true
     });
   }
   if (servvData.install_status !== "ok" && servvData.install_status !== "failed" && !statusChecked) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_Components_Pages_ValidationScreen_jsx__WEBPACK_IMPORTED_MODULE_10__["default"], {
       message: "Installation in progress..."
     });
   }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react__WEBPACK_IMPORTED_MODULE_3__.Suspense, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react__WEBPACK_IMPORTED_MODULE_3__.Suspense, {
     fallback: null,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(ScrollManager, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Routes, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(ScrollManager, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Routes, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
         path: "events/new",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(CreateEventForm, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(CreateEventForm, {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
         path: "events/offline/:id",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(CreateEventForm, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(CreateEventForm, {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
         path: "events/zoom/:id",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(CreateEventForm, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(CreateEventForm, {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
         path: "onboarding",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(OnboardingFlow, {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(LayoutWrapper, {}),
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(OnboardingFlow, {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(LayoutWrapper, {}),
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "/",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Navigate, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Navigate, {
             to: "dashboard",
             replace: true
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "dashboard",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(Dashboard, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(Dashboard, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "events",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(EventsListPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(EventsListPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "bookings",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(BookingsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(BookingsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "filters",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(FiltersPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(FiltersPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "filters/list/:type",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(FiltersListPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(FiltersListPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "filters/new/:type",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(CreateFilterPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(CreateFilterPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "integrations",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(IntegrationsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(IntegrationsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "integrations/stripe",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(StripeIntegrationsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(StripeIntegrationsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "integrations/gmail",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(EmailsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(EmailsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "integrations/calendars",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(CalendarsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(CalendarsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "integrations/zoom",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(ZoomPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(ZoomPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "integrations/zoom/settings",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(ZoomSettingsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(ZoomSettingsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "notifications",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(EmailTemplates, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(EmailTemplates, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "settings",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(SettingsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(SettingsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "analytics",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(AnalyticsPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(AnalyticsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "branding",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(BrandingPage, {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(BrandingPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "support",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(SupportPage, {})
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(SupportPage, {})
         })]
       })]
     })]
   });
 };
-const EventPage = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+const EventPage = () => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
   className: "servv-page",
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react__WEBPACK_IMPORTED_MODULE_3__.Suspense, {
-    fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react__WEBPACK_IMPORTED_MODULE_3__.Suspense, {
+    fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
       children: "Loading event..."
     }),
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(EventDetails, {})
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(EventDetails, {})
   })
 });
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(() => {
@@ -19020,12 +23111,15 @@ _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(() => {
     } catch {
       restAPIAvailable = false;
     }
-    root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.HashRouter, {
-      children: servvData.page === "servvai-event-booking" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(AppRouter, {
+    if (servvData.env === "test") {
+      logrocket__WEBPACK_IMPORTED_MODULE_4___default().init("nh6p6d/servvai-test");
+    }
+    root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.HashRouter, {
+      children: servvData.page === "servvai-event-booking" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(AppRouter, {
         restAPIAvailable: restAPIAvailable
-      }) : servvData.page === "events" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(EventPage, {}) : null
+      }) : servvData.page === "events" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(EventPage, {}) : null
     }));
-    setTimeout(() => (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_6__.translateAll)(), 0);
+    setTimeout(() => (0,_utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_7__.translateAll)(), 0);
   }
   init();
 });

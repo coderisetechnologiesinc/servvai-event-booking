@@ -23,6 +23,7 @@ const DateStep = ({
   isOccurrence,
   isNew,
   handleFormSubmit,
+  isOnboarding,
 }) => {
   const navigate = useNavigate();
   const { startTime, duration, timezone, recurrence } =
@@ -295,7 +296,7 @@ const DateStep = ({
           </div>
 
           {/* Timezone */}
-          <div className="step__content_block">
+          {/* <div className="step__content_block">
             <span className="step__content_title">Timezone</span>
 
             <NewSelectControl
@@ -305,7 +306,7 @@ const DateStep = ({
               onChange={handleTimezoneChange}
               iconRight={<ChevronDownIcon />}
             />
-          </div>
+          </div> */}
         </div>
 
         {/* Time */}
@@ -343,7 +344,7 @@ const DateStep = ({
           )}
 
           {/* Recurrence */}
-          {!isOccurrence && (
+          {!isOccurrence && !isOnboarding && (
             <div className="mt-8">
               <span className="step__content_title">Recurrence</span>
 
@@ -403,7 +404,7 @@ const DateStep = ({
             <button
               type="button"
               className="servv_button servv_button--secondary"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => changeStep("branding")}
             >
               Previous
             </button>

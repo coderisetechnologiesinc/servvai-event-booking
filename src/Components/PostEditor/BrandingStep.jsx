@@ -3,7 +3,7 @@ import { BrushIcon, UploadIcon } from "../../assets/icons";
 import NewInputControl from "../Controls/NewInputControl";
 import RadioGroup from "../Controls/RecurrenceRadioGroup";
 import { useRef, useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const VISIBILITY_OPTIONS = [
   { value: true, label: "On" },
   { value: false, label: "Off" },
@@ -23,6 +23,7 @@ const BrandingStep = ({
   isNew = false,
   calendarConnected,
 }) => {
+  const navigate = useNavigate();
   const { google_calendar, disable_emails } = attributes.notifications || {};
   const [warning, setWarning] = useState(false);
   const { topic, agenda } = attributes.meeting;

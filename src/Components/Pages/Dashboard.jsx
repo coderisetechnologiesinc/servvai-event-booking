@@ -2,7 +2,7 @@ import PageWrapper from "./PageWrapper";
 import { useMemo, useState, Fragment, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useServvStore } from "../../store/useServvStore";
-import { useEventsLogic } from "./Events/useEventsLogicMerged"; // ← merged hook
+import { useEventsLogic } from "./Events/useEventsLogicMerged";
 import EventCard from "./Events/EventCard";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import NewButtonGroup from "../Controls/NewButtonGroup";
@@ -65,6 +65,13 @@ const Dashboard = () => {
     if (meeting.occurrence_id) {
       url += `?occurrence_id=${meeting.occurrence_id}`;
     }
+
+    if (meeting?.registrants_view && !meeting.occurrence_id) {
+      url += `?registrants=true`;
+    } else if (meeting?.registrants_view && meeting.occurrence_id) {
+      url += `&registrants=true`;
+    }
+
     navigate(url, { state: { from: location.pathname } });
   };
   useEffect(() => {
@@ -81,7 +88,8 @@ const Dashboard = () => {
       firstFetchDone &&
       mergedList.length === 0 &&
       !zoomConnected &&
-      !onboardingSkipped
+      !onboardingSkipped &&
+      !isFiltersApplied()
     ) {
       navigate("/onboarding");
     }
@@ -327,7 +335,14 @@ const Dashboard = () => {
                 <div className="profile-email">{pw_email}</div>
                 {!settings?.is_wp_is_wp_marketplace && (
                   <div className="profile-link">
-                    <a className="view-widget" href={servvData.homepage}>
+                    <a
+                      className="view-widget"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        open(servvData.homepage, "_blank");
+                      }}
+                      // href={servvData.homepage}
+                    >
                       View store
                     </a>
                   </div>

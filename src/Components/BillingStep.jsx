@@ -7,9 +7,11 @@ import {
   CreditCardIcon,
   CheckCircleIcon,
   XCircleIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
-import ModalShell from "./ModalShell";
+import AnimatedModal from "./AnimatedModal";
 import SpinnerLoader from "./Pages/SpinnerLoader";
+import InteractiveCard from "./Containers/InteractiveCard";
 import { useServvStore } from "../store/useServvStore";
 
 const BillingStep = ({
@@ -96,7 +98,12 @@ const BillingStep = ({
   };
 
   const activePlanId = settings?.current_plan?.id || 1;
-
+  useEffect(() => {
+    if (activePlanId !== 1) {
+      goToNextStep();
+    }
+  }, [activePlanId]);
+  const isMarketplace = settings?.is_wp_marketplace === true;
   return (
     <div className="step__wrapper w-full">
       {/* Header */}
@@ -118,118 +125,83 @@ const BillingStep = ({
               isLoading={loading && !billingPlans}
               customStyling="top-[30px]"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div
+                className={`${
+                  isMarketplace
+                    ? "flex flex-row max-w-[640px] items-center mx-auto justify-center"
+                    : "grid grid-cols-1 md:grid-cols-2 gap-6"
+                }`}
+              >
                 {billingPlans?.map((plan, idx) => {
                   const isCurrent = activePlanId === plan.id;
                   const isUpgradeable = plan.id > (activePlanId || 0);
                   const premium = idx === billingPlans.length - 1;
 
-                  return (
-                    <div
-                      key={plan.id}
-                      className="flex flex-col rounded-2xl border p-6 flex-1"
-                      style={{
-                        background: premium ? "#462986" : "#FFFFFF",
-                        border: "1px solid #E6EBE7",
-                        boxShadow:
-                          "0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03)",
-                        minHeight: 0,
-                      }}
-                    >
-                      {/* Top section */}
-                      <div className="flex flex-col items-center gap-3 text-center">
-                        <p
-                          className="text-sm font-bold tracking-widest uppercase"
-                          style={{
-                            background: premium
-                              ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)"
-                              : undefined,
-                            WebkitBackgroundClip: premium ? "text" : undefined,
-                            WebkitTextFillColor: premium
-                              ? "transparent"
-                              : "transparent",
-                            backgroundClip: premium ? "text" : undefined,
-                            color: premium ? undefined : "#872CFA",
-                            WebkitTextFillColor: premium
-                              ? "transparent"
-                              : "#872CFA",
-                          }}
-                        >
-                          {plan.name}
-                        </p>
-
-                        <h2
-                          className="text-3xl font-bold"
-                          style={{ color: premium ? "#FFFFFF" : "#070908" }}
-                        >
-                          {plan.price > 0
-                            ? `$${plan.price}/mo`
-                            : plan.price_annual > 0
-                            ? `$${plan.price_annual}/yr`
-                            : "Free"}
-                        </h2>
-
-                        {plan.application_fee_percent > 0 && (
+                  if ((isMarketplace && plan.id !== 1) || !isMarketplace)
+                    return (
+                      <InteractiveCard
+                        key={plan.id}
+                        isPremium={premium}
+                        style={{ minHeight: 0 }}
+                        subtitle={
                           <p
-                            className="text-sm"
+                            className="text-sm font-bold tracking-widest uppercase"
                             style={{
-                              color: premium
-                                ? "rgba(255,255,255,0.6)"
-                                : "#717680",
+                              background: premium
+                                ? "linear-gradient(91.35deg, #FFFFFF 2.18%, #CAC5E6 16.69%, #C4CBF7 40.59%, #C3E2E9 67.97%, #E8A76B 98.12%)"
+                                : undefined,
+                              WebkitBackgroundClip: premium
+                                ? "text"
+                                : undefined,
+                              backgroundClip: premium ? "text" : undefined,
+                              WebkitTextFillColor: premium
+                                ? "transparent"
+                                : "#872CFA",
                             }}
                           >
-                            {plan.application_fee_percent}% transaction fee
+                            {plan.name}
                           </p>
-                        )}
-                      </div>
-
-                      {/* Features */}
-                      {/* <ul className="mt-8 flex flex-col gap-5">
-                        {plan.features?.map((feature, index) => (
-                          <li key={index} className="flex items-start gap-2.5">
-                            {feature.value === "true" ? (
-                              <CheckCircleIcon
-                                className="w-5 h-5 shrink-0"
-                                style={{
-                                  color: premium ? "#E3E1F2" : "#299E6C",
-                                }}
-                              />
-                            ) : (
-                              <XCircleIcon
-                                className="w-5 h-5 shrink-0"
-                                style={{
-                                  color: premium
-                                    ? "rgba(255,255,255,0.3)"
-                                    : "#D0D5DD",
-                                }}
-                              />
-                            )}
-                            <span
-                              className="text-base font-light"
-                              style={{ color: premium ? "#FFFFFF" : "#070908" }}
-                            >
-                              {feature.title}
-                            </span>
-                          </li>
-                        ))}
-                      </ul> */}
-
-                      {/* CTA */}
-                      <div className="mt-auto pt-8 flex flex-col items-center gap-3">
-                        {isCurrent ? (
-                          <>
-                            <span
-                              className="text-xs font-semibold px-2 py-1 rounded-full"
+                        }
+                        title={
+                          <h2
+                            className="text-3xl font-bold"
+                            style={{ color: premium ? "#FFFFFF" : "#070908" }}
+                          >
+                            {plan.price > 0
+                              ? `$${plan.price}/mo`
+                              : plan.price_annual > 0
+                              ? `$${plan.price_annual}/yr`
+                              : "Free"}
+                          </h2>
+                        }
+                        text={
+                          plan.application_fee_percent > 0 ? (
+                            <p
+                              className="text-sm"
                               style={{
-                                color: premium ? "#462986" : "#6941C6",
-                                background: premium ? "#FFFFFF" : "#F4EBFF",
+                                color: premium
+                                  ? "rgba(255,255,255,0.6)"
+                                  : "#717680",
                               }}
                             >
-                              Active Plan
-                            </span>
-                          </>
-                        ) : (
-                          isUpgradeable && (
+                              {plan.application_fee_percent}% transaction fee
+                            </p>
+                          ) : null
+                        }
+                        action={
+                          isCurrent && activePlanId !== 1 ? (
+                            <div className="flex flex-col items-center">
+                              <span
+                                className="text-xs font-semibold px-2 py-1 rounded-full"
+                                style={{
+                                  color: premium ? "#462986" : "#6941C6",
+                                  background: premium ? "#FFFFFF" : "#F4EBFF",
+                                }}
+                              >
+                                Active Plan
+                              </span>
+                            </div>
+                          ) : (
                             <button
                               type="button"
                               className="w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90 disabled:opacity-50"
@@ -241,16 +213,23 @@ const BillingStep = ({
                                   "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
                                 color: "#FFFFFF",
                               }}
-                              onClick={() => showPaymentOptions(plan)}
+                              onClick={() => {
+                                if (plan.id === 1) {
+                                  goToNextStep();
+                                } else if (isMarketplace) {
+                                  activateBillingPlan(plan.id);
+                                } else {
+                                  showPaymentOptions(plan);
+                                }
+                              }}
                               disabled={loading}
                             >
                               Activate
                             </button>
                           )
-                        )}
-                      </div>
-                    </div>
-                  );
+                        }
+                      />
+                    );
                 })}
               </div>
             </SpinnerLoader>
@@ -259,18 +238,8 @@ const BillingStep = ({
         <div id="servv-payment-element" />
 
         {/* Actions */}
-        {!loading && billingPlans && (
+        {/* {!loading && billingPlans && (
           <div className={`servv_actions mt-auto`}>
-            {/* {goToPreviousStep && (
-              <button
-                type="button"
-                className="servv_button servv_button--secondary"
-                onClick={goToPreviousStep}
-                disabled={loading || parentLoading}
-              >
-                Previous
-              </button>
-            )} */}
 
             <button
               type="button"
@@ -281,61 +250,86 @@ const BillingStep = ({
               {parentLoading ? "Saving..." : "Continue"}
             </button>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Payment Options Modal */}
-      {showPaymentOptionsModal && selectedPlan && (
-        <ModalShell
-          title={`Activate ${selectedPlan.name}`}
-          onClose={() => {
-            setShowPaymentOptionsModal(false);
-            setSelectedPlan(null);
-          }}
-        >
-          <div className="flex flex-col gap-y-[16px] p-[24px]">
-            {selectedPlan.application_fee_percent > 0 && (
-              <p className="step__description">
-                This plan includes a {selectedPlan.application_fee_percent}%
-                transaction fee.
-              </p>
-            )}
+      <AnimatedModal
+        open={showPaymentOptionsModal && !!selectedPlan}
+        onClose={() => {
+          setShowPaymentOptionsModal(false);
+          setSelectedPlan(null);
+        }}
+      >
+        {({ close }) => (
+          <div className="relative w-full max-w-[600px] max-h-[85vh] bg-white rounded-xl shadow-lg flex flex-col">
+            {/* Close button */}
+            <button
+              onClick={close}
+              className="absolute -top-4 -right-4 w-9 h-9 flex items-center justify-center rounded-full border border-[#D5D7DA] bg-white hover:bg-gray-50 shadow-md"
+            >
+              <XMarkIcon className="w-5 h-5 text-[#414651]" />
+            </button>
 
-            <div className="flex flex-col gap-y-[12px]">
-              {selectedPlan.price > 0 && (
-                <button
-                  type="button"
-                  className="servv_button servv_button--primary w-full"
-                  onClick={() => activateBillingPlan(selectedPlan.id)}
-                >
-                  Monthly — ${selectedPlan.price}/mo
-                </button>
-              )}
-
-              {selectedPlan.price_annual > 0 && (
-                <button
-                  type="button"
-                  className="servv_button servv_button--secondary w-full"
-                  onClick={() => activateBillingPlan(selectedPlan.id, true)}
-                >
-                  Annual — ${selectedPlan.price_annual}/yr
-                </button>
+            {/* Header */}
+            <div className="text-center p-8 pb-4 flex-shrink-0">
+              <h2 className="text-xl font-semibold text-[#181D27]">
+                Activate {selectedPlan?.name}
+              </h2>
+              {selectedPlan?.application_fee_percent > 0 && (
+                <p className="text-base text-[#717680] mt-1">
+                  This plan includes a {selectedPlan.application_fee_percent}%
+                  transaction fee.
+                </p>
               )}
             </div>
 
-            <button
-              type="button"
-              className="servv_button servv_button--secondary w-full"
-              onClick={() => {
-                setShowPaymentOptionsModal(false);
-                setSelectedPlan(null);
-              }}
-            >
-              Cancel
-            </button>
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto px-8 py-4">
+              <div className="flex flex-col gap-4">
+                {selectedPlan?.price > 0 && (
+                  <button
+                    type="button"
+                    className="servv_button servv_button--primary w-full"
+                    onClick={() => {
+                      activateBillingPlan(selectedPlan.id);
+                      setShowPaymentOptionsModal(false);
+                      close();
+                    }}
+                  >
+                    Monthly — ${selectedPlan.price}/mo
+                  </button>
+                )}
+
+                {selectedPlan?.price_annual > 0 && (
+                  <button
+                    type="button"
+                    className="servv_button servv_button--secondary w-full"
+                    onClick={() => {
+                      activateBillingPlan(selectedPlan.id, true);
+                      setShowPaymentOptionsModal(false);
+                      close();
+                    }}
+                  >
+                    Annual — ${selectedPlan.price_annual}/yr
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end gap-3 p-8 pt-4 border-t border-gray-200 flex-shrink-0">
+              <button
+                type="button"
+                className="servv_button servv_button--secondary"
+                onClick={close}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-        </ModalShell>
-      )}
+        )}
+      </AnimatedModal>
     </div>
   );
 };

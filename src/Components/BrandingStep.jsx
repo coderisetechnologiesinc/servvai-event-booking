@@ -1,14 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { UploadIcon } from "../assets/icons";
 import { BrushIcon } from "../assets/icons";
 import NewInputControl from "./Controls/NewInputControl";
-import NewSelectControl from "./Controls/NewSelectControl";
-import CheckboxControl from "./Controls/CheckboxControl";
-import RadioGroup from "./Controls/RecurrenceRadioGroup";
-import NewButtonGroup from "./Controls/NewButtonGroup";
+import InteractiveCard from "./Containers/InteractiveCard";
 import { useNavigate } from "react-router-dom";
 import { useServvStore } from "../store/useServvStore";
 
@@ -24,10 +20,8 @@ const BrandingStep = ({
 }) => {
   const navigate = useNavigate();
   const avatarInputRef = useRef(null);
-  const bannerInputRef = useRef(null);
   const fetchSettings = useServvStore((s) => s.fetchSettings);
   const [avatarUploading, setAvatarUploading] = useState(false);
-  const [bannerUploading, setBannerUploading] = useState(false);
 
   const pickValue = (current, incoming, fallback = undefined) => {
     if (current !== undefined && current !== null && current !== "") {
@@ -125,42 +119,6 @@ const BrandingStep = ({
   }, [settings]);
 
   /* --------------------------------------------
-     Gradient presets
-  -------------------------------------------- */
-  const gradientPresets = [
-    {
-      value: "linear-gradient(135deg, #4f46e5, #9333ea)",
-      label: "Purple Blue",
-    },
-    {
-      value: "linear-gradient(135deg, #06b6d4, #3b82f6)",
-      label: "Cyan Blue",
-    },
-    {
-      value: "linear-gradient(135deg, #f97316, #ef4444)",
-      label: "Orange Red",
-    },
-    {
-      value: "linear-gradient(135deg, #10b981, #059669)",
-      label: "Green",
-    },
-  ];
-
-  /* --------------------------------------------
-     Color presets
-  -------------------------------------------- */
-  const colorPresets = [
-    "#ffffff",
-    "#f3f4f6",
-    "#d1d5db",
-    "#111827",
-    "#4338ca",
-    "#4f46e5",
-    "#ec4899",
-    "#10b981",
-  ];
-
-  /* --------------------------------------------
      Image upload helper
   -------------------------------------------- */
   const uploadImageToMediaLibrary = async (file) => {
@@ -210,46 +168,12 @@ const BrandingStep = ({
         branding: {
           ...attributes.branding,
           avatar: url,
+          avatarPreview: url,
         },
       });
     }
 
     setAvatarUploading(false);
-  };
-
-  /* --------------------------------------------
-     Banner upload
-  -------------------------------------------- */
-  const handleBannerChange = async (file) => {
-    if (!file) return;
-
-    setBannerUploading(true);
-
-    // Preview immediately
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAttributes({
-        branding: {
-          ...attributes.branding,
-          bannerPreview: reader.result,
-        },
-      });
-    };
-    reader.readAsDataURL(file);
-
-    // Upload to WP media library
-    const url = await uploadImageToMediaLibrary(file);
-
-    if (url) {
-      setAttributes({
-        branding: {
-          ...attributes.branding,
-          banner: url,
-        },
-      });
-    }
-
-    setBannerUploading(false);
   };
 
   /* --------------------------------------------
@@ -265,8 +189,11 @@ const BrandingStep = ({
     goToNextStep();
   };
 
+  const avatarSrc =
+    attributes.branding.avatarPreview || attributes.branding.avatar;
+
   return (
-    <div className="step__wrapper">
+    <div className="step__wrapper w-full">
       {/* Header */}
       <div className="step__header">
         <BrushIcon className="step__header_icon settings-icon" />
@@ -279,367 +206,129 @@ const BrandingStep = ({
       </div>
 
       {/* Content */}
-      <div className="step__content">
-        <div className="flex flex-col gap-y-[24px]">
-          {/* Business Title */}
-          <div className="step__content_block">
-            <span className="step__content_title flex flex-row items-center">
-              Store Name<span className="ml-1 text-brand-700">*</span>
-            </span>
-
-            <NewInputControl
-              placeholder="Enter your store name"
-              value={attributes.branding.title || ""}
-              onChange={(val) =>
-                setAttributes({
-                  branding: {
-                    ...attributes.branding,
-                    title: val,
-                  },
-                })
-              }
-            />
-
-            <p className="step__description">
-              This will appear at the top of your widget.
-            </p>
-          </div>
-
-          {/* Description */}
-          <div className="step__content_block">
-            <span className="step__content_title">Description</span>
-
-            <NewInputControl
-              placeholder="Tell visitors what you offer"
-              value={attributes.branding.description || ""}
-              textarea={true}
-              onChange={(val) => {
-                if (val.length <= 100)
-                  setAttributes({
-                    branding: {
-                      ...attributes.branding,
-                      description: val,
-                    },
-                  });
-              }}
-            />
-            <div className="flex flex-row justify-between">
-              <p className="step__description">
-                Keep it short and clear (1–2 sentences).
-              </p>
-              <span className="step__description">{`${attributes.branding.description.length}/100`}</span>
-            </div>
-          </div>
-
-          {/* Avatar Upload */}
-          <div className="step__content_block">
-            <span className="step__content_title">Avatar</span>
-
-            <input
-              ref={avatarInputRef}
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleAvatarChange(file);
-              }}
-            />
-
-            <div className="flex gap-4 items-start">
-              <div
-                className="servv_upload pt-[16px]flex-1"
-                onClick={() => avatarInputRef.current?.click()}
-                style={{ cursor: "pointer" }}
-              >
-                <div className="servv_upload__icon">
-                  <UploadIcon />
-                </div>
-                <div className="servv_upload__text">
-                  <button type="button" className="servv_upload__action">
-                    {avatarUploading ? "Uploading..." : "Click to upload"}
-                  </button>
-                </div>
-                <div className="servv_upload__support">
-                  PNG or JPG up to 5MB.
-                </div>
-                <div className="servv_upload__support">
-                  Recommended size: 400×400px.
-                </div>
-              </div>
-
-              {(attributes.branding.avatarPreview ||
-                attributes.branding.avatar) && (
-                <img
-                  src={
-                    attributes.branding.avatarPreview ||
-                    attributes.branding.avatar
-                  }
-                  alt="Avatar preview"
-                  className="w-[120px] h-[120px] rounded-full border object-cover shrink-0"
-                  style={{ opacity: avatarUploading ? 0.6 : 1 }}
-                />
-              )}
-            </div>
-          </div>
-
-          {/* Banner Upload */}
-          <div className="step__content_block">
-            <span className="step__content_title">Banner Image</span>
-
-            <input
-              ref={bannerInputRef}
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleBannerChange(file);
-              }}
-            />
-
-            <div
-              className="servv_upload pt-[16px]"
-              onClick={() => bannerInputRef.current?.click()}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="servv_upload__icon">
-                <UploadIcon />
-              </div>
-              <div className="servv_upload__text">
-                <button type="button" className="servv_upload__action">
-                  {bannerUploading ? "Uploading..." : "Click to upload"}
-                </button>
-              </div>
-              <div className="servv_upload__support">JPG or PNG up to 5MB.</div>
-              <div className="servv_upload__support">
-                Recommended size: 1920×1080px.
-              </div>
-            </div>
-
-            {(attributes.branding.bannerPreview ||
-              attributes.branding.banner) && (
-              <img
-                src={
-                  attributes.branding.bannerPreview ||
-                  attributes.branding.banner
-                }
-                alt="Banner preview"
-                className="w-full h-[120px] rounded-xl border object-cover mt-3"
-                style={{ opacity: bannerUploading ? 0.6 : 1 }}
-              />
-            )}
-          </div>
-
-          {/* Background Type */}
-          <div className="step__content_block">
-            <span className="step__content_title">Background Type</span>
-            <NewButtonGroup
-              buttons={["Color", "Gradient"]}
-              active={
-                attributes.branding.backgroundType === "gradient"
-                  ? "Gradient"
-                  : "Color"
-              }
-              onChange={(label) =>
-                setAttributes({
-                  branding: {
-                    ...attributes.branding,
-                    backgroundType: label.toLowerCase(),
-                  },
-                })
-              }
-            />
-          </div>
-
-          {/* Background Color (if solid) */}
-          {attributes.branding.backgroundType === "color" && (
-            <div className="step__content_block">
-              <span className="step__content_title">Background Color</span>
-
-              <div className="flex items-center gap-3">
-                <input
-                  type="color"
-                  value={attributes.branding.backgroundColor || "#ffffff"}
-                  onChange={(e) =>
-                    setAttributes({
-                      branding: {
-                        ...attributes.branding,
-                        backgroundColor: e.target.value,
-                      },
-                    })
-                  }
-                  className="w-12 h-12 rounded-lg border-0 outline-none cursor-pointer"
-                />
-
-                <NewInputControl
-                  placeholder="#ffffff"
-                  value={attributes.branding.backgroundColor || "#ffffff"}
-                  onChange={(val) =>
-                    setAttributes({
-                      branding: {
-                        ...attributes.branding,
-                        backgroundColor: val,
-                      },
-                    })
-                  }
-                />
-              </div>
-
-              {/* Color Presets */}
-              <div className="flex gap-2 flex-wrap mt-3">
-                {colorPresets.map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    onClick={() =>
-                      setAttributes({
-                        branding: {
-                          ...attributes.branding,
-                          backgroundColor: color,
-                        },
-                      })
-                    }
-                    className="w-9 h-9 rounded-lg border-0 outline-none cursor-pointer hover:scale-110 transition-transform"
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Background Gradient (if gradient) */}
-          {attributes.branding.backgroundType === "gradient" && (
-            <div className="step__content_block">
-              <span className="step__content_title">Background Gradient</span>
-
-              <NewSelectControl
-                value={
-                  attributes.branding.backgroundGradient ||
-                  gradientPresets[0].value
-                }
-                options={gradientPresets}
-                helpText="Select gradient preset"
-                style={{ width: "100%" }}
+      <div className="step__content w-full max-w-[640px]">
+        <div className="flex flex-col gap-4">
+          {/* Store Name card */}
+          <InteractiveCard
+            className="flex-1 flex flex-col"
+            style={{
+              padding: "24px",
+              gap: "32px",
+              borderRadius: "16px",
+              border: "1px solid #E6EBE7",
+              boxShadow:
+                "0px 20px 24px -4px rgba(10, 13, 18, 0.08), 0px 8px 8px -4px rgba(10, 13, 18, 0.03)",
+            }}
+          >
+            <div className="flex flex-col gap-3">
+              <span className="step__content_title flex flex-row items-center">
+                Store Name<span className="ml-1 text-brand-700">*</span>
+              </span>
+              <NewInputControl
+                placeholder="Enter your store name"
+                value={attributes.branding.title || ""}
                 onChange={(val) =>
                   setAttributes({
                     branding: {
                       ...attributes.branding,
-                      backgroundGradient: val,
+                      title: val,
                     },
                   })
                 }
-                iconRight={<ChevronDownIcon />}
               />
+              <p className="step__description">
+                This will appear at the top of your widget.
+              </p>
+            </div>
+          </InteractiveCard>
 
-              {/* Gradient Preview */}
-              <div
-                className="h-[80px] rounded-xl border border-gray-200 mt-3"
-                style={{
-                  background:
-                    attributes.branding.backgroundGradient ||
-                    gradientPresets[0].value,
+          {/* Avatar card */}
+          <InteractiveCard className="flex-1">
+            <div className="flex flex-col gap-3">
+              <span className="step__content_title">Logo</span>
+
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleAvatarChange(file);
                 }}
               />
+
+              {avatarSrc ? (
+                <div className="flex flex-col items-center gap-3">
+                  <img
+                    src={avatarSrc}
+                    alt="Avatar preview"
+                    className="w-[96px] h-[96px] rounded-full border object-cover"
+                    style={{ opacity: avatarUploading ? 0.6 : 1 }}
+                  />
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      className="servv_upload__action"
+                      onClick={() => avatarInputRef.current?.click()}
+                      disabled={avatarUploading}
+                    >
+                      {avatarUploading ? "Uploading..." : "Change"}
+                    </button>
+                    <button
+                      type="button"
+                      className="flex items-center gap-1 text-[13px] font-semibold text-red-500 cursor-pointer bg-none border-none"
+                      style={{ background: "none", border: "none" }}
+                      onClick={() =>
+                        setAttributes({
+                          branding: {
+                            ...attributes.branding,
+                            avatar: "",
+                            avatarPreview: "",
+                          },
+                        })
+                      }
+                      disabled={avatarUploading}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className="servv_upload"
+                  onClick={() => avatarInputRef.current?.click()}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="servv_upload__icon">
+                    <UploadIcon />
+                  </div>
+                  <div className="servv_upload__text">
+                    <button type="button" className="servv_upload__action">
+                      {avatarUploading ? "Uploading..." : "Click to upload"}
+                    </button>
+                  </div>
+                  <div className="servv_upload__support">
+                    PNG or JPG up to 5MB.
+                  </div>
+                  <div className="servv_upload__support">
+                    Recommended size: 400×400px.
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-
-          {/* Text Color */}
-          <div className="step__content_block">
-            <span className="step__content_title">Text Color</span>
-
-            <div className="flex items-center gap-3">
-              <input
-                type="color"
-                value={attributes.branding.textColor || "#000000"}
-                onChange={(e) =>
-                  setAttributes({
-                    branding: {
-                      ...attributes.branding,
-                      textColor: e.target.value,
-                    },
-                  })
-                }
-                className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
-              />
-
-              <NewInputControl
-                placeholder="#000000"
-                value={attributes.branding.textColor || "#000000"}
-                onChange={(val) =>
-                  setAttributes({
-                    branding: {
-                      ...attributes.branding,
-                      textColor: val,
-                    },
-                  })
-                }
-              />
-            </div>
-
-            <p className="step__description">
-              Choose a color that contrasts well with your background.
-            </p>
-          </div>
+          </InteractiveCard>
         </div>
 
-        {/* Actions */}
         <div className="servv_actions mt-auto">
-          {/* <button
+          <button
             type="button"
-            className="servv_button servv_button--secondary"
-            onClick={goToPreviousStep}
-            disabled={loading}
-          >
-            Previous
-          </button> */}
-          {/* <button
-            type="button"
-            className="servv_button servv_button--secondary"
+            className="servv_button servv_button--primary"
             onClick={handleContinue}
-            disabled={loading}
+            disabled={loading || !attributes.branding.title?.trim()}
           >
-            {loading ? "Saving..." : "I'll do this later"}
-          </button> */}
-
-          {!brandingCompleted && (
-            <button
-              type="button"
-              className="servv_button servv_button--primary"
-              onClick={handleContinue}
-              disabled={loading || !attributes.branding.title?.trim()}
-            >
-              {loading ? "Saving..." : "Continue"}
-            </button>
-          )}
-
-          {/* {brandingCompleted && (
-            <button
-              type="button"
-              className="servv_button servv_button--primary"
-              onClick={() => {
-                const siteUrl =
-                  servvData?.siteUrl ||
-                  servvData?.site_url ||
-                  servvData?.home_url ||
-                  window.location.origin;
-
-                window.location.href = siteUrl;
-              }}
-              disabled={
-                loading ||
-                avatarUploading ||
-                bannerUploading ||
-                !attributes.branding.title?.trim()
-              }
-            >
-              {avatarUploading || bannerUploading
-                ? "Uploading..."
-                : loading
-                ? "Loading..."
-                : "View site"}
-            </button>
-          )} */}
+            {loading ? "Saving..." : "Continue"}
+          </button>
         </div>
       </div>
     </div>

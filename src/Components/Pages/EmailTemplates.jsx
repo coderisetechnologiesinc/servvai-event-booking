@@ -25,6 +25,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { useServvStore } from "../../store/useServvStore";
+import SpinnerLoader from "./SpinnerLoader";
 
 const EmailTemplates = () => {
   const [templates, setTemplates] = useState([]);
@@ -254,7 +255,7 @@ const EmailTemplates = () => {
   }, []);
 
   return (
-    <PageWrapper loading={loading} withBackground={true}>
+    <PageWrapper loading={false} withBackground={true}>
       {/* Mobile Layout */}
       {isMobile ? (
         <div
@@ -382,27 +383,29 @@ const EmailTemplates = () => {
               <label className="text-base font-semibold text-gray-900">
                 {t("Email Content")}
               </label>
-              <div className="border border-gray-200 rounded-xl overflow-hidden bg-white email-editor-container">
-                {formValues.editMode === "Rich Text" ? (
-                  <Editor
-                    key={`${selectedTemplate?.id}-${defaultText}`}
-                    ref={quillRef}
-                    defaultValue={defaultText}
-                    onChange={handleTemplateTextChange}
-                    mobileToolbar={[
-                      ["bold", "italic", "underline"],
-                      [{ list: "bullet" }],
-                      ["link"],
-                    ]}
-                    disabled={disabled}
-                  />
-                ) : (
-                  <HTMLEditor
-                    value={formValues.text}
-                    onChange={handleTemplateTextChange}
-                  />
-                )}
-              </div>
+              <SpinnerLoader isLoading={loading}>
+                <div className="border border-gray-200 rounded-xl overflow-hidden bg-white email-editor-container">
+                  {formValues.editMode === "Rich Text" ? (
+                    <Editor
+                      key={`${selectedTemplate?.id}-${defaultText}`}
+                      ref={quillRef}
+                      defaultValue={defaultText}
+                      onChange={handleTemplateTextChange}
+                      mobileToolbar={[
+                        ["bold", "italic", "underline"],
+                        [{ list: "bullet" }],
+                        ["link"],
+                      ]}
+                      disabled={disabled}
+                    />
+                  ) : (
+                    <HTMLEditor
+                      value={formValues.text}
+                      onChange={handleTemplateTextChange}
+                    />
+                  )}
+                </div>
+              </SpinnerLoader>
             </div>
 
             {/* Email Preview */}
@@ -606,22 +609,24 @@ const EmailTemplates = () => {
                   <label className="text-lg font-semibold text-gray-900">
                     {t("Email Content")}
                   </label>
-                  <div className="border border-gray-200 rounded-xl overflow-hidden bg-white max-w-full email-editor-container">
-                    {formValues.editMode === "Rich Text" ? (
-                      <Editor
-                        key={`${selectedTemplate?.id}-${defaultText}`}
-                        ref={quillRef}
-                        defaultValue={defaultText}
-                        onChange={handleTemplateTextChange}
-                        disabled={disabled}
-                      />
-                    ) : (
-                      <HTMLEditor
-                        value={formValues.text}
-                        onChange={handleTemplateTextChange}
-                      />
-                    )}
-                  </div>
+                  <SpinnerLoader isLoading={loading}>
+                    <div className="border border-gray-200 rounded-xl overflow-hidden bg-white max-w-full email-editor-container">
+                      {formValues.editMode === "Rich Text" ? (
+                        <Editor
+                          key={`${selectedTemplate?.id}-${defaultText}`}
+                          ref={quillRef}
+                          defaultValue={defaultText}
+                          onChange={handleTemplateTextChange}
+                          disabled={disabled}
+                        />
+                      ) : (
+                        <HTMLEditor
+                          value={formValues.text}
+                          onChange={handleTemplateTextChange}
+                        />
+                      )}
+                    </div>
+                  </SpinnerLoader>
                 </div>
 
                 {/* Email Preview - Fixed width for desktop */}

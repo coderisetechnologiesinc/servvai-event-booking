@@ -3824,6 +3824,10 @@
       opacity: 0;
     }
   }
+  .registrants-centered {
+    margin-left: 0 !important;
+    margin: 0 auto !important;
+  }
 }
 #servv-on-product-widget {
   all: unset;

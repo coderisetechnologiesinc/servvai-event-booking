@@ -21,6 +21,7 @@ const RegistrantsStep = ({
   setAttributes,
   changeStep,
   handleFormSubmit,
+  registrantsView,
 }) => {
   const registrants = attributes.registrants || [];
   const [firstNameValue, setFirstName] = useState("");
@@ -542,13 +543,15 @@ const RegistrantsStep = ({
 
       {/* Actions */}
       <div className="servv_actions mt-auto">
-        <button
-          type="button"
-          className="servv_button servv_button--secondary"
-          onClick={() => changeStep("branding")}
-        >
-          Previous
-        </button>
+        {!registrantsView && (
+          <button
+            type="button"
+            className="servv_button servv_button--secondary"
+            onClick={() => changeStep("branding")}
+          >
+            Previous
+          </button>
+        )}
 
         <button
           type="button"
