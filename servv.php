@@ -12,6 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+// Check if ABSPATH is defined
 
 const SERVV_PLUGIN_SLUG = 'servvai-event-booking';
 const SERVV_EVENT_POST_TYPE = 'servv_event';
