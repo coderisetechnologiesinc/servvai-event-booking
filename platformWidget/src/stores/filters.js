@@ -1,25 +1,30 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
-import axios from 'axios'
+import { ref } from "vue";
+import { defineStore } from "pinia";
+import axios from "axios";
 
-export const useFiltersStore = defineStore('filters', () => {
-  const locations = ref([])
-  const isLoading = ref(false)
-  const filtersListFetched = ref(false)
+export const useFiltersStore = defineStore("filters", () => {
+  const locations = ref([]);
+  const isLoading = ref(false);
+  const filtersListFetched = ref(false);
 
   async function fetchLocations() {
-    const root = document.querySelector('#platformwidget-wrapper')
-    if (!root || !window.servvAjax) return
+    if (window.__SERVV_STATIC__?.locations) {
+      locations.value = window.__SERVV_STATIC__.locations;
+      filtersListFetched.value = true;
+      return;
+    }
+    const root = document.querySelector("#platformwidget-wrapper");
+    if (!root || !window.servvAjax) return;
 
-    isLoading.value = true
+    isLoading.value = true;
 
     try {
-      const params = new URLSearchParams()
-      params.append('security', servvAjax.nonce)
-      params.append('action', 'servv_get_types_list')
+      const params = new URLSearchParams();
+      params.append("security", servvAjax.nonce);
+      params.append("action", "servv_get_types_list");
 
-      const response = await axios.post(servvAjax.ajax_url, params)
-      if (response.status !== 200 || !response.data) return
+      const response = await axios.post(servvAjax.ajax_url, params);
+      if (response.status !== 200 || !response.data) return;
 
       /**
        * Очікувана структура:
@@ -29,13 +34,13 @@ export const useFiltersStore = defineStore('filters', () => {
         response.data.locations?.map((loc) => ({
           id: loc.id,
           name: loc.name,
-        })) || []
+        })) || [];
 
-      filtersListFetched.value = true
+      filtersListFetched.value = true;
     } catch (e) {
-      console.error('Failed to fetch locations', e)
+      console.error("Failed to fetch locations", e);
     } finally {
-      isLoading.value = false
+      isLoading.value = false;
     }
   }
 
@@ -44,5 +49,5 @@ export const useFiltersStore = defineStore('filters', () => {
     isLoading,
     filtersListFetched,
     fetchLocations,
-  }
-})
+  };
+});

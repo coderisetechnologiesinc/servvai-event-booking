@@ -7,20 +7,16 @@ import LogRocket from "logrocket";
 import Layout from "./Components/Layout/Layout.jsx";
 import "./Components/Layout/Layout.css";
 
-const EventsPage = React.lazy(() => import("./Components/Pages/EventsPage"));
 const EventsListPage = React.lazy(() =>
   import("./Components/Pages/EventsListPage"),
 );
 const IntegrationsPage = React.lazy(() =>
-  import("./Components/Pages/IntegrationsPage"),
-);
-const EventDetails = React.lazy(() =>
-  import("./Components/PostEditor/EventDetails"),
+  import("./Components/Pages/Integrations/IntegrationsPage"),
 );
 const SettingsPage = React.lazy(() =>
   import("./Components/Pages/SettingsPage"),
 );
-const FiltersPage = React.lazy(() => import("./Components/Pages/FiltersPage"));
+const FiltersPage = React.lazy(() => import("./Components/Pages/Filters/FiltersPage"));
 const EmailTemplates = React.lazy(() =>
   import("./Components/Pages/EmailTemplates"),
 );
@@ -46,35 +42,31 @@ import "quill/dist/quill.core.css";
 
 import ValidationScreen from "./Components/Pages/ValidationScreen.jsx";
 const CreateEventForm = React.lazy(() =>
-  import("./Components/Pages/CreateEventForm.jsx"),
+  import("./Components/CreateEvent/CreateEventForm.jsx"),
 );
 const Dashboard = React.lazy(() => import("./Components/Pages/Dashboard.jsx"));
 const CreateFilterPage = React.lazy(() =>
-  import("./Components/Pages/CreateFilterPage.jsx"),
+  import("./Components/Pages/Filters/CreateFilterPage.jsx"),
 );
 const FiltersListPage = React.lazy(() =>
-  import("./Components/Pages/FiltersListPage.jsx"),
+  import("./Components/Pages/Filters/FiltersListPage.jsx"),
 );
 
-const SingleEventPageRouterShell = React.lazy(() =>
-  import("./Components/Pages/SingleEventPageRouterShell.jsx"),
-);
-
-const ZoomPage = React.lazy(() => import("./Components/Pages/ZoomPage.jsx"));
+const ZoomPage = React.lazy(() => import("./Components/Pages/Integrations/ZoomPage.jsx"));
 const ZoomSettingsPage = React.lazy(() =>
-  import("./Components/Pages/ZoomSettingsPage.jsx"),
+  import("./Components/Pages/Integrations/ZoomSettingsPage.jsx"),
 );
 const StripeIntegrationsPage = React.lazy(() =>
-  import("./Components/Pages/StripeIntegrationsPage.jsx"),
+  import("./Components/Pages/Integrations/StripeIntegrationsPage.jsx"),
 );
 const EmailsPage = React.lazy(() =>
   import("./Components/Pages/EmailsPage.jsx"),
 );
 const CalendarsPage = React.lazy(() =>
-  import("./Components/Pages/CalendarsPage.jsx"),
+  import("./Components/Pages/Integrations/CalendarsPage.jsx"),
 );
 const OnboardingFlow = React.lazy(() =>
-  import("./Components/Pages/OnboardingFlow.jsx"),
+  import("./Components/Onboarding/OnboardingFlow.jsx"),
 );
 const LayoutWrapper = () => (
   <Layout>
@@ -144,12 +136,9 @@ const AppRouter = ({ restAPIAvailable }) => {
         <Route element={<LayoutWrapper />}>
           <Route path="/" element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
-          {/* <Route path="events" element={<EventsPage />} /> */}
+
           <Route path="events" element={<EventsListPage />} />
-          {/* <Route
-            path="events/:type/:id"
-            element={<SingleEventPageRouterShell />}
-          /> */}
+
           <Route path="bookings" element={<BookingsPage />} />
           <Route path="filters" element={<FiltersPage />} />
           <Route path="filters/list/:type" element={<FiltersListPage />} />
@@ -177,14 +166,6 @@ const AppRouter = ({ restAPIAvailable }) => {
   );
 };
 
-const EventPage = () => (
-  <div className="servv-page">
-    <Suspense fallback={<div>Loading event...</div>}>
-      <EventDetails />
-    </Suspense>
-  </div>
-);
-
 domReady(() => {
   const rootEl = document.getElementById("servv-wrap");
   const root = createRoot(rootEl);
@@ -205,8 +186,6 @@ domReady(() => {
       <HashRouter>
         {servvData.page === "servvai-event-booking" ? (
           <AppRouter restAPIAvailable={restAPIAvailable} />
-        ) : servvData.page === "events" ? (
-          <EventPage />
         ) : null}
       </HashRouter>,
     );

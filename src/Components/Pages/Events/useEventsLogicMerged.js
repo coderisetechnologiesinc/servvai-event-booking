@@ -15,7 +15,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
     (s) => s.syncAccountsAfterEvents,
   );
   const syncFiltersFromServer = useServvStore((s) => s.syncFiltersFromServer);
-
+  const setDatePreset = useRef(1);
   // =====================================================================
   // STATE
   // =====================================================================
@@ -25,7 +25,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [isPast, setIsPast] = useState(false);
   const [eventType, setEventType] = useState("all");
-
+  const [dateSelected, setDateSelected] = useState(false);
   const [dates, setDates] = useState({ startDate: null, endDate: null });
   const [searchString, setSearchString] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -100,7 +100,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
 
   const isFiltersApplied = () => {
     if (searchString.length > 0) return true;
-    if (dates.startDate) return true;
+    if (dates.startDate && dateSelected) return true;
     return Object.values(selectedFilters).some((arr) => arr.length > 0);
   };
 
@@ -126,7 +126,7 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
   // DATE HELPERS
   // =====================================================================
 
-  const handleSetDates = (dates) => {
+  const handleSetDates = (dates, isDefault) => {
     const start = normalizeDate(dates.startDate);
     const end = normalizeDate(dates.endDate);
 
@@ -158,12 +158,17 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
         )
       : null;
 
+    if ((startDate || endDate) && setDatePreset.current > 1) {
+      setDateSelected(true);
+    } else if (!startDate && !endDate) {
+      setDateSelected(false);
+    }
     setDates({ startDate, endDate });
   };
 
   const applyDatePreset = (dates) => {
     handleSetDates(dates);
-
+    setDatePreset.current = 2;
     if (eventType === "all") {
       getMergedEventsList({
         is_Past: isPast,
@@ -773,5 +778,6 @@ export const useEventsLogic = (settings, filtersList, zoomAccount) => {
     handleMultipleEventsDelete,
     selectedEvents,
     setSelectedEvents,
+    dateSelected,
   };
 };

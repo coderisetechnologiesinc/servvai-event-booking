@@ -1,5 +1,11 @@
-import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
+import { getSettings } from "../../utilities/settings";
+import {
+  getAnalyticsRevenue,
+  getAnalyticsRegistrants,
+  getAnalyticsTypes,
+  getAnalyticsEvents,
+} from "../../utilities/analytics";
 import PageWrapper from "./PageWrapper";
 import PageContent from "../Containers/PageContent";
 import PageHeader from "../Containers/PageHeader";
@@ -82,14 +88,12 @@ const AnalyticsPage = () => {
   };
 
   // Settings fetch
-  const getSettings = async () => {
+  const loadSettings = async () => {
     setLoading(true);
     try {
-      const resp = await axios.get("/wp-json/servv-plugin/v1/shop/info", {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      });
-      if (resp.status === 200) {
-        setSettings(resp.data);
+      const data = await getSettings();
+      if (data) {
+        setSettings(data);
       }
     } catch (e) {
       console.error("Failed to fetch settings", e);
@@ -101,18 +105,12 @@ const AnalyticsPage = () => {
   const fetchTotalRevenue = async (from = null, to = null) => {
     setLoading(true);
     try {
-      let url = "/wp-json/servv-plugin/v1/analytics/revenue";
-      if (from && to) {
-        url += `?from=${from}&to=${to}`;
-      }
-      const revenue = await axios.get(url, {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      });
-      if (revenue && revenue.data) {
+      const data = await getAnalyticsRevenue(from, to);
+      if (data) {
         if (!from && !to) {
-          setTotalRevenue(revenue.data.total || 0);
+          setTotalRevenue(data.total || 0);
         } else {
-          setFilteredByDateRevenue(revenue.data.total || 0);
+          setFilteredByDateRevenue(data.total || 0);
         }
       }
     } catch (e) {
@@ -125,20 +123,14 @@ const AnalyticsPage = () => {
   const fetchTotalRegistrants = async (month = null) => {
     setLoading(true);
     try {
-      let url = "/wp-json/servv-plugin/v1/analytics/registrants";
-      if (isMonthSelected || month) {
-        url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(
-          selectedMonth,
-        )}`;
-      }
-      const resp = await axios.get(url, {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      });
-      if (resp && resp.data) {
+      const year = (isMonthSelected || month) ? selectedYear : null;
+      const monthIndex = (isMonthSelected || month) ? monthOptions.indexOf(selectedMonth) : null;
+      const data = await getAnalyticsRegistrants(year, monthIndex);
+      if (data) {
         if (!isMonthSelected && !month) {
-          setTotalRegistrants(resp.data);
+          setTotalRegistrants(data);
         } else {
-          setRegistrants(resp.data);
+          setRegistrants(data);
         }
       }
     } catch (e) {
@@ -200,22 +192,16 @@ const AnalyticsPage = () => {
   // Filters analytics fetch (from your provided code)
   const fetchFiltersStatistic = async (month) => {
     setLoading(true);
-    let url = "/wp-json/servv-plugin/v1/analytics/types";
-    if (isMonthSelected || month) {
-      url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(
-        selectedMonth,
-      )}`;
-    }
-    const types = await axios
-      .get(url, {
-        headers: { "X-WP-Nonce": servvData.nonce },
-      })
-      .catch((error) => console.log(error));
-    if (types) {
-      if (!isMonthSelected && !month) setFiltersStatistic(types.data);
-      else setFiltersStatisticFilteredByDate(types.data);
+    const year = (isMonthSelected || month) ? selectedYear : null;
+    const monthIndex = (isMonthSelected || month) ? monthOptions.indexOf(selectedMonth) : null;
+    const data = await getAnalyticsTypes(year, monthIndex).catch((error) =>
+      console.log(error),
+    );
+    if (data) {
+      if (!isMonthSelected && !month) setFiltersStatistic(data);
+      else setFiltersStatisticFilteredByDate(data);
       setLoading(false);
-      return types;
+      return data;
     }
     setLoading(false);
     return null;
@@ -226,33 +212,10 @@ const AnalyticsPage = () => {
     setLoading(true);
     let statistic = eventsStatistic ? { ...eventsStatistic } : {};
     try {
-      const resp1 = await axios.get(
-        "/wp-json/servv-plugin/v1/analytics/happened",
-        { headers: { "X-WP-Nonce": servvData.nonce } },
-      );
-      if (resp1 && resp1.data) {
-        statistic = { ...statistic, happened: resp1.data };
-      }
-      const resp2 = await axios.get(
-        "/wp-json/servv-plugin/v1/analytics/cancelled",
-        { headers: { "X-WP-Nonce": servvData.nonce } },
-      );
-      if (resp2 && resp2.data) {
-        statistic = {
-          ...statistic,
-          cancelled: resp2.data,
-        };
-      }
-      const resp3 = await axios.get(
-        "/wp-json/servv-plugin/v1/analytics/active",
-        { headers: { "X-WP-Nonce": servvData.nonce } },
-      );
-      if (resp3 && resp3.data) {
-        statistic = {
-          ...statistic,
-          active: resp3.data,
-        };
-      }
+      const { happened, cancelled, active } = await getAnalyticsEvents();
+      if (happened) statistic = { ...statistic, happened };
+      if (cancelled) statistic = { ...statistic, cancelled };
+      if (active) statistic = { ...statistic, active };
       setEventsStatistic(statistic);
     } catch (e) {
       console.error("Error fetching events analytics", e);
@@ -490,7 +453,7 @@ const AnalyticsPage = () => {
   // Initial load
   const getData = async () => {
     await fetchTotalRevenue();
-    await getSettings();
+    await loadSettings();
   };
   useEffect(() => {
     getData();

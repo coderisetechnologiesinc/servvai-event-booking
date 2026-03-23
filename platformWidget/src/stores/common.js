@@ -7,6 +7,11 @@ export const useCommonStore = defineStore("common", () => {
   const settingsFetched = ref(null);
 
   async function fetchWidgetSettings() {
+    if (window.__SERVV_STATIC__?.settings) {
+      settings.value = window.__SERVV_STATIC__.settings;
+      settingsFetched.value = true;
+      return;
+    }
     const SETTINGS_KEY = "servv_widget_settings";
     const SETTINGS_TTL = 5 * 60 * 1000;
     // if (window.__SERVV_SETTINGS__) {
@@ -34,10 +39,10 @@ export const useCommonStore = defineStore("common", () => {
       if (!root) return;
 
       const params = new URLSearchParams();
-      params.append("security", servvAjax.nonce);
+      params.append("security", window.__SERVV_STATIC__?.nonce || servvAjax?.nonce);
       params.append("action", "servv_get_shop_settings");
 
-      const response = await axios.post(servvAjax.ajax_url, params);
+      const response = await axios.post(servvAjax?.ajax_url, params);
 
       if (response.status !== 200) return;
 

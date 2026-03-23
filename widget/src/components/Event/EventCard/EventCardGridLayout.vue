@@ -28,7 +28,7 @@
           truncateString(
             event.agenda,
             widgetSettings.widget_style_settings
-              .ew_card_description_display_words_limit
+              .ew_card_description_display_words_limit,
           )
         "
         :link="productUrl"
@@ -72,10 +72,12 @@
               zoom:
                 event.provider === 'zoom' ||
                 (event.provider === 'offline' &&
-                  event.custom_field_1_name === 'Link'),
+                  event.custom_field_1_name === 'Link') ||
+                event.custom_field_1_name === 'Meeting link',
               offline:
                 event.provider === 'offline' &&
-                event.custom_field_1_name !== 'Link',
+                event.custom_field_1_name !== 'Link' &&
+                event.custom_field_1_name !== 'Meeting link',
             }"
           >
             <div class="label-value">
@@ -138,7 +140,7 @@
                 truncateString(
                   event.agenda,
                   widgetSettings.widget_style_settings
-                    .ew_card_description_display_words_limit
+                    .ew_card_description_display_words_limit,
                 )
               }}
             </div>
@@ -164,7 +166,7 @@
           </div>
           <div
             v-for="(item, index) of eventTypesList.filter(
-              (x) => !displayedFilters.includes(x.typeName)
+              (x) => !displayedFilters.includes(x.typeName),
             )"
             :key="index"
             class="type-list-item card-type-item-badge"
@@ -487,7 +489,7 @@ export default {
       let isFilterAllowed = null;
       if (language.length > 0) {
         isFilterAllowed = filters.filter(
-          (x) => !this.displayedFilters.includes(language[0].typeName)
+          (x) => !this.displayedFilters.includes(language[0].typeName),
         );
       }
       if (language.length > 0 && isFilterAllowed) {
@@ -504,7 +506,7 @@ export default {
       let isFilterAllowed = null;
       if (location.length > 0) {
         isFilterAllowed = filters.filter(
-          (x) => !this.displayedFilters.includes(location[0].typeName)
+          (x) => !this.displayedFilters.includes(location[0].typeName),
         );
       }
 

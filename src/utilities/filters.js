@@ -16,6 +16,15 @@ export const getFilterType = async (type) => {
   }
 };
 
+export const createLocation = async (name) => {
+  const response = await axios.post(
+    "/wp-json/servv-plugin/v1/filters/locations",
+    { name },
+    { headers: { "X-WP-Nonce": servvData.nonce } },
+  );
+  return response.data;
+};
+
 export const getFilters = async (current_plan) => {
   const filterTypes = ["locations", "languages", "categories"];
   if (current_plan !== 1) {

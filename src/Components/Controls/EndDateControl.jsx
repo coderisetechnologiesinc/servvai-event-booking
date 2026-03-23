@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SelectControl from "./SelectControl";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import DatePickerControl from "../PostEditor/DatePickerControl";
+import DatePickerControl from "../CreateEvent/DatePickerControl";
 import moment from "moment";
 import BlockStack from "../Containers/BlockStack";
 

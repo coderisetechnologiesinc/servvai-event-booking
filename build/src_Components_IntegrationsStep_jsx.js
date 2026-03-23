@@ -221,7 +221,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CheckIcon.js");
 /* harmony import */ var _heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @heroicons/react/16/solid */ "./node_modules/@heroicons/react/16/solid/esm/CalendarIcon.js");
 /* harmony import */ var _Containers_InteractiveCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Containers/InteractiveCard */ "./src/Components/Containers/InteractiveCard.jsx");
-/* harmony import */ var _ModalShell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalShell */ "./src/Components/ModalShell.jsx");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module './ModalShell'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 /* harmony import */ var _Containers_GmailConnectModalContent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Containers/GmailConnectModalContent */ "./src/Components/Containers/GmailConnectModalContent.jsx");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/useServvStore */ "./src/store/useServvStore.js");
 /* harmony import */ var _utilities_accounts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utilities/accounts */ "./src/utilities/accounts.js");
@@ -381,7 +381,7 @@ const IntegrationsStep = ({
           children: "Continue"
         })
       })]
-    }), showGmailModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), showGmailModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module './ModalShell'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
       title: "Connect Gmail",
       onClose: () => setShowGmailModal(false),
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Containers_GmailConnectModalContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -554,4 +554,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(Q
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_IntegrationsStep_jsx.js.map?ver=d38aa50eadadc0b7157a
+//# sourceMappingURL=src_Components_IntegrationsStep_jsx.js.map?ver=535f4387f015edb5ae4f

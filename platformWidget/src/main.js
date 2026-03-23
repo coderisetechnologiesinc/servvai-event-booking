@@ -6,8 +6,7 @@ import "./widget.css";
 document.addEventListener("DOMContentLoaded", () => {
   const el = document.querySelector("#servv-platform-widget");
   if (!el) return;
-
-  // Remove has-global-padding from closest parent container
+  3;
   const wrapper = el.closest(".has-global-padding");
   if (wrapper) {
     wrapper.classList.remove("has-global-padding");
@@ -16,4 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const app = createApp(App);
   app.use(createPinia());
   app.mount(el);
+
+  const skeleton = document.getElementById("servv-skeleton");
+  if (skeleton) skeleton.remove();
 });

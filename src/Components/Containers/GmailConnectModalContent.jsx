@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 import BlockStack from "../Containers/BlockStack";
 import CheckboxControl from "../Controls/CheckboxControl";
-import StepBlock from "../StepBlock";
+import StepBlock from "../Shared/StepBlock";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 const GmailConnectModalContent = ({
   gmailConfirmed,

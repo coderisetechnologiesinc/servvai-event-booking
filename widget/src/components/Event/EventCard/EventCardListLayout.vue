@@ -30,7 +30,7 @@
           truncateString(
             event.agenda,
             widgetSettings.widget_style_settings
-              .ew_card_description_display_words_limit
+              .ew_card_description_display_words_limit,
           )
         "
         :link="productUrl"
@@ -89,16 +89,18 @@
               class="item-provider-label"
               v-if="
                 event.provider &&
-                widgetSettings.widget_style_settings.ew_show_event_type_badge
+                  widgetSettings.widget_style_settings.ew_show_event_type_badge
               "
               :class="{
                 zoom:
                   event.provider === 'zoom' ||
                   (event.provider === 'offline' &&
-                    event.custom_field_1_name === 'Link'),
+                    (event.custom_field_1_name === 'Link' ||
+                      event.custom_field_1_name === 'Meeting link')),
                 offline:
                   event.provider === 'offline' &&
-                  event.custom_field_1_name !== 'Link',
+                  event.custom_field_1_name !== 'Link' &&
+                  event.custom_field_1_name !== 'Meeting link',
               }"
             >
               <div class="label-value">
@@ -112,7 +114,7 @@
               class="item-provider-label mobile"
               v-if="
                 event.provider &&
-                widgetSettings.widget_style_settings.ew_show_event_type_badge
+                  widgetSettings.widget_style_settings.ew_show_event_type_badge
               "
               :class="{
                 zoom: event.provider === 'zoom',
@@ -130,7 +132,7 @@
               truncateString(
                 event.agenda,
                 widgetSettings.widget_style_settings
-                  .ew_list_item_description_display_words_limit
+                  .ew_list_item_description_display_words_limit,
               )
             }}
           </div>
@@ -189,7 +191,7 @@
         </div>
         <div
           v-for="(item, index) of eventTypesList.filter(
-            (x) => !displayedFilters.includes(x.typeName)
+            (x) => !displayedFilters.includes(x.typeName),
           )"
           :key="index"
           class="type-list-item card-type-item-badge"
@@ -530,10 +532,10 @@ export default {
     },
     getLanguage() {
       let language = this.eventTypesList.filter(
-        (t) => t && t.typeName === "language"
+        (t) => t && t.typeName === "language",
       );
       let isFilterAllowed = this.eventTypesList.filter(
-        (x) => !this.displayedFilters.includes(language[0].typeName)
+        (x) => !this.displayedFilters.includes(language[0].typeName),
       );
       if (language.length > 0 && isFilterAllowed) {
         return language[0].value;
@@ -543,10 +545,10 @@ export default {
     },
     getLocation() {
       let location = this.eventTypesList.filter(
-        (t) => t && t.typeName === "location"
+        (t) => t && t.typeName === "location",
       );
       let isFilterAllowed = this.eventTypesList.filter(
-        (x) => !this.displayedFilters.includes(location[0].typeName)
+        (x) => !this.displayedFilters.includes(location[0].typeName),
       );
       if (location.length > 0 && isFilterAllowed) {
         return location[0].value;
@@ -563,7 +565,7 @@ export default {
     getEventDateTime(event) {
       return getItemDateTimeDataFormatted(
         event,
-        this.widgetsCurrentLanguage || this.widgetsDefaultLanguage
+        this.widgetsCurrentLanguage || this.widgetsDefaultLanguage,
       );
     },
     bundleEventDateFormatted(event) {
@@ -579,7 +581,7 @@ export default {
     bundleEventTimeFormatted(event) {
       let date = moment.tz(event.start_time, event.timezone);
       return `${date.format("ddd MMM Do YYYY,")} ${date.format(
-        " h:mma"
+        " h:mma",
       )} - ${date.add(event.duration, "m").format("h:mma")} 
       (${
         date.isDST()
@@ -588,8 +590,10 @@ export default {
                 .tz(event.timezone)
                 ._z.offsets.indexOf(
                   Math.abs(
-                    moment(event.start_time).tz(event.timezone).utcOffset()
-                  )
+                    moment(event.start_time)
+                      .tz(event.timezone)
+                      .utcOffset(),
+                  ),
                 )
             ]
           : moment.tz(event.timezone).format("zz")

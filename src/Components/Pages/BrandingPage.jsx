@@ -6,22 +6,24 @@ import PageActionButton from "../Controls/PageActionButton";
 import BlockStack from "../Containers/BlockStack";
 
 import { useServvStore } from "../../store/useServvStore";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { uploadMedia } from "../../utilities/media";
+import { saveSettings as saveSettingsUtil } from "../../utilities/settings";
 
 /* ✅ Cards */
-import SettingsCardWithModal from "../../Components/SettingsCardWithModal";
-import CustomLinksModal from "../CustomLinksModal";
-import YoutubeLinksModal from "../YoutubeLinksModal";
+import SettingsCardWithModal from "../Modals/SettingsCardWithModal";
+import CustomLinksModal from "../Modals/CustomLinksModal";
+import YoutubeLinksModal from "../Modals/YoutubeLinksModal";
 /* ✅ Modals */
-import ProfileBrandingModal from "../../Components/ProfileBrandingModal";
-import LinkInBioModal from "../../Components/LinkInBioModal";
-import ThemeBrandingModal from "../../Components/ThemeBrandingModal";
+import ProfileBrandingModal from "../Modals/ProfileBrandingModal";
+import LinkInBioModal from "../Modals/LinkInBioModal";
+import ThemeBrandingModal from "../Modals/ThemeBrandingModal";
 
 /* ✅ Icons */
 import { LinkIcon, PaintBrushIcon } from "@heroicons/react/24/outline";
 
 import { Profile, Youtube, Link } from "../../assets/icons";
+import SpinnerLoader from "./SpinnerLoader";
 
 const BrandingPage = () => {
   const { settings } = useServvStore();
@@ -175,18 +177,8 @@ const BrandingPage = () => {
   };
 
   const uploadImageToMediaLibrary = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
-      const res = await axios.post("/wp-json/wp/v2/media", formData, {
-        headers: {
-          "X-WP-Nonce": servvData.nonce,
-        },
-        timeout: 30000,
-      });
-
-      return res.data.source_url;
+      return await uploadMedia(file);
     } catch (error) {
       handleUploadError(error);
       return null;
@@ -311,17 +303,13 @@ const BrandingPage = () => {
     };
 
     try {
-      await axios.put(
-        "/wp-json/servv-plugin/v1/shop/settings",
-        {
-          ...settings,
-          settings: {
-            ...settings.settings,
-            widget_style_settings: JSON.stringify(newWidgetSettings),
-          },
+      await saveSettingsUtil({
+        ...settings,
+        settings: {
+          ...settings.settings,
+          widget_style_settings: JSON.stringify(newWidgetSettings),
         },
-        { headers: { "X-WP-Nonce": servvData.nonce } },
-      );
+      });
 
       toast("Settings saved successfully.");
     } catch (err) {
@@ -384,7 +372,7 @@ const BrandingPage = () => {
   ====================================================== */
 
   return (
-    <PageWrapper loading={loading} withBackground={true}>
+    <PageWrapper loading={false} withBackground={true}>
       <div className="dashboard-card">
         {/* HEADER */}
         <div className="servv-dashboard-header">
@@ -409,6 +397,7 @@ const BrandingPage = () => {
         <PageContent className="pt-0">
           <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))] gap-6">
             {/* ✅ Profile */}
+
             <SettingsCardWithModal
               icon={Profile}
               title="Profile"
@@ -445,20 +434,22 @@ const BrandingPage = () => {
                 );
               })()}
             >
-              <ProfileBrandingModal
-                title={title}
-                setTitle={setTitle}
-                description={description}
-                setDescription={setDescription}
-                address={address}
-                setAddress={setAddress}
-                email={email}
-                setEmail={setEmail}
-                hideAvatar={hideAvatar}
-                avatarUploading={avatarUploading}
-                setHideAvatar={setHideAvatar}
-                avatarPreview={avatarPreview}
-              />
+              <SpinnerLoader isLoading={loading}>
+                <ProfileBrandingModal
+                  title={title}
+                  setTitle={setTitle}
+                  description={description}
+                  setDescription={setDescription}
+                  address={address}
+                  setAddress={setAddress}
+                  email={email}
+                  setEmail={setEmail}
+                  hideAvatar={hideAvatar}
+                  avatarUploading={avatarUploading}
+                  setHideAvatar={setHideAvatar}
+                  avatarPreview={avatarPreview}
+                />
+              </SpinnerLoader>
             </SettingsCardWithModal>
 
             {/* ✅ Link in Bio */}
@@ -470,24 +461,26 @@ const BrandingPage = () => {
               statusText={linkBioStatus}
               handleSave={saveSettings}
             >
-              <LinkInBioModal
-                instagram={instagram}
-                setInstagram={setInstagram}
-                tiktok={tiktok}
-                setTikTok={setTikTok}
-                youtube={youtube}
-                setYoutube={setYoutube}
-                x={x}
-                setX={setX}
-                facebook={facebook}
-                setFacebook={setFacebook}
-                links={links}
-                setLinks={setLinks}
-                youtubeVideos={youtubeVideos}
-                setYoutubeVideos={setYoutubeVideos}
-                order={order}
-                setOrder={setOrder}
-              />
+              <SpinnerLoader isLoading={loading}>
+                <LinkInBioModal
+                  instagram={instagram}
+                  setInstagram={setInstagram}
+                  tiktok={tiktok}
+                  setTikTok={setTikTok}
+                  youtube={youtube}
+                  setYoutube={setYoutube}
+                  x={x}
+                  setX={setX}
+                  facebook={facebook}
+                  setFacebook={setFacebook}
+                  links={links}
+                  setLinks={setLinks}
+                  youtubeVideos={youtubeVideos}
+                  setYoutubeVideos={setYoutubeVideos}
+                  order={order}
+                  setOrder={setOrder}
+                />
+              </SpinnerLoader>
             </SettingsCardWithModal>
 
             {/* ✅ Theme */}
@@ -512,40 +505,42 @@ const BrandingPage = () => {
                 </button>
               }
             >
-              <ThemeBrandingModal
-                bgType={bgType}
-                setBgType={setBgType}
-                backgroundColor={backgroundColor}
-                setBackgroundColor={setBackgroundColor}
-                backgroundOpacity={backgroundOpacity}
-                setBackgroundOpacity={setBackgroundOpacity}
-                backgroundGradient={backgroundGradient}
-                setBackgroundGradient={setBackgroundGradient}
-                backgroundImagePreview={backgroundImagePreview}
-                setBackgroundImagePreview={setBackgroundImagePreview}
-                bgUploading={bgUploading}
-                textColor={textColor}
-                setTextColor={setTextColor}
-                textOpacity={textOpacity}
-                setTextOpacity={setTextOpacity}
-                widgetBgType={widgetBgType}
-                setWidgetBgType={setWidgetBgType}
-                widgetBgColor={widgetBgColor}
-                setWidgetBgColor={setWidgetBgColor}
-                widgetBgGradient={widgetBgGradient}
-                setWidgetBgGradient={setWidgetBgGradient}
-                responsiveBlock={responsiveBlock}
-                bannerImagePreview={bannerImagePreview}
-                bannerUploading={bannerUploading}
-                handleBannerChange={handleBannerChange}
-                hideAvatar={hideAvatar}
-                setHideAvatar={setHideAvatar}
-                avatarUploading={setAvatarUploading}
-                avatarPreview={setAvatarPreview}
-                handleAvatarChange={handleAvatarChange}
-                order={order}
-                setOrder={setOrder}
-              />
+              <SpinnerLoader isLoading={loading}>
+                <ThemeBrandingModal
+                  bgType={bgType}
+                  setBgType={setBgType}
+                  backgroundColor={backgroundColor}
+                  setBackgroundColor={setBackgroundColor}
+                  backgroundOpacity={backgroundOpacity}
+                  setBackgroundOpacity={setBackgroundOpacity}
+                  backgroundGradient={backgroundGradient}
+                  setBackgroundGradient={setBackgroundGradient}
+                  backgroundImagePreview={backgroundImagePreview}
+                  setBackgroundImagePreview={setBackgroundImagePreview}
+                  bgUploading={bgUploading}
+                  textColor={textColor}
+                  setTextColor={setTextColor}
+                  textOpacity={textOpacity}
+                  setTextOpacity={setTextOpacity}
+                  widgetBgType={widgetBgType}
+                  setWidgetBgType={setWidgetBgType}
+                  widgetBgColor={widgetBgColor}
+                  setWidgetBgColor={setWidgetBgColor}
+                  widgetBgGradient={widgetBgGradient}
+                  setWidgetBgGradient={setWidgetBgGradient}
+                  responsiveBlock={responsiveBlock}
+                  bannerImagePreview={bannerImagePreview}
+                  bannerUploading={bannerUploading}
+                  handleBannerChange={handleBannerChange}
+                  hideAvatar={hideAvatar}
+                  setHideAvatar={setHideAvatar}
+                  avatarUploading={setAvatarUploading}
+                  avatarPreview={setAvatarPreview}
+                  handleAvatarChange={handleAvatarChange}
+                  order={order}
+                  setOrder={setOrder}
+                />
+              </SpinnerLoader>
             </SettingsCardWithModal>
             {/* ✅ Custom Links Card */}
             <SettingsCardWithModal
@@ -556,7 +551,9 @@ const BrandingPage = () => {
               buttonText="Edit"
               handleSave={saveSettings}
             >
-              <CustomLinksModal links={links} setLinks={setLinks} />
+              <SpinnerLoader isLoading={loading}>
+                <CustomLinksModal links={links} setLinks={setLinks} />
+              </SpinnerLoader>
             </SettingsCardWithModal>
 
             {/* ✅ YouTube Videos Card */}
@@ -568,10 +565,12 @@ const BrandingPage = () => {
               buttonText="Edit"
               handleSave={saveSettings}
             >
-              <YoutubeLinksModal
-                youtubeVideos={youtubeVideos}
-                setYoutubeVideos={setYoutubeVideos}
-              />
+              <SpinnerLoader isLoading={loading}>
+                <YoutubeLinksModal
+                  youtubeVideos={youtubeVideos}
+                  setYoutubeVideos={setYoutubeVideos}
+                />
+              </SpinnerLoader>
             </SettingsCardWithModal>
           </div>
         </PageContent>

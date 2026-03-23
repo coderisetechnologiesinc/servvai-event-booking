@@ -13,7 +13,7 @@ import CheckboxControl from "../Controls/CheckboxControl";
 import BlockStack from "../Containers/BlockStack";
 import CollapsibleSection from "../Containers/CollapsibleSection";
 import Spinner from "../Menu/Spinner";
-import DashboardPagination from "../DashboardPagination";
+import DashboardPagination from "../Shared/DashboardPagination";
 import { toast } from "react-toastify";
 import SpinnerLoader from "./SpinnerLoader";
 
@@ -82,7 +82,8 @@ const Dashboard = () => {
     }
   }, []);
   useEffect(() => {
-    const onboardingSkipped = localStorage.getItem("onboardingSkipped") === "1";
+    const onboardingSkipped =
+      localStorage.getItem("onboardingSkipped") === window.location.origin;
 
     if (
       firstFetchDone &&

@@ -40,6 +40,7 @@ import WidgetSettings from "./Settings/WidgetSettings";
 import TranslationsSection from "./Settings/TranslationsSection";
 import BillingSettings from "./Settings/BillingSettings";
 import WorkflowSettings from "./Settings/WorkflowSettings";
+import SpinnerLoader from "./SpinnerLoader";
 
 const SettingsPage = () => {
   const [settings, setSettings] = useState(null);
@@ -890,6 +891,7 @@ const SettingsPage = () => {
     setLoading(false);
   };
   const isMarketplace = settings?.is_wp_marketplace;
+
   const renderBillingPlans = () => {
     if (!settings?.current_plan || !billingPlans) return null;
 
@@ -967,7 +969,13 @@ const SettingsPage = () => {
         <button
           className="w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90"
           style={ctaButtonStyle}
-          onClick={() => showPaymentOptions(plan)}
+          onClick={() => {
+            if (isMarketplace) {
+              activateBillingPlan(plan.id);
+            } else {
+              showPaymentOptions(plan);
+            }
+          }}
         >
           Activate
         </button>
@@ -1028,9 +1036,9 @@ const SettingsPage = () => {
 
   const isBillingPlanRestriction =
     settings?.current_plan && settings.current_plan.id === 1;
-  console.log(loading);
+  // console.log(loading);
   return (
-    <PageWrapper loading={loading} withBackground={true}>
+    <PageWrapper loading={false} withBackground={true}>
       <div className="dashboard-card">
         <div className="servv-dashboard-header">
           <div className="dashboard-heading">
@@ -1059,33 +1067,35 @@ const SettingsPage = () => {
                 activeSection={activeSection}
                 setActiveSection={setActiveSection}
               >
-                <GeneralSettings
-                  settings={settings}
-                  timezones={timezones}
-                  timeOptions={timeOptions}
-                  currencyOptions={currencyOptions}
-                  durationOptions={durationOptions}
-                  eventTypes={eventTypes}
-                  responsiveBlockStack={responsiveBlockStack}
-                  responsiveInput={responsiveInput}
-                  isBillingPlanRestriction={isBillingPlanRestriction}
-                  stripeConnected={stripeConnected}
-                  zoomAccount={zoomAccount}
-                  handleTimezoneChange={handleTimezoneChange}
-                  handleTimeFormatChange={handleTimeFormatChange}
-                  handleHideTimezoneChange={handleHideTimezoneChange}
-                  handleCurrencyChange={handleCurrencyChange}
-                  handleDefaultDurationChange={handleDefaultDurationChange}
-                  handleDefaultStartTimeChange={handleDefaultStartTimeChange}
-                  getDefaultStartTime={getDefaultStartTime}
-                  getDefaultEndTime={getDefaultEndTime}
-                  handleDefaultPriceChange={handleDefaultPriceChange}
-                  handleDefaultQuantityChange={handleDefaultQuantityChange}
-                  handleDefaultTypeChange={handleDefaultTypeChange}
-                  handleDefaultEndTimeChange={handleDefaultEndTimeChange}
-                  getDurationOptions={getDurationOptions}
-                  formatDuration={formatDuration}
-                />
+                <SpinnerLoader isLoading={loading}>
+                  <GeneralSettings
+                    settings={settings}
+                    timezones={timezones}
+                    timeOptions={timeOptions}
+                    currencyOptions={currencyOptions}
+                    durationOptions={durationOptions}
+                    eventTypes={eventTypes}
+                    responsiveBlockStack={responsiveBlockStack}
+                    responsiveInput={responsiveInput}
+                    isBillingPlanRestriction={isBillingPlanRestriction}
+                    stripeConnected={stripeConnected}
+                    zoomAccount={zoomAccount}
+                    handleTimezoneChange={handleTimezoneChange}
+                    handleTimeFormatChange={handleTimeFormatChange}
+                    handleHideTimezoneChange={handleHideTimezoneChange}
+                    handleCurrencyChange={handleCurrencyChange}
+                    handleDefaultDurationChange={handleDefaultDurationChange}
+                    handleDefaultStartTimeChange={handleDefaultStartTimeChange}
+                    getDefaultStartTime={getDefaultStartTime}
+                    getDefaultEndTime={getDefaultEndTime}
+                    handleDefaultPriceChange={handleDefaultPriceChange}
+                    handleDefaultQuantityChange={handleDefaultQuantityChange}
+                    handleDefaultTypeChange={handleDefaultTypeChange}
+                    handleDefaultEndTimeChange={handleDefaultEndTimeChange}
+                    getDurationOptions={getDurationOptions}
+                    formatDuration={formatDuration}
+                  />
+                </SpinnerLoader>
               </SettingsSection>
             )}
 
@@ -1111,37 +1121,39 @@ const SettingsPage = () => {
                 activeSection={activeSection}
                 setActiveSection={setActiveSection}
               >
-                <RemindersSettings
-                  settings={settings}
-                  responsiveBlockStack={responsiveBlockStack}
-                  responsiveInput={responsiveInput}
-                  isBillingPlanRestriction={isBillingPlanRestriction}
-                  handleEmailRemindersStateChange={
-                    handleEmailRemindersStateChange
-                  }
-                  handleFirstReminderStateChange={
-                    handleFirstReminderStateChange
-                  }
-                  handleFirstReminderHoursChange={
-                    handleFirstReminderHoursChange
-                  }
-                  handleSecondReminderStateChange={
-                    handleSecondReminderStateChange
-                  }
-                  handleSecondReminderHoursChange={
-                    handleSecondReminderHoursChange
-                  }
-                  handleFinishedReminderStateChange={
-                    handleFinishedReminderStateChange
-                  }
-                  handleNewAdditionalEmailsChange={
-                    handleNewAdditionalEmailsChange
-                  }
-                  handleAdditionalRemindersHoursChange={
-                    handleAdditionalRemindersHoursChange
-                  }
-                  handleStaffMemberEmailChange={handleStaffMemberEmailChange}
-                />
+                <SpinnerLoader isLoading={loading}>
+                  <RemindersSettings
+                    settings={settings}
+                    responsiveBlockStack={responsiveBlockStack}
+                    responsiveInput={responsiveInput}
+                    isBillingPlanRestriction={isBillingPlanRestriction}
+                    handleEmailRemindersStateChange={
+                      handleEmailRemindersStateChange
+                    }
+                    handleFirstReminderStateChange={
+                      handleFirstReminderStateChange
+                    }
+                    handleFirstReminderHoursChange={
+                      handleFirstReminderHoursChange
+                    }
+                    handleSecondReminderStateChange={
+                      handleSecondReminderStateChange
+                    }
+                    handleSecondReminderHoursChange={
+                      handleSecondReminderHoursChange
+                    }
+                    handleFinishedReminderStateChange={
+                      handleFinishedReminderStateChange
+                    }
+                    handleNewAdditionalEmailsChange={
+                      handleNewAdditionalEmailsChange
+                    }
+                    handleAdditionalRemindersHoursChange={
+                      handleAdditionalRemindersHoursChange
+                    }
+                    handleStaffMemberEmailChange={handleStaffMemberEmailChange}
+                  />
+                </SpinnerLoader>
               </SettingsSection>
             )}
 
@@ -1164,12 +1176,16 @@ const SettingsPage = () => {
                   activeSection={activeSection}
                   setActiveSection={setActiveSection}
                 >
-                  <CheckoutSettings
-                    settings={settings}
-                    handleFreeCheckoutChange={handleFreeCheckoutChange}
-                    handleSkipCaptchaChange={handleSkipCaptchaChange}
-                    handleMarketingConsentChange={handleMarketingConsentChange}
-                  />
+                  <SpinnerLoader isLoading={loading}>
+                    <CheckoutSettings
+                      settings={settings}
+                      handleFreeCheckoutChange={handleFreeCheckoutChange}
+                      handleSkipCaptchaChange={handleSkipCaptchaChange}
+                      handleMarketingConsentChange={
+                        handleMarketingConsentChange
+                      }
+                    />
+                  </SpinnerLoader>
                 </SettingsSection>
               ))}
 
@@ -1189,26 +1205,28 @@ const SettingsPage = () => {
                   activeSection={activeSection}
                   setActiveSection={setActiveSection}
                 >
-                  <WidgetSettings
-                    settings={settings}
-                    responsiveBlockStack={responsiveBlockStack}
-                    responsiveInlineStack={responsiveInlineStack}
-                    responsiveInput={responsiveInput}
-                    availableViewMods={availableViewMods}
-                    selectedView={selectedView}
-                    availablePageSizes={availablePageSizes}
-                    selectedPageSize={selectedPageSize}
-                    handleViewModeChange={handleViewModeChange}
-                    handleChangeFluidGrid={handleChangeFluidGrid}
-                    handleDescriptionLengthChange={
-                      handleDescriptionLengthChange
-                    }
-                    handlePageSizeChange={handlePageSizeChange}
-                    renderAvailableFilters={renderAvailableFilters}
-                    handleAdditionalPropertyChange={
-                      handleAdditionalPropertyChange
-                    }
-                  />
+                  <SpinnerLoader isLoading={loading}>
+                    <WidgetSettings
+                      settings={settings}
+                      responsiveBlockStack={responsiveBlockStack}
+                      responsiveInlineStack={responsiveInlineStack}
+                      responsiveInput={responsiveInput}
+                      availableViewMods={availableViewMods}
+                      selectedView={selectedView}
+                      availablePageSizes={availablePageSizes}
+                      selectedPageSize={selectedPageSize}
+                      handleViewModeChange={handleViewModeChange}
+                      handleChangeFluidGrid={handleChangeFluidGrid}
+                      handleDescriptionLengthChange={
+                        handleDescriptionLengthChange
+                      }
+                      handlePageSizeChange={handlePageSizeChange}
+                      renderAvailableFilters={renderAvailableFilters}
+                      handleAdditionalPropertyChange={
+                        handleAdditionalPropertyChange
+                      }
+                    />
+                  </SpinnerLoader>
                 </SettingsSection>
               )}
 
@@ -1228,16 +1246,20 @@ const SettingsPage = () => {
                   activeSection={activeSection}
                   setActiveSection={setActiveSection}
                 >
-                  <TranslationsSection
-                    responsiveBlockStack={responsiveBlockStack}
-                    responsiveInput={responsiveInput}
-                    getLangsSelectOptions={getLangsSelectOptions}
-                    getDefaultWidgetLanguageName={getDefaultWidgetLanguageName}
-                    handleDefaultLanguageChange={handleDefaultLanguageChange}
-                    langForEdit={langForEdit}
-                    handleSelectLanguageforEdit={handleSelectLanguageforEdit}
-                    renderTranslations={renderTranslations}
-                  />
+                  <SpinnerLoader isLoading={loading}>
+                    <TranslationsSection
+                      responsiveBlockStack={responsiveBlockStack}
+                      responsiveInput={responsiveInput}
+                      getLangsSelectOptions={getLangsSelectOptions}
+                      getDefaultWidgetLanguageName={
+                        getDefaultWidgetLanguageName
+                      }
+                      handleDefaultLanguageChange={handleDefaultLanguageChange}
+                      langForEdit={langForEdit}
+                      handleSelectLanguageforEdit={handleSelectLanguageforEdit}
+                      renderTranslations={renderTranslations}
+                    />
+                  </SpinnerLoader>
                 </SettingsSection>
               )}
 
@@ -1256,17 +1278,19 @@ const SettingsPage = () => {
                 activeSection={activeSection}
                 setActiveSection={setActiveSection}
               >
-                <BillingSettings
-                  responsiveBlockStack={responsiveBlockStack}
-                  showPaymentForm={showPaymentForm}
-                  renderBillingPlans={renderBillingPlans}
-                  showPaymentOptionsModal={showPaymentOptionsModal}
-                  setShowPaymentOptionsModal={setShowPaymentOptionsModal}
-                  selectedPlan={selectedPlan}
-                  setSelectedPlan={setSelectedPlan}
-                  activateBillingPlan={activateBillingPlan}
-                  isMarketplace={isMarketplace}
-                />
+                <SpinnerLoader isLoading={loading}>
+                  <BillingSettings
+                    responsiveBlockStack={responsiveBlockStack}
+                    showPaymentForm={showPaymentForm}
+                    renderBillingPlans={renderBillingPlans}
+                    showPaymentOptionsModal={showPaymentOptionsModal}
+                    setShowPaymentOptionsModal={setShowPaymentOptionsModal}
+                    selectedPlan={selectedPlan}
+                    setSelectedPlan={setSelectedPlan}
+                    activateBillingPlan={activateBillingPlan}
+                    isMarketplace={isMarketplace}
+                  />
+                </SpinnerLoader>
               </SettingsSection>
             )}
 

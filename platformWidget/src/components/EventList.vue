@@ -7,7 +7,7 @@ import BrandingCard from "./BrandingCard.vue";
 import LinkCard from "./LinkCard.vue";
 import VideoCard from "./VideoCard.vue";
 import EventsPagination from "./EventsPagination.vue";
-// import WidgetEmbed from '@/components/WidgetEmbed.vue'
+// import WidgetEmbed from "@/components/WidgetEmbed.vue";
 import FlagIcon from "@/assets/icons/flag.svg";
 import Logo from "@/assets/icons/logo.svg";
 import LinkIcon from "@/assets/icons/link.svg";
@@ -153,6 +153,7 @@ watch(
       <Logo />
       <span>Created: ServvAI</span>
     </div>
+    <!-- <WidgetEmbed /> -->
   </div>
 </template>
 

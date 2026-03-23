@@ -76,55 +76,6 @@ const Spinner = ({
 
 /***/ }),
 
-/***/ "./src/Components/ModalShell.jsx":
-/*!***************************************!*\
-  !*** ./src/Components/ModalShell.jsx ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XMarkIcon.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-const ModalShell = ({
-  title,
-  children,
-  onClose
-}) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "fixed inset-0 z-50 bg-black/40 flex justify-center items-center px-4",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "bg-white w-full max-w-[640px] rounded-2xl shadow-xl p-6 relative",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "flex justify-between items-center mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
-          className: "text-lg font-semibold text-gray-900",
-          children: title
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          onClick: onClose,
-          className: "p-2 rounded-lg hover:bg-gray-100 transition",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            className: "w-5 h-5 text-gray-500"
-          })
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        children: children
-      })]
-    })
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalShell);
-
-/***/ }),
-
 /***/ "./src/Components/Pages/OnboardingFlow.jsx":
 /*!*************************************************!*\
   !*** ./src/Components/Pages/OnboardingFlow.jsx ***!
@@ -148,7 +99,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _ModalShell__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ModalShell */ "./src/Components/ModalShell.jsx");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '../ModalShell'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 /* harmony import */ var _SkipOnboardingModalContent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SkipOnboardingModalContent */ "./src/Components/Pages/SkipOnboardingModalContent.jsx");
 /* harmony import */ var _utilities_stripe__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utilities/stripe */ "./src/utilities/stripe.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -167,11 +118,11 @@ __webpack_require__.r(__webpack_exports__);
 
 // Lazy load step components
 
-const SettingsStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_SettingsStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../SettingsStep */ "./src/Components/SettingsStep.jsx")));
-const FirstEventStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_FirstEventStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../FirstEventStep */ "./src/Components/FirstEventStep.jsx")));
+const SettingsStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-is_index_js-node_modules_use-isomorphic-layout-effect_dist_use-iso-b5fcbb"), __webpack_require__.e("vendors-node_modules_react-select_dist_react-select_esm_js-node_modules_heroicons_react_24_ou-9d1212"), __webpack_require__.e("src_Components_SettingsStep_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ../SettingsStep */ "./src/Components/SettingsStep.jsx")));
+const FirstEventStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '../FirstEventStep'"); e.code = 'MODULE_NOT_FOUND'; throw e; }));
 const IntegrationsStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_IntegrationsStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../IntegrationsStep */ "./src/Components/IntegrationsStep.jsx")));
-const BrandingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_BrandingStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../BrandingStep */ "./src/Components/BrandingStep.jsx")));
-const BillingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_BillingStep_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../BillingStep */ "./src/Components/BillingStep.jsx")));
+const BrandingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '../BrandingStep'"); e.code = 'MODULE_NOT_FOUND'; throw e; }));
+const BillingStep = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(() => Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '../BillingStep'"); e.code = 'MODULE_NOT_FOUND'; throw e; }));
 const StepperIcon = ({
   Icon,
   iconClass,
@@ -716,7 +667,7 @@ const OnboardingFlow = () => {
             })
           }, currentStep)
         })]
-      }), showSkipModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_ModalShell__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }), showSkipModal && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(Object(function webpackMissingModule() { var e = new Error("Cannot find module '../ModalShell'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
         title: "Skip onboarding",
         onClose: () => setShowSkipModal(false),
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_SkipOnboardingModalContent__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -1345,4 +1296,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(R
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=59459a662329c7be4ad0
+//# sourceMappingURL=src_Components_Pages_OnboardingFlow_jsx.js.map?ver=8594ef7ddbaa3996e931

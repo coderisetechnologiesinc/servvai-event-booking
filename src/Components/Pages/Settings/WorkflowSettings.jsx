@@ -1,7 +1,7 @@
 // components/Settings/WorkflowSettings.jsx
 import BlockStack from "../../Containers/BlockStack";
 import InlineStack from "../../Containers/InlineStack";
-import N8NSettings from "../N8NSettings";
+import N8NSettings from "../Integrations/N8NSettings";
 
 const WorkflowSettings = ({
   responsiveBlockStack,

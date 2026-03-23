@@ -125,9 +125,8 @@ export default {
   },
   data() {
     return {
-      openDetails:
-        this.$store.state.common.widgetSettings.widget_style_settings
-          .show_event_details_open,
+      openDetails: this.$store.state.common.widgetSettings.widget_style_settings
+        .show_event_details_open,
       showSharingControls: false,
       productUrl: null,
     };
@@ -210,12 +209,18 @@ export default {
             this.event.is_live_shopping
           ) {
             return this.$t("mainWidget.liveShoppingLabel");
-          } else if (this.event.custom_field_1_name !== "Link") {
+          } else if (
+            this.event.custom_field_1_name !== "Link" &&
+            this.event.custom_field_1_name !== "Meeting link"
+          ) {
             return this.$t("mainWidget.virtualEventLabel");
           }
 
         case "offline":
-          if (this.event.custom_field_1_name === "Link")
+          if (
+            this.event.custom_field_1_name === "Link" ||
+            this.event.custom_field_1_name === "Meeting link"
+          )
             return this.$t("mainWidget.virtualEventLabel");
           else return this.$t("mainWidget.inPersonEventLabel");
         default:
@@ -231,7 +236,7 @@ export default {
         this.event.location_id
       ) {
         const typeData = this.allEventTypes.locations.find(
-          (item) => item.id === Number.parseInt(this.event.location_id, 10)
+          (item) => item.id === Number.parseInt(this.event.location_id, 10),
         );
         itemsList.push({
           ...typeData,
@@ -245,7 +250,7 @@ export default {
         this.event.language_id
       ) {
         const typeData = this.allEventTypes.languages.find(
-          (item) => item.id === Number.parseInt(this.event.language_id, 10)
+          (item) => item.id === Number.parseInt(this.event.language_id, 10),
         );
         itemsList.push({
           typeName: "language",
@@ -259,7 +264,7 @@ export default {
         this.event.category_id
       ) {
         const typeData = this.allEventTypes.categories.find(
-          (item) => item.id === Number.parseInt(this.event.category_id, 10)
+          (item) => item.id === Number.parseInt(this.event.category_id, 10),
         );
         itemsList.push({
           ...typeData,
@@ -276,7 +281,7 @@ export default {
         const membersList = [];
         forEach(this.event.members_id.split(", "), (memberId) => {
           const memberData = this.allEventTypes.members.find(
-            (member) => member.id === Number.parseInt(memberId, 10)
+            (member) => member.id === Number.parseInt(memberId, 10),
           );
           if (memberData) {
             membersList.push({
@@ -340,7 +345,7 @@ export default {
           if (item.description && item.description.length > 0) {
             itemsList = `<div class="tooltip-content-item">
                   <div class="tooltip-content-item-label">${this.$t(
-                    "customFilters.filterPropertyDetailsLabel"
+                    "customFilters.filterPropertyDetailsLabel",
                   )}: </div>
                   <div class="tooltip-content-item-value">${
                     item.description
@@ -350,7 +355,7 @@ export default {
           if (item.email && item.email.length > 0) {
             itemsList += `<div class="tooltip-content-item">
                   <div class="tooltip-content-item-label">${this.$t(
-                    "customFilters.filterPropertyEmailLabel"
+                    "customFilters.filterPropertyEmailLabel",
                   )}: </div>
                   <div class="tooltip-content-item-value">${item.email}</div>
                 </div>`;
@@ -358,7 +363,7 @@ export default {
           if (item.phone && item.phone.length > 0) {
             itemsList += `<div class="tooltip-content-item">
                   <div class="tooltip-content-item-label">${this.$t(
-                    "customFilters.filterPropertyPhoneLabel"
+                    "customFilters.filterPropertyPhoneLabel",
                   )}: </div>
                   <div class="tooltip-content-item-value">${item.phone}</div>
                 </div>`;
@@ -368,7 +373,7 @@ export default {
           if (item.details && item.details.length > 0) {
             itemsList = `<div class="tooltip-content-item">
                   <div class="tooltip-content-item-label">${this.$t(
-                    "customFilters.filterPropertyDetailsLabel"
+                    "customFilters.filterPropertyDetailsLabel",
                   )}: </div>
                   <div class="tooltip-content-item-value">${item.details}</div>
                 </div>`;
@@ -376,7 +381,7 @@ export default {
           if (item.operational_hours && item.operational_hours.length > 0) {
             itemsList += `<div class="tooltip-content-item">
                   <div class="tooltip-content-item-label">${this.$t(
-                    "customFilters.filterPropertyOperationalHoursLabel"
+                    "customFilters.filterPropertyOperationalHoursLabel",
                   )}: </div>
                   <div class="tooltip-content-item-value">${
                     item.operational_hours
@@ -388,7 +393,7 @@ export default {
           if (item.details && item.details.length > 0) {
             itemsList += `<div class="tooltip-content-item">
                   <div class="tooltip-content-item-label">${this.$t(
-                    "customFilters.filterPropertyDetailsLabel"
+                    "customFilters.filterPropertyDetailsLabel",
                   )}: </div>
                   <div class="tooltip-content-item-value">${item.details}</div>
                 </div>`;

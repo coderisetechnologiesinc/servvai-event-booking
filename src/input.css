@@ -585,36 +585,52 @@
   }
 
   .bookings-table .cell-truncate {
-    @apply block min-w-0 truncate
-    max-w-[250px]
-    max-sm:max-w-[120px]
-    max-sm:text-[0.65rem];
+    @apply block min-w-0 truncate max-sm:text-[0.65rem];
   }
 
-  /* FIRST column = 40px */
+  .bookings-table td[data-tooltip] {
+    position: relative;
+    overflow: visible;
+  }
+
+  .bookings-table td[data-tooltip]:hover::after {
+    content: attr(data-full);
+    position: absolute;
+    z-index: 50;
+    left: 0;
+    top: 100%;
+    margin-top: 4px;
+    background: #111827;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
   .bookings-table th:first-child,
   .bookings-table td:first-child {
     @apply w-[40px] max-w-[40px] whitespace-nowrap overflow-hidden;
   }
-
-  /* SECOND column = 40px */
-  .bookings-table th:nth-child(2),
-  .bookings-table td:nth-child(2) {
+  .bookings-table .col-order {
     @apply w-[58px] max-w-[58px] whitespace-nowrap overflow-hidden;
   }
 
-  /* LAST column = 40px */
-  .bookings-table th:last-child,
-  .bookings-table td:last-child {
-    @apply w-[40px] max-w-[40px] whitespace-nowrap overflow-hidden text-left;
+  .bookings-table .col-date {
+    @apply w-[120px] max-w-[120px] whitespace-nowrap overflow-hidden;
   }
-  .bookings-table th:nth-last-child(2),
-  .bookings-table td:nth-last-child(2) {
-    @apply w-[80px] max-w-[80px] whitespace-nowrap overflow-hidden text-center;
+
+  .bookings-table .col-occurrence,
+  .bookings-table .col-paid,
+  .bookings-table .col-status {
+    @apply w-[120px] max-w-[120px] whitespace-nowrap overflow-hidden;
   }
-  .bookings-table th:nth-last-child(3),
-  .bookings-table td:nth-last-child(3) {
-    @apply w-[80px] max-w-[80px] whitespace-nowrap overflow-hidden text-center;
+
+  .bookings-table .col-actions {
+    @apply w-[80px] max-w-[80px] whitespace-nowrap overflow-hidden text-right;
   }
 
   /* Mobile */
