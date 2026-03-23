@@ -4048,7 +4048,7 @@ const SingleEventPage = ({
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_0__["default"], {
     loading: loading,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-      className: "servv-app max-w-[1080px] mx-auto h-full min-h-screen w-[65%] [@media(max-width:1110px)]:w-full",
+      className: "servv-app max-w-[1080px] mx-auto h-full min-h-screen w-full px-4",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
         gap: -1,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_Containers_PageHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -7851,4 +7851,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=813394bc21977c9381fb
+//# sourceMappingURL=src_Components_Pages_EventsPage_jsx.js.map?ver=7ee56923c58cabdad655

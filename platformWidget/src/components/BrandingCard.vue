@@ -1,6 +1,6 @@
 <template>
   <div class="card-widget" :style="cardBackgroundStyle">
-    <div class="cover" v-if="!hideAvatar">
+    <div class="cover" v-if="useDefaultBanner">
       <div class="cover-bg cover-noise"></div>
       <!-- <img class="cover-bg" :src="noiseImage" alt="Cover" /> -->
       <div class="ellipse ellipse-left"></div>
@@ -16,7 +16,12 @@
       </div>
     </div>
 
-    <img v-if="!hideAvatar" class="avatar" :src="pw_avatar" alt="Avatar" />
+    <img
+      v-if="!hideAvatar"
+      :class="`avatar ${!useDefaultBanner ? 'with-banner' : ''}`"
+      :src="pw_avatar"
+      alt="Avatar"
+    />
 
     <div class="section" :class="{ 'avatar-hidden': hideAvatar }">
       <h2>{{ pw_title }}</h2>
@@ -43,6 +48,7 @@
           class="s-icon-btn insta"
           @click="openLink(pw_instagram)"
           aria-label="Instagram"
+          :data-url="pw_instagram"
         >
           <InstagramIcon class="social-icon" />
         </button>
@@ -53,6 +59,7 @@
           class="s-icon-btn tiktok"
           @click="openLink(pw_tiktok)"
           aria-label="TikTok"
+          :data-url="pw_tiktok"
         >
           <TiktokIcon class="social-icon" />
         </button>
@@ -63,6 +70,7 @@
           class="s-icon-btn youtube"
           @click="openLink(pw_youtube)"
           aria-label="YouTube"
+          :data-url="pw_youtube"
         >
           <YoutubeIcon class="social-icon" />
         </button>
@@ -73,6 +81,7 @@
           class="s-icon-btn facebook"
           @click="openLink(pw_facebook)"
           aria-label="Facebook"
+          :data-url="pw_facebook"
         >
           <FacebookIcon class="social-icon" />
         </button>
@@ -83,6 +92,7 @@
           class="s-icon-btn twitter"
           @click="openLink(pw_x)"
           aria-label="Twitter"
+          :data-url="pw_x"
         >
           <XIcon class="social-icon" />
         </button>
@@ -126,7 +136,9 @@ import XIcon from "@/assets/icons/x-icon.svg";
 import YoutubeIcon from "@/assets/icons/youtube-icon.svg";
 
 const baseUrl = window.servvPlatformAjax?.base_url || "";
-const defaultAvatar = `${baseUrl}images/avatarPlaceholder.png`;
+const defaultAvatar =
+  window.servvPlatformAjax?.avatarPlaceholder ||
+  `${baseUrl}images/avatarPlaceholder.png`;
 // const noiseImage = `${baseUrl}images/noise.png`;
 
 const store = useCommonStore();
@@ -171,32 +183,25 @@ const getBranding = () => {
   const root = settings.value;
 
   if (!root) {
-    // console.log('[BrandingWidget] no root settings')
     return null;
   }
-  // console.log(root)
   const inner = root;
   if (!inner) {
-    // console.log('[BrandingWidget] no nested settings')
     return null;
   }
 
   let w = inner.widget_style_settings;
   if (!w) {
-    // console.log('[BrandingWidget] no widget_style_settings')
     return null;
   }
 
   if (typeof w === "string") {
     try {
-      // console.log('[BrandingWidget] parsing widget_style_settings:', w)
       w = JSON.parse(w);
     } catch (e) {
-      // console.warn('[BrandingWidget] failed JSON parse', e)
       return null;
     }
   }
-  // console.log(w)
   return w;
 };
 
@@ -264,7 +269,6 @@ watch(
   () => settings.value,
   () => {
     const branding = getBranding();
-    // console.log('[BrandingWidget] Settings updated → applying background', branding)
     applyBrandingBackground(branding);
   },
   { deep: true, immediate: true },
@@ -311,7 +315,7 @@ const hideAvatar = computed(() => {
 const cardBackgroundStyle = computed(() => {
   const w = widgetSettings.value;
 
-  if (hideAvatar.value && w.pw_banner_image) {
+  if (w.pw_banner_image) {
     return {
       backgroundImage: `url(${w.pw_banner_image})`,
       backgroundSize: "cover",
@@ -323,6 +327,12 @@ const cardBackgroundStyle = computed(() => {
   return {
     background: "var(--bg-card)",
   };
+});
+const useDefaultBanner = computed(() => {
+  const w = widgetSettings.value;
+  if (w.pw_banner_image) {
+    return false;
+  } else return true;
 });
 const pw_instagram = computed(() => widgetSettings.value.pw_instagram || "");
 const pw_tiktok = computed(() => widgetSettings.value.pw_tiktok || "");
@@ -470,7 +480,6 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   height: auto;
   max-height: 512px;
   min-width: 480px;
-  /* background: var(--bg-card); */
   background: transparent;
   border-radius: 24px;
   box-shadow: var(--shadow-card);
@@ -495,11 +504,6 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   box-shadow: var(--shadow-cover);
   overflow: hidden;
 }
-/* @media screen and (max-width: 480px) {
-  .cover {
-    width: calc(100% - 16px);
-  }
-} */
 
 .cover-bg {
   position: absolute;
@@ -528,7 +532,6 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
     rgba(255, 255, 255, 0.8) 98.46%
   );
   transform: rotate(-180deg);
-
   border-radius: 50%;
 }
 
@@ -538,13 +541,11 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   height: 180px;
   top: 80px;
   right: -80px;
-
   background: linear-gradient(
     99.53deg,
     rgba(255, 255, 255, 0.08) 5.6%,
     rgba(255, 255, 255, 0.8) 98.46%
   );
-
   border-radius: 50%;
   transform: rotate(180deg);
 }
@@ -612,7 +613,6 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   padding: 0;
   line-height: 1;
   flex-shrink: 0;
-  display: flex;
   transition:
     background-color 0.18s ease,
     transform 0.18s ease,
@@ -630,11 +630,9 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   display: flex;
   align-items: center;
   justify-content: center;
-  /* box-shadow: var(--shadow-btn); */
   padding: 0;
   line-height: 1;
   flex-shrink: 0;
-  display: flex;
   transition:
     background-color 0.18s ease,
     transform 0.18s ease,
@@ -650,14 +648,12 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 .s-icon-btn:hover {
   background-color: transparent;
   transform: scale(1.06);
-  /* box-shadow: 0 6px 14px -4px rgba(10, 13, 18, 0.25); */
 }
 .s-icon-btn:active {
   background-color: transparent;
   transform: scale(1.06);
   border: none;
   box-shadow: none;
-  /* box-shadow: 0 6px 14px -4px rgba(10, 13, 18, 0.25); */
 }
 .s-icon-btn:focus {
   background-color: rgba(255, 255, 255, 0.92);
@@ -665,7 +661,6 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   border: transparent;
   outline: none;
   box-shadow: none;
-  /* box-shadow: 0 6px 14px -4px rgba(10, 13, 18, 0.25); */
 }
 .s-icon-btn svg {
   color: var(--color-text-primary);
@@ -704,6 +699,9 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   left: 50%;
   transform: translateX(-50%);
 }
+.avatar.with-banner {
+  position: relative;
+}
 
 .section {
   margin-top: 68px;
@@ -724,10 +722,8 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 }
 
 .subtitle {
-  /* margin-top: 4px; */
   font-size: 20px;
   color: var(--color-text-primary);
-  /* color: rgba(18, 22, 51, 1); */
   margin-block-end: 0;
   margin-block-start: 0;
   margin: 8px auto;
@@ -776,8 +772,6 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   color: var(--color-text-white);
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0px 2px 4px -2px #0a0d1280;
-
   box-shadow: 0px 4px 8px -2px #0a0d1266;
 }
 

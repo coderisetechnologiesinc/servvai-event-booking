@@ -9,7 +9,6 @@ import Card from "../Containers/Card";
 import FilterTable from "../Containers/FilterTable";
 import PageWrapper from "./PageWrapper";
 import moment from "moment-timezone";
-import SingleEventPage from "./SingleEventPage";
 import ListPagination from "../Controls/ListPagination";
 import CheckboxControl from "../Controls/CheckboxControl";
 import Dropdown from "../Containers/Dropdown";
@@ -1233,20 +1232,6 @@ const EventsListPage = ({
             <ConfirmationModal data={confirmationModalData} />
           </div>
         </PageWrapper>
-      )}
-
-      {selectedEvent && (
-        <SingleEventPage
-          attributes={attributes}
-          setAttributes={setAttributes}
-          postID={selectedEvent}
-          occurrenceId={selectedOccurrence}
-          adminSection={true}
-          returnWithError={handleReturnWithError}
-          setSelectedEvent={setSelectedEvent}
-          filters={filtersList}
-          settings={settings}
-        />
       )}
 
       {/* Mobile: filters modal */}

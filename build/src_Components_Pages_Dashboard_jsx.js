@@ -370,131 +370,6 @@ const PageActionButton = ({
 
 /***/ }),
 
-/***/ "./src/Components/DashboardPagination.jsx":
-/*!************************************************!*\
-  !*** ./src/Components/DashboardPagination.jsx ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
-
-
-const DashboardPagination = ({
-  currentPage = 1,
-  totalPages,
-  totalRecords,
-  pageSize = 10,
-  maxVisiblePages = 3,
-  onPageChange
-}) => {
-  if (totalPages <= 1) return null;
-  const centerPages = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
-    const pages = [];
-    const delta = Math.floor(maxVisiblePages / 2);
-    let start = Math.max(2, currentPage - delta);
-    let end = Math.min(totalPages - 1, currentPage + delta);
-    if (currentPage <= delta + 1) {
-      end = Math.min(totalPages - 1, maxVisiblePages + 1);
-    }
-    if (currentPage >= totalPages - delta) {
-      start = Math.max(2, totalPages - maxVisiblePages);
-    }
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-    return pages;
-  }, [currentPage, totalPages, maxVisiblePages]);
-  const showLeftEllipsis = centerPages.length > 0 && centerPages[0] > 2;
-  const showRightEllipsis = centerPages.length > 0 && centerPages[centerPages.length - 1] < totalPages - 1;
-  const startRecord = (currentPage - 1) * pageSize + 1;
-  const endRecord = Math.min(currentPage * pageSize, totalRecords);
-  const goToPage = page => {
-    if (page >= 1 && page <= totalPages && page !== currentPage) {
-      onPageChange(page);
-    }
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "events-pagination-wrapper",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("nav", {
-      className: "events-pagination",
-      role: "navigation",
-      "aria-label": "Pagination",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-        className: "events-pagination__btn events-pagination__btn--prev",
-        disabled: currentPage === 1,
-        onClick: () => goToPage(currentPage - 1),
-        "aria-label": "Previous page",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
-          width: "20",
-          height: "20",
-          viewBox: "0 0 20 20",
-          fill: "none",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
-            d: "M12.5 15L7.5 10L12.5 5",
-            stroke: "currentColor",
-            strokeWidth: "2",
-            strokeLinecap: "round",
-            strokeLinejoin: "round"
-          })
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "events-pagination__numbers",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: `events-pagination__number ${currentPage === 1 ? "events-pagination__number--active" : ""}`,
-          onClick: () => goToPage(1),
-          children: "1"
-        }), showLeftEllipsis && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-          className: "events-pagination__ellipsis",
-          children: "\u2026"
-        }), centerPages.map(page => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: `events-pagination__number ${page === currentPage ? "events-pagination__number--active" : ""}`,
-          "aria-current": page === currentPage ? "page" : undefined,
-          onClick: () => goToPage(page),
-          children: page
-        }, page)), showRightEllipsis && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-          className: "events-pagination__ellipsis",
-          children: "\u2026"
-        }), totalPages > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: `events-pagination__number ${currentPage === totalPages ? "events-pagination__number--active" : ""}`,
-          onClick: () => goToPage(totalPages),
-          children: totalPages
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-        className: "events-pagination__btn events-pagination__btn--next",
-        disabled: currentPage === totalPages,
-        onClick: () => goToPage(currentPage + 1),
-        "aria-label": "Next page",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
-          width: "20",
-          height: "20",
-          viewBox: "0 0 20 20",
-          fill: "none",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
-            d: "M7.5 15L12.5 10L7.5 5",
-            stroke: "currentColor",
-            strokeWidth: "2",
-            strokeLinecap: "round",
-            strokeLinejoin: "round"
-          })
-        })
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "events-pagination__info",
-      children: ["Showing ", startRecord, "-", endRecord, " of ", totalRecords, " events"]
-    })]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DashboardPagination);
-
-/***/ }),
-
 /***/ "./src/Components/Menu/Spinner.jsx":
 /*!*****************************************!*\
   !*** ./src/Components/Menu/Spinner.jsx ***!
@@ -561,7 +436,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
 /* harmony import */ var _Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Containers/CollapsibleSection */ "./src/Components/Containers/CollapsibleSection.jsx");
 /* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
-/* harmony import */ var _DashboardPagination__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../DashboardPagination */ "./src/Components/DashboardPagination.jsx");
+/* harmony import */ var _Shared_DashboardPagination__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Shared/DashboardPagination */ "./src/Components/Shared/DashboardPagination.jsx");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
 /* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -652,7 +527,7 @@ const Dashboard = () => {
     }
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    const onboardingSkipped = localStorage.getItem("onboardingSkipped") === "1";
+    const onboardingSkipped = localStorage.getItem("onboardingSkipped") === window.location.origin;
     if (firstFetchDone && mergedList.length === 0 && !zoomConnected && !onboardingSkipped && !isFiltersApplied()) {
       navigate("/onboarding");
     }
@@ -895,7 +770,7 @@ const Dashboard = () => {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
             className: "dashboard-events",
             children: renderEventsCards()
-          }), mergedList.length > 0 && mergedPagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_DashboardPagination__WEBPACK_IMPORTED_MODULE_13__["default"], {
+          }), mergedList.length > 0 && mergedPagination.pageCount > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_Shared_DashboardPagination__WEBPACK_IMPORTED_MODULE_13__["default"], {
             currentPage: mergedPagination.pageNumber,
             totalPages: mergedPagination.pageCount,
             totalRecords: mergedPagination.totalItems || mergedList.length,
@@ -1580,7 +1455,7 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
   const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
   const syncAccountsAfterEvents = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_4__.useServvStore)(s => s.syncAccountsAfterEvents);
   const syncFiltersFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_4__.useServvStore)(s => s.syncFiltersFromServer);
-
+  const setDatePreset = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(1);
   // =====================================================================
   // STATE
   // =====================================================================
@@ -1590,6 +1465,7 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
   const [selectedEvents, setSelectedEvents] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [isPast, setIsPast] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [eventType, setEventType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("all");
+  const [dateSelected, setDateSelected] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [dates, setDates] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     startDate: null,
     endDate: null
@@ -1655,7 +1531,7 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
   };
   const isFiltersApplied = () => {
     if (searchString.length > 0) return true;
-    if (dates.startDate) return true;
+    if (dates.startDate && dateSelected) return true;
     return Object.values(selectedFilters).some(arr => arr.length > 0);
   };
   const handleFilterSelect = (filter, id) => {
@@ -1684,7 +1560,7 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
   // DATE HELPERS
   // =====================================================================
 
-  const handleSetDates = dates => {
+  const handleSetDates = (dates, isDefault) => {
     const start = normalizeDate(dates.startDate);
     const end = normalizeDate(dates.endDate);
     const startDate = start ? moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz({
@@ -1703,6 +1579,11 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
       minute: 59,
       second: 0
     }, timezone.id) : null;
+    if ((startDate || endDate) && setDatePreset.current > 1) {
+      setDateSelected(true);
+    } else if (!startDate && !endDate) {
+      setDateSelected(false);
+    }
     setDates({
       startDate,
       endDate
@@ -1710,6 +1591,7 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
   };
   const applyDatePreset = dates => {
     handleSetDates(dates);
+    setDatePreset.current = 2;
     if (eventType === "all") {
       getMergedEventsList({
         is_Past: isPast,
@@ -2257,7 +2139,8 @@ const useEventsLogic = (settings, filtersList, zoomAccount) => {
     handleEventDelete,
     handleMultipleEventsDelete,
     selectedEvents,
-    setSelectedEvents
+    setSelectedEvents,
+    dateSelected
   };
 };
 
@@ -2360,6 +2243,131 @@ const SpinnerLoader = ({
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpinnerLoader);
+
+/***/ }),
+
+/***/ "./src/Components/Shared/DashboardPagination.jsx":
+/*!*******************************************************!*\
+  !*** ./src/Components/Shared/DashboardPagination.jsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const DashboardPagination = ({
+  currentPage = 1,
+  totalPages,
+  totalRecords,
+  pageSize = 10,
+  maxVisiblePages = 3,
+  onPageChange
+}) => {
+  if (totalPages <= 1) return null;
+  const centerPages = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
+    const pages = [];
+    const delta = Math.floor(maxVisiblePages / 2);
+    let start = Math.max(2, currentPage - delta);
+    let end = Math.min(totalPages - 1, currentPage + delta);
+    if (currentPage <= delta + 1) {
+      end = Math.min(totalPages - 1, maxVisiblePages + 1);
+    }
+    if (currentPage >= totalPages - delta) {
+      start = Math.max(2, totalPages - maxVisiblePages);
+    }
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }, [currentPage, totalPages, maxVisiblePages]);
+  const showLeftEllipsis = centerPages.length > 0 && centerPages[0] > 2;
+  const showRightEllipsis = centerPages.length > 0 && centerPages[centerPages.length - 1] < totalPages - 1;
+  const startRecord = (currentPage - 1) * pageSize + 1;
+  const endRecord = Math.min(currentPage * pageSize, totalRecords);
+  const goToPage = page => {
+    if (page >= 1 && page <= totalPages && page !== currentPage) {
+      onPageChange(page);
+    }
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "events-pagination-wrapper",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("nav", {
+      className: "events-pagination",
+      role: "navigation",
+      "aria-label": "Pagination",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+        className: "events-pagination__btn events-pagination__btn--prev",
+        disabled: currentPage === 1,
+        onClick: () => goToPage(currentPage - 1),
+        "aria-label": "Previous page",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+          width: "20",
+          height: "20",
+          viewBox: "0 0 20 20",
+          fill: "none",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+            d: "M12.5 15L7.5 10L12.5 5",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "events-pagination__numbers",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: `events-pagination__number ${currentPage === 1 ? "events-pagination__number--active" : ""}`,
+          onClick: () => goToPage(1),
+          children: "1"
+        }), showLeftEllipsis && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          className: "events-pagination__ellipsis",
+          children: "\u2026"
+        }), centerPages.map(page => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: `events-pagination__number ${page === currentPage ? "events-pagination__number--active" : ""}`,
+          "aria-current": page === currentPage ? "page" : undefined,
+          onClick: () => goToPage(page),
+          children: page
+        }, page)), showRightEllipsis && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+          className: "events-pagination__ellipsis",
+          children: "\u2026"
+        }), totalPages > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: `events-pagination__number ${currentPage === totalPages ? "events-pagination__number--active" : ""}`,
+          onClick: () => goToPage(totalPages),
+          children: totalPages
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+        className: "events-pagination__btn events-pagination__btn--next",
+        disabled: currentPage === totalPages,
+        onClick: () => goToPage(currentPage + 1),
+        "aria-label": "Next page",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+          width: "20",
+          height: "20",
+          viewBox: "0 0 20 20",
+          fill: "none",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+            d: "M7.5 15L12.5 10L7.5 5",
+            stroke: "currentColor",
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round"
+          })
+        })
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "events-pagination__info",
+      children: ["Showing ", startRecord, "-", endRecord, " of ", totalRecords, " events"]
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DashboardPagination);
 
 /***/ }),
 
@@ -3201,4 +3209,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(U
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=1f435d67cc98223e9692
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=829b1ee64bc7336a9c02

@@ -1,54 +1,84 @@
 <script setup>
-import { ref } from 'vue'
-import { generateIframeEmbedCode } from '@/utilities'
+import { ref, nextTick } from 'vue'
+import { exportWidgetWithCSS, captureEventsListHtml, downloadStaticWidget } from '@/utilities'
+import { useEventsStore } from '@/stores/events'
+import { storeToRefs } from 'pinia'
+import ShareIcon from '@/assets/icons/share.svg'
 
-const showModal = ref(false)
-const iframeCode = ref('')
+const eventsStore = useEventsStore()
+const { pagination } = storeToRefs(eventsStore)
+const isExporting = ref(false)
 
-async function openEmbedModal() {
-  iframeCode.value = await generateIframeEmbedCode()
-  showModal.value = true
-}
+async function handleDownload() {
+  isExporting.value = true
+  try {
+    // Fetch and cache all pages (only makes API calls for pages not yet cached)
+    await eventsStore.fetchAllPagesForExport()
 
-function copyCode() {
-  navigator.clipboard.writeText(iframeCode.value)
+    const totalPages = pagination.value.totalPages || 1
+    const originalPage = pagination.value.currentPage
+    const allPagesHtml = {}
+
+    // Page 1: capture full widget HTML (branding, links, videos + events) + CSS
+    eventsStore.loadCachedPage(1)
+    await nextTick()
+    allPagesHtml[1] = await captureEventsListHtml()
+    const { html: widgetHtml, css } = await exportWidgetWithCSS()
+
+    // Pages 2-N: only capture the events-list per page
+    for (let p = 2; p <= totalPages; p++) {
+      eventsStore.loadCachedPage(p)
+      await nextTick()
+      allPagesHtml[p] = await captureEventsListHtml()
+    }
+
+    // Restore original page
+    eventsStore.loadCachedPage(originalPage)
+
+    await downloadStaticWidget(widgetHtml, css, allPagesHtml, pagination.value)
+  } catch (e) {
+    console.error('Static export failed:', e)
+  }
+  isExporting.value = false
 }
 </script>
+
 <template>
-  <button class="btn-primary" @click="openEmbedModal">Get Embed Code</button>
-
-  <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-[90%] max-w-3xl relative shadow-xl">
-      <button
-        class="absolute top-3 right-3 text-gray-500 hover:text-black"
-        @click="showModal = false"
-      >
-        ✕
-      </button>
-
-      <h2 class="text-xl font-semibold mb-4">Embed Code</h2>
-
-      <textarea
-        readonly
-        class="w-full h-64 p-3 font-mono text-sm border rounded bg-gray-50"
-        :value="iframeCode"
-      ></textarea>
-
-      <button
-        class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        @click="copyCode"
-      >
-        Copy Code
-      </button>
-    </div>
-  </div>
+  <button class="btn-export" :disabled="isExporting" @click="handleDownload">
+    <ShareIcon class="btn-export__icon" />
+    <span>{{ isExporting ? 'Exporting…' : 'Share' }}</span>
+  </button>
 </template>
+
 <style scoped>
-.btn-primary {
-  padding: 8px 16px;
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
   background: #2563eb;
   color: white;
+  border: none;
   border-radius: 6px;
   font-weight: 500;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  align-self: center;
+}
+.btn-export:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn-export__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.btn-export__icon :deep(path),
+.btn-export__icon :deep(circle),
+.btn-export__icon :deep(polyline) {
+  stroke: white;
 }
 </style>

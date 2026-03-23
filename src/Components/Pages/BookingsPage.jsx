@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef, Fragment } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  fetchBookings as fetchBookingsUtil,
+  refundBooking as refundBookingUtil,
+  cancelBooking,
+  resendBookingConfirmation,
+} from "../../utilities/bookings";
 import moment from "moment-timezone";
 import PageWrapper from "./PageWrapper";
 import PageHeader from "../Containers/PageHeader";
@@ -34,8 +39,8 @@ import {
 } from "@heroicons/react/16/solid";
 import { useServvStore } from "../../store/useServvStore";
 import SpinnerLoader from "./SpinnerLoader";
-import AnimatedModal from "../AnimatedModal";
-import CalendarInline from "../PostEditor/CalendarInline";
+import AnimatedModal from "../Modals/AnimatedModal";
+import CalendarInline from "../CreateEvent/CalendarInline";
 
 // =====================================================================
 // HEADINGS STORAGE HELPERS
@@ -210,12 +215,7 @@ const BookingsPage = () => {
       : [registrant];
     try {
       for (const reg of registrants) {
-        let url = `/wp-json/servv-plugin/v1/event/${id}/registrants/${reg}/resend`;
-        if (occurrence) url += `?occurrence_id=${occurrence}`;
-        await axios(url, {
-          method: "POST",
-          headers: { "X-WP-Nonce": servvData.nonce },
-        });
+        await resendBookingConfirmation(id, reg, occurrence);
       }
       toast("Emails successfully resent to the registrant");
     } catch (error) {
@@ -228,11 +228,7 @@ const BookingsPage = () => {
 
   const refundBooking = async ({ id, occurrence }) => {
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/bookings/${id}/refund`;
-    const refundBookingResponse = await axios(url, {
-      method: "POST",
-      headers: { "X-WP-Nonce": servvData.nonce },
-    }).catch(() => {
+    const refundBookingResponse = await refundBookingUtil(id).catch(() => {
       toast("Failed to refund booking");
       setActiveDropdown(null);
       setLoading(false);
@@ -246,11 +242,7 @@ const BookingsPage = () => {
 
   const cancelBookings = async (id) => {
     setLoading(true);
-    let url = `/wp-json/servv-plugin/v1/bookings/${id}/cancel`;
-    const refundBookingResponse = await axios(url, {
-      method: "POST",
-      headers: { "X-WP-Nonce": servvData.nonce },
-    }).catch(() => {
+    const refundBookingResponse = await cancelBooking(id).catch(() => {
       toast("Failed to cancel booking");
       setActiveDropdown(null);
       setLoading(false);
@@ -345,11 +337,11 @@ const BookingsPage = () => {
 
   const fetchBookings = async ({ page = 1 } = {}) => {
     setLoading(true);
-    let url = "/wp-json/servv-plugin/v1/bookings";
-    let params = [];
 
     const endDate = moment();
     let startDate = null;
+    let fromDatetime = null;
+    let toDatetime = null;
 
     if (dates.startDate === null) {
       if (selectedInterval === "12" || firstFetch.current) {
@@ -360,24 +352,13 @@ const BookingsPage = () => {
         startDate = moment(endDate).subtract(7, "days");
       }
       if (!firstFetch.current && startDate) {
-        params.push(`from_datetime=${startDate.format("YYYY-MM-DD HH:mm:ss")}`);
-        params.push(`to_datetime=${endDate.format("YYYY-MM-DD HH:mm:ss")}`);
+        fromDatetime = startDate.format("YYYY-MM-DD HH:mm:ss");
+        toDatetime = endDate.format("YYYY-MM-DD HH:mm:ss");
       }
     } else if (dates.startDate && dates.endDate) {
-      params.push(
-        `from_datetime=${moment(dates.startDate).format(
-          "YYYY-MM-DD HH:mm:ss",
-        )}`,
-      );
-      params.push(
-        `to_datetime=${moment(dates.endDate).format("YYYY-MM-DD HH:mm:ss")}`,
-      );
+      fromDatetime = moment(dates.startDate).format("YYYY-MM-DD HH:mm:ss");
+      toDatetime = moment(dates.endDate).format("YYYY-MM-DD HH:mm:ss");
     }
-
-    if (searchString.length > 0)
-      params.push(`search=${encodeURIComponent(searchString)}`);
-    if (price.from) params.push(`from_price=${price.from}`);
-    if (price.to) params.push(`to_price=${price.to}`);
 
     if (!selectedProvider.offline && !selectedProvider.zoom) {
       setLoading(false);
@@ -385,19 +366,18 @@ const BookingsPage = () => {
       return;
     }
 
-    if (selectedProvider.offline !== selectedProvider.zoom) {
-      params.push(
-        `event_provider=${selectedProvider.offline ? "offline" : "zoom"}`,
-      );
-    }
-
-    params.push(`page=${page}`, `page_size=10`);
-
     try {
-      const response = await axios(`${url}?${params.join("&")}`, {
-        headers: { "X-WP-Nonce": servvData.nonce },
+      const data = await fetchBookingsUtil({
+        page,
+        filters: {
+          dates: { startDate: fromDatetime, endDate: toDatetime },
+          selectedInterval,
+          searchString,
+          price,
+          selectedProvider,
+        },
       });
-      if (response.status === 200) setBookings(response.data);
+      if (data) setBookings(data);
     } catch (error) {
       toast("Servv was unable to fetch bookings.");
     }
@@ -434,9 +414,9 @@ const BookingsPage = () => {
         />
       </th>
       {headings.map((heading) =>
-        heading.visible ? <th key={heading.value}>{heading.label}</th> : null,
+        heading.visible ? <th key={heading.value} className={`col-${heading.value}`}>{heading.label}</th> : null,
       )}
-      <th></th>
+      <th className="col-actions"></th>
     </Fragment>
   );
 
@@ -470,7 +450,7 @@ const BookingsPage = () => {
             switch (heading.value) {
               case "order":
                 return (
-                  <td key="order">
+                  <td key="order" className="col-order">
                     <span className="font-semibold text-sm">
                       {t("#")}
                       {row.id}
@@ -480,7 +460,7 @@ const BookingsPage = () => {
 
               case "date":
                 return (
-                  <td key="date">
+                  <td key="date" className="col-date">
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold">
                         {orderDate.format("MMM DD YYYY")}
@@ -510,7 +490,7 @@ const BookingsPage = () => {
 
               case "occurrence":
                 return (
-                  <td key="occurrence">
+                  <td key="occurrence" className="col-occurrence">
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold">
                         {startDate.format("MMM DD YYYY")}
@@ -524,7 +504,7 @@ const BookingsPage = () => {
 
               case "paid":
                 return (
-                  <td key="paid" className="mode">
+                  <td key="paid" className="col-paid mode">
                     {Number(row.price) > 0
                       ? `${
                           Number(row.price) +
@@ -537,7 +517,7 @@ const BookingsPage = () => {
 
               case "status":
                 return (
-                  <td key="status">
+                  <td key="status" className="col-status">
                     <Badge
                       text={
                         row.active_registrants === 0
@@ -566,7 +546,7 @@ const BookingsPage = () => {
             }
           })}
 
-          <td className="w-auto shrink-0 whitespace-nowrap text-right">
+          <td className="col-actions w-auto shrink-0 whitespace-nowrap text-right">
             <button onClick={() => setActive(row.id)}>
               <Bars4Icon className="dropdown-icon" />
             </button>
@@ -739,27 +719,22 @@ const BookingsPage = () => {
           ? variantData.registrants_ids.split(",")
           : [variantData.registrants_ids];
 
-        let url = "";
-        switch (actionType) {
-          case "resend":
-            url = `/wp-json/servv-plugin/v1/event/${id}/registrants/`;
-            break;
-          case "refund":
-            url = `/wp-json/servv-plugin/v1/booking/${variant}/refund`;
-            break;
-          case "cancel":
-            url = `/wp-json/servv-plugin/v1/booking/${variant}/cancel`;
-            break;
-          default:
-            toast("Unknown action type.");
-            return;
+        if (actionType !== "resend" && actionType !== "refund" && actionType !== "cancel") {
+          toast("Unknown action type.");
+          return;
         }
 
-        if (actionType !== "resend") {
+        if (actionType === "refund") {
           try {
-            const res = await axios.post(url, null, {
-              headers: { "X-WP-Nonce": servvData.nonce },
-            });
+            const res = await refundBookingUtil(variant);
+            if (res.status === 200) successCount++;
+            else failureCount++;
+          } catch {
+            failureCount++;
+          }
+        } else if (actionType === "cancel") {
+          try {
+            const res = await cancelBooking(variant);
             if (res.status === 200) successCount++;
             else failureCount++;
           } catch {
@@ -767,13 +742,9 @@ const BookingsPage = () => {
           }
         } else {
           try {
-            const requests = registrants.map((registrant) => {
-              let newURL = url + registrant + "/resend";
-              if (occurrence) newURL += `?occurrence_id=${occurrence}`;
-              return axios.post(newURL, null, {
-                headers: { "X-WP-Nonce": servvData.nonce },
-              });
-            });
+            const requests = registrants.map((registrant) =>
+              resendBookingConfirmation(id, registrant, occurrence),
+            );
             const responses = await Promise.allSettled(requests);
             const succeeded = responses.filter(
               (r) => r.status === "fulfilled" && r.value.status === 200,

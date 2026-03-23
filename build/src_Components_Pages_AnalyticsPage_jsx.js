@@ -343,27 +343,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
-/* harmony import */ var _Containers_PageHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Containers/PageHeader */ "./src/Components/Containers/PageHeader.jsx");
-/* harmony import */ var _Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/TabsComponent */ "./src/Components/Containers/TabsComponent.jsx");
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
-/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
-/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
-/* harmony import */ var reaviz__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! reaviz */ "./node_modules/reaviz/dist/index.js");
-/* harmony import */ var react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-tailwindcss-datepicker */ "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js");
-/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! he */ "./node_modules/he/he.js");
-/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(he__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _widget_servicesShared_currencies__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../widget/servicesShared/currencies */ "./widget/servicesShared/currencies.js");
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _utilities_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utilities/settings */ "./src/utilities/settings.js");
+/* harmony import */ var _utilities_analytics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utilities/analytics */ "./src/utilities/analytics.js");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
+/* harmony import */ var _Containers_PageHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/PageHeader */ "./src/Components/Containers/PageHeader.jsx");
+/* harmony import */ var _Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/TabsComponent */ "./src/Components/Containers/TabsComponent.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
+/* harmony import */ var reaviz__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! reaviz */ "./node_modules/reaviz/dist/index.js");
+/* harmony import */ var react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-tailwindcss-datepicker */ "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js");
+/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! he */ "./node_modules/he/he.js");
+/* harmony import */ var he__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(he__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _widget_servicesShared_currencies__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../widget/servicesShared/currencies */ "./widget/servicesShared/currencies.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__);
+
 
 
 
@@ -434,16 +436,12 @@ const AnalyticsPage = () => {
   };
 
   // Settings fetch
-  const getSettings = async () => {
+  const loadSettings = async () => {
     setLoading(true);
     try {
-      const resp = await axios__WEBPACK_IMPORTED_MODULE_16__["default"].get("/wp-json/servv-plugin/v1/shop/info", {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      if (resp.status === 200) {
-        setSettings(resp.data);
+      const data = await (0,_utilities_settings__WEBPACK_IMPORTED_MODULE_1__.getSettings)();
+      if (data) {
+        setSettings(data);
       }
     } catch (e) {
       console.error("Failed to fetch settings", e);
@@ -455,20 +453,12 @@ const AnalyticsPage = () => {
   const fetchTotalRevenue = async (from = null, to = null) => {
     setLoading(true);
     try {
-      let url = "/wp-json/servv-plugin/v1/analytics/revenue";
-      if (from && to) {
-        url += `?from=${from}&to=${to}`;
-      }
-      const revenue = await axios__WEBPACK_IMPORTED_MODULE_16__["default"].get(url, {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      if (revenue && revenue.data) {
+      const data = await (0,_utilities_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalyticsRevenue)(from, to);
+      if (data) {
         if (!from && !to) {
-          setTotalRevenue(revenue.data.total || 0);
+          setTotalRevenue(data.total || 0);
         } else {
-          setFilteredByDateRevenue(revenue.data.total || 0);
+          setFilteredByDateRevenue(data.total || 0);
         }
       }
     } catch (e) {
@@ -481,20 +471,14 @@ const AnalyticsPage = () => {
   const fetchTotalRegistrants = async (month = null) => {
     setLoading(true);
     try {
-      let url = "/wp-json/servv-plugin/v1/analytics/registrants";
-      if (isMonthSelected || month) {
-        url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(selectedMonth)}`;
-      }
-      const resp = await axios__WEBPACK_IMPORTED_MODULE_16__["default"].get(url, {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      if (resp && resp.data) {
+      const year = isMonthSelected || month ? selectedYear : null;
+      const monthIndex = isMonthSelected || month ? monthOptions.indexOf(selectedMonth) : null;
+      const data = await (0,_utilities_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalyticsRegistrants)(year, monthIndex);
+      if (data) {
         if (!isMonthSelected && !month) {
-          setTotalRegistrants(resp.data);
+          setTotalRegistrants(data);
         } else {
-          setRegistrants(resp.data);
+          setRegistrants(data);
         }
       }
     } catch (e) {
@@ -562,19 +546,13 @@ const AnalyticsPage = () => {
   // Filters analytics fetch (from your provided code)
   const fetchFiltersStatistic = async month => {
     setLoading(true);
-    let url = "/wp-json/servv-plugin/v1/analytics/types";
-    if (isMonthSelected || month) {
-      url += `?date_year=${selectedYear}&date_month=${monthOptions.indexOf(selectedMonth)}`;
-    }
-    const types = await axios__WEBPACK_IMPORTED_MODULE_16__["default"].get(url, {
-      headers: {
-        "X-WP-Nonce": servvData.nonce
-      }
-    }).catch(error => console.log(error));
-    if (types) {
-      if (!isMonthSelected && !month) setFiltersStatistic(types.data);else setFiltersStatisticFilteredByDate(types.data);
+    const year = isMonthSelected || month ? selectedYear : null;
+    const monthIndex = isMonthSelected || month ? monthOptions.indexOf(selectedMonth) : null;
+    const data = await (0,_utilities_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalyticsTypes)(year, monthIndex).catch(error => console.log(error));
+    if (data) {
+      if (!isMonthSelected && !month) setFiltersStatistic(data);else setFiltersStatisticFilteredByDate(data);
       setLoading(false);
-      return types;
+      return data;
     }
     setLoading(false);
     return null;
@@ -587,39 +565,23 @@ const AnalyticsPage = () => {
       ...eventsStatistic
     } : {};
     try {
-      const resp1 = await axios__WEBPACK_IMPORTED_MODULE_16__["default"].get("/wp-json/servv-plugin/v1/analytics/happened", {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      if (resp1 && resp1.data) {
-        statistic = {
-          ...statistic,
-          happened: resp1.data
-        };
-      }
-      const resp2 = await axios__WEBPACK_IMPORTED_MODULE_16__["default"].get("/wp-json/servv-plugin/v1/analytics/cancelled", {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      if (resp2 && resp2.data) {
-        statistic = {
-          ...statistic,
-          cancelled: resp2.data
-        };
-      }
-      const resp3 = await axios__WEBPACK_IMPORTED_MODULE_16__["default"].get("/wp-json/servv-plugin/v1/analytics/active", {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      if (resp3 && resp3.data) {
-        statistic = {
-          ...statistic,
-          active: resp3.data
-        };
-      }
+      const {
+        happened,
+        cancelled,
+        active
+      } = await (0,_utilities_analytics__WEBPACK_IMPORTED_MODULE_2__.getAnalyticsEvents)();
+      if (happened) statistic = {
+        ...statistic,
+        happened
+      };
+      if (cancelled) statistic = {
+        ...statistic,
+        cancelled
+      };
+      if (active) statistic = {
+        ...statistic,
+        active
+      };
       setEventsStatistic(statistic);
     } catch (e) {
       console.error("Error fetching events analytics", e);
@@ -714,21 +676,21 @@ const AnalyticsPage = () => {
 
   // Pie chart block
   const renderPieBlock = (title, data) => {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
       className: "w-full md:w-1/2 lg:w-1/3 flex flex-col gap-4 min-w-0",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("h2", {
         className: "font-semibold text-gray-700 text-lg border-b pb-2",
         children: title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
         className: "w-full h-64 md:h-80 lg:h-96 min-w-0",
-        children: data ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_9__.PieChart, {
+        children: data ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_11__.PieChart, {
           id: title.toLowerCase(),
           height: "100%",
           data: data,
-          series: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_9__.PieArcSeries, {
+          series: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_11__.PieArcSeries, {
             colorScheme: ["#B692F6", "#7319C6", "#8217E5", "#9D49EC"]
           })
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("p", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("p", {
           className: "text-gray-500",
           children: [t("No data available for"), title.toLowerCase(), t(".")]
         })
@@ -742,15 +704,15 @@ const AnalyticsPage = () => {
     const locationsData = getLocationsData();
     const languagesData = getLanguagesData();
     const categoriesData = getCategoriesData();
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
         className: "flex flex-col md:flex-row flex-wrap gap-8 w-full min-w-0",
         children: [categoriesData && renderPieBlock(t("Categories"), categoriesData), locationsData && renderPieBlock(t("Locations"), locationsData), languagesData && renderPieBlock(t("Languages"), languagesData), membersData && renderPieBlock(t("Members"), membersData)]
-      }), !membersData && !locationsData && !languagesData && !categoriesData && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+      }), !membersData && !locationsData && !languagesData && !categoriesData && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
         className: "w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
           className: "flex flex-col items-center justify-start",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("p", {
             children: t("You don’t have Filter Statistics yet.")
           })
         })
@@ -761,14 +723,14 @@ const AnalyticsPage = () => {
   // Revenue datepicker effect
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (revenueDates.startDate && revenueDates.endDate) {
-      fetchTotalRevenue(moment_timezone__WEBPACK_IMPORTED_MODULE_13___default()(revenueDates.startDate).format("YYYY-MM-DD"), moment_timezone__WEBPACK_IMPORTED_MODULE_13___default()(revenueDates.endDate).format("YYYY-MM-DD"));
+      fetchTotalRevenue(moment_timezone__WEBPACK_IMPORTED_MODULE_15___default()(revenueDates.startDate).format("YYYY-MM-DD"), moment_timezone__WEBPACK_IMPORTED_MODULE_15___default()(revenueDates.endDate).format("YYYY-MM-DD"));
     }
   }, [revenueDates]);
 
   // Initial load
   const getData = async () => {
     await fetchTotalRevenue();
-    await getSettings();
+    await loadSettings();
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     getData();
@@ -779,46 +741,46 @@ const AnalyticsPage = () => {
     unique,
     total
   } = getRegistrantsTotal();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_3__["default"], {
     loading: false,
     withBackground: true,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
         className: "servv-dashboard-header",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("h1", {
             className: "dashboard-title",
             children: `Analytics`
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("p", {
             className: "dashboard-description mt-4",
             children: "Access analytics for your revenue, registrants, events, and filters"
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
           gap: 8,
           cardsLayout: true,
           className: "w-full min-w-0",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
             className: "w-full min-w-0 overflow-x-auto",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Containers_TabsComponent__WEBPACK_IMPORTED_MODULE_6__["default"], {
               tabsList: tabsList,
               selected: selectedTab,
               handleSelectChange: handleSelectTabChange,
               fullWidth: true
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_14__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__["default"], {
             isLoading: loading,
-            children: [selectedTab === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: [selectedTab === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
               gap: 8,
               className: "w-full min-w-0",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                 className: "flex flex-col md:flex-row justify-end items-end min-w-0 w-full",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                   className: "w-full md:w-72",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(react_tailwindcss_datepicker__WEBPACK_IMPORTED_MODULE_12__["default"], {
                     displayFormat: "MMM DD, YYYY",
                     value: revenueDates,
                     placeholder: "Select Dates",
@@ -826,31 +788,31 @@ const AnalyticsPage = () => {
                     onChange: newValue => setRevenueDates(newValue)
                   })
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                 className: "w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
                   className: "flex flex-col items-center justify-start",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("h2", {
                     className: "font-semibold text-brand-700 text-display-md",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_9__.Count, {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_11__.Count, {
                       from: 0,
                       to: !revenueDates.startDate ? totalRevenue || 0 : filteredByDateRevenue || 0,
                       className: "font-semibold text-brand-700 text-display-md"
                     })
-                  }), totalRevenue === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
+                  }), totalRevenue === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("p", {
                     children: t("You haven’t made any Sales yet.")
                   })]
                 })
               })]
-            }), selectedTab === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            }), selectedTab === 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
               gap: 8,
               className: "w-full min-w-0",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 gap: 4,
                 className: "flex-col sm:flex-row w-full items-start min-w-0",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                   className: "w-full sm:w-48",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                     options: monthOptions,
                     selected: selectedMonth,
                     onSelectChange: val => {
@@ -858,9 +820,9 @@ const AnalyticsPage = () => {
                       setIsMonthSelected(true);
                     }
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                   className: "w-full sm:w-48",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                     options: yearOptions,
                     selected: selectedYear,
                     onSelectChange: val => {
@@ -868,7 +830,7 @@ const AnalyticsPage = () => {
                       setIsMonthSelected(true);
                     }
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
                   text: "Reset",
                   icon: null,
                   type: "primary",
@@ -879,67 +841,67 @@ const AnalyticsPage = () => {
                     setSelectedYear("");
                   }
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
                 className: "w-full h-64 md:h-80 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col items-center justify-center min-w-0",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("h2", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("h2", {
                   className: "font-semibold text-brand-700 text-3xl",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_9__.Count, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_11__.Count, {
                     from: 0,
                     to: unique + total,
                     className: "font-semibold"
                   }), ` Registrants`]
-                }), unique + total === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
+                }), unique + total === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("p", {
                   className: "text-gray-500 mt-2",
                   children: t("You don’t have any Registrants yet.")
                 })]
               })]
-            }), selectedTab === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.Fragment, {
-              children: eventsStatistic ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+            }), selectedTab === 2 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.Fragment, {
+              children: eventsStatistic ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
                 className: "w-full h-64 bg-gradient-to-b from-transparent to-[#ECE4F6] rounded-lg flex flex-col md:flex-row items-center justify-between p-4 md:p-8 gap-4 min-w-0",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
                   className: "w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("h2", {
                     className: "font-semibold text-brand-700 text-lg",
                     children: t("Active Events")
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_9__.Count, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_11__.Count, {
                     from: 0,
                     to: getActiveEvents(),
                     className: "font-semibold text-brand-700 text-3xl"
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
                   className: "w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("h2", {
                     className: "font-semibold text-brand-700 text-lg",
                     children: t("Events Happened")
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_9__.Count, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_11__.Count, {
                     from: 0,
                     to: getHappenedEvents(),
                     className: "font-semibold text-brand-700 text-3xl"
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
                   className: "w-full md:w-1/3 flex flex-col items-center gap-2 min-w-0",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("h2", {
                     className: "font-semibold text-brand-700 text-lg",
                     children: t("Events Cancelled")
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_9__.Count, {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(reaviz__WEBPACK_IMPORTED_MODULE_11__.Count, {
                     from: 0,
                     to: getCanceledEvents(),
                     className: "font-semibold text-brand-700 text-3xl"
                   })]
                 })]
-              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                 className: "w-full h-64 flex items-center justify-center text-gray-500 min-w-0",
                 children: t("No event analytics to display.")
               })
-            }), selectedTab === 3 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            }), selectedTab === 3 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_7__["default"], {
               gap: 8,
               className: "w-full min-w-0",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 gap: 4,
                 className: "flex-col sm:flex-row w-full min-w-0",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                   className: "w-full sm:w-48",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                     options: monthOptions,
                     selected: selectedMonth,
                     onSelectChange: val => {
@@ -947,9 +909,9 @@ const AnalyticsPage = () => {
                       setIsMonthSelected(true);
                     }
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
                   className: "w-full sm:w-48",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Controls_SelectControl__WEBPACK_IMPORTED_MODULE_9__["default"], {
                     options: yearOptions,
                     selected: selectedYear,
                     onSelectChange: val => {
@@ -957,7 +919,7 @@ const AnalyticsPage = () => {
                       setIsMonthSelected(true);
                     }
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
                   text: "Reset",
                   icon: null,
                   type: "primary",
@@ -1077,6 +1039,65 @@ const SpinnerLoader = ({
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpinnerLoader);
+
+/***/ }),
+
+/***/ "./src/utilities/analytics.js":
+/*!************************************!*\
+  !*** ./src/utilities/analytics.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getAnalyticsEvents: () => (/* binding */ getAnalyticsEvents),
+/* harmony export */   getAnalyticsRegistrants: () => (/* binding */ getAnalyticsRegistrants),
+/* harmony export */   getAnalyticsRevenue: () => (/* binding */ getAnalyticsRevenue),
+/* harmony export */   getAnalyticsTypes: () => (/* binding */ getAnalyticsTypes)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+const headers = () => ({
+  "X-WP-Nonce": servvData.nonce
+});
+const getAnalyticsRevenue = async (from = null, to = null) => {
+  let url = "/wp-json/servv-plugin/v1/analytics/revenue";
+  if (from && to) url += `?from=${from}&to=${to}`;
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url, {
+    headers: headers()
+  });
+  return response.data;
+};
+const getAnalyticsRegistrants = async (year = null, month = null) => {
+  let url = "/wp-json/servv-plugin/v1/analytics/registrants";
+  if (year != null && month != null) url += `?date_year=${year}&date_month=${month}`;
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url, {
+    headers: headers()
+  });
+  return response.data;
+};
+const getAnalyticsTypes = async (year = null, month = null) => {
+  let url = "/wp-json/servv-plugin/v1/analytics/types";
+  if (year != null && month != null) url += `?date_year=${year}&date_month=${month}`;
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url, {
+    headers: headers()
+  });
+  return response.data;
+};
+const getAnalyticsEvents = async () => {
+  const [happened, cancelled, active] = await Promise.all([axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/wp-json/servv-plugin/v1/analytics/happened", {
+    headers: headers()
+  }), axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/wp-json/servv-plugin/v1/analytics/cancelled", {
+    headers: headers()
+  }), axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/wp-json/servv-plugin/v1/analytics/active", {
+    headers: headers()
+  })]);
+  return {
+    happened: happened.data,
+    cancelled: cancelled.data,
+    active: active.data
+  };
+};
 
 /***/ }),
 
@@ -1570,4 +1591,4 @@ const getCurrencySymbol = currencyCode => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=2abcf315d69fe16b2dfa
+//# sourceMappingURL=src_Components_Pages_AnalyticsPage_jsx.js.map?ver=4675670906a87c6c000e

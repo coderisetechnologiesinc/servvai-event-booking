@@ -1,5 +1,5 @@
 <template>
-  <div class="event-card" @click="onEventClick">
+  <div class="event-card" :data-href="link || ''" @click="onEventClick">
     <div
       class="event-image-wrapper"
       :style="{
@@ -53,7 +53,9 @@ import TimeIcon from "@/assets/icons/time.svg";
 import MapIcon from "@/assets/icons/map.svg";
 import { useCommonStore } from "@/stores/common";
 const baseUrl = window.servvPlatformAjax?.base_url || "";
-const placeholderImage = `${baseUrl}images/placeholder.png`;
+const placeholderImage =
+  window.servvPlatformAjax?.placeholderImage ||
+  `${baseUrl}images/placeholder.png`;
 const store = useCommonStore();
 const { settings } = storeToRefs(store);
 const props = defineProps({

@@ -1,61 +1,6 @@
 "use strict";
 (self["webpackChunkservv_plugin"] = self["webpackChunkservv_plugin"] || []).push([["src_Components_Pages_BrandingPage_jsx"],{
 
-/***/ "./src/Components/AnimatedModal.jsx":
-/*!******************************************!*\
-  !*** ./src/Components/AnimatedModal.jsx ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
-
-
-const AnimatedModal = ({
-  open,
-  onClose,
-  children
-}) => {
-  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(open);
-  const [closing, setClosing] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (open) {
-      setVisible(true);
-      setClosing(false);
-    }
-  }, [open]);
-  const close = () => {
-    if (closing) return;
-    setClosing(true);
-    setTimeout(() => {
-      setVisible(false);
-      setClosing(false);
-      onClose?.();
-    }, 160);
-  };
-  if (!visible) return null;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: `servv-modal-overlay ${closing ? "closing" : ""}`,
-    onClick: close,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `servv-modal ${closing ? "closing" : ""}`,
-      onClick: e => e.stopPropagation(),
-      children: typeof children === "function" ? children({
-        close
-      }) : children
-    })
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AnimatedModal);
-
-/***/ }),
-
 /***/ "./src/Components/Containers/BlockStack.jsx":
 /*!**************************************************!*\
   !*** ./src/Components/Containers/BlockStack.jsx ***!
@@ -403,10 +348,50 @@ const PageActionButton = ({
 
 /***/ }),
 
-/***/ "./src/Components/CustomLinksModal.jsx":
-/*!*********************************************!*\
-  !*** ./src/Components/CustomLinksModal.jsx ***!
-  \*********************************************/
+/***/ "./src/Components/Menu/Spinner.jsx":
+/*!*****************************************!*\
+  !*** ./src/Components/Menu/Spinner.jsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_spinners__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-spinners */ "./node_modules/react-spinners/esm/ClipLoader.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const override = {
+  display: "block",
+  margin: "0 auto"
+  //   borderColor: "#7319C6",
+};
+const Spinner = ({
+  loading,
+  color = "#7319C6"
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+    className: "svv-sweet-loading",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_spinners__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      color: color,
+      loading: loading,
+      cssOverride: override,
+      size: 75,
+      "aria-label": "Loading Spinner",
+      "data-testid": "loader"
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Spinner);
+
+/***/ }),
+
+/***/ "./src/Components/Modals/AnimatedModal.jsx":
+/*!*************************************************!*\
+  !*** ./src/Components/Modals/AnimatedModal.jsx ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -415,13 +400,68 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
-/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const AnimatedModal = ({
+  open,
+  onClose,
+  children
+}) => {
+  const [visible, setVisible] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(open);
+  const [closing, setClosing] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (open) {
+      setVisible(true);
+      setClosing(false);
+    }
+  }, [open]);
+  const close = () => {
+    if (closing) return;
+    setClosing(true);
+    setTimeout(() => {
+      setVisible(false);
+      setClosing(false);
+      onClose?.();
+    }, 160);
+  };
+  if (!visible) return null;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: `servv-modal-overlay ${closing ? "closing" : ""}`,
+    onClick: close,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: `servv-modal ${closing ? "closing" : ""}`,
+      onClick: e => e.stopPropagation(),
+      children: typeof children === "function" ? children({
+        close
+      }) : children
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AnimatedModal);
+
+/***/ }),
+
+/***/ "./src/Components/Modals/CustomLinksModal.jsx":
+/*!****************************************************!*\
+  !*** ./src/Components/Modals/CustomLinksModal.jsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
 /* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony import */ var _SortableRow__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SortableRow */ "./src/Components/SortableRow.jsx");
+/* harmony import */ var _Shared_SortableRow__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Shared/SortableRow */ "./src/Components/Shared/SortableRow.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
 
@@ -489,7 +529,7 @@ const CustomLinksModal = ({
         strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_5__.verticalListSortingStrategy,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
           gap: 2,
-          children: links.map(link => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_SortableRow__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          children: links.map(link => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Shared_SortableRow__WEBPACK_IMPORTED_MODULE_6__["default"], {
             id: link.id,
             title: link.text,
             subtitle: link.url,
@@ -528,10 +568,10 @@ const CustomLinksModal = ({
 
 /***/ }),
 
-/***/ "./src/Components/ImageUploadField.jsx":
-/*!*********************************************!*\
-  !*** ./src/Components/ImageUploadField.jsx ***!
-  \*********************************************/
+/***/ "./src/Components/Modals/LinkInBioModal.jsx":
+/*!**************************************************!*\
+  !*** ./src/Components/Modals/LinkInBioModal.jsx ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -540,82 +580,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
-/* harmony import */ var _UploadBars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UploadBars */ "./src/Components/UploadBars.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-const ImageUploadField = ({
-  id,
-  label,
-  buttonText,
-  uploading,
-  preview,
-  onFileSelect,
-  // ✅ renamed
-  shape = "square"
-}) => {
-  const handleInputChange = e => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (typeof onFileSelect !== "function") {
-      console.error("❌ onFileSelect must be a function!", onFileSelect);
-      return;
-    }
-    onFileSelect(file);
-
-    // ✅ allow selecting same file again
-    e.target.value = "";
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: "flex flex-col gap-3",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-      className: "font-medium text-sm",
-      children: label
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-      id: id,
-      type: "file",
-      accept: "image/*",
-      hidden: true,
-      onChange: handleInputChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      text: uploading ? "Uploading..." : buttonText,
-      type: "secondary",
-      disabled: uploading,
-      className: "w-[170px]",
-      onAction: () => document.getElementById(id)?.click()
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_UploadBars__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      visible: uploading
-    }), preview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-      src: preview,
-      alt: "Preview",
-      className: shape === "circle" ? "w-[120px] h-[120px] rounded-full object-cover border self-center" : "h-[150px] rounded-lg object-cover border w-full"
-    })]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageUploadField);
-
-/***/ }),
-
-/***/ "./src/Components/LinkInBioModal.jsx":
-/*!*******************************************!*\
-  !*** ./src/Components/LinkInBioModal.jsx ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
-/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
-/* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SortableItem */ "./src/Components/SortableItem.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var _Shared_SortableItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Shared/SortableItem */ "./src/Components/Shared/SortableItem.jsx");
 /* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -738,50 +706,10 @@ const LinkInBioModal = ({
 
 /***/ }),
 
-/***/ "./src/Components/Menu/Spinner.jsx":
-/*!*****************************************!*\
-  !*** ./src/Components/Menu/Spinner.jsx ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_spinners__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-spinners */ "./node_modules/react-spinners/esm/ClipLoader.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-
-
-const override = {
-  display: "block",
-  margin: "0 auto"
-  //   borderColor: "#7319C6",
-};
-const Spinner = ({
-  loading,
-  color = "#7319C6"
-}) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: "svv-sweet-loading",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_spinners__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      color: color,
-      loading: loading,
-      cssOverride: override,
-      size: 75,
-      "aria-label": "Loading Spinner",
-      "data-testid": "loader"
-    })
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Spinner);
-
-/***/ }),
-
-/***/ "./src/Components/Pages/BrandingPage.jsx":
-/*!***********************************************!*\
-  !*** ./src/Components/Pages/BrandingPage.jsx ***!
-  \***********************************************/
+/***/ "./src/Components/Modals/ProfileBrandingModal.jsx":
+/*!********************************************************!*\
+  !*** ./src/Components/Modals/ProfileBrandingModal.jsx ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -790,569 +718,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
-/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/SettingsCardWithModal */ "./src/Components/SettingsCardWithModal.jsx");
-/* harmony import */ var _CustomLinksModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../CustomLinksModal */ "./src/Components/CustomLinksModal.jsx");
-/* harmony import */ var _YoutubeLinksModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../YoutubeLinksModal */ "./src/Components/YoutubeLinksModal.jsx");
-/* harmony import */ var _Components_ProfileBrandingModal__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Components/ProfileBrandingModal */ "./src/Components/ProfileBrandingModal.jsx");
-/* harmony import */ var _Components_LinkInBioModal__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Components/LinkInBioModal */ "./src/Components/LinkInBioModal.jsx");
-/* harmony import */ var _Components_ThemeBrandingModal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Components/ThemeBrandingModal */ "./src/Components/ThemeBrandingModal.jsx");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/LinkIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/PaintBrushIcon.js");
-/* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../assets/icons */ "./src/assets/icons/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
-
-
-
-
-
-
-
-
-
-/* ✅ Cards */
-
-
-
-/* ✅ Modals */
-
-
-
-
-/* ✅ Icons */
-
-
-
-const BrandingPage = () => {
-  const {
-    settings
-  } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_5__.useServvStore)();
-
-  /* ======================================================
-     STATE
-  ====================================================== */
-
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-
-  /* Profile */
-  const [title, setTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [description, setDescription] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [address, setAddress] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [hideAvatar, setHideAvatar] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [uploadedUrl, setUploadedUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [avatarPreview, setAvatarPreview] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [avatarUploading, setAvatarUploading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [uploadedBannerUrl, setUploadedBannerUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [bannerImagePreview, setBannerImagePreview] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [bannerUploading, setBannerUploading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-
-  /* Link In Bio */
-  const [instagram, setInstagram] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [tiktok, setTikTok] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [youtube, setYoutube] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [x, setX] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [facebook, setFacebook] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [links, setLinks] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [youtubeVideos, setYoutubeVideos] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [order, setOrder] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["events", "links", "videos"]);
-
-  /* Theme */
-  const [bgType, setBgType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("color");
-  const [backgroundColor, setBackgroundColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#ffffff");
-  const [backgroundOpacity, setBackgroundOpacity] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
-  const [backgroundGradient, setBackgroundGradient] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("linear-gradient(135deg, #4f46e5, #9333ea)");
-  const [backgroundImagePreview, setBackgroundImagePreview] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const [bgUploading, setBgUploading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [textColor, setTextColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#121633");
-  const [textOpacity, setTextOpacity] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0.5);
-  const [widgetBgType, setWidgetBgType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("color");
-  const [widgetBgColor, setWidgetBgColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#ffffff");
-  const [widgetBgGradient, setWidgetBgGradient] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("linear-gradient(135deg, #ffffff, #f3f4f6)");
-  const responsiveBlock = "w-full min-w-0";
-
-  /* ======================================================
-     LOAD SETTINGS
-  ====================================================== */
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    var _w$pw_background_opac, _w$pw_text_opacity;
-    if (!settings?.settings?.widget_style_settings) return;
-    let w = settings.settings.widget_style_settings;
-    if (typeof w === "string") {
-      try {
-        w = JSON.parse(w);
-      } catch {
-        return;
-      }
-    }
-
-    /* Profile */
-    setTitle(w.pw_title || "");
-    setDescription(w.pw_description || "");
-    setAddress(w.pw_address || "");
-    setEmail(w.pw_email || "");
-    setHideAvatar(w.pw_hide_avatar || false);
-    setUploadedUrl(w.pw_avatar || null);
-    setAvatarPreview(w.pw_avatar || "");
-    setUploadedBannerUrl(w.pw_banner_image || null);
-    setBannerImagePreview(w.pw_banner_image || "");
-
-    /* Social */
-    setInstagram(w.pw_instagram || "");
-    setTikTok(w.pw_tiktok || "");
-    setYoutube(w.pw_youtube || "");
-    setX(w.pw_x || "");
-    setFacebook(w.pw_facebook || "");
-    setLinks(Array.isArray(w.pw_links) ? w.pw_links : []);
-    setYoutubeVideos(Array.isArray(w.pw_youtube_videos) ? w.pw_youtube_videos : []);
-    setOrder(Array.isArray(w.pw_content_order) ? w.pw_content_order : ["events", "links", "videos"]);
-
-    /* Theme */
-    setBgType(w.pw_bg_type || "color");
-    setBackgroundColor(w.pw_background_color || "#ffffff");
-    setBackgroundOpacity((_w$pw_background_opac = w.pw_background_opacity) !== null && _w$pw_background_opac !== void 0 ? _w$pw_background_opac : 1);
-    setBackgroundGradient(w.pw_background_gradient || backgroundGradient);
-    setTextColor(w.pw_text_color || "#121633");
-    setTextOpacity((_w$pw_text_opacity = w.pw_text_opacity) !== null && _w$pw_text_opacity !== void 0 ? _w$pw_text_opacity : 0.5);
-    setWidgetBgType(w.pw_widget_bg_type || "color");
-    setWidgetBgColor(w.pw_widget_bg_color || "#ffffff");
-    setWidgetBgGradient(w.pw_widget_bg_gradient || widgetBgGradient);
-  }, [settings]);
-
-  /* ======================================================
-     UPLOAD HELPERS (✅ Missing Methods Restored)
-  ====================================================== */
-
-  const handleUploadError = error => {
-    setTimeout(() => {
-      if (!error?.response) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("Network error. Check your internet connection.");
-        return;
-      }
-      const {
-        status,
-        data
-      } = error.response;
-      if (status === 413) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("File is too large for the server.");
-        return;
-      }
-      if (data?.code === "rest_upload_unknown_error") {
-        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("Upload failed on server. Please contact site administrator.");
-        return;
-      }
-      react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error(data?.message || "Upload failed.");
-    }, 0);
-  };
-  const uploadImageToMediaLibrary = async file => {
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-      const res = await axios__WEBPACK_IMPORTED_MODULE_15__["default"].post("/wp-json/wp/v2/media", formData, {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        },
-        timeout: 30000
-      });
-      return res.data.source_url;
-    } catch (error) {
-      handleUploadError(error);
-      return null;
-    }
-  };
-
-  /* ---------------- Avatar Upload ---------------- */
-
-  const handleAvatarChange = async file => {
-    if (!file) return;
-    setAvatarUploading(true);
-
-    // Preview immediately
-    const reader = new FileReader();
-    reader.onload = () => setAvatarPreview(reader.result);
-    reader.readAsDataURL(file);
-
-    // Upload to WP media library
-    const url = await uploadImageToMediaLibrary(file);
-    if (url) {
-      setUploadedUrl(url);
-    }
-    setAvatarUploading(false);
-  };
-
-  /* ---------------- Banner Upload ---------------- */
-
-  const handleBannerChange = async file => {
-    if (!file) return;
-    setBannerUploading(true);
-
-    // Preview immediately
-    const reader = new FileReader();
-    reader.onload = () => setBannerImagePreview(reader.result);
-    reader.readAsDataURL(file);
-
-    // Upload banner image
-    const url = await uploadImageToMediaLibrary(file);
-    if (url) {
-      setUploadedBannerUrl(url);
-    }
-    setBannerUploading(false);
-  };
-
-  /* ---------------- Background Upload ---------------- */
-
-  const handleBackgroundImageChange = async file => {
-    if (!file) return;
-    setBgUploading(true);
-
-    // Preview immediately
-    const reader = new FileReader();
-    reader.onload = () => setBackgroundImagePreview(reader.result);
-    reader.readAsDataURL(file);
-
-    // Upload image
-    const url = await uploadImageToMediaLibrary(file);
-    if (url) {
-      // If later you want to persist pw_background_image, add state:
-      // setBackgroundImage(url);
-      console.log("Background uploaded:", url);
-    }
-    setBgUploading(false);
-  };
-
-  /* ======================================================
-     SAVE SETTINGS
-  ====================================================== */
-
-  const saveSettings = async () => {
-    setLoading(true);
-    let oldWidgetSettings = {};
-    try {
-      oldWidgetSettings = JSON.parse(settings.settings.widget_style_settings || "{}");
-    } catch {}
-    const newWidgetSettings = {
-      ...oldWidgetSettings,
-      pw_title: title,
-      pw_description: description,
-      pw_address: address,
-      pw_email: email,
-      pw_hide_avatar: hideAvatar,
-      pw_avatar: uploadedUrl,
-      pw_banner_image: uploadedBannerUrl,
-      pw_instagram: instagram,
-      pw_tiktok: tiktok,
-      pw_youtube: youtube,
-      pw_x: x,
-      pw_facebook: facebook,
-      pw_links: links,
-      pw_youtube_videos: youtubeVideos,
-      pw_content_order: order,
-      pw_bg_type: bgType,
-      pw_background_color: backgroundColor,
-      pw_background_opacity: backgroundOpacity,
-      pw_background_gradient: backgroundGradient,
-      pw_text_color: textColor,
-      pw_text_opacity: textOpacity,
-      pw_widget_bg_type: widgetBgType,
-      pw_widget_bg_color: widgetBgColor,
-      pw_widget_bg_gradient: widgetBgGradient
-    };
-    try {
-      await axios__WEBPACK_IMPORTED_MODULE_15__["default"].put("/wp-json/servv-plugin/v1/shop/settings", {
-        ...settings,
-        settings: {
-          ...settings.settings,
-          widget_style_settings: JSON.stringify(newWidgetSettings)
-        }
-      }, {
-        headers: {
-          "X-WP-Nonce": servvData.nonce
-        }
-      });
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast)("Settings saved successfully.");
-    } catch (err) {
-      console.error(err);
-      react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("Save failed.");
-    }
-    setLoading(false);
-  };
-
-  /* ======================================================
-   ✅ STATUS TEXT HELPERS
-  ====================================================== */
-
-  const hasProfileInfo = title.trim() || description.trim() || address.trim() || email.trim() || uploadedUrl || uploadedBannerUrl;
-  const hasSocialInfo = instagram.trim() || tiktok.trim() || youtube.trim() || x.trim() || facebook.trim();
-  const hasCustomLinks = links.length > 0;
-  const hasYoutubeVideos = youtubeVideos.length > 0;
-  const hasThemeInfo = bgType !== "color" || backgroundColor !== "#ffffff" || widgetBgColor !== "#ffffff";
-  const profileStatus = hasProfileInfo ? "Profile configured" : "No profile details set";
-  const linkBioStatus = hasSocialInfo ? "Links configured" : "No links added yet";
-  const themeStatus = hasThemeInfo ? "Theme customized" : "Using default theme";
-  const customLinksStatus = hasCustomLinks ? `${links.length} link${links.length > 1 ? "s" : ""} added` : "No custom links yet";
-  const youtubeStatus = hasYoutubeVideos ? `${youtubeVideos.length} video${youtubeVideos.length > 1 ? "s" : ""} added` : "No videos added yet";
-
-  /* ======================================================
-     UI
-  ====================================================== */
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    loading: loading,
-    withBackground: true,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-      className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-        className: "servv-dashboard-header",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-          className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h1", {
-            className: "dashboard-title",
-            children: "Branding"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
-            className: "dashboard-description",
-            children: "Customize your widget branding and store details"
-          })]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-        className: "header-line"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        className: "pt-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-          className: "w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))] gap-6",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            icon: _assets_icons__WEBPACK_IMPORTED_MODULE_13__.Profile,
-            title: "Profile",
-            statusText: profileStatus,
-            description: "Business name, avatar and widget header branding.",
-            buttonText: "Edit",
-            handleSave: saveSettings,
-            footerActions: (() => {
-              const fileRef = React.useRef(null);
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.Fragment, {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
-                  ref: fileRef,
-                  type: "file",
-                  accept: "image/*",
-                  hidden: true,
-                  onChange: e => {
-                    const file = e.target.files?.[0];
-                    // console.log(file);
-                    if (file) handleAvatarChange(file);
-                  }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
-                  type: "button",
-                  onClick: () => fileRef.current?.click(),
-                  disabled: avatarUploading,
-                  className: "px-5 py-2 bg-[#7A5AF8] text-white rounded-lg",
-                  children: "Upload Avatar"
-                })]
-              });
-            })(),
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_ProfileBrandingModal__WEBPACK_IMPORTED_MODULE_10__["default"], {
-              title: title,
-              setTitle: setTitle,
-              description: description,
-              setDescription: setDescription,
-              address: address,
-              setAddress: setAddress,
-              email: email,
-              setEmail: setEmail,
-              hideAvatar: hideAvatar,
-              avatarUploading: avatarUploading,
-              setHideAvatar: setHideAvatar,
-              avatarPreview: avatarPreview
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_16__["default"],
-            title: "Social",
-            description: "Add and update your social media links.",
-            buttonText: "Edit",
-            statusText: linkBioStatus,
-            handleSave: saveSettings,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_LinkInBioModal__WEBPACK_IMPORTED_MODULE_11__["default"], {
-              instagram: instagram,
-              setInstagram: setInstagram,
-              tiktok: tiktok,
-              setTikTok: setTikTok,
-              youtube: youtube,
-              setYoutube: setYoutube,
-              x: x,
-              setX: setX,
-              facebook: facebook,
-              setFacebook: setFacebook,
-              links: links,
-              setLinks: setLinks,
-              youtubeVideos: youtubeVideos,
-              setYoutubeVideos: setYoutubeVideos,
-              order: order,
-              setOrder: setOrder
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_17__["default"],
-            title: "Theme",
-            description: "Colors, gradients, background and widget styling.",
-            buttonText: "Edit",
-            statusText: themeStatus,
-            handleSave: saveSettings,
-            footerActions: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
-              type: "button",
-              disabled: bannerUploading,
-              onClick: () => document.getElementById("themeBannerUploadInput")?.click(),
-              className: "px-5 py-2 bg-[#7A5AF8] text-white rounded-lg hover:bg-[#6941C6] font-semibold text-sm disabled:opacity-50",
-              children: bannerUploading ? "Uploading..." : "Upload Banner"
-            }),
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_ThemeBrandingModal__WEBPACK_IMPORTED_MODULE_12__["default"], {
-              bgType: bgType,
-              setBgType: setBgType,
-              backgroundColor: backgroundColor,
-              setBackgroundColor: setBackgroundColor,
-              backgroundOpacity: backgroundOpacity,
-              setBackgroundOpacity: setBackgroundOpacity,
-              backgroundGradient: backgroundGradient,
-              setBackgroundGradient: setBackgroundGradient,
-              backgroundImagePreview: backgroundImagePreview,
-              setBackgroundImagePreview: setBackgroundImagePreview,
-              bgUploading: bgUploading,
-              textColor: textColor,
-              setTextColor: setTextColor,
-              textOpacity: textOpacity,
-              setTextOpacity: setTextOpacity,
-              widgetBgType: widgetBgType,
-              setWidgetBgType: setWidgetBgType,
-              widgetBgColor: widgetBgColor,
-              setWidgetBgColor: setWidgetBgColor,
-              widgetBgGradient: widgetBgGradient,
-              setWidgetBgGradient: setWidgetBgGradient,
-              responsiveBlock: responsiveBlock,
-              bannerImagePreview: bannerImagePreview,
-              bannerUploading: bannerUploading,
-              handleBannerChange: handleBannerChange,
-              hideAvatar: hideAvatar,
-              setHideAvatar: setHideAvatar,
-              avatarUploading: setAvatarUploading,
-              avatarPreview: setAvatarPreview,
-              handleAvatarChange: handleAvatarChange,
-              order: order,
-              setOrder: setOrder
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_16__["default"],
-            title: "Links",
-            statusText: customLinksStatus,
-            description: "External links shown in your widget.",
-            buttonText: "Edit",
-            handleSave: saveSettings,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_CustomLinksModal__WEBPACK_IMPORTED_MODULE_8__["default"], {
-              links: links,
-              setLinks: setLinks
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Components_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            icon: _assets_icons__WEBPACK_IMPORTED_MODULE_13__.Youtube,
-            title: "Videos",
-            description: "Add video blocks inside widget.",
-            statusText: youtubeStatus,
-            buttonText: "Edit",
-            handleSave: saveSettings,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_YoutubeLinksModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
-              youtubeVideos: youtubeVideos,
-              setYoutubeVideos: setYoutubeVideos
-            })
-          })]
-        })
-      })]
-    })
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BrandingPage);
-
-/***/ }),
-
-/***/ "./src/Components/Pages/PageWrapper.jsx":
-/*!**********************************************!*\
-  !*** ./src/Components/Pages/PageWrapper.jsx ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-const PageWrapper = props => {
-  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useLocation)();
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (window.Intercom) {
-      if (location !== "/support") {
-        window.Intercom("update", {
-          hide_default_launcher: true
-        });
-      } else {
-        window.Intercom("update", {
-          hide_default_launcher: true
-        });
-      }
-    }
-  }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      className: "fixed inset-0 bg-[#F5F5F5]"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full relative pl-4 flex flex-col min-h-0",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
-        children: props.loading && !props.withoutSpinner && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          loading: true
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-visible ${props.loading ? "loading" : ""}`,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
-          position: "bottom-right"
-        }), props.children]
-      })]
-    })]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageWrapper);
-
-/***/ }),
-
-/***/ "./src/Components/ProfileBrandingModal.jsx":
-/*!*************************************************!*\
-  !*** ./src/Components/ProfileBrandingModal.jsx ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
-/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
-/* harmony import */ var _StepBlock__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./StepBlock */ "./src/Components/StepBlock.jsx");
-/* harmony import */ var _ImageUploadField__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ImageUploadField */ "./src/Components/ImageUploadField.jsx");
-/* harmony import */ var _UploadBars__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UploadBars */ "./src/Components/UploadBars.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
+/* harmony import */ var _Shared_StepBlock__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Shared/StepBlock */ "./src/Components/Shared/StepBlock.jsx");
+/* harmony import */ var _Shared_ImageUploadField__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Shared/ImageUploadField */ "./src/Components/Shared/ImageUploadField.jsx");
+/* harmony import */ var _Shared_UploadBars__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Shared/UploadBars */ "./src/Components/Shared/UploadBars.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
 
@@ -1384,7 +755,7 @@ const ProfileBrandingModal = ({
 }) => {
   // console.log(avatarUploading);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_StepBlock__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Shared_StepBlock__WEBPACK_IMPORTED_MODULE_4__["default"], {
       title: "Business details",
       description: "Update your title, description, and contact information",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1450,7 +821,7 @@ const ProfileBrandingModal = ({
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "step__content_delimeter mt-4"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_StepBlock__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Shared_StepBlock__WEBPACK_IMPORTED_MODULE_4__["default"], {
       title: "Avatar",
       description: "Upload a profile image shown in your widget header",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1463,7 +834,7 @@ const ProfileBrandingModal = ({
           }),
           checked: hideAvatar,
           onChange: () => setHideAvatar(!hideAvatar)
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_UploadBars__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Shared_UploadBars__WEBPACK_IMPORTED_MODULE_6__["default"], {
           visible: avatarUploading
         }), avatarPreview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
           src: avatarPreview,
@@ -1480,10 +851,10 @@ const ProfileBrandingModal = ({
 
 /***/ }),
 
-/***/ "./src/Components/SettingsCardWithModal.jsx":
-/*!**************************************************!*\
-  !*** ./src/Components/SettingsCardWithModal.jsx ***!
-  \**************************************************/
+/***/ "./src/Components/Modals/SettingsCardWithModal.jsx":
+/*!*********************************************************!*\
+  !*** ./src/Components/Modals/SettingsCardWithModal.jsx ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1495,7 +866,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
 /* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CheckIcon.js");
 /* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XMarkIcon.js");
-/* harmony import */ var _Components_AnimatedModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Components/AnimatedModal */ "./src/Components/AnimatedModal.jsx");
+/* harmony import */ var _AnimatedModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AnimatedModal */ "./src/Components/Modals/AnimatedModal.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
 
@@ -1579,7 +950,7 @@ const SettingsCardWithModal = ({
           })
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Components_AnimatedModal__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_AnimatedModal__WEBPACK_IMPORTED_MODULE_1__["default"], {
       open: open,
       onClose: () => setOpen(false),
       children: ({
@@ -1625,63 +996,10 @@ const SettingsCardWithModal = ({
 
 /***/ }),
 
-/***/ "./src/Components/SortableItem.jsx":
-/*!*****************************************!*\
-  !*** ./src/Components/SortableItem.jsx ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
-/* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-const SortableItem = ({
-  id,
-  children
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition
-  } = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_0__.useSortable)({
-    id
-  });
-  const style = {
-    transform: _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_1__.CSS.Transform.toString(transform),
-    transition
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    ref: setNodeRef,
-    style: style,
-    ...attributes,
-    className: "w-full",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "flex items-center gap-3 p-3 bg-white border rounded-lg",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-        ...listeners,
-        className: "cursor-grab text-gray-400 select-none",
-        children: "\u2630"
-      }), children]
-    })
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SortableItem);
-
-/***/ }),
-
-/***/ "./src/Components/SortableRow.jsx":
-/*!****************************************!*\
-  !*** ./src/Components/SortableRow.jsx ***!
-  \****************************************/
+/***/ "./src/Components/Modals/ThemeBrandingModal.jsx":
+/*!******************************************************!*\
+  !*** ./src/Components/Modals/ThemeBrandingModal.jsx ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1690,115 +1008,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SortableItem */ "./src/Components/SortableItem.jsx");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/PencilSquareIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/TrashIcon.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-
-const SortableRow = ({
-  id,
-  title,
-  subtitle,
-  onEdit,
-  onRemove
-}) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_SortableItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    id: id,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "flex items-center justify-between gap-3 w-full p-3 border rounded-lg bg-white",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "flex flex-col truncate flex-1",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-          className: "font-medium text-gray-900 truncate max-w-[300px]",
-          children: title
-        }), subtitle && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-          className: "text-sm text-gray-500 truncate max-w-[300px]",
-          children: subtitle
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "flex items-center gap-2",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-          type: "button",
-          onClick: onEdit,
-          className: "p-2 rounded-lg hover:bg-gray-100",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            className: "w-5 h-5 text-gray-600"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-          type: "button",
-          onClick: onRemove,
-          className: "p-2 rounded-lg hover:bg-red-50",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            className: "w-5 h-5 text-red-500"
-          })
-        })]
-      })]
-    })
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SortableRow);
-
-/***/ }),
-
-/***/ "./src/Components/StepBlock.jsx":
-/*!**************************************!*\
-  !*** ./src/Components/StepBlock.jsx ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
-
-
-const StepBlock = ({
-  title,
-  description,
-  children
-}) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "step__content_block",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      className: "step__content_title",
-      children: title
-    }), description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
-      className: "text-sm text-gray-500 mb-4",
-      children: description
-    }), children]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StepBlock);
-
-/***/ }),
-
-/***/ "./src/Components/ThemeBrandingModal.jsx":
-/*!***********************************************!*\
-  !*** ./src/Components/ThemeBrandingModal.jsx ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
-/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
-/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
-/* harmony import */ var _UploadBars__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UploadBars */ "./src/Components/UploadBars.jsx");
-/* harmony import */ var _StepBlock__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./StepBlock */ "./src/Components/StepBlock.jsx");
-/* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SortableItem */ "./src/Components/SortableItem.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
+/* harmony import */ var _Shared_UploadBars__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Shared/UploadBars */ "./src/Components/Shared/UploadBars.jsx");
+/* harmony import */ var _Shared_StepBlock__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Shared/StepBlock */ "./src/Components/Shared/StepBlock.jsx");
+/* harmony import */ var _Shared_SortableItem__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Shared/SortableItem */ "./src/Components/Shared/SortableItem.jsx");
 /* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -1850,7 +1066,7 @@ const ThemeBrandingModal = ({
   setOrder
 }) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_StepBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Shared_StepBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
       title: "Page background",
       description: "Customize the main background behind your widget",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -2006,7 +1222,7 @@ const ThemeBrandingModal = ({
             disabled: bgUploading,
             className: "w-[200px]",
             onAction: () => document.getElementById("backgroundUploadInput").click()
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_UploadBars__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Shared_UploadBars__WEBPACK_IMPORTED_MODULE_5__["default"], {
             visible: bgUploading
           }), backgroundImagePreview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
             src: backgroundImagePreview,
@@ -2034,7 +1250,7 @@ const ThemeBrandingModal = ({
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
       className: "step__content_delimeter mt-4"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_StepBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Shared_StepBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
       title: "Widget container background",
       description: "Background color/gradient for the widget content area",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -2133,7 +1349,7 @@ const ThemeBrandingModal = ({
           strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_9__.verticalListSortingStrategy,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
             gap: 2,
-            children: order.map(item => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_SortableItem__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            children: order.map(item => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Shared_SortableItem__WEBPACK_IMPORTED_MODULE_7__["default"], {
               id: item,
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("span", {
                 className: "capitalize font-medium",
@@ -2145,7 +1361,7 @@ const ThemeBrandingModal = ({
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
       className: "step__content_delimeter mt-4"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_StepBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Shared_StepBlock__WEBPACK_IMPORTED_MODULE_6__["default"], {
       title: "Card background",
       description: "Upload a banner image for the widget header area",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -2162,7 +1378,7 @@ const ThemeBrandingModal = ({
             accept: "image/*",
             hidden: true,
             onChange: e => handleBannerChange(e.target.files?.[0])
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_UploadBars__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Shared_UploadBars__WEBPACK_IMPORTED_MODULE_5__["default"], {
             visible: bannerUploading
           }), bannerImagePreview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("img", {
             src: bannerImagePreview,
@@ -2178,36 +1394,10 @@ const ThemeBrandingModal = ({
 
 /***/ }),
 
-/***/ "./src/Components/UploadBars.jsx":
-/*!***************************************!*\
-  !*** ./src/Components/UploadBars.jsx ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-
-const UploadBars = ({
-  visible
-}) => {
-  if (!visible) return null;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    className: "upload-bars",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {})]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UploadBars);
-
-/***/ }),
-
-/***/ "./src/Components/YoutubeLinksModal.jsx":
-/*!**********************************************!*\
-  !*** ./src/Components/YoutubeLinksModal.jsx ***!
-  \**********************************************/
+/***/ "./src/Components/Modals/YoutubeLinksModal.jsx":
+/*!*****************************************************!*\
+  !*** ./src/Components/Modals/YoutubeLinksModal.jsx ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2216,13 +1406,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
-/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
 /* harmony import */ var _dnd_kit_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dnd-kit/core */ "./node_modules/@dnd-kit/core/dist/core.esm.js");
 /* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony import */ var _SortableRow__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SortableRow */ "./src/Components/SortableRow.jsx");
+/* harmony import */ var _Shared_SortableRow__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Shared/SortableRow */ "./src/Components/Shared/SortableRow.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
 
@@ -2277,7 +1467,7 @@ const YoutubeLinksModal = ({
         strategy: _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_5__.verticalListSortingStrategy,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
           gap: 2,
-          children: youtubeVideos.map(v => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_SortableRow__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          children: youtubeVideos.map(v => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Shared_SortableRow__WEBPACK_IMPORTED_MODULE_6__["default"], {
             id: v.id,
             title: v.url,
             onEdit: () => editVideo(v.id),
@@ -2307,7 +1497,890 @@ const YoutubeLinksModal = ({
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (YoutubeLinksModal);
 
+/***/ }),
+
+/***/ "./src/Components/Pages/BrandingPage.jsx":
+/*!***********************************************!*\
+  !*** ./src/Components/Pages/BrandingPage.jsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
+/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var _utilities_media__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utilities/media */ "./src/utilities/media.js");
+/* harmony import */ var _utilities_settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../utilities/settings */ "./src/utilities/settings.js");
+/* harmony import */ var _Modals_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Modals/SettingsCardWithModal */ "./src/Components/Modals/SettingsCardWithModal.jsx");
+/* harmony import */ var _Modals_CustomLinksModal__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Modals/CustomLinksModal */ "./src/Components/Modals/CustomLinksModal.jsx");
+/* harmony import */ var _Modals_YoutubeLinksModal__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Modals/YoutubeLinksModal */ "./src/Components/Modals/YoutubeLinksModal.jsx");
+/* harmony import */ var _Modals_ProfileBrandingModal__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Modals/ProfileBrandingModal */ "./src/Components/Modals/ProfileBrandingModal.jsx");
+/* harmony import */ var _Modals_LinkInBioModal__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Modals/LinkInBioModal */ "./src/Components/Modals/LinkInBioModal.jsx");
+/* harmony import */ var _Modals_ThemeBrandingModal__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Modals/ThemeBrandingModal */ "./src/Components/Modals/ThemeBrandingModal.jsx");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/LinkIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/PaintBrushIcon.js");
+/* harmony import */ var _assets_icons__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../assets/icons */ "./src/assets/icons/index.js");
+/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__);
+
+
+
+
+
+
+
+
+
+
+/* ✅ Cards */
+
+
+
+/* ✅ Modals */
+
+
+
+
+/* ✅ Icons */
+
+
+
+
+const BrandingPage = () => {
+  const {
+    settings
+  } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_5__.useServvStore)();
+
+  /* ======================================================
+     STATE
+  ====================================================== */
+
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  /* Profile */
+  const [title, setTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [description, setDescription] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [address, setAddress] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [hideAvatar, setHideAvatar] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [uploadedUrl, setUploadedUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [avatarPreview, setAvatarPreview] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [avatarUploading, setAvatarUploading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [uploadedBannerUrl, setUploadedBannerUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [bannerImagePreview, setBannerImagePreview] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [bannerUploading, setBannerUploading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  /* Link In Bio */
+  const [instagram, setInstagram] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [tiktok, setTikTok] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [youtube, setYoutube] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [x, setX] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [facebook, setFacebook] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [links, setLinks] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [youtubeVideos, setYoutubeVideos] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [order, setOrder] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(["events", "links", "videos"]);
+
+  /* Theme */
+  const [bgType, setBgType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("color");
+  const [backgroundColor, setBackgroundColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#ffffff");
+  const [backgroundOpacity, setBackgroundOpacity] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
+  const [backgroundGradient, setBackgroundGradient] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("linear-gradient(135deg, #4f46e5, #9333ea)");
+  const [backgroundImagePreview, setBackgroundImagePreview] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [bgUploading, setBgUploading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [textColor, setTextColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#121633");
+  const [textOpacity, setTextOpacity] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0.5);
+  const [widgetBgType, setWidgetBgType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("color");
+  const [widgetBgColor, setWidgetBgColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#ffffff");
+  const [widgetBgGradient, setWidgetBgGradient] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("linear-gradient(135deg, #ffffff, #f3f4f6)");
+  const responsiveBlock = "w-full min-w-0";
+
+  /* ======================================================
+     LOAD SETTINGS
+  ====================================================== */
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    var _w$pw_background_opac, _w$pw_text_opacity;
+    if (!settings?.settings?.widget_style_settings) return;
+    let w = settings.settings.widget_style_settings;
+    if (typeof w === "string") {
+      try {
+        w = JSON.parse(w);
+      } catch {
+        return;
+      }
+    }
+
+    /* Profile */
+    setTitle(w.pw_title || "");
+    setDescription(w.pw_description || "");
+    setAddress(w.pw_address || "");
+    setEmail(w.pw_email || "");
+    setHideAvatar(w.pw_hide_avatar || false);
+    setUploadedUrl(w.pw_avatar || null);
+    setAvatarPreview(w.pw_avatar || "");
+    setUploadedBannerUrl(w.pw_banner_image || null);
+    setBannerImagePreview(w.pw_banner_image || "");
+
+    /* Social */
+    setInstagram(w.pw_instagram || "");
+    setTikTok(w.pw_tiktok || "");
+    setYoutube(w.pw_youtube || "");
+    setX(w.pw_x || "");
+    setFacebook(w.pw_facebook || "");
+    setLinks(Array.isArray(w.pw_links) ? w.pw_links : []);
+    setYoutubeVideos(Array.isArray(w.pw_youtube_videos) ? w.pw_youtube_videos : []);
+    setOrder(Array.isArray(w.pw_content_order) ? w.pw_content_order : ["events", "links", "videos"]);
+
+    /* Theme */
+    setBgType(w.pw_bg_type || "color");
+    setBackgroundColor(w.pw_background_color || "#ffffff");
+    setBackgroundOpacity((_w$pw_background_opac = w.pw_background_opacity) !== null && _w$pw_background_opac !== void 0 ? _w$pw_background_opac : 1);
+    setBackgroundGradient(w.pw_background_gradient || backgroundGradient);
+    setTextColor(w.pw_text_color || "#121633");
+    setTextOpacity((_w$pw_text_opacity = w.pw_text_opacity) !== null && _w$pw_text_opacity !== void 0 ? _w$pw_text_opacity : 0.5);
+    setWidgetBgType(w.pw_widget_bg_type || "color");
+    setWidgetBgColor(w.pw_widget_bg_color || "#ffffff");
+    setWidgetBgGradient(w.pw_widget_bg_gradient || widgetBgGradient);
+  }, [settings]);
+
+  /* ======================================================
+     UPLOAD HELPERS (✅ Missing Methods Restored)
+  ====================================================== */
+
+  const handleUploadError = error => {
+    setTimeout(() => {
+      if (!error?.response) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("Network error. Check your internet connection.");
+        return;
+      }
+      const {
+        status,
+        data
+      } = error.response;
+      if (status === 413) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("File is too large for the server.");
+        return;
+      }
+      if (data?.code === "rest_upload_unknown_error") {
+        react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("Upload failed on server. Please contact site administrator.");
+        return;
+      }
+      react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error(data?.message || "Upload failed.");
+    }, 0);
+  };
+  const uploadImageToMediaLibrary = async file => {
+    try {
+      return await (0,_utilities_media__WEBPACK_IMPORTED_MODULE_7__.uploadMedia)(file);
+    } catch (error) {
+      handleUploadError(error);
+      return null;
+    }
+  };
+
+  /* ---------------- Avatar Upload ---------------- */
+
+  const handleAvatarChange = async file => {
+    if (!file) return;
+    setAvatarUploading(true);
+
+    // Preview immediately
+    const reader = new FileReader();
+    reader.onload = () => setAvatarPreview(reader.result);
+    reader.readAsDataURL(file);
+
+    // Upload to WP media library
+    const url = await uploadImageToMediaLibrary(file);
+    if (url) {
+      setUploadedUrl(url);
+    }
+    setAvatarUploading(false);
+  };
+
+  /* ---------------- Banner Upload ---------------- */
+
+  const handleBannerChange = async file => {
+    if (!file) return;
+    setBannerUploading(true);
+
+    // Preview immediately
+    const reader = new FileReader();
+    reader.onload = () => setBannerImagePreview(reader.result);
+    reader.readAsDataURL(file);
+
+    // Upload banner image
+    const url = await uploadImageToMediaLibrary(file);
+    if (url) {
+      setUploadedBannerUrl(url);
+    }
+    setBannerUploading(false);
+  };
+
+  /* ---------------- Background Upload ---------------- */
+
+  const handleBackgroundImageChange = async file => {
+    if (!file) return;
+    setBgUploading(true);
+
+    // Preview immediately
+    const reader = new FileReader();
+    reader.onload = () => setBackgroundImagePreview(reader.result);
+    reader.readAsDataURL(file);
+
+    // Upload image
+    const url = await uploadImageToMediaLibrary(file);
+    if (url) {
+      // If later you want to persist pw_background_image, add state:
+      // setBackgroundImage(url);
+      console.log("Background uploaded:", url);
+    }
+    setBgUploading(false);
+  };
+
+  /* ======================================================
+     SAVE SETTINGS
+  ====================================================== */
+
+  const saveSettings = async () => {
+    setLoading(true);
+    let oldWidgetSettings = {};
+    try {
+      oldWidgetSettings = JSON.parse(settings.settings.widget_style_settings || "{}");
+    } catch {}
+    const newWidgetSettings = {
+      ...oldWidgetSettings,
+      pw_title: title,
+      pw_description: description,
+      pw_address: address,
+      pw_email: email,
+      pw_hide_avatar: hideAvatar,
+      pw_avatar: uploadedUrl,
+      pw_banner_image: uploadedBannerUrl,
+      pw_instagram: instagram,
+      pw_tiktok: tiktok,
+      pw_youtube: youtube,
+      pw_x: x,
+      pw_facebook: facebook,
+      pw_links: links,
+      pw_youtube_videos: youtubeVideos,
+      pw_content_order: order,
+      pw_bg_type: bgType,
+      pw_background_color: backgroundColor,
+      pw_background_opacity: backgroundOpacity,
+      pw_background_gradient: backgroundGradient,
+      pw_text_color: textColor,
+      pw_text_opacity: textOpacity,
+      pw_widget_bg_type: widgetBgType,
+      pw_widget_bg_color: widgetBgColor,
+      pw_widget_bg_gradient: widgetBgGradient
+    };
+    try {
+      await (0,_utilities_settings__WEBPACK_IMPORTED_MODULE_8__.saveSettings)({
+        ...settings,
+        settings: {
+          ...settings.settings,
+          widget_style_settings: JSON.stringify(newWidgetSettings)
+        }
+      });
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast)("Settings saved successfully.");
+    } catch (err) {
+      console.error(err);
+      react_toastify__WEBPACK_IMPORTED_MODULE_6__.toast.error("Save failed.");
+    }
+    setLoading(false);
+  };
+
+  /* ======================================================
+   ✅ STATUS TEXT HELPERS
+  ====================================================== */
+
+  const hasProfileInfo = title.trim() || description.trim() || address.trim() || email.trim() || uploadedUrl || uploadedBannerUrl;
+  const hasSocialInfo = instagram.trim() || tiktok.trim() || youtube.trim() || x.trim() || facebook.trim();
+  const hasCustomLinks = links.length > 0;
+  const hasYoutubeVideos = youtubeVideos.length > 0;
+  const hasThemeInfo = bgType !== "color" || backgroundColor !== "#ffffff" || widgetBgColor !== "#ffffff";
+  const profileStatus = hasProfileInfo ? "Profile configured" : "No profile details set";
+  const linkBioStatus = hasSocialInfo ? "Links configured" : "No links added yet";
+  const themeStatus = hasThemeInfo ? "Theme customized" : "Using default theme";
+  const customLinksStatus = hasCustomLinks ? `${links.length} link${links.length > 1 ? "s" : ""} added` : "No custom links yet";
+  const youtubeStatus = hasYoutubeVideos ? `${youtubeVideos.length} video${youtubeVideos.length > 1 ? "s" : ""} added` : "No videos added yet";
+
+  /* ======================================================
+     UI
+  ====================================================== */
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    loading: false,
+    withBackground: true,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
+      className: "dashboard-card",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
+        className: "servv-dashboard-header",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
+          className: "dashboard-heading",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("h1", {
+            className: "dashboard-title",
+            children: "Branding"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("p", {
+            className: "dashboard-description",
+            children: "Customize your widget branding and store details"
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("div", {
+        className: "header-line"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        className: "pt-0",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)("div", {
+          className: "w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))] gap-6",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            icon: _assets_icons__WEBPACK_IMPORTED_MODULE_15__.Profile,
+            title: "Profile",
+            statusText: profileStatus,
+            description: "Business name, avatar and widget header branding.",
+            buttonText: "Edit",
+            handleSave: saveSettings,
+            footerActions: (() => {
+              const fileRef = React.useRef(null);
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.Fragment, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("input", {
+                  ref: fileRef,
+                  type: "file",
+                  accept: "image/*",
+                  hidden: true,
+                  onChange: e => {
+                    const file = e.target.files?.[0];
+                    // console.log(file);
+                    if (file) handleAvatarChange(file);
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("button", {
+                  type: "button",
+                  onClick: () => fileRef.current?.click(),
+                  disabled: avatarUploading,
+                  className: "px-5 py-2 bg-[#7A5AF8] text-white rounded-lg",
+                  children: "Upload Avatar"
+                })]
+              });
+            })(),
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_ProfileBrandingModal__WEBPACK_IMPORTED_MODULE_12__["default"], {
+                title: title,
+                setTitle: setTitle,
+                description: description,
+                setDescription: setDescription,
+                address: address,
+                setAddress: setAddress,
+                email: email,
+                setEmail: setEmail,
+                hideAvatar: hideAvatar,
+                avatarUploading: avatarUploading,
+                setHideAvatar: setHideAvatar,
+                avatarPreview: avatarPreview
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_18__["default"],
+            title: "Social",
+            description: "Add and update your social media links.",
+            buttonText: "Edit",
+            statusText: linkBioStatus,
+            handleSave: saveSettings,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_LinkInBioModal__WEBPACK_IMPORTED_MODULE_13__["default"], {
+                instagram: instagram,
+                setInstagram: setInstagram,
+                tiktok: tiktok,
+                setTikTok: setTikTok,
+                youtube: youtube,
+                setYoutube: setYoutube,
+                x: x,
+                setX: setX,
+                facebook: facebook,
+                setFacebook: setFacebook,
+                links: links,
+                setLinks: setLinks,
+                youtubeVideos: youtubeVideos,
+                setYoutubeVideos: setYoutubeVideos,
+                order: order,
+                setOrder: setOrder
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_19__["default"],
+            title: "Theme",
+            description: "Colors, gradients, background and widget styling.",
+            buttonText: "Edit",
+            statusText: themeStatus,
+            handleSave: saveSettings,
+            footerActions: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)("button", {
+              type: "button",
+              disabled: bannerUploading,
+              onClick: () => document.getElementById("themeBannerUploadInput")?.click(),
+              className: "px-5 py-2 bg-[#7A5AF8] text-white rounded-lg hover:bg-[#6941C6] font-semibold text-sm disabled:opacity-50",
+              children: bannerUploading ? "Uploading..." : "Upload Banner"
+            }),
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_ThemeBrandingModal__WEBPACK_IMPORTED_MODULE_14__["default"], {
+                bgType: bgType,
+                setBgType: setBgType,
+                backgroundColor: backgroundColor,
+                setBackgroundColor: setBackgroundColor,
+                backgroundOpacity: backgroundOpacity,
+                setBackgroundOpacity: setBackgroundOpacity,
+                backgroundGradient: backgroundGradient,
+                setBackgroundGradient: setBackgroundGradient,
+                backgroundImagePreview: backgroundImagePreview,
+                setBackgroundImagePreview: setBackgroundImagePreview,
+                bgUploading: bgUploading,
+                textColor: textColor,
+                setTextColor: setTextColor,
+                textOpacity: textOpacity,
+                setTextOpacity: setTextOpacity,
+                widgetBgType: widgetBgType,
+                setWidgetBgType: setWidgetBgType,
+                widgetBgColor: widgetBgColor,
+                setWidgetBgColor: setWidgetBgColor,
+                widgetBgGradient: widgetBgGradient,
+                setWidgetBgGradient: setWidgetBgGradient,
+                responsiveBlock: responsiveBlock,
+                bannerImagePreview: bannerImagePreview,
+                bannerUploading: bannerUploading,
+                handleBannerChange: handleBannerChange,
+                hideAvatar: hideAvatar,
+                setHideAvatar: setHideAvatar,
+                avatarUploading: setAvatarUploading,
+                avatarPreview: setAvatarPreview,
+                handleAvatarChange: handleAvatarChange,
+                order: order,
+                setOrder: setOrder
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_18__["default"],
+            title: "Links",
+            statusText: customLinksStatus,
+            description: "External links shown in your widget.",
+            buttonText: "Edit",
+            handleSave: saveSettings,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_CustomLinksModal__WEBPACK_IMPORTED_MODULE_10__["default"], {
+                links: links,
+                setLinks: setLinks
+              })
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_SettingsCardWithModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
+            icon: _assets_icons__WEBPACK_IMPORTED_MODULE_15__.Youtube,
+            title: "Videos",
+            description: "Add video blocks inside widget.",
+            statusText: youtubeStatus,
+            buttonText: "Edit",
+            handleSave: saveSettings,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_16__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Modals_YoutubeLinksModal__WEBPACK_IMPORTED_MODULE_11__["default"], {
+                youtubeVideos: youtubeVideos,
+                setYoutubeVideos: setYoutubeVideos
+              })
+            })
+          })]
+        })
+      })]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BrandingPage);
+
+/***/ }),
+
+/***/ "./src/Components/Pages/PageWrapper.jsx":
+/*!**********************************************!*\
+  !*** ./src/Components/Pages/PageWrapper.jsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+const PageWrapper = props => {
+  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useLocation)();
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (window.Intercom) {
+      if (location !== "/support") {
+        window.Intercom("update", {
+          hide_default_launcher: true
+        });
+      } else {
+        window.Intercom("update", {
+          hide_default_launcher: true
+        });
+      }
+    }
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: [props.withBackground && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "fixed inset-0 bg-[#F5F5F5]"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "w-full relative pl-4 flex flex-col min-h-0",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "absolute inset-0 flex items-center justify-center pointer-events-none",
+        children: props.loading && !props.withoutSpinner && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          loading: true
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: `flex flex-col flex-1 w-full pr-4 max-w-full min-w-0 min-h-0 overflow-visible ${props.loading ? "loading" : ""}`,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_toastify__WEBPACK_IMPORTED_MODULE_0__.ToastContainer, {
+          position: "bottom-right"
+        }), props.children]
+      })]
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PageWrapper);
+
+/***/ }),
+
+/***/ "./src/Components/Pages/SpinnerLoader.jsx":
+/*!************************************************!*\
+  !*** ./src/Components/Pages/SpinnerLoader.jsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const SpinnerLoader = ({
+  isLoading,
+  children,
+  customStyling
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "relative",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: isLoading ? "blur-sm pointer-events-none" : "",
+      children: children
+    }), isLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: `absolute inset-0 flex items-center justify-center ${customStyling}`,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        loading: true
+      })
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpinnerLoader);
+
+/***/ }),
+
+/***/ "./src/Components/Shared/ImageUploadField.jsx":
+/*!****************************************************!*\
+  !*** ./src/Components/Shared/ImageUploadField.jsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Controls/PageActionButton */ "./src/Components/Controls/PageActionButton.jsx");
+/* harmony import */ var _UploadBars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UploadBars */ "./src/Components/Shared/UploadBars.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+const ImageUploadField = ({
+  id,
+  label,
+  buttonText,
+  uploading,
+  preview,
+  onFileSelect,
+  // ✅ renamed
+  shape = "square"
+}) => {
+  const handleInputChange = e => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (typeof onFileSelect !== "function") {
+      console.error("❌ onFileSelect must be a function!", onFileSelect);
+      return;
+    }
+    onFileSelect(file);
+
+    // ✅ allow selecting same file again
+    e.target.value = "";
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "flex flex-col gap-3",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+      className: "font-medium text-sm",
+      children: label
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+      id: id,
+      type: "file",
+      accept: "image/*",
+      hidden: true,
+      onChange: handleInputChange
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      text: uploading ? "Uploading..." : buttonText,
+      type: "secondary",
+      disabled: uploading,
+      className: "w-[170px]",
+      onAction: () => document.getElementById(id)?.click()
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_UploadBars__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      visible: uploading
+    }), preview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+      src: preview,
+      alt: "Preview",
+      className: shape === "circle" ? "w-[120px] h-[120px] rounded-full object-cover border self-center" : "h-[150px] rounded-lg object-cover border w-full"
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageUploadField);
+
+/***/ }),
+
+/***/ "./src/Components/Shared/SortableItem.jsx":
+/*!************************************************!*\
+  !*** ./src/Components/Shared/SortableItem.jsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dnd-kit/sortable */ "./node_modules/@dnd-kit/sortable/dist/sortable.esm.js");
+/* harmony import */ var _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @dnd-kit/utilities */ "./node_modules/@dnd-kit/utilities/dist/utilities.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const SortableItem = ({
+  id,
+  children
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition
+  } = (0,_dnd_kit_sortable__WEBPACK_IMPORTED_MODULE_0__.useSortable)({
+    id
+  });
+  const style = {
+    transform: _dnd_kit_utilities__WEBPACK_IMPORTED_MODULE_1__.CSS.Transform.toString(transform),
+    transition
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    ref: setNodeRef,
+    style: style,
+    ...attributes,
+    className: "w-full",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex items-center gap-3 p-3 bg-white border rounded-lg",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        ...listeners,
+        className: "cursor-grab text-gray-400 select-none",
+        children: "\u2630"
+      }), children]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SortableItem);
+
+/***/ }),
+
+/***/ "./src/Components/Shared/SortableRow.jsx":
+/*!***********************************************!*\
+  !*** ./src/Components/Shared/SortableRow.jsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _SortableItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SortableItem */ "./src/Components/Shared/SortableItem.jsx");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/PencilSquareIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/TrashIcon.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+const SortableRow = ({
+  id,
+  title,
+  subtitle,
+  onEdit,
+  onRemove
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_SortableItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    id: id,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex items-center justify-between gap-3 w-full p-3 border rounded-lg bg-white",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "flex flex-col truncate flex-1",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          className: "font-medium text-gray-900 truncate max-w-[300px]",
+          children: title
+        }), subtitle && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          className: "text-sm text-gray-500 truncate max-w-[300px]",
+          children: subtitle
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "flex items-center gap-2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          type: "button",
+          onClick: onEdit,
+          className: "p-2 rounded-lg hover:bg-gray-100",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            className: "w-5 h-5 text-gray-600"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          type: "button",
+          onClick: onRemove,
+          className: "p-2 rounded-lg hover:bg-red-50",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            className: "w-5 h-5 text-red-500"
+          })
+        })]
+      })]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SortableRow);
+
+/***/ }),
+
+/***/ "./src/Components/Shared/StepBlock.jsx":
+/*!*********************************************!*\
+  !*** ./src/Components/Shared/StepBlock.jsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const StepBlock = ({
+  title,
+  description,
+  children
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "step__content_block",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      className: "step__content_title",
+      children: title
+    }), description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+      className: "text-sm text-gray-500 mb-4",
+      children: description
+    }), children]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StepBlock);
+
+/***/ }),
+
+/***/ "./src/Components/Shared/UploadBars.jsx":
+/*!**********************************************!*\
+  !*** ./src/Components/Shared/UploadBars.jsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+
+const UploadBars = ({
+  visible
+}) => {
+  if (!visible) return null;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    className: "upload-bars",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {})]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UploadBars);
+
+/***/ }),
+
+/***/ "./src/utilities/media.js":
+/*!********************************!*\
+  !*** ./src/utilities/media.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   uploadMedia: () => (/* binding */ uploadMedia)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+const uploadMedia = async file => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/wp-json/wp/v2/media", formData, {
+    headers: {
+      "X-WP-Nonce": servvData.nonce
+    },
+    timeout: 30000
+  });
+  return response.data.source_url;
+};
+
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=7efdc1bcadecab42eb17
+//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=851ffb456926ca5e4014

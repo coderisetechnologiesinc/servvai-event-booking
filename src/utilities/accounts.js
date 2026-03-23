@@ -29,6 +29,29 @@ export const getGmailAccount = async () => {
   return wpGet("gmail/account");
 };
 
+export const disconnectGmailAccount = async () => {
+  const response = await axios.delete("/wp-json/servv-plugin/v1/gmail/account", {
+    headers: { "X-WP-Nonce": servvData.nonce },
+  });
+  return response;
+};
+
+export const getGmailConnectURL = async () => {
+  const response = await axios.get("/wp-json/servv-plugin/v1/gmail/url", {
+    headers: { "X-WP-Nonce": servvData.nonce },
+  });
+  if (response?.status === 200) {
+    open(
+      `${servvData.shopify_app}/mail/connect?wordpress_url=${encodeURIComponent(
+        response.data.auth_url,
+      )}&wordpress_return_url=${encodeURIComponent(
+        window.location.origin,
+      )}&servv_nonce=${response.data.nonce}`,
+      "_top",
+    );
+  }
+};
+
 export const getCalendarAccount = async () => {
   return wpGet("calendar/account");
 };

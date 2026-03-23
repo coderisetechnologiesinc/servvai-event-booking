@@ -98,6 +98,75 @@ function servv_plugin_register_api_endpoint() {
             'callback' => 'servv_get_product_info',
             'permission_callback' => 'servv_validate_request_from_servv_api'
     ]);
+    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/widget/data', [
+            'methods' => 'GET',
+            'callback' => 'servv_get_widget_data',
+            'permission_callback' => '__return_true',
+    ]);
+}
+
+function servv_get_widget_data() {
+    $page      = isset($_GET['page'])      ? intval($_GET['page'])      : 1;
+    $page_size = isset($_GET['page_size']) ? intval($_GET['page_size']) : 12;
+
+    try {
+        $settings = servvSendApiRequest('/wordpress/widget/shop/settings');
+    } catch (\Exception $e) {
+        $settings = [];
+    }
+
+    try {
+        $params = [
+            'page'                => $page,
+            'page_size'           => $page_size,
+            'without_occurrences' => true,
+        ];
+
+        $queryString = servv_build_api_query($params);
+        $responseBody = servvSendApiRequest('/wordpress/filter/meetings?' . $queryString);
+
+        $currency = get_option('servv_currency', 'USD');
+        $result = [];
+
+        foreach ($responseBody['meetings'] ?? [] as $item) {
+            $product      = $item['product'] ?? [];
+            $occurrenceId = $item['occurrence_id'] ?? null;
+            $post         = servv_get_post_by_meta_value('servv_event_id', $item['id']);
+
+            if (empty($post)) continue;
+
+            $postId = $post->ID;
+            $product['post_id']   = $postId;
+            $product['post_url']  = get_permalink($postId);
+            $product['image_url'] = servv_get_post_image_url($postId);
+            $product['currency']  = $currency;
+
+            $quantities = get_post_meta($postId, 'servv_event_quantities', true);
+            $quantities = !empty($quantities) ? json_decode($quantities, true) : [];
+            $currentQuantity = !empty($occurrenceId) ? $quantities[$occurrenceId] ?? null : $quantities[0] ?? null;
+            $product['current_quantity'] = $currentQuantity;
+
+            $item['product'] = $product;
+            $result[] = $item;
+        }
+
+        $responseBody['meetings'] = $result;
+
+        return new WP_REST_Response([
+            'settings'      => $settings,
+            'meetings'      => $result,
+            'page_count'    => $responseBody['page_count']    ?? 1,
+            'total_records' => $responseBody['total_records'] ?? 0,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return new WP_REST_Response([
+            'settings'      => $settings,
+            'meetings'      => [],
+            'page_count'    => 1,
+            'total_records' => 0,
+        ], 200);
+    }
 }
 
 function servv_plugin_make_delayed_install() {
@@ -805,9 +874,7 @@ function servv_widget_shortcode($atts) {
     . '<div id="servv-widget"></div>'
     . '</div>';
 
-
     return $output;
-    
 }
 
 /**

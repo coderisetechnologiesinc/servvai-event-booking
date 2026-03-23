@@ -75,20 +75,104 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/index-641ee5b8.esm.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
+const DropdownIndicator = props => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_select__WEBPACK_IMPORTED_MODULE_2__.c.DropdownIndicator, {
+  ...props,
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    strokeWidth: 1.5,
+    stroke: "currentColor",
+    width: 20,
+    height: 20,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      d: "m19.5 8.25-7.5 7.5-7.5-7.5"
+    })
+  })
+});
 const NewSelectControl = ({
   label = "",
   options = [],
   helpText = "",
   value = "",
   disabled = false,
+  multiple = false,
   onChange = () => {},
   iconRight = null,
   style = {}
 }) => {
+  if (multiple) {
+    const selected = Array.isArray(value) ? value.map(String) : [];
+    const selectedOptions = options.filter(o => selected.includes(o.value));
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "servv-select",
+      style: {
+        width: "100%"
+      },
+      children: [label && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+        className: "step__content_title",
+        children: label
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_select__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        isMulti: true,
+        options: options,
+        value: selectedOptions,
+        onChange: picked => onChange((picked || []).map(o => o.value)),
+        isDisabled: disabled,
+        placeholder: helpText || "Select...",
+        components: {
+          IndicatorSeparator: null,
+          DropdownIndicator
+        },
+        styles: {
+          container: base => ({
+            ...base,
+            ...style
+          }),
+          control: base => ({
+            ...base,
+            border: "1px solid #d5d7da",
+            borderRadius: "8px",
+            boxShadow: "0px 1px 2px rgba(10, 13, 18, 0.05)",
+            paddingLeft: "12px",
+            paddingRight: "10px",
+            fontSize: "14px",
+            "&:hover": {
+              borderColor: "#d5d7da"
+            }
+          }),
+          placeholder: base => ({
+            ...base,
+            color: "#182230"
+          }),
+          option: base => ({
+            ...base,
+            color: "#182230"
+          }),
+          multiValueLabel: base => ({
+            ...base,
+            color: "#182230"
+          }),
+          input: base => ({
+            ...base,
+            color: "#182230"
+          }),
+          dropdownIndicator: base => ({
+            ...base,
+            padding: "0 4px"
+          })
+        }
+      })]
+    });
+  }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "servv-select",
     style: {
@@ -160,7 +244,7 @@ const FiltersStep = ({
   const filters = attributes.filters || {};
   const categoryId = filters.category_id || "";
   const languageId = filters.language_id || "";
-  const memberIds = filters.members || null;
+  const memberIds = filters.members || [];
 
   // custom fields
   const customFields = attributes.custom_fields || {};
@@ -175,12 +259,15 @@ const FiltersStep = ({
   }));
 
   // update filters
-  const updateFilter = (key, value) => setAttributes({
-    filters: {
-      ...(attributes.filters || {}),
-      [key]: Number.parseInt(value)
-    }
-  });
+  const updateFilter = (key, value) => {
+    const newValue = key === "members" ? (Array.isArray(value) ? value : [value]).map(Number) : Number.parseInt(value);
+    setAttributes({
+      filters: {
+        ...(attributes.filters || {}),
+        [key]: newValue
+      }
+    });
+  };
 
   // update custom fields
   const updateCustomField = (key, value) => {
@@ -315,47 +402,7 @@ const FiltersStep = ({
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FiltersStep);
 
-/***/ }),
-
-/***/ "./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-
-function ChevronDownIcon({
-  title,
-  titleId,
-  ...props
-}, svgRef) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", Object.assign({
-    xmlns: "http://www.w3.org/2000/svg",
-    fill: "none",
-    viewBox: "0 0 24 24",
-    strokeWidth: 1.5,
-    stroke: "currentColor",
-    "aria-hidden": "true",
-    "data-slot": "icon",
-    ref: svgRef,
-    "aria-labelledby": titleId
-  }, props), title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("title", {
-    id: titleId
-  }, title) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    d: "m19.5 8.25-7.5 7.5-7.5-7.5"
-  }));
-}
-const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(ChevronDownIcon);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForwardRef);
-
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=410ad4359845d614cbc1
+//# sourceMappingURL=src_Components_PostEditor_FiltersStep_jsx.js.map?ver=52a010c1fedd745fa57b

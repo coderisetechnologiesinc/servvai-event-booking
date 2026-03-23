@@ -7,11 +7,15 @@ import InlineStack from "../Containers/InlineStack";
 import Badge from "../Containers/Badge";
 import Card from "../Containers/Card";
 import BreadCrumbs from "../Menu/BreadCrumbs";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  getGmailAccount as getGmailAccountUtil,
+  disconnectGmailAccount,
+  getGmailConnectURL,
+} from "../../utilities/accounts";
 import PageWrapper from "./PageWrapper";
 import GmailConnectModalContent from "../Containers/GmailConnectModalContent";
-import ModalShell from "../ModalShell";
+import ModalShell from "../Modals/ModalShell";
 const EmailsPage = ({ onPageSelect = () => {} }) => {
   const navigate = useNavigate();
   const [account, setAccount] = useState(null);
@@ -19,49 +23,18 @@ const EmailsPage = ({ onPageSelect = () => {} }) => {
   const [showModal, setShowModal] = useState(false);
   const [gmailConfirmed, setGmailConfirmed] = useState(false);
   const getGmailAccount = async () => {
-    const getGmailAccountResponse = await axios({
-      method: "GET",
-      url: "/wp-json/servv-plugin/v1/gmail/account",
-      headers: { "X-WP-Nonce": servvData.nonce },
-    });
-    if (getGmailAccountResponse && getGmailAccountResponse.status === 200) {
-      if (getGmailAccountResponse.data.email)
-        setAccount(getGmailAccountResponse.data);
-
+    const { data } = await getGmailAccountUtil();
+    if (data) {
+      if (data.email) setAccount(data);
       setAccountFetched(true);
     }
   };
   const handleRemoveAccount = async () => {
-    const removeGmailAccount = await axios({
-      method: "DELETE",
-      url: "/wp-json/servv-plugin/v1/gmail/account",
-      headers: { "X-WP-Nonce": servvData.nonce },
-    });
+    await disconnectGmailAccount();
     setAccount(null);
   };
   const handleGetConnectURL = async () => {
-    const getAuthURLResponse = await axios(
-      "/wp-json/servv-plugin/v1/gmail/url",
-      {
-        method: "GET",
-        headers: {
-          "X-WP-Nonce": servvData.nonce,
-        },
-        redirect: "manual",
-      },
-    );
-    if (getAuthURLResponse && getAuthURLResponse.status === 200) {
-      open(
-        `${
-          servvData.shopify_app
-        }/mail/connect?wordpress_url=${encodeURIComponent(
-          getAuthURLResponse.data.auth_url,
-        )}&wordpress_return_url=${encodeURIComponent(
-          window.location.origin,
-        )}&servv_nonce=${getAuthURLResponse.data.nonce}`,
-        "_top",
-      );
-    }
+    await getGmailConnectURL();
   };
   useEffect(() => {
     getGmailAccount();

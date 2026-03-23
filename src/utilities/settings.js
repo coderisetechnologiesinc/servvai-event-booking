@@ -1,5 +1,13 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+
+export const saveSettings = async (settings) => {
+  const response = await axios.put(
+    "/wp-json/servv-plugin/v1/shop/settings",
+    settings,
+    { headers: { "X-WP-Nonce": servvData.nonce } },
+  );
+  return response.data;
+};
 
 export const getSettings = async () => {
   try {

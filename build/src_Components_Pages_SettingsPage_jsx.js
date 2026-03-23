@@ -1102,10 +1102,10 @@ const Spinner = ({
 
 /***/ }),
 
-/***/ "./src/Components/Pages/N8NSettings.jsx":
-/*!**********************************************!*\
-  !*** ./src/Components/Pages/N8NSettings.jsx ***!
-  \**********************************************/
+/***/ "./src/Components/Pages/Integrations/N8NSettings.jsx":
+/*!***********************************************************!*\
+  !*** ./src/Components/Pages/Integrations/N8NSettings.jsx ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1114,12 +1114,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
-/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
-/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
-/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
-/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
-/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
+/* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
+/* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
+/* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
+/* harmony import */ var _Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Controls/CheckboxControl */ "./src/Components/Controls/CheckboxControl.jsx");
+/* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
+/* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
 
@@ -2402,7 +2402,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
 /* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
-/* harmony import */ var _N8NSettings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../N8NSettings */ "./src/Components/Pages/N8NSettings.jsx");
+/* harmony import */ var _Integrations_N8NSettings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Integrations/N8NSettings */ "./src/Components/Pages/Integrations/N8NSettings.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
 // components/Settings/WorkflowSettings.jsx
@@ -2423,7 +2423,7 @@ const WorkflowSettings = ({
       gap: 4,
       cardsLayout: true,
       className: responsiveInlineStack,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_N8NSettings__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Integrations_N8NSettings__WEBPACK_IMPORTED_MODULE_2__["default"], {
         n8nSettingsData: n8nCurentSettings,
         settingsUpdate: updateN8NSettings
       })
@@ -2446,7 +2446,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "moment");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
@@ -2455,14 +2455,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_startcase__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_startcase__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var lodash_capitalize__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash.capitalize */ "./node_modules/lodash.capitalize/index.js");
 /* harmony import */ var lodash_capitalize__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_capitalize__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CheckCircleIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XCircleIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/BellIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ShoppingCartIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Square3Stack3DIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/LanguageIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CreditCardIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CheckCircleIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/XCircleIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Cog6ToothIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/BellIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ShoppingCartIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/Square3Stack3DIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/LanguageIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CreditCardIcon.js");
 /* harmony import */ var _Containers_InteractiveCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Containers/InteractiveCard */ "./src/Components/Containers/InteractiveCard.jsx");
 /* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
@@ -2481,8 +2481,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Settings_TranslationsSection__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Settings/TranslationsSection */ "./src/Components/Pages/Settings/TranslationsSection.jsx");
 /* harmony import */ var _Settings_BillingSettings__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Settings/BillingSettings */ "./src/Components/Pages/Settings/BillingSettings.jsx");
 /* harmony import */ var _Settings_WorkflowSettings__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Settings/WorkflowSettings */ "./src/Components/Pages/Settings/WorkflowSettings.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__);
 // SettingsPage.jsx - Refactored with card layout
 
 
@@ -2504,6 +2505,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Import new components
+
 
 
 
@@ -2692,7 +2694,7 @@ const SettingsPage = () => {
   };
   const getN8nSettings = async () => {
     setLoading(true);
-    const getN8nResponse = await axios__WEBPACK_IMPORTED_MODULE_25__["default"].get("/wp-json/servv-plugin/v1/n8n/settings", {
+    const getN8nResponse = await axios__WEBPACK_IMPORTED_MODULE_26__["default"].get("/wp-json/servv-plugin/v1/n8n/settings", {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
@@ -2714,7 +2716,7 @@ const SettingsPage = () => {
     if (settingsForSave?.event_created_url?.length > 0 && !settingsForSave.event_created_method?.length) {
       settingsForSave.event_created_method = "POST";
     }
-    const saveN8nResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_25__["default"])({
+    const saveN8nResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_26__["default"])({
       method: "PUT",
       url: "/wp-json/servv-plugin/v1/n8n/settings",
       headers: {
@@ -2727,7 +2729,7 @@ const SettingsPage = () => {
     }
   };
   const getSettings = async () => {
-    const getSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_25__["default"])("/wp-json/servv-plugin/v1/shop/info", {
+    const getSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_26__["default"])("/wp-json/servv-plugin/v1/shop/info", {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
@@ -2737,7 +2739,7 @@ const SettingsPage = () => {
     }
   };
   const getBillingPlans = async () => {
-    const getBillingPlansResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_25__["default"])("/wp-json/servv-plugin/v1/shop/paymentplans", {
+    const getBillingPlansResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_26__["default"])("/wp-json/servv-plugin/v1/shop/paymentplans", {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
@@ -2747,7 +2749,7 @@ const SettingsPage = () => {
     }
   };
   const getZoomAccount = async () => {
-    const getZoomAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_25__["default"].get("/wp-json/servv-plugin/v1/zoom/account", {
+    const getZoomAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_26__["default"].get("/wp-json/servv-plugin/v1/zoom/account", {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
@@ -2757,7 +2759,7 @@ const SettingsPage = () => {
     }
   };
   const getStripeAccount = async () => {
-    const getStripeAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_25__["default"].get("/wp-json/servv-plugin/v1/stripe/account", {
+    const getStripeAccountResponse = await axios__WEBPACK_IMPORTED_MODULE_26__["default"].get("/wp-json/servv-plugin/v1/stripe/account", {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
@@ -2775,7 +2777,7 @@ const SettingsPage = () => {
   };
   const saveSettings = async () => {
     setLoading(true);
-    const saveSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_25__["default"])({
+    const saveSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_26__["default"])({
       method: "PUT",
       url: "/wp-json/servv-plugin/v1/shop/settings",
       headers: {
@@ -3124,7 +3126,7 @@ const SettingsPage = () => {
   const renderAvailableFilters = () => {
     const filterSettings = settings.settings.widget_style_settings.available_filters || "";
     const selectedFilters = filterSettings.split(",");
-    return filters.map((filter, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    return filters.map((filter, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Controls_CheckboxControl__WEBPACK_IMPORTED_MODULE_13__["default"], {
       label: filter,
       checked: selectedFilters.some(f => f.toLowerCase() === filter.toLowerCase()),
       onChange: () => handleSelectedFilterChange(filter.toLowerCase())
@@ -3165,13 +3167,13 @@ const SettingsPage = () => {
     const langCode = fullList.filter(lang => lang.label === langForEdit)[0]?.value || "en";
     if (!langCode) return null;
     const translationSection = settings?.settings?.widget_style_settings?.translations?.[langCode]?.[section] || {};
-    return Object.keys(translationSection).map((translation, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_15__["default"], {
+    return Object.keys(translationSection).map((translation, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_15__["default"], {
       gap: 1,
       className: responsiveBlockStack,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("span", {
         className: "font-semibold",
         children: lodash_capitalize__WEBPACK_IMPORTED_MODULE_5___default()(lodash_startcase__WEBPACK_IMPORTED_MODULE_4___default()(translation))
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_14__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_14__["default"], {
         value: translationSection[translation],
         fullWidth: true,
         type: "text",
@@ -3183,7 +3185,7 @@ const SettingsPage = () => {
   };
   const getPortalLink = async () => {
     setLoading(true);
-    const getPortalLink = await (0,axios__WEBPACK_IMPORTED_MODULE_25__["default"])({
+    const getPortalLink = await (0,axios__WEBPACK_IMPORTED_MODULE_26__["default"])({
       url: "/wp-json/servv-plugin/v1/shop/billing/portal/session",
       method: "POST",
       headers: {
@@ -3207,7 +3209,7 @@ const SettingsPage = () => {
   const activateBillingPlan = async (id, isAnnual = false) => {
     setLoading(true);
     setShowPaymentOptionsModal(false);
-    const saveSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_25__["default"])({
+    const saveSettingsResponse = await (0,axios__WEBPACK_IMPORTED_MODULE_26__["default"])({
       method: "POST",
       url: `/wp-json/servv-plugin/v1/shop/paymentplans/${id}`,
       headers: {
@@ -3254,7 +3256,7 @@ const SettingsPage = () => {
         boxShadow: "0px 4px 8px -2px rgba(10, 13, 18, 0.1), 0px 2px 4px -2px rgba(10, 13, 18, 0.06)",
         color: "#FFFFFF"
       };
-      const subtitle = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("p", {
+      const subtitle = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("p", {
         className: "text-sm font-bold tracking-widest uppercase",
         style: {
           color: isPremium ? "transparent" : "#872CFA",
@@ -3265,32 +3267,38 @@ const SettingsPage = () => {
         },
         children: plan.name
       });
-      const title = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("h2", {
+      const title = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("h2", {
         className: "text-3xl font-bold",
         style: {
           color: isPremium ? "#FFFFFF" : "#070908"
         },
         children: plan.price > 0 ? `$${plan.price}/mo` : plan.price_annual > 0 ? `$${plan.price_annual}/yr` : "Free"
       });
-      const text = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("p", {
+      const text = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("p", {
         className: `text-sm ${plan.application_fee_percent === 0 ? "mt-5" : ""}`,
         style: {
           color: isPremium ? "rgba(255,255,255,0.6)" : "#717680"
         },
         children: plan.application_fee_percent > 0 ? `${plan.application_fee_percent}% transaction fee` : ""
       });
-      const action = isCurrent ? isPaid ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("button", {
+      const action = isCurrent ? isPaid ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("button", {
         className: "w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90",
         style: ctaButtonStyle,
         onClick: handleOpenPortal,
         children: "Manage"
-      }) : null : isUpgradeable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("button", {
+      }) : null : isUpgradeable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("button", {
         className: "w-full rounded-lg text-sm font-extrabold py-2.5 px-6 transition-opacity hover:opacity-90",
         style: ctaButtonStyle,
-        onClick: () => showPaymentOptions(plan),
+        onClick: () => {
+          if (isMarketplace) {
+            activateBillingPlan(plan.id);
+          } else {
+            showPaymentOptions(plan);
+          }
+        },
         children: "Activate"
       }) : null;
-      const footer = isCurrent ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
+      const footer = isCurrent ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("span", {
         className: "text-xs font-semibold px-2 py-1 rounded-full",
         style: {
           color: isPremium ? "#462986" : "#6941C6",
@@ -3298,7 +3306,7 @@ const SettingsPage = () => {
         },
         children: "Current plan"
       }) : null;
-      if (plan.id !== 1 || !isMarketplace) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_InteractiveCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      if (plan.id !== 1 || !isMarketplace) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Containers_InteractiveCard__WEBPACK_IMPORTED_MODULE_6__["default"], {
         isPremium: isPremium,
         subtitle: subtitle,
         title: title,
@@ -3308,21 +3316,21 @@ const SettingsPage = () => {
         style: {
           minHeight: 474
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("ul", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("ul", {
           className: "mt-4 flex flex-col gap-1",
-          children: plan.features.map((feature, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("li", {
+          children: plan.features.map((feature, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsxs)("li", {
             className: "flex items-start gap-2.5",
-            children: [feature.value === "true" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_26__["default"], {
+            children: [feature.value === "true" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_27__["default"], {
               className: "w-5 h-5 shrink-0",
               style: {
                 color: isPremium ? "#E3E1F2" : "#299E6C"
               }
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_27__["default"], {
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_28__["default"], {
               className: "w-5 h-5 shrink-0",
               style: {
                 color: isPremium ? "rgba(255,255,255,0.3)" : "#D0D5DD"
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("span", {
               className: "text-base font-light",
               style: {
                 color: isPremium ? "#FFFFFF" : "#070908"
@@ -3335,32 +3343,32 @@ const SettingsPage = () => {
     });
   };
   const isBillingPlanRestriction = settings?.current_plan && settings.current_plan.id === 1;
-  console.log(loading);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    loading: loading,
+  // console.log(loading);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    loading: false,
     withBackground: true,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("div", {
         className: "servv-dashboard-header",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("h1", {
             className: "dashboard-title",
             children: "Settings"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("p", {
             className: "dashboard-description mt-4",
             children: "Set default values to save time"
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)("div", {
         className: "header-line"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_8__["default"], {
         className: "py-0 my-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsxs)("div", {
           className: "w-full flex flex-col max-w-[100%] gap-6 items-stretch sm:grid sm:grid-cols-[repeat(auto-fit,minmax(310px,1fr))]",
-          children: [(!activeSection || activeSection === "general") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_28__["default"],
+          children: [(!activeSection || activeSection === "general") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_29__["default"],
             title: "General",
             description: "Time zone, format and event defaults",
             statusText: "General settings configured",
@@ -3370,35 +3378,38 @@ const SettingsPage = () => {
             sectionId: "general",
             activeSection: activeSection,
             setActiveSection: setActiveSection,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_GeneralSettings__WEBPACK_IMPORTED_MODULE_17__["default"], {
-              settings: settings,
-              timezones: timezones,
-              timeOptions: timeOptions,
-              currencyOptions: currencyOptions,
-              durationOptions: durationOptions,
-              eventTypes: eventTypes,
-              responsiveBlockStack: responsiveBlockStack,
-              responsiveInput: responsiveInput,
-              isBillingPlanRestriction: isBillingPlanRestriction,
-              stripeConnected: stripeConnected,
-              zoomAccount: zoomAccount,
-              handleTimezoneChange: handleTimezoneChange,
-              handleTimeFormatChange: handleTimeFormatChange,
-              handleHideTimezoneChange: handleHideTimezoneChange,
-              handleCurrencyChange: handleCurrencyChange,
-              handleDefaultDurationChange: handleDefaultDurationChange,
-              handleDefaultStartTimeChange: handleDefaultStartTimeChange,
-              getDefaultStartTime: getDefaultStartTime,
-              getDefaultEndTime: getDefaultEndTime,
-              handleDefaultPriceChange: handleDefaultPriceChange,
-              handleDefaultQuantityChange: handleDefaultQuantityChange,
-              handleDefaultTypeChange: handleDefaultTypeChange,
-              handleDefaultEndTimeChange: handleDefaultEndTimeChange,
-              getDurationOptions: getDurationOptions,
-              formatDuration: formatDuration
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_24__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_GeneralSettings__WEBPACK_IMPORTED_MODULE_17__["default"], {
+                settings: settings,
+                timezones: timezones,
+                timeOptions: timeOptions,
+                currencyOptions: currencyOptions,
+                durationOptions: durationOptions,
+                eventTypes: eventTypes,
+                responsiveBlockStack: responsiveBlockStack,
+                responsiveInput: responsiveInput,
+                isBillingPlanRestriction: isBillingPlanRestriction,
+                stripeConnected: stripeConnected,
+                zoomAccount: zoomAccount,
+                handleTimezoneChange: handleTimezoneChange,
+                handleTimeFormatChange: handleTimeFormatChange,
+                handleHideTimezoneChange: handleHideTimezoneChange,
+                handleCurrencyChange: handleCurrencyChange,
+                handleDefaultDurationChange: handleDefaultDurationChange,
+                handleDefaultStartTimeChange: handleDefaultStartTimeChange,
+                getDefaultStartTime: getDefaultStartTime,
+                getDefaultEndTime: getDefaultEndTime,
+                handleDefaultPriceChange: handleDefaultPriceChange,
+                handleDefaultQuantityChange: handleDefaultQuantityChange,
+                handleDefaultTypeChange: handleDefaultTypeChange,
+                handleDefaultEndTimeChange: handleDefaultEndTimeChange,
+                getDurationOptions: getDurationOptions,
+                formatDuration: formatDuration
+              })
             })
-          }), (!activeSection || activeSection === "reminders") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_29__["default"],
+          }), (!activeSection || activeSection === "reminders") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_30__["default"],
             title: "Reminders",
             description: "Email notifications and reminder settings",
             statusText: settings?.settings?.disable_emails === false ? "Reminders enabled" : "Reminders disabled",
@@ -3408,23 +3419,26 @@ const SettingsPage = () => {
             sectionId: "reminders",
             activeSection: activeSection,
             setActiveSection: setActiveSection,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_RemindersSettings__WEBPACK_IMPORTED_MODULE_18__["default"], {
-              settings: settings,
-              responsiveBlockStack: responsiveBlockStack,
-              responsiveInput: responsiveInput,
-              isBillingPlanRestriction: isBillingPlanRestriction,
-              handleEmailRemindersStateChange: handleEmailRemindersStateChange,
-              handleFirstReminderStateChange: handleFirstReminderStateChange,
-              handleFirstReminderHoursChange: handleFirstReminderHoursChange,
-              handleSecondReminderStateChange: handleSecondReminderStateChange,
-              handleSecondReminderHoursChange: handleSecondReminderHoursChange,
-              handleFinishedReminderStateChange: handleFinishedReminderStateChange,
-              handleNewAdditionalEmailsChange: handleNewAdditionalEmailsChange,
-              handleAdditionalRemindersHoursChange: handleAdditionalRemindersHoursChange,
-              handleStaffMemberEmailChange: handleStaffMemberEmailChange
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_24__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_RemindersSettings__WEBPACK_IMPORTED_MODULE_18__["default"], {
+                settings: settings,
+                responsiveBlockStack: responsiveBlockStack,
+                responsiveInput: responsiveInput,
+                isBillingPlanRestriction: isBillingPlanRestriction,
+                handleEmailRemindersStateChange: handleEmailRemindersStateChange,
+                handleFirstReminderStateChange: handleFirstReminderStateChange,
+                handleFirstReminderHoursChange: handleFirstReminderHoursChange,
+                handleSecondReminderStateChange: handleSecondReminderStateChange,
+                handleSecondReminderHoursChange: handleSecondReminderHoursChange,
+                handleFinishedReminderStateChange: handleFinishedReminderStateChange,
+                handleNewAdditionalEmailsChange: handleNewAdditionalEmailsChange,
+                handleAdditionalRemindersHoursChange: handleAdditionalRemindersHoursChange,
+                handleStaffMemberEmailChange: handleStaffMemberEmailChange
+              })
             })
-          }), !activeSection || activeSection === "checkout" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_30__["default"],
+          }), !activeSection || activeSection === "checkout" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_31__["default"],
             title: "Checkout",
             description: "Fast checkout and marketing consent settings",
             statusText: settings?.settings?.free_events_skip_checkout ? "Fast checkout enabled" : "Standard checkout",
@@ -3434,14 +3448,17 @@ const SettingsPage = () => {
             sectionId: "checkout",
             activeSection: activeSection,
             setActiveSection: setActiveSection,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_CheckoutSettings__WEBPACK_IMPORTED_MODULE_19__["default"], {
-              settings: settings,
-              handleFreeCheckoutChange: handleFreeCheckoutChange,
-              handleSkipCaptchaChange: handleSkipCaptchaChange,
-              handleMarketingConsentChange: handleMarketingConsentChange
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_24__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_CheckoutSettings__WEBPACK_IMPORTED_MODULE_19__["default"], {
+                settings: settings,
+                handleFreeCheckoutChange: handleFreeCheckoutChange,
+                handleSkipCaptchaChange: handleSkipCaptchaChange,
+                handleMarketingConsentChange: handleMarketingConsentChange
+              })
             })
-          }), (!activeSection || activeSection === "widget") && settings && settings.is_wp_marketplace === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_31__["default"],
+          }), (!activeSection || activeSection === "widget") && settings && settings.is_wp_marketplace === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_32__["default"],
             title: "Widget",
             description: "Display mode, filters, and widget elements",
             statusText: "Widget configured",
@@ -3451,24 +3468,27 @@ const SettingsPage = () => {
             sectionId: "widget",
             activeSection: activeSection,
             setActiveSection: setActiveSection,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_WidgetSettings__WEBPACK_IMPORTED_MODULE_20__["default"], {
-              settings: settings,
-              responsiveBlockStack: responsiveBlockStack,
-              responsiveInlineStack: responsiveInlineStack,
-              responsiveInput: responsiveInput,
-              availableViewMods: availableViewMods,
-              selectedView: selectedView,
-              availablePageSizes: availablePageSizes,
-              selectedPageSize: selectedPageSize,
-              handleViewModeChange: handleViewModeChange,
-              handleChangeFluidGrid: handleChangeFluidGrid,
-              handleDescriptionLengthChange: handleDescriptionLengthChange,
-              handlePageSizeChange: handlePageSizeChange,
-              renderAvailableFilters: renderAvailableFilters,
-              handleAdditionalPropertyChange: handleAdditionalPropertyChange
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_24__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_WidgetSettings__WEBPACK_IMPORTED_MODULE_20__["default"], {
+                settings: settings,
+                responsiveBlockStack: responsiveBlockStack,
+                responsiveInlineStack: responsiveInlineStack,
+                responsiveInput: responsiveInput,
+                availableViewMods: availableViewMods,
+                selectedView: selectedView,
+                availablePageSizes: availablePageSizes,
+                selectedPageSize: selectedPageSize,
+                handleViewModeChange: handleViewModeChange,
+                handleChangeFluidGrid: handleChangeFluidGrid,
+                handleDescriptionLengthChange: handleDescriptionLengthChange,
+                handlePageSizeChange: handlePageSizeChange,
+                renderAvailableFilters: renderAvailableFilters,
+                handleAdditionalPropertyChange: handleAdditionalPropertyChange
+              })
             })
-          }), (!activeSection || activeSection === "translations") && settings && settings.is_wp_marketplace === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_32__["default"],
+          }), (!activeSection || activeSection === "translations") && settings && settings.is_wp_marketplace === false && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_33__["default"],
             title: "Translations",
             description: "Translate widget text to any language",
             statusText: `Default: ${getDefaultWidgetLanguageName()}`,
@@ -3478,18 +3498,21 @@ const SettingsPage = () => {
             sectionId: "translations",
             activeSection: activeSection,
             setActiveSection: setActiveSection,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_TranslationsSection__WEBPACK_IMPORTED_MODULE_21__["default"], {
-              responsiveBlockStack: responsiveBlockStack,
-              responsiveInput: responsiveInput,
-              getLangsSelectOptions: getLangsSelectOptions,
-              getDefaultWidgetLanguageName: getDefaultWidgetLanguageName,
-              handleDefaultLanguageChange: handleDefaultLanguageChange,
-              langForEdit: langForEdit,
-              handleSelectLanguageforEdit: handleSelectLanguageforEdit,
-              renderTranslations: renderTranslations
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_24__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_TranslationsSection__WEBPACK_IMPORTED_MODULE_21__["default"], {
+                responsiveBlockStack: responsiveBlockStack,
+                responsiveInput: responsiveInput,
+                getLangsSelectOptions: getLangsSelectOptions,
+                getDefaultWidgetLanguageName: getDefaultWidgetLanguageName,
+                handleDefaultLanguageChange: handleDefaultLanguageChange,
+                langForEdit: langForEdit,
+                handleSelectLanguageforEdit: handleSelectLanguageforEdit,
+                renderTranslations: renderTranslations
+              })
             })
-          }), (!activeSection || activeSection === "billing") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
-            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_33__["default"],
+          }), (!activeSection || activeSection === "billing") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_SettingsSection__WEBPACK_IMPORTED_MODULE_16__["default"], {
+            icon: _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_34__["default"],
             title: "Billing",
             description: "Manage your subscription and payment plans",
             statusText: settings?.current_plan?.name || "No plan",
@@ -3500,16 +3523,19 @@ const SettingsPage = () => {
             sectionId: "billing",
             activeSection: activeSection,
             setActiveSection: setActiveSection,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_24__.jsx)(_Settings_BillingSettings__WEBPACK_IMPORTED_MODULE_22__["default"], {
-              responsiveBlockStack: responsiveBlockStack,
-              showPaymentForm: showPaymentForm,
-              renderBillingPlans: renderBillingPlans,
-              showPaymentOptionsModal: showPaymentOptionsModal,
-              setShowPaymentOptionsModal: setShowPaymentOptionsModal,
-              selectedPlan: selectedPlan,
-              setSelectedPlan: setSelectedPlan,
-              activateBillingPlan: activateBillingPlan,
-              isMarketplace: isMarketplace
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_24__["default"], {
+              isLoading: loading,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_25__.jsx)(_Settings_BillingSettings__WEBPACK_IMPORTED_MODULE_22__["default"], {
+                responsiveBlockStack: responsiveBlockStack,
+                showPaymentForm: showPaymentForm,
+                renderBillingPlans: renderBillingPlans,
+                showPaymentOptionsModal: showPaymentOptionsModal,
+                setShowPaymentOptionsModal: setShowPaymentOptionsModal,
+                selectedPlan: selectedPlan,
+                setSelectedPlan: setSelectedPlan,
+                activateBillingPlan: activateBillingPlan,
+                isMarketplace: isMarketplace
+              })
             })
           })]
         })
@@ -3518,6 +3544,46 @@ const SettingsPage = () => {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SettingsPage);
+
+/***/ }),
+
+/***/ "./src/Components/Pages/SpinnerLoader.jsx":
+/*!************************************************!*\
+  !*** ./src/Components/Pages/SpinnerLoader.jsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Menu/Spinner */ "./src/Components/Menu/Spinner.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const SpinnerLoader = ({
+  isLoading,
+  children,
+  customStyling
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "relative",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: isLoading ? "blur-sm pointer-events-none" : "",
+      children: children
+    }), isLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: `absolute inset-0 flex items-center justify-center ${customStyling}`,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Menu_Spinner__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        loading: true
+      })
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpinnerLoader);
 
 /***/ }),
 
@@ -5037,4 +5103,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=6612c64a3846aa94203e
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=474f80923cd8c973a4ad

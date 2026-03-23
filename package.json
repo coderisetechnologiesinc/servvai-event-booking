@@ -55,6 +55,7 @@
 		"quill": "^2.0.3",
 		"react-day-picker": "^9.13.0",
 		"react-router-dom": "^7.9.6",
+		"react-select": "^5.10.2",
 		"react-spinners": "^0.15.0",
 		"react-tailwindcss-datepicker": "^1.7.3",
 		"react-toastify": "^11.0.5",
