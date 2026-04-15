@@ -1,10 +1,24 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 
 export const useCommonStore = defineStore("common", () => {
   const settings = ref(null);
   const settingsFetched = ref(null);
+
+  const googleAnalyticsId = computed(() => {
+    if (!settings.value) return null;
+    try {
+      const widgetStyle =
+        typeof settings.value.widget_style_settings === "string"
+          ? JSON.parse(settings.value.widget_style_settings)
+          : settings.value.widget_style_settings;
+
+      return widgetStyle?.google_analytics_id ?? null;
+    } catch {
+      return null;
+    }
+  });
 
   async function fetchWidgetSettings() {
     if (window.__SERVV_STATIC__?.settings) {
@@ -39,7 +53,10 @@ export const useCommonStore = defineStore("common", () => {
       if (!root) return;
 
       const params = new URLSearchParams();
-      params.append("security", window.__SERVV_STATIC__?.nonce || servvAjax?.nonce);
+      params.append(
+        "security",
+        window.__SERVV_STATIC__?.nonce || servvAjax?.nonce,
+      );
       params.append("action", "servv_get_shop_settings");
 
       const response = await axios.post(servvAjax?.ajax_url, params);
@@ -67,5 +84,6 @@ export const useCommonStore = defineStore("common", () => {
     settings,
     settingsFetched,
     fetchWidgetSettings,
+    googleAnalyticsId,
   };
 });

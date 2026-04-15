@@ -148,18 +148,31 @@ const VenueStep = ({
   const { custom_field_1_name = "", custom_field_1_value = "" } = customFields;
 
   const locationOptions =
-    filtersList?.locations?.map((loc) => ({
-      value: String(loc.id),
-      label: loc.name,
-    })) || [];
+    [
+      { value: null, lable: "" },
+      ...filtersList?.locations?.map((loc) => ({
+        value: String(loc.id),
+        label: loc.name,
+      })),
+    ] || [];
 
   const handleLocationChange = (val) => {
-    setAttributes({
-      filters: {
-        ...(attributes.filters || {}),
-        location_id: Number.parseInt(val),
-      },
-    });
+    console.log(val);
+    if (val === null) {
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          location_id: null,
+        },
+      });
+    } else {
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          location_id: Number.parseInt(val),
+        },
+      });
+    }
   };
 
   const updateCustomField = (key, value) => {
@@ -261,7 +274,9 @@ const VenueStep = ({
   ]);
 
   useEffect(() => {
+    console.log("", filtersList?.locations?.length);
     if (filtersList?.locations?.length === 1) {
+      console.log(filtersList.locations[0].id);
       handleLocationChange(filtersList.locations[0].id);
     }
   }, [filtersList, settings]);

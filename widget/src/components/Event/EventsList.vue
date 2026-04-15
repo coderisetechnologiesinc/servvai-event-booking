@@ -19,12 +19,12 @@
     <EventsFilters
       v-if="
         windowSize !== 'mobile' &&
-          ((widgetSettings.widget_style_settings.ew_events_list_view ===
-            'progressive' &&
-            !widgetSettings.widget_style_settings.show_filters_expanded) ||
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'progressive') &&
-          pageSize !== 1
+        ((widgetSettings.widget_style_settings.ew_events_list_view ===
+          'progressive' &&
+          !widgetSettings.widget_style_settings.show_filters_expanded) ||
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'progressive') &&
+        pageSize !== 1
       "
     />
 
@@ -32,8 +32,8 @@
       v-if="
         widgetSettings.widget_style_settings.ew_events_list_view !==
           'progressive' &&
-          windowSize !== 'mobile' &&
-          pageSize !== 1
+        windowSize !== 'mobile' &&
+        pageSize !== 1
       "
     />
 
@@ -45,8 +45,9 @@
         <EventsListViewModeSelector
           v-if="
             !widgetSettings.widget_style_settings.ew_hide_view_mode_switch &&
-              pageSize !== 1
+            pageSize !== 1
           "
+          @calendar-selected="fetchCalendarEvents"
         />
         <EventsListPageSizeSelector
           item-type="event"
@@ -59,17 +60,16 @@
     <div
       v-if="
         widgetSettings.widget_style_settings.ew_events_grid_fluid_mode &&
-          ((widgetSettings.widget_style_settings.ew_events_list_view ===
-            'grid' &&
-            meetingsListForRender.length > 0 &&
-            !isListLoading) ||
-            (widgetSettings.widget_style_settings.ew_events_list_view ===
-              'progressive' &&
-              eventsPorgressiveView === 'grid') ||
-            (widgetSettings.widget_style_settings.ew_events_list_view ===
-              'category' &&
-              !isListLoading &&
-              meetingsListForRender.length > 0))
+        ((widgetSettings.widget_style_settings.ew_events_list_view === 'grid' &&
+          meetingsListForRender.length > 0 &&
+          !isListLoading) ||
+          (widgetSettings.widget_style_settings.ew_events_list_view ===
+            'progressive' &&
+            eventsPorgressiveView === 'grid') ||
+          (widgetSettings.widget_style_settings.ew_events_list_view ===
+            'category' &&
+            !isListLoading &&
+            meetingsListForRender.length > 0))
       "
       :class="[
         `${
@@ -127,17 +127,16 @@
     <div
       v-if="
         !widgetSettings.widget_style_settings.ew_events_grid_fluid_mode &&
-          ((widgetSettings.widget_style_settings.ew_events_list_view ===
-            'grid' &&
-            meetingsListForRender.length > 0 &&
-            !isListLoading) ||
-            (widgetSettings.widget_style_settings.ew_events_list_view ===
-              'progressive' &&
-              eventsPorgressiveView === 'grid') ||
-            (widgetSettings.widget_style_settings.ew_events_list_view ===
-              'category' &&
-              !isListLoading &&
-              meetingsListForRender.length > 0))
+        ((widgetSettings.widget_style_settings.ew_events_list_view === 'grid' &&
+          meetingsListForRender.length > 0 &&
+          !isListLoading) ||
+          (widgetSettings.widget_style_settings.ew_events_list_view ===
+            'progressive' &&
+            eventsPorgressiveView === 'grid') ||
+          (widgetSettings.widget_style_settings.ew_events_list_view ===
+            'category' &&
+            !isListLoading &&
+            meetingsListForRender.length > 0))
       "
       :class="[
         `${
@@ -202,11 +201,11 @@
       ]"
       v-if="
         widgetSettings.widget_style_settings.ew_events_list_view === 'list' ||
-          (widgetSettings.widget_style_settings.ew_events_list_view ===
-            'progressive' &&
-            eventsPorgressiveView === 'list' &&
-            !isListLoading &&
-            meetingsListForRender.length > 0)
+        (widgetSettings.widget_style_settings.ew_events_list_view ===
+          'progressive' &&
+          eventsPorgressiveView === 'list' &&
+          !isListLoading &&
+          meetingsListForRender.length > 0)
       "
     >
       <EventListCardItem
@@ -241,6 +240,29 @@
         }"
       ></div>
     </div>
+    <div
+      :class="[
+        `${widgetSettings.widget_style_settings.ew_events_list_view}-body`,
+      ]"
+      v-if="
+        widgetSettings.widget_style_settings.ew_events_list_view ===
+          'calendar' && !isListLoading
+      "
+      ref="eventsCalendarContainer"
+    >
+      <EventsListCalendar
+        :attributes="getEventsAttributesForCalendar"
+        :more-details-label="
+          widgetSettings.widget_style_settings.event_more_details_label
+        "
+        :open-details-item="openDetailsItem"
+        :shop-currency="widgetSettings.currency"
+        :on-show-more-details-click="onShowMoreDetailsClick"
+        :on-book-event-click="onBookEventClick"
+        :on-event-click="onEventClick"
+        @month-change="onCalendarMonthChange"
+      />
+    </div>
     <MeetingsPagination
       v-show="isFilteredResultPaginationVisible && pageSize !== 1"
     />
@@ -267,11 +289,11 @@
       <span
         v-show="
           meetingsListForRender &&
-            meetingsListForRender.length > 0 &&
-            widgetSettings.widget_style_settings.ew_events_counter &&
-            pageSize !== 1 &&
-            !isLoading &&
-            !isListLoading
+          meetingsListForRender.length > 0 &&
+          widgetSettings.widget_style_settings.ew_events_counter &&
+          pageSize !== 1 &&
+          !isLoading &&
+          !isListLoading
         "
       >
         {{ meetingsListForRender.length }}
@@ -302,6 +324,7 @@ import SelectedFiltersPanel from "@/components/common/SelectedFiltersPanel.vue";
 // import EventListItem from '@/components/Event/EventListItem';
 import ItemsListTypeSwitch from "@/components/common/ItemsListTypeSwitch";
 import EventsFiltersMultiSelectMobile from "@/components/Event/EventsFiltersMultiSelectMobile";
+import EventsListCalendar from "@/components/Event/EventsListCalendar";
 export default {
   name: "EventsList",
   components: {
@@ -315,6 +338,7 @@ export default {
     SelectedFiltersPanel,
     ItemsListTypeSwitch,
     EventsFiltersMultiSelectMobile,
+    EventsListCalendar,
     // EventListItem,
   },
   data() {
@@ -348,6 +372,23 @@ export default {
       collectionsMode: "events/collectionsMode",
       pageSize: "events/pageSize",
     }),
+    getEventsAttributesForCalendar() {
+      return (this.meetingsList.meetings || []).map((meeting) => {
+        return {
+          key: meeting.id,
+          customData: {
+            title: meeting.topic,
+            time: this.eventTimeFormattedForCalendar(meeting),
+            class: "svv-vc-event",
+            product: meeting.product,
+            description: meeting.agenda,
+            event: meeting,
+          },
+          dates: meeting.start_time,
+        };
+      });
+    },
+
     shouldShowEventsGrid() {
       return (
         (this.widgetSettings.widget_style_settings.ew_events_list_view ===
@@ -408,9 +449,8 @@ export default {
                 "mainWidget.tomorrowSeparatorLabel"
               );
             } else {
-              list[index].separator_label = startTimeInst.format(
-                "dddd, MMMM D"
-              );
+              list[index].separator_label =
+                startTimeInst.format("dddd, MMMM D");
             }
 
             eventsListSeparators[getDate(item.start_time)] = item.id;
@@ -546,6 +586,12 @@ export default {
     },
   },
   mounted() {
+    if (
+      this.widgetSettings.widget_style_settings.ew_events_list_view ===
+      "calendar"
+    ) {
+      this.fetchCalendarEvents();
+    }
     setTimeout(() => {
       this.setGridCardsHeight();
       this.redrawVueMasonry();
@@ -555,10 +601,34 @@ export default {
     ...mapActions({
       subscribeToMeeting: "events/subscribeToMeeting",
       fetchProductDetails: "events/fetchProductDetails",
+      fetchMeetingsList: "events/fetchMeetingsList",
     }),
     ...mapMutations({
       setLoading: "common/setLoading",
     }),
+
+    fetchCalendarEvents(base = moment()) {
+      console.log(base);
+      const start = base.clone().startOf("month").startOf("week");
+      const end = base.clone().endOf("month").endOf("week");
+      this.fetchMeetingsList({ start_time: start, end_time: end });
+    },
+
+    onCalendarMonthChange(base) {
+      this.fetchCalendarEvents(base);
+    },
+
+    eventTimeFormattedForCalendar(event) {
+      const eventDateTime = getItemDateTimeDataFormatted(
+        event,
+        this.widgetsCurrentLanguage || this.widgetsDefaultLanguage,
+        getDateFormat(this.widgetSettings.date_format),
+        this.widgetSettings.widget_style_settings.ew_use_et_format
+      );
+      if (!this.widgetSettings.widget_style_settings.time_format_24_hours)
+        return `${eventDateTime.timeSimple} ${eventDateTime.timeDayPart}`;
+      return eventDateTime.timeSimple24;
+    },
     setGridCardsHeight() {
       const itemsRoot = this.$refs.eventsGridContainer;
       if (
@@ -631,12 +701,12 @@ export default {
       e.preventDefault();
       e.stopPropagation();
 
-      if (!event.is_live_shopping) {
-        this.setLoading(true);
-        this.subscribeToMeeting(event);
-      } else {
-        this.onEventClick(event);
-      }
+      // if (!event.is_live_shopping) {
+      //   this.setLoading(true);
+      //   this.subscribeToMeeting(event);
+      // } else {
+      // }
+      this.onEventClick(event);
     },
     onShowMoreDetailsClick(e, event) {
       e.preventDefault();
@@ -670,6 +740,7 @@ export default {
         console.log("Product is not existing");
         return;
       }
+      console.log("on event click", event.product);
       if (!event.product.post_url) return;
       // const productHandle = await this.fetchProductDetails(
       //   event.product.parent_product_id

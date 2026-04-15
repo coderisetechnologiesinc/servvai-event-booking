@@ -43,7 +43,7 @@ const AnnotatedSection = ({
         children: description
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `annotated-section-content flex-1 w-full ${contentClassName}`,
+      className: `annotated-section-content flex-1 w-full min-w-0 ${contentClassName}`,
       children: children
     })]
   });
@@ -2543,6 +2543,9 @@ const SettingsPage = () => {
   }, {
     label: "Grid",
     value: "grid"
+  }, {
+    label: "Calendar",
+    value: "calendar"
   }];
   const pageSizes = [{
     label: "12 items",
@@ -5103,4 +5106,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=474f80923cd8c973a4ad
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=ab0afbdfaa66d84fc260

@@ -18,12 +18,18 @@
 
     <img
       v-if="!hideAvatar"
-      :class="`avatar ${!useDefaultBanner ? 'with-banner' : ''}`"
+      :class="`avatar ${!useDefaultBanner ? 'with-banner' : 'custom-banner'}`"
       :src="pw_avatar"
       alt="Avatar"
     />
 
-    <div class="section" :class="{ 'avatar-hidden': hideAvatar }">
+    <div
+      class="section"
+      :class="{
+        'avatar-hidden': hideAvatar,
+        'custom-banner': !useDefaultBanner,
+      }"
+    >
       <h2>{{ pw_title }}</h2>
       <p class="subtitle">{{ pw_description }}</p>
 
@@ -711,6 +717,9 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 .section.avatar-hidden {
   margin-top: 228px;
 }
+.section.custom-banner {
+  margin-top: 128px;
+}
 
 .section h2 {
   font-family: "Inter";
@@ -720,12 +729,16 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   margin-block-end: 0;
   margin-block-start: 0;
 }
+.section .section.avatar-hidden {
+  margin-top: 36px;
+}
 
-.subtitle {
+#servv-platform-widget p.subtitle {
   font-size: 20px;
   color: var(--color-text-primary);
   margin-block-end: 0;
   margin-block-start: 0;
+
   margin: 8px auto;
   text-wrap: wrap;
 }

@@ -361,7 +361,7 @@ const OnboardingFlow = () => {
     } catch (e) {
       console.warn("Invalid admin_dashboard JSON", e);
     }
-    if (settings?.is_wp_marketplace === false) {
+    if (settings?.is_wp_marketplace === true && steps.filter(step => step.key === "branding").length === 0) {
       let newSteps = [...steps];
       newSteps.splice(1, 0, {
         key: "branding",
@@ -542,12 +542,12 @@ const OnboardingFlow = () => {
     sync = false
   }) => {
     setLoading(true);
-    const adminDashboard = JSON.stringify(settings.admin_dashboard);
+    const adminDashboard = settings.admin_dashboard && Object.keys(settings.admin_dashboard).length > 0 ? settings.admin_dashboard : {};
     const payload = {
       ...settings,
       settings: {
         ...settings.settings,
-        time_format_24_hours: attributes.timeFormat === "24h" ? true : false,
+        time_format_24_hours: attributes.timeFormat === "24h",
         admin_dashboard: JSON.stringify({
           ...adminDashboard,
           default_timezone: attributes.timezone,
@@ -556,13 +556,13 @@ const OnboardingFlow = () => {
       }
     };
     try {
-      await (0,_utilities_settings__WEBPACK_IMPORTED_MODULE_6__.saveSettings)({
-        ...payload
-      }).catch(err => console.error(err));
+      await (0,_utilities_settings__WEBPACK_IMPORTED_MODULE_6__.saveSettings)(payload).catch(err => console.error(err));
       if (attributes.location && attributes.location.length > 0) {
-        if (filtersList?.locations?.filter(f => f.name === attributes.location)?.length === 0) await handleLocationSave(attributes.location);
+        const exists = filtersList?.locations?.some(f => f.name === attributes.location) || false;
+        if (!exists) {
+          await handleLocationSave(attributes.location);
+        }
       }
-      //   toast.success("Settings saved successfully");
       if (sync) await fetchSettings();
       if (!sync) goToNextStep();
     } catch (error) {
@@ -1202,4 +1202,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(R
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Onboarding_OnboardingFlow_jsx.js.map?ver=04973f632b01c1691f89
+//# sourceMappingURL=src_Components_Onboarding_OnboardingFlow_jsx.js.map?ver=57574e2fe5050fee6735

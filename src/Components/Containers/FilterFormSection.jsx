@@ -1,6 +1,6 @@
 import React from "react";
 
-const AnnotatedSection = ({
+const FilterFormSection = ({
   title,
   description,
   children,
@@ -10,19 +10,28 @@ const AnnotatedSection = ({
 }) => {
   return (
     <div
-      className={`annotated-section flex flex-col md:flex-row gap-4 md:gap-8 items-start ${className}`}
+      className={`
+        filter-form-section
+        grid
+        grid-cols-1
+        md:grid-cols-[220px_1fr]
+        lg:grid-cols-[260px_1fr]
+        gap-4 md:gap-8
+        ${className}
+      `}
     >
-      {/* Title and Description - Full width on mobile, left column on desktop */}
-      <div className="annotated-section-header flex-shrink-0 w-full md:w-32 lg:w-64">
+      {/* Left column (title + description) */}
+      <div className="filter-form-section-header">
         <h3
           className={`text-sm font-semibold text-gray-900 mb-1 ${titleClassName}`}
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           {title}
         </h3>
+
         {description && (
           <p
-            className="text-sm text-gray-600 hidden md:block leading-relaxed"
+            className="text-sm text-gray-600 leading-relaxed hidden md:block"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             {description}
@@ -30,9 +39,13 @@ const AnnotatedSection = ({
         )}
       </div>
 
-      {/* Content - Full width on mobile, right column on desktop */}
+      {/* Right column (content) */}
       <div
-        className={`annotated-section-content flex-1 w-full min-w-0 ${contentClassName}`}
+        className={`
+          filter-form-section-content
+          w-full
+          ${contentClassName}
+        `}
       >
         {children}
       </div>
@@ -40,4 +53,4 @@ const AnnotatedSection = ({
   );
 };
 
-export default AnnotatedSection;
+export default FilterFormSection;

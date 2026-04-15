@@ -110,6 +110,7 @@ const NewSelectControl = ({
   iconRight = null,
   style = {}
 }) => {
+  // const options = [{ value: null, label: "" }, ...options];
   if (multiple) {
     const selected = Array.isArray(value) ? value.map(String) : [];
     const selectedOptions = options.filter(o => selected.includes(o.value));
@@ -253,20 +254,32 @@ const FiltersStep = ({
     custom_field_2_value = ""
   } = customFields;
   const hasAnyFilters = filtersList?.categories?.length > 0 || filtersList?.languages?.length > 0 || filtersList?.members?.length > 0;
-  const mapOptions = (list = []) => list.map(i => ({
+  const mapOptions = (list = []) => [{
+    value: null,
+    label: ""
+  }, ...list.map(i => ({
     value: String(i.id),
     label: i.name
-  }));
+  }))];
 
   // update filters
   const updateFilter = (key, value) => {
-    const newValue = key === "members" ? (Array.isArray(value) ? value : [value]).map(Number) : Number.parseInt(value);
-    setAttributes({
-      filters: {
-        ...(attributes.filters || {}),
-        [key]: newValue
-      }
-    });
+    if (value === null && key !== "members") {
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          [key]: null
+        }
+      });
+    } else {
+      const newValue = key === "members" ? (Array.isArray(value) ? value : [value]).map(Number) : Number.parseInt(value);
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          [key]: newValue
+        }
+      });
+    }
   };
 
   // update custom fields
@@ -405,4 +418,4 @@ const FiltersStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_FiltersStep_jsx.js.map?ver=64034d911c2292b8456a
+//# sourceMappingURL=src_Components_CreateEvent_FiltersStep_jsx.js.map?ver=f1c76b120d73d7327e39

@@ -16,7 +16,9 @@ const IntegrationsPage = React.lazy(() =>
 const SettingsPage = React.lazy(() =>
   import("./Components/Pages/SettingsPage"),
 );
-const FiltersPage = React.lazy(() => import("./Components/Pages/Filters/FiltersPage"));
+const FiltersPage = React.lazy(() =>
+  import("./Components/Pages/Filters/FiltersPage"),
+);
 const EmailTemplates = React.lazy(() =>
   import("./Components/Pages/EmailTemplates"),
 );
@@ -52,7 +54,9 @@ const FiltersListPage = React.lazy(() =>
   import("./Components/Pages/Filters/FiltersListPage.jsx"),
 );
 
-const ZoomPage = React.lazy(() => import("./Components/Pages/Integrations/ZoomPage.jsx"));
+const ZoomPage = React.lazy(() =>
+  import("./Components/Pages/Integrations/ZoomPage.jsx"),
+);
 const ZoomSettingsPage = React.lazy(() =>
   import("./Components/Pages/Integrations/ZoomSettingsPage.jsx"),
 );
@@ -61,6 +65,10 @@ const StripeIntegrationsPage = React.lazy(() =>
 );
 const EmailsPage = React.lazy(() =>
   import("./Components/Pages/EmailsPage.jsx"),
+);
+
+const GoogleAnalyticsPage = React.lazy(() =>
+  import("./Components/Pages/GoogleAnalyticsPage.jsx"),
 );
 const CalendarsPage = React.lazy(() =>
   import("./Components/Pages/Integrations/CalendarsPage.jsx"),
@@ -151,6 +159,10 @@ const AppRouter = ({ restAPIAvailable }) => {
           <Route path="integrations/gmail" element={<EmailsPage />} />
           <Route path="integrations/calendars" element={<CalendarsPage />} />
           <Route path="integrations/zoom" element={<ZoomPage />} />
+          <Route
+            path="integrations/analytics"
+            element={<GoogleAnalyticsPage />}
+          />
           <Route
             path="integrations/zoom/settings"
             element={<ZoomSettingsPage />}

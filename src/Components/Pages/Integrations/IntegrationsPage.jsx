@@ -23,7 +23,7 @@ const IntegrationsPage = ({
   const handleSelectPage = (page) => {
     navigate(page);
   };
-
+  console.log("marketplace condition", settings && settings?.is_wp_marketplace);
   useEffect(() => {
     if (resetSelectedSubpage) {
       setSelectedPage("main");
@@ -99,6 +99,7 @@ const IntegrationsPage = ({
                     </InlineStack>
                   </BlockStack>
                 </div>
+
                 {/* <div
                   className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`}
                 >
@@ -218,6 +219,44 @@ const IntegrationsPage = ({
                     </InlineStack>
                   </BlockStack>
                 </div>
+
+                {settings && settings?.is_wp_marketplace && (
+                  <div
+                    className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`}
+                  >
+                    <BlockStack
+                      gap={2}
+                      cardsLayout={true}
+                      action={true}
+                      onAction={() => handleSelectPage("analytics")}
+                    >
+                      <a
+                        href=""
+                        className="servv-button-link"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        Analytics
+                      </a>
+                      <InlineStack align={"left"} justify={"space"}>
+                        <h2 className="card-section-heading">
+                          Google Analytics
+                        </h2>
+                        <ArrowUpRightIcon className="size-6" />
+                      </InlineStack>
+                      <p className="section-description mb-2">
+                        Connect Google Analytics to track visits, clicks, and
+                        conversions in one place.
+                      </p>
+                      <InlineStack align={"left"}>
+                        <Badge
+                          text="Google Analytics"
+                          type="pill-outline"
+                          size="medium"
+                        />
+                      </InlineStack>
+                    </BlockStack>
+                  </div>
+                )}
               </div>
             </PageContent>
           </Fragment>

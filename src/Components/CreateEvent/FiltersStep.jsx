@@ -28,24 +28,35 @@ const FiltersStep = ({
     filtersList?.languages?.length > 0 ||
     filtersList?.members?.length > 0;
 
-  const mapOptions = (list = []) =>
-    list.map((i) => ({
+  const mapOptions = (list = []) => [
+    { value: null, label: "" },
+    ...list.map((i) => ({
       value: String(i.id),
       label: i.name,
-    }));
+    })),
+  ];
 
   // update filters
   const updateFilter = (key, value) => {
-    const newValue =
-      key === "members"
-        ? (Array.isArray(value) ? value : [value]).map(Number)
-        : Number.parseInt(value);
-    setAttributes({
-      filters: {
-        ...(attributes.filters || {}),
-        [key]: newValue,
-      },
-    });
+    if (value === null && key !== "members") {
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          [key]: null,
+        },
+      });
+    } else {
+      const newValue =
+        key === "members"
+          ? (Array.isArray(value) ? value : [value]).map(Number)
+          : Number.parseInt(value);
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          [key]: newValue,
+        },
+      });
+    }
   };
 
   // update custom fields

@@ -543,6 +543,7 @@ const NewSelectControl = ({
   iconRight = null,
   style = {}
 }) => {
+  // const options = [{ value: null, label: "" }, ...options];
   if (multiple) {
     const selected = Array.isArray(value) ? value.map(String) : [];
     const selectedOptions = options.filter(o => selected.includes(o.value));
@@ -2049,4 +2050,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_DateStep_jsx.js.map?ver=2e8eaebb5e40a6ec2fac
+//# sourceMappingURL=src_Components_CreateEvent_DateStep_jsx.js.map?ver=4f6ace516f025fd39b0d

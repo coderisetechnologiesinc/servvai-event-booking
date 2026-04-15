@@ -6,7 +6,7 @@ import PageHeader from "../../Containers/PageHeader";
 import PageContent from "../../Containers/PageContent";
 import AnnotatedSection from "../../Containers/AnnotatedSection";
 import MobileFooterActions from "../../Controls/MobileFooterActions";
-
+import FilterFormSection from "../../Containers/FilterFormSection";
 import { Fragment, useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -144,79 +144,74 @@ const CreateMemberFilterForm = ({ loading, setLoading = () => {} }) => {
         <div className="header-line" />
 
         <PageContent className="py-0 my-0">
-          <div className="pb-20 md:pb-0">
+          <div className="pb-20 md:pb-0 w-full">
             <SpinnerLoader isLoading={loading}>
               <BlockStack gap={8} cardsLayout>
                 {/* Member Name */}
-                <AnnotatedSection title="Member Name" className="items-start">
+                <FilterFormSection title="Member Name" className="items-start">
                   <InputFieldControl
                     align="left"
                     value={memberData?.name || ""}
                     type="text"
                     maxLength={100}
                     onChange={(val) => handleMemberChange("name", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Email */}
-                <AnnotatedSection title="Member Email" className="items-start">
+                <FilterFormSection title="Member Email" className="items-start">
                   <InputFieldControl
                     value={memberData?.email || ""}
                     type="email"
                     align="left"
                     maxLength={100}
                     onChange={(val) => handleMemberChange("email", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
                   {showErrors && errors.email && (
                     <span className="text-red-500 text-sm mt-1">
                       {errors.email}
                     </span>
                   )}
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Phone */}
-                <AnnotatedSection title="Phone" className="items-start">
+                <FilterFormSection title="Phone" className="items-start">
                   <InputFieldControl
                     value={memberData?.phone || ""}
                     type="tel"
                     align="left"
                     maxLength={50}
                     onChange={(val) => handleMemberChange("phone", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
                   {showErrors && errors.phone && (
                     <span className="text-red-500 text-sm mt-1">
                       {errors.phone}
                     </span>
                   )}
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Description */}
-                <AnnotatedSection title="Description" className="items-start">
+                <FilterFormSection title="Description" className="items-start">
                   <InputFieldControl
                     value={memberData?.description || ""}
                     type="text"
                     align="left"
                     maxLength={200}
                     onChange={(val) => handleMemberChange("description", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Order (edit mode only) */}
                 {existingMember && (
-                  <AnnotatedSection title="Order" className="items-start">
+                  <FilterFormSection title="Order" className="items-start">
                     <InputFieldControl
                       value={memberData.priority || ""}
                       type="text"
                       align="left"
                       maxLength={10}
                       onChange={(val) => handleMemberChange("priority", val)}
-                      width={isMobile ? "100%" : "400px"}
                     />
-                  </AnnotatedSection>
+                  </FilterFormSection>
                 )}
               </BlockStack>
             </SpinnerLoader>

@@ -14,7 +14,7 @@ import axios from "axios";
 import moment from "moment";
 import SpinnerLoader from "../SpinnerLoader";
 import { useServvStore } from "../../../store/useServvStore";
-
+import FilterFormSection from "../../Containers/FilterFormSection";
 const CreateLocationFilterForm = ({
   setLoading = () => {},
   loading,
@@ -152,23 +152,25 @@ const CreateLocationFilterForm = ({
         <div className="header-line" />
 
         <PageContent className="py-0 my-0">
-          <div className="pb-20 md:pb-0">
+          <div className="pb-20 md:pb-0 w-full">
             <SpinnerLoader isLoading={loading}>
               <BlockStack gap={8} cardsLayout>
                 {/* Location Name */}
-                <AnnotatedSection title="Location Name" className="items-start">
+                <FilterFormSection
+                  title="Location Name"
+                  className="items-start"
+                >
                   <InputFieldControl
                     value={locationData?.name || ""}
                     type="text"
                     align="left"
                     maxLength={100}
                     onChange={(val) => handleLocationChange("name", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Location Details */}
-                <AnnotatedSection
+                <FilterFormSection
                   title="Location Details"
                   className="items-start"
                 >
@@ -178,49 +180,45 @@ const CreateLocationFilterForm = ({
                     align="left"
                     maxLength={200}
                     onChange={(val) => handleLocationChange("details", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Operational Hours */}
-                <AnnotatedSection
+                <FilterFormSection
                   title="Operational Hours"
                   className="items-start"
                 >
-                  <div style={{ width: isMobile ? "100%" : "400px" }}>
-                    <div
-                      className={`${
-                        isMobile ? "flex-col" : "flex-row"
-                      } flex gap-4`}
-                    >
-                      <TimeInputControl
-                        label="Start Time"
-                        time={getStartTime()}
-                        onChange={handleStartTimeChange}
-                        timeFormat={timeFormat}
-                      />
-                      <TimeInputControl
-                        label="End Time"
-                        time={getEndTime()}
-                        onChange={handleEndTimeChange}
-                        timeFormat={timeFormat}
-                      />
-                    </div>
+                  <div
+                    className={`${
+                      isMobile ? "flex-col" : "flex-row"
+                    } flex gap-4 flex-wrap`}
+                  >
+                    <TimeInputControl
+                      label="Start Time"
+                      time={getStartTime()}
+                      onChange={handleStartTimeChange}
+                      timeFormat={timeFormat}
+                    />
+                    <TimeInputControl
+                      label="End Time"
+                      time={getEndTime()}
+                      onChange={handleEndTimeChange}
+                      timeFormat={timeFormat}
+                    />
                   </div>
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Order (edit only) */}
                 {existingLocation && (
-                  <AnnotatedSection title="Order" className="items-start">
+                  <FilterFormSection title="Order" className="items-start">
                     <InputFieldControl
                       value={locationData.priority || ""}
                       type="text"
                       align="left"
                       maxLength={10}
                       onChange={(val) => handleLocationChange("priority", val)}
-                      width={isMobile ? "100%" : "400px"}
                     />
-                  </AnnotatedSection>
+                  </FilterFormSection>
                 )}
               </BlockStack>
             </SpinnerLoader>

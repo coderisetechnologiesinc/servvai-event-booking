@@ -5,6 +5,7 @@ import PageActionButton from "../../Controls/PageActionButton";
 import PageHeader from "../../Containers/PageHeader";
 import PageContent from "../../Containers/PageContent";
 import AnnotatedSection from "../../Containers/AnnotatedSection";
+import FilterFormSection from "../../Containers/FilterFormSection";
 import MobileFooterActions from "../../Controls/MobileFooterActions";
 import PageWrapper from "../PageWrapper";
 import { Fragment, useState, useEffect } from "react";
@@ -112,23 +113,25 @@ const CreateCategoryFilterForm = ({ loading, setLoading = () => {} }) => {
         <div className="header-line" />
 
         <PageContent>
-          <div className="pb-20 md:pb-0 py-0 my-0">
+          <div className="pb-20 md:pb-0 py-0 my-0 w-full">
             <SpinnerLoader isLoading={loading}>
               <BlockStack gap={8} cardsLayout>
                 {/* Category Name */}
-                <AnnotatedSection title="Category Name" className="items-start">
+                <FilterFormSection
+                  title="Category Name"
+                  className="items-start"
+                >
                   <InputFieldControl
                     value={categoryData?.name || ""}
                     type="text"
                     align="left"
                     maxLength={100}
                     onChange={(val) => handleCategroyChange("name", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Category Details */}
-                <AnnotatedSection
+                <FilterFormSection
                   title="Category Details"
                   className="items-start"
                 >
@@ -138,22 +141,20 @@ const CreateCategoryFilterForm = ({ loading, setLoading = () => {} }) => {
                     align="left"
                     maxLength={200}
                     onChange={(val) => handleCategroyChange("details", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Order field - only if editing */}
                 {existingCategory && (
-                  <AnnotatedSection title="Order" className="items-start">
+                  <FilterFormSection title="Order" className="items-start">
                     <InputFieldControl
                       value={categoryData.priority || ""}
                       type="text"
                       align="left"
                       maxLength={10}
                       onChange={(val) => handleCategroyChange("priority", val)}
-                      width={isMobile ? "100%" : "400px"}
                     />
-                  </AnnotatedSection>
+                  </FilterFormSection>
                 )}
               </BlockStack>
             </SpinnerLoader>

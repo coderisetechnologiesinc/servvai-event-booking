@@ -182,11 +182,13 @@ const CreateEventForm = () => {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (isOnboarding) {
       fetchSettings();
+      syncFiltersFromServer();
       let newSteps = [...steps];
       newSteps = newSteps.filter(s => s.key !== "filters");
       setSteps(newSteps);
     } else {}
   }, [isOnboarding]);
+
   // Images
   const WP_API_BASE = "/wp-json/wp/v2/posts";
   const PLACEHOLDER_IMAGE = window.servvData?.pluginUrl ? `${window.servvData.pluginUrl}public/assets/images/placeholder.png` : "";
@@ -410,13 +412,18 @@ const CreateEventForm = () => {
       };
     });
   }, [adminDashboardRaw]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    if (!zoomConnected && (!filtersList?.locations || filtersList?.locations?.length === 0)) {
-      let newSteps = [...steps];
-      newSteps = newSteps.filter(s => s.key !== "venue");
-      setSteps(newSteps);
-    }
-  }, [filtersList, zoomConnected]);
+
+  // useEffect(() => {
+  //   if (
+  //     !zoomConnected &&
+  //     (!filtersList?.locations || filtersList?.locations?.length === 0)
+  //   ) {
+  //     let newSteps = [...steps];
+  //     newSteps = newSteps.filter((s) => s.key !== "venue");
+  //     setSteps(newSteps);
+  //   }
+  // }, [filtersList, zoomConnected]);
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (isNew) {
       setEventLoaded(true);
@@ -1506,4 +1513,4 @@ module.exports = __webpack_require__.p + "images/logo.b4e524fb.png";
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=4ac8eff1458b8a4907f6
+//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=e92b659e519fb7e8fabf

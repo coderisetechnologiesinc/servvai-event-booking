@@ -43,7 +43,7 @@ const AnnotatedSection = ({
         children: description
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `annotated-section-content flex-1 w-full ${contentClassName}`,
+      className: `annotated-section-content flex-1 w-full min-w-0 ${contentClassName}`,
       children: children
     })]
   });
@@ -965,4 +965,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(C
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Integrations_ZoomSettingsPage_jsx.js.map?ver=87cfc615974b77297ad5
+//# sourceMappingURL=src_Components_Pages_Integrations_ZoomSettingsPage_jsx.js.map?ver=1d00b27cf50755dfe82f
