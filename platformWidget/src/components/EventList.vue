@@ -55,8 +55,8 @@ onMounted(async () => {
   if (!filtersListFetched.value) {
     await filtersStore.fetchLocations();
   }
-
-  eventsList.value = eventsStore.meetingsList.meetings || [];
+  if (commonStore.settings)
+    eventsList.value = eventsStore.meetingsList.meetings || [];
 });
 
 async function handlePageChange(page) {
@@ -91,7 +91,7 @@ watch(
             v-for="event in eventsList"
             :key="event.wgtItemId"
             :title="event.topic"
-            :image="event.product?.image_url"
+            :image="event.product?.image_url || event?.featuredImage"
             :price="event.product_price"
             :date="event.start_time"
             :time="event.start_time"
@@ -99,6 +99,7 @@ watch(
             :link="event.product.post_url"
             :locations="locations || []"
             :location="event.location_id"
+            :post="event.shop_post_object_id"
           />
         </div>
 

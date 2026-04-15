@@ -5,8 +5,6 @@ import {
   Filter,
   BrushIcon,
   TicketIcon,
-  Support,
-  Contacts,
   CloseIcon,
 } from "../../assets/icons";
 import { EyeIcon } from "@heroicons/react/24/outline";
@@ -71,6 +69,7 @@ const CreateEventForm = () => {
   const calendarConnected = useServvStore((s) => s.calendarConnected);
   const gmailConnected = useServvStore((s) => s.gmailConnected);
   const filtersList = useServvStore((s) => s.filtersList);
+
   const { fetchEventTickets } = useServvData();
   const navigate = useNavigate();
   const [currentSettings, setCurrentSettings] = useState({});
@@ -171,12 +170,14 @@ const CreateEventForm = () => {
   useEffect(() => {
     if (isOnboarding) {
       fetchSettings();
+      syncFiltersFromServer();
       let newSteps = [...steps];
       newSteps = newSteps.filter((s) => s.key !== "filters");
       setSteps(newSteps);
     } else {
     }
   }, [isOnboarding]);
+
   // Images
   const WP_API_BASE = "/wp-json/wp/v2/posts";
   const PLACEHOLDER_IMAGE = window.servvData?.pluginUrl
@@ -454,16 +455,16 @@ const CreateEventForm = () => {
     });
   }, [adminDashboardRaw]);
 
-  useEffect(() => {
-    if (
-      !zoomConnected &&
-      (!filtersList?.locations || filtersList?.locations?.length === 0)
-    ) {
-      let newSteps = [...steps];
-      newSteps = newSteps.filter((s) => s.key !== "venue");
-      setSteps(newSteps);
-    }
-  }, [filtersList, zoomConnected]);
+  // useEffect(() => {
+  //   if (
+  //     !zoomConnected &&
+  //     (!filtersList?.locations || filtersList?.locations?.length === 0)
+  //   ) {
+  //     let newSteps = [...steps];
+  //     newSteps = newSteps.filter((s) => s.key !== "venue");
+  //     setSteps(newSteps);
+  //   }
+  // }, [filtersList, zoomConnected]);
 
   useEffect(() => {
     if (isNew) {

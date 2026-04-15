@@ -71,6 +71,7 @@ const props = defineProps({
     default: "CAD",
   },
   link: String,
+  post: "String",
 });
 
 // watch(
@@ -82,19 +83,30 @@ const props = defineProps({
 // )
 
 const formattedDate = computed(() =>
-  props.date ? moment(props.date).format("MMM DD, YYYY") : "",
+  props.date ? moment(props.date).format("MMM DD, YYYY") : ""
 );
 
 const formattedTime = computed(() =>
   props.time
     ? moment(props.time).format(
-        settings.value?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a",
+        settings.value?.settings?.time_format_24_hours ? "HH:mm" : "hh:mm a"
       )
-    : "",
+    : ""
 );
 
 const onEventClick = () => {
-  if (props.link) window.open(props.link, "_blank");
+  if (props.link && props.link.length > 0) window.open(props.link, "_blank");
+  else {
+    const baseUrl = window.servvPlatformAjax?.base_url;
+
+    if (baseUrl) {
+      const origin = baseUrl.startsWith("http")
+        ? baseUrl
+        : `https://${baseUrl}`;
+      const postUrl = `${origin}/index.php?page_id=${props.post}`;
+      window.open(postUrl, "_blank");
+    }
+  }
 };
 const locationName = computed(() => {
   if (!props.locations?.length || props.location == null) return "";

@@ -808,7 +808,7 @@
   position: absolute;
   left: 50%;
   top: 180px;
-  transform: translate(-50%, -35%);
+  transform: translate(calc(-50% - 5px), -35%);
   z-index: 2;
   color: $svv-brand-primary;
   width: 75%;
@@ -821,7 +821,7 @@
 }
 
 .svv-next-month {
-  color: $svv_common_background !important;
+  color: $svv_white !important;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -863,4 +863,10 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
+}
+.calendar-body {
+  height: auto !important;
+  &:first-child {
+    min-height: 0;
+  }
 }

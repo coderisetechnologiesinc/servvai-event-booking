@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 import axios from "axios";
 import API from "@/services/api";
 import { processError, convertEventsDates } from "@/services/utils";
-
+let eventsController = null;
 export default {
   namespaced: true,
   state: {
@@ -691,7 +691,13 @@ export default {
 
     async fetchMeetingsList(
       { commit, dispatch, state, rootState, rootGetters },
-      { page = 1, firstFetch = false, withDefaultFilter = false } = {}
+      {
+        page = 1,
+        firstFetch = false,
+        withDefaultFilter = false,
+        start_time = null,
+        end_time = null,
+      } = {}
     ) {
       const {
         show_calendar,
@@ -705,7 +711,11 @@ export default {
       if (firstFetch) {
         // dispatch('fetchEventsStartCalendarDate');
         if (!withDefaultFilter) {
-          dispatch("fetchMeetingsListNormalFlowServvDB", { page: 1 });
+          dispatch("fetchMeetingsListNormalFlowServvDB", {
+            page: 1,
+            start_time,
+            end_time,
+          });
         } else {
           const allRequestParams = rootGetters["search/allRequestParams"];
           const { defaultFilterName, defaultFilterValue } = rootGetters[
@@ -743,7 +753,11 @@ export default {
             (!defaultFilterName || !defaultFilterValue) &&
             !allRequestParamsUpdated
           ) {
-            dispatch("fetchMeetingsListNormalFlowServvDB", { page: 1 });
+            dispatch("fetchMeetingsListNormalFlowServvDB", {
+              page: 1,
+              start_time,
+              end_time,
+            });
             return;
           }
 
@@ -760,7 +774,11 @@ export default {
           );
         }
       } else {
-        dispatch("fetchMeetingsListNormalFlowServvDB", { page });
+        dispatch("fetchMeetingsListNormalFlowServvDB", {
+          page,
+          start_time,
+          end_time,
+        });
       }
 
       // if (show_calendar) {
@@ -1036,6 +1054,8 @@ export default {
         page_size = state.pageSize,
         returnValue = false,
         filteringParams = "",
+        start_time,
+        end_time,
       } = {}
     ) {
       try {
@@ -1048,6 +1068,12 @@ export default {
         let params = new URLSearchParams();
         params.append("security", servvAjax.nonce);
         params.append("action", "servv_get_events_filtered_list");
+        if (start_time) {
+          params.append("start_time", start_time.format("YYYY-MM-DD HH:mm:ss"));
+          if (end_time) {
+            params.append("end_time", end_time.format("YYYY-MM-DD HH:mm:ss"));
+          }
+        }
         const response = await axios.post(servvAjax.ajax_url, params);
         // console.log(filteringParamsString);
         if (filteringParamsString.length > 0) {

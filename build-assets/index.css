@@ -10891,6 +10891,10 @@ input.servv-input__native.servv-input__native--center {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .md\:grid-cols-\[220px_1fr\] {
+    grid-template-columns: 220px 1fr;
+  }
+
   .md\:flex-row {
     flex-direction: row;
   }
@@ -10992,6 +10996,10 @@ input.servv-input__native.servv-input__native--center {
 
   .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-\[260px_1fr\] {
+    grid-template-columns: 260px 1fr;
   }
 
   .lg\:flex-row {

@@ -174,6 +174,7 @@ const NewSelectControl = ({
   iconRight = null,
   style = {}
 }) => {
+  // const options = [{ value: null, label: "" }, ...options];
   if (multiple) {
     const selected = Array.isArray(value) ? value.map(String) : [];
     const selectedOptions = options.filter(o => selected.includes(o.value));
@@ -420,4 +421,4 @@ const SettingsStep = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Onboarding_SettingsStep_jsx.js.map?ver=fde59db132b6a84a6480
+//# sourceMappingURL=src_Components_Onboarding_SettingsStep_jsx.js.map?ver=83e5c2fb4f8cfa3586f0

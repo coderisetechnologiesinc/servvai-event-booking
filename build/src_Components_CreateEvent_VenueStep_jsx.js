@@ -375,6 +375,7 @@ const NewSelectControl = ({
   iconRight = null,
   style = {}
 }) => {
+  // const options = [{ value: null, label: "" }, ...options];
   if (multiple) {
     const selected = Array.isArray(value) ? value.map(String) : [];
     const selectedOptions = options.filter(o => selected.includes(o.value));
@@ -873,17 +874,30 @@ const VenueStep = ({
     custom_field_1_name = "",
     custom_field_1_value = ""
   } = customFields;
-  const locationOptions = filtersList?.locations?.map(loc => ({
+  const locationOptions = [{
+    value: null,
+    lable: ""
+  }, ...filtersList?.locations?.map(loc => ({
     value: String(loc.id),
     label: loc.name
-  })) || [];
+  }))] || [];
   const handleLocationChange = val => {
-    setAttributes({
-      filters: {
-        ...(attributes.filters || {}),
-        location_id: Number.parseInt(val)
-      }
-    });
+    console.log(val);
+    if (val === null) {
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          location_id: null
+        }
+      });
+    } else {
+      setAttributes({
+        filters: {
+          ...(attributes.filters || {}),
+          location_id: Number.parseInt(val)
+        }
+      });
+    }
   };
   const updateCustomField = (key, value) => {
     setAttributes({
@@ -969,7 +983,9 @@ const VenueStep = ({
     }
   }, [settings, zoomConnected, attributes?.location, attributes.defaultLocationChanged]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log("", filtersList?.locations?.length);
     if (filtersList?.locations?.length === 1) {
+      console.log(filtersList.locations[0].id);
       handleLocationChange(filtersList.locations[0].id);
     }
   }, [filtersList, settings]);
@@ -1394,4 +1410,4 @@ const StepBlock = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_VenueStep_jsx.js.map?ver=0edefce7e9737667af4c
+//# sourceMappingURL=src_Components_CreateEvent_VenueStep_jsx.js.map?ver=0604a52bacee24ac7eca

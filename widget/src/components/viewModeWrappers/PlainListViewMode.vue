@@ -28,18 +28,18 @@
         <LanguagesSelector
           v-if="
             widgetSettings.widget_style_settings.ew_show_language_selector &&
-              widgetSettings.widget_style_settings.ew_events_list_view !==
-                'category' &&
-              !isBundlePage &&
-              pageSize !== 1
+            widgetSettings.widget_style_settings.ew_events_list_view !==
+              'category' &&
+            !isBundlePage &&
+            pageSize !== 1
           "
         />
       </div>
       <div
         class="svv-plain-list-header-calendar-switch-container"
         :class="{
-          'without-lang-selector': !widgetSettings.widget_style_settings
-            .ew_show_language_selector,
+          'without-lang-selector':
+            !widgetSettings.widget_style_settings.ew_show_language_selector,
         }"
         v-if="openItemsList === 'events' && pageSize !== 1"
       >
@@ -116,58 +116,60 @@
         }"
         v-if="
           widgetSettings.widget_style_settings.show_calendar &&
-            widgetSettings.widget_style_settings.permanently_open_calendar &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'category' &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'progressive' &&
-            !widgetSettings.widget_style_settings.ew_show_top_filters &&
-            !isBundlePage &&
-            pageSize !== 1
+          widgetSettings.widget_style_settings.permanently_open_calendar &&
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'category' &&
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'progressive' &&
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'calendar' &&
+          !widgetSettings.widget_style_settings.ew_show_top_filters &&
+          !isBundlePage &&
+          pageSize !== 1
         "
       />
 
       <EventsFiltersMultiSelectSection
         v-if="
           widgetSettings.widget_style_settings.ew_show_top_filters &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'category' &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'progressive' &&
-            !isBundlePage &&
-            pageSize !== 1
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'category' &&
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'progressive' &&
+          !isBundlePage &&
+          pageSize !== 1
         "
       />
       <EventsListCategories
         v-if="
           openItemsList === 'events' &&
-            widgetSettings.widget_style_settings.ew_events_list_view ===
-              'category' &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'progressive' &&
-            !isBundlePage
+          widgetSettings.widget_style_settings.ew_events_list_view ===
+            'category' &&
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'progressive' &&
+          !isBundlePage
         "
       />
 
       <EventsListProgressive
         v-if="
           openItemsList === 'events' &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'category' &&
-            widgetSettings.widget_style_settings.ew_events_list_view ===
-              'progressive' &&
-            !isBundlePage
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'category' &&
+          widgetSettings.widget_style_settings.ew_events_list_view ===
+            'progressive' &&
+          !isBundlePage
         "
       />
 
       <EventsList
         v-if="
           openItemsList === 'events' &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'progressive' &&
-            widgetSettings.widget_style_settings.ew_events_list_view !==
-              'category' &&
-            !isBundlePage
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'progressive' &&
+          widgetSettings.widget_style_settings.ew_events_list_view !==
+            'category' &&
+          !isBundlePage
         "
       />
 
@@ -363,6 +365,8 @@ export default {
       this.widgetSettings.widget_style_settings &&
       this.widgetSettings.widget_style_settings.ew_events_list_view !==
         "category" &&
+      this.widgetSettings.widget_style_settings.ew_events_list_view !==
+        "calendar" &&
       !this.isBundlePage
     ) {
       // this.fetchMeetingsList({ firstFetch: true, withDefaultFilter: true });

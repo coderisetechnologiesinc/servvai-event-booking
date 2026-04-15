@@ -43,7 +43,7 @@ const AnnotatedSection = ({
         children: description
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `annotated-section-content flex-1 w-full ${contentClassName}`,
+      className: `annotated-section-content flex-1 w-full min-w-0 ${contentClassName}`,
       children: children
     })]
   });
@@ -1463,6 +1463,7 @@ const IntegrationsPage = ({
   const handleSelectPage = page => {
     navigate(page);
   };
+  console.log("marketplace condition", settings && settings?.is_wp_marketplace);
   (0,react__WEBPACK_IMPORTED_MODULE_5__.useEffect)(() => {
     if (resetSelectedSubpage) {
       setSelectedPage("main");
@@ -1606,6 +1607,39 @@ const IntegrationsPage = ({
                   align: "left",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
                     text: "Stripe",
+                    type: "pill-outline",
+                    size: "medium"
+                  })
+                })]
+              })
+            }), settings && settings?.is_wp_marketplace && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+              className: `h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`,
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+                gap: 2,
+                cardsLayout: true,
+                action: true,
+                onAction: () => handleSelectPage("analytics"),
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
+                  href: "",
+                  className: "servv-button-link",
+                  onClick: e => e.preventDefault(),
+                  children: "Analytics"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  justify: "space",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+                    className: "card-section-heading",
+                    children: "Google Analytics"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_heroicons_react_16_solid__WEBPACK_IMPORTED_MODULE_14__["default"], {
+                    className: "size-6"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
+                  className: "section-description mb-2",
+                  children: "Connect Google Analytics to track visits, clicks, and conversions in one place."
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  align: "left",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_Badge__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                    text: "Google Analytics",
                     type: "pill-outline",
                     size: "medium"
                   })
@@ -3262,4 +3296,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(Q
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Integrations_IntegrationsPage_jsx.js.map?ver=db7ca67e77fa6e5eb148
+//# sourceMappingURL=src_Components_Pages_Integrations_IntegrationsPage_jsx.js.map?ver=330057af2a8abcbaf733

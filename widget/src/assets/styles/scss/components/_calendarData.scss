@@ -11,7 +11,7 @@
     //top: 5px;
     top: 0;
     left: 0;
-    background-color: $svv_white;
+    background-color: $svv_common_background;
     z-index: 13;
     overflow: hidden;
     width: 0;
@@ -175,7 +175,7 @@
   .svv-datepicker {
     // padding-left: 25px;
     border: none;
-    background-color: transparent;
+    background-color: $svv-white;
     border-radius: 10.5px;
     border: 1px solid $svv-elements-border;
     box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1),

@@ -43,7 +43,7 @@ const AnnotatedSection = ({
         children: description
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `annotated-section-content flex-1 w-full ${contentClassName}`,
+      className: `annotated-section-content flex-1 w-full min-w-0 ${contentClassName}`,
       children: children
     })]
   });
@@ -1587,4 +1587,4 @@ const SpinnerLoader = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=cf92826d9bb36dab8216
+//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=30deec65d38c3a5a9e11

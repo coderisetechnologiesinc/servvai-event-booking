@@ -32,6 +32,7 @@ const NewSelectControl = ({
   iconRight = null,
   style = {},
 }) => {
+  // const options = [{ value: null, label: "" }, ...options];
   if (multiple) {
     const selected = Array.isArray(value) ? value.map(String) : [];
     const selectedOptions = options.filter((o) => selected.includes(o.value));

@@ -22,6 +22,43 @@ export const useEventsStore = defineStore("events", () => {
     totalRecords: 0,
     pageCount: 0,
   });
+  const imageCache = new Map();
+
+  const getApiBase = () => {
+    const raw =
+      window.servvPlatformAjax?.base_url || window.servvPlatformAjax?.ajax_url;
+
+    if (raw) {
+      const withProtocol = raw.startsWith("http") ? raw : `https://${raw}`;
+      return withProtocol
+        .replace(/\/wp-admin\/admin-ajax\.php$/, "")
+        .replace(/\/$/, "");
+    }
+
+    return window.location.origin;
+  };
+
+  const fetchImageByPostId = async (postId) => {
+    if (!postId) return null;
+    if (imageCache.has(postId)) {
+      return imageCache.get(postId);
+    }
+
+    try {
+      const res = await axios.get(
+        `${getApiBase()}/wp-json/wp/v2/posts/${postId}?_embed`,
+      );
+      const url =
+        res.data._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null;
+
+      imageCache.set(postId, url);
+      return url;
+    } catch (e) {
+      imageCache.set(postId, null);
+      return null;
+    }
+  };
+
   async function fetchEventsList({
     date = null,
     page = 1,
@@ -29,18 +66,41 @@ export const useEventsStore = defineStore("events", () => {
   } = {}) {
     loading.value = true;
     currentPage.value = page;
+
     if (window.__SERVV_STATIC__?.meetings) {
-      console.log(window.__SERVV_STATIC__?.meetings);
       if (!window.__SERVV_ALL_MEETINGS__) {
         const items = window.__SERVV_STATIC__.meetings.map((event) => ({
           ...event,
           product_price: event.product ? event.product.price : 0,
           wgtItemId: uuidv4(),
         }));
-
-        window.__SERVV_ALL_MEETINGS__ = convertEventsDates(items).sort((a, b) =>
+        console.log("items", items);
+        let processed = convertEventsDates(items).sort((a, b) =>
           moment(a.start_time).diff(moment(b.start_time)),
         );
+        console.log("processed", processed);
+
+        const uniquePostIds = [
+          ...new Set(
+            processed.map((m) => m?.shop_post_object_id).filter(Boolean),
+          ),
+        ];
+        console.log("post ids", uniquePostIds);
+
+        await Promise.all(uniquePostIds.map((id) => fetchImageByPostId(id)));
+
+        processed = processed.map((meeting) => {
+          const postId = meeting?.shop_post_object_id;
+
+          return {
+            ...meeting,
+            featuredImage: postId ? imageCache.get(postId) || null : null,
+          };
+        });
+
+        console.log("processed with images", processed);
+
+        window.__SERVV_ALL_MEETINGS__ = processed;
       }
 
       const all = window.__SERVV_ALL_MEETINGS__;
@@ -54,6 +114,7 @@ export const useEventsStore = defineStore("events", () => {
         meetings: paginated,
         listIsEmpty: paginated.length === 0,
       };
+
       pagination.value = {
         currentPage: page,
         pageSize: pageSize_,
@@ -61,14 +122,14 @@ export const useEventsStore = defineStore("events", () => {
         totalRecords,
         pageCount: totalPages,
       };
-      currentPage.value = page;
+
       meetingsListFetched.value = true;
       loading.value = false;
       return;
     }
+
     try {
       const filteringParamsString = reqParams.value || filteringParams || "";
-
       const searchDate = date || selectedDate.value;
 
       const params = new URLSearchParams();
@@ -92,12 +153,7 @@ export const useEventsStore = defineStore("events", () => {
 
       const response = await axios.post(servvAjax.ajax_url, params);
 
-      if (
-        response &&
-        response.status === 200 &&
-        response.data &&
-        response.data.meetings
-      ) {
+      if (response?.status === 200 && response?.data?.meetings) {
         pagination.value = {
           currentPage: response.data.page_number || page,
           pageSize: response.data.page_size || pagination.value.pageSize,
@@ -112,25 +168,51 @@ export const useEventsStore = defineStore("events", () => {
           wgtItemId: uuidv4(),
         }));
 
-        const meetingsProcessed = convertEventsDates(items).sort((a, b) =>
+        let meetingsProcessed = convertEventsDates(items).sort((a, b) =>
           moment(a.start_time).diff(moment(b.start_time)),
         );
 
+        // meetingsProcessed = await Promise.all(
+        //   meetingsProcessed.map(async (meeting) => {
+        //     try {
+        //       if (!meeting?.product?.post_id) {
+        //         return { ...meeting, featuredImage: null };
+        //       }
+
+        //       const res = await fetchImageByPostId(meeting.product.post_id);
+
+        //       const imageUrl =
+        //         res.data._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+        //         null;
+
+        //       return {
+        //         ...meeting,
+        //         featuredImage: imageUrl,
+        //       };
+        //     } catch (e) {
+        //       return {
+        //         ...meeting,
+        //         featuredImage: null,
+        //       };
+        //     }
+        //   }),
+        // );
+
         const listPackage = {
           meetings: meetingsProcessed,
-          listIsEmpty: response.data.meetings.length === 0,
+          listIsEmpty: meetingsProcessed.length === 0,
         };
 
         if (!searchDate) {
           meetingsList.value = listPackage;
-          meetingsListFetched.value = true;
         } else {
           meetingsList.value = {
             ...listPackage,
             meetingsList: listPackage.meetings,
           };
-          meetingsListFetched.value = true;
         }
+
+        meetingsListFetched.value = true;
       } else {
         meetingsList.value = { meetings: [], listIsEmpty: true };
         pagination.value.totalRecords = 0;

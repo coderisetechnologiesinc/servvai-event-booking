@@ -43,7 +43,7 @@ const AnnotatedSection = ({
         children: description
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      className: `annotated-section-content flex-1 w-full ${contentClassName}`,
+      className: `annotated-section-content flex-1 w-full min-w-0 ${contentClassName}`,
       children: children
     })]
   });
@@ -84,6 +84,69 @@ const BlockStack = ({
   children: children
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BlockStack);
+
+/***/ }),
+
+/***/ "./src/Components/Containers/FilterFormSection.jsx":
+/*!*********************************************************!*\
+  !*** ./src/Components/Containers/FilterFormSection.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const FilterFormSection = ({
+  title,
+  description,
+  children,
+  className = "",
+  titleClassName = "",
+  contentClassName = ""
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: `
+        filter-form-section
+        grid
+        grid-cols-1
+        md:grid-cols-[220px_1fr]
+        lg:grid-cols-[260px_1fr]
+        gap-4 md:gap-8
+        ${className}
+      `,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "filter-form-section-header",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+        className: `text-sm font-semibold text-gray-900 mb-1 ${titleClassName}`,
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
+        children: title
+      }), description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+        className: "text-sm text-gray-600 leading-relaxed hidden md:block",
+        style: {
+          fontFamily: "'Inter', sans-serif"
+        },
+        children: description
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: `
+          filter-form-section-content
+          w-full
+          ${contentClassName}
+        `,
+      children: children
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FilterFormSection);
 
 /***/ }),
 
@@ -682,16 +745,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_PageHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Containers/PageHeader */ "./src/Components/Containers/PageHeader.jsx");
 /* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
 /* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
-/* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Containers/FilterFormSection */ "./src/Components/Containers/FilterFormSection.jsx");
+/* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
+
 
 
 
@@ -711,18 +776,18 @@ const CreateCategoryFilterForm = ({
   loading,
   setLoading = () => {}
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useSearchParams)();
   const id = searchParams.get("id");
-  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.filtersList);
-  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.syncSingleFilterFromServer);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_12__.useServvStore)(s => s.filtersList);
+  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_12__.useServvStore)(s => s.syncSingleFilterFromServer);
   // Try to find existing category if ID is provided
   const existingCategory = id && filtersList.categories ? filtersList.categories.find(c => String(c.id) === String(id)) : null;
-  const [categoryData, setCategoryData] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(existingCategory || {});
-  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(window.innerWidth < 768);
+  const [categoryData, setCategoryData] = (0,react__WEBPACK_IMPORTED_MODULE_10__.useState)(existingCategory || {});
+  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_10__.useState)(window.innerWidth < 768);
 
   // Track window size changes
-  (0,react__WEBPACK_IMPORTED_MODULE_9__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_10__.useEffect)(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -746,7 +811,7 @@ const CreateCategoryFilterForm = ({
       url += `/${existingCategory.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_15__["default"])({
       method,
       url,
       headers: {
@@ -761,82 +826,79 @@ const CreateCategoryFilterForm = ({
     navigate(-1);
   };
   const isFormValid = categoryData?.name?.length > 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_9__["default"], {
     widthBackground: true,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "servv-dashboard-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
             className: "dashboard-title text-gray-900",
             children: existingCategory ? `Category Filter "${existingCategory.name}"` : "New Category"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
             className: "dashboard-description mt-4 text-gray-600",
             children: existingCategory ? `Edit details for ${existingCategory.name}` : "Create a new category filter"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Cancel",
             type: "secondary",
             onAction: onCancel
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Save",
             type: "primary",
             onAction: handleCategorySave,
             disabled: !isFormValid
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
         className: "header-line"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
-          className: "pb-20 md:pb-0 py-0 my-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "pb-20 md:pb-0 py-0 my-0 w-full",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_11__["default"], {
             isLoading: loading,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
               cardsLayout: true,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 title: "Category Name",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: categoryData?.name || "",
                   type: "text",
                   align: "left",
                   maxLength: 100,
-                  onChange: val => handleCategroyChange("name", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleCategroyChange("name", val)
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 title: "Category Details",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: categoryData?.details || "",
                   type: "text",
                   align: "left",
                   maxLength: 200,
-                  onChange: val => handleCategroyChange("details", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleCategroyChange("details", val)
                 })
-              }), existingCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), existingCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_7__["default"], {
                 title: "Order",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: categoryData.priority || "",
                   type: "text",
                   align: "left",
                   maxLength: 10,
-                  onChange: val => handleCategroyChange("priority", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleCategroyChange("priority", val)
                 })
               })]
             })
           })
         })
-      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_8__["default"], {
         onSave: handleCategorySave,
         onCancel: onCancel,
         saveText: "Save",
@@ -924,15 +986,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
 /* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
 /* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Containers/FilterFormSection */ "./src/Components/Containers/FilterFormSection.jsx");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
+
 
 
 
@@ -952,19 +1016,19 @@ const CreateLanguageFilterForm = ({
   loading,
   setLoading = () => {}
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useSearchParams)();
   const id = searchParams.get("id");
-  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.filtersList);
-  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.syncSingleFilterFromServer);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.filtersList);
+  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.syncSingleFilterFromServer);
 
   // Find existing language if editing
   const existingLanguage = id && filtersList.languages ? filtersList.languages.find(l => String(l.id) === String(id)) : null;
-  const [languageData, setLanguageData] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(existingLanguage || {});
-  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(window.innerWidth < 768);
+  const [languageData, setLanguageData] = (0,react__WEBPACK_IMPORTED_MODULE_10__.useState)(existingLanguage || {});
+  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_10__.useState)(window.innerWidth < 768);
 
   // Track window size changes
-  (0,react__WEBPACK_IMPORTED_MODULE_9__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_10__.useEffect)(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -988,7 +1052,7 @@ const CreateLanguageFilterForm = ({
       url += `/${existingLanguage.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_15__["default"])({
       method,
       url,
       headers: {
@@ -1003,72 +1067,70 @@ const CreateLanguageFilterForm = ({
     navigate(-1);
   };
   const isFormValid = languageData?.name?.length > 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_9__["default"], {
     withBackground: true,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "servv-dashboard-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
             className: "dashboard-title text-gray-900",
             children: existingLanguage ? `Language Filter "${existingLanguage.name}"` : "New Language"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
             className: "dashboard-description text-gray-600 text-base leading-relaxed",
             children: existingLanguage ? `Edit details for ${existingLanguage.name}` : "Create a new language filter"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Cancel",
             type: "secondary",
             onAction: onCancel
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Save",
             type: "primary",
             onAction: handleLanguageSave,
             disabled: !isFormValid || loading
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
         className: "header-line"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "py-0 my-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
-          className: "pb-20 md:pb-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_11__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "pb-20 md:pb-0 w-full",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_12__["default"], {
             isLoading: loading,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
               cardsLayout: true,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 title: "Language Name",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: languageData?.name || "",
                   type: "text",
                   align: "left",
                   maxLength: 100,
-                  onChange: val => handleLanguageChange("name", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleLanguageChange("name", val)
                 })
-              }), existingLanguage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), existingLanguage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 title: "Order",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: languageData.priority || "",
                   type: "text",
                   align: "left",
                   maxLength: 10,
-                  onChange: val => handleLanguageChange("priority", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleLanguageChange("priority", val)
                 })
               })]
             })
           })
         })
-      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
         onSave: handleLanguageSave,
         onCancel: onCancel,
         saveText: "Save",
@@ -1104,14 +1166,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! moment */ "moment");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Containers/FilterFormSection */ "./src/Components/Containers/FilterFormSection.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__);
+
 
 
 
@@ -1134,8 +1198,8 @@ const CreateLocationFilterForm = ({
   loading,
   timeFormat = "hh:mm a"
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_16__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_16__.useSearchParams)();
   const id = searchParams.get("id");
   const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_13__.useServvStore)(s => s.filtersList);
   const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_13__.useServvStore)(s => s.syncSingleFilterFromServer);
@@ -1163,7 +1227,7 @@ const CreateLocationFilterForm = ({
       url += `/${existingLocation.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_16__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_17__["default"])({
       method,
       url,
       headers: {
@@ -1204,105 +1268,97 @@ const CreateLocationFilterForm = ({
     handleLocationChange("operational_hours", `${start} - ${end}`);
   };
   const isFormValid = locationData?.name?.length > 0;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_9__["default"], {
     withBackground: true,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
         className: "servv-dashboard-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h1", {
             className: "dashboard-title text-gray-900",
             children: existingLocation ? `Location Filter "${existingLocation.name}"` : "New Location"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
             className: "dashboard-description text-gray-600 mt-4 text-base leading-relaxed",
             children: existingLocation ? `Edit details for ${existingLocation.name}` : "Create a new location filter"
           })]
-        }), !isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+        }), !isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
           className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Cancel",
             type: "secondary",
             onAction: onCancel
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Save",
             type: "primary",
             onAction: handleLocationSave,
             disabled: !isFormValid
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
         className: "header-line"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "py-0 my-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-          className: "pb-20 md:pb-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+          className: "pb-20 md:pb-0 w-full",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_12__["default"], {
             isLoading: loading,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
               cardsLayout: true,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 title: "Location Name",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: locationData?.name || "",
                   type: "text",
                   align: "left",
                   maxLength: 100,
-                  onChange: val => handleLocationChange("name", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleLocationChange("name", val)
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 title: "Location Details",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: locationData?.details || "",
                   type: "text",
                   align: "left",
                   maxLength: 200,
-                  onChange: val => handleLocationChange("details", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleLocationChange("details", val)
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 title: "Operational Hours",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-                  style: {
-                    width: isMobile ? "100%" : "400px"
-                  },
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-                    className: `${isMobile ? "flex-col" : "flex-row"} flex gap-4`,
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                      label: "Start Time",
-                      time: getStartTime(),
-                      onChange: handleStartTimeChange,
-                      timeFormat: timeFormat
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
-                      label: "End Time",
-                      time: getEndTime(),
-                      onChange: handleEndTimeChange,
-                      timeFormat: timeFormat
-                    })]
-                  })
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+                  className: `${isMobile ? "flex-col" : "flex-row"} flex gap-4 flex-wrap`,
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                    label: "Start Time",
+                    time: getStartTime(),
+                    onChange: handleStartTimeChange,
+                    timeFormat: timeFormat
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_TimeInputControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+                    label: "End Time",
+                    time: getEndTime(),
+                    onChange: handleEndTimeChange,
+                    timeFormat: timeFormat
+                  })]
                 })
-              }), existingLocation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), existingLocation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_14__["default"], {
                 title: "Order",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: locationData.priority || "",
                   type: "text",
                   align: "left",
                   maxLength: 10,
-                  onChange: val => handleLocationChange("priority", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleLocationChange("priority", val)
                 })
               })]
             })
           })
         })
-      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
         onSave: handleLocationSave,
         onCancel: onCancel,
         saveText: "Save",
@@ -1334,15 +1390,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Containers/PageContent */ "./src/Components/Containers/PageContent.jsx");
 /* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
 /* harmony import */ var _Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Controls/MobileFooterActions */ "./src/Components/Controls/MobileFooterActions.jsx");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
-/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
-/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Containers/FilterFormSection */ "./src/Components/Containers/FilterFormSection.jsx");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
+/* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../store/useServvStore */ "./src/store/useServvStore.js");
+/* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__);
+
 
 
 
@@ -1362,18 +1420,18 @@ const CreateMemberFilterForm = ({
   loading,
   setLoading = () => {}
 }) => {
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useNavigate)();
-  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useSearchParams)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)();
+  const [searchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useSearchParams)();
   const id = searchParams.get("id");
-  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.filtersList);
-  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_10__.useServvStore)(s => s.syncSingleFilterFromServer);
+  const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.filtersList);
+  const syncSingleFilterFromServer = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_11__.useServvStore)(s => s.syncSingleFilterFromServer);
 
   // Load existing member if editing
   const existingMember = id && filtersList.members ? filtersList.members.find(m => String(m.id) === String(id)) : null;
-  const [memberData, setMemberData] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(existingMember || {});
-  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(window.innerWidth < 768);
-  const [errors, setErrors] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)({});
-  const [showErrors, setShowErrors] = (0,react__WEBPACK_IMPORTED_MODULE_8__.useState)(false);
+  const [memberData, setMemberData] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(existingMember || {});
+  const [isMobile, setIsMobile] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(window.innerWidth < 768);
+  const [errors, setErrors] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)({});
+  const [showErrors, setShowErrors] = (0,react__WEBPACK_IMPORTED_MODULE_9__.useState)(false);
   const validateEmail = email => {
     if (!email) return ""; // optional field
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? "" : "Invalid email address";
@@ -1404,7 +1462,7 @@ const CreateMemberFilterForm = ({
   };
   const isFormValid = memberData?.name?.length > 0 && !errors.email && !errors.phone;
   // Track window size changes
-  (0,react__WEBPACK_IMPORTED_MODULE_8__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_9__.useEffect)(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -1427,7 +1485,7 @@ const CreateMemberFilterForm = ({
       url += `/${existingMember.id}`;
       method = "PATCH";
     }
-    await (0,axios__WEBPACK_IMPORTED_MODULE_14__["default"])({
+    await (0,axios__WEBPACK_IMPORTED_MODULE_15__["default"])({
       method,
       url,
       headers: {
@@ -1444,110 +1502,105 @@ const CreateMemberFilterForm = ({
 
   // const isFormValid = memberData?.name?.length > 0;
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
       className: "dashboard-card",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "servv-dashboard-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "dashboard-heading",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
             className: "dashboard-title text-gray-900",
             children: existingMember ? `Member Filter "${existingMember.name}"` : "New Member"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
             className: "dashboard-description mt-4 text-gray-600 text-base leading-relaxed",
             children: existingMember ? `Edit details for ${existingMember.name}` : "Create a new member filter"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "dashboard-actions hidden md:flex flex-row items-center gap-2 flex-nowrap",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Cancel",
             type: "secondary",
             onAction: onCancel
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
             text: "Save",
             type: "primary",
             disabled: memberData?.name?.length === 0 || !memberData.name,
             onAction: handleMemberSave
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
         className: "header-line"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_PageContent__WEBPACK_IMPORTED_MODULE_5__["default"], {
         className: "py-0 my-0",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
-          className: "pb-20 md:pb-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "pb-20 md:pb-0 w-full",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_SpinnerLoader__WEBPACK_IMPORTED_MODULE_10__["default"], {
             isLoading: loading,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_BlockStack__WEBPACK_IMPORTED_MODULE_0__["default"], {
               gap: 8,
               cardsLayout: true,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 title: "Member Name",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   align: "left",
                   value: memberData?.name || "",
                   type: "text",
                   maxLength: 100,
-                  onChange: val => handleMemberChange("name", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleMemberChange("name", val)
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 title: "Member Email",
                 className: "items-start",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: memberData?.email || "",
                   type: "email",
                   align: "left",
                   maxLength: 100,
-                  onChange: val => handleMemberChange("email", val),
-                  width: isMobile ? "100%" : "400px"
-                }), showErrors && errors.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                  onChange: val => handleMemberChange("email", val)
+                }), showErrors && errors.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                   className: "text-red-500 text-sm mt-1",
                   children: errors.email
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 title: "Phone",
                 className: "items-start",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: memberData?.phone || "",
                   type: "tel",
                   align: "left",
                   maxLength: 50,
-                  onChange: val => handleMemberChange("phone", val),
-                  width: isMobile ? "100%" : "400px"
-                }), showErrors && errors.phone && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                  onChange: val => handleMemberChange("phone", val)
+                }), showErrors && errors.phone && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                   className: "text-red-500 text-sm mt-1",
                   children: errors.phone
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 title: "Description",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: memberData?.description || "",
                   type: "text",
                   align: "left",
                   maxLength: 200,
-                  onChange: val => handleMemberChange("description", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleMemberChange("description", val)
                 })
-              }), existingMember && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              }), existingMember && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Containers_FilterFormSection__WEBPACK_IMPORTED_MODULE_8__["default"], {
                 title: "Order",
                 className: "items-start",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_2__["default"], {
                   value: memberData.priority || "",
                   type: "text",
                   align: "left",
                   maxLength: 10,
-                  onChange: val => handleMemberChange("priority", val),
-                  width: isMobile ? "100%" : "400px"
+                  onChange: val => handleMemberChange("priority", val)
                 })
               })]
             })
           })
         })
-      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), isMobile && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Controls_MobileFooterActions__WEBPACK_IMPORTED_MODULE_7__["default"], {
         onSave: handleMemberSave,
         onCancel: onCancel,
         saveText: "Save",
@@ -1662,4 +1715,4 @@ const SpinnerLoader = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Filters_CreateFilterPage_jsx.js.map?ver=5b72c96b226cf1d27739
+//# sourceMappingURL=src_Components_Pages_Filters_CreateFilterPage_jsx.js.map?ver=037b73e9df90e1387ddc

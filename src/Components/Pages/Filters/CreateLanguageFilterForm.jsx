@@ -6,6 +6,7 @@ import PageHeader from "../../Containers/PageHeader";
 import PageContent from "../../Containers/PageContent";
 import AnnotatedSection from "../../Containers/AnnotatedSection";
 import MobileFooterActions from "../../Controls/MobileFooterActions";
+import FilterFormSection from "../../Containers/FilterFormSection";
 import PageWrapper from "../PageWrapper";
 import { useState, Fragment, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
@@ -114,33 +115,34 @@ const CreateLanguageFilterForm = ({ loading, setLoading = () => {} }) => {
         <div className="header-line" />
 
         <PageContent className="py-0 my-0">
-          <div className="pb-20 md:pb-0">
+          <div className="pb-20 md:pb-0 w-full">
             <SpinnerLoader isLoading={loading}>
               <BlockStack gap={8} cardsLayout>
                 {/* Language Name */}
-                <AnnotatedSection title="Language Name" className="items-start">
+                <FilterFormSection
+                  title="Language Name"
+                  className="items-start"
+                >
                   <InputFieldControl
                     value={languageData?.name || ""}
                     type="text"
                     align="left"
                     maxLength={100}
                     onChange={(val) => handleLanguageChange("name", val)}
-                    width={isMobile ? "100%" : "400px"}
                   />
-                </AnnotatedSection>
+                </FilterFormSection>
 
                 {/* Order (only if editing) */}
                 {existingLanguage && (
-                  <AnnotatedSection title="Order" className="items-start">
+                  <FilterFormSection title="Order" className="items-start">
                     <InputFieldControl
                       value={languageData.priority || ""}
                       type="text"
                       align="left"
                       maxLength={10}
                       onChange={(val) => handleLanguageChange("priority", val)}
-                      width={isMobile ? "100%" : "400px"}
                     />
-                  </AnnotatedSection>
+                  </FilterFormSection>
                 )}
               </BlockStack>
             </SpinnerLoader>
