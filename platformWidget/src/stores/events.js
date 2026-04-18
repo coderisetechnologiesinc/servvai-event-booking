@@ -22,7 +22,7 @@ export const useEventsStore = defineStore("events", () => {
     totalRecords: 0,
     pageCount: 0,
   });
-  const imageCache = new Map();
+  // const imageCache = new Map();
 
   const getApiBase = () => {
     const raw =
@@ -38,26 +38,26 @@ export const useEventsStore = defineStore("events", () => {
     return window.location.origin;
   };
 
-  const fetchImageByPostId = async (postId) => {
-    if (!postId) return null;
-    if (imageCache.has(postId)) {
-      return imageCache.get(postId);
-    }
+  // const fetchImageByPostId = async (postId) => {
+  //   if (!postId) return null;
+  //   if (imageCache.has(postId)) {
+  //     return imageCache.get(postId);
+  //   }
 
-    try {
-      const res = await axios.get(
-        `${getApiBase()}/wp-json/wp/v2/posts/${postId}?_embed`,
-      );
-      const url =
-        res.data._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null;
+  //   try {
+  //     const res = await axios.get(
+  //       `${getApiBase()}/wp-json/wp/v2/posts/${postId}?_embed`,
+  //     );
+  //     const url =
+  //       res.data._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null;
 
-      imageCache.set(postId, url);
-      return url;
-    } catch (e) {
-      imageCache.set(postId, null);
-      return null;
-    }
-  };
+  //     imageCache.set(postId, url);
+  //     return url;
+  //   } catch (e) {
+  //     imageCache.set(postId, null);
+  //     return null;
+  //   }
+  // };
 
   async function fetchEventsList({
     date = null,
@@ -74,31 +74,28 @@ export const useEventsStore = defineStore("events", () => {
           product_price: event.product ? event.product.price : 0,
           wgtItemId: uuidv4(),
         }));
-        console.log("items", items);
         let processed = convertEventsDates(items).sort((a, b) =>
           moment(a.start_time).diff(moment(b.start_time)),
         );
-        console.log("processed", processed);
 
-        const uniquePostIds = [
-          ...new Set(
-            processed.map((m) => m?.shop_post_object_id).filter(Boolean),
-          ),
-        ];
-        console.log("post ids", uniquePostIds);
+        // const uniquePostIds = [
+        //   ...new Set(
+        //     processed.map((m) => m?.shop_post_object_id).filter(Boolean),
+        //   ),
+        // ];
+        // console.log("post ids", uniquePostIds);
 
-        await Promise.all(uniquePostIds.map((id) => fetchImageByPostId(id)));
+        // await Promise.all(uniquePostIds.map((id) => fetchImageByPostId(id)));
 
         processed = processed.map((meeting) => {
-          const postId = meeting?.shop_post_object_id;
-
+          const image = meeting?.image_url
           return {
             ...meeting,
-            featuredImage: postId ? imageCache.get(postId) || null : null,
+            featuredImage: image ? image || null : null,
           };
         });
 
-        console.log("processed with images", processed);
+
 
         window.__SERVV_ALL_MEETINGS__ = processed;
       }
