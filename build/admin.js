@@ -109,6 +109,43 @@ var SvgCalendarIcon = function SvgCalendarIcon(props) {
 
 /***/ }),
 
+/***/ "./src/assets/icons/CalendarIconMenu.svg":
+/*!***********************************************!*\
+  !*** ./src/assets/icons/CalendarIconMenu.svg ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ReactComponent: () => (/* binding */ SvgCalendarIconMenu),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var _path;
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+
+var SvgCalendarIconMenu = function SvgCalendarIconMenu(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", _extends({
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 22,
+    height: 22,
+    fill: "none",
+    viewBox: "0 0 33 36"
+  }, props), _path || (_path = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    stroke: "#717680",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: 2.5,
+    d: "M31.25 14.583h-30M22.917 1.25v6.667M9.583 1.25v6.667M13.75 21.25l2.5-1.667v8.334m-2.083 0h4.166M9.25 34.583h14c2.8 0 4.2 0 5.27-.545a5 5 0 0 0 2.185-2.185c.545-1.07.545-2.47.545-5.27v-14c0-2.8 0-4.2-.545-5.27a5 5 0 0 0-2.185-2.185c-1.07-.545-2.47-.545-5.27-.545h-14c-2.8 0-4.2 0-5.27.545a5 5 0 0 0-2.185 2.185c-.545 1.07-.545 2.47-.545 5.27v14c0 2.8 0 4.2.545 5.27a5 5 0 0 0 2.185 2.185c1.07.545 2.47.545 5.27.545"
+  })));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAzMyAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTMxLjI1IDE0LjU4MzNIMS4yNU0yMi45MTY3IDEuMjVWNy45MTY2N005LjU4MzMzIDEuMjVWNy45MTY2N00xMy43NSAyMS4yNUwxNi4yNSAxOS41ODMzVjI3LjkxNjdNMTQuMTY2NyAyNy45MTY3SDE4LjMzMzNNOS4yNSAzNC41ODMzSDIzLjI1QzI2LjA1MDMgMzQuNTgzMyAyNy40NTA0IDM0LjU4MzMgMjguNTIgMzQuMDM4NEMyOS40NjA4IDMzLjU1OSAzMC4yMjU3IDMyLjc5NDEgMzAuNzA1IDMxLjg1MzNDMzEuMjUgMzAuNzgzNyAzMS4yNSAyOS4zODM2IDMxLjI1IDI2LjU4MzNWMTIuNTgzM0MzMS4yNSA5Ljc4MzA3IDMxLjI1IDguMzgyOTQgMzAuNzA1IDcuMzEzMzhDMzAuMjI1NyA2LjM3MjU3IDI5LjQ2MDggNS42MDc2NyAyOC41MiA1LjEyODNDMjcuNDUwNCA0LjU4MzMzIDI2LjA1MDMgNC41ODMzMyAyMy4yNSA0LjU4MzMzSDkuMjVDNi40NDk3NCA0LjU4MzMzIDUuMDQ5NjEgNC41ODMzMyAzLjk4MDA1IDUuMTI4M0MzLjAzOTI0IDUuNjA3NjcgMi4yNzQzMyA2LjM3MjU3IDEuNzk0OTcgNy4zMTMzOEMxLjI1IDguMzgyOTQgMS4yNSA5Ljc4MzA3IDEuMjUgMTIuNTgzM1YyNi41ODMzQzEuMjUgMjkuMzgzNiAxLjI1IDMwLjc4MzcgMS43OTQ5NyAzMS44NTMzQzIuMjc0MzMgMzIuNzk0MSAzLjAzOTI0IDMzLjU1OSAzLjk4MDA1IDM0LjAzODRDNS4wNDk2MSAzNC41ODMzIDYuNDQ5NzQgMzQuNTgzMyA5LjI1IDM0LjU4MzNaIiBzdHJva2U9IiM3MTc2ODAiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+");
+
+/***/ }),
+
 /***/ "./src/assets/icons/CheckMark.svg":
 /*!****************************************!*\
   !*** ./src/assets/icons/CheckMark.svg ***!
@@ -1068,6 +1105,10 @@ const SideBar = ({
       link: "bookings",
       icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Sales
     }, {
+      title: "Calendar",
+      link: "calendar",
+      icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.CalendarIconMenu
+    }, {
       title: "Filters",
       link: "filters",
       icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Filters
@@ -1123,6 +1164,10 @@ const SideBar = ({
           title: "Bookings",
           link: "bookings",
           icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.Sales
+        }, {
+          title: "Calendar",
+          link: "calendar",
+          icon: _assets_icons__WEBPACK_IMPORTED_MODULE_2__.CalendarIconMenu
         }, {
           title: "Branding",
           link: "branding",
@@ -1385,28 +1430,29 @@ const ValidationScreen = ({
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Analytics: () => (/* reexport safe */ _Analytics_svg__WEBPACK_IMPORTED_MODULE_1__.ReactComponent),
-/* harmony export */   BrushIcon: () => (/* reexport safe */ _BrushIcon_svg__WEBPACK_IMPORTED_MODULE_13__.ReactComponent),
+/* harmony export */   BrushIcon: () => (/* reexport safe */ _BrushIcon_svg__WEBPACK_IMPORTED_MODULE_14__.ReactComponent),
 /* harmony export */   CalendarIcon: () => (/* reexport safe */ _CalendarIcon_svg__WEBPACK_IMPORTED_MODULE_10__.ReactComponent),
-/* harmony export */   CheckMark: () => (/* reexport safe */ _CheckMark_svg__WEBPACK_IMPORTED_MODULE_16__.ReactComponent),
-/* harmony export */   CloseIcon: () => (/* reexport safe */ _CloseIcon_svg__WEBPACK_IMPORTED_MODULE_19__.ReactComponent),
+/* harmony export */   CalendarIconMenu: () => (/* reexport safe */ _CalendarIconMenu_svg__WEBPACK_IMPORTED_MODULE_11__.ReactComponent),
+/* harmony export */   CheckMark: () => (/* reexport safe */ _CheckMark_svg__WEBPACK_IMPORTED_MODULE_17__.ReactComponent),
+/* harmony export */   CloseIcon: () => (/* reexport safe */ _CloseIcon_svg__WEBPACK_IMPORTED_MODULE_20__.ReactComponent),
 /* harmony export */   Contacts: () => (/* reexport safe */ _Contacts_svg__WEBPACK_IMPORTED_MODULE_5__.ReactComponent),
 /* harmony export */   Dashboard: () => (/* reexport safe */ _Dashboard_svg__WEBPACK_IMPORTED_MODULE_0__.ReactComponent),
 /* harmony export */   Emails: () => (/* reexport safe */ _Emails_svg__WEBPACK_IMPORTED_MODULE_6__.ReactComponent),
 /* harmony export */   Events: () => (/* reexport safe */ _Events_svg__WEBPACK_IMPORTED_MODULE_2__.ReactComponent),
-/* harmony export */   Filter: () => (/* reexport safe */ _Filter_svg__WEBPACK_IMPORTED_MODULE_12__.ReactComponent),
+/* harmony export */   Filter: () => (/* reexport safe */ _Filter_svg__WEBPACK_IMPORTED_MODULE_13__.ReactComponent),
 /* harmony export */   Filters: () => (/* reexport safe */ _Filters_svg__WEBPACK_IMPORTED_MODULE_4__.ReactComponent),
-/* harmony export */   Link: () => (/* reexport safe */ _LinkIcon_svg__WEBPACK_IMPORTED_MODULE_21__.ReactComponent),
-/* harmony export */   MapMarkIcon: () => (/* reexport safe */ _MapMarkIcon_svg__WEBPACK_IMPORTED_MODULE_11__.ReactComponent),
-/* harmony export */   MinusIcon: () => (/* reexport safe */ _MinusIcon_svg__WEBPACK_IMPORTED_MODULE_18__.ReactComponent),
-/* harmony export */   PlusIcon: () => (/* reexport safe */ _PlusIcon_svg__WEBPACK_IMPORTED_MODULE_17__.ReactComponent),
-/* harmony export */   Profile: () => (/* reexport safe */ _Profile_svg__WEBPACK_IMPORTED_MODULE_20__.ReactComponent),
+/* harmony export */   Link: () => (/* reexport safe */ _LinkIcon_svg__WEBPACK_IMPORTED_MODULE_22__.ReactComponent),
+/* harmony export */   MapMarkIcon: () => (/* reexport safe */ _MapMarkIcon_svg__WEBPACK_IMPORTED_MODULE_12__.ReactComponent),
+/* harmony export */   MinusIcon: () => (/* reexport safe */ _MinusIcon_svg__WEBPACK_IMPORTED_MODULE_19__.ReactComponent),
+/* harmony export */   PlusIcon: () => (/* reexport safe */ _PlusIcon_svg__WEBPACK_IMPORTED_MODULE_18__.ReactComponent),
+/* harmony export */   Profile: () => (/* reexport safe */ _Profile_svg__WEBPACK_IMPORTED_MODULE_21__.ReactComponent),
 /* harmony export */   Sales: () => (/* reexport safe */ _Sales_svg__WEBPACK_IMPORTED_MODULE_3__.ReactComponent),
 /* harmony export */   Settings: () => (/* reexport safe */ _Settings_svg__WEBPACK_IMPORTED_MODULE_7__.ReactComponent),
 /* harmony export */   Support: () => (/* reexport safe */ _Support_svg__WEBPACK_IMPORTED_MODULE_8__.ReactComponent),
-/* harmony export */   TicketIcon: () => (/* reexport safe */ _TicketIcon_svg__WEBPACK_IMPORTED_MODULE_14__.ReactComponent),
-/* harmony export */   UploadIcon: () => (/* reexport safe */ _UploadIcon_svg__WEBPACK_IMPORTED_MODULE_15__.ReactComponent),
+/* harmony export */   TicketIcon: () => (/* reexport safe */ _TicketIcon_svg__WEBPACK_IMPORTED_MODULE_15__.ReactComponent),
+/* harmony export */   UploadIcon: () => (/* reexport safe */ _UploadIcon_svg__WEBPACK_IMPORTED_MODULE_16__.ReactComponent),
 /* harmony export */   Widgets: () => (/* reexport safe */ _Widgets_svg__WEBPACK_IMPORTED_MODULE_9__.ReactComponent),
-/* harmony export */   Youtube: () => (/* reexport safe */ _Youtube_svg__WEBPACK_IMPORTED_MODULE_22__.ReactComponent)
+/* harmony export */   Youtube: () => (/* reexport safe */ _Youtube_svg__WEBPACK_IMPORTED_MODULE_23__.ReactComponent)
 /* harmony export */ });
 /* harmony import */ var _Dashboard_svg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dashboard.svg */ "./src/assets/icons/Dashboard.svg");
 /* harmony import */ var _Analytics_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Analytics.svg */ "./src/assets/icons/Analytics.svg");
@@ -1419,18 +1465,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Support_svg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Support.svg */ "./src/assets/icons/Support.svg");
 /* harmony import */ var _Widgets_svg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Widgets.svg */ "./src/assets/icons/Widgets.svg");
 /* harmony import */ var _CalendarIcon_svg__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./CalendarIcon.svg */ "./src/assets/icons/CalendarIcon.svg");
-/* harmony import */ var _MapMarkIcon_svg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./MapMarkIcon.svg */ "./src/assets/icons/MapMarkIcon.svg");
-/* harmony import */ var _Filter_svg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Filter.svg */ "./src/assets/icons/Filter.svg");
-/* harmony import */ var _BrushIcon_svg__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./BrushIcon.svg */ "./src/assets/icons/BrushIcon.svg");
-/* harmony import */ var _TicketIcon_svg__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./TicketIcon.svg */ "./src/assets/icons/TicketIcon.svg");
-/* harmony import */ var _UploadIcon_svg__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./UploadIcon.svg */ "./src/assets/icons/UploadIcon.svg");
-/* harmony import */ var _CheckMark_svg__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./CheckMark.svg */ "./src/assets/icons/CheckMark.svg");
-/* harmony import */ var _PlusIcon_svg__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./PlusIcon.svg */ "./src/assets/icons/PlusIcon.svg");
-/* harmony import */ var _MinusIcon_svg__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./MinusIcon.svg */ "./src/assets/icons/MinusIcon.svg");
-/* harmony import */ var _CloseIcon_svg__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./CloseIcon.svg */ "./src/assets/icons/CloseIcon.svg");
-/* harmony import */ var _Profile_svg__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Profile.svg */ "./src/assets/icons/Profile.svg");
-/* harmony import */ var _LinkIcon_svg__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./LinkIcon.svg */ "./src/assets/icons/LinkIcon.svg");
-/* harmony import */ var _Youtube_svg__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Youtube.svg */ "./src/assets/icons/Youtube.svg");
+/* harmony import */ var _CalendarIconMenu_svg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CalendarIconMenu.svg */ "./src/assets/icons/CalendarIconMenu.svg");
+/* harmony import */ var _MapMarkIcon_svg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./MapMarkIcon.svg */ "./src/assets/icons/MapMarkIcon.svg");
+/* harmony import */ var _Filter_svg__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Filter.svg */ "./src/assets/icons/Filter.svg");
+/* harmony import */ var _BrushIcon_svg__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./BrushIcon.svg */ "./src/assets/icons/BrushIcon.svg");
+/* harmony import */ var _TicketIcon_svg__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./TicketIcon.svg */ "./src/assets/icons/TicketIcon.svg");
+/* harmony import */ var _UploadIcon_svg__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./UploadIcon.svg */ "./src/assets/icons/UploadIcon.svg");
+/* harmony import */ var _CheckMark_svg__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./CheckMark.svg */ "./src/assets/icons/CheckMark.svg");
+/* harmony import */ var _PlusIcon_svg__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./PlusIcon.svg */ "./src/assets/icons/PlusIcon.svg");
+/* harmony import */ var _MinusIcon_svg__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./MinusIcon.svg */ "./src/assets/icons/MinusIcon.svg");
+/* harmony import */ var _CloseIcon_svg__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./CloseIcon.svg */ "./src/assets/icons/CloseIcon.svg");
+/* harmony import */ var _Profile_svg__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Profile.svg */ "./src/assets/icons/Profile.svg");
+/* harmony import */ var _LinkIcon_svg__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./LinkIcon.svg */ "./src/assets/icons/LinkIcon.svg");
+/* harmony import */ var _Youtube_svg__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Youtube.svg */ "./src/assets/icons/Youtube.svg");
+
 
 
 
@@ -22592,7 +22640,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"0":"0 个","Events":"活动","Create
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs":"8ab1be176a501da6c5b1","vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","src_Components_Pages_EventsListPage_jsx":"1de682c8b11d981cbda8","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_Integrations_IntegrationsPage_jsx":"330057af2a8abcbaf733","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-11a03a":"fddc71872561c888485c","src_Components_Pages_SettingsPage_jsx":"8ff5b3823253af77cbc2","vendors-node_modules_heroicons_react_16_solid_esm_EyeIcon_js-node_modules_heroicons_react_16_-dc689e":"b3932eae59fc1fe7a31f","src_Components_Pages_Filters_FiltersPage_jsx":"40987789e02171298538","vendors-node_modules_quill_dist_quill_snow_css-node_modules_heroicons_react_16_solid_esm_Chev-4741a9":"2ad1f22a70272b2540f2","src_Components_Pages_EmailTemplates_jsx":"30deec65d38c3a5a9e11","vendors-node_modules_react-is_index_js-node_modules_use-isomorphic-layout-effect_dist_use-iso-b5fcbb":"7270ddc9ec72fc37abf8","vendors-node_modules_prop-types_index_js":"d6a90ccb2a82396d18be","vendors-node_modules_reaviz_dist_index_js":"a72db0791d4318faa53a","src_Components_Pages_AnalyticsPage_jsx":"4675670906a87c6c000e","vendors-node_modules_react-day-picker_dist_esm_DayPicker_js":"fdf2036bce2521269edd","src_Components_Pages_BookingsPage_jsx":"aa39b675286f6ec294fc","src_Components_Pages_SupportPage_jsx":"5b574a1f939d240e0915","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_heroicons_react_24_ou-ddecd7":"cffd45240a43859d3116","src_Components_Pages_BrandingPage_jsx":"851ffb456926ca5e4014","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_CreateEvent_CreateEventForm_jsx":"e92b659e519fb7e8fabf","src_Components_Pages_Dashboard_jsx":"de8290c81e8dd533d20e","src_Components_Pages_Filters_CreateFilterPage_jsx":"037b73e9df90e1387ddc","src_Components_Pages_Filters_FiltersListPage_jsx":"38638234af9e7b7e02ad","src_Components_Pages_Integrations_ZoomPage_jsx":"6df751270b62676347a5","src_Components_Pages_Integrations_ZoomSettingsPage_jsx":"1d00b27cf50755dfe82f","src_Components_Pages_Integrations_StripeIntegrationsPage_jsx":"cb9a51cca372eabba892","src_Components_Pages_EmailsPage_jsx":"cc21a7c43ea4289dc362","src_Components_Pages_GoogleAnalyticsPage_jsx":"24f487b780bbb9d2e581","src_Components_Pages_Integrations_CalendarsPage_jsx":"9401ecf2c0501779fa34","src_Components_Onboarding_OnboardingFlow_jsx":"57574e2fe5050fee6735","vendors-node_modules_react-select_dist_react-select_esm_js-node_modules_heroicons_react_24_ou-9d1212":"761366f4c56ceb1476bc","src_Components_CreateEvent_DateStep_jsx":"4f6ace516f025fd39b0d","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-47d8b8":"96788129d9eee57d704d","src_Components_CreateEvent_VenueStep_jsx":"0604a52bacee24ac7eca","src_Components_CreateEvent_FiltersStep_jsx":"f1c76b120d73d7327e39","src_Components_CreateEvent_BrandingStep_jsx":"0a639dfdd73b8493401e","src_Components_CreateEvent_TicketsStep_jsx":"aec1192fa84e6f0582db","src_Components_CreateEvent_RegistrantsStep_jsx":"2afc2c843326d9abaf2b","src_Components_Onboarding_SettingsStep_jsx":"83e5c2fb4f8cfa3586f0","src_Components_Onboarding_FirstEventStep_jsx":"bee3ad26d4e6aa889bf0","src_Components_Onboarding_IntegrationsStep_jsx":"15bc32bd1cf9aaa4e200","src_Components_Onboarding_BrandingStep_jsx":"cb5a637b0e1cec3023be","src_Components_Onboarding_BillingStep_jsx":"60608019047705d3e24c"}[chunkId] + "";
+/******/ 			return "" + chunkId + ".js?ver=" + {"vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs":"8ab1be176a501da6c5b1","vendors-node_modules_moment-timezone_index_js":"05c6113dca4e1be9384e","vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js":"f203e6768176a7456881","src_Components_Pages_EventsListPage_jsx":"8c96c2abf4d432533718","vendors-node_modules_he_he_js":"308d3effada935d2b975","src_Components_Pages_Integrations_IntegrationsPage_jsx":"330057af2a8abcbaf733","vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-11a03a":"fddc71872561c888485c","src_Components_Pages_SettingsPage_jsx":"d0cb51a6caa743f4dbe1","vendors-node_modules_heroicons_react_16_solid_esm_EyeIcon_js-node_modules_heroicons_react_16_-dc689e":"b3932eae59fc1fe7a31f","src_Components_Pages_Filters_FiltersPage_jsx":"40987789e02171298538","vendors-node_modules_quill_dist_quill_snow_css-node_modules_heroicons_react_16_solid_esm_Chev-4741a9":"2ad1f22a70272b2540f2","src_Components_Pages_EmailTemplates_jsx":"30deec65d38c3a5a9e11","vendors-node_modules_react-is_index_js-node_modules_use-isomorphic-layout-effect_dist_use-iso-b5fcbb":"7270ddc9ec72fc37abf8","vendors-node_modules_prop-types_index_js":"d6a90ccb2a82396d18be","vendors-node_modules_reaviz_dist_index_js":"a72db0791d4318faa53a","src_Components_Pages_AnalyticsPage_jsx":"4675670906a87c6c000e","vendors-node_modules_react-day-picker_dist_esm_DayPicker_js":"fdf2036bce2521269edd","src_Components_Pages_BookingsPage_jsx":"aa39b675286f6ec294fc","src_Components_Pages_CalendarPage_jsx":"b1f7108c7354bb10481c","src_Components_Pages_SupportPage_jsx":"5b574a1f939d240e0915","vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_heroicons_react_24_ou-ddecd7":"cffd45240a43859d3116","src_Components_Pages_BrandingPage_jsx":"036f0a797d2c007d23df","src_Components_Layout_ScrollManager_jsx":"6d399514175f2e2782b3","src_Components_CreateEvent_CreateEventForm_jsx":"5709322eefc2d2aa8d08","src_Components_Pages_Dashboard_jsx":"abcd8bb46d16e2a6826e","src_Components_Pages_Filters_CreateFilterPage_jsx":"037b73e9df90e1387ddc","src_Components_Pages_Filters_FiltersListPage_jsx":"38638234af9e7b7e02ad","src_Components_Pages_Integrations_ZoomPage_jsx":"6df751270b62676347a5","src_Components_Pages_Integrations_ZoomSettingsPage_jsx":"1d00b27cf50755dfe82f","src_Components_Pages_Integrations_StripeIntegrationsPage_jsx":"cb9a51cca372eabba892","src_Components_Pages_EmailsPage_jsx":"cc21a7c43ea4289dc362","src_Components_Pages_GoogleAnalyticsPage_jsx":"24f487b780bbb9d2e581","src_Components_Pages_Integrations_CalendarsPage_jsx":"9401ecf2c0501779fa34","src_Components_Onboarding_OnboardingFlow_jsx":"60caf7234fb5bee2e79b","vendors-node_modules_react-select_dist_react-select_esm_js-node_modules_heroicons_react_24_ou-9d1212":"761366f4c56ceb1476bc","src_Components_CreateEvent_DateStep_jsx":"fa86aa8e58997947d850","vendors-node_modules_mui_icons-material_esm_Close_js-node_modules_mui_icons-material_esm_Fibe-47d8b8":"96788129d9eee57d704d","src_Components_CreateEvent_VenueStep_jsx":"5c07cf01f59b8f13875c","src_Components_CreateEvent_FiltersStep_jsx":"28d06b5129948a4e8c68","src_Components_CreateEvent_BrandingStep_jsx":"d2b1546747ccce2c1c03","src_Components_CreateEvent_TicketsStep_jsx":"78e0f0814732c49ebdca","src_Components_CreateEvent_RegistrantsStep_jsx":"dc70ed4f4a8398bb4180","src_Components_Onboarding_SettingsStep_jsx":"e94139826aebecc8520d","src_Components_Onboarding_FirstEventStep_jsx":"bee3ad26d4e6aa889bf0","src_Components_Onboarding_IntegrationsStep_jsx":"d275e10c8111bace4aab","src_Components_Onboarding_BrandingStep_jsx":"d0ea281e92b40113c8b5","src_Components_Onboarding_BillingStep_jsx":"37d633837f622fe6da5e"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -22924,13 +22972,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const EventsListPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("src_Components_Pages_EventsListPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EventsListPage */ "./src/Components/Pages/EventsListPage.jsx")));
+
+const EventsListPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("src_Components_Pages_EventsListPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EventsListPage */ "./src/Components/Pages/EventsListPage.jsx")));
 const IntegrationsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("src_Components_Pages_Integrations_IntegrationsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/Integrations/IntegrationsPage */ "./src/Components/Pages/Integrations/IntegrationsPage.jsx")));
 const SettingsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_lodash_capitalize_index_js-node_modules_lodash_foreach_index_js-node_mod-11a03a"), __webpack_require__.e("src_Components_Pages_SettingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/SettingsPage */ "./src/Components/Pages/SettingsPage.jsx")));
 const FiltersPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_heroicons_react_16_solid_esm_EyeIcon_js-node_modules_heroicons_react_16_-dc689e"), __webpack_require__.e("src_Components_Pages_Filters_FiltersPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/Filters/FiltersPage */ "./src/Components/Pages/Filters/FiltersPage.jsx")));
 const EmailTemplates = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_quill_dist_quill_snow_css-node_modules_heroicons_react_16_solid_esm_Chev-4741a9"), __webpack_require__.e("src_Components_Pages_EmailTemplates_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/EmailTemplates */ "./src/Components/Pages/EmailTemplates.jsx")));
-const AnalyticsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_react-is_index_js-node_modules_use-isomorphic-layout-effect_dist_use-iso-b5fcbb"), __webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js"), __webpack_require__.e("vendors-node_modules_reaviz_dist_index_js"), __webpack_require__.e("src_Components_Pages_AnalyticsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/AnalyticsPage */ "./src/Components/Pages/AnalyticsPage.jsx")));
-const BookingsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_react-day-picker_dist_esm_DayPicker_js"), __webpack_require__.e("src_Components_Pages_BookingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/BookingsPage */ "./src/Components/Pages/BookingsPage.jsx")));
+const AnalyticsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_react-is_index_js-node_modules_use-isomorphic-layout-effect_dist_use-iso-b5fcbb"), __webpack_require__.e("vendors-node_modules_he_he_js"), __webpack_require__.e("vendors-node_modules_prop-types_index_js"), __webpack_require__.e("vendors-node_modules_reaviz_dist_index_js"), __webpack_require__.e("src_Components_Pages_AnalyticsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/AnalyticsPage */ "./src/Components/Pages/AnalyticsPage.jsx")));
+const BookingsPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_react-day-picker_dist_esm_DayPicker_js"), __webpack_require__.e("src_Components_Pages_BookingsPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/BookingsPage */ "./src/Components/Pages/BookingsPage.jsx")));
+const CalendarPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("src_Components_Pages_CalendarPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/CalendarPage */ "./src/Components/Pages/CalendarPage.jsx")));
 const SupportPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("src_Components_Pages_SupportPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/SupportPage */ "./src/Components/Pages/SupportPage.jsx")));
 const BrandingPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_dnd-kit_sortable_dist_sortable_esm_js-node_modules_heroicons_react_24_ou-ddecd7"), __webpack_require__.e("src_Components_Pages_BrandingPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/BrandingPage.jsx */ "./src/Components/Pages/BrandingPage.jsx")));
 const ScrollManager = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => __webpack_require__.e(/*! import() */ "src_Components_Layout_ScrollManager_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Layout/ScrollManager.jsx */ "./src/Components/Layout/ScrollManager.jsx")));
@@ -22942,7 +22992,7 @@ window.t = _utilities_textResolver_js__WEBPACK_IMPORTED_MODULE_7__.t;
 
 
 const CreateEventForm = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("src_Components_CreateEvent_CreateEventForm_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/CreateEvent/CreateEventForm.jsx */ "./src/Components/CreateEvent/CreateEventForm.jsx")));
-const Dashboard = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("src_Components_Pages_Dashboard_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/Dashboard.jsx */ "./src/Components/Pages/Dashboard.jsx")));
+const Dashboard = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("vendors-node_modules_moment-timezone_index_js"), __webpack_require__.e("vendors-node_modules_react-tailwindcss-datepicker_dist_index_esm_js"), __webpack_require__.e("src_Components_Pages_Dashboard_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/Dashboard.jsx */ "./src/Components/Pages/Dashboard.jsx")));
 const CreateFilterPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("src_Components_Pages_Filters_CreateFilterPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/Filters/CreateFilterPage.jsx */ "./src/Components/Pages/Filters/CreateFilterPage.jsx")));
 const FiltersListPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("src_Components_Pages_Filters_FiltersListPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/Filters/FiltersListPage.jsx */ "./src/Components/Pages/Filters/FiltersListPage.jsx")));
 const ZoomPage = react__WEBPACK_IMPORTED_MODULE_3___default().lazy(() => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_react-spinners_esm_ClipLoader_js-node_modules_react-toastify_dist_index_mjs"), __webpack_require__.e("src_Components_Pages_Integrations_ZoomPage_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./Components/Pages/Integrations/ZoomPage.jsx */ "./src/Components/Pages/Integrations/ZoomPage.jsx")));
@@ -22966,6 +23016,7 @@ const AppRouter = ({
   } = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_8__.useServvStore)();
   const [statusChecked, setStatusChecked] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false);
   const intervalRef = (0,react__WEBPACK_IMPORTED_MODULE_3__.useRef)(null);
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_12__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
     fetchSettings();
     intervalRef.current = setInterval(async () => {
@@ -23036,6 +23087,9 @@ const AppRouter = ({
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "bookings",
           element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(BookingsPage, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+          path: "calendar",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(CalendarPage, {})
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
           path: "filters",
           element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(FiltersPage, {})

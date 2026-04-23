@@ -6,7 +6,7 @@ import { HashRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import LogRocket from "logrocket";
 import Layout from "./Components/Layout/Layout.jsx";
 import "./Components/Layout/Layout.css";
-
+import { useNavigate } from "react-router-dom";
 const EventsListPage = React.lazy(() =>
   import("./Components/Pages/EventsListPage"),
 );
@@ -27,6 +27,9 @@ const AnalyticsPage = React.lazy(() =>
 );
 const BookingsPage = React.lazy(() =>
   import("./Components/Pages/BookingsPage"),
+);
+const CalendarPage = React.lazy(() =>
+  import("./Components/Pages/CalendarPage"),
 );
 const SupportPage = React.lazy(() => import("./Components/Pages/SupportPage"));
 const BrandingPage = React.lazy(() =>
@@ -88,7 +91,7 @@ const AppRouter = ({ restAPIAvailable }) => {
   const { fetchSettings } = useServvStore();
   const [statusChecked, setStatusChecked] = useState(false);
   const intervalRef = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchSettings();
 
@@ -148,6 +151,7 @@ const AppRouter = ({ restAPIAvailable }) => {
           <Route path="events" element={<EventsListPage />} />
 
           <Route path="bookings" element={<BookingsPage />} />
+          <Route path="calendar" element={<CalendarPage />} />
           <Route path="filters" element={<FiltersPage />} />
           <Route path="filters/list/:type" element={<FiltersListPage />} />
           <Route path="filters/new/:type" element={<CreateFilterPage />} />

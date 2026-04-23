@@ -405,4 +405,4 @@ const uploadMedia = async file => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_BrandingStep_jsx.js.map?ver=0a639dfdd73b8493401e
+//# sourceMappingURL=src_Components_CreateEvent_BrandingStep_jsx.js.map?ver=d2b1546747ccce2c1c03

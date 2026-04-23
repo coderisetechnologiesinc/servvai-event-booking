@@ -2383,4 +2383,4 @@ const uploadMedia = async file => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=851ffb456926ca5e4014
+//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=036f0a797d2c007d23df

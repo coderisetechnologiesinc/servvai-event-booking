@@ -225,6 +225,7 @@ const OnboardingFlow = () => {
   const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)();
   const contentRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   const [searchParams, setSearchParams] = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useSearchParams)();
+  const activatePlan = searchParams.has("activate_plan");
 
   // Get initial step from URL or default to first step
   const stepFromUrl = searchParams.get("step");
@@ -301,7 +302,7 @@ const OnboardingFlow = () => {
 
   // Update URL when step changes
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    setSearchParams({
+    if (!activatePlan) setSearchParams({
       step: currentStep
     }, {
       replace: true
@@ -333,13 +334,13 @@ const OnboardingFlow = () => {
       });
     }
     setSynchronization(true);
-    syncGmailAccount();
+    // syncGmailAccount();
     // syncZoomAccount();
-    syncSingleFilterFromServer("locations");
-    syncCalendarAccount();
-    (0,_utilities_stripe__WEBPACK_IMPORTED_MODULE_12__.getStripeAccount)(servvData.nonce).then(account => {
-      if (account?.charges_enabled) setStripeConnected(true);
-    });
+    // syncSingleFilterFromServer("locations");
+    // syncCalendarAccount();
+    // getStripeAccount(servvData.nonce).then((account) => {
+    //   if (account?.charges_enabled) setStripeConnected(true);
+    // });
     setSynchronization(false);
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -593,6 +594,45 @@ const OnboardingFlow = () => {
       });
     }
   }, [currentStep]);
+  if (activatePlan) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Pages_PageWrapper__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      loading: loading,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "create-event",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("main", {
+          className: `create-event__content m-auto ${settings?.is_wp_marketplace ? "marketplace" : ""}`,
+          ref: contentRef,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Suspense), {
+            fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: "step-loading",
+              children: "Loading\u2026"
+            }),
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: "step-slide w-full",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(BillingStep, {
+                attributes: attributes,
+                setAttributes: mergeAttributes,
+                currentStep: "billing",
+                goToNextStep: () => navigate("/dashboard"),
+                goToPreviousStep: () => navigate("/dashboard"),
+                checkingEmail: synchronization,
+                loading: loading,
+                zoomConnected: zoomConnected,
+                isGmailConnected: gmailConnected,
+                stripeConnected: stripeConnected,
+                onConnectGmail: connectGmail,
+                onConnectZoom: connectZoom,
+                onConnectStripe: connectStripe,
+                brandingCompleted: brandingCompleted,
+                settings: settings,
+                onSave: handleBrandingComplete
+              })
+            })
+          })
+        })
+      })
+    });
+  }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_Pages_PageWrapper__WEBPACK_IMPORTED_MODULE_4__["default"], {
     loading: loading,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
@@ -1202,4 +1242,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(R
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Onboarding_OnboardingFlow_jsx.js.map?ver=57574e2fe5050fee6735
+//# sourceMappingURL=src_Components_Onboarding_OnboardingFlow_jsx.js.map?ver=60caf7234fb5bee2e79b

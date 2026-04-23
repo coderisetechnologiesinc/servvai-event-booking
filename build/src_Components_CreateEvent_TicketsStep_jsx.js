@@ -1593,4 +1593,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_TicketsStep_jsx.js.map?ver=aec1192fa84e6f0582db
+//# sourceMappingURL=src_Components_CreateEvent_TicketsStep_jsx.js.map?ver=78e0f0814732c49ebdca

@@ -9,6 +9,7 @@ export { ReactComponent as Settings } from "./Settings.svg";
 export { ReactComponent as Support } from "./Support.svg";
 export { ReactComponent as Widgets } from "./Widgets.svg";
 export { ReactComponent as CalendarIcon } from "./CalendarIcon.svg";
+export { ReactComponent as CalendarIconMenu } from "./CalendarIconMenu.svg";
 export { ReactComponent as MapMarkIcon } from "./MapMarkIcon.svg";
 export { ReactComponent as Filter } from "./Filter.svg";
 export { ReactComponent as BrushIcon } from "./BrushIcon.svg";

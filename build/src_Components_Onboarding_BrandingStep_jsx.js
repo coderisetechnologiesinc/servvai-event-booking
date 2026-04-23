@@ -441,4 +441,4 @@ const uploadMedia = async file => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Onboarding_BrandingStep_jsx.js.map?ver=cb5a637b0e1cec3023be
+//# sourceMappingURL=src_Components_Onboarding_BrandingStep_jsx.js.map?ver=d0ea281e92b40113c8b5
