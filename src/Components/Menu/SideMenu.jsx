@@ -14,6 +14,8 @@ import {
   Support,
   Widgets,
   Dashboard,
+  CalendarIcon,
+  CalendarIconMenu,
 } from "../../assets/icons";
 import { useServvStore } from "../../store/useServvStore";
 /* ---------------------------------------------------------
@@ -51,6 +53,7 @@ const SideBar = ({ page, onChange, collapsed = false, onToggle, t }) => {
         { title: "Dashboard", link: "dashboard", icon: Dashboard },
         { title: "Events", link: "events", icon: Events },
         { title: "Bookings", link: "bookings", icon: Sales },
+        { title: "Calendar", link: "calendar", icon: CalendarIconMenu },
         { title: "Filters", link: "filters", icon: Filters },
         { title: "Integrations", link: "integrations", icon: Contacts },
         // { title: "Branding", link: "branding", icon: Widgets },
@@ -83,6 +86,7 @@ const SideBar = ({ page, onChange, collapsed = false, onToggle, t }) => {
             { title: "Dashboard", link: "dashboard", icon: Dashboard },
             { title: "Events", link: "events", icon: Events },
             { title: "Bookings", link: "bookings", icon: Sales },
+            { title: "Calendar", link: "calendar", icon: CalendarIconMenu },
             { title: "Branding", link: "branding", icon: Widgets },
             { title: "Filters", link: "filters", icon: Filters },
             { title: "Integrations", link: "integrations", icon: Contacts },

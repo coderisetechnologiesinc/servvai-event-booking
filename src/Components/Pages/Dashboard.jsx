@@ -93,6 +93,11 @@ const Dashboard = () => {
       !isFiltersApplied()
     ) {
       navigate("/onboarding");
+    } else if (
+      settings?.is_wp_marketplace &&
+      settings?.current_plan?.id === 1
+    ) {
+      navigate("/onboarding?activate_plan");
     }
   }, [firstFetchDone, zoomConnected, mergedList.length]);
 
@@ -334,7 +339,7 @@ const Dashboard = () => {
               <div className="profile-description">
                 <div className="profile-name">{pw_title}</div>
                 <div className="profile-email">{pw_email}</div>
-                {!settings?.is_wp_is_wp_marketplace && (
+                {!settings?.is_wp_marketplace && (
                   <div className="profile-link">
                     <a
                       className="view-widget"

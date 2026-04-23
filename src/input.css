@@ -1241,7 +1241,7 @@
     transform: scale(1.05);
   }
   .event-action-btn.view {
-    color: #5f6368; /* neutral gray */
+    color: rgb(122, 90, 248); 
   }
 
   .event-action-btn.view:hover {
@@ -3815,6 +3815,161 @@
   .registrants-centered {
     margin-left: 0 !important;
     margin: 0 auto !important;
+  }
+
+  /* ─── Calendar Page ─────────────────────────────────────── */
+  .cal-card {
+    gap: 0;
+    padding-bottom: 40px;
+  }
+
+  .cal-header {
+    margin-bottom: 16px;
+  }
+
+  .cal-divider {
+    margin-bottom: 24px;
+  }
+
+  .cal-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media (min-width: 768px) {
+    .cal-controls {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .cal-search-wrap {
+    min-width: 120px;
+    flex-shrink: 1;
+  }
+
+  .cal-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    gap: 8px;
+  }
+
+  .cal-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    line-height: 1;
+    color: #555;
+    flex-shrink: 0;
+    padding: 0 4px;
+  }
+
+  .cal-nav-title {
+    font-weight: 600;
+    font-size: 16px;
+    min-width: 0;
+    text-align: center;
+    color: rgba(24, 29, 39, 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 2px;
+  }
+
+  .cal-right-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .cal-clear-btn {
+    color: rgba(122, 90, 248, 1);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .cal-grid {
+    display: grid;
+    border: 1px solid #e5e7eb;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .cal-weekday-cell {
+    padding: 3px 4px;
+    border-right: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fafafa;
+    text-align: center;
+  }
+
+  .cal-weekday-label {
+    font-weight: 500;
+    color: #9ca3af;
+  }
+
+  .cal-day-cell {
+    padding: 2px;
+    border-right: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .cal-day-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-bottom: 2px;
+    flex-shrink: 0;
+    padding: 10px;
+  }
+
+  .cal-day-number--today {
+    background: rgba(122, 90, 248, 1);
+    padding: 10px;
+  }
+
+  .cal-day-number--today .cal-day-num-text {
+    color: white;
+    font-weight: 600;
+  }
+
+  .cal-day-scroll {
+    overflow-y: auto;
+  }
+
+  .cal-event-badge {
+    padding: 1px 4px;
+    margin-bottom: 2px;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cal-popover {
+    position: fixed;
+    z-index: 9999;
+    min-width: 280px;
+    max-width: 320px;
   }
 }
 #servv-on-product-widget {

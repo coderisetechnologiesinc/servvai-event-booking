@@ -67,6 +67,8 @@ const OnboardingFlow = () => {
   const contentRef = useRef(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const activatePlan = searchParams.has("activate_plan");
+
   // Get initial step from URL or default to first step
   const stepFromUrl = searchParams.get("step");
   const [brandingCompleted, setBrandingCompleted] = useState(false);
@@ -150,7 +152,8 @@ const OnboardingFlow = () => {
 
   // Update URL when step changes
   useEffect(() => {
-    setSearchParams({ step: currentStep }, { replace: true });
+    if (!activatePlan)
+      setSearchParams({ step: currentStep }, { replace: true });
   }, [currentStep, setSearchParams]);
 
   // Handle returning from redirect (e.g., after email connection)
@@ -178,13 +181,13 @@ const OnboardingFlow = () => {
       setSearchParams(newParams, { replace: true });
     }
     setSynchronization(true);
-    syncGmailAccount();
+    // syncGmailAccount();
     // syncZoomAccount();
-    syncSingleFilterFromServer("locations");
-    syncCalendarAccount();
-    getStripeAccount(servvData.nonce).then((account) => {
-      if (account?.charges_enabled) setStripeConnected(true);
-    });
+    // syncSingleFilterFromServer("locations");
+    // syncCalendarAccount();
+    // getStripeAccount(servvData.nonce).then((account) => {
+    //   if (account?.charges_enabled) setStripeConnected(true);
+    // });
     setSynchronization(false);
   }, []);
 
@@ -507,6 +510,46 @@ const OnboardingFlow = () => {
       });
     }
   }, [currentStep]);
+
+  if (activatePlan) {
+    return (
+      <PageWrapper loading={loading}>
+        <div className="create-event">
+          <main
+            className={`create-event__content m-auto ${
+              settings?.is_wp_marketplace ? "marketplace" : ""
+            }`}
+            ref={contentRef}
+          >
+            <React.Suspense
+              fallback={<div className="step-loading">Loading…</div>}
+            >
+              <div className="step-slide w-full">
+                <BillingStep
+                  attributes={attributes}
+                  setAttributes={mergeAttributes}
+                  currentStep="billing"
+                  goToNextStep={() => navigate("/dashboard")}
+                  goToPreviousStep={() => navigate("/dashboard")}
+                  checkingEmail={synchronization}
+                  loading={loading}
+                  zoomConnected={zoomConnected}
+                  isGmailConnected={gmailConnected}
+                  stripeConnected={stripeConnected}
+                  onConnectGmail={connectGmail}
+                  onConnectZoom={connectZoom}
+                  onConnectStripe={connectStripe}
+                  brandingCompleted={brandingCompleted}
+                  settings={settings}
+                  onSave={handleBrandingComplete}
+                />
+              </div>
+            </React.Suspense>
+          </main>
+        </div>
+      </PageWrapper>
+    );
+  }
 
   return (
     <PageWrapper loading={loading}>
