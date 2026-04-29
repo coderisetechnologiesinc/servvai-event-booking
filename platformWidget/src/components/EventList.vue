@@ -32,19 +32,19 @@ const widgetSettings = computed(() => {
 const contentOrder = computed(() =>
   Array.isArray(widgetSettings.value.pw_content_order)
     ? widgetSettings.value.pw_content_order
-    : ["events", "links", "videos"],
+    : ["events", "links", "videos"]
 );
 
 const links = computed(() =>
   Array.isArray(widgetSettings.value.pw_links)
     ? widgetSettings.value.pw_links
-    : [],
+    : []
 );
 
 const videos = computed(() =>
   Array.isArray(widgetSettings.value.pw_youtube_videos)
     ? widgetSettings.value.pw_youtube_videos
-    : [],
+    : []
 );
 
 onMounted(async () => {
@@ -68,7 +68,7 @@ watch(
   () => eventsStore.meetingsList.meetings,
   (newVal) => {
     eventsList.value = newVal || [];
-  },
+  }
 );
 </script>
 
@@ -167,8 +167,8 @@ watch(
 @media screen and (max-width: 480px) {
   .section-container {
     max-width: 100%;
-    min-width: calc(100vw - 10px);
-    width: calc(100vw - 10px);
+    min-width: calc(100vw - 2px);
+    width: calc(100vw - 2px);
   }
 }
 

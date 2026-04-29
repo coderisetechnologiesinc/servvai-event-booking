@@ -36,6 +36,10 @@ const ThemeBrandingModal = ({
   setTextColor,
   textOpacity,
   setTextOpacity,
+  headerTextColor,
+  setHeaderTextColor,
+  headerTextOpacity,
+  setHeaderTextOpacity,
 
   /* ---------------- WIDGET BACKGROUND ---------------- */
   widgetBgType,
@@ -131,6 +135,46 @@ const ThemeBrandingModal = ({
             </div>
             <p className="text-xs text-gray-500 mt-1">
               Adjust the color and opacity of widget text.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium text-gray-800 mb-1">
+              Header text color
+            </p>
+            <InlineStack gap={3} align="center">
+              <input
+                type="color"
+                value={headerTextColor}
+                onChange={(e) => setHeaderTextColor(e.target.value)}
+                className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
+              />
+              <InputFieldControl
+                placeholder="#111827"
+                value={headerTextColor}
+                onChange={setHeaderTextColor}
+              />
+            </InlineStack>
+
+            {/* Text Opacity Slider */}
+            <div className="mt-3">
+              <p className="text-sm font-medium text-gray-700 mb-1">
+                Text opacity: {Math.round(headerTextOpacity * 100)}%
+              </p>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={headerTextOpacity}
+                onChange={(e) =>
+                  setHeaderTextOpacity(parseFloat(e.target.value))
+                }
+                className="w-full"
+              />
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              Adjust the header text’s color and opacity.
             </p>
           </div>
 

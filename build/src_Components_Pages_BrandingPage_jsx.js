@@ -1050,6 +1050,10 @@ const ThemeBrandingModal = ({
   setTextColor,
   textOpacity,
   setTextOpacity,
+  headerTextColor,
+  setHeaderTextColor,
+  headerTextOpacity,
+  setHeaderTextOpacity,
   /* ---------------- WIDGET BACKGROUND ---------------- */
   widgetBgType,
   setWidgetBgType,
@@ -1132,6 +1136,41 @@ const ThemeBrandingModal = ({
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
             className: "text-xs text-gray-500 mt-1",
             children: "Adjust the color and opacity of widget text."
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
+            className: "text-sm font-medium text-gray-800 mb-1",
+            children: "Header text color"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Containers_InlineStack__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            gap: 3,
+            align: "center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+              type: "color",
+              value: headerTextColor,
+              onChange: e => setHeaderTextColor(e.target.value),
+              className: "w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              placeholder: "#111827",
+              value: headerTextColor,
+              onChange: setHeaderTextColor
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+            className: "mt-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("p", {
+              className: "text-sm font-medium text-gray-700 mb-1",
+              children: ["Text opacity: ", Math.round(headerTextOpacity * 100), "%"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+              type: "range",
+              min: "0",
+              max: "1",
+              step: "0.01",
+              value: headerTextOpacity,
+              onChange: e => setHeaderTextOpacity(parseFloat(e.target.value)),
+              className: "w-full"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
+            className: "text-xs text-gray-500 mt-1",
+            children: "Adjust the header text\u2019s color and opacity."
           })]
         }), bgType === "color" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
@@ -1598,6 +1637,8 @@ const BrandingPage = () => {
   const [bgUploading, setBgUploading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [textColor, setTextColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#121633");
   const [textOpacity, setTextOpacity] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0.5);
+  const [headerTextColor, setHeaderTextColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#121633");
+  const [headerTextOpacity, setHeaderTextOpacity] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0.5);
   const [widgetBgType, setWidgetBgType] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("color");
   const [widgetBgColor, setWidgetBgColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#ffffff");
   const [widgetBgGradient, setWidgetBgGradient] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("linear-gradient(135deg, #ffffff, #f3f4f6)");
@@ -1608,7 +1649,7 @@ const BrandingPage = () => {
   ====================================================== */
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    var _w$pw_background_opac, _w$pw_text_opacity;
+    var _w$pw_background_opac, _w$pw_text_opacity, _w$pw_header_text_opa;
     if (!settings?.settings?.widget_style_settings) return;
     let w = settings.settings.widget_style_settings;
     if (typeof w === "string") {
@@ -1647,6 +1688,8 @@ const BrandingPage = () => {
     setBackgroundGradient(w.pw_background_gradient || backgroundGradient);
     setTextColor(w.pw_text_color || "#121633");
     setTextOpacity((_w$pw_text_opacity = w.pw_text_opacity) !== null && _w$pw_text_opacity !== void 0 ? _w$pw_text_opacity : 0.5);
+    setHeaderTextColor(w.pw_header_text_color || "#121633");
+    setHeaderTextOpacity((_w$pw_header_text_opa = w.pw_header_text_opacity) !== null && _w$pw_header_text_opa !== void 0 ? _w$pw_header_text_opa : 0.5);
     setWidgetBgType(w.pw_widget_bg_type || "color");
     setWidgetBgColor(w.pw_widget_bg_color || "#ffffff");
     setWidgetBgGradient(w.pw_widget_bg_gradient || widgetBgGradient);
@@ -1778,6 +1821,8 @@ const BrandingPage = () => {
       pw_background_gradient: backgroundGradient,
       pw_text_color: textColor,
       pw_text_opacity: textOpacity,
+      pw_header_text_color: headerTextColor,
+      pw_header_text_opacity: headerTextOpacity,
       pw_widget_bg_type: widgetBgType,
       pw_widget_bg_color: widgetBgColor,
       pw_widget_bg_gradient: widgetBgGradient
@@ -1946,6 +1991,10 @@ const BrandingPage = () => {
                 setTextColor: setTextColor,
                 textOpacity: textOpacity,
                 setTextOpacity: setTextOpacity,
+                headerTextColor: headerTextColor,
+                setHeaderTextColor: setHeaderTextColor,
+                headerTextOpacity: headerTextOpacity,
+                setHeaderTextOpacity: setHeaderTextOpacity,
                 widgetBgType: widgetBgType,
                 setWidgetBgType: setWidgetBgType,
                 widgetBgColor: widgetBgColor,
@@ -2383,4 +2432,4 @@ const uploadMedia = async file => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=036f0a797d2c007d23df
+//# sourceMappingURL=src_Components_Pages_BrandingPage_jsx.js.map?ver=a77ce430d2b20801b407

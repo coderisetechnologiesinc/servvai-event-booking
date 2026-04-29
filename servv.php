@@ -537,6 +537,11 @@ add_action('wp_enqueue_scripts', 'servv_load_vue_scripts');
 add_shortcode('servvai', 'servv_widget_shortcode');
 
 function servv_load_vue_scripts() {
+    global $post;
+    if (!is_a($post, 'WP_Post') || !has_shortcode($post->post_content, 'servvai')) {
+        return;
+    }
+
     $plugin_base_url = plugin_dir_url(__FILE__) . 'widget/dist/';
     $plugin_dir = plugin_dir_path(__FILE__) . 'widget/dist/';
 

@@ -520,7 +520,7 @@ const PaymentForm = () => {
   };
   const getSettings = async () => {
     const params = new URLSearchParams();
-    params.append("security", servvAjax.nonce);
+    params.append("security", servvCheckoutData.nonce);
     params.append("action", "servv_get_shop_settings");
 
     try {

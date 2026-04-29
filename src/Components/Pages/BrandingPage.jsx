@@ -75,6 +75,8 @@ const BrandingPage = () => {
 
   const [textColor, setTextColor] = useState("#121633");
   const [textOpacity, setTextOpacity] = useState(0.5);
+  const [headerTextColor, setHeaderTextColor] = useState("#121633");
+  const [headerTextOpacity, setHeaderTextOpacity] = useState(0.5);
 
   const [widgetBgType, setWidgetBgType] = useState("color");
   const [widgetBgColor, setWidgetBgColor] = useState("#ffffff");
@@ -141,6 +143,8 @@ const BrandingPage = () => {
 
     setTextColor(w.pw_text_color || "#121633");
     setTextOpacity(w.pw_text_opacity ?? 0.5);
+    setHeaderTextColor(w.pw_header_text_color || "#121633");
+    setHeaderTextOpacity(w.pw_header_text_opacity ?? 0.5);
 
     setWidgetBgType(w.pw_widget_bg_type || "color");
     setWidgetBgColor(w.pw_widget_bg_color || "#ffffff");
@@ -296,6 +300,8 @@ const BrandingPage = () => {
 
       pw_text_color: textColor,
       pw_text_opacity: textOpacity,
+      pw_header_text_color: headerTextColor,
+      pw_header_text_opacity: headerTextOpacity,
 
       pw_widget_bg_type: widgetBgType,
       pw_widget_bg_color: widgetBgColor,
@@ -522,6 +528,10 @@ const BrandingPage = () => {
                   setTextColor={setTextColor}
                   textOpacity={textOpacity}
                   setTextOpacity={setTextOpacity}
+                  headerTextColor={headerTextColor}
+                  setHeaderTextColor={setHeaderTextColor}
+                  headerTextOpacity={headerTextOpacity}
+                  setHeaderTextOpacity={setHeaderTextOpacity}
                   widgetBgType={widgetBgType}
                   setWidgetBgType={setWidgetBgType}
                   widgetBgColor={widgetBgColor}

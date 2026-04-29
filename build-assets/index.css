@@ -7210,6 +7210,10 @@ input.servv-input__native.servv-input__native--center {
   max-height: 15rem;
 }
 
+.max-h-\[180px\] {
+  max-height: 180px;
+}
+
 .max-h-\[85vh\] {
   max-height: 85vh;
 }
@@ -9627,6 +9631,10 @@ input.servv-input__native.servv-input__native--center {
 
 .opacity-50 {
   opacity: 0.5;
+}
+
+.opacity-60 {
+  opacity: 0.6;
 }
 
 .opacity-\[0\.5\] {

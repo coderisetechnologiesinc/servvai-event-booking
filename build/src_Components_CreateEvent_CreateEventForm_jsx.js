@@ -1329,10 +1329,11 @@ const updateEvent = async (postId, data, occurrenceId = null) => {
   return response.data;
 };
 const getFeaturedImage = async (postId, signal = null) => {
-  const WP_API_BASE = `${servvData.restUrl}wp/v2/posts`;
+  const WP_API_BASE = `/wp-json/wp/v2/posts`;
   const res = await fetch(`${WP_API_BASE}/${postId}?_embed`, {
     signal
   });
+  console.log(res);
   if (!res.ok) throw new Error("Failed to fetch post");
   const post = await res.json();
   return post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null;
@@ -1513,4 +1514,4 @@ module.exports = __webpack_require__.p + "images/logo.b4e524fb.png";
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=5709322eefc2d2aa8d08
+//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=4c610b26ad20a8bd13c5

@@ -262,7 +262,22 @@ const applyBrandingBackground = (branding) => {
 
   document.documentElement.style.setProperty(
     "--color-text-primary",
-    `rgba(${r}, ${g}, ${b}, ${textOpacity})`,
+    `rgba(${r}, ${g}, ${b}, ${textOpacity})`
+  );
+
+  const headerTextColor = branding.pw_header_text_color || "#121633";
+  const headerTextOpacity =
+    typeof branding.pw_header_text_opacity === "number"
+      ? branding.pw_header_text_opacity
+      : 1;
+
+  const hr = parseInt(headerTextColor.slice(1, 3), 16);
+  const hg = parseInt(headerTextColor.slice(3, 5), 16);
+  const hb = parseInt(headerTextColor.slice(5, 7), 16);
+
+  document.documentElement.style.setProperty(
+    "--color-header-text",
+    `rgba(${hr}, ${hg}, ${hb}, ${headerTextOpacity})`
   );
 };
 
@@ -277,7 +292,7 @@ watch(
     const branding = getBranding();
     applyBrandingBackground(branding);
   },
-  { deep: true, immediate: true },
+  { deep: true, immediate: true }
 );
 
 function openLink(url) {
@@ -299,21 +314,21 @@ const widgetSettings = computed(() => {
   }
 });
 const pw_title = computed(
-  () => widgetSettings.value.pw_title || "Our Services",
+  () => widgetSettings.value.pw_title || "Our Services"
 );
 
 const pw_description = computed(
   () =>
-    widgetSettings.value.pw_description || "Professional help for your growth",
+    widgetSettings.value.pw_description || "Professional help for your growth"
 );
 const pw_address = computed(
-  () => widgetSettings.value.pw_address || "New York, USA",
+  () => widgetSettings.value.pw_address || "New York, USA"
 );
 const pw_email = computed(
-  () => widgetSettings.value.pw_email || "info@example.com",
+  () => widgetSettings.value.pw_email || "info@example.com"
 );
 const pw_avatar = computed(
-  () => widgetSettings.value.pw_avatar || defaultAvatar,
+  () => widgetSettings.value.pw_avatar || defaultAvatar
 );
 const hideAvatar = computed(() => {
   return widgetSettings.value.pw_hide_avatar;
@@ -356,8 +371,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
     #731df5 106.42%
   );
 
-  --shadow-cover:
-    0px 20px 24px -4px rgba(10, 13, 18, 0.08),
+  --shadow-cover: 0px 20px 24px -4px rgba(10, 13, 18, 0.08),
     0px 8px 8px -4px rgba(1, 2, 3, 0.03);
   --cover-bg-opacity: 0.3;
 
@@ -619,9 +633,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   padding: 0;
   line-height: 1;
   flex-shrink: 0;
-  transition:
-    background-color 0.18s ease,
-    transform 0.18s ease,
+  transition: background-color 0.18s ease, transform 0.18s ease,
     box-shadow 0.18s ease;
 }
 .s-icon-btn {
@@ -639,9 +651,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   padding: 0;
   line-height: 1;
   flex-shrink: 0;
-  transition:
-    background-color 0.18s ease,
-    transform 0.18s ease,
+  transition: background-color 0.18s ease, transform 0.18s ease,
     box-shadow 0.18s ease;
 }
 
@@ -669,7 +679,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   box-shadow: none;
 }
 .s-icon-btn svg {
-  color: var(--color-text-primary);
+  color: var(--color-header-text);
 }
 .s-icon-btn svg:hover {
   cursor: pointer;
@@ -682,8 +692,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 
 .icon-btn:focus-visible {
   outline: none;
-  box-shadow:
-    0 0 0 2px rgba(115, 29, 245, 0.4),
+  box-shadow: 0 0 0 2px rgba(115, 29, 245, 0.4),
     0 6px 14px -4px rgba(10, 13, 18, 0.25);
 }
 
@@ -725,7 +734,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   font-family: "Inter";
   font-size: 24px;
   font-weight: 800;
-  color: var(--color-text-primary);
+  color: var(--color-header-text);
   margin-block-end: 0;
   margin-block-start: 0;
 }
@@ -735,7 +744,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
 
 #servv-platform-widget p.subtitle {
   font-size: 20px;
-  color: var(--color-text-primary);
+  color: var(--color-header-text);
   margin-block-end: 0;
   margin-block-start: 0;
 
@@ -755,7 +764,7 @@ const pw_youtube = computed(() => widgetSettings.value.pw_youtube || "");
   justify-content: center;
   align-items: center;
   gap: 6px;
-  color: var(--color-text-primary);
+  color: var(--color-header-text);
   opacity: 0.8;
   font-size: 16px;
 }
