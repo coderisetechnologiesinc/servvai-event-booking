@@ -1,10 +1,14 @@
 <template>
-  <div class="text-center section" style="min-height: 832px">
+  <div
+    class="text-center section"
+    style="min-height: 700px; position: relative"
+  >
     <div
       id="calendar-card-portal"
+      :class="{ 'card-animate': cardAnimating }"
       :style="{
-        top: cardPosition.y,
-        left: cardPosition.x,
+        top: cardPosition && cardPosition.y,
+        left: cardPosition && cardPosition.x,
       }"
       v-if="selectedEvent && cardPosition"
     >
@@ -37,24 +41,11 @@
         :get-details-tooltip-content="getDetailsTooltipContent"
         :on-book-event-click="onBookEventClick"
         :event-price="getEventPrice(selectedEvent.customData.event)"
-        :get-currency-symbol-text="
-          getCurrencySymbolText(widgetSettings.currency)
-        "
+        :get-currency-symbol-text="getCurrencySymbolText"
         :shop-currency="widgetSettings.currency"
         :displayed-filters="displayedFilters(selectedEvent.customData.event)"
       />
     </div>
-
-    <!-- <div class="svv-view-controls">
-      <button
-        v-for="mode in viewModes"
-        :key="mode.value"
-        :class="['svv-view-btn', { active: viewMode === mode.value }]"
-        @click="viewMode = mode.value"
-      >
-        {{ mode.label }}
-      </button>
-    </div> -->
 
     <v-calendar
       class="servv-calendar custom-calendar max-w-full"
@@ -113,10 +104,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    onShowMoreDetailsClick: {
-      type: Function,
-      default: () => {},
-    },
     onBookEventClick: {
       type: Function,
       default: () => {},
@@ -124,26 +111,6 @@ export default {
     onEventClick: {
       type: Function,
       default: () => {},
-    },
-    eventDateTime: {
-      type: Object,
-      default: () => {},
-    },
-    moreDetailsLabel: {
-      type: String,
-      default: "",
-    },
-    openDetailsItem: {
-      type: String,
-      default: "",
-    },
-    shopCurrency: {
-      type: String,
-      default: "",
-    },
-    listViewMode: {
-      type: String,
-      default: "list",
     },
   },
   components: {
@@ -157,22 +124,14 @@ export default {
         weekdays: "WWW",
       },
       viewMode: "monthly",
-      viewModes: [
-        { label: "Month", value: "monthly" },
-        { label: "Week", value: "weekly" },
-        { label: "Day", value: "daily" },
-      ],
       selectedEvent: null,
       cardPosition: null,
+      cardAnimating: false,
       productUrl: null,
       showSharingControls: false,
     };
   },
   watch: {
-    value() {
-      this.syncRowsVisibility();
-    },
-
     attributes: {
       deep: true,
       handler() {
@@ -198,11 +157,6 @@ export default {
         ? event.product.image_src
         : "https://servv-images.s3.us-east-2.amazonaws.com/placeholder.png";
     },
-  },
-  created() {
-    // this.$on("fetch-calendar-events", (base) => {
-    //   this.fetchCalendarEvents(base);
-    // });
   },
   methods: {
     ...mapActions({
@@ -259,10 +213,7 @@ export default {
         );
 
         cells.forEach((cell) => {
-          if (!hasInMonth) {
-            cell.remove();
-          }
-          //   cell.style.border = "none";
+          if (!hasInMonth) cell.remove();
         });
       });
     },
@@ -285,7 +236,7 @@ export default {
     eventTimeFormatted(event) {
       const eventDateTime = this.getEventDateTime(event);
       if (!this.widgetSettings.widget_style_settings.time_format_24_hours)
-        return `${eventDateTime.timeSimple} ${eventDateTime.timeDayPart}`;
+        return `${eventDateTime.timeSimple}${eventDateTime.timeDayPart}`;
       return eventDateTime.timeSimple24;
     },
     eventDuration(event) {
@@ -306,10 +257,10 @@ export default {
           return event.dateFull;
       }
     },
-    getCurrencySymbolText(rawCurrency) {
+    getCurrencySymbolText() {
       if (this.widgetSettings.widget_style_settings.currency_format === "sign")
-        return getCurrencySymbol(rawCurrency);
-      return rawCurrency;
+        return getCurrencySymbol(this.widgetSettings.currency);
+      return this.widgetSettings.currency;
     },
     eventProviderLabel(event) {
       switch (event.provider) {
@@ -406,20 +357,65 @@ export default {
       return itemsList;
     },
     async onCalendarEventClick(attr, event) {
+      this.cardAnimating = false;
       this.selectedEvent = attr;
       const target = event.target;
-      const rect = target.getBoundingClientRect();
+      const cell = target.closest(".vc-grid-cell");
+      const cellRect = cell.getBoundingClientRect();
 
-      let calendarContainer = document.querySelector(".custom-calendar");
-      const container = calendarContainer.getBoundingClientRect();
+      const CARD_WIDTH = 250;
 
-      const x = rect.x - 23;
-      const y = rect.y - container.y + 170;
+      this.cardPosition = { x: "-9999px", y: "-9999px" };
+      await this.$nextTick();
 
-      this.cardPosition = {
-        x: x + "px",
-        y: y + "px",
-      };
+      const cardEl = this.$el.querySelector("#calendar-card-portal");
+      const cardInner = cardEl
+        ? cardEl.querySelector(".svv-event-card-item.grid-layout-item")
+        : null;
+      const CARD_HEIGHT = cardInner
+        ? cardInner.offsetHeight
+        : cardEl
+        ? cardEl.offsetHeight
+        : 400;
+
+      const root = this.$el;
+      const rootRect = root.getBoundingClientRect();
+      const scrollTop = root.scrollTop;
+      const scrollLeft = root.scrollLeft;
+
+      const calendarEl = this.$el.querySelector(".custom-calendar");
+      const calendarRect = calendarEl.getBoundingClientRect();
+
+      const cellLeft = cellRect.left - rootRect.left + scrollLeft;
+      const cellRight = cellRect.right - rootRect.left + scrollLeft;
+      const cellTop = cellRect.top - rootRect.top + scrollTop;
+      const cellBottom = cellRect.bottom - rootRect.top + scrollTop;
+
+      const calendarRight = calendarRect.right - rootRect.left + scrollLeft;
+      const calendarBottom = calendarRect.bottom - rootRect.top + scrollTop;
+
+      const overflowRight = cellRight + CARD_WIDTH > calendarRight;
+      const overflowBottom = cellBottom + CARD_HEIGHT > calendarBottom;
+
+      let x, y;
+
+      if (!overflowRight && !overflowBottom) {
+        x = cellRight;
+        y = cellTop;
+      } else if (overflowRight && !overflowBottom) {
+        x = cellLeft - CARD_WIDTH;
+        y = cellTop;
+      } else if (!overflowRight && overflowBottom) {
+        x = cellRight;
+        y = cellBottom - CARD_HEIGHT;
+      } else {
+        x = cellLeft - CARD_WIDTH;
+        y = cellBottom - CARD_HEIGHT;
+      }
+
+      this.cardPosition = { x: x + "px", y: y + "px" };
+      await this.$nextTick();
+      this.cardAnimating = true;
     },
   },
   mounted() {
@@ -434,20 +430,10 @@ export default {
       this._calendarObserver.disconnect();
     }
   },
-  destroyed() {
-    if (!this.openDesktopCalendar) this.setOpenDesktopCalendar(true);
-  },
 };
 </script>
 
 <style lang="scss" scoped>
-.calendar-body {
-  height: auto !important;
-}
-.calendar-body:first-child {
-  height: auto !important;
-  min-height: 675px !important;
-}
 ::v-deep ::-webkit-scrollbar {
   width: 0px;
 }
@@ -455,43 +441,46 @@ export default {
 ::v-deep ::-webkit-scrollbar-track {
   display: none;
 }
+
 .custom-calendar {
-  border-radius: 10px !important;
+  border-radius: 10px;
 }
+
 ::v-deep .vc-grid-cell.hidden-row {
   display: none !important;
 }
 
 ::v-deep .custom-calendar.vc-container {
   $day-border: 1px solid #b8c2cc;
-
   $day-border-highlight: 1px solid #b8c2cc;
   $day-width: 90px;
   $day-height: 120px;
-  $weekday-bg: #f8fafc;
   $weekday-border: 1px solid #eaeaea;
-  $svv_blue_ultra_dark: #5e20db;
 
   border-radius: 10px;
   width: 100%;
+
   .grid {
     margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
   }
+
   .vc-header {
     background-color: transparent;
     padding: 10px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
+
   .vc-weeks {
     padding: 0;
   }
+
   .vc-weekday {
     background-color: transparent;
     border-bottom: $weekday-border;
     border-top: none;
     padding: 5px 0;
   }
+
   .vc-day {
     padding: 0 5px 3px 5px;
     text-align: left;
@@ -499,29 +488,29 @@ export default {
     min-width: $day-width;
     background-color: white;
 
-    // &.weekday-1,
-    // &.weekday-7 {
-    //   background-color: #eff8ff;
-    // }
     &:not(.on-bottom) {
       border-bottom: $day-border;
       &.weekday-1 {
         border-bottom: $day-border-highlight;
       }
     }
+
     &:not(.on-right) {
       border-right: $day-border;
     }
+
     &.svv-vc-event {
-      background-color: var(--servv-primary-color) !important;
+      background-color: var(--svv_blue_ultra_dark) !important;
     }
   }
+
   .vc-day-dots {
     margin-bottom: 5px;
   }
+
   .svv-vc-event {
     background-color: var(--servv-primary-color) !important;
-    color: var(--servv-text-main);
+    color: white;
     border-radius: 3px;
     padding: 4px;
     font-size: 12px;
@@ -533,9 +522,7 @@ export default {
       cursor: pointer;
     }
   }
-  .vc-grid-container {
-    overflow: hidden;
-  }
+
   .svv-day-event-line {
     display: flex;
     flex-direction: row;
@@ -548,13 +535,9 @@ export default {
       margin-right: 0.25em;
     }
   }
-  .svv-day-event-overlay {
-    display: block;
-    position: absolute;
-    width: 300px;
-    background: black;
-    z-index: 10 !important;
-    overflow-y: visible !important;
+
+  .vc-grid-container {
+    overflow: hidden;
   }
 
   .vc-day.on-bottom.weekday-position-1 {
@@ -565,38 +548,24 @@ export default {
     border-bottom-right-radius: 10px;
   }
 }
-.svv-view-controls {
-  display: flex;
-  gap: 4px;
-  justify-content: flex-end;
-  margin-bottom: 8px;
-}
-
-.svv-view-btn {
-  padding: 4px 12px;
-  border: 1px solid #b8c2cc;
-  border-radius: 6px;
-  background: white;
-  font-size: 13px;
-  cursor: pointer;
-
-  &.active {
-    background: #5e20db;
-    color: white;
-    border-color: #5e20db;
-  }
-}
 
 #calendar-card-portal {
   position: absolute !important;
   z-index: 100;
-  width: 250px;
+  width: 205px;
+  transform-origin: top center;
+  opacity: 0;
+  transform: scaleY(1);
+}
+
+#calendar-card-portal.card-animate {
+  animation: card-expand 0.2s ease-out forwards;
 }
 
 .svv-event-card-modal-control {
   position: absolute;
-  right: 14px;
-  top: 14px;
+  right: 7px;
+  top: 7px;
   z-index: 5;
   line-height: 30px;
   display: flex;
@@ -614,6 +583,18 @@ export default {
     align-items: center;
   }
 }
+
+@keyframes card-expand {
+  from {
+    opacity: 0;
+    transform: scaleY(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
 ::v-deep .custom-calendar.vc-container {
   .vc-header {
     color: var(--svv_text_black);
@@ -627,11 +608,11 @@ export default {
 
   .vc-day {
     background-color: #fff;
-
-    // &.weekday-1,
-    // &.weekday-7 {
-    //   background-color: rgba(94, 32, 219, 0.03);
-    // }
+    height: 120px;
+    padding: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .day-label {
@@ -653,37 +634,6 @@ export default {
   .svv-day-event-line {
     color: #fff;
   }
-}
-
-.svv-view-btn {
-  color: var(--svv_text_gray_dark);
-  border-color: var(--svv_text_border_gray);
-  font-weight: 500;
-
-  &.active {
-    background: var(--svv_blue_ultra_dark);
-    color: #fff;
-    border-color: var(--svv_blue_ultra_dark);
-  }
-}
-
-.vc-grid-cell-row-1:not(:has(.vc-day.in-month)),
-.vc-grid-cell-row-2:not(:has(.vc-day.in-month)),
-.vc-grid-cell-row-3:not(:has(.vc-day.in-month)),
-.vc-grid-cell-row-4:not(:has(.vc-day.in-month)),
-.vc-grid-cell-row-5:not(:has(.vc-day.in-month)),
-.vc-grid-cell-row-6:not(:has(.vc-day.in-month)),
-.vc-grid-cell-row-7:not(:has(.vc-day.in-month)) {
-  display: none !important;
-}
-::v-deep .custom-calendar.vc-container {
-  .vc-day {
-    height: 120px;
-    padding: 6px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
 
   .svv-day-wrapper {
     display: flex;
@@ -696,7 +646,6 @@ export default {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-
     padding-right: 2px;
 
     &::-webkit-scrollbar {
@@ -710,27 +659,34 @@ export default {
   }
 }
 
+.vc-grid-cell-row-1:not(:has(.vc-day.in-month)),
+.vc-grid-cell-row-2:not(:has(.vc-day.in-month)),
+.vc-grid-cell-row-3:not(:has(.vc-day.in-month)),
+.vc-grid-cell-row-4:not(:has(.vc-day.in-month)),
+.vc-grid-cell-row-5:not(:has(.vc-day.in-month)),
+.vc-grid-cell-row-6:not(:has(.vc-day.in-month)),
+.vc-grid-cell-row-7:not(:has(.vc-day.in-month)) {
+  display: none !important;
+}
+
 ::v-deep
   .vc-weeks:not(:has(.vc-grid-cell-row-6 .in-month))
   .vc-grid-cell-row-6 {
   display: none !important;
 }
-// ::v-deep
-//   .vc-weeks:not(:has(.vc-grid-cell-row-1 .in-month))
-//   .vc-grid-cell-row-1 {
-//   display: none !important;
-// }
 
 ::v-deep
   .vc-weeks:not(:has(.vc-grid-cell-row-5 .in-month))
   .vc-grid-cell-row-5 {
   display: none !important;
 }
+
 ::v-deep .custom-calendar.vc-container {
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid #b8c2cc;
 }
+
 ::v-deep .vc-weeks > .vc-grid-cell:nth-last-child(-n + 7) .vc-day {
   border-bottom: none !important;
 }

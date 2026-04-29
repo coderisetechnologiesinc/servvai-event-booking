@@ -205,26 +205,57 @@ const BrandingStep = ({
       });
     }
   };
-  const updateImage = (key, value) => {
-    setAttributes({
-      image_content: value
-    });
-  };
-  const uploadImageToMediaLibrary = async file => {
-    try {
-      return await (0,_utilities_media__WEBPACK_IMPORTED_MODULE_1__.uploadMedia)(file);
-    } catch (err) {
-      console.error(err);
-      alert("Image upload failed");
-      return null;
-    }
-  };
+
+  // const uploadImageToMediaLibrary = async (file) => {
+  //   try {
+  //     return await uploadMedia(file);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Image upload failed");
+  //     return null;
+  //   }
+  // };
+  const compressImage = dataUrl => new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let {
+        width,
+        height
+      } = img;
+      const MAX_DIM = 1200;
+      if (width > MAX_DIM || height > MAX_DIM) {
+        const ratio = Math.min(MAX_DIM / width, MAX_DIM / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      const b64Bytes = url => Math.ceil((url.length - url.indexOf(",") - 1) * 3 / 4);
+      let lo = 0.05,
+        hi = 0.9,
+        best = canvas.toDataURL("image/jpeg", 0.7);
+      for (let i = 0; i < 10; i++) {
+        const mid = (lo + hi) / 2;
+        const out = canvas.toDataURL("image/jpeg", mid);
+        const size = b64Bytes(out);
+        best = out;
+        if (size > 100 * 1024) hi = mid;else if (size < 50 * 1024) lo = mid;else break;
+      }
+      resolve(best);
+    };
+    img.src = dataUrl;
+  });
   const handleImageChange = file => {
     if (!file) return;
     setUploading(true);
     const reader = new FileReader();
-    reader.onloadend = () => {
-      const dataUrl = reader.result;
+    reader.onloadend = async () => {
+      let dataUrl = reader.result;
+      if (file.size > 100 * 1024) {
+        dataUrl = await compressImage(dataUrl);
+      }
       setImagePreview(dataUrl);
       setAttributes({
         image_content: dataUrl
@@ -316,15 +347,7 @@ const BrandingStep = ({
         }), imagePreview && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
           src: imagePreview,
           alt: "Preview",
-          style: {
-            marginTop: 12,
-            width: "100%",
-            maxWidth: "384px",
-            maxHeight: 180,
-            objectFit: "cover",
-            borderRadius: 8,
-            opacity: uploading ? 0.6 : 1
-          }
+          className: `mt-3 w-full max-h-[180px] object-cover rounded-lg ${uploading ? "opacity-60" : "opacity-100"}`
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "step__content_delimeter"
@@ -405,4 +428,4 @@ const uploadMedia = async file => {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_BrandingStep_jsx.js.map?ver=d2b1546747ccce2c1c03
+//# sourceMappingURL=src_Components_CreateEvent_BrandingStep_jsx.js.map?ver=90b7fa9bc16c1f8151bc
