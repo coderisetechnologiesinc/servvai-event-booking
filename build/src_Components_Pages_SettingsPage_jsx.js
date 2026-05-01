@@ -2820,7 +2820,7 @@ const SettingsPage = () => {
       await getSettings();
       await getBillingPlans();
       await getN8nSettings();
-      if (settings?.current_plan?.id !== 1) {
+      if (settings.current_plan && settings?.current_plan?.id !== 1) {
         await getZoomAccount();
         await getStripeAccount();
       }
@@ -2830,7 +2830,7 @@ const SettingsPage = () => {
       getSettings();
       getBillingPlans();
       getN8nSettings();
-      if (settings?.current_plan?.id !== 1) {
+      if (settings.curent_plan && settings?.current_plan?.id !== 1) {
         getZoomAccount();
         getStripeAccount();
       }
@@ -5106,4 +5106,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=d0cb51a6caa743f4dbe1
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=14917b2fa384d34b99d1

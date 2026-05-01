@@ -20,10 +20,10 @@ export const useFiltersStore = defineStore("filters", () => {
 
     try {
       const params = new URLSearchParams();
-      params.append("security", servvAjax.nonce);
+      params.append("security", servvPlatformAjax.nonce);
       params.append("action", "servv_get_types_list");
 
-      const response = await axios.post(servvAjax.ajax_url, params);
+      const response = await axios.post(servvPlatformAjax.ajax_url, params);
       if (response.status !== 200 || !response.data) return;
 
       /**

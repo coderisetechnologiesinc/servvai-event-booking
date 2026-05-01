@@ -95,7 +95,7 @@ const Dashboard = () => {
       navigate("/onboarding");
     } else if (
       settings?.is_wp_marketplace &&
-      settings?.current_plan?.id === 1
+      (settings?.current_plan?.id === 1 || !settings.current_plan)
     ) {
       navigate("/onboarding?activate_plan");
     }

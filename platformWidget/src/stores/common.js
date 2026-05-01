@@ -55,11 +55,11 @@ export const useCommonStore = defineStore("common", () => {
       const params = new URLSearchParams();
       params.append(
         "security",
-        window.__SERVV_STATIC__?.nonce || servvAjax?.nonce,
+        window.__SERVV_STATIC__?.nonce || servvPlatformAjax?.nonce,
       );
       params.append("action", "servv_get_shop_settings");
 
-      const response = await axios.post(servvAjax?.ajax_url, params);
+      const response = await axios.post(servvPlatformAjax?.ajax_url, params);
 
       if (response.status !== 200) return;
 

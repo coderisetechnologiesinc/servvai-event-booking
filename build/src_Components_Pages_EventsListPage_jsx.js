@@ -2409,7 +2409,7 @@ const EventsListPage = ({
   const handleCreateNewEvent = () => {
     if (servvData.gutenberg_active) navigate("/events/new", "_top");else react_toastify__WEBPACK_IMPORTED_MODULE_18__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
   };
-  const typeButtons = zoomConnected && settings?.current_plan?.id !== 1 ? [t("Events"), "Zoom", t("All")] : null;
+  const typeButtons = zoomConnected && settings.current_plan && settings?.current_plan?.id !== 1 ? [t("Events"), "Zoom", t("All")] : null;
   const activeTypeLabel = eventType === "offline" ? t("Events") : eventType === "zoom" ? "Zoom" : t("All");
   const handleTypeLabel = label => {
     if (label === "Zoom") handleTypeChange("zoom");else if (label === t("All")) handleTypeChange("all");else handleTypeChange("offline");
@@ -3870,4 +3870,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=8c96c2abf4d432533718
+//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=60d8e486cafe1c0e711a

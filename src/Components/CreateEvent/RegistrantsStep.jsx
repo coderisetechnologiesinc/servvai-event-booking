@@ -45,7 +45,8 @@ const RegistrantsStep = ({
     attributes?.regPagination?.total_records || totalPages * PAGE_SIZE;
 
   const paginatedRegistrants = visibleRegistrants;
-  const isAddRegistrantDisabled = settings?.current_plan?.id === 1;
+  const isAddRegistrantDisabled =
+    settings?.current_plan?.id === 1 || !settings.current_plan;
   const { id } = useParams();
   const location = useLocation();
 

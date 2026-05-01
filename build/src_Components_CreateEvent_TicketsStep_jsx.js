@@ -1341,7 +1341,7 @@ const TicketsStep = ({
                   end_datetime: undefined
                 } : {})
               }),
-              disabled: settings?.current_plan?.id === 1
+              disabled: settings?.current_plan?.id === 1 || !settings.current_plan
             })]
           }), activeTicket?.availability === "scheduled" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "servv_ticket_sales_block",
@@ -1593,4 +1593,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_TicketsStep_jsx.js.map?ver=78e0f0814732c49ebdca
+//# sourceMappingURL=src_Components_CreateEvent_TicketsStep_jsx.js.map?ver=f9bbad7bd8d8bb760d7f

@@ -933,7 +933,7 @@ function servv_load_platformwidget_scripts() {
         $handle,
         'window.servvPlatformAjax = ' . wp_json_encode([
             'ajax_url'   => admin_url('admin-ajax.php'),
-            'nonce'      => wp_create_nonce('servv_platform_nonce'),
+            'nonce'      => wp_create_nonce('payment_nonce'),
             'assets_url' => $assets_url,
             'base_url'   => $plugin_root_url . 'platformWidget/dist/',
         ]) . ';' . "\n" .
