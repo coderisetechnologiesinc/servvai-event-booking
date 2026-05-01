@@ -370,7 +370,7 @@ const RegistrantsStep = ({
   const totalPages = attributes?.regPagination?.pageCount || 1;
   const totalRecords = attributes?.regPagination?.total_records || totalPages * PAGE_SIZE;
   const paginatedRegistrants = visibleRegistrants;
-  const isAddRegistrantDisabled = settings?.current_plan?.id === 1;
+  const isAddRegistrantDisabled = settings?.current_plan?.id === 1 || !settings.current_plan;
   const {
     id
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useParams)();
@@ -1265,4 +1265,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_RegistrantsStep_jsx.js.map?ver=dc70ed4f4a8398bb4180
+//# sourceMappingURL=src_Components_CreateEvent_RegistrantsStep_jsx.js.map?ver=7c57a21ca10a624269c8

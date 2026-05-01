@@ -931,7 +931,10 @@ const TicketsStep = ({
                             : {}),
                         })
                       }
-                      disabled={settings?.current_plan?.id === 1}
+                      disabled={
+                        settings?.current_plan?.id === 1 ||
+                        !settings.current_plan
+                      }
                     />
                   </div>
                 }

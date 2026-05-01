@@ -88,14 +88,12 @@ export const useEventsStore = defineStore("events", () => {
         // await Promise.all(uniquePostIds.map((id) => fetchImageByPostId(id)));
 
         processed = processed.map((meeting) => {
-          const image = meeting?.image_url
+          const image = meeting?.image_url;
           return {
             ...meeting,
             featuredImage: image ? image || null : null,
           };
         });
-
-
 
         window.__SERVV_ALL_MEETINGS__ = processed;
       }
@@ -130,7 +128,7 @@ export const useEventsStore = defineStore("events", () => {
       const searchDate = date || selectedDate.value;
 
       const params = new URLSearchParams();
-      params.append("security", servvAjax.nonce);
+      params.append("security", servvPlatformAjax.nonce);
       params.append("action", "servv_get_events_filtered_list");
       params.append("page", page);
       params.append("without_occurrences", true);
@@ -148,7 +146,7 @@ export const useEventsStore = defineStore("events", () => {
         }
       }
 
-      const response = await axios.post(servvAjax.ajax_url, params);
+      const response = await axios.post(servvPlatformAjax.ajax_url, params);
 
       if (response?.status === 200 && response?.data?.meetings) {
         pagination.value = {

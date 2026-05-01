@@ -148,7 +148,7 @@ const SettingsPage = () => {
     if (settings.translations === undefined) {
       settings.translations = mergeTranslations(
         getTranslationsTpl(),
-        settings?.settings?.widget_style_settings?.translations || {}
+        settings?.settings?.widget_style_settings?.translations || {},
       );
     }
     return settings;
@@ -175,7 +175,7 @@ const SettingsPage = () => {
     if (!newSettings?.settings?.admin_dashboard?.default_start_time) {
       validatedSettings.settings.admin_dashboard.default_start_time = moment(
         "10:00 am",
-        "hh:mm a"
+        "hh:mm a",
       ).format("hh:mm a");
     }
     if (!newSettings?.settings?.admin_dashboard?.default_price) {
@@ -205,7 +205,7 @@ const SettingsPage = () => {
 
     validatedSettings.settings.widget_style_settings =
       await validateWidgetSettings(
-        validatedSettings.settings.widget_style_settings
+        validatedSettings.settings.widget_style_settings,
       );
 
     const baseTabs = [
@@ -245,7 +245,7 @@ const SettingsPage = () => {
     setLoading(true);
     const getN8nResponse = await axios.get(
       "/wp-json/servv-plugin/v1/n8n/settings",
-      { headers: { "X-WP-Nonce": servvData.nonce } }
+      { headers: { "X-WP-Nonce": servvData.nonce } },
     );
     if (getN8nResponse?.status === 200) {
       setN8nSettings(getN8nResponse.data);
@@ -290,7 +290,7 @@ const SettingsPage = () => {
   const getSettings = async () => {
     const getSettingsResponse = await axios(
       "/wp-json/servv-plugin/v1/shop/info",
-      { headers: { "X-WP-Nonce": servvData.nonce } }
+      { headers: { "X-WP-Nonce": servvData.nonce } },
     ).catch(() => toast("Servv unable to fetch settings."));
 
     if (getSettingsResponse?.status === 200) {
@@ -301,7 +301,7 @@ const SettingsPage = () => {
   const getBillingPlans = async () => {
     const getBillingPlansResponse = await axios(
       "/wp-json/servv-plugin/v1/shop/paymentplans",
-      { headers: { "X-WP-Nonce": servvData.nonce } }
+      { headers: { "X-WP-Nonce": servvData.nonce } },
     ).catch(() => toast("Servv unable to fetch billing plans."));
 
     if (getBillingPlansResponse?.status === 200) {
@@ -312,7 +312,7 @@ const SettingsPage = () => {
   const getZoomAccount = async () => {
     const getZoomAccountResponse = await axios.get(
       "/wp-json/servv-plugin/v1/zoom/account",
-      { headers: { "X-WP-Nonce": servvData.nonce } }
+      { headers: { "X-WP-Nonce": servvData.nonce } },
     );
     if (getZoomAccountResponse?.status === 200) {
       setZoomAccount(getZoomAccountResponse.data);
@@ -322,7 +322,7 @@ const SettingsPage = () => {
   const getStripeAccount = async () => {
     const getStripeAccountResponse = await axios.get(
       "/wp-json/servv-plugin/v1/stripe/account",
-      { headers: { "X-WP-Nonce": servvData.nonce } }
+      { headers: { "X-WP-Nonce": servvData.nonce } },
     );
     if (getStripeAccountResponse?.status === 200) {
       setStripeAccount(getStripeAccountResponse.data);
@@ -334,13 +334,13 @@ const SettingsPage = () => {
 
   const translations = mergeTranslations(
     getTranslationsTpl(),
-    settings?.settings?.widget_style_settings?.translations || {}
+    settings?.settings?.widget_style_settings?.translations || {},
   );
 
   const getDefaultWidgetLanguageName = () => {
     const fullList = getLanguagesList();
     const langCode = fullList.filter(
-      (lang) => lang.value === defaultWidgetLanguage
+      (lang) => lang.value === defaultWidgetLanguage,
     )[0]?.label;
     return langCode || "English";
   };
@@ -357,7 +357,7 @@ const SettingsPage = () => {
           ...settings.settings,
           admin_dashboard: JSON.stringify(settings.settings.admin_dashboard),
           widget_style_settings: JSON.stringify(
-            settings.settings.widget_style_settings
+            settings.settings.widget_style_settings,
           ),
         },
       },
@@ -390,7 +390,7 @@ const SettingsPage = () => {
       await getSettings();
       await getBillingPlans();
       await getN8nSettings();
-      if (settings?.current_plan?.id !== 1) {
+      if (settings.current_plan && settings?.current_plan?.id !== 1) {
         await getZoomAccount();
         await getStripeAccount();
       }
@@ -400,7 +400,7 @@ const SettingsPage = () => {
       getSettings();
       getBillingPlans();
       getN8nSettings();
-      if (settings?.current_plan?.id !== 1) {
+      if (settings.curent_plan && settings?.current_plan?.id !== 1) {
         getZoomAccount();
         getStripeAccount();
       }
@@ -425,7 +425,7 @@ const SettingsPage = () => {
   const handleTimezoneChange = (zone) => {
     let currentSettings = { ...settings };
     let currentSelectedTimezone = timezones.findIndex(
-      (timezone) => timezone.name === zone
+      (timezone) => timezone.name === zone,
     );
     if (currentSelectedTimezone >= 0) {
       currentSettings.settings.admin_dashboard.default_timezone =
@@ -441,7 +441,10 @@ const SettingsPage = () => {
     setDefaultEndTime(
       newVal
         .clone()
-        .add(currentSettings.settings.admin_dashboard.default_duration, "hours")
+        .add(
+          currentSettings.settings.admin_dashboard.default_duration,
+          "hours",
+        ),
     );
     setSettings(currentSettings);
   };
@@ -450,7 +453,7 @@ const SettingsPage = () => {
     let currentSettings = { ...settings };
     let startTime = moment(
       currentSettings.settings.admin_dashboard.default_start_time,
-      "hh:mm a"
+      "hh:mm a",
     );
 
     const base = moment().startOf("day");
@@ -492,7 +495,7 @@ const SettingsPage = () => {
     currentSettings.settings.admin_dashboard.default_duration = duration + 1;
     const newTime = moment(
       currentSettings.settings.admin_dashboard.default_start_time,
-      "hh:mm a"
+      "hh:mm a",
     );
     setDefaultEndTime(newTime.clone().add(duration + 1, "hours"));
     setSettings(currentSettings);
@@ -566,7 +569,7 @@ const SettingsPage = () => {
     if (settings?.settings?.admin_dashboard?.default_start_time) {
       return moment(
         settings.settings.admin_dashboard.default_start_time,
-        "hh:mm a"
+        "hh:mm a",
       );
     }
     return moment("10:00 am", "hh:mm a");
@@ -668,7 +671,7 @@ const SettingsPage = () => {
     ) {
       let newTime = moment(
         settings.settings.admin_dashboard.default_start_time,
-        "hh:mm a"
+        "hh:mm a",
       );
       newTime.add(settings.settings.admin_dashboard.default_duration, "hours");
       return newTime;
@@ -705,14 +708,15 @@ const SettingsPage = () => {
     pageSizes
       .map((opt) => opt.value)
       .indexOf(
-        settings.settings.widget_style_settings.ew_events_list_page_size_default
+        settings.settings.widget_style_settings
+          .ew_events_list_page_size_default,
       ) >= 0
       ? pageSizes[
           pageSizes
             .map((opt) => opt.value)
             .indexOf(
               settings.settings.widget_style_settings
-                .ew_events_list_page_size_default
+                .ew_events_list_page_size_default,
             )
         ].label
       : "12 items";
@@ -760,7 +764,7 @@ const SettingsPage = () => {
         key={index}
         label={filter}
         checked={selectedFilters.some(
-          (f) => f.toLowerCase() === filter.toLowerCase()
+          (f) => f.toLowerCase() === filter.toLowerCase(),
         )}
         onChange={() => handleSelectedFilterChange(filter.toLowerCase())}
       />

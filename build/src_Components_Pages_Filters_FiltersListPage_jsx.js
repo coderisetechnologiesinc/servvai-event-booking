@@ -727,7 +727,7 @@ function FiltersListPage() {
     setMaxFiltersNumber(maxFilters);
     const totalFilters = Object.values(filtersList).reduce((total, arr) => total + (arr?.length || 0), 0);
     setIsLimitReached(totalFilters >= maxFilters);
-    if (settings?.current_plan?.id !== 1) {
+    if (settings?.current_plan?.id !== 1 || !settings.current_plan) {
       let newFiltersList = defaultFiltersList;
       newFiltersList.push("Members");
       setDefaultFiltersList(newFiltersList);
@@ -1072,4 +1072,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(P
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Filters_FiltersListPage_jsx.js.map?ver=38638234af9e7b7e02ad
+//# sourceMappingURL=src_Components_Pages_Filters_FiltersListPage_jsx.js.map?ver=1a9eff8420729843f90e

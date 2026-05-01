@@ -930,7 +930,7 @@ const EventsListPage = ({
   };
 
   const typeButtons =
-    zoomConnected && settings?.current_plan?.id !== 1
+    zoomConnected && settings.current_plan && settings?.current_plan?.id !== 1
       ? [t("Events"), "Zoom", t("All")]
       : null;
 

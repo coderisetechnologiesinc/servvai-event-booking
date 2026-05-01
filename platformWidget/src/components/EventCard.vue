@@ -104,7 +104,7 @@ const onEventClick = () => {
         ? baseUrl
         : `https://${baseUrl}`;
       const postUrl = `${origin}/index.php?page_id=${props.post}`;
-      window.open(postUrl, "_blank");
+      window.open(postUrl, "_top");
     }
   }
 };

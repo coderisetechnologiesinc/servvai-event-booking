@@ -62,7 +62,7 @@ const FiltersPage = () => {
       0,
     );
     setIsLimitReached(totalFilters >= maxFilters);
-    if (settings?.current_plan?.id !== 1) {
+    if (settings?.current_plan?.id !== 1 || !settings.current_plan) {
       let newFiltersList = defaultFiltersList;
       newFiltersList.push("Members");
       setDefaultFiltersList(newFiltersList);

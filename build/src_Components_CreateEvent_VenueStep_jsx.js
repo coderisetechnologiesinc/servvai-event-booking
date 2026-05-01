@@ -854,6 +854,7 @@ const VenueStep = ({
   isOnboarding,
   setFullWidth
 }) => {
+  var _filtersList$location;
   const filtersList = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_9__.useServvStore)(s => s.filtersList);
   const locationId = attributes?.filters?.location_id || "";
   const customFields = attributes.custom_fields || {};
@@ -876,11 +877,11 @@ const VenueStep = ({
   } = customFields;
   const locationOptions = [{
     value: null,
-    lable: ""
-  }, ...filtersList?.locations?.map(loc => ({
+    label: ""
+  }, ...((_filtersList$location = filtersList?.locations?.map(loc => ({
     value: String(loc.id),
     label: loc.name
-  }))] || [];
+  }))) !== null && _filtersList$location !== void 0 ? _filtersList$location : [])];
   const handleLocationChange = val => {
     console.log(val);
     if (val === null) {
@@ -1410,4 +1411,4 @@ const StepBlock = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_VenueStep_jsx.js.map?ver=5c07cf01f59b8f13875c
+//# sourceMappingURL=src_Components_CreateEvent_VenueStep_jsx.js.map?ver=d7ff3b1de171d7071103

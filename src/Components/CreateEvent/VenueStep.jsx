@@ -147,14 +147,13 @@ const VenueStep = ({
 
   const { custom_field_1_name = "", custom_field_1_value = "" } = customFields;
 
-  const locationOptions =
-    [
-      { value: null, lable: "" },
-      ...filtersList?.locations?.map((loc) => ({
-        value: String(loc.id),
-        label: loc.name,
-      })),
-    ] || [];
+  const locationOptions = [
+    { value: null, label: "" },
+    ...(filtersList?.locations?.map((loc) => ({
+      value: String(loc.id),
+      label: loc.name,
+    })) ?? []),
+  ];
 
   const handleLocationChange = (val) => {
     console.log(val);

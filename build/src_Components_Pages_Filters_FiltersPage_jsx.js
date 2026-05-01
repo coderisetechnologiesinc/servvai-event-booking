@@ -272,7 +272,7 @@ const FiltersPage = () => {
     setMaxFiltersNumber(maxFilters);
     const totalFilters = Object.values(filtersList).reduce((total, arr) => total + (arr?.length || 0), 0);
     setIsLimitReached(totalFilters >= maxFilters);
-    if (settings?.current_plan?.id !== 1) {
+    if (settings?.current_plan?.id !== 1 || !settings.current_plan) {
       let newFiltersList = defaultFiltersList;
       newFiltersList.push("Members");
       setDefaultFiltersList(newFiltersList);
@@ -666,4 +666,4 @@ const SettingsSection = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Filters_FiltersPage_jsx.js.map?ver=40987789e02171298538
+//# sourceMappingURL=src_Components_Pages_Filters_FiltersPage_jsx.js.map?ver=6e9adafa6baf18764c14

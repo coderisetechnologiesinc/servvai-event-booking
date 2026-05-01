@@ -530,7 +530,7 @@ const Dashboard = () => {
     const onboardingSkipped = localStorage.getItem("onboardingSkipped") === window.location.origin;
     if (firstFetchDone && mergedList.length === 0 && !zoomConnected && !onboardingSkipped && !isFiltersApplied()) {
       navigate("/onboarding");
-    } else if (settings?.is_wp_marketplace && settings?.current_plan?.id === 1) {
+    } else if (settings?.is_wp_marketplace && (settings?.current_plan?.id === 1 || !settings.current_plan)) {
       navigate("/onboarding?activate_plan");
     }
   }, [firstFetchDone, zoomConnected, mergedList.length]);
@@ -3211,4 +3211,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(U
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=7e4dc452f8872b668033
+//# sourceMappingURL=src_Components_Pages_Dashboard_jsx.js.map?ver=3ce70640a24454461e88
