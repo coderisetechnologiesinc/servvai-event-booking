@@ -569,7 +569,9 @@ const CreateEventForm = () => {
         agenda: attributes.meeting.agenda,
         timezone: attributes.meeting.timezone,
         // eventType: attributes.meeting.eventType,
-        recurrence: attributes.meeting.recurrence
+        recurrence: {
+          ...attributes.meeting.recurrence
+        }
       },
       // product: {
       //   price: attributes.product.price,
@@ -1514,4 +1516,4 @@ module.exports = __webpack_require__.p + "images/logo.b4e524fb.png";
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=4c610b26ad20a8bd13c5
+//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=84f8aa44d9937593dfd4

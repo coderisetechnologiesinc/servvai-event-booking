@@ -632,7 +632,9 @@ const CreateEventForm = () => {
         agenda: attributes.meeting.agenda,
         timezone: attributes.meeting.timezone,
         // eventType: attributes.meeting.eventType,
-        recurrence: attributes.meeting.recurrence,
+        recurrence: {
+          ...attributes.meeting.recurrence,
+        },
       },
 
       // product: {

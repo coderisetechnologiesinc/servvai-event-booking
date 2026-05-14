@@ -60,7 +60,7 @@ const NewEndDateControl = ({
 
     onChange({
       ...recurrence,
-      end_date_time: moment(dateVal).format("YYYY-MM-DDTHH:mm:ss"),
+      end_date_time: moment(dateVal).format("YYYY-MM-DDTHH:mm:ss[Z]"),
       end_times: undefined,
     });
   };

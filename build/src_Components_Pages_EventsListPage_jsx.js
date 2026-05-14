@@ -3870,4 +3870,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=60d8e486cafe1c0e711a
+//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=9f049ed6a738fa98fa41

@@ -1265,4 +1265,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_RegistrantsStep_jsx.js.map?ver=7c57a21ca10a624269c8
+//# sourceMappingURL=src_Components_CreateEvent_RegistrantsStep_jsx.js.map?ver=ad8ee58a19cf246332a2
