@@ -1401,7 +1401,7 @@ const NewEndDateControl = ({
     }
     onChange({
       ...recurrence,
-      end_date_time: moment__WEBPACK_IMPORTED_MODULE_1___default()(dateVal).format("YYYY-MM-DDTHH:mm:ss"),
+      end_date_time: moment__WEBPACK_IMPORTED_MODULE_1___default()(dateVal).format("YYYY-MM-DDTHH:mm:ss[Z]"),
       end_times: undefined
     });
   };
@@ -2050,4 +2050,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_DateStep_jsx.js.map?ver=fa86aa8e58997947d850
+//# sourceMappingURL=src_Components_CreateEvent_DateStep_jsx.js.map?ver=1490e05657effec03d3f
