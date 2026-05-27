@@ -9,7 +9,7 @@ add_action('wp_ajax_nopriv_servv_create_payment_intent', 'servv_create_payment_i
 add_action('wp_ajax_servv_create_checkout_session', 'servv_create_checkout_session');
 add_action('wp_ajax_nopriv_servv_create_checkout_session', 'servv_create_checkout_session');
 add_action('wp_ajax_servv_process_free_order', 'servv_process_free_order');
-add_action('wp_ajax_servv_process_free_order', 'servv_process_free_order');
+add_action('wp_ajax_nopriv_servv_process_free_order', 'servv_process_free_order');
 add_action('wp_ajax_servv_get_event_info', 'servv_get_event_info');
 add_action('wp_ajax_nopriv_servv_get_event_info', 'servv_get_event_info');
 add_action('wp_ajax_servv_get_types_list', 'servv_get_types_list');
