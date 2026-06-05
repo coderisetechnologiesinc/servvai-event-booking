@@ -693,29 +693,135 @@ const SelectControl = ({
   options = [],
   helpText = "",
   selected = null,
+  value = null,
   disabled = false,
   onSelectChange = () => {},
+  onChange = () => {},
   iconRight = null,
   iconLeft = null,
-  style = {} // <-- Add style prop
+  style = {}
 }) => {
+  const [isOpen, setIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const containerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const currentValue = value !== null ? value : selected;
+  const handleChange = val => {
+    onSelectChange(val);
+    onChange(val);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!isOpen) return;
+    const handleClickOutside = e => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  // Rich options: { key, label } where label may be JSX
+  const isRichOptions = options.length > 0 && options[0] !== null && typeof options[0] === "object" && "key" in options[0];
+  if (isRichOptions) {
+    const selectedOption = options.find(o => o.key === currentValue);
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "input-container-col",
+      ref: containerRef,
+      style: {
+        width: "100%",
+        position: "relative"
+      },
+      children: [label && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+        className: "section-description",
+        children: label
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "select-control-with-icon-container",
+        style: {
+          width: "100%"
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+          type: "button",
+          className: "select-control select-control-with-icon text-sm p-4",
+          style: {
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            cursor: disabled ? "not-allowed" : "pointer",
+            opacity: disabled ? 0.5 : 1,
+            background: "white",
+            border: "none",
+            textAlign: "left",
+            color: "#000000",
+            borderRadius: "5px",
+            padding: "5px",
+            ...style
+          },
+          disabled: disabled,
+          onClick: () => setIsOpen(o => !o),
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            style: {
+              flex: 1,
+              color: "black"
+            },
+            children: selectedOption ? selectedOption.label : helpText
+          }), iconRight && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            style: {
+              marginLeft: 8,
+              flexShrink: 0,
+              color: "black"
+            },
+            children: iconRight
+          })]
+        })
+      }), isOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        style: {
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          right: 0,
+          zIndex: 200,
+          background: "white",
+          border: "1px solid #d5d7da",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+          overflow: "hidden"
+        },
+        children: options.map(option => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          style: {
+            padding: "12px 16px",
+            cursor: "pointer",
+            color: "#000000",
+            backgroundColor: option.key === currentValue ? "#f9fafb" : "white"
+          },
+          onMouseEnter: e => e.currentTarget.style.backgroundColor = "#f3f4f6",
+          onMouseLeave: e => e.currentTarget.style.backgroundColor = option.key === currentValue ? "#f9fafb" : "white",
+          onClick: () => {
+            handleChange(option.key);
+            setIsOpen(false);
+          },
+          children: option.label
+        }, option.key))
+      })]
+    });
+  }
+
+  // Legacy: plain string options
   const renderOptions = () => {
     if (options.length > 0) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [helpText.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "",
           disabled: true,
-          selected: !selected,
+          selected: !currentValue,
           children: helpText
         }, ""), options.map(option => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: option,
-          selected: selected === option,
+          selected: currentValue === option,
           children: option
         }, option))]
       });
     }
   };
-  // Responsive style for mobile
   const responsiveStyle = {
     maxWidth: "100%",
     width: "100%",
@@ -740,8 +846,8 @@ const SelectControl = ({
         name: "timezone",
         id: "timezone-select",
         className: "select-control select-control-with-icon text-sm p-4",
-        value: selected,
-        onChange: e => onSelectChange(e.target.value),
+        value: currentValue,
+        onChange: e => handleChange(e.target.value),
         disabled: disabled,
         style: responsiveStyle,
         children: renderOptions()
@@ -847,7 +953,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_BlockStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Containers/BlockStack */ "./src/Components/Containers/BlockStack.jsx");
 /* harmony import */ var _Containers_InlineStack__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Containers/InlineStack */ "./src/Components/Containers/InlineStack.jsx");
 /* harmony import */ var _Controls_SelectControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Controls/SelectControl */ "./src/Components/Controls/SelectControl.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _Controls_Editor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Controls/Editor */ "./src/Components/Controls/Editor.jsx");
 /* harmony import */ var _Controls_InputFieldControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Controls/InputFieldControl */ "./src/Components/Controls/InputFieldControl.jsx");
 /* harmony import */ var _Containers_AnnotatedSection__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Containers/AnnotatedSection */ "./src/Components/Containers/AnnotatedSection.jsx");
@@ -856,17 +962,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Containers_Card__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Containers/Card */ "./src/Components/Containers/Card.jsx");
 /* harmony import */ var _PageWrapper__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./PageWrapper */ "./src/Components/Pages/PageWrapper.jsx");
 /* harmony import */ var _Containers_CollapsibleSection__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Containers/CollapsibleSection */ "./src/Components/Containers/CollapsibleSection.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/index.mjs");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/DocumentTextIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/InformationCircleIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ChevronUpIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CodeBracketIcon.js");
-/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/DocumentTextIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/InformationCircleIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ChevronUpIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/ChevronDownIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/CodeBracketIcon.js");
+/* harmony import */ var _heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @heroicons/react/24/outline */ "./node_modules/@heroicons/react/24/outline/esm/EyeIcon.js");
 /* harmony import */ var _store_useServvStore__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../store/useServvStore */ "./src/store/useServvStore.js");
 /* harmony import */ var _SpinnerLoader__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./SpinnerLoader */ "./src/Components/Pages/SpinnerLoader.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__);
+
 
 
 
@@ -896,6 +1004,7 @@ const EmailTemplates = () => {
   const [showParameters, setShowParameters] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const quillRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   const settings = (0,_store_useServvStore__WEBPACK_IMPORTED_MODULE_16__.useServvStore)(s => s.settings);
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_19__.useNavigate)();
   const disabled = templates.length === 0 || !settings || settings && settings.current_plan.id === 1;
 
   // Store form values to persist across view changes
@@ -918,7 +1027,7 @@ const EmailTemplates = () => {
   const getEmailTemplates = async () => {
     setLoading(true);
     try {
-      const resp = await axios__WEBPACK_IMPORTED_MODULE_19__["default"].get("/wp-json/servv-plugin/v1/wordpress/templates", {
+      const resp = await axios__WEBPACK_IMPORTED_MODULE_20__["default"].get("/wp-json/servv-plugin/v1/wordpress/templates", {
         headers: {
           "X-WP-Nonce": servvData.nonce
         }
@@ -953,7 +1062,7 @@ const EmailTemplates = () => {
     if (!selectedTemplate) return;
     setLoading(true);
     try {
-      const resp = await axios__WEBPACK_IMPORTED_MODULE_19__["default"].patch(`/wp-json/servv-plugin/v1/wordpress/templates/${selectedTemplate.id}`, {
+      const resp = await axios__WEBPACK_IMPORTED_MODULE_20__["default"].patch(`/wp-json/servv-plugin/v1/wordpress/templates/${selectedTemplate.id}`, {
         subject: formValues.subject,
         text: formValues.text
       }, {
@@ -1117,6 +1226,9 @@ const EmailTemplates = () => {
     getEmailTemplates();
     // eslint-disable-next-line
   }, []);
+  const handleOpenEmails = () => {
+    navigate("/notifications");
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_PageWrapper__WEBPACK_IMPORTED_MODULE_13__["default"], {
     loading: false,
     withBackground: true,
@@ -1146,7 +1258,7 @@ const EmailTemplates = () => {
           className: "space-y-5",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
             className: "flex items-center space-x-2",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_20__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__["default"], {
               className: "w-5 h-5 text-purple-600"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("label", {
               className: "text-base font-semibold text-gray-900",
@@ -1182,15 +1294,15 @@ const EmailTemplates = () => {
             className: "flex items-center justify-between w-full p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
               className: "flex items-center space-x-2",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_22__["default"], {
                 className: "w-5 h-5 text-purple-600"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("span", {
                 className: "text-base font-semibold text-gray-900",
                 children: "Parameters"
               })]
-            }), showParameters ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_22__["default"], {
+            }), showParameters ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_23__["default"], {
               className: "w-5 h-5 text-gray-500"
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_23__["default"], {
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_24__["default"], {
               className: "w-5 h-5 text-gray-500"
             })]
           }), showParameters && renderParametersTable()]
@@ -1208,7 +1320,7 @@ const EmailTemplates = () => {
                     ${formValues.editMode === "Rich Text" ? "bg-white text-purple-700 shadow-sm" : "text-gray-600 hover:text-gray-900"}
                   `,
               disabled: disabled,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_20__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__["default"], {
                 className: "w-4 h-4"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("span", {
                 children: t("Rich Text")
@@ -1220,7 +1332,7 @@ const EmailTemplates = () => {
                     ${formValues.editMode === "HTML" ? "bg-white text-purple-700 shadow-sm" : "text-gray-600 hover:text-gray-900"}
                   `,
               disabled: disabled,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_24__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_25__["default"], {
                 className: "w-4 h-4"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("span", {
                 children: t("HTML")
@@ -1254,7 +1366,7 @@ const EmailTemplates = () => {
           className: "space-y-5",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
             className: "flex items-center space-x-2",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_25__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_26__["default"], {
               className: "w-5 h-5 text-purple-600"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("label", {
               className: "text-base font-semibold text-gray-900",
@@ -1283,18 +1395,24 @@ const EmailTemplates = () => {
         className: "fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-30",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("div", {
           className: "max-w-md mx-auto",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
             className: "flex justify-end space-x-4",
             style: {
               marginRight: "24px"
             },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              text: "View emails",
+              type: "secondary",
+              onAction: handleOpenEmails,
+              disabled: loading,
+              className: "min-w-[120px] h-[40px] px-6 py-2 text-base font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
               text: "Save Template",
               type: "primary",
               onAction: handleTemplateSave,
               disabled: disabled || loading,
               className: "min-w-[120px] h-[40px] px-6 py-2 text-base font-semibold bg-purple-600 text-white hover:bg-purple-700"
-            })
+            })]
           })
         })
       })]
@@ -1312,14 +1430,20 @@ const EmailTemplates = () => {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("h1", {
               className: "dashboard-title",
               children: t("Email Notifications")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
               className: "dashboard-actions flex gap-2",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                text: "View emails",
+                type: "secondary",
+                onAction: handleOpenEmails,
+                disabled: loading,
+                className: "min-w-[120px] h-[40px] px-6 py-2 text-base font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_Controls_PageActionButton__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 text: t("Save"),
                 type: "primary",
                 disabled: disabled,
                 onAction: handleTemplateSave
-              })
+              })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("p", {
             className: "dashboard-description",
@@ -1338,7 +1462,7 @@ const EmailTemplates = () => {
               className: "space-y-5 w-full",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
                 className: "flex items-center space-x-2 w-full",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_20__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__["default"], {
                   className: "w-5 h-5 text-purple-600"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("label", {
                   className: "text-lg font-semibold text-gray-900 w-full",
@@ -1379,15 +1503,15 @@ const EmailTemplates = () => {
                 className: "flex items-center justify-between w-full max-w-full p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
                   className: "flex items-center space-x-2",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_22__["default"], {
                     className: "w-5 h-5 text-purple-600"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("span", {
                     className: "text-lg font-semibold text-gray-900",
                     children: "Parameters"
                   })]
-                }), showParameters ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_22__["default"], {
+                }), showParameters ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_23__["default"], {
                   className: "w-5 h-5 text-gray-500"
-                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_23__["default"], {
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_24__["default"], {
                   className: "w-5 h-5 text-gray-500"
                 })]
               }), showParameters && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("div", {
@@ -1408,7 +1532,7 @@ const EmailTemplates = () => {
                         ${formValues.editMode === "Rich Text" ? "bg-white text-purple-700 shadow-sm" : "text-gray-600 hover:text-gray-900"}
                       `,
                   disabled: disabled,
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_20__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_21__["default"], {
                     className: "w-4 h-4"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("span", {
                     children: t("Rich Text")
@@ -1420,7 +1544,7 @@ const EmailTemplates = () => {
                         ${formValues.editMode === "HTML" ? "bg-white text-purple-700 shadow-sm" : "text-gray-600 hover:text-gray-900"}
                       `,
                   disabled: disabled,
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_24__["default"], {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_25__["default"], {
                     className: "w-4 h-4"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("span", {
                     children: t("HTML")
@@ -1451,7 +1575,7 @@ const EmailTemplates = () => {
               className: "space-y-5",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)("div", {
                 className: "flex items-center space-x-2",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_25__["default"], {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_26__["default"], {
                   className: "w-5 h-5 text-purple-600"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)("label", {
                   className: "text-lg font-semibold text-gray-900",
@@ -1587,4 +1711,4 @@ const SpinnerLoader = ({
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=30deec65d38c3a5a9e11
+//# sourceMappingURL=src_Components_Pages_EmailTemplates_jsx.js.map?ver=3089295679a21560f121

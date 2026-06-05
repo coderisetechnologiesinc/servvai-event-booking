@@ -409,29 +409,135 @@ const SelectControl = ({
   options = [],
   helpText = "",
   selected = null,
+  value = null,
   disabled = false,
   onSelectChange = () => {},
+  onChange = () => {},
   iconRight = null,
   iconLeft = null,
-  style = {} // <-- Add style prop
+  style = {}
 }) => {
+  const [isOpen, setIsOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const containerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const currentValue = value !== null ? value : selected;
+  const handleChange = val => {
+    onSelectChange(val);
+    onChange(val);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!isOpen) return;
+    const handleClickOutside = e => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  // Rich options: { key, label } where label may be JSX
+  const isRichOptions = options.length > 0 && options[0] !== null && typeof options[0] === "object" && "key" in options[0];
+  if (isRichOptions) {
+    const selectedOption = options.find(o => o.key === currentValue);
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "input-container-col",
+      ref: containerRef,
+      style: {
+        width: "100%",
+        position: "relative"
+      },
+      children: [label && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+        className: "section-description",
+        children: label
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "select-control-with-icon-container",
+        style: {
+          width: "100%"
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+          type: "button",
+          className: "select-control select-control-with-icon text-sm p-4",
+          style: {
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            cursor: disabled ? "not-allowed" : "pointer",
+            opacity: disabled ? 0.5 : 1,
+            background: "white",
+            border: "none",
+            textAlign: "left",
+            color: "#000000",
+            borderRadius: "5px",
+            padding: "5px",
+            ...style
+          },
+          disabled: disabled,
+          onClick: () => setIsOpen(o => !o),
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            style: {
+              flex: 1,
+              color: "black"
+            },
+            children: selectedOption ? selectedOption.label : helpText
+          }), iconRight && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            style: {
+              marginLeft: 8,
+              flexShrink: 0,
+              color: "black"
+            },
+            children: iconRight
+          })]
+        })
+      }), isOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        style: {
+          position: "absolute",
+          top: "100%",
+          left: 0,
+          right: 0,
+          zIndex: 200,
+          background: "white",
+          border: "1px solid #d5d7da",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+          overflow: "hidden"
+        },
+        children: options.map(option => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          style: {
+            padding: "12px 16px",
+            cursor: "pointer",
+            color: "#000000",
+            backgroundColor: option.key === currentValue ? "#f9fafb" : "white"
+          },
+          onMouseEnter: e => e.currentTarget.style.backgroundColor = "#f3f4f6",
+          onMouseLeave: e => e.currentTarget.style.backgroundColor = option.key === currentValue ? "#f9fafb" : "white",
+          onClick: () => {
+            handleChange(option.key);
+            setIsOpen(false);
+          },
+          children: option.label
+        }, option.key))
+      })]
+    });
+  }
+
+  // Legacy: plain string options
   const renderOptions = () => {
     if (options.length > 0) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [helpText.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "",
           disabled: true,
-          selected: !selected,
+          selected: !currentValue,
           children: helpText
         }, ""), options.map(option => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: option,
-          selected: selected === option,
+          selected: currentValue === option,
           children: option
         }, option))]
       });
     }
   };
-  // Responsive style for mobile
   const responsiveStyle = {
     maxWidth: "100%",
     width: "100%",
@@ -456,8 +562,8 @@ const SelectControl = ({
         name: "timezone",
         id: "timezone-select",
         className: "select-control select-control-with-icon text-sm p-4",
-        value: selected,
-        onChange: e => onSelectChange(e.target.value),
+        value: currentValue,
+        onChange: e => handleChange(e.target.value),
         disabled: disabled,
         style: responsiveStyle,
         children: renderOptions()

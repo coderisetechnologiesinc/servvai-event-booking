@@ -22,6 +22,9 @@ const FiltersPage = React.lazy(() =>
 const EmailTemplates = React.lazy(() =>
   import("./Components/Pages/EmailTemplates"),
 );
+const SentEmails = React.lazy(() =>
+  import("./Components/Pages/SentEmails.jsx"),
+);
 const AnalyticsPage = React.lazy(() =>
   import("./Components/Pages/AnalyticsPage"),
 );
@@ -171,7 +174,9 @@ const AppRouter = ({ restAPIAvailable }) => {
             path="integrations/zoom/settings"
             element={<ZoomSettingsPage />}
           />
-          <Route path="notifications" element={<EmailTemplates />} />
+          <Route path="templates" element={<EmailTemplates />} />
+          <Route path="notifications" element={<SentEmails />} />
+          <Route path="emails-list" element={<SentEmails />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
           <Route path="branding" element={<BrandingPage />} />
