@@ -1427,19 +1427,28 @@ const NewEndDateControl = ({
           minDate: minDate,
           maxDate: maxDate
         })]
-      }), mode === "number" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        label: "Occurrences",
-        value: end_times || "",
-        options: numberOptions,
-        helpText: isZoom ? "Max 60 occurrences for Zoom meetings" : "Up to 12 months for in-person events",
-        onChange: handleEndTimesChange,
-        iconRight: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {}),
-        style: {
-          width: "100%"
-        }
-      }), isZoom && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        className: "text-xs text-gray-600 mt-2",
-        children: "Recurring meetings expire 365 days after the last occurrence. You can schedule up to 60 occurrences into the future."
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "step__content_block",
+        children: [mode === "number" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "step__content_title",
+            children: "Select end date"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Controls_NewSelectControl__WEBPACK_IMPORTED_MODULE_3__["default"]
+          // label="Occurrences"
+          , {
+            value: end_times || "",
+            options: numberOptions,
+            helpText: isZoom ? "Max 60 occurrences for Zoom meetings" : "Up to 12 months for in-person events",
+            onChange: handleEndTimesChange,
+            iconRight: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_heroicons_react_24_outline__WEBPACK_IMPORTED_MODULE_6__["default"], {}),
+            style: {
+              width: "100%"
+            }
+          })]
+        }), isZoom && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "text-xs text-gray-600 mt-2",
+          children: "Recurring meetings expire 365 days after the last occurrence. You can schedule up to 60 occurrences into the future."
+        })]
       })]
     })]
   });
@@ -2050,4 +2059,4 @@ const timezonesList = {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_DateStep_jsx.js.map?ver=1490e05657effec03d3f
+//# sourceMappingURL=src_Components_CreateEvent_DateStep_jsx.js.map?ver=6c3a04a6cfd71c68db99

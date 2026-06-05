@@ -14,6 +14,7 @@ import HTMLEditor from "../Controls/HTMLEditor";
 import Card from "../Containers/Card";
 import PageWrapper from "./PageWrapper";
 import CollapsibleSection from "../Containers/CollapsibleSection";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   DocumentTextIcon,
@@ -35,6 +36,7 @@ const EmailTemplates = () => {
   const [showParameters, setShowParameters] = useState(false);
   const quillRef = useRef();
   const settings = useServvStore((s) => s.settings);
+  const navigate = useNavigate();
   const disabled =
     templates.length === 0 ||
     !settings ||
@@ -253,7 +255,9 @@ const EmailTemplates = () => {
     getEmailTemplates();
     // eslint-disable-next-line
   }, []);
-
+  const handleOpenEmails = () => {
+    navigate("/notifications");
+  };
   return (
     <PageWrapper loading={false} withBackground={true}>
       {/* Mobile Layout */}
@@ -444,13 +448,13 @@ const EmailTemplates = () => {
                 className="flex justify-end space-x-4"
                 style={{ marginRight: "24px" }}
               >
-                {/* <PageActionButton
-                  text="Cancel"
+                <PageActionButton
+                  text="View emails"
                   type="secondary"
-                  onAction={handleCancel}
+                  onAction={handleOpenEmails}
                   disabled={loading}
                   className="min-w-[120px] h-[40px] px-6 py-2 text-base font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                /> */}
+                />
                 <PageActionButton
                   text="Save Template"
                   type="primary"
@@ -471,11 +475,13 @@ const EmailTemplates = () => {
               <div className="flex flex-row items-center justify-between w-full">
                 <h1 className="dashboard-title">{t("Email Notifications")}</h1>
                 <div className="dashboard-actions flex gap-2">
-                  {/* <PageActionButton
-                    text={t("Cancel")}
+                  <PageActionButton
+                    text="View emails"
                     type="secondary"
-                    onAction={handleCancel}
-                  /> */}
+                    onAction={handleOpenEmails}
+                    disabled={loading}
+                    className="min-w-[120px] h-[40px] px-6 py-2 text-base font-semibold border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                  />
 
                   <PageActionButton
                     text={t("Save")}

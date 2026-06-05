@@ -567,6 +567,28 @@
     @apply inline-flex;
   }
 
+  /* Emails table */
+  
+    .emails-table th:first-child,
+    .emails-table td:first-child,
+    .emails-table th:last-child,
+    .emails-table td:last-child {
+      width: auto;
+      max-width: none;
+    }
+    .emails-table thead th:last-child {
+      text-align: left;
+    }
+    .emails-table td {
+      width: auto;
+      max-width: none;
+    }
+
+    .emails-table td:nth-child(2) {
+      overflow: visible;
+      white-space: normal;
+    }
+
   /* Bookings table */
 
   .bookings-table {
@@ -840,6 +862,9 @@
   .page-conetent-placeholder-actions {
     @apply flex flex-row gap-4;
   }
+  .servv-label {
+    @apply section-description font-semibold;
+  }
   .placeholder-icon {
     @apply size-12;
   }
@@ -1007,8 +1032,8 @@
 
     width: 164px;
     height: 40px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
     border-radius: 8px;
     background: rgba(122, 90, 248, 1);
     box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
@@ -1290,7 +1315,7 @@
     padding: 2px;
 
     /* width: 618px; */
-    height: 44px;
+    height: 40px;
 
     background: #f5f5f5;
     border: 1px solid #e9eaeb;
@@ -1308,7 +1333,7 @@
     align-items: center;
     justify-content: center;
 
-    height: 40px;
+    height: 36px;
     padding: 8px 14px;
     gap: 8px;
 
@@ -2337,7 +2362,7 @@
     gap: 8px;
 
     width: 328px;
-    height: 44px;
+    height: 40px;
 
     background: #ffffff;
     border: 1px solid #d5d7da;
@@ -2453,6 +2478,7 @@
   .servv-select *:focus {
     outline: none !important;
     box-shadow: none !important;
+    height: 40px !important;
   }
   /* ===============================
    REMOVE NATIVE SELECT ARROW
@@ -3155,7 +3181,7 @@
     border-radius: 8px;
 
     font-family: Inter, sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 16px;
     line-height: 24px;
 
@@ -3239,7 +3265,7 @@
   .servv_button--md {
     height: 40px;
     padding: 8px 24px;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 20px;
     border-radius: 8px;
   }
@@ -3538,6 +3564,10 @@
     height: auto;
     border: none;
   }
+
+    input.servv-input__native.servv-input__native--left{
+      border: none;
+    }
 
   .servv-create-form-close {
     position: absolute;

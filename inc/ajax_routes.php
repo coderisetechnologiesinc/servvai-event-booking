@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once __DIR__ . '/ajax/events/routes.php';
 require_once __DIR__ . '/ajax/zoom/routes.php';
 require_once __DIR__ . '/ajax/calendar/routes.php';
-require_once __DIR__ . '/ajax/gmail/routes.php';
+require_once __DIR__ . '/ajax/mail/routes.php';
 require_once __DIR__ . '/ajax/stripe/routes.php';
 require_once __DIR__ . '/ajax/shop/routes.php';
 require_once __DIR__ . '/ajax/filters/routes.php';

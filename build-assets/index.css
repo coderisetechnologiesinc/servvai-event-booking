@@ -2782,6 +2782,30 @@ input.input-control.section-description.events-table tbody td.w-full:hover {
   display: inline-flex;
 }
 
+/* Emails table */
+
+.emails-table th:first-child,
+    .emails-table td:first-child,
+    .emails-table th:last-child,
+    .emails-table td:last-child {
+  width: auto;
+  max-width: none;
+}
+
+.emails-table thead th:last-child {
+  text-align: left;
+}
+
+.emails-table td {
+  width: auto;
+  max-width: none;
+}
+
+.emails-table td:nth-child(2) {
+  overflow: visible;
+  white-space: normal;
+}
+
 /* Bookings table */
 
 input.input-control.section-description.text-center.bookings-table {
@@ -3664,6 +3688,106 @@ button.pagination-control:disabled {
   padding-left: 0rem;
 }
 
+.servv-label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  --tw-text-opacity: 1;
+  color: rgb(52 64 84 / var(--tw-text-opacity, 1));
+}
+
+input.input-control.servv-label {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+input.input-control.servv-label:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+input.input-control.servv-label.text-center {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.servv-label.text-center:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+input.input-control.servv-label.text-center.w-full {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+input.input-control.servv-label.text-center.w-full:hover {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.servv-label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  --tw-text-opacity: 1;
+  color: rgb(71 84 103 / var(--tw-text-opacity, 1));
+}
+
+.customize-list .servv-label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.servv-label {
+  font-weight: 600;
+}
+
 .dropdown {
   position: relative;
 }
@@ -3908,8 +4032,8 @@ svg.breadcrumbs-icon {
   padding: 0px;
   width: 164px;
   height: 40px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   border-radius: 8px;
   background: rgba(122, 90, 248, 1);
   box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
@@ -4216,7 +4340,7 @@ svg.breadcrumbs-icon {
   align-items: center;
   padding: 2px;
   /* width: 618px; */
-  height: 44px;
+  height: 40px;
   background: #f5f5f5;
   border: 1px solid #e9eaeb;
   border-radius: 10px;
@@ -4234,7 +4358,7 @@ svg.breadcrumbs-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 36px;
   padding: 8px 14px;
   gap: 8px;
   border-radius: 8px;
@@ -5240,7 +5364,7 @@ svg.breadcrumbs-icon {
   padding: 10px 14px;
   gap: 8px;
   width: 328px;
-  height: 44px;
+  height: 40px;
   background: #ffffff;
   border: 1px solid #d5d7da;
   box-shadow: 0px 1px 2px rgba(10, 13, 18, 0.05);
@@ -5353,6 +5477,7 @@ svg.breadcrumbs-icon {
 .servv-select *:focus {
   outline: none !important;
   box-shadow: none !important;
+  height: 40px !important;
 }
 
 /* ===============================
@@ -6011,7 +6136,7 @@ svg.breadcrumbs-icon {
   height: 44px;
   border-radius: 8px;
   font-family: Inter, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 24px;
   cursor: pointer;
@@ -6104,7 +6229,7 @@ svg.breadcrumbs-icon {
 .servv_button--md {
   height: 40px;
   padding: 8px 24px;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 20px;
   border-radius: 8px;
 }
@@ -6319,6 +6444,10 @@ svg.breadcrumbs-icon {
 
 input.servv-input__native.servv-input__native--center {
   height: auto;
+  border: none;
+}
+
+input.servv-input__native.servv-input__native--left{
   border: none;
 }
 
@@ -6964,6 +7093,14 @@ input.servv-input__native.servv-input__native--center {
   margin-left: 0.5rem;
 }
 
+.ml-3 {
+  margin-left: 0.75rem;
+}
+
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .ml-6 {
   margin-left: 1.5rem;
 }
@@ -7080,6 +7217,16 @@ input.servv-input__native.servv-input__native--center {
   display: none;
 }
 
+.size-3\.5 {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.size-4 {
+  width: 1rem;
+  height: 1rem;
+}
+
 .size-5 {
   width: 1.25rem;
   height: 1.25rem;
@@ -7113,6 +7260,10 @@ input.servv-input__native.servv-input__native--center {
   height: 5rem;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
 .h-4 {
   height: 1rem;
 }
@@ -7135,6 +7286,10 @@ input.servv-input__native.servv-input__native--center {
 
 .h-7 {
   height: 1.75rem;
+}
+
+.h-8 {
+  height: 2rem;
 }
 
 .h-9 {
@@ -7380,6 +7535,10 @@ input.servv-input__native.servv-input__native--center {
   min-width: 2rem;
 }
 
+.min-w-\[100px\] {
+  min-width: 100px;
+}
+
 .min-w-\[10rem\] {
   min-width: 10rem;
 }
@@ -7392,12 +7551,24 @@ input.servv-input__native.servv-input__native--center {
   min-width: 150px;
 }
 
+.min-w-\[160px\] {
+  min-width: 160px;
+}
+
+.min-w-\[180px\] {
+  min-width: 180px;
+}
+
 .min-w-\[220px\] {
   min-width: 220px;
 }
 
 .min-w-\[250px\] {
   min-width: 250px;
+}
+
+.min-w-\[265px\] {
+  min-width: 265px;
 }
 
 .min-w-\[300px\] {
@@ -7466,6 +7637,10 @@ input.servv-input__native.servv-input__native--center {
 
 .max-w-\[65\%\] {
   max-width: 65%;
+}
+
+.max-w-\[720px\] {
+  max-width: 720px;
 }
 
 .max-w-full {
@@ -7711,6 +7886,10 @@ input.servv-input__native.servv-input__native--center {
 
 .gap-1 {
   gap: 0.25rem;
+}
+
+.gap-1\.5 {
+  gap: 0.375rem;
 }
 
 .gap-16 {
@@ -8013,6 +8192,11 @@ input.servv-input__native.servv-input__native--center {
   border-color: rgb(105 65 198 / var(--tw-border-opacity, 1));
 }
 
+.border-\[\#B9E6FE\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(185 230 254 / var(--tw-border-opacity, 1));
+}
+
 .border-\[\#CBD5E1\] {
   --tw-border-opacity: 1;
   border-color: rgb(203 213 225 / var(--tw-border-opacity, 1));
@@ -8053,6 +8237,10 @@ input.servv-input__native.servv-input__native--center {
   border-color: rgb(107 56 158 / var(--tw-border-opacity, 1));
 }
 
+.border-current {
+  border-color: currentColor;
+}
+
 .border-cyan-500 {
   --tw-border-opacity: 1;
   border-color: rgb(6 182 212 / var(--tw-border-opacity, 1));
@@ -8066,6 +8254,11 @@ input.servv-input__native.servv-input__native--center {
 .border-fuchsia-500 {
   --tw-border-opacity: 1;
   border-color: rgb(217 70 239 / var(--tw-border-opacity, 1));
+}
+
+.border-gray-100 {
+  --tw-border-opacity: 1;
+  border-color: rgb(242 244 247 / var(--tw-border-opacity, 1));
 }
 
 .border-gray-200 {
@@ -8147,6 +8340,30 @@ input.servv-input__native.servv-input__native--center {
   border-color: rgb(20 184 166 / var(--tw-border-opacity, 1));
 }
 
+.border-transparent {
+  border-color: transparent;
+}
+
+.border-utility-blue-ligth-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(185 230 254 / var(--tw-border-opacity, 1));
+}
+
+.border-utility-error-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 205 202 / var(--tw-border-opacity, 1));
+}
+
+.border-utility-success-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(171 239 198 / var(--tw-border-opacity, 1));
+}
+
+.border-utility-warning-200 {
+  --tw-border-opacity: 1;
+  border-color: rgb(254 223 137 / var(--tw-border-opacity, 1));
+}
+
 .border-violet-500 {
   --tw-border-opacity: 1;
   border-color: rgb(139 92 246 / var(--tw-border-opacity, 1));
@@ -8164,6 +8381,10 @@ input.servv-input__native.servv-input__native--center {
 .border-yellow-500 {
   --tw-border-opacity: 1;
   border-color: rgb(234 179 8 / var(--tw-border-opacity, 1));
+}
+
+.border-t-transparent {
+  border-top-color: transparent;
 }
 
 .border-t-white {
@@ -8530,6 +8751,26 @@ input.servv-input__native.servv-input__native--center {
   background-color: transparent;
 }
 
+.bg-utility-blue-ligth-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 249 255 / var(--tw-bg-opacity, 1));
+}
+
+.bg-utility-error-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 243 242 / var(--tw-bg-opacity, 1));
+}
+
+.bg-utility-success-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(236 253 243 / var(--tw-bg-opacity, 1));
+}
+
+.bg-utility-warning-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 250 235 / var(--tw-bg-opacity, 1));
+}
+
 .bg-violet-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(237 233 254 / var(--tw-bg-opacity, 1));
@@ -8665,6 +8906,10 @@ input.servv-input__native.servv-input__native--center {
 
 .p-0 {
   padding: 0rem;
+}
+
+.p-0\.5 {
+  padding: 0.125rem;
 }
 
 .p-1 {
@@ -8824,6 +9069,16 @@ input.servv-input__native.servv-input__native--center {
   padding-bottom: 0.375rem;
 }
 
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -8847,6 +9102,11 @@ input.servv-input__native.servv-input__native--center {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .py-\[0\.1875rem\] {
@@ -9215,6 +9475,10 @@ input.servv-input__native.servv-input__native--center {
   font-style: normal;
 }
 
+.leading-5 {
+  line-height: 1.25rem;
+}
+
 .leading-6 {
   line-height: 1.5rem;
 }
@@ -9254,6 +9518,11 @@ input.servv-input__native.servv-input__native--center {
 .text-\[\#016630\] {
   --tw-text-opacity: 1;
   color: rgb(1 102 48 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\#026AA2\] {
+  --tw-text-opacity: 1;
+  color: rgb(2 106 162 / var(--tw-text-opacity, 1));
 }
 
 .text-\[\#039855\] {
@@ -9526,6 +9795,11 @@ input.servv-input__native.servv-input__native--center {
   color: rgb(2 132 199 / var(--tw-text-opacity, 1));
 }
 
+.text-success-700 {
+  --tw-text-opacity: 1;
+  color: rgb(6 118 71 / var(--tw-text-opacity, 1));
+}
+
 .text-teal-500 {
   --tw-text-opacity: 1;
   color: rgb(20 184 166 / var(--tw-text-opacity, 1));
@@ -9554,6 +9828,11 @@ input.servv-input__native.servv-input__native--center {
 .text-warning-600 {
   --tw-text-opacity: 1;
   color: rgb(220 104 3 / var(--tw-text-opacity, 1));
+}
+
+.text-warning-700 {
+  --tw-text-opacity: 1;
+  color: rgb(181 71 8 / var(--tw-text-opacity, 1));
 }
 
 .text-white {
@@ -9933,6 +10212,11 @@ input.servv-input__native.servv-input__native--center {
   background-color: rgb(105 65 198 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-\[\#E0F2FE\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(224 242 254 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-amber-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(217 119 6 / var(--tw-bg-opacity, 1));
@@ -9966,6 +10250,11 @@ input.servv-input__native.servv-input__native--center {
 .hover\:bg-emerald-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(5 150 105 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-error-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 228 226 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-fuchsia-600:hover {
@@ -10048,6 +10337,11 @@ input.servv-input__native.servv-input__native--center {
   background-color: rgb(2 132 199 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-success-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 250 230 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-teal-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(13 148 136 / var(--tw-bg-opacity, 1));
@@ -10056,6 +10350,11 @@ input.servv-input__native.servv-input__native--center {
 .hover\:bg-violet-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(124 58 237 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-warning-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 240 199 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-yellow-600:hover {
@@ -10191,6 +10490,14 @@ input.servv-input__native.servv-input__native--center {
 .hover\:text-yellow-700:hover {
   --tw-text-opacity: 1;
   color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
+.hover\:opacity-70:hover {
+  opacity: 0.7;
 }
 
 .hover\:opacity-90:hover {
@@ -10623,6 +10930,37 @@ input.servv-input__native.servv-input__native--center {
 
 .focus\:ring-offset-2:focus {
   --tw-ring-offset-width: 2px;
+}
+
+.focus-visible\:outline-none:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-visible\:ring-2:focus-visible {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.focus-visible\:ring-\[\#026AA2\]:focus-visible {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(2 106 162 / var(--tw-ring-opacity, 1));
+}
+
+.focus-visible\:ring-error-700:focus-visible {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(180 35 24 / var(--tw-ring-opacity, 1));
+}
+
+.focus-visible\:ring-success-700:focus-visible {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(6 118 71 / var(--tw-ring-opacity, 1));
+}
+
+.focus-visible\:ring-warning-700:focus-visible {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(181 71 8 / var(--tw-ring-opacity, 1));
 }
 
 .active\:scale-\[0\.98\]:active {

@@ -94,29 +94,34 @@ const NewEndDateControl = ({
         )}
 
         {/* Occurrences selector */}
-        {mode === "number" && (
-          <NewSelectControl
-            label="Occurrences"
-            value={end_times || ""}
-            options={numberOptions}
-            helpText={
-              isZoom
-                ? "Max 60 occurrences for Zoom meetings"
-                : "Up to 12 months for in-person events"
-            }
-            onChange={handleEndTimesChange}
-            iconRight={<ChevronDownIcon />}
-            style={{ width: "100%" }}
-          />
-        )}
+        <div className="step__content_block">
+          {mode === "number" && (
+            <Fragment>
+              <span className="step__content_title">Select end date</span>
+              <NewSelectControl
+                // label="Occurrences"
+                value={end_times || ""}
+                options={numberOptions}
+                helpText={
+                  isZoom
+                    ? "Max 60 occurrences for Zoom meetings"
+                    : "Up to 12 months for in-person events"
+                }
+                onChange={handleEndTimesChange}
+                iconRight={<ChevronDownIcon />}
+                style={{ width: "100%" }}
+              />
+            </Fragment>
+          )}
 
-        {/* Zoom hint */}
-        {isZoom && (
-          <div className="text-xs text-gray-600 mt-2">
-            Recurring meetings expire 365 days after the last occurrence. You
-            can schedule up to 60 occurrences into the future.
-          </div>
-        )}
+          {/* Zoom hint */}
+          {isZoom && (
+            <div className="text-xs text-gray-600 mt-2">
+              Recurring meetings expire 365 days after the last occurrence. You
+              can schedule up to 60 occurrences into the future.
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

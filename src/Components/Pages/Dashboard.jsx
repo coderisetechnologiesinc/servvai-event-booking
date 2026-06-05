@@ -16,7 +16,7 @@ import Spinner from "../Menu/Spinner";
 import DashboardPagination from "../Shared/DashboardPagination";
 import { toast } from "react-toastify";
 import SpinnerLoader from "./SpinnerLoader";
-
+import { getSentEmails } from "../../utilities/mails";
 const Dashboard = () => {
   const settings = useServvStore((s) => s.settings);
   const filtersList = useServvStore((s) => s.filtersList);
@@ -81,6 +81,9 @@ const Dashboard = () => {
       navigate("/onboarding?step=settings");
     }
   }, []);
+  // useEffect(() => {
+  //   getSentEmails();
+  // }, []);
   useEffect(() => {
     const onboardingSkipped =
       localStorage.getItem("onboardingSkipped") === window.location.origin;

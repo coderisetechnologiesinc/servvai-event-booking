@@ -100,7 +100,7 @@ const IntegrationsPage = ({
                   </BlockStack>
                 </div>
 
-                {/* <div
+                <div
                   className={`h-full w-full border rounded-xl border-gray-200 shadow-lg p-[1.5rem] flex flex-col`}
                 >
                   <BlockStack
@@ -108,7 +108,7 @@ const IntegrationsPage = ({
                     action={true}
                     cardsLayout={true}
                     onAction={() => handleSelectPage("gmail")}
-                    // disabled={!isFeatureAvailable}
+                    disabled={!isFeatureAvailable}
                   >
                     <a
                       href=""
@@ -129,7 +129,7 @@ const IntegrationsPage = ({
                       <Badge text="Gmail" type="pill-outline" size="medium" />
                     </InlineStack>
                   </BlockStack>
-                </div> */}
+                </div>
 
                 {settings && (
                   <div
