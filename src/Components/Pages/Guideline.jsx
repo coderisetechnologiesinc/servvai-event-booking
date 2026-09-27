@@ -9,7 +9,7 @@ const Guideline = ({ showGuide = () => {}, redirect = () => {} }) => {
       id: 1,
       title: "Attend an onboarding session over Zoom",
       description:
-        "Join our success team to get started with Servv AI. We'll walk you through how to set up your account, create events, and share insider tips to maximize engagement and bookings.",
+        "Join our success team to get started with WP Super Events. We'll walk you through how to set up your account, create events, and share insider tips to maximize engagement and bookings.",
       link: "https://servv.ai/grow-your-business-with-servv-ai/",
       linkText: "Schedule",
     },
@@ -17,8 +17,8 @@ const Guideline = ({ showGuide = () => {}, redirect = () => {} }) => {
       id: 2,
       title: "Watch a product demo",
       description:
-        "See Servv AI in action. Our demo walks you through event setup, calendar management, and adding widgets to your website for seamless customer bookings.",
-      link: "https://demo.servv.app/",
+        "See WP Super Events in action. Our demo walks you through event setup, calendar management, and adding widgets to your website for seamless customer bookings.",
+      link: "https://wpsuperevents.com/demo",
       linkText: "Watch Demo",
     },
     {
@@ -39,9 +39,9 @@ const Guideline = ({ showGuide = () => {}, redirect = () => {} }) => {
     },
     {
       id: 5,
-      title: "Add Servv AI widget to your site",
+      title: "Add WP Super Events widget to your site",
       description:
-        "Easily embed the Servv AI event booking widget on any WordPress post or page using shortcode. Showcase events directly on your website and boost engagement.",
+        "Easily embed the WP Super Events event booking widget on any WordPress post or page using shortcode. Showcase events directly on your website and boost engagement.",
       link: "https://support.servv.ai/getting-started/setting/widget/",
       linkText: "Add Widget",
     },

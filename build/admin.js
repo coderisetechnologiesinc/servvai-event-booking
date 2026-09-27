@@ -1370,14 +1370,14 @@ const ValidationScreen = ({
           }), " ", "to resolve common setup issues."]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
           className: "text-xl font-regular text-gray-900",
-          children: ["Watch the Servv AI", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+          children: ["Watch the WP Super Events", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
             className: "text-brand-500 hover:text-brand-400",
-            href: "https://demo.servv.ai/",
+            href: "https://wpsuperevents.com/demo",
             children: "Demo"
           }), " ", "to see how the platform works."]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
           className: "text-xl font-regular text-gray-900",
-          children: ["Explore our Servv AI", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+          children: ["Explore our WP Super Events", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
             className: "text-brand-500 hover:text-brand-400",
             href: "https://www.youtube.com/channel/UCiUGsW6_-iTqUw-tebA9CEQ",
             children: "Video Library"

@@ -226,21 +226,43 @@
   }
 
   div.servv-logo-collapsed {
-    @apply justify-self-start mt-6 ml-[-5px];
-    background: left/cover no-repeat
-      url(images/servv-logo.b4e524fb.png);
+    @apply justify-self-start mt-6 ml-2;
+    align-items: center;
+    background: none;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
     width: 40px;
     height: 40px;
-    margin-left: 8px;
+  }
+
+  div.servv-logo-collapsed::before {
+    color: #531986;
+    content: "WP";
+    font-family: "Inter", sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1;
   }
 
   div.servv-logo-png {
     @apply justify-self-start mt-6 ml-2;
-    background: left / contain no-repeat
-      url(images/servv-logo.b4e524fb.png);
+    align-items: center;
+    background: none;
+    display: flex;
     width: 180px;
     height: 40px;
     min-height: 40px;
+  }
+
+  div.servv-logo-png::before {
+    color: #1f2937;
+    content: "WP Super Events";
+    font-family: "Inter", sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.1;
+    white-space: nowrap;
   }
 
   .menu-item-title {
@@ -1837,6 +1859,11 @@
 
     div.servv-logo-png {
       margin-left: 0;
+    }
+
+    div.servv-logo-png::before {
+      content: "WP";
+      font-size: 18px;
     }
 
     .create-event__sidebar {

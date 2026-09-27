@@ -152,7 +152,7 @@ watch(
 
     <div class="logo-container">
       <Logo />
-      <span>Created: ServvAI</span>
+      <span>Created by ServvAI</span>
     </div>
     <!-- <WidgetEmbed /> -->
   </div>

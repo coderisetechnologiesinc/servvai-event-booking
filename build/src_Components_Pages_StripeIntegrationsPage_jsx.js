@@ -780,7 +780,7 @@ const StripeIntegrationsPage = props => {
                 children: t("Stripe")
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
                 className: "section-description",
-                children: storeSettings?.is_wp_marketplace ? "Accept payments seamlessly through ServvAI, with payouts sent to your connected Stripe account." : " Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
+                children: storeSettings?.is_wp_marketplace ? "Accept payments seamlessly through WP Super Events, with payouts sent to your connected Stripe account." : " Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"
               }), account && account.charges_enabled && currencySelect(), connectedAccountsFetched && connectedAccounts.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
                   className: "servv-button-link text-gray-700",

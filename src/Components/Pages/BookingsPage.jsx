@@ -379,7 +379,7 @@ const BookingsPage = () => {
       });
       if (data) setBookings(data);
     } catch (error) {
-      toast("Servv was unable to fetch bookings.");
+      toast("WP Super Events was unable to fetch bookings.");
     }
     setLoading(false);
     return { bookings: bookings.bookings, page: bookings.page_number };
