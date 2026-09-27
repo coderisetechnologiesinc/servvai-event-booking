@@ -86,17 +86,17 @@ const ValidationScreen = ({ message, troubleshoot }) => {
               to resolve common setup issues.
             </li>
             <li className="text-xl font-regular text-gray-900">
-              Watch the Servv AI{" "}
+              Watch the WP Super Events{" "}
               <a
                 className="text-brand-500 hover:text-brand-400"
-                href="https://demo.servv.ai/"
+                href="https://wpsuperevents.com/demo"
               >
                 Demo
               </a>{" "}
               to see how the platform works.
             </li>
             <li className="text-xl font-regular text-gray-900">
-              Explore our Servv AI{" "}
+              Explore our WP Super Events{" "}
               <a
                 className="text-brand-500 hover:text-brand-400"
                 href="https://www.youtube.com/channel/UCiUGsW6_-iTqUw-tebA9CEQ"

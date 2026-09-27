@@ -291,7 +291,7 @@ const SettingsPage = () => {
     const getSettingsResponse = await axios(
       "/wp-json/servv-plugin/v1/shop/info",
       { headers: { "X-WP-Nonce": servvData.nonce } },
-    ).catch(() => toast("Servv unable to fetch settings."));
+    ).catch(() => toast("WP Super Events was unable to fetch settings."));
 
     if (getSettingsResponse?.status === 200) {
       await validateSettings(getSettingsResponse.data);
@@ -842,7 +842,7 @@ const SettingsPage = () => {
       headers: { "X-WP-Nonce": servvData.nonce },
     }).catch(() => {
       setLoading(false);
-      toast("Servv unable to open billing portal.");
+      toast("WP Super Events was unable to open the billing portal.");
     });
 
     if (getPortalLink?.status === 200) {

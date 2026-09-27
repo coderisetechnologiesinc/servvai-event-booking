@@ -926,7 +926,7 @@ const EventsListPage = ({
   const handleCreateNewEvent = () => {
     if (servvData.gutenberg_active) navigate("/events/new", "_top");
     else
-      toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
+      toast.warn("Please activate Gutenberg Blocks to use the WP Super Events plugin.");
   };
 
   const typeButtons =

@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Servv AI Event Booking
- * Plugin URI: https://github.com/coderisetechnologiesinc/servvai-event-booking/
- * Description: Easily manage event bookings and schedules for both online and in-person experiences, powered by smart AI features.
- * Version: 1.0.36
- * Author: Servv Inc.
- * Author URI: https://servv.ai/
+ * Plugin Name: WP Super Events – Event Booking & Tickets
+ * Plugin URI: https://wpsuperevents.com
+ * Description: Create event calendars, registrations, recurring events, tickets, and online or in-person events directly in WordPress.
+ * Version: 1.0.37
+ * Author: ServvAI
+ * Author URI: https://wpsuperevents.com
  * License: GPL2
  */
 
@@ -98,6 +98,16 @@ function servv_plugin_register_api_endpoint() {
             'callback' => 'servv_get_product_info',
             'permission_callback' => 'servv_validate_request_from_servv_api'
     ]);
+    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/event-post/(?P<post_id>\d+)/quantity', [
+            'methods' => 'PATCH',
+            'callback' => 'servv_update_event_post_quantity',
+            'permission_callback' => 'servv_validate_request_from_servv_api'
+    ]);
+    register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/event-post/(?P<post_id>\d+)/status', [
+            'methods' => 'PATCH',
+            'callback' => 'servv_update_event_post_status',
+            'permission_callback' => 'servv_validate_request_from_servv_api'
+    ]);
     register_rest_route(servv_plugin_get_config('plugin_api_namespace'), '/widget/data', [
             'methods' => 'GET',
             'callback' => 'servv_get_widget_data',
@@ -169,6 +179,93 @@ function servv_get_widget_data() {
     }
 }
 
+function servv_get_servv_event_post($postId) {
+    $post = get_post($postId);
+    if (!$post) {
+        return new WP_Error('not_found', 'Unknown post.', ['status' => 404]);
+    }
+
+    $servvEventId = get_post_meta($postId, 'servv_event_id', true);
+    if (empty($servvEventId)) {
+        return new WP_Error('not_found', 'Post is not linked to a Servv event.', ['status' => 404]);
+    }
+
+    return $post;
+}
+
+function servv_update_event_post_quantity($request) {
+    $postId = (int)$request['post_id'];
+    $post = servv_get_servv_event_post($postId);
+    if (is_wp_error($post)) {
+        return $post;
+    }
+
+    $params = $request->get_json_params();
+    if (!is_array($params) || !array_key_exists('quantity', $params)) {
+        return new WP_Error('bad_request', 'Quantity is required.', ['status' => 400]);
+    }
+
+    $occurrenceId = isset($params['occurrence_id']) ? sanitize_text_field((string)$params['occurrence_id']) : '';
+    $quantityKey = $occurrenceId !== '' ? $occurrenceId : 0;
+    $quantity = (int)$params['quantity'];
+
+    $quantities = get_post_meta($postId, 'servv_event_quantities', true);
+    $quantities = !empty($quantities) ? json_decode($quantities, true) : [];
+    if (!is_array($quantities)) {
+        $quantities = [];
+    }
+
+    $quantities[$quantityKey] = $quantity;
+    update_post_meta($postId, 'servv_event_quantities', json_encode($quantities));
+
+    return new WP_REST_Response(['ok' => true], 200);
+}
+
+function servv_update_event_post_status($request) {
+    $postId = (int)$request['post_id'];
+    $post = servv_get_servv_event_post($postId);
+    if (is_wp_error($post)) {
+        return $post;
+    }
+
+    $params = $request->get_json_params();
+    $status = isset($params['status']) ? sanitize_key($params['status']) : '';
+    if (!in_array($status, ['draft', 'publish'], true)) {
+        return new WP_Error('bad_request', 'Invalid post status.', ['status' => 400]);
+    }
+
+    if ($status === 'draft') {
+        if (get_post_meta($postId, 'servv_auto_hidden', true) !== '1') {
+            update_post_meta($postId, 'servv_auto_hidden_previous_status', $post->post_status);
+        }
+        update_post_meta($postId, 'servv_auto_hidden', '1');
+    } else {
+        if (get_post_meta($postId, 'servv_auto_hidden', true) !== '1') {
+            return new WP_REST_Response(['ok' => true], 200);
+        }
+        $previousStatus = get_post_meta($postId, 'servv_auto_hidden_previous_status', true);
+        if (in_array($previousStatus, ['publish', 'private'], true)) {
+            $status = $previousStatus;
+        }
+    }
+
+    $result = wp_update_post([
+        'ID' => $postId,
+        'post_status' => $status,
+    ], true);
+
+    if (is_wp_error($result)) {
+        return $result;
+    }
+
+    if ($status !== 'draft') {
+        delete_post_meta($postId, 'servv_auto_hidden');
+        delete_post_meta($postId, 'servv_auto_hidden_previous_status');
+    }
+
+    return new WP_REST_Response(['ok' => true], 200);
+}
+
 function servv_plugin_make_delayed_install() {
     $siteDomain = wp_parse_url( servv_plugin_get_config('site_url'), PHP_URL_HOST );
     $siteName = get_bloginfo('name');
@@ -232,7 +329,7 @@ function servv_plugin_get_config($key) {
     $config = array_merge($defaults, $dbSettings);
     return $config[$key] ?? null;
 }
-define('SERVV_PLUGIN_VERSION', '1.0.0');
+define('SERVV_PLUGIN_VERSION', '1.0.37');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Block Editor Registration + Editor Script Localization
@@ -362,7 +459,7 @@ add_action('admin_menu', 'servv_add_admin_page');
 add_action('admin_enqueue_scripts', 'servv_admin_enqueue_scripts');
 
 function servv_add_admin_page() {
-    add_menu_page('ServvAI', 'ServvAI Events', 'manage_options', SERVV_PLUGIN_SLUG, 'servv_render_admin_page','dashicons-calendar-alt');
+    add_menu_page('WP Super Events', 'WP Super Events', 'manage_options', SERVV_PLUGIN_SLUG, 'servv_render_admin_page','dashicons-calendar-alt');
     
     add_submenu_page(
         SERVV_PLUGIN_SLUG,
@@ -451,7 +548,7 @@ add_action("wp_head", function () {
         return;
     }
 
-    $title = get_option('servv_pw_title') ?: 'Servv Events Widget Preview';
+    $title = get_option('servv_pw_title') ?: 'WP Super Events Widget Preview';
     $desc = get_option('servv_pw_description') ?: 'Book events directly from this page.';
     $image = get_option('servv_pw_avatar') ?: plugin_dir_url(__FILE__) . 'assets/default-og.png';
 

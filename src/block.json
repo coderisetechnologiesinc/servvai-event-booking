@@ -3,10 +3,10 @@
 	"apiVersion": 3,
 	"name": "create-block/servv-plugin",
 	"version": "0.1.0",
-	"title": "Servv Plugin",
+	"title": "WP Super Events",
 	"category": "widgets",
 	"icon": "media-interactive",
-	"description": "An interactive block with the Interactivity API",
+	"description": "Display WP Super Events calendars and event booking widgets.",
 	"example": {},
 	"supports": {
 		"interactivity": true

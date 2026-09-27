@@ -108,7 +108,7 @@ const Dashboard = () => {
     if (servvData.gutenberg_active)
       navigate("/events/new", { state: { from: location.pathname } });
     else
-      toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
+      toast.warn("Please activate Gutenberg Blocks to use the WP Super Events plugin.");
   };
 
   const renderEventsCards = () => {

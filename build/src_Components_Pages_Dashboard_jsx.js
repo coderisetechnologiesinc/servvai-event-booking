@@ -544,7 +544,7 @@ const Dashboard = () => {
       state: {
         from: location.pathname
       }
-    });else react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
+    });else react_toastify__WEBPACK_IMPORTED_MODULE_14__.toast.warn("Please activate Gutenberg Blocks to use the WP Super Events plugin.");
   };
   const renderEventsCards = () => {
     if (mergedList.length > 0) return mergedList.map(meeting => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_17__.jsx)(_Events_EventCard__WEBPACK_IMPORTED_MODULE_4__["default"], {

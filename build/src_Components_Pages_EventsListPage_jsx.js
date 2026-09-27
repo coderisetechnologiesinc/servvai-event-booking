@@ -2407,7 +2407,7 @@ const EventsListPage = ({
     return datesValue;
   };
   const handleCreateNewEvent = () => {
-    if (servvData.gutenberg_active) navigate("/events/new", "_top");else react_toastify__WEBPACK_IMPORTED_MODULE_18__.toast.warn("Please activate Gutenberg Blocks to use the Servv plugin.");
+    if (servvData.gutenberg_active) navigate("/events/new", "_top");else react_toastify__WEBPACK_IMPORTED_MODULE_18__.toast.warn("Please activate Gutenberg Blocks to use the WP Super Events plugin.");
   };
   const typeButtons = zoomConnected && settings.current_plan && settings?.current_plan?.id !== 1 ? [t("Events"), "Zoom", t("All")] : null;
   const activeTypeLabel = eventType === "offline" ? t("Events") : eventType === "zoom" ? "Zoom" : t("All");
@@ -2743,14 +2743,14 @@ const Guideline = ({
   const guidelineItems = [{
     id: 1,
     title: "Attend an onboarding session over Zoom",
-    description: "Join our success team to get started with Servv AI. We'll walk you through how to set up your account, create events, and share insider tips to maximize engagement and bookings.",
-    link: "https://servv.ai/grow-your-business-with-servv-ai/",
+    description: "Join our success team to get started with WP Super Events. We'll walk you through how to set up your account, create events, and share tips to maximize engagement and bookings.",
+    link: "https://wpsuperevents.com",
     linkText: "Schedule"
   }, {
     id: 2,
     title: "Watch a product demo",
-    description: "See Servv AI in action. Our demo walks you through event setup, calendar management, and adding widgets to your website for seamless customer bookings.",
-    link: "https://demo.servv.app/",
+    description: "See WP Super Events in action. Our demo walks you through event setup, calendar management, and adding widgets to your website for seamless customer bookings.",
+    link: "https://wpsuperevents.com/demo",
     linkText: "Watch Demo"
   }, {
     id: 3,
@@ -2766,8 +2766,8 @@ const Guideline = ({
     linkText: "Create Filters"
   }, {
     id: 5,
-    title: "Add Servv AI widget to your site",
-    description: "Easily embed the Servv AI event booking widget on any WordPress post or page using shortcode. Showcase events directly on your website and boost engagement.",
+    title: "Add the WP Super Events widget to your site",
+    description: "Easily embed the WP Super Events booking widget on any WordPress post or page using shortcode. Showcase events directly on your website and boost engagement.",
     link: "https://support.servv.ai/getting-started/setting/widget/",
     linkText: "Add Widget"
   }];

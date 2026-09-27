@@ -249,7 +249,7 @@ const StripeIntegrationsPage = (props) => {
                   "Sync and manage your Google Calendar account and settings."
                 )} */}
                   {storeSettings?.is_wp_marketplace
-                    ? "Accept payments seamlessly through ServvAI, with payouts sent to your connected Stripe account."
+                    ? "Accept payments seamlessly through WP Super Events, with payouts sent to your connected Stripe account."
                     : " Accept secure payments for your events with Stripe, ensuring a seamless checkout experience for attendees"}
                 </p>
                 {account && account.charges_enabled && currencySelect()}
