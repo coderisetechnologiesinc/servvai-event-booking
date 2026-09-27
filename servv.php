@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 const SERVV_PLUGIN_SLUG = 'servvai-event-booking';
-const SERVV_EVENT_POST_TYPE = 'servv_event';
+const SERVV_EVENT_POST_TYPE = 'wp_super_events';
 
 require_once __DIR__ . '/vendor-prefixed/autoload.php';
 require_once __DIR__ . '/inc/helpers.php';
