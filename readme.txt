@@ -77,7 +77,7 @@ https://wpsuperevents.com
 4. Open **WP Super Events** from your WordPress dashboard.
 5. Create your first event.
 
-You can also manually upload the existing `servvai-event-booking.zip` package through **Plugins > Add New > Upload Plugin**.
+You can also manually upload the existing `wp-super-events.zip` package through **Plugins > Add New > Upload Plugin**.
 
 Important: WP Super Events uses the WordPress REST API. Please ensure that `/wp-json/` is accessible. Restricting REST API access may prevent parts of the plugin from working correctly.
 

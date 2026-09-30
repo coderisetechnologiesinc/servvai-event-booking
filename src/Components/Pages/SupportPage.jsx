@@ -76,7 +76,7 @@ const SupportPage = () => {
         {
           title: "Raise a bug",
           description: "Log an issue on GitHub",
-          url: "https://github.com/coderisetechnologiesinc/servvai-event-booking/issues",
+          url: "https://github.com/coderisetechnologiesinc/wp-super-events/issues",
         },
         {
           title: "Feature request",
@@ -95,7 +95,7 @@ const SupportPage = () => {
     {
       title: "Releases",
       description: "See what's coming next and upcoming features",
-      url: "https://github.com/coderisetechnologiesinc/servvai-event-booking/releases",
+      url: "https://github.com/coderisetechnologiesinc/wp-super-events/releases",
     },
   ];
 

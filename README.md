@@ -1,9 +1,9 @@
 # WP Super Events
 
 ## Overview
-This document outlines the rules and regulations for commits, branching, merging, and release management for the WP Super Events project maintained in the `coderisetechnologiesinc/servvai-event-booking` repository.
+This document outlines the rules and regulations for commits, branching, merging, and release management for the WP Super Events project maintained in the `coderisetechnologiesinc/wp-super-events` repository.
 
-> **Note:** WP Super Events is the product name. The existing GitHub repository name and repository URLs remain unchanged.
+> **Note:** WP Super Events is the product name. The GitHub repository is `coderisetechnologiesinc/wp-super-events`; the WordPress.org plugin slug remains `servvai-event-booking` for existing installs.
 
 ## Branching Model
 The repository uses two primary branches:
@@ -16,14 +16,14 @@ The repository uses two primary branches:
 
 ### 1. Forking and Feature Branches
 
-- **Fork the Repository**: Contributors must fork the `coderisetechnologiesinc/servvai-event-booking` repository to their own GitHub account.
+- **Fork the Repository**: Contributors must fork the `coderisetechnologiesinc/wp-super-events` repository to their own GitHub account.
 
 - **Create a Feature Branch**:
   - Clone your fork locally:
 
     ```bash
-    git clone https://github.com/<your-username>/servv.git
-    cd servv
+    git clone https://github.com/<your-username>/wp-super-events.git
+    cd wp-super-events
     ```
 
   - Create a feature branch from `develop`:

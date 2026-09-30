@@ -195,7 +195,7 @@ jobs:
       - name: Create Source Code Zip
         if: env.NEW_VERSION != ''
         run: |
-          REPO_NAME="servvai-event-booking"
+          REPO_NAME="wp-super-events"
           ZIP_NAME="${REPO_NAME}-${{ env.NEW_VERSION }}.zip"
           git archive --format=zip --output="${ZIP_NAME}" HEAD
           echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
