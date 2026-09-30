@@ -254,12 +254,12 @@ Maintenance Release
 
 Maintenance Release
 
-- Update version and stable tag to 1.0.9 [5bfcc56](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/5bfcc56)
-- UI bug fix for widget [1860a0b](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/1860a0b)
-- Fixed pipelines for release and sync [345ded8](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/345ded8)
-- Updated Pipelines [6d9c4ca](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/6d9c4ca)
-- Update CHANGELOG for version 1.0.8 [462922c](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/462922c)
-- Update stable tag to version 1.0.8 [47db44b](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/47db44b)
+- Update version and stable tag to 1.0.9 [5bfcc56](https://github.com/coderisetechnologiesinc/wp-super-events/commit/5bfcc56)
+- UI bug fix for widget [1860a0b](https://github.com/coderisetechnologiesinc/wp-super-events/commit/1860a0b)
+- Fixed pipelines for release and sync [345ded8](https://github.com/coderisetechnologiesinc/wp-super-events/commit/345ded8)
+- Updated Pipelines [6d9c4ca](https://github.com/coderisetechnologiesinc/wp-super-events/commit/6d9c4ca)
+- Update CHANGELOG for version 1.0.8 [462922c](https://github.com/coderisetechnologiesinc/wp-super-events/commit/462922c)
+- Update stable tag to version 1.0.8 [47db44b](https://github.com/coderisetechnologiesinc/wp-super-events/commit/47db44b)
 
 # v1.0.8
 
@@ -276,8 +276,8 @@ Maintenance Release
 
 Hotfix Release
 
-- Update version to 1.0.7 [309ca3b](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/309ca3b)
-- Timezone related bug fixes and UI improvements [338fc6d](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/338fc6d)
+- Update version to 1.0.7 [309ca3b](https://github.com/coderisetechnologiesinc/wp-super-events/commit/309ca3b)
+- Timezone related bug fixes and UI improvements [338fc6d](https://github.com/coderisetechnologiesinc/wp-super-events/commit/338fc6d)
 
 # v1.0.5
 
@@ -285,8 +285,8 @@ Hotfix Release
 
 Hotfix Release
 
-- Update version to 1.0.5 [3421bc0](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/3421bc0)
-- Widget filter and size Text fixes [46856d2](https://github.com/coderisetechnologiesinc/servvai-event-booking/commit/46856d2)
+- Update version to 1.0.5 [3421bc0](https://github.com/coderisetechnologiesinc/wp-super-events/commit/3421bc0)
+- Widget filter and size Text fixes [46856d2](https://github.com/coderisetechnologiesinc/wp-super-events/commit/46856d2)
 
 # v1.0.3
 
