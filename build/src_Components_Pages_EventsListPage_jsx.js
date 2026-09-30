@@ -2743,8 +2743,8 @@ const Guideline = ({
   const guidelineItems = [{
     id: 1,
     title: "Attend an onboarding session over Zoom",
-    description: "Join our success team to get started with WP Super Events. We'll walk you through how to set up your account, create events, and share tips to maximize engagement and bookings.",
-    link: "https://wpsuperevents.com",
+    description: "Join our success team to get started with WP Super Events. We'll walk you through how to set up your account, create events, and share insider tips to maximize engagement and bookings.",
+    link: "https://servv.ai/grow-your-business-with-servv-ai/",
     linkText: "Schedule"
   }, {
     id: 2,
@@ -2766,8 +2766,8 @@ const Guideline = ({
     linkText: "Create Filters"
   }, {
     id: 5,
-    title: "Add the WP Super Events widget to your site",
-    description: "Easily embed the WP Super Events booking widget on any WordPress post or page using shortcode. Showcase events directly on your website and boost engagement.",
+    title: "Add WP Super Events widget to your site",
+    description: "Easily embed the WP Super Events event booking widget on any WordPress post or page using shortcode. Showcase events directly on your website and boost engagement.",
     link: "https://support.servv.ai/getting-started/setting/widget/",
     linkText: "Add Widget"
   }];
@@ -3870,4 +3870,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(T
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=9f049ed6a738fa98fa41
+//# sourceMappingURL=src_Components_Pages_EventsListPage_jsx.js.map?ver=1579f8fdbefa049620c1

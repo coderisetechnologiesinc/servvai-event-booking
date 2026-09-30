@@ -890,6 +890,7 @@ const StepBlock = ({
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createEvent: () => (/* binding */ createEvent),
+/* harmony export */   generateEventData: () => (/* binding */ generateEventData),
 /* harmony export */   getEvent: () => (/* binding */ getEvent),
 /* harmony export */   getFeaturedImage: () => (/* binding */ getFeaturedImage),
 /* harmony export */   updateEvent: () => (/* binding */ updateEvent)
@@ -910,6 +911,12 @@ const getEvent = async (postId, occurrenceId = null) => {
 };
 const createEvent = async (location, data) => {
   const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(`/wp-json/servv-plugin/v1/events/${location}`, data, {
+    headers: headers()
+  });
+  return response.data;
+};
+const generateEventData = async data => {
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(`/wp-json/servv-plugin/v1/event/data/generate`, data, {
     headers: headers()
   });
   return response.data;
@@ -1243,4 +1250,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(R
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Onboarding_OnboardingFlow_jsx.js.map?ver=1727c00cd2ac5f7286a9
+//# sourceMappingURL=src_Components_Onboarding_OnboardingFlow_jsx.js.map?ver=c59ec4be658db343a87c

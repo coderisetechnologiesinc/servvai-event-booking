@@ -685,6 +685,16 @@ const CreateEventForm = () => {
         ...attributes.meeting,
         eventType: isRecurring ? (isOffline ? 2 : 8) : isOffline ? 1 : 2,
       };
+    }
+    if (isNew && settings?.current_plan?.id === 1) {
+      // Free plan: no tickets, only product quantity
+      const quantity = attributes.tickets
+        .filter((ticket) => ticket.action !== "remove")
+        .reduce((sum, ticket) => sum + (Number(ticket.quantity) || 0), 0);
+      data.product = {
+        quantity: quantity || Number(attributes.product?.quantity) || 1,
+      };
+    } else if (isNew) {
       data.tickets = attributes.tickets
         .filter(
           (ticket) =>

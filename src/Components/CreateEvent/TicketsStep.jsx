@@ -501,6 +501,7 @@ const TicketsStep = ({
                 <span className="step__content_title">Title</span>
                 <NewInputControl
                   placeholder="Enter title"
+                  disabled={isFreePlanRestricted}
                   value={activeTicket.title || ""}
                   onChange={(val) =>
                     updateTicket(activeTicketId, { title: val })

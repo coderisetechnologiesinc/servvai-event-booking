@@ -19,6 +19,15 @@ export const createEvent = async (location, data) => {
   return response.data;
 };
 
+export const generateEventData = async (data) => {
+  const response = await axios.post(
+    `/wp-json/servv-plugin/v1/event/data/generate`,
+    data,
+    { headers: headers() },
+  );
+  return response.data;
+};
+
 export const updateEvent = async (postId, data, occurrenceId = null) => {
   let url = `/wp-json/servv-plugin/v1/event/${postId}`;
   if (occurrenceId) url += `?occurrence_id=${occurrenceId}`;
