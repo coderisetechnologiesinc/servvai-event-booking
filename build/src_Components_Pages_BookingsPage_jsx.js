@@ -1364,7 +1364,7 @@ const BookingsPage = () => {
       });
       if (data) setBookings(data);
     } catch (error) {
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("Servv was unable to fetch bookings.");
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast)("WP Super Events was unable to fetch bookings.");
     }
     setLoading(false);
     return {
@@ -3144,4 +3144,4 @@ const ForwardRef = /*#__PURE__*/ react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(X
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=aa39b675286f6ec294fc
+//# sourceMappingURL=src_Components_Pages_BookingsPage_jsx.js.map?ver=052a8e5c89076a87cb2d

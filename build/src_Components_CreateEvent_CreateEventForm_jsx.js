@@ -618,6 +618,14 @@ const CreateEventForm = () => {
         ...attributes.meeting,
         eventType: isRecurring ? isOffline ? 2 : 8 : isOffline ? 1 : 2
       };
+    }
+    if (isNew && settings?.current_plan?.id === 1) {
+      // Free plan: no tickets, only product quantity
+      const quantity = attributes.tickets.filter(ticket => ticket.action !== "remove").reduce((sum, ticket) => sum + (Number(ticket.quantity) || 0), 0);
+      data.product = {
+        quantity: quantity || Number(attributes.product?.quantity) || 1
+      };
+    } else if (isNew) {
       data.tickets = attributes.tickets.filter(ticket => Number.isFinite(Number(ticket.quantity)) && Number(ticket.quantity) > 0).map(ticket => {
         const timezone = attributes.meeting?.timezone;
         const payload = {
@@ -1298,6 +1306,7 @@ const SpinnerLoader = ({
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createEvent: () => (/* binding */ createEvent),
+/* harmony export */   generateEventData: () => (/* binding */ generateEventData),
 /* harmony export */   getEvent: () => (/* binding */ getEvent),
 /* harmony export */   getFeaturedImage: () => (/* binding */ getFeaturedImage),
 /* harmony export */   updateEvent: () => (/* binding */ updateEvent)
@@ -1318,6 +1327,12 @@ const getEvent = async (postId, occurrenceId = null) => {
 };
 const createEvent = async (location, data) => {
   const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(`/wp-json/servv-plugin/v1/events/${location}`, data, {
+    headers: headers()
+  });
+  return response.data;
+};
+const generateEventData = async data => {
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(`/wp-json/servv-plugin/v1/event/data/generate`, data, {
     headers: headers()
   });
   return response.data;
@@ -1516,4 +1531,4 @@ module.exports = __webpack_require__.p + "images/logo.b4e524fb.png";
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=8a23d0db2fa845868f80
+//# sourceMappingURL=src_Components_CreateEvent_CreateEventForm_jsx.js.map?ver=dc516d55a60d6e8480a4

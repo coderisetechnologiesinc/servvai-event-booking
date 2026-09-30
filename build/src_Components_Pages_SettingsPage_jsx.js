@@ -2842,7 +2842,7 @@ const SettingsPage = () => {
       headers: {
         "X-WP-Nonce": servvData.nonce
       }
-    }).catch(() => (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)("Servv unable to fetch settings."));
+    }).catch(() => (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)("WP Super Events was unable to fetch settings."));
     if (getSettingsResponse?.status === 200) {
       await validateSettings(getSettingsResponse.data);
     }
@@ -3302,7 +3302,7 @@ const SettingsPage = () => {
       }
     }).catch(() => {
       setLoading(false);
-      (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)("Servv unable to open billing portal.");
+      (0,react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast)("WP Super Events was unable to open the billing portal.");
     });
     if (getPortalLink?.status === 200) {
       setLoading(false);
@@ -5212,4 +5212,4 @@ const mergeTranslations = (recipientTranslations = {}, injectedTranslations = {}
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=304716a9df22a703d146
+//# sourceMappingURL=src_Components_Pages_SettingsPage_jsx.js.map?ver=88935c0a8fbc28711329

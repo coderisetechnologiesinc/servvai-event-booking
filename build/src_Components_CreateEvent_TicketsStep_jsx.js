@@ -938,6 +938,7 @@ const TicketsStep = ({
             children: "Title"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Controls_NewInputControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
             placeholder: "Enter title",
+            disabled: isFreePlanRestricted,
             value: activeTicket.title || "",
             onChange: val => updateTicket(activeTicketId, {
               title: val
@@ -1593,4 +1594,4 @@ function validate(uuid) {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_Components_CreateEvent_TicketsStep_jsx.js.map?ver=18f29905ca3539fdb871
+//# sourceMappingURL=src_Components_CreateEvent_TicketsStep_jsx.js.map?ver=349557e0d3ea3bd6d9a5
