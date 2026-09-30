@@ -1,3 +1,11 @@
+# v1.2.2
+
+1.2.2 (2026-09-30)
+
+## Hotfix Release
+
+- Update repository references for WP Super Events (fa0ae34)
+
 # v1.2.1
 
 1.2.1 (2026-09-30)
